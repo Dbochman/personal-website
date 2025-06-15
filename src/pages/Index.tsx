@@ -117,7 +117,7 @@ const Index = () => {
                 <Mail className="w-4 h-4 mr-2" />
                 Get In Touch
               </Button>
-              <Button variant="outline" size="lg" className="border-white/40 text-white hover:bg-white hover:text-black transition-all transform hover:scale-105 font-mono">
+              <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
                 <ExternalLink className="w-4 h-4 mr-2" />
                 View Resume
               </Button>
@@ -129,8 +129,8 @@ const Index = () => {
                 <span>Remote</span>
               </div>
               <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5">
-                <Activity className="w-4 h-4 text-green-400" />
-                <span>Available</span>
+                <Activity className="w-4 h-4 text-red-400" />
+                <span>Currently Employed</span>
               </div>
             </div>
           </div>
@@ -226,7 +226,7 @@ const Index = () => {
         <div className="container mx-auto max-w-4xl relative z-10">
           <div className="text-center mb-12">
             <h3 className="text-4xl font-bold text-white mb-4 font-mono">
-              <span className="text-white/40">></span> Career Goals
+              <span className="text-white/40">&gt;</span> Career Goals
             </h3>
             <div className="w-20 h-0.5 bg-white mx-auto"></div>
           </div>
@@ -261,7 +261,7 @@ const Index = () => {
               <Mail className="w-4 h-4 mr-2" />
               Email Me
             </Button>
-            <Button variant="outline" size="lg" className="border-white/40 text-white hover:bg-white hover:text-black transition-all transform hover:scale-105 font-mono">
+            <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
               <Linkedin className="w-4 h-4 mr-2" />
               LinkedIn
             </Button>
