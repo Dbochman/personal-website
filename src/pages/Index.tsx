@@ -95,32 +95,36 @@ const Index = () => {
             {/* Glitch effect title */}
             <div className="relative mb-6">
               <h2 className="text-6xl font-bold text-white mb-2 leading-tight font-mono tracking-tighter">
-                Site Reliability Engineer
+                Technical Incident Manager
               </h2>
               <div className="absolute inset-0 text-6xl font-bold text-white/20 mb-2 leading-tight font-mono tracking-tighter animate-pulse" 
                    style={{transform: 'translate(2px, 2px)'}}>
-                Site Reliability Engineer
+                Technical Incident Manager
               </div>
             </div>
             
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-transparent via-white/5 to-transparent blur-xl"></div>
               <p className="text-xl text-white/80 mb-8 leading-relaxed max-w-3xl mx-auto relative bg-black/30 p-6 border border-white/10 backdrop-blur-sm">
-                Specializing in <span className="text-white font-semibold border-b border-white/40">Reliability and Incident Management</span>, with experience spanning Engineering 
+                Specializing in <span className="text-white font-semibold border-b border-white/40">Reliability, Resilience, and Incident Management</span>, with experience spanning SRE 
                 and Product Management at <span className="font-mono text-white">HashiCorp</span> and <span className="font-mono text-white">Spotify</span>. Focused on enhancing service availability 
                 and streamlining operations in complex environments.
               </p>
             </div>
             
             <div className="flex justify-center gap-4 mb-8">
+              <a href="mailto:dylanbochman@gmail.com">
               <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
                 <Mail className="w-4 h-4 mr-2" />
                 Get In Touch
               </Button>
+            </a>
+              <a href="https://www.dylanbochman.com/uploads/8/7/8/7/8787894/updatedresume2025.pdf">
               <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
                 <ExternalLink className="w-4 h-4 mr-2" />
                 View Resume
               </Button>
+            </a>
             </div>
             
             <div className="flex justify-center gap-6 text-white/60 font-mono text-sm">
@@ -267,7 +271,7 @@ const Index = () => {
             </Button>
           </div>
           <div className="text-white/40 text-sm font-mono border-t border-white/20 pt-8">
-            <p>© 2024 Dylan Bochman. All rights reserved.</p>
+            <p>© 2025 Dylan Bochman. All rights reserved.</p>
           </div>
         </div>
       </section>
