@@ -1,0 +1,33 @@
+name: Build and Deploy to dbochman.github.io
+
+on:
+  push:
+    branches:
+      - main  # or whatever your working branch is
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build site
+        run: npm run build
+
+      - name: Deploy to dbochman.github.io
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          external_repository: Dbochman/dbochman.github.io
+          publish_dir: ./dist  # Change if build output is not in dist/
+          publish_branch: main
+          personal_token: ${{ secrets.DEPLOY_TOKEN }}
