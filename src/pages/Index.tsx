@@ -119,7 +119,7 @@ const Index = () => {
                 Get In Touch
               </Button>
             </a>
-              <a href="https://www.dylanbochman.com/uploads/8/7/8/7/8787894/updatedresume2025.pdf">
+              <a href="/DylanBochmanResume.pdf" target="_blank" rel="noopener noreferrer">>
               <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
                 <ExternalLink className="w-4 h-4 mr-2" />
                 View Resume
