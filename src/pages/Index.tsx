@@ -62,21 +62,21 @@ const Index = () => {
             <div className="flex items-center gap-3">
               <Terminal className="w-6 h-6 text-white" />
               <h1 className="text-2xl font-bold text-white font-mono tracking-tight">
-                <span className="text-white/60">~/</span>DylanBochman.com
+                <span className="text-white/60">~/</span>DylanBochman
               </h1>
             </div>
             <nav className="flex gap-6">
               <a href="#about" className="text-white/70 hover:text-white transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4">
-                --about
+                About
               </a>
               <a href="#experience" className="text-white/70 hover:text-white transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4">
-                --experience
+                Experience
               </a>
               <a href="#goals" className="text-white/70 hover:text-white transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4">
-                --goals
+                Goals
               </a>
               <a href="#contact" className="text-white/70 hover:text-white transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4">
-                --contact
+                Contact
               </a>
             </nav>
           </div>
