@@ -7,30 +7,30 @@ import { Mail, MapPin, Calendar, ExternalLink, Linkedin, Terminal, Activity, Zap
 const Index = () => {
   const skills = [
     "Site Reliability Engineering",
-    "Incident Management",
-    "Service Monitoring",
-    "Infrastructure Automation",
-    "Product Management",
-    "On-call Optimization",
-    "Scalability Solutions",
-    "Availability Engineering"
+    "Incident Command & Coordination",
+    "Post-Incident Analysis and Reporting",
+    "SLO Monitoring and Strategy",
+    "Retrospective Preparation and Facilitation",
+    "Automated Incident Response",
+    "Cross-functional Stakeholder Communication",
+    "Operational Readiness & Game Day Planning"
   ];
 
   const experiences = [
     {
       company: "HashiCorp",
-      role: "Site Reliability Engineer",
-      period: "Present",
+      role: "SRE II",
+      period: "Previous",
       description: "Leading initiatives to strengthen service-level infrastructure and optimize availability monitoring in complex cloud environments.",
       highlights: [
-        "Enhanced service availability through improved monitoring systems",
-        "Streamlined incident response processes",
-        "Elevated incident management practices organization-wide"
-      ]
+       "Presented incident and reliability metrics to senior leadership to guide prioritization and clarify operational risk",
+       "Partnered with Legal and Comms to standardize customer-facing emergency messaging",
+       "Acted as primary Incident Commander for high-severity incidents involving engineering, product, and support teams"
+     ]
     },
     {
       company: "Spotify",
-      role: "Engineering & Product Management",
+      role: "SRE & Product Management",
       period: "Previous",
       description: "Developed scalable infrastructure solutions while bridging technical and product perspectives.",
       highlights: [
@@ -62,7 +62,7 @@ const Index = () => {
             <div className="flex items-center gap-3">
               <Terminal className="w-6 h-6 text-white" />
               <h1 className="text-2xl font-bold text-white font-mono tracking-tight">
-                <span className="text-white/60">~/</span>Dylan.Bochman
+                <span className="text-white/60">~/</span>DylanBochman.com
               </h1>
             </div>
             <nav className="flex gap-6">
@@ -240,10 +240,10 @@ const Index = () => {
               <div className="text-center">
                 <Terminal className="w-12 h-12 text-white/60 mx-auto mb-6" />
                 <p className="text-lg text-white/90 leading-relaxed font-mono">
-                  I'm seeking a role that leverages my technical expertise and product management skills 
-                  to develop <span className="text-white font-bold border-b-2 border-white/40">scalable infrastructure solutions</span>, 
+                  I'm seeking a role that leverages my resilience expertise and incident management skills 
+                  to develop <span className="text-white font-bold border-b-2 border-white/40">sustainable reliability solutions</span>, 
                   empowering engineers and driving operational excellence. My goal is to continue building 
-                  systems that enhance reliability while fostering collaborative, efficient engineering cultures.
+                  processes that enhance reliability while fostering collaborative, efficient engineering cultures.
                 </p>
               </div>
             </CardContent>
