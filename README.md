@@ -1,73 +1,75 @@
-# Welcome to your Lovable project
+# personal-website
 
-## Project info
+![Build](https://github.com/Dbochman/personal-website/actions/workflows/deploy.yml/badge.svg)
+[![Live Site](https://img.shields.io/badge/live-dbochman.github.io-blue)](https://dbochman.github.io)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-**URL**: https://lovable.dev/projects/08ac9f3c-7c9a-4879-8cb8-e50b5761cf3e
+This is the source repository for [dbochman.github.io](https://dbochman.github.io), a minimalist, fast-loading personal site built with [Lovable](https://lovable.dev), TailwindCSS, and Vite.
 
-## How can I edit this code?
+## 🌐 Live Site
 
-There are several ways of editing your application.
+- **Production URL:** [https://dbochman.github.io](https://dbochman.github.io)
+- **Deployment Method:** Static site hosted on GitHub Pages
 
-**Use Lovable**
+## 🛠 Project Structure
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/08ac9f3c-7c9a-4879-8cb8-e50b5761cf3e) and start prompting.
+This repo contains the full editable source code, including:
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+├── public/              # Static assets
+├── src/                 # All components and views
+├── dist/                # Build output (ignored in git)
+├── index.html           # App entry
+├── vite.config.ts       # Vite config
+├── tailwind.config.ts   # TailwindCSS config
+├── package.json         # Dependencies and scripts
+└── .github/workflows/   # GitHub Actions deploy pipeline
 ```
 
-**Edit a file directly in GitHub**
+## 🚀 Deployment Workflow
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+This project uses GitHub Actions to build and deploy the site to a separate public repo:
 
-**Use GitHub Codespaces**
+- **Source repository:** [`Dbochman/personal-website`](https://github.com/Dbochman/personal-website) (this repo)
+- **Deploy target:** [`Dbochman/dbochman.github.io`](https://github.com/Dbochman/dbochman.github.io)
+- **Trigger:** Any push to `main`
+- **Build command:** `npm run build`
+- **Output directory:** `dist/`
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The deployment action uses [`peaceiris/actions-gh-pages`](https://github.com/peaceiris/actions-gh-pages) to push the contents of `dist/` to the `main` branch of the `dbochman.github.io` repo, which is served directly via GitHub Pages.
 
-## What technologies are used for this project?
+## 🔧 Development
 
-This project is built with:
+```bash
+# Install dependencies
+npm install
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+# Start local dev server
+npm run dev
 
-## How can I deploy this project?
+# Build for production
+npm run build
+```
 
-Simply open [Lovable](https://lovable.dev/projects/08ac9f3c-7c9a-4879-8cb8-e50b5761cf3e) and click on Share -> Publish.
+## 🧩 Dependencies
 
-## Can I connect a custom domain to my Lovable project?
+- [Lovable](https://lovable.dev)
+- [Vite](https://vitejs.dev)
+- [TailwindCSS](https://tailwindcss.com)
 
-Yes, you can!
+## ✨ Future Plans
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- Add SEO metadata
+- Optionally integrate analytics (e.g. Plausible or Umami)
+- Polish typography and responsiveness
+- Possibly add a contact form or resume download link
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📝 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## 👤 Author
+
+**Dylan Bochman**  
+[https://dbochman.github.io](https://dbochman.github.io)  
+📬 dylanbochman@gmail.com
