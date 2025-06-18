@@ -29,9 +29,9 @@ const Index = () => {
 
   const experiences = [
     {
-      company: "HashiCorp",
+      company: "HashiCorp (IBM)",
       role: "SRE II",
-      period: "Previous",
+      period: "2024 - 2025",
       description: "Leading initiatives to strengthen service-level infrastructure and optimize availability monitoring in complex cloud environments.",
       highlights: [
        "Presented incident and reliability metrics to senior leadership to guide prioritization and clarify operational risk",
@@ -41,13 +41,13 @@ const Index = () => {
     },
     {
       company: "Spotify",
-      role: "SRE & Product Management",
-      period: "Previous",
+      role: "SRE & Reliability PM",
+      period: "2017 - 2023",
       description: "Developed scalable infrastructure solutions while bridging technical and product perspectives.",
       highlights: [
-        "Improved organizational reliability at scale",
-        "Optimized on-call practices for engineering teams",
-        "Delivered product management expertise in technical environments"
+        "Improved organizational reliability at scale with Synthetic Testing",
+        "Optimized on-call practices for incident on-call team",
+        "Developed SLO Backstage Plugin and facilitated SLO workshops"
       ]
     }
   ];
@@ -301,7 +301,7 @@ const Index = () => {
                       </Badge>
                     </div>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="text-left space-y-4">
                     <p className="text-white/80 mb-4 leading-relaxed">{exp.description}</p>
                     <ul className="space-y-2">
                       {exp.highlights.map((highlight, i) => (
