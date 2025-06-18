@@ -356,14 +356,18 @@ const Index = () => {
             Interested in discussing reliability engineering, infrastructure challenges, or potential opportunities?
           </p>
           <div className="flex justify-center gap-4 mb-12">
+            <a href="mailto:dylanbochman@gmail.com">
             <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
               <Mail className="w-4 h-4 mr-2" />
               Email Me
             </Button>
+          </a>
+            <a href="https://www.linkedin.com/in/dbochman/">
             <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
               <Linkedin className="w-4 h-4 mr-2" />
               LinkedIn
             </Button>
+          </a>
           </div>
           <div className="text-white/40 text-sm font-mono border-t border-white/20 pt-8">
             <p>© 2025 Dylan Bochman. All rights reserved.</p>
