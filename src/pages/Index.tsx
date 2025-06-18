@@ -5,7 +5,6 @@ import { Mail, MapPin, Calendar, ExternalLink, Linkedin, Terminal, Activity, Zap
 import { useParallax } from "@/hooks/useParallax";
 import { TicketCard } from "@/components/icons/TicketCard";
 import { SLOGauge } from "@/components/icons/SLOGauge";
-import { NetworkEdge } from "@/components/icons/NetworkEdge";
 
 const Index = () => {
   useParallax();
@@ -106,14 +105,6 @@ const Index = () => {
             data-speed="0.35"
           >
             <SLOGauge />
-          </div>
-          
-          {/* Network Edge Connection */}
-          <div 
-            className="absolute bottom-16 right-[15%] w-44"
-            data-speed="0.4"
-          >
-            <NetworkEdge />
           </div>
         </div>
         

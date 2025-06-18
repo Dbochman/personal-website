@@ -17,11 +17,11 @@ export const SLOGauge = () => {
       <style>
         {`
           @keyframes swing {
-            0%, 100% { transform: rotate(-10deg); }
-            50% { transform: rotate(10deg); }
+            0%, 100% { transform: rotate(-25deg); }
+            50% { transform: rotate(25deg); }
           }
           .needle-swing {
-            animation: swing 5s ease-in-out infinite;
+            animation: swing 8s ease-in-out infinite;
             transform-origin: 64px 64px;
           }
         `}
