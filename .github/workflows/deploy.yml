@@ -28,6 +28,11 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           external_repository: Dbochman/dbochman.github.io
-          publish_dir: ./dist  # Change if build output is not in dist/
+          publish_dir: ./dist
           publish_branch: main
           personal_token: ${{ secrets.DEPLOY_TOKEN }}
+          force_orphan: true
+          cname: dylanbochman.com
+          commit_message: "deploy 📦"
+          user_name: "github-actions[bot]"
+          user_email: "41898282+github-actions[bot]@users.noreply.github.com"
