@@ -228,7 +228,7 @@ const Index = () => {
                 <span>Remote</span>
               </div>
               <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5">
-                <Activity className="w-4 h-4 text-red-400" />
+                <Activity className="w-4 h-4 text-green-400" />
                 <span>Currently Employed</span>
               </div>
             </div>
