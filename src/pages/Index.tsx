@@ -139,7 +139,7 @@ const Index = () => {
             <div className="flex justify-center gap-6 text-white/60 font-mono text-sm">
               <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5">
                 <MapPin className="w-4 h-4" />
-                <span>Boston</span>
+                <span>Remote</span>
               </div>
               <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5">
                 <Activity className="w-4 h-4 text-red-400" />
