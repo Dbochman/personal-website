@@ -337,7 +337,7 @@ const Index = () => {
                 <p className="text-lg text-white/90 leading-relaxed font-mono">
                   I’ll soon be joining <a href="https://groq.com/about-us/" className="font-mono text-white underline hover:text-white/80" target="_blank" rel="noopener noreferrer">Groq</a>,
                   where I look forward to applying my resilience expertise and incident management skills to build
-                  <span className="text-white font-bold border-b-2 border-white/40"> sustainable reliability solutions</span>.  
+                  <span className="text-white font-bold border-b-2 border-white/40"> sustainable response teams</span>.  
                   My goal remains to empower engineers, drive operational excellence, and cultivate collaborative, blameless engineering cultures.
                 </p>
               </div>
