@@ -200,7 +200,7 @@ const Index = () => {
             
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-transparent via-white/5 to-transparent blur-xl"></div>
-              <p className="text-xl text-white/80 mb-8 leading-relaxed max-w-3xl mx-auto relative bg-black/30 p-6 border border-white/10 backdrop-blur-sm">
+              <p className="text-xl text-white/90 mb-8 leading-relaxed max-w-3xl mx-auto relative bg-black/30 p-6 border border-white/10 backdrop-blur-sm">
                 Specializing in <span className="text-white font-semibold border-b border-white/40">Reliability, Resilience, and Incident Management</span>, with experience spanning SRE 
                 and Product Management at <span className="font-mono text-white">HashiCorp</span> and <span className="font-mono text-white">Spotify</span>. Focused on enhancing service availability 
                 and streamlining operations in complex environments.
@@ -250,7 +250,7 @@ const Index = () => {
             {skills.map((skill, index) => (
               <div 
                 key={index} 
-                className="group relative p-4 border border-white/20 bg-white/5 hover:bg-white/10 transition-all duration-300 transform hover:scale-105 hover:border-white/40"
+                className="group relative p-4 border border-white/20 bg-white/5 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 hover:border-white/40"
                 style={{animationDelay: `${index * 100}ms`}}
               >
                 <div className="absolute top-2 right-2 w-2 h-2 bg-white/40 group-hover:bg-white"></div>

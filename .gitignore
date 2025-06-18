@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# LHCI artefacts
+.lighthouseci/*
+!.lighthouserc.json

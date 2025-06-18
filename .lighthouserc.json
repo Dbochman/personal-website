@@ -1,0 +1,14 @@
+{
+  "ci": {
+    "staticDistDir": "./dist",
+    "assert": {
+      "assertions": {
+        "color-contrast": ["warn", { "minScore": 0.8 }],
+        "errors-in-console": "error",
+        "unused-javascript": ["warn", { "maxLength": 5 }],
+        "unused-css-rules": ["warn", { "maxLength": 5 }],
+        "first-contentful-paint": ["warn", { "minScore": 0.8 }]
+      }
+    }
+  }
+}
