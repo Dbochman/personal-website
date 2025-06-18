@@ -1,10 +1,15 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Calendar, ExternalLink, Linkedin, Terminal, Activity, Zap } from "lucide-react";
+import { useParallax } from "@/hooks/useParallax";
+import { TicketCard } from "@/components/icons/TicketCard";
+import { SLOGauge } from "@/components/icons/SLOGauge";
+import { NetworkEdge } from "@/components/icons/NetworkEdge";
 
 const Index = () => {
+  useParallax();
+
   const skills = [
     "Site Reliability Engineering",
     "Incident Command & Coordination",
@@ -83,12 +88,34 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Hero Section with Geometric Elements */}
+      {/* Hero Section with Parallax SRE Elements */}
       <section className="py-20 px-6 relative">
-        {/* Floating geometric shapes */}
-        <div className="absolute top-20 left-10 w-20 h-20 border-2 border-white/20 rotate-45 animate-spin" style={{animationDuration: '20s'}}></div>
-        <div className="absolute top-40 right-20 w-12 h-12 bg-white/10 rotate-12 animate-pulse"></div>
-        <div className="absolute bottom-20 left-1/4 w-6 h-6 bg-white rounded-full animate-bounce" style={{animationDelay: '2s'}}></div>
+        {/* Parallax Décor Layer */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Incident Ticket Card */}
+          <div 
+            className="absolute top-12 left-[8%] w-36"
+            data-speed="0.5"
+          >
+            <TicketCard />
+          </div>
+          
+          {/* SLO Gauge */}
+          <div 
+            className="absolute top-[55%] left-[75%] w-32"
+            data-speed="0.35"
+          >
+            <SLOGauge />
+          </div>
+          
+          {/* Network Edge Connection */}
+          <div 
+            className="absolute bottom-16 right-[15%] w-44"
+            data-speed="0.4"
+          >
+            <NetworkEdge />
+          </div>
+        </div>
         
         <div className="container mx-auto max-w-4xl text-center relative z-10">
           <div className="mb-8">
