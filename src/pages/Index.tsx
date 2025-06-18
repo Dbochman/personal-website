@@ -95,11 +95,20 @@ const Index = () => {
             {/* Glitch effect title */}
             <div className="relative mb-6">
               <h2 className="text-6xl font-bold text-white mb-2 leading-tight font-mono tracking-tighter">
-                Technical Incident Manager
+                Dylan Bochman<br />
+                <span className="block opacity-0 animate-fade-in-delay text-white/80 text-4xl">
+                  Technical Incident Manager
+                </span>
               </h2>
-              <div className="absolute inset-0 text-6xl font-bold text-white/20 mb-2 leading-tight font-mono tracking-tighter animate-pulse" 
-                   style={{transform: 'translate(2px, 2px)'}}>
-                Technical Incident Manager
+
+              <div
+                className="absolute inset-0 text-6xl font-bold text-white/20 mb-2 leading-tight font-mono tracking-tighter animate-pulse"
+                style={{ transform: 'translate(2px, 2px)' }}
+              >
+                Dylan Bochman<br />
+                <span className="block opacity-0 animate-fade-in-delay text-white/20 text-4xl">
+                  Technical Incident Manager
+                </span>
               </div>
             </div>
             
@@ -130,7 +139,7 @@ const Index = () => {
             <div className="flex justify-center gap-6 text-white/60 font-mono text-sm">
               <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5">
                 <MapPin className="w-4 h-4" />
-                <span>Remote</span>
+                <span>Boston</span>
               </div>
               <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5">
                 <Activity className="w-4 h-4 text-red-400" />
