@@ -12,6 +12,7 @@ import GeometricRings from "@/components/icons/GeometricRings";
 import AlertBeacon from "@/components/icons/AlertBeacon";
 import QuantumGrid from "@/components/icons/QuantumGrid";
 import MetricWave from "@/components/icons/MetricWave";
+import MobileNav from "@/components/MobileNav";
 
 const Index = () => {
   useParallax();
@@ -151,7 +152,9 @@ const Index = () => {
                 <span className="text-white/60">~/</span>DylanBochman
               </h1>
             </div>
-            <nav className="flex gap-6">
+            
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex gap-6">
               <a href="#about" className="text-white/70 hover:text-white transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4">
                 About
               </a>
@@ -165,6 +168,9 @@ const Index = () => {
                 Contact
               </a>
             </nav>
+
+            {/* Mobile Navigation */}
+            <MobileNav />
           </div>
         </div>
       </header>
