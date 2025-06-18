@@ -335,10 +335,10 @@ const Index = () => {
               <div className="text-center">
                 <Terminal className="w-12 h-12 text-white/60 mx-auto mb-6" />
                 <p className="text-lg text-white/90 leading-relaxed font-mono">
-                  I'm seeking a role that leverages my resilience expertise and incident management skills 
-                  to develop <span className="text-white font-bold border-b-2 border-white/40">sustainable reliability solutions</span>, 
-                  empowering engineers and driving operational excellence. My goal is to continue building 
-                  processes that enhance reliability while fostering collaborative, efficient engineering cultures.
+                  I’ll soon be joining <a href="https://groq.com/about-us/" className="font-mono text-white underline hover:text-white/80" target="_blank" rel="noopener noreferrer">Groq</a>,
+                  where I look forward to applying my resilience expertise and incident-management skills to build
+                  <span className="text-white font-bold border-b-2 border-white/40"> sustainable reliability solutions</span>.  
+                  My goal remains to empower engineers, drive operational excellence, and cultivate collaborative, efficient engineering cultures.
                 </p>
               </div>
             </CardContent>
