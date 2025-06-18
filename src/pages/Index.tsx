@@ -1,10 +1,16 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Calendar, ExternalLink, Linkedin, Terminal, Activity, Zap } from "lucide-react";
+import { useParallax } from "@/hooks/useParallax";
+import SimpleTriangle from "@/components/icons/SimpleTriangle";
+import HexagonGrid from "@/components/icons/HexagonGrid";
+import CircuitPattern from "@/components/icons/CircuitPattern";
+import ServerStack from "@/components/icons/ServerStack";
 
 const Index = () => {
+  useParallax();
+
   const skills = [
     "Site Reliability Engineering",
     "Incident Command & Coordination",
@@ -53,6 +59,41 @@ const Index = () => {
           backgroundSize: '50px 50px',
           animation: 'pulse 4s ease-in-out infinite'
         }}></div>
+      </div>
+
+      {/* Parallax Décor Layer */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Simple Triangle - Top Left */}
+        <div 
+          className="absolute top-20 left-[5%] w-16 h-16"
+          data-speed="0.2"
+        >
+          <SimpleTriangle />
+        </div>
+        
+        {/* Hexagon Grid - Top Right */}
+        <div 
+          className="absolute top-32 right-[10%] w-24 h-24"
+          data-speed="0.3"
+        >
+          <HexagonGrid />
+        </div>
+        
+        {/* Circuit Pattern - Middle Left */}
+        <div 
+          className="absolute top-[45%] left-[8%] w-40 h-24"
+          data-speed="0.4"
+        >
+          <CircuitPattern />
+        </div>
+        
+        {/* Server Stack - Bottom Right */}
+        <div 
+          className="absolute bottom-20 right-[12%] w-20 h-32"
+          data-speed="0.35"
+        >
+          <ServerStack />
+        </div>
       </div>
 
       {/* Header with Terminal Style */}
