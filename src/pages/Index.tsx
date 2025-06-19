@@ -13,6 +13,9 @@ import AlertBeacon from "@/components/icons/AlertBeacon";
 import QuantumGrid from "@/components/icons/QuantumGrid";
 import MetricWave from "@/components/icons/MetricWave";
 import MobileNav from "@/components/MobileNav";
+import SpotifyLogo from '@/assets/logos/spotify.svg'
+import HashiCorpLogo from '@/assets/logos/hashicorp.svg'
+
 
 const Index = () => {
   useParallax();
@@ -295,7 +298,11 @@ const Index = () => {
                     <div className="flex justify-between items-start">
                       <div>
                         <CardTitle className="text-2xl text-white font-mono flex items-center gap-2">
-                          <Zap className="w-5 h-5" />
+                          <img
+                            src={exp.company === 'Spotify' ? SpotifyLogo : HashiCorpLogo}
+                            alt={`${exp.company} logo`}
+                            className="w-6 h-6"        // 24×24 px
+                          />
                           {exp.company}
                         </CardTitle>
                         <CardDescription className="text-lg text-white/80 font-medium font-mono">
