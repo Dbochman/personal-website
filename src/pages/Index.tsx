@@ -150,9 +150,9 @@ const Index = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <Terminal className="w-6 h-6 text-white" />
+
               <h1 className="text-2xl font-bold text-white font-mono tracking-tight">
-                <span className="text-white/60">~/</span>DylanBochman
+                Dylan Bochman
               </h1>
             </div>
             
@@ -251,7 +251,7 @@ const Index = () => {
         <div className="container mx-auto max-w-4xl relative z-10">
           <div className="text-center mb-12">
             <h3 className="text-4xl font-bold text-white mb-4 font-mono">
-              <span className="text-white/40">[</span> Core Expertise <span className="text-white/40">]</span>
+               Core Expertise
             </h3>
             <div className="w-20 h-0.5 bg-white mx-auto"></div>
           </div>
@@ -276,8 +276,8 @@ const Index = () => {
       <section id="experience" className="py-16 px-6 relative">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <h3 className="text-4xl font-bold text-white mb-4 font-mono">
-              <span className="text-white/40">$</span> Professional Experience
+            <h3 className="relative z-10 inline-block bg-black px-4 text-4xl font-bold text-white mb-4 font-mono">
+              Professional Experience
             </h3>
             <div className="w-20 h-0.5 bg-white mx-auto"></div>
           </div>
@@ -338,7 +338,7 @@ const Index = () => {
         <div className="container mx-auto max-w-4xl relative z-10">
           <div className="text-center mb-12">
             <h3 className="text-4xl font-bold text-white mb-4 font-mono">
-              <span className="text-white/40">&gt;</span> Career Goals
+              Career Goals
             </h3>
             <div className="w-20 h-0.5 bg-white mx-auto"></div>
           </div>
@@ -346,7 +346,6 @@ const Index = () => {
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent"></div>
             <CardContent className="p-8">
               <div className="text-center">
-                <Terminal className="w-12 h-12 text-white/60 mx-auto mb-6" />
                 <p className="text-lg text-white/90 leading-relaxed font-mono">
                   I’ll soon be joining <a href="https://groq.com/about-us/" className="font-mono text-white underline hover:text-white/80" target="_blank" rel="noopener noreferrer">Groq</a>,
                   where I look forward to applying my resilience expertise and incident management skills to build
@@ -363,7 +362,7 @@ const Index = () => {
       <section id="contact" className="py-16 px-6 bg-gradient-to-t from-white/10 to-transparent relative">
         <div className="container mx-auto max-w-4xl text-center">
           <h3 className="text-4xl font-bold mb-8 font-mono">
-            <span className="text-white/40">~</span> Let's Connect
+             Let's Connect
           </h3>
           <p className="text-white/80 mb-8 text-lg font-mono">
             Interested in discussing reliability engineering, infrastructure challenges, or potential opportunities?
