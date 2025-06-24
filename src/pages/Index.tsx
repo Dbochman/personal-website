@@ -365,7 +365,7 @@ const Index = () => {
              Let's Connect
           </h3>
           <p className="text-white/80 mb-8 text-lg font-mono">
-            Interested in discussing reliability engineering, infrastructure challenges, or potential opportunities?
+            Interested in discussing Incident management, Reliability challenges, or potential opportunities?
           </p>
           <div className="flex justify-center gap-4 mb-12">
             <a href="mailto:dylanbochman@gmail.com">
