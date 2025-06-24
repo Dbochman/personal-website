@@ -1,7 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Mail, MapPin, Calendar, ExternalLink, Linkedin, Terminal, Activity, Zap } from "lucide-react";
+import { Mail, ExternalLink } from "lucide-react";
+import { Accordion } from "@/components/ui/accordion";
 import { useParallax } from "@/hooks/useParallax";
 import SimpleTriangle from "@/components/icons/SimpleTriangle";
 import HexagonGrid from "@/components/icons/HexagonGrid";
@@ -13,23 +14,14 @@ import AlertBeacon from "@/components/icons/AlertBeacon";
 import QuantumGrid from "@/components/icons/QuantumGrid";
 import MetricWave from "@/components/icons/MetricWave";
 import MobileNav from "@/components/MobileNav";
+import AccordionSection from "@/components/AccordionSection";
+import Sidebar from "@/components/Sidebar";
+import BackToTop from "@/components/BackToTop";
 import SpotifyLogo from '@/assets/logos/spotify.svg'
 import HashiCorpLogo from '@/assets/logos/hashicorp.svg'
 
-
 const Index = () => {
   useParallax();
-
-  const skills = [
-    "Site Reliability Engineering",
-    "Incident Command & Coordination",
-    "Post-Incident Analysis and Reporting",
-    "SLO Monitoring and Strategy",
-    "Retrospective Preparation and Facilitation",
-    "Automated Incident Response",
-    "Cross-functional Stakeholder Communication",
-    "Operational Readiness & Game Day Planning"
-  ];
 
   const experiences = [
     {
@@ -178,15 +170,15 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Hero Section with Geometric Elements */}
+      {/* Hero Section */}
       <section className="py-20 px-6 relative">
         {/* Floating geometric shapes */}
         <div className="absolute top-20 left-10 w-20 h-20 border-2 border-white/20 rotate-45 animate-spin" style={{animationDuration: '20s'}}></div>
         <div className="absolute top-40 right-20 w-12 h-12 bg-white/10 rotate-12 animate-pulse"></div>
         <div className="absolute bottom-20 left-1/4 w-6 h-6 bg-white rounded-full animate-bounce" style={{animationDelay: '2s'}}></div>
         
-        <div className="container mx-auto max-w-4xl text-center relative z-10">
-          <div className="mb-8">
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="text-center mb-8">
             {/* Glitch effect title */}
             <div className="relative mb-6">
               <h2 className="text-6xl font-bold text-white mb-2 leading-tight font-mono tracking-tighter">
@@ -245,121 +237,96 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Skills Section with Matrix Effect */}
-      <section id="about" className="py-16 px-6 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent"></div>
-        <div className="container mx-auto max-w-4xl relative z-10">
-          <div className="text-center mb-12">
-            <h3 className="text-4xl font-bold text-white mb-4 font-mono">
-               Core Expertise
-            </h3>
-            <div className="w-20 h-0.5 bg-white mx-auto"></div>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {skills.map((skill, index) => (
-              <div 
-                key={index} 
-                className="group relative p-4 border border-white/20 bg-white/5 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 hover:border-white/40"
-                style={{animationDelay: `${index * 100}ms`}}
-              >
-                <div className="absolute top-2 right-2 w-2 h-2 bg-white/40 group-hover:bg-white"></div>
-                <span className="text-sm font-mono text-white/90 group-hover:text-white">
-                  {skill}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Main Content - Two Column Layout */}
+      <div className="container mx-auto max-w-6xl px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content Column */}
+          <div className="lg:col-span-2 space-y-8">
+            
+            {/* Experience Section as Accordion */}
+            <section id="experience">
+              <Accordion type="single" collapsible className="space-y-4">
+                <AccordionSection
+                  title="Professional Experience"
+                  summary="SRE leadership at HashiCorp & Spotify · 7+ years scaling reliability"
+                  value="experience"
+                >
+                  <div className="space-y-8">
+                    {experiences.map((exp, index) => (
+                      <Card key={index} className="bg-black/60 backdrop-blur-sm border-white/20 hover:border-white/40 transition-all">
+                        <CardHeader>
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <CardTitle className="text-xl text-white font-mono flex items-center gap-2">
+                                <img
+                                  src={exp.company === 'Spotify' ? SpotifyLogo : HashiCorpLogo}
+                                  alt={`${exp.company} logo`}
+                                  className="w-5 h-5"
+                                />
+                                {exp.company}
+                              </CardTitle>
+                              <CardDescription className="text-lg text-white/80 font-medium font-mono">
+                                {exp.role}
+                              </CardDescription>
+                            </div>
+                            <Badge variant="outline" className="text-white/80 border-white/40 bg-white/10 font-mono">
+                              {exp.period}
+                            </Badge>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <p className="text-white/80 leading-relaxed">{exp.description}</p>
+                          <ul className="space-y-2">
+                            {exp.highlights.map((highlight, i) => (
+                              <li key={i} className="flex items-start gap-3 text-white/80">
+                                <span className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></span>
+                                <span className="font-mono text-sm">{highlight}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </AccordionSection>
+              </Accordion>
+            </section>
 
-      {/* Experience Section with Timeline */}
-      <section id="experience" className="py-16 px-6 relative">
-        <div className="container mx-auto max-w-4xl">
-          <div className="text-center mb-12">
-            <h3 className="relative z-10 inline-block bg-black px-4 text-4xl font-bold text-white mb-4 font-mono">
-              Professional Experience
-            </h3>
-            <div className="w-20 h-0.5 bg-white mx-auto"></div>
-          </div>
-          
-          {/* Timeline line */}
-          <div className="absolute left-1/2 transform -translate-x-px w-0.5 bg-white/20 h-full top-0"></div>
-          
-          <div className="space-y-12">
-            {experiences.map((exp, index) => (
-              <div key={index} className={`relative ${index % 2 === 0 ? 'text-left' : 'text-right'}`}>
-                {/* Timeline dot */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white rounded-full border-4 border-black z-10"></div>
-                
-                <Card className={`hover:shadow-xl transition-all duration-300 bg-black border-white/20 hover:border-white/40 transform hover:scale-105 relative ${
-                  index % 2 === 0 ? 'mr-auto ml-0 max-w-md' : 'ml-auto mr-0 max-w-md'
-                }`}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-2xl text-white font-mono flex items-center gap-2">
-                          <img
-                            src={exp.company === 'Spotify' ? SpotifyLogo : HashiCorpLogo}
-                            alt={`${exp.company} logo`}
-                            className="w-6 h-6"        // 24×24 px
-                          />
-                          {exp.company}
-                        </CardTitle>
-                        <CardDescription className="text-lg text-white/80 font-medium font-mono">
-                          {exp.role}
-                        </CardDescription>
-                      </div>
-                      <Badge variant="outline" className="text-white/80 border-white/40 bg-white/10 font-mono">
-                        {exp.period}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="text-left space-y-4">
-                    <p className="text-white/80 mb-4 leading-relaxed">{exp.description}</p>
-                    <ul className="space-y-2">
-                      {exp.highlights.map((highlight, i) => (
-                        <li key={i} className="flex items-start gap-3 text-white/80">
-                          <span className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></span>
-                          <span className="font-mono text-sm">{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
+            {/* Career Goals Section */}
+            <section id="goals" className="py-8">
+              <div className="text-center mb-8">
+                <h3 className="text-3xl font-bold text-white mb-4 font-mono">
+                  Career Goals
+                </h3>
+                <div className="w-20 h-0.5 bg-white mx-auto"></div>
               </div>
-            ))}
+              <Card className="bg-black/60 backdrop-blur-sm border-white/20 hover:border-white/40 transition-all relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent"></div>
+                <CardContent className="p-8">
+                  <div className="text-center">
+                    <p className="text-lg text-white/90 leading-relaxed font-mono">
+                      I'll soon be joining <a href="https://groq.com/about-us/" className="font-mono text-white underline hover:text-white/80" target="_blank" rel="noopener noreferrer">Groq</a>,
+                      where I look forward to applying my resilience expertise and incident management skills to build
+                      <span className="text-white font-bold border-b-2 border-white/40"> sustainable response teams</span>.  
+                      My goal remains to empower engineers, drive operational excellence, and cultivate collaborative, blameless engineering cultures.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </section>
           </div>
-        </div>
-      </section>
 
-      {/* Career Goals Section */}
-      <section id="goals" className="py-16 px-6 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-transparent to-white/5"></div>
-        <div className="container mx-auto max-w-4xl relative z-10">
-          <div className="text-center mb-12">
-            <h3 className="text-4xl font-bold text-white mb-4 font-mono">
-              Career Goals
-            </h3>
-            <div className="w-20 h-0.5 bg-white mx-auto"></div>
+          {/* Sidebar Column */}
+          <div className="lg:col-span-1 order-first lg:order-last">
+            <div className="lg:sticky lg:top-24">
+              <Sidebar />
+            </div>
           </div>
-          <Card className="bg-black/60 backdrop-blur-sm border-white/20 hover:border-white/40 transition-all relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent"></div>
-            <CardContent className="p-8">
-              <div className="text-center">
-                <p className="text-lg text-white/90 leading-relaxed font-mono">
-                  I’ll soon be joining <a href="https://groq.com/about-us/" className="font-mono text-white underline hover:text-white/80" target="_blank" rel="noopener noreferrer">Groq</a>,
-                  where I look forward to applying my resilience expertise and incident management skills to build
-                  <span className="text-white font-bold border-b-2 border-white/40"> sustainable response teams</span>.  
-                  My goal remains to empower engineers, drive operational excellence, and cultivate collaborative, blameless engineering cultures.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
         </div>
-      </section>
+      </div>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 px-6 bg-gradient-to-t from-white/10 to-transparent relative">
+      <section id="contact" className="py-16 px-6 bg-gradient-to-t from-white/10 to-transparent relative mt-16">
         <div className="container mx-auto max-w-4xl text-center">
           <h3 className="text-4xl font-bold mb-8 font-mono">
              Let's Connect
@@ -374,10 +341,10 @@ const Index = () => {
               Email Me
             </Button>
           </a>
-            <a href="https://www.linkedin.com/in/dbochman/">
+            <a href="/DylanBochmanResume.pdf" target="_blank" rel="noopener noreferrer">
             <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
-              <Linkedin className="w-4 h-4 mr-2" />
-              LinkedIn
+              <ExternalLink className="w-4 h-4 mr-2" />
+              View Resume
             </Button>
           </a>
           </div>
@@ -386,6 +353,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Back to Top Button */}
+      <BackToTop />
     </div>
   );
 };
