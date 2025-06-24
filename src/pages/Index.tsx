@@ -1,7 +1,8 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Mail, ExternalLink } from "lucide-react";
+import { Mail, ExternalLink, MapPin, Activity } from "lucide-react";
 import { Accordion } from "@/components/ui/accordion";
 import { useParallax } from "@/hooks/useParallax";
 import SimpleTriangle from "@/components/icons/SimpleTriangle";
