@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Mail, ExternalLink, MapPin, Activity } from "lucide-react";
+import { Mail, ExternalLink } from "lucide-react";
 import { Accordion } from "@/components/ui/accordion";
 import { useParallax } from "@/hooks/useParallax";
 import SimpleTriangle from "@/components/icons/SimpleTriangle";
@@ -222,17 +222,6 @@ const Index = () => {
                 View Resume
               </Button>
             </a>
-            </div>
-            
-            <div className="flex justify-center gap-6 text-white/60 font-mono text-sm">
-              <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5">
-                <MapPin className="w-4 h-4" />
-                <span>Remote</span>
-              </div>
-              <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5">
-                <Activity className="w-4 h-4 text-green-400" />
-                <span>Currently Employed</span>
-              </div>
             </div>
           </div>
         </div>
