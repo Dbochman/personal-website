@@ -1,5 +1,3 @@
-
-import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import {
   Sheet,
@@ -11,6 +9,9 @@ import {
 } from "@/components/ui/sheet";
 import { navigationItems } from "@/data/navigation";
 import { useNavigation } from '@/context/NavigationContext';
+import { useState, useEffect } from 'react'
+import { Sun, Moon } from 'lucide-react'
+import Link from 'next/link'
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
@@ -27,12 +28,27 @@ const MobileNav = () => {
     openExperienceAccordion();
   };
 
+const [isDark, setIsDark] = useState(false)
+
+useEffect(() => {
+  const mql = window.matchMedia?.('(prefers-color-scheme: dark)')
+  if (mql?.matches) {
+    document.documentElement.classList.add('dark')
+    setIsDark(true)
+  }
+}, [])
+
+const toggleTheme = () => {
+  document.documentElement.classList.toggle('dark')
+  setIsDark(!isDark)
+}
+
   return (
     <div className="md:hidden">
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <button
-            className="p-2 text-white/70 hover:text-white transition-colors"
+            className="p-2 text-foreground/70 hover:text-foreground transition-colors"
             aria-label="Open navigation menu"
           >
             <Menu className="w-6 h-6" />
@@ -40,17 +56,24 @@ const MobileNav = () => {
         </SheetTrigger>
         <SheetContent 
           side="right" 
-          className="w-full bg-black/95 backdrop-blur-md border-white/20 p-0"
+          className="w-full bg-background/95 backdrop-blur-md border-foreground/20 p-0"
         >
-          <SheetHeader className="flex flex-row justify-between items-center p-6 border-b border-white/20">
-            <SheetTitle className="text-white font-mono text-lg">Menu</SheetTitle>
+          <SheetHeader className="flex flex-row justify-between items-center p-6 border-b border-foreground/20">
+            <SheetTitle className="text-foreground font-mono text-lg">Menu</SheetTitle>
             <SheetDescription className="sr-only">A list of navigation links.</SheetDescription>
             <button
               onClick={() => setOpen(false)}
-              className="p-2 text-white/70 hover:text-white transition-colors"
+              className="p-2 text-foreground/70 hover:text-foreground transition-colors"
               aria-label="Close navigation menu"
             >
               <X className="w-6 h-6" />
+            </button>
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle dark mode"
+              aria-pressed={isDark}
+              className="p-2 text-foreground/70 hover:text-foreground transition-colors" >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
           </SheetHeader>
           
@@ -62,7 +85,7 @@ const MobileNav = () => {
                   <a
                     href={item.href}
                     onClick={item.href === '#experience' ? handleExperienceClick : () => setOpen(false)}
-                    className="block py-4 px-4 text-white/70 hover:text-white transition-colors font-mono text-lg hover:underline decoration-2 underline-offset-4 hover:bg-white/5 rounded-lg min-h-[44px] flex items-center"
+                    className="block py-4 px-4 text-foreground/70 hover:text-foreground transition-colors font-mono text-lg hover:underline decoration-2 underline-offset-4 hover:bg-foreground/5 rounded-lg min-h-[44px] flex items-center"
                   >
                     {item.label}
                   </a>

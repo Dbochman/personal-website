@@ -13,7 +13,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
   useParallax();
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       {/* Animated Grid Background */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{

@@ -24,11 +24,11 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
         >
           <div className="space-y-8">
             {experiences.map((exp, index) => (
-              <Card key={index} className="bg-black/60 backdrop-blur-sm border-white/20 hover:border-white/40 transition-all">
+              <Card key={index} className="bg-background/60 backdrop-blur-sm border-foreground/20 hover:border-foreground/40 transition-all">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
-                      <CardTitle className="text-xl text-white font-semibold flex items-center gap-2">
+                      <CardTitle className="text-xl text-foreground font-semibold flex items-center gap-2">
                         <img
                           src={exp.company === 'Spotify' ? SpotifyLogo : HashiCorpLogo}
                           alt={`${exp.company} logo`}
@@ -36,21 +36,21 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
                         />
                         {exp.company}
                       </CardTitle>
-                      <CardDescription className="text-lg text-white/80 font-medium">
+                      <CardDescription className="text-lg text-foreground/80 font-medium">
                         {exp.role}
                       </CardDescription>
                     </div>
-                    <Badge variant="outline" className="text-white/80 border-white/40 bg-white/10 font-mono text-xs">
+                    <Badge variant="outline" className="text-foreground/80 border-foreground/40 bg-foreground/10 font-mono text-xs">
                       {exp.period}
                     </Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-white/80 leading-relaxed">{exp.description}</p>
+                  <p className="text-foreground/80 leading-relaxed">{exp.description}</p>
                   <ul className="space-y-2">
                     {exp.highlights.map((highlight, i) => (
-                      <li key={i} className="flex items-start gap-3 text-white/80">
-                        <span className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></span>
+                      <li key={i} className="flex items-start gap-3 text-foreground/80">
+                        <span className="w-2 h-2 bg-foreground rounded-full mt-2 flex-shrink-0"></span>
                         <span className="text-sm">{highlight}</span>
                       </li>
                     ))}
