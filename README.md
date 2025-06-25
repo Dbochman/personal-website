@@ -40,15 +40,15 @@ This repo contains the full editable source code, including:
 
 ## 🚀 Deployment Workflow
 
-This project uses GitHub Actions to build and deploy the site to a separate public repo:
+This project uses GitHub Actions to automatically test, build, and deploy the site. The workflow is defined in `.github/workflows/deploy.yml` and includes the following steps:
 
-- **Source repository:** [`Dbochman/personal-website`](https://github.com/Dbochman/personal-website) (this repo)
-- **Deploy target:** [`Dbochman/dbochman.github.io`](https://github.com/Dbochman/dbochman.github.io)
-- **Trigger:** Any push to `main`
-- **Build command:** `npm run build`
-- **Output directory:** `dist/`
-
-The deployment action uses [`peaceiris/actions-gh-pages`](https://github.com/peaceiris/actions-gh-pages) to push the contents of `dist/` to the `main` branch of the `dbochman.github.io` repo, which is served directly via GitHub Pages.
+1.  **Checkout:** The source code is checked out.
+2.  **Setup Node.js:** Node.js 20 is installed.
+3.  **Cache Dependencies:** Node modules are cached to speed up subsequent builds.
+4.  **Install Dependencies:** `npm install` is run to install all project dependencies.
+5.  **Run Tests:** The test suite is run with `npm test` to ensure code quality.
+6.  **Build:** The site is built for production using `npm run build`.
+7.  **Deploy:** The contents of the `dist` directory are deployed to the `main` branch of the `Dbochman/dbochman.github.io` repository.
 
 ## 🔧 Development
 
@@ -93,9 +93,11 @@ The test suite includes:
 
 ## 🧩 Dependencies
 
-- [Lovable](https://lovable.dev)
 - [Vite](https://vitejs.dev)
+- [React](https://react.dev/)
 - [TailwindCSS](https://tailwindcss.com)
+- [Vitest](https://vitest.dev/)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
 ## ✨ Future Plans
 
