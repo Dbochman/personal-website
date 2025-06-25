@@ -99,10 +99,25 @@ The test suite includes:
 - [Vitest](https://vitest.dev/)
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 
+## 📈 Analytics
+
+This site uses [Umami](https://umami.is/) for privacy-focused web analytics. The tracking script is included in `index.html` and is configured to only run in production.
+
+## 🔍 SEO
+
+Search engine optimization is handled by the `Seo` component, which uses [react-helmet-async](https://github.com/staylor/react-helmet-async) to manage the following tags:
+
+*   `<title>`
+*   `<meta name="description">`
+*   Open Graph tags for social media sharing
+*   Twitter card tags
+
 ## ✨ Future Plans
 
-- Add SEO metadata
-- Optionally integrate analytics (e.g. Plausible or Umami)
+-   **Add a blog:** Create a simple blog to share articles and tutorials.
+-   **Improve accessibility:** Conduct a full accessibility audit and address any issues.
+-   **Add a dark mode toggle:** Allow users to switch between light and dark themes.
+-   **Implement i18n:** Add support for multiple languages.
 
 ## 📝 License
 
