@@ -16,14 +16,26 @@ This is the source repository for [dbochman.github.io](https://dbochman.github.i
 This repo contains the full editable source code, including:
 
 ```
-├── public/              # Static assets
-├── src/                 # All components and views
-├── dist/                # Build output (ignored in git)
-├── index.html           # App entry
-├── vite.config.ts       # Vite config
-├── tailwind.config.ts   # TailwindCSS config
-├── package.json         # Dependencies and scripts
-└── .github/workflows/   # GitHub Actions deploy pipeline
+├── public/              # Static assets (served directly; e.g. resume PDF, icons)
+├── src/                 # Main application source code (React components, pages, hooks, etc.)
+│   ├── components/       # Reusable UI components (site sections, layout elements, etc.)
+│   │   ├── ui/            # Generic UI elements (pre-built components like cards, buttons)
+│   │   ├── sections/      # Page sections (Hero, Experience, Goals, Contact, etc.)
+│   │   ├── layout/        # Layout components (site header, backgrounds, etc.)
+│   │   └── ...            # Other components (e.g. Sidebar, BackToTop)
+│   ├── pages/            # Top-level pages for routing (main site pages, 404 error page)
+│   ├── data/             # Static data sources (e.g. experience timeline content)
+│   ├── assets/           # Additional static assets (images, logos)
+│   ├── hooks/            # Custom React hooks (shared logic, e.g. scroll effects)
+│   ├── main.tsx          # Application entry point (mounts the React app)
+│   ├── App.tsx           # Root application component (sets up router/providers)
+│   └── index.css         # Global CSS stylesheet (Tailwind base and utilities)
+├── dist/                # Build output directory (generated on build; not versioned)
+├── index.html           # HTML template for the app (contains root <div> and script tag)
+├── vite.config.ts       # Vite configuration (build settings and path aliases)
+├── tailwind.config.ts   # Tailwind CSS configuration (design system and theme setup)
+├── package.json         # Project metadata and NPM scripts/dependencies
+└── .github/workflows/   # CI/CD pipeline (GitHub Actions workflow for deployment)
 ```
 
 ## 🚀 Deployment Workflow
