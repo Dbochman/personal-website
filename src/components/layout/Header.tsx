@@ -2,8 +2,21 @@
 import React from 'react';
 import { navigationItems } from "@/data/navigation";
 import MobileNav from "@/components/MobileNav";
+import { useNavigation } from '@/context/NavigationContext';
 
 const Header = () => {
+  const { openExperienceAccordion } = useNavigation();
+
+  const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const targetId = e.currentTarget.href.split('#')[1];
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    openExperienceAccordion();
+  };
+
   return (
     <header className="bg-black/90 backdrop-blur-sm border-b border-white/20 sticky top-0 z-10">
       <div className="container mx-auto px-6 py-4">
@@ -20,6 +33,7 @@ const Header = () => {
               <a 
                 key={item.href}
                 href={item.href} 
+                onClick={item.href === '#experience' ? handleExperienceClick : undefined}
                 className="text-white/70 hover:text-white transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4"
               >
                 {item.label}

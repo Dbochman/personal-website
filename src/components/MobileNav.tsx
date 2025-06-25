@@ -10,9 +10,22 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { navigationItems } from "@/data/navigation";
+import { useNavigation } from '@/context/NavigationContext';
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
+  const { openExperienceAccordion } = useNavigation();
+
+  const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setOpen(false);
+    const targetId = e.currentTarget.href.split('#')[1];
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    openExperienceAccordion();
+  };
 
   return (
     <div className="md:hidden">
@@ -48,7 +61,7 @@ const MobileNav = () => {
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    onClick={() => setOpen(false)}
+                    onClick={item.href === '#experience' ? handleExperienceClick : () => setOpen(false)}
                     className="block py-4 px-4 text-white/70 hover:text-white transition-colors font-mono text-lg hover:underline decoration-2 underline-offset-4 hover:bg-white/5 rounded-lg min-h-[44px] flex items-center"
                   >
                     {item.label}

@@ -8,10 +8,15 @@ import { experiences } from "@/data/experiences";
 import SpotifyLogo from '@/assets/logos/spotify.svg';
 import HashiCorpLogo from '@/assets/logos/hashicorp.svg';
 
-const ExperienceSection = () => {
+interface ExperienceSectionProps {
+  value: string;
+  onValueChange: (value: string) => void;
+}
+
+const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => {
   return (
     <section id="experience">
-      <Accordion type="single" collapsible className="space-y-4">
+      <Accordion type="single" collapsible value={value} onValueChange={onValueChange} className="space-y-4">
         <AccordionSection
           title="Professional Experience"
           summary="SRE leadership at HashiCorp & Spotify · 7+ years scaling reliability"

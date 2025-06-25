@@ -1,11 +1,18 @@
 
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import MobileNav from './MobileNav';
+import { NavigationContext } from '@/context/NavigationContext';
 
 describe('MobileNav', () => {
   it('should open and close the mobile navigation menu', () => {
-    render(<MobileNav />);
+    const openExperienceAccordion = vi.fn();
+
+    render(
+      <NavigationContext.Provider value={{ openExperienceAccordion }}>
+        <MobileNav />
+      </NavigationContext.Provider>
+    );
 
     // Check that the menu is initially closed
     expect(screen.queryByText('Menu')).not.toBeInTheDocument();
