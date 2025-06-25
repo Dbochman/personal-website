@@ -24,7 +24,7 @@ const Sidebar = () => {
             {techStack.map((tech, index) => (
               <div 
                 key={index}
-                className="text-xs font-mono text-white/80 p-2 border border-white/20 bg-white/5 hover:bg-white/20 transition-all duration-200 ease-out cursor-pointer group"
+                className="text-xs font-mono text-white/80 p-2 border border-white/20 bg-white/5 hover:bg-white/10 transition-colors"
               >
                 {tech}
               </div>
