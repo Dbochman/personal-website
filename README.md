@@ -65,10 +65,31 @@ npm run build
 
 ## 🧪 Testing
 
+This project uses [Vitest](https://vitest.dev/) for unit and component testing, configured with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for rendering components and simulating user interactions.
+
+To run the tests:
+
 ```bash
-# Run unit tests
+# Run all tests once
 npm test
+
+# Run tests in watch mode
+npm run test:watch
 ```
+
+### Test Coverage
+
+The test suite includes:
+
+*   **Unit Tests:** For custom hooks like `useParallax` and `use-mobile` to ensure the logic is correct in isolation.
+*   **Component Tests:** For individual React components like `AccordionSection`, `MobileNav`, and `BackToTop` to verify they render correctly and respond to user interaction.
+*   **Integration Tests:** For full pages like the `Index` page to ensure that all components and sections render together correctly and that key information and links are present.
+
+### Configuration
+
+-   `vitest.config.ts`: The main configuration file for Vitest, including path aliases.
+-   `vitest-setup.ts`: A setup file to extend Vitest's `expect` with DOM matchers from `@testing-library/jest-dom`.
+
 
 ## 🧩 Dependencies
 
