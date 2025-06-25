@@ -201,7 +201,7 @@ const Index = () => {
             
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-transparent via-white/5 to-transparent blur-xl"></div>
-              <p className="text-xl text-white/90 mb-8 leading-relaxed max-w-3xl mx-auto relative bg-black/30 p-6 border border-white/10 backdrop-blur-sm">
+              <p className="text-xl text-white/90 mb-8 leading-relaxed max-w-3xl mx-auto relative bg-black/30 p-6 border border-white/10 backdrop-blur-sm font-sans">
                 Specializing in <span className="text-white font-semibold border-b border-white/40">Reliability, Resilience, and Incident Management</span>, with experience spanning SRE 
                 and Product Management at <span className="font-mono text-white">HashiCorp</span> and <span className="font-mono text-white">Spotify</span>. Focused on enhancing service availability 
                 and streamlining operations in complex environments.
@@ -210,25 +210,25 @@ const Index = () => {
             
             <div className="flex justify-center gap-4 mb-8">
               <a href="mailto:dylanbochman@gmail.com">
-              <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
+              <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-sans font-medium">
                 <Mail className="w-4 h-4 mr-2" />
                 Get In Touch
               </Button>
             </a>
               <a href="/DylanBochmanResume.pdf" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
+              <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-sans font-medium">
                 <ExternalLink className="w-4 h-4 mr-2" />
                 View Resume
               </Button>
             </a>
             </div>
             
-            <div className="flex justify-center gap-6 text-white/60 font-mono text-sm">
-              <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5">
+            <div className="flex justify-center gap-6 text-white/60 text-sm">
+              <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5 font-sans">
                 <MapPin className="w-4 h-4" />
                 <span>Remote</span>
               </div>
-              <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5">
+              <div className="flex items-center gap-2 border border-white/20 px-3 py-1 bg-white/5 font-sans">
                 <Activity className="w-4 h-4 text-green-400" />
                 <span>Currently Employed</span>
               </div>
@@ -257,7 +257,7 @@ const Index = () => {
                         <CardHeader>
                           <div className="flex justify-between items-start">
                             <div>
-                              <CardTitle className="text-xl text-white font-mono flex items-center gap-2">
+                              <CardTitle className="text-xl text-white font-sans font-semibold flex items-center gap-2">
                                 <img
                                   src={exp.company === 'Spotify' ? SpotifyLogo : HashiCorpLogo}
                                   alt={`${exp.company} logo`}
@@ -265,22 +265,22 @@ const Index = () => {
                                 />
                                 {exp.company}
                               </CardTitle>
-                              <CardDescription className="text-lg text-white/80 font-medium font-mono">
+                              <CardDescription className="text-lg text-white/80 font-medium font-sans">
                                 {exp.role}
                               </CardDescription>
                             </div>
-                            <Badge variant="outline" className="text-white/80 border-white/40 bg-white/10 font-mono">
+                            <Badge variant="outline" className="text-white/80 border-white/40 bg-white/10 font-mono text-xs">
                               {exp.period}
                             </Badge>
                           </div>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                          <p className="text-white/80 leading-relaxed">{exp.description}</p>
+                          <p className="text-white/80 leading-relaxed font-sans">{exp.description}</p>
                           <ul className="space-y-2">
                             {exp.highlights.map((highlight, i) => (
                               <li key={i} className="flex items-start gap-3 text-white/80">
                                 <span className="w-2 h-2 bg-white rounded-full mt-2 flex-shrink-0"></span>
-                                <span className="font-mono text-sm">{highlight}</span>
+                                <span className="font-sans text-sm">{highlight}</span>
                               </li>
                             ))}
                           </ul>
@@ -295,7 +295,7 @@ const Index = () => {
             {/* Career Goals Section */}
             <section id="goals" className="py-8">
               <div className="text-center mb-8">
-                <h3 className="text-3xl font-bold text-white mb-4 font-mono">
+                <h3 className="text-3xl font-bold text-white mb-4 font-sans">
                   Career Goals
                 </h3>
                 <div className="w-20 h-0.5 bg-white mx-auto"></div>
@@ -304,7 +304,7 @@ const Index = () => {
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white to-transparent"></div>
                 <CardContent className="p-8">
                   <div className="text-center">
-                    <p className="text-lg text-white/90 leading-relaxed font-mono">
+                    <p className="text-lg text-white/90 leading-relaxed font-sans">
                       I'll soon be joining <a href="https://groq.com/about-us/" className="font-mono text-white underline hover:text-white/80" target="_blank" rel="noopener noreferrer">Groq</a>,
                       where I look forward to applying my resilience expertise and incident management skills to build
                       <span className="text-white font-bold border-b-2 border-white/40"> sustainable response teams</span>.  
@@ -328,27 +328,27 @@ const Index = () => {
       {/* Contact Section */}
       <section id="contact" className="py-16 px-6 bg-gradient-to-t from-white/10 to-transparent relative mt-16">
         <div className="container mx-auto max-w-4xl text-center">
-          <h3 className="text-4xl font-bold mb-8 font-mono">
+          <h3 className="text-4xl font-bold mb-8 font-sans">
              Let's Connect
           </h3>
-          <p className="text-white/80 mb-8 text-lg font-mono">
-            Interested in discussing on-call tooling, challenging incients, or potential opportunities?
+          <p className="text-white/80 mb-8 text-lg font-sans">
+            Interested in discussing on-call tooling, challenging incidents, or potential opportunities?
           </p>
           <div className="flex justify-center gap-4 mb-12">
             <a href="mailto:dylanbochman@gmail.com">
-            <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
+            <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-sans font-medium">
               <Mail className="w-4 h-4 mr-2" />
               Email Me
             </Button>
           </a>
             <a href="/DylanBochmanResume.pdf" target="_blank" rel="noopener noreferrer">
-            <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-mono">
+            <Button size="lg" className="bg-white text-black hover:bg-white/90 transition-all transform hover:scale-105 font-sans font-medium">
               <ExternalLink className="w-4 h-4 mr-2" />
               View Resume
             </Button>
           </a>
           </div>
-          <div className="text-white/40 text-sm font-mono border-t border-white/20 pt-8">
+          <div className="text-white/40 text-sm border-t border-white/20 pt-8 font-sans">
             <p>© 2025 Dylan Bochman. All rights reserved.</p>
           </div>
         </div>
