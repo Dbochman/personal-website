@@ -101,7 +101,7 @@ The test suite includes:
 
 ## 📈 Analytics
 
-This site uses [Umami](https://umami.is/) for privacy-focused web analytics. The tracking script is included in `index.html` and is configured to only run in production.
+This site uses [Google Analytics](https://analytics.google.com). The tracking script is included in `index.html` and is configured to only run in production.
 
 ## 🔍 SEO
 
