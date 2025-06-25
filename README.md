@@ -61,8 +61,6 @@ npm run build
 
 - Add SEO metadata
 - Optionally integrate analytics (e.g. Plausible or Umami)
-- Polish typography and responsiveness
-- Possibly add a contact form or resume download link
 
 ## 📝 License
 
