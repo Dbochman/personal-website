@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"
@@ -26,13 +27,15 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline group [&[data-state=open]>.icon-wrapper>svg]:rotate-180",
         className
       )}
       {...props}
     >
       {children}
-      <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+      <div className="icon-wrapper p-2 rounded-full transition-all duration-200 ease-out group-hover:bg-white/20 min-w-[44px] min-h-[44px] flex items-center justify-center">
+        <ChevronDown className="h-8 w-8 shrink-0 transition-transform duration-200 ease-out text-white/90 stroke-[2.5]" />
+      </div>
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))
@@ -48,7 +51,7 @@ const AccordionContent = React.forwardRef<
     {...props}
   >
     <div className={cn("pb-4 pt-0", className)}>{children}</div>
-  </AccordionPrimitive.Content>
+  </AccordionContent>
 ))
 
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
