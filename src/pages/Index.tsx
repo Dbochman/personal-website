@@ -7,6 +7,7 @@ import GoalsSection from "@/components/sections/GoalsSection";
 import ContactSection from "@/components/sections/ContactSection";
 import Sidebar from "@/components/Sidebar";
 import { NavigationContext } from "@/context/NavigationContext";
+import Seo from "@/components/Seo";
 
 const Index = () => {
   const [openAccordion, setOpenAccordion] = useState("");
@@ -17,6 +18,10 @@ const Index = () => {
 
   return (
     <NavigationContext.Provider value={{ openExperienceAccordion }}>
+      <Seo
+        title="Technical Incident Manager"
+        description="Specializing in Reliability, Resilience, and Incident Management, with experience spanning SRE and Product Management at HashiCorp and Spotify."
+      />
       <PageLayout>
         {/* Hero Section */}
         <HeroSection />
