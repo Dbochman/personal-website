@@ -6,16 +6,10 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { navigationItems } from "@/data/navigation";
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
-
-  const navItems = [
-    { href: "#about", label: "About" },
-    { href: "#experience", label: "Experience" },
-    { href: "#goals", label: "Goals" },
-    { href: "#contact", label: "Contact" },
-  ];
 
   return (
     <div className="md:hidden">
@@ -48,7 +42,7 @@ const MobileNav = () => {
             {/* Navigation items */}
             <nav className="flex-1 p-6">
               <ul className="space-y-4">
-                {navItems.map((item) => (
+                {navigationItems.map((item) => (
                   <li key={item.href}>
                     <a
                       href={item.href}
