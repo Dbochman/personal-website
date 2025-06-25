@@ -63,6 +63,13 @@ npm run dev
 npm run build
 ```
 
+## 🧪 Testing
+
+```bash
+# Run unit tests
+npm test
+```
+
 ## 🧩 Dependencies
 
 - [Lovable](https://lovable.dev)
