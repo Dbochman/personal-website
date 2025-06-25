@@ -143,7 +143,6 @@ const Index = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-
               <h1 className="text-2xl font-bold text-white font-mono tracking-tight">
                 Dylan Bochman
               </h1>
@@ -333,7 +332,7 @@ const Index = () => {
              Let's Connect
           </h3>
           <p className="text-white/80 mb-8 text-lg font-mono">
-            Interested in discussing Incident management, Reliability challenges, or potential opportunities?
+            Interested in discussing on-call tooling, challenging incients, or potential opportunities?
           </p>
           <div className="flex justify-center gap-4 mb-12">
             <a href="mailto:dylanbochman@gmail.com">
