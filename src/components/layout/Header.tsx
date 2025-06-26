@@ -65,7 +65,7 @@ const toggleTheme = () => {
               aria-pressed={isDark}
               className="text-foreground/70 hover:text-foreground transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4"
             >
-              {isDark ? <Sun className="w-5 h-5"/> : <Moon className="w-5 h-5"/>}
+              {isDark ? <Sun data-testid="icon-sun" className="w-5 h-5"/> : <Moon data-testid="icon-moon" className="w-5 h-5"/>}
             </button>
           </nav>
 

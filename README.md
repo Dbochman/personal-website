@@ -84,6 +84,8 @@ The test suite includes:
 *   **Unit Tests:** For custom hooks like `useParallax` and `use-mobile` to ensure the logic is correct in isolation.
 *   **Component Tests:** For individual React components like `AccordionSection`, `MobileNav`, and `BackToTop` to verify they render correctly and respond to user interaction.
 *   **Integration Tests:** For full pages like the `Index` page to ensure that all components and sections render together correctly and that key information and links are present.
+*   **Dark-Mode Toggle Tests:** The header’s dark-mode toggle is tested by mocking window.matchMedia, rendering the `<Header>` (wrapped in its NavigationProvider), then clicking the toggle button to assert that the `<html>` element’s dark class is added and removed, and that the appropriate icon appears.
+
 
 ### Configuration
 
