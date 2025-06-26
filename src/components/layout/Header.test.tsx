@@ -93,13 +93,19 @@ describe('dark-mode toggle in Header', () => {
 })
 
   it('toggles the .dark class on <html> when clicked', () => {
-    const { getByLabelText } = render(
+    const { getByLabelText, getAllByLabelText } = render(
       <NavigationProvider>
         <Header />
       </NavigationProvider>
     )
 
-    const toggle = getByLabelText(/toggle dark mode/i)
+    // find both dark mode toggles
+    const toggles = getAllByLabelText(/toggle dark mode/i)
+    expect(toggles).toHaveLength(2)
+
+    // choose the first one (desktop toggle)
+    const toggle = toggles[0]
+
     // initial: no .dark
     expect(document.documentElement.classList.contains('dark')).toBe(false)
 

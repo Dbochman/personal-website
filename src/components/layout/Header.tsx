@@ -70,7 +70,17 @@ const toggleTheme = () => {
           </nav>
 
           {/* Mobile Navigation */}
-          <MobileNav />
+          <div className="flex items-center gap-4 md:hidden">
+            <button
+              onClick={toggleTheme}
+              aria-label="Toggle dark mode"
+              aria-pressed={isDark}
+              className="p-2 text-foreground/70 hover:text-foreground transition-colors"
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+            <MobileNav />
+          </div>
         </div>
       </div>
     </header>

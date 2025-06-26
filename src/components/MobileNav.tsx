@@ -9,8 +9,7 @@ import {
 } from "@/components/ui/sheet";
 import { navigationItems } from "@/data/navigation";
 import { useNavigation } from '@/context/NavigationContext';
-import { useState, useEffect } from 'react'
-import { Sun, Moon } from 'lucide-react'
+import { useState } from 'react';
 import Link from 'next/link'
 
 const MobileNav = () => {
@@ -27,21 +26,6 @@ const MobileNav = () => {
     }
     openExperienceAccordion();
   };
-
-const [isDark, setIsDark] = useState(false)
-
-useEffect(() => {
-  const mql = window.matchMedia?.('(prefers-color-scheme: dark)')
-  if (mql?.matches) {
-    document.documentElement.classList.add('dark')
-    setIsDark(true)
-  }
-}, [])
-
-const toggleTheme = () => {
-  document.documentElement.classList.toggle('dark')
-  setIsDark(!isDark)
-}
 
   return (
     <div className="md:hidden">
@@ -67,13 +51,6 @@ const toggleTheme = () => {
               aria-label="Close navigation menu"
             >
               <X className="w-6 h-6" />
-            </button>
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle dark mode"
-              aria-pressed={isDark}
-              className="p-2 text-foreground/70 hover:text-foreground transition-colors" >
-                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
           </SheetHeader>
           
