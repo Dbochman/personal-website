@@ -7,6 +7,8 @@ import AccordionSection from "@/components/AccordionSection";
 import { experiences } from "@/data/experiences";
 import SpotifyLogo from '@/assets/logos/spotify.svg';
 import HashiCorpLogo from '@/assets/logos/hashicorp.svg';
+import HashiDarkLogo from '@/assets/logos/hashicorp-dark.svg';
+import { useTheme } from '@/hooks/useTheme'
 
 interface ExperienceSectionProps {
   value: string;
@@ -14,6 +16,7 @@ interface ExperienceSectionProps {
 }
 
 const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => {
+  const { isDark } = useTheme()
   return (
     <section id="experience">
       <Accordion type="single" collapsible value={value} onValueChange={onValueChange} className="space-y-4">
@@ -29,11 +32,24 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
                   <div className="flex justify-between items-start">
                     <div>
                       <CardTitle className="text-xl text-foreground font-semibold flex items-center gap-2">
-                        <img
-                          src={exp.company === 'Spotify' ? SpotifyLogo : HashiCorpLogo}
-                          alt={`${exp.company} logo`}
-                          className="w-5 h-5"
-                        />
+                        {exp.company === 'Spotify' ? (
+                            <img src={SpotifyLogo} alt="Spotify logo" className="w-5 h-5" />
+                          ) : (
+                            <>
+                              {/* default (light) logo */}
+                              <img
+                                src={HashiDarkLogo}
+                                alt="HashiCorp logo"
+                                className="w-5 h-5 block dark:hidden"
+                              />
+                              {/* dark-mode logo */}
+                              <img
+                                src={HashiCorpLogo}
+                                alt="HashiCorp logo"
+                                className="w-5 h-5 hidden dark:block"
+                              />
+                            </>
+                          )}
                         {exp.company}
                       </CardTitle>
                       <CardDescription className="text-lg text-foreground/80 font-medium">
