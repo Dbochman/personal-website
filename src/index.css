@@ -116,7 +116,11 @@
     color: hsl(var(--foreground));
   }
 
-  /* Enhanced Animation Classes */
+  /* SRE-Themed Animation Classes */
+  .sre-icon {
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.1));
+  }
+
   .animate-hero-float {
     animation: hero-float var(--timing-epic) var(--easing-gentle) infinite;
   }
@@ -131,6 +135,14 @@
 
   .animate-grid-pulse {
     animation: grid-pulse var(--timing-ambient) var(--easing-gentle) infinite;
+  }
+
+  .animate-monitoring-pulse {
+    animation: monitoring-pulse calc(var(--timing-ambient) * 0.8) var(--easing-gentle) infinite;
+  }
+
+  .animate-fade-in-delay {
+    animation: fade-in-delay calc(var(--timing-slow) * 2) var(--easing-smooth) forwards;
   }
 
   .gradient-animated {
@@ -187,6 +199,24 @@
   @keyframes gradient-shift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
+  }
+
+  @keyframes monitoring-pulse {
+    0%, 100% { 
+      opacity: 0.8; 
+      transform: scale(1);
+      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.1));
+    }
+    50% { 
+      opacity: 1; 
+      transform: scale(1.02);
+      filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.2));
+    }
+  }
+
+  @keyframes fade-in-delay {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
 
   /* Enhanced Reduced Motion Support */

@@ -2,16 +2,25 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Mail, ExternalLink, MapPin, Activity } from "lucide-react";
+import SloGauge from "@/components/icons/SloGauge";
+import ErrorRateChart from "@/components/icons/ErrorRateChart";
+import LatencyHistogram from "@/components/icons/LatencyHistogram";
+import UptimeTimeline from "@/components/icons/UptimeTimeline";
+import AlertCounter from "@/components/icons/AlertCounter";
 
 const HeroSection = () => {
   return (
-    <section className="py-20 px-6 relative gradient-animated">
-      {/* Enhanced floating geometric shapes with new animation system */}
-      <div className="absolute top-20 left-10 w-20 h-20 border-2 border-foreground/20 rotate-45 animate-hero-float hover-lift"></div>
-      <div className="absolute top-40 right-20 w-12 h-12 bg-foreground/10 rotate-12 animate-pulse-subtle hover-lift" style={{animationDelay: '1s'}}></div>
-      <div className="absolute bottom-20 left-1/4 w-6 h-6 bg-foreground rounded-full animate-glow-cycle" style={{animationDelay: '2s'}}></div>
-      <div className="absolute top-1/2 right-1/3 w-8 h-8 border border-foreground/15 rounded-full animate-pulse-subtle" style={{animationDelay: '3s'}}></div>
-      <div className="absolute bottom-32 right-16 w-4 h-4 bg-foreground/20 rotate-45 animate-hero-float" style={{animationDelay: '4s'}}></div>
+    <section className="py-20 px-6 relative">
+      {/* SRE Monitoring Dashboard Elements */}
+      <div className="absolute top-32 right-12 w-32 h-16 parallax-element" data-speed="0.15" title="Error Rate Monitoring">
+        <ErrorRateChart />
+      </div>
+      <div className="absolute bottom-20 left-16 w-24 h-20 parallax-element" data-speed="0.12" title="Latency Distribution">
+        <LatencyHistogram />
+      </div>
+      <div className="absolute top-20 left-8 w-90 h-16 parallax-element" data-speed="0.18" title="Active Alerts">
+        <AlertCounter />
+      </div>
       
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="text-center mb-8">

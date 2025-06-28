@@ -11,13 +11,13 @@ const AlertBeacon = () => {
     >
       <defs>
         <radialGradient id="beacon-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="rgba(59, 130, 246, 0.8)" />
-          <stop offset="70%" stopColor="rgba(59, 130, 246, 0.3)" />
-          <stop offset="100%" stopColor="rgba(59, 130, 246, 0)" />
+          <stop offset="0%" stopColor="hsl(var(--foreground) / 0.8)" />
+          <stop offset="70%" stopColor="hsl(var(--foreground) / 0.3)" />
+          <stop offset="100%" stopColor="hsl(var(--foreground) / 0)" />
         </radialGradient>
         <radialGradient id="core-glow" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="rgba(255, 255, 255, 0.9)" />
-          <stop offset="100%" stopColor="rgba(59, 130, 246, 0.6)" />
+          <stop offset="0%" stopColor="hsl(var(--foreground) / 0.9)" />
+          <stop offset="100%" stopColor="hsl(var(--foreground) / 0.6)" />
         </radialGradient>
       </defs>
 
@@ -111,7 +111,7 @@ const AlertBeacon = () => {
         cx="40"
         cy="35"
         r="1"
-        fill="rgba(255,255,255,0.8)"
+        fill="hsl(var(--foreground) / 0.8)"
         className="alert-core"
       />
     </svg>

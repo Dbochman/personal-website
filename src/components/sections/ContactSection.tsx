@@ -2,11 +2,21 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Mail, ExternalLink } from "lucide-react";
+import SloGauge from "@/components/icons/SloGauge";
+import UptimeTimeline from "@/components/icons/UptimeTimeline";
 
 const ContactSection = () => {
   return (
     <section id="contact" className="py-16 px-6 bg-gradient-to-t from-foreground/10 to-transparent relative mt-16">
-      <div className="container mx-auto max-w-4xl text-center">
+      {/* SRE Background Elements */}
+      <div className="absolute top-8 left-12 w-20 h-20 parallax-element" data-speed="0.1" title="SLO Dashboard">
+        <SloGauge />
+      </div>
+      <div className="absolute bottom-20 right-16 w-28 h-12 parallax-element" data-speed="0.08" title="Service Uptime">
+        <UptimeTimeline />
+      </div>
+      
+      <div className="container mx-auto max-w-4xl text-center relative z-10">
         <h3 className="text-4xl font-bold mb-8">
           Let's Connect
         </h3>

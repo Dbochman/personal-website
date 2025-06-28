@@ -13,91 +13,93 @@ import MetricWave from "@/components/icons/MetricWave";
 const ParallaxBackground = () => {
   return (
     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-      {/* Background Layer - Slowest movement, most subtle */}
-      <div className="absolute inset-0 z-0 opacity-[0.03]">
+      {/* SRE Monitoring Dashboard Zone - Top Right */}
+      <div className="absolute inset-0 z-2 opacity-20">
         <div 
-          className="absolute top-[15%] left-[8%] w-32 h-20 parallax-element"
-          data-speed="0.1"
+          className="absolute top-[8%] right-[10%] w-24 h-24 parallax-element sre-icon"
+          data-speed="0.35"
         >
-          <CircuitPattern />
+          <AlertBeacon />
         </div>
         <div 
-          className="absolute bottom-[25%] right-[12%] w-24 h-24 parallax-element"
-          data-speed="0.12"
+          className="absolute top-[25%] right-[5%] w-32 h-16 parallax-element sre-icon"
+          data-speed="0.3"
         >
-          <HexagonGrid />
-        </div>
-        <div 
-          className="absolute top-[60%] left-[70%] w-28 h-28 parallax-element"
-          data-speed="0.08"
-        >
-          <QuantumGrid />
+          <MetricWave />
         </div>
       </div>
 
-      {/* Midground Layer - Medium movement and opacity */}
-      <div className="absolute inset-0 z-1 opacity-[0.08]">
+      {/* Infrastructure Zone - Left Side */}
+      <div className="absolute inset-0 z-1 opacity-15">
         <div 
-          className="absolute top-[35%] right-[15%] w-20 h-32 parallax-element"
+          className="absolute top-[40%] left-[5%] w-24 h-36 parallax-element sre-icon"
           data-speed="0.25"
         >
           <ServerStack />
         </div>
         <div 
-          className="absolute top-[20%] left-[45%] w-36 h-20 parallax-element"
+          className="absolute bottom-[30%] left-[8%] w-40 h-24 parallax-element sre-icon"
           data-speed="0.28"
+        >
+          <CircuitPattern />
+        </div>
+      </div>
+
+      {/* Data Flow Corridor - Center */}
+      <div className="absolute inset-0 z-1 opacity-12">
+        <div 
+          className="absolute top-[15%] left-[45%] w-40 h-20 parallax-element sre-icon"
+          data-speed="0.32"
         >
           <DataFlow />
         </div>
         <div 
-          className="absolute bottom-[40%] left-[25%] w-24 h-16 parallax-element"
+          className="absolute bottom-[15%] left-[40%] w-36 h-18 parallax-element sre-icon"
           data-speed="0.22"
         >
-          <MetricWave />
-        </div>
-        <div 
-          className="absolute top-[8%] left-[75%] w-16 h-16 parallax-element"
-          data-speed="0.24"
-        >
-          <SimpleTriangle />
+          <DataFlow />
         </div>
       </div>
 
-      {/* Foreground Layer - Fastest movement, highest visibility */}
-      <div className="absolute inset-0 z-2 opacity-[0.15]">
+      {/* Distributed Systems Grid - Background */}
+      <div className="absolute inset-0 z-0 opacity-08">
         <div 
-          className="absolute bottom-[20%] left-[10%] w-20 h-20 parallax-element"
-          data-speed="0.4"
+          className="absolute top-[55%] left-[65%] w-32 h-32 parallax-element sre-icon"
+          data-speed="0.18"
         >
-          <AlertBeacon />
+          <QuantumGrid />
         </div>
         <div 
-          className="absolute top-[50%] right-[20%] w-28 h-28 parallax-element"
-          data-speed="0.42"
+          className="absolute bottom-[45%] right-[25%] w-28 h-28 parallax-element sre-icon"
+          data-speed="0.15"
         >
-          <GeometricRings />
+          <QuantumGrid />
         </div>
+      </div>
+
+      {/* Secondary Metrics Layer */}
+      <div className="absolute inset-0 z-1 opacity-10">
         <div 
-          className="absolute top-[5%] right-[8%] w-24 h-24 parallax-element"
-          data-speed="0.38"
+          className="absolute bottom-[8%] right-[15%] w-28 h-14 parallax-element sre-icon"
+          data-speed="0.2"
+        >
+          <MetricWave />
+        </div>
+      </div>
+
+      {/* SRE Service Topology - Distributed across layout */}
+      <div className="absolute inset-0 z-1 opacity-8">
+        <div 
+          className="absolute top-[60%] left-[25%] w-20 h-20 parallax-element sre-icon"
+          data-speed="0.12"
         >
           <HexagonGrid />
         </div>
-      </div>
-
-      {/* Interactive Layer - Subtle accent elements */}
-      <div className="absolute inset-0 z-3 opacity-[0.05]">
         <div 
-          className="absolute bottom-[8%] right-[40%] w-32 h-12 parallax-element"
-          data-speed="0.15"
+          className="absolute top-[35%] right-[40%] w-16 h-16 parallax-element sre-icon"
+          data-speed="0.16"
         >
-          <MetricWave />
-        </div>
-        <div 
-          className="absolute top-[75%] left-[60%] w-18 h-18 parallax-element"
-          data-speed="0.18"
-        >
-          <SimpleTriangle />
+          <GeometricRings />
         </div>
       </div>
     </div>

@@ -32,22 +32,22 @@ const MetricWave = () => {
       <path
         d="M0,30 Q20,20 40,30 T80,30 T120,30 T160,30"
         fill="none"
-        stroke="rgba(255,255,255,0.4)"
+        stroke="hsl(var(--foreground) / 0.4)"
         strokeWidth="2"
         className="wave-line motion-safe:animate-pulse"
       />
       
       {/* Metric bars */}
-      <rect x="20" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" />
-      <rect x="30" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '0.5s' }} />
-      <rect x="40" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '1s' }} />
-      <rect x="50" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '1.5s' }} />
-      <rect x="60" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '2s' }} />
-      <rect x="70" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '2.5s' }} />
-      <rect x="80" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '3s' }} />
+      <rect x="20" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" />
+      <rect x="30" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '0.5s' }} />
+      <rect x="40" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '1s' }} />
+      <rect x="50" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '1.5s' }} />
+      <rect x="60" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '2s' }} />
+      <rect x="70" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '2.5s' }} />
+      <rect x="80" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '3s' }} />
       
       {/* Baseline */}
-      <line x1="0" y1="54" x2="160" y2="54" stroke="rgba(255,255,255,0.3)" strokeWidth="1" />
+      <line x1="0" y1="54" x2="160" y2="54" stroke="hsl(var(--foreground) / 0.3)" strokeWidth="1" />
     </svg>
   );
 };
