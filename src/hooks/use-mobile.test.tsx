@@ -11,7 +11,7 @@ function mockMatchMedia(width: number) {
     removeEventListener: vi.fn(),
     onchange: null,
     dispatchEvent: vi.fn()
-  })) as any
+  })) as unknown as typeof window.matchMedia
 }
 
 describe('useIsMobile', () => {

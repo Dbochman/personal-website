@@ -15,7 +15,7 @@ vi.mock('@/context/NavigationContext', () => ({
 // 2) Mock next/link
 vi.mock('next/link', () => ({
   __esModule: true,
-  default: ({ children, href, ...props }: any) => (
+  default: ({ children, href, ...props }: { children: React.ReactNode; href: string; [key: string]: unknown }) => (
     <a href={href} {...props}>{children}</a>
   ),
 }))
@@ -35,7 +35,7 @@ import { queryByTestId } from '@testing-library/dom'
 // 1) Mock next/link so <Link> renders as <a>
 vi.mock('next/link', () => ({
   __esModule: true,
-  default: ({ children, href, ...props }: any) => (
+  default: ({ children, href, ...props }: { children: React.ReactNode; href: string; [key: string]: unknown }) => (
     <a href={href} {...props}>{children}</a>
   ),
 }))

@@ -28,7 +28,7 @@ describe('useParallax', () => {
     parallaxElement.setAttribute('data-speed', '0.5');
     document.body.appendChild(parallaxElement);
 
-    vi.spyOn(document, 'querySelectorAll').mockReturnValue([parallaxElement] as any);
+    vi.spyOn(document, 'querySelectorAll').mockReturnValue([parallaxElement] as unknown as NodeListOf<Element>);
 
     renderHook(() => useParallax());
 

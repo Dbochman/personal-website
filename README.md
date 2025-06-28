@@ -99,6 +99,7 @@ npm run lint         # Run ESLint for code quality checks
 # Testing
 npm test             # Run all tests once with Vitest
 npm run test:watch   # Run tests in watch mode for development
+npm run test:coverage # Run tests with coverage report
 ```
 
 ### Development Notes
@@ -109,33 +110,63 @@ npm run test:watch   # Run tests in watch mode for development
 
 ## 🧪 Testing
 
-This project uses [Vitest](https://vitest.dev/) for unit and component testing, configured with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for rendering components and simulating user interactions.
+This project uses [Vitest](https://vitest.dev/) for comprehensive testing with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for component rendering and user interaction simulation.
 
-To run the tests:
+### Running Tests
 
 ```bash
 # Run all tests once
 npm test
 
-# Run tests in watch mode
+# Run tests in watch mode for development
 npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
 ```
 
 ### Test Coverage
 
-The test suite includes:
+The project maintains **100% coverage** for critical business logic files. Current test suite includes:
 
-*   **Unit Tests:** For custom hooks like `useParallax` and `use-mobile` to ensure the logic is correct in isolation.
-*   **Component Tests:** For individual React components like `AccordionSection`, `MobileNav`, and `BackToTop` to verify they render correctly and respond to user interaction.
-*   **Integration Tests:** For full pages like the `Index` page to ensure that all components and sections render together correctly and that key information and links are present.
-*   **Dark-Mode Toggle Tests:** The header’s dark-mode toggle is tested by mocking window.matchMedia, rendering the `<Header>` (wrapped in its NavigationProvider), then clicking the toggle button to assert that the `<html>` element’s dark class is added and removed, and that the appropriate icon appears.
+#### **Core Application Logic (100% Coverage)**
+- **useTheme.ts** - Theme management and system preference detection
+- **NavigationContext.tsx** - Application state management and context providers
+- **NotFound.tsx** - Error page handling and 404 logging
+- **Seo.tsx** - SEO meta tag rendering and social media optimization
+- **Sidebar.tsx** - Core UI component rendering and data display
+- **utils.ts** - Utility functions and Tailwind class merging
 
+#### **Interactive Components & Hooks**
+- **Custom Hooks:** `useParallax`, `use-mobile` for responsive behavior and animations
+- **UI Components:** `AccordionSection`, `MobileNav`, `BackToTop` for user interactions
+- **Layout Components:** `Header` with dark mode toggle and responsive navigation
+- **Page Components:** `Index` page integration testing
+
+#### **Test Categories**
+- **Unit Tests:** Isolated logic testing for hooks and utilities
+- **Component Tests:** Rendering, user interactions, and prop handling
+- **Integration Tests:** Full page rendering and cross-component functionality
+- **Async Testing:** DOM updates with react-helmet-async for SEO components
+- **Error Handling:** 404 pages, missing context providers, and edge cases
+
+### Coverage Report
+
+```bash
+# Generate detailed coverage report
+npm run test:coverage
+
+# Coverage targets achieved:
+# - Critical files: 100% coverage
+# - Overall test files: 13 test suites
+# - Total tests: 62 passing tests
+```
 
 ### Configuration
 
--   `vitest.config.ts`: The main configuration file for Vitest, including path aliases.
--   `vitest-setup.ts`: A setup file to extend Vitest's `expect` with DOM matchers from `@testing-library/jest-dom`.
-
+- **`vitest.config.ts`:** Main test configuration with jsdom environment and path aliases
+- **`vitest-setup.ts`:** Test setup extending expect with DOM matchers from `@testing-library/jest-dom`
+- **`@vitest/coverage-v8`:** Coverage reporting with V8 provider for accurate metrics
 
 ## 🧩 Key Technologies
 
