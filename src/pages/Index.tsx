@@ -8,6 +8,7 @@ import ContactSection from "@/components/sections/ContactSection";
 import Sidebar from "@/components/Sidebar";
 import { NavigationContext } from "@/context/NavigationContext";
 import Seo from "@/components/Seo";
+import { coreExpertise } from "@/data/expertise";
 
 const Index = () => {
   const [openAccordion, setOpenAccordion] = useState("");
@@ -21,6 +22,7 @@ const Index = () => {
       <Seo
         title="Technical Incident Manager"
         description="Specializing in Reliability, Resilience, and Incident Management, with experience spanning SRE and Product Management at HashiCorp and Spotify."
+        keywords={coreExpertise}
       />
       <PageLayout>
         {/* Hero Section */}

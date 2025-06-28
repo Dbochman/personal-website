@@ -16,52 +16,96 @@ This is the source repository for [dbochman.github.io](https://dbochman.github.i
 This repo contains the full editable source code, including:
 
 ```
-├── public/              # Static assets (served directly; e.g. resume PDF, icons)
-├── src/                 # Main application source code (React components, pages, hooks, etc.)
-│   ├── components/       # Reusable UI components (site sections, layout elements, etc.)
-│   │   ├── ui/            # Generic UI elements (pre-built components like cards, buttons)
-│   │   ├── sections/      # Page sections (Hero, Experience, Goals, Contact, etc.)
-│   │   ├── layout/        # Layout components (site header, backgrounds, etc.)
-│   │   └── ...            # Other components (e.g. Sidebar, BackToTop)
-│   ├── pages/            # Top-level pages for routing (main site pages, 404 error page)
-│   ├── data/             # Static data sources (e.g. experience timeline content)
-│   ├── assets/           # Additional static assets (images, logos)
-│   ├── hooks/            # Custom React hooks (shared logic, e.g. scroll effects)
-│   ├── main.tsx          # Application entry point (mounts the React app)
-│   ├── App.tsx           # Root application component (sets up router/providers)
-│   └── index.css         # Global CSS stylesheet (Tailwind base and utilities)
-├── dist/                # Build output directory (generated on build; not versioned)
-├── index.html           # HTML template for the app (contains root <div> and script tag)
-├── vite.config.ts       # Vite configuration (build settings and path aliases)
-├── tailwind.config.ts   # Tailwind CSS configuration (design system and theme setup)
-├── package.json         # Project metadata and NPM scripts/dependencies
-└── .github/workflows/   # CI/CD pipeline (GitHub Actions workflow for deployment)
+├── public/              # Static assets (resume PDF, favicon, social preview image)
+├── src/                 # Main application source code
+│   ├── components/       # Reusable UI components
+│   │   ├── ui/            # Radix UI components (accordion, button, card, etc.)
+│   │   ├── sections/      # Main content sections (Hero, Experience, Goals, Contact)
+│   │   ├── layout/        # Layout components (Header, PageLayout, ParallaxBackground)
+│   │   ├── icons/         # Custom SVG icon components (geometric patterns)
+│   │   └── ...            # Navigation, utility components (Sidebar, BackToTop, etc.)
+│   ├── pages/            # Route components (Index, NotFound)
+│   ├── data/             # Content data (experiences, expertise, navigation)
+│   ├── context/          # React context providers (NavigationContext)
+│   ├── hooks/            # Custom React hooks (useParallax, useTheme, use-mobile)
+│   ├── lib/              # Utility functions (utils.ts)
+│   ├── assets/           # Static assets (company logos)
+│   ├── main.tsx          # Application entry point with dark mode detection
+│   ├── App.tsx           # Root component with routing
+│   └── index.css         # Global Tailwind CSS styles
+├── dist/                # Build output directory (auto-generated)
+├── .github/workflows/   # GitHub Actions CI/CD pipeline
+├── index.html           # HTML template with Google Analytics
+├── vite.config.ts       # Vite build configuration with path aliases
+├── tailwind.config.ts   # Tailwind design system configuration
+├── vitest.config.ts     # Test configuration
+├── vitest-setup.ts      # Test setup with DOM matchers
+├── eslint.config.js     # Code quality configuration
+├── components.json      # Radix UI component configuration
+└── package.json         # Dependencies and build scripts
 ```
 
 ## 🚀 Deployment Workflow
 
-This project uses GitHub Actions to automatically test, build, and deploy the site. The workflow is defined in `.github/workflows/deploy.yml` and includes the following steps:
+This project uses GitHub Actions for automated CI/CD. The workflow triggers on pushes to the `main` branch and is defined in `.github/workflows/deploy.yml`:
 
-1.  **Checkout:** The source code is checked out.
-2.  **Setup Node.js:** Node.js 20 is installed.
-3.  **Cache Dependencies:** Node modules are cached to speed up subsequent builds.
-4.  **Install Dependencies:** `npm install` is run to install all project dependencies.
-5.  **Run Tests:** The test suite is run with `npm test` to ensure code quality.
-6.  **Build:** The site is built for production using `npm run build`.
-7.  **Deploy:** The contents of the `dist` directory are deployed to the `main` branch of the `Dbochman/dbochman.github.io` repository.
+**Workflow Steps:**
+1. **Checkout** - Source code checkout with `actions/checkout@v4`
+2. **Setup Node.js** - Node.js 20 installation with `actions/setup-node@v4`
+3. **Cache Dependencies** - NPM cache using `actions/cache@v4` for faster builds
+4. **Install Dependencies** - `npm install` to install all project dependencies
+5. **Run Tests** - `npm test` executes the full Vitest test suite
+6. **Build** - `npm run build` creates optimized production bundle
+7. **Deploy** - Uses `peaceiris/actions-gh-pages@v4` to deploy to external repository
+
+**Deployment Details:**
+- **Target:** `Dbochman/dbochman.github.io` repository (separate GitHub Pages repo)
+- **Custom Domain:** `dylanbochman.com` via CNAME configuration
+- **Authentication:** Personal access token via `DEPLOY_TOKEN` secret
+- **Strategy:** Force orphan commits to `main` branch for clean deployment history
 
 ## 🔧 Development
 
+### Prerequisites
+- Node.js 20 or higher
+- npm (comes with Node.js)
+
+### Getting Started
 ```bash
+# Clone the repository
+git clone https://github.com/Dbochman/personal-website.git
+cd personal-website
+
 # Install dependencies
 npm install
 
-# Start local dev server
+# Start development server (runs on http://localhost:8080)
 npm run dev
-
-# Build for production
-npm run build
 ```
+
+### Available Scripts
+```bash
+# Development
+npm run dev          # Start Vite dev server on port 8080
+npm run preview      # Preview production build locally
+
+# Building
+npm run build        # TypeScript compile + Vite production build
+npm run type-check   # Run TypeScript compiler without emitting files
+
+# Code Quality
+npm run lint         # Run ESLint for code quality checks
+
+# Testing
+npm test             # Run all tests once with Vitest
+npm run test:watch   # Run tests in watch mode for development
+```
+
+### Development Notes
+- **Hot Module Replacement:** Changes are reflected instantly during development
+- **TypeScript:** Strict type checking enabled with comprehensive coverage
+- **Path Aliases:** Use `@/` prefix for clean imports from `src/` directory
+- **Port Configuration:** Dev server runs on port 8080 (configurable in package.json)
 
 ## 🧪 Testing
 
@@ -118,14 +162,33 @@ The test suite includes:
 
 This site uses [Google Analytics](https://analytics.google.com). The tracking script is included in `index.html` and is configured to only run in production.
 
-## 🔍 SEO
+## 🔍 SEO & Professional Visibility
 
-Search engine optimization is handled by the `Seo` component, which uses [react-helmet-async](https://github.com/staylor/react-helmet-async) to manage the following tags:
+This personal resume website implements comprehensive SEO optimization for professional discovery and career visibility:
 
-*   `<title>`
-*   `<meta name="description">`
-*   Open Graph tags for social media sharing
-*   Twitter card tags
+### Current SEO Implementation
+- **Structured Data:** JSON-LD schema markup for Person entity with job title and professional links
+- **Custom Domain:** `dylanbochman.com` with canonical URLs and automatic redirects
+- **Social Media Optimization:** Open Graph and Twitter Card meta tags for professional sharing
+- **Technical SEO:** Semantic HTML, fast loading times, mobile responsiveness
+- **Google Analytics:** Visitor tracking and engagement analytics
+
+### SEO Component Structure
+The `Seo` component uses [react-helmet-async](https://github.com/staylor/react-helmet-async) to dynamically manage:
+- Page titles with professional branding (`Title | Dylan Bochman`)
+- Meta descriptions optimized for SRE/technical keywords
+- Social sharing images and URLs
+- Open Graph properties for LinkedIn/professional networks
+
+### Professional SEO Strategy
+**Target Keywords:** `Site Reliability Engineer`, `Technical Incident Manager`, `Dylan Bochman`, `SRE Spotify`, `HashiCorp SRE`
+
+**Key Optimizations for Career Visibility:**
+- Professional title in page title and structured data
+- Company names (HashiCorp, Spotify) for association-based searches
+- Technical skills keywords in meta descriptions
+- LinkedIn profile linked via structured data
+- Resume PDF indexed for document searches
 
 ## 🎯 Portfolio Focus
 
