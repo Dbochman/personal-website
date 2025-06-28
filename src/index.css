@@ -262,3 +262,17 @@
 
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .gauge-progress {
+    /* rotate so 0% starts at top */
+    transform: rotate(-90deg);
+    transform-origin: 40px 40px;
+
+    /* full circumference, then hide the last 1% (for 99%) */
+    stroke-dasharray: 215.911;
+    stroke-dashoffset: 5.199;
+
+    transition: stroke-dashoffset 5.5s ease;
+  }
+}

@@ -22,7 +22,7 @@ const ParallaxBackground = () => {
           <AlertBeacon />
         </div>
         <div 
-          className="absolute top-[25%] right-[5%] w-32 h-16 parallax-element sre-icon"
+          className="absolute top-[10%] right-[45%] w-45 h-45 parallax-element sre-icon"
           data-speed="0.3"
         >
           <MetricWave />
