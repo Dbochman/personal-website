@@ -14,15 +14,14 @@ const PageLayout = ({ children }: PageLayoutProps) => {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
-      {/* Animated Grid Background */}
+      {/* Enhanced Animated Grid Background */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
+        <div className="absolute inset-0 animate-grid-pulse" style={{
           backgroundImage: `
             linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
           `,
-          backgroundSize: '50px 50px',
-          animation: 'pulse 4s ease-in-out infinite'
+          backgroundSize: '50px 50px'
         }}></div>
       </div>
 

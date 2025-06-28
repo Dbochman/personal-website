@@ -9,79 +9,109 @@ const AlertBeacon = () => {
       role="presentation"
       className="opacity-15"
     >
+      <defs>
+        <radialGradient id="beacon-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(59, 130, 246, 0.8)" />
+          <stop offset="70%" stopColor="rgba(59, 130, 246, 0.3)" />
+          <stop offset="100%" stopColor="rgba(59, 130, 246, 0)" />
+        </radialGradient>
+        <radialGradient id="core-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(255, 255, 255, 0.9)" />
+          <stop offset="100%" stopColor="rgba(59, 130, 246, 0.6)" />
+        </radialGradient>
+      </defs>
+
       <style>
         {`
-          @keyframes beacon-pulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.5); opacity: 0.2; }
-            100% { transform: scale(2); opacity: 0; }
+          @keyframes beacon-breathing {
+            0%, 100% { 
+              transform: scale(1) rotate(0deg); 
+              opacity: 0.8; 
+            }
+            50% { 
+              transform: scale(1.05) rotate(1deg); 
+              opacity: 1; 
+            }
           }
-          @keyframes alert-blink {
-            0%, 70% { opacity: 0.3; }
-            35% { opacity: 1; }
+          
+          @keyframes ripple-wave {
+            0% { 
+              r: 8; 
+              opacity: 0.8; 
+              stroke-width: 2;
+            }
+            100% { 
+              r: 35; 
+              opacity: 0; 
+              stroke-width: 0.5;
+            }
           }
-          .beacon-wave {
-            animation: beacon-pulse 2s ease-out infinite;
+          
+          @keyframes alert-pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+          }
+          
+          .beacon-breathing {
+            animation: beacon-breathing var(--timing-ambient) var(--easing-gentle) infinite;
             transform-origin: center;
           }
+          
+          .ripple-wave {
+            animation: ripple-wave calc(var(--timing-ambient) * 0.5) var(--easing-smooth) infinite;
+          }
+          
           .alert-core {
-            animation: alert-blink 1.5s ease-in-out infinite;
+            animation: alert-pulse calc(var(--timing-ambient) * 0.75) var(--easing-gentle) infinite;
           }
         `}
       </style>
       
-      {/* Beacon waves */}
-      <circle
-        cx="40"
-        cy="40"
-        r="10"
-        fill="none"
-        stroke="rgba(255,255,255,0.4)"
-        strokeWidth="1"
-        className="beacon-wave motion-safe:animate-ping"
-      />
-      <circle
-        cx="40"
-        cy="40"
-        r="10"
-        fill="none"
-        stroke="rgba(255,255,255,0.3)"
-        strokeWidth="1"
-        className="beacon-wave motion-safe:animate-ping"
-        style={{ animationDelay: '0.5s' }}
-      />
-      <circle
-        cx="40"
-        cy="40"
-        r="10"
-        fill="none"
-        stroke="rgba(255,255,255,0.2)"
-        strokeWidth="1"
-        className="beacon-wave motion-safe:animate-ping"
-        style={{ animationDelay: '1s' }}
-      />
+      {/* Enhanced ripple effects */}
+      {[0, 0.3, 0.6].map((delay, i) => (
+        <circle
+          key={i}
+          cx="40"
+          cy="40"
+          fill="none"
+          stroke="url(#beacon-glow)"
+          className="ripple-wave motion-safe:ripple-wave"
+          style={{ animationDelay: `${delay}s` }}
+        />
+      ))}
       
-      {/* Alert beacon center */}
+      {/* Alert beacon center with enhanced styling */}
       <circle
         cx="40"
         cy="40"
         r="8"
         fill="none"
-        stroke="rgba(255,255,255,0.5)"
+        stroke="url(#beacon-glow)"
         strokeWidth="2"
+        className="beacon-breathing"
       />
+      
       <circle
         cx="40"
         cy="40"
         r="4"
-        fill="rgba(255,255,255,0.6)"
-        className="alert-core motion-safe:animate-pulse"
+        fill="url(#core-glow)"
+        className="alert-core beacon-breathing"
       />
       
-      {/* Warning indicators */}
+      {/* Enhanced warning indicator */}
       <path
         d="M40,30 L45,38 L35,38 Z"
-        fill="rgba(255,255,255,0.4)"
+        fill="url(#core-glow)"
+        className="alert-core"
+      />
+      
+      {/* Additional accent dots */}
+      <circle
+        cx="40"
+        cy="35"
+        r="1"
+        fill="rgba(255,255,255,0.8)"
         className="alert-core"
       />
     </svg>

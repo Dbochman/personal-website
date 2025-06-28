@@ -16,7 +16,7 @@ describe('useParallax', () => {
   it('should add scroll event listener on mount and remove on unmount', () => {
     const { unmount } = renderHook(() => useParallax());
 
-    expect(window.addEventListener).toHaveBeenCalledWith('scroll', expect.any(Function));
+    expect(window.addEventListener).toHaveBeenCalledWith('scroll', expect.any(Function), { passive: true });
 
     unmount();
 
@@ -35,7 +35,7 @@ describe('useParallax', () => {
     window.scrollY = 100;
     window.dispatchEvent(new Event('scroll'));
 
-    expect(parallaxElement.style.transform).toBe('translateY(-50px)');
+    expect(parallaxElement.style.transform).toBe('translate3d(0, -50px, 0)');
 
     document.body.removeChild(parallaxElement);
   });

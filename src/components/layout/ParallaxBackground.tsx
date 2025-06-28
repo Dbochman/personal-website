@@ -12,77 +12,93 @@ import MetricWave from "@/components/icons/MetricWave";
 
 const ParallaxBackground = () => {
   return (
-    <div className="absolute inset-0 pointer-events-none z-0">
-      {/* Simple Triangle - Top Left */}
-      <div 
-        className="absolute top-20 left-[5%] w-16 h-16"
-        data-speed="0.2"
-      >
-        <SimpleTriangle />
-      </div>
-      
-      {/* Hexagon Grid - Top Right */}
-      <div 
-        className="absolute top-32 right-[10%] w-24 h-24"
-        data-speed="0.3"
-      >
-        <HexagonGrid />
-      </div>
-      
-      {/* Circuit Pattern - Middle Left */}
-      <div 
-        className="absolute top-[45%] left-[8%] w-40 h-24"
-        data-speed="0.4"
-      >
-        <CircuitPattern />
-      </div>
-      
-      {/* Server Stack - Bottom Right */}
-      <div 
-        className="absolute bottom-20 right-[12%] w-20 h-32"
-        data-speed="0.35"
-      >
-        <ServerStack />
+    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+      {/* Background Layer - Slowest movement, most subtle */}
+      <div className="absolute inset-0 z-0 opacity-[0.03]">
+        <div 
+          className="absolute top-[15%] left-[8%] w-32 h-20 parallax-element"
+          data-speed="0.1"
+        >
+          <CircuitPattern />
+        </div>
+        <div 
+          className="absolute bottom-[25%] right-[12%] w-24 h-24 parallax-element"
+          data-speed="0.12"
+        >
+          <HexagonGrid />
+        </div>
+        <div 
+          className="absolute top-[60%] left-[70%] w-28 h-28 parallax-element"
+          data-speed="0.08"
+        >
+          <QuantumGrid />
+        </div>
       </div>
 
-      {/* Data Flow - Top Center */}
-      <div 
-        className="absolute top-16 left-[40%] w-36 h-20"
-        data-speed="0.25"
-      >
-        <DataFlow />
+      {/* Midground Layer - Medium movement and opacity */}
+      <div className="absolute inset-0 z-1 opacity-[0.08]">
+        <div 
+          className="absolute top-[35%] right-[15%] w-20 h-32 parallax-element"
+          data-speed="0.25"
+        >
+          <ServerStack />
+        </div>
+        <div 
+          className="absolute top-[20%] left-[45%] w-36 h-20 parallax-element"
+          data-speed="0.28"
+        >
+          <DataFlow />
+        </div>
+        <div 
+          className="absolute bottom-[40%] left-[25%] w-24 h-16 parallax-element"
+          data-speed="0.22"
+        >
+          <MetricWave />
+        </div>
+        <div 
+          className="absolute top-[8%] left-[75%] w-16 h-16 parallax-element"
+          data-speed="0.24"
+        >
+          <SimpleTriangle />
+        </div>
       </div>
 
-      {/* Geometric Rings - Middle Right */}
-      <div 
-        className="absolute top-[35%] right-[25%] w-28 h-28"
-        data-speed="0.45"
-      >
-        <GeometricRings />
+      {/* Foreground Layer - Fastest movement, highest visibility */}
+      <div className="absolute inset-0 z-2 opacity-[0.15]">
+        <div 
+          className="absolute bottom-[20%] left-[10%] w-20 h-20 parallax-element"
+          data-speed="0.4"
+        >
+          <AlertBeacon />
+        </div>
+        <div 
+          className="absolute top-[50%] right-[20%] w-28 h-28 parallax-element"
+          data-speed="0.42"
+        >
+          <GeometricRings />
+        </div>
+        <div 
+          className="absolute top-[5%] right-[8%] w-24 h-24 parallax-element"
+          data-speed="0.38"
+        >
+          <HexagonGrid />
+        </div>
       </div>
 
-      {/* Alert Beacon - Bottom Left */}
-      <div 
-        className="absolute bottom-32 left-[15%] w-20 h-20"
-        data-speed="0.3"
-      >
-        <AlertBeacon />
-      </div>
-
-      {/* Quantum Grid - Middle Center */}
-      <div 
-        className="absolute top-[60%] left-[45%] w-32 h-32"
-        data-speed="0.55"
-      >
-        <QuantumGrid />
-      </div>
-
-      {/* Metric Wave - Bottom Center */}
-      <div 
-        className="absolute bottom-8 left-[35%] w-40 h-16"
-        data-speed="0.2"
-      >
-        <MetricWave />
+      {/* Interactive Layer - Subtle accent elements */}
+      <div className="absolute inset-0 z-3 opacity-[0.05]">
+        <div 
+          className="absolute bottom-[8%] right-[40%] w-32 h-12 parallax-element"
+          data-speed="0.15"
+        >
+          <MetricWave />
+        </div>
+        <div 
+          className="absolute top-[75%] left-[60%] w-18 h-18 parallax-element"
+          data-speed="0.18"
+        >
+          <SimpleTriangle />
+        </div>
       </div>
     </div>
   );

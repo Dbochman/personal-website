@@ -34,6 +34,20 @@
 
     --radius: 0.5rem;
 
+    /* Animation Timing Harmony System */
+    --timing-instant: 0.15s;     /* Micro-interactions */
+    --timing-fast: 0.3s;         /* UI feedback */
+    --timing-medium: 0.6s;       /* Content transitions */
+    --timing-slow: 1.2s;         /* Page transitions */
+    --timing-ambient: 4s;        /* Background animations */
+    --timing-epic: 20s;          /* Hero elements */
+    
+    /* Easing curves for different interaction types */
+    --easing-smooth: cubic-bezier(0.4, 0.0, 0.2, 1);
+    --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --easing-sharp: cubic-bezier(0.4, 0.0, 0.6, 1);
+    --easing-gentle: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -91,12 +105,128 @@
 
   *, ::before, ::after {
     border-color: hsl(var(--border));
-    transition: background-color 1s ease, color 1s ease, border-color 1s ease;
+    transition: 
+      background-color var(--timing-slow) var(--easing-smooth), 
+      color var(--timing-slow) var(--easing-smooth), 
+      border-color var(--timing-slow) var(--easing-smooth);
   }
 
   body {
     background-color: hsl(var(--background));
-    color:          hsl(var(--foreground));
+    color: hsl(var(--foreground));
+  }
+
+  /* Enhanced Animation Classes */
+  .animate-hero-float {
+    animation: hero-float var(--timing-epic) var(--easing-gentle) infinite;
+  }
+
+  .animate-pulse-subtle {
+    animation: pulse-subtle var(--timing-ambient) var(--easing-gentle) infinite;
+  }
+
+  .animate-glow-cycle {
+    animation: glow-cycle calc(var(--timing-ambient) * 1.5) var(--easing-gentle) infinite;
+  }
+
+  .animate-grid-pulse {
+    animation: grid-pulse var(--timing-ambient) var(--easing-gentle) infinite;
+  }
+
+  .gradient-animated {
+    background-size: 200% 200%;
+    animation: gradient-shift calc(var(--timing-epic) * 0.75) var(--easing-gentle) infinite;
+  }
+
+  /* Performance-optimized hover effects */
+  .hover-lift {
+    transition: transform var(--timing-fast) var(--easing-bounce);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  /* Keyframe Definitions */
+  @keyframes hero-float {
+    0%, 100% { 
+      transform: translateY(0px) rotate(0deg); 
+      opacity: 0.8; 
+    }
+    33% { 
+      transform: translateY(-10px) rotate(1deg); 
+      opacity: 1; 
+    }
+    66% { 
+      transform: translateY(5px) rotate(-0.5deg); 
+      opacity: 0.9; 
+    }
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.02); }
+  }
+
+  @keyframes glow-cycle {
+    0%, 100% { 
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+      opacity: 0.7;
+    }
+    50% { 
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      opacity: 1;
+    }
+  }
+
+  @keyframes grid-pulse {
+    0%, 100% { opacity: 0.05; }
+    50% { opacity: 0.15; }
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Enhanced Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    .parallax-element,
+    [data-speed] {
+      transform: none !important;
+    }
+
+    .animate-spin,
+    .animate-pulse,
+    .animate-bounce,
+    .animate-hero-float,
+    .animate-pulse-subtle,
+    .animate-glow-cycle,
+    .gradient-animated {
+      animation: none !important;
+    }
+  }
+
+  /* Mobile Animation Optimization */
+  @media (max-width: 768px) {
+    .animate-hero-float {
+      animation-duration: calc(var(--timing-epic) * 0.5);
+    }
+    
+    .animate-pulse-subtle {
+      animation-duration: calc(var(--timing-ambient) * 1.5);
+    }
+
+    .parallax-element {
+      transform: none !important;
+    }
   }
 }
 

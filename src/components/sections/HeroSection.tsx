@@ -5,11 +5,13 @@ import { Mail, ExternalLink, MapPin, Activity } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="py-20 px-6 relative">
-      {/* Floating geometric shapes */}
-      <div className="absolute top-20 left-10 w-20 h-20 border-2 border-foreground/20 rotate-45 animate-spin" style={{animationDuration: '20s'}}></div>
-      <div className="absolute top-40 right-20 w-12 h-12 bg-foreground/10 rotate-12 animate-pulse"></div>
-      <div className="absolute bottom-20 left-1/4 w-6 h-6 bg-foreground rounded-full animate-bounce" style={{animationDelay: '2s'}}></div>
+    <section className="py-20 px-6 relative gradient-animated">
+      {/* Enhanced floating geometric shapes with new animation system */}
+      <div className="absolute top-20 left-10 w-20 h-20 border-2 border-foreground/20 rotate-45 animate-hero-float hover-lift"></div>
+      <div className="absolute top-40 right-20 w-12 h-12 bg-foreground/10 rotate-12 animate-pulse-subtle hover-lift" style={{animationDelay: '1s'}}></div>
+      <div className="absolute bottom-20 left-1/4 w-6 h-6 bg-foreground rounded-full animate-glow-cycle" style={{animationDelay: '2s'}}></div>
+      <div className="absolute top-1/2 right-1/3 w-8 h-8 border border-foreground/15 rounded-full animate-pulse-subtle" style={{animationDelay: '3s'}}></div>
+      <div className="absolute bottom-32 right-16 w-4 h-4 bg-foreground/20 rotate-45 animate-hero-float" style={{animationDelay: '4s'}}></div>
       
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="text-center mb-8">
@@ -44,13 +46,13 @@ const HeroSection = () => {
           
           <div className="flex justify-center gap-4 mb-8">
             <a href="mailto:dylanbochman@gmail.com">
-              <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium">
+              <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium">
                 <Mail className="w-4 h-4 mr-2" />
                 Get In Touch
               </Button>
             </a>
             <a href="/DylanBochmanResume.pdf" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium">
+              <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium">
                 <ExternalLink className="w-4 h-4 mr-2" />
                 View Resume
               </Button>
