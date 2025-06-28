@@ -25,8 +25,10 @@ const PageLayout = ({ children }: PageLayoutProps) => {
         }}></div>
       </div>
 
-      {/* Parallax Décor Layer */}
-      <ParallaxBackground />
+      {/* Parallax Décor Layer - Hidden on mobile */}
+      <div className="hidden md:block">
+        <ParallaxBackground />
+      </div>
 
       {/* Header */}
       <Header />

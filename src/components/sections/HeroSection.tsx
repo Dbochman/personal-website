@@ -11,15 +11,17 @@ import AlertCounter from "@/components/icons/AlertCounter";
 const HeroSection = () => {
   return (
     <section className="py-20 px-6 relative">
-      {/* SRE Monitoring Dashboard Elements */}
-      <div className="absolute top-32 right-12 w-32 h-16 parallax-element" data-speed="0.15" title="Error Rate Monitoring">
-        <ErrorRateChart />
-      </div>
-      <div className="absolute bottom-20 left-16 w-24 h-20 parallax-element" data-speed="0.12" title="Latency Distribution">
-        <LatencyHistogram />
-      </div>
-      <div className="absolute top-20 left-8 w-90 h-16 parallax-element" data-speed="0.18" title="Active Alerts">
-        <AlertCounter />
+      {/* SRE Monitoring Dashboard Elements - Hidden on mobile */}
+      <div className="hidden md:block">
+        <div className="absolute top-32 right-12 w-32 h-16 parallax-element" data-speed="0.15" title="Error Rate Monitoring">
+          <ErrorRateChart />
+        </div>
+        <div className="absolute bottom-20 left-16 w-24 h-20 parallax-element" data-speed="0.12" title="Latency Distribution">
+          <LatencyHistogram />
+        </div>
+        <div className="absolute top-20 left-8 w-90 h-16 parallax-element" data-speed="0.18" title="Active Alerts">
+          <AlertCounter />
+        </div>
       </div>
       
       <div className="container mx-auto max-w-6xl relative z-10">

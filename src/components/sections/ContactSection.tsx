@@ -8,12 +8,14 @@ import UptimeTimeline from "@/components/icons/UptimeTimeline";
 const ContactSection = () => {
   return (
     <section id="contact" className="py-16 px-6 bg-gradient-to-t from-foreground/10 to-transparent relative mt-16">
-      {/* SRE Background Elements */}
-      <div className="absolute top-8 left-12 w-20 h-20 parallax-element" data-speed="0.1" title="SLO Dashboard">
-        <SloGauge />
-      </div>
-      <div className="absolute bottom-20 right-16 w-28 h-12 parallax-element" data-speed="0.08" title="Service Uptime">
-        <UptimeTimeline />
+      {/* SRE Background Elements - Hidden on mobile */}
+      <div className="hidden md:block">
+        <div className="absolute top-8 left-12 w-20 h-20 parallax-element" data-speed="0.1" title="SLO Dashboard">
+          <SloGauge />
+        </div>
+        <div className="absolute bottom-20 right-16 w-28 h-12 parallax-element" data-speed="0.08" title="Service Uptime">
+          <UptimeTimeline />
+        </div>
       </div>
       
       <div className="container mx-auto max-w-4xl text-center relative z-10">
