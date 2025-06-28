@@ -4,7 +4,7 @@
 [![Live Site](https://img.shields.io/badge/live-dbochman.github.io-blue)](https://dbochman.github.io)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-This is the source repository for [dbochman.github.io](https://dbochman.github.io), a minimalist, fast-loading personal site built with [Lovable](https://lovable.dev), TailwindCSS, and Vite.
+This is the source repository for [dbochman.github.io](https://dbochman.github.io), a modern personal portfolio showcasing Site Reliability Engineering expertise. Built with React 18, TypeScript, TailwindCSS, and Vite.
 
 ## 🌐 Live Site
 
@@ -93,13 +93,26 @@ The test suite includes:
 -   `vitest-setup.ts`: A setup file to extend Vitest's `expect` with DOM matchers from `@testing-library/jest-dom`.
 
 
-## 🧩 Dependencies
+## 🧩 Key Technologies
 
-- [Vite](https://vitejs.dev)
-- [React](https://react.dev/)
-- [TailwindCSS](https://tailwindcss.com)
-- [Vitest](https://vitest.dev/)
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+**Frontend Framework:**
+- [React 18](https://react.dev/) with [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev) with SWC plugin for fast builds
+
+**UI & Styling:**
+- [Tailwind CSS](https://tailwindcss.com) for utility-first styling
+- [Radix UI](https://www.radix-ui.com/) for accessible components
+- [React Helmet Async](https://github.com/staylor/react-helmet-async) for SEO
+
+**Testing & Quality:**
+- [Vitest](https://vitest.dev/) test runner with jsdom environment
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for component testing
+- ESLint for code quality
+
+**Features:**
+- Dark/light mode with system preference detection
+- Mobile-responsive design with parallax animations
+- Automated CI/CD deployment to GitHub Pages
 
 ## 📈 Analytics
 
@@ -114,12 +127,21 @@ Search engine optimization is handled by the `Seo` component, which uses [react-
 *   Open Graph tags for social media sharing
 *   Twitter card tags
 
+## 🎯 Portfolio Focus
+
+This site showcases expertise in **Site Reliability Engineering (SRE)** and includes:
+
+- **Professional Experience:** SRE roles at HashiCorp/IBM and Spotify
+- **Core Expertise:** Incident management, monitoring, post-incident analysis
+- **Technical Skills:** Infrastructure reliability, SLO strategy, cross-functional coordination
+- **Resume:** Available for download as PDF
+
 ## ✨ Future Plans
 
--   **Add a blog:** Create a simple blog to share articles and tutorials.
--   **Improve accessibility:** Conduct a full accessibility audit and address any issues.
--   **Add a dark mode toggle:** Allow users to switch between light and dark themes.
--   **Implement i18n:** Add support for multiple languages.
+-   **Add a blog:** Create a simple blog to share SRE articles and tutorials
+-   **Improve accessibility:** Conduct a full accessibility audit and address any issues  
+-   **Implement i18n:** Add support for multiple languages
+-   **Enhanced animations:** Expand parallax and interaction effects
 
 ## 📝 License
 
