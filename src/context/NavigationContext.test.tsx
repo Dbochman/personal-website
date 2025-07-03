@@ -62,8 +62,19 @@ describe('NavigationContext', () => {
   })
 
   describe('NavigationContext', () => {
-    it('should create context with undefined default value', () => {
-      expect(NavigationContext._currentValue).toBeUndefined()
+    it('should create context with proper default behavior', () => {
+      // Test that context works properly instead of accessing internal properties
+      const TestConsumer = () => {
+        try {
+          const context = useNavigation()
+          return <div data-testid="context-success">Success</div>
+        } catch {
+          return <div data-testid="context-error">Error</div>
+        }
+      }
+
+      const { getByTestId } = render(<TestConsumer />)
+      expect(getByTestId('context-error')).toBeInTheDocument()
     })
 
     it('should allow provider to pass values to consumers', () => {

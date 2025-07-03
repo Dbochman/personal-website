@@ -1,3 +1,5 @@
+
+import { describe, it, expect } from 'vitest'
 import { cn } from './utils'
 
 describe('utils', () => {
@@ -75,8 +77,11 @@ describe('utils', () => {
     })
 
     it('should handle variant combinations', () => {
-      const size = 'lg'
-      const variant = 'primary'
+      type Size = 'sm' | 'md' | 'lg'
+      type Variant = 'primary' | 'secondary'
+      
+      const size: Size = 'lg'
+      const variant: Variant = 'primary'
       
       const result = cn(
         'button-base',

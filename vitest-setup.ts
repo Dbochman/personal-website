@@ -16,3 +16,9 @@ global.requestAnimationFrame = vi.fn((cb) => {
 })
 
 global.cancelAnimationFrame = vi.fn()
+
+// Extend global window with vi for tests
+Object.defineProperty(globalThis, 'vi', {
+  value: vi,
+  writable: true,
+})
