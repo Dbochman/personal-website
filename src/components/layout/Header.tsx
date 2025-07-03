@@ -2,7 +2,6 @@
 import React from 'react';
 import { navigationItems } from "@/data/navigation";
 import MobileNav from "@/components/MobileNav";
-import Link from 'next/link'
 import { useNavigation } from '@/context/NavigationContext';
 import { useState, useEffect } from 'react'
 import { Sun, Moon } from 'lucide-react'

@@ -1,5 +1,6 @@
+
 import { renderHook, waitFor } from '@testing-library/react'
-import { vi } from 'vitest'
+import { describe, it, expect, afterEach, vi } from 'vitest'
 import { useIsMobile } from './use-mobile'
 
 function mockMatchMedia(width: number) {

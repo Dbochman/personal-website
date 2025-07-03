@@ -1,4 +1,6 @@
+
 import { renderHook, act } from '@testing-library/react'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { useTheme } from './useTheme'
 
 // Mock window.matchMedia
