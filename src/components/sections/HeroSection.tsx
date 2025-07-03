@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Mail, ExternalLink, MapPin, Activity } from "lucide-react";
+import { Mail, Linkedin, MapPin, Activity } from "lucide-react";
 import SloGauge from "@/components/icons/SloGauge";
 import ErrorRateChart from "@/components/icons/ErrorRateChart";
 import LatencyHistogram from "@/components/icons/LatencyHistogram";
@@ -62,10 +62,10 @@ const HeroSection = () => {
                 Get In Touch
               </Button>
             </a>
-            <a href="/DylanBochmanResume.pdf" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium">
-                <ExternalLink className="w-4 h-4 mr-2" />
-                View Resume
+                <Linkedin className="w-4 h-4 mr-2" />
+                LinkedIn
               </Button>
             </a>
           </div>

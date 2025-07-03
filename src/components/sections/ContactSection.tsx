@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Mail, ExternalLink } from "lucide-react";
+import { Mail, Linkedin } from "lucide-react";
 import SloGauge from "@/components/icons/SloGauge";
 import UptimeTimeline from "@/components/icons/UptimeTimeline";
 
@@ -29,13 +29,13 @@ const ContactSection = () => {
           <a href="mailto:dylanbochman@gmail.com">
             <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium">
               <Mail className="w-4 h-4 mr-2" />
-              Email Me
+              Request Resume
             </Button>
           </a>
-          <a href="/DylanBochmanResume.pdf" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer">
             <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium">
-              <ExternalLink className="w-4 h-4 mr-2" />
-              View Resume
+              <Linkedin className="w-4 h-4 mr-2" />
+              LinkedIn
             </Button>
           </a>
         </div>
