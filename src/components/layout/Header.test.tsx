@@ -7,7 +7,9 @@ import React from 'react'
 // Mock the NavigationContext module
 vi.mock('@/context/NavigationContext', () => ({
   __esModule: true,
-  NavigationProvider: ({ children }: { children: React.ReactNode }) => <>{children}</>,
+  NavigationContext: {
+    Provider: ({ children, value }: { children: React.ReactNode; value: any }) => <>{children}</>,
+  },
   useNavigation: () => ({
     openExperienceAccordion: vi.fn(),
   }),
