@@ -1,3 +1,4 @@
+
 import { Menu, X } from 'lucide-react';
 import {
   Sheet,
@@ -10,7 +11,6 @@ import {
 import { navigationItems } from "@/data/navigation";
 import { useNavigation } from '@/context/NavigationContext';
 import { useState } from 'react';
-import Link from 'next/link'
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);

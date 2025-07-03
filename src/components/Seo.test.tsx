@@ -1,5 +1,7 @@
+
 import { render, waitFor } from '@testing-library/react'
 import { HelmetProvider } from 'react-helmet-async'
+import { describe, expect, it, afterEach } from 'vitest'
 import Seo from './Seo'
 
 describe('Seo', () => {
