@@ -15,9 +15,9 @@ export const experiences: Experience[] = [
     period: "July, 2025 – Present",
     description: "Building zero-to-one incident response capabilities for high-performance AI infrastructure.",
     highlights: [
-      "Building zero-to-one incident response",
-      "Primary Incident Commander",
-      "Working closely with eng, ops, and product teams"
+      "Establish Groq’s zero-to-one incident management framework, including policies, runbooks, and onboarding materials that align with security and compliance requirements.",
+      "Serve as primary Incident Commander during production outages, guiding distributed engineers through mitigation while delivering clear, timely updates to customers and executives.",
+      "Collaborate with engineering, operations, and product teams to turn incident insights into reliability roadmaps, refined service-level objectives, and higher code quality."
     ]
   },
   {

@@ -23,7 +23,7 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
       <Accordion type="single" collapsible value={value} onValueChange={onValueChange} className="space-y-4">
         <AccordionSection
           title="Professional Experience"
-          summary="Incident Management at Groq · SRE leadership at HashiCorp & Spotify · 7+ years scaling reliability"
+          summary="Incident Management @ Groq · SRE @ HashiCorp & Spotify · 7+ years scaling reliability"
           value="experience"
         >
           <div className="space-y-8">
