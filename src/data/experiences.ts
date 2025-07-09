@@ -10,6 +10,17 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    company: "Groq",
+    role: "Technical Incident Manager",
+    period: "July, 2025 – Present",
+    description: "Building zero-to-one incident response capabilities for high-performance AI infrastructure.",
+    highlights: [
+      "Building zero-to-one incident response",
+      "Primary Incident Commander",
+      "Working closely with eng, ops, and product teams"
+    ]
+  },
+  {
     company: "HashiCorp (IBM)",
     role: "SRE II",
     period: "2024 - 2025",

@@ -8,6 +8,7 @@ import { experiences } from "@/data/experiences";
 import SpotifyLogo from '@/assets/logos/spotify.svg';
 import HashiCorpLogo from '@/assets/logos/hashicorp.svg';
 import HashiDarkLogo from '@/assets/logos/hashicorp-dark.svg';
+import GroqLogo from '@/assets/logos/groq.svg';
 import { useTheme } from '@/hooks/useTheme'
 
 interface ExperienceSectionProps {
@@ -22,7 +23,7 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
       <Accordion type="single" collapsible value={value} onValueChange={onValueChange} className="space-y-4">
         <AccordionSection
           title="Professional Experience"
-          summary="SRE leadership at HashiCorp & Spotify · 7+ years scaling reliability"
+          summary="Incident Management at Groq · SRE leadership at HashiCorp & Spotify · 7+ years scaling reliability"
           value="experience"
         >
           <div className="space-y-8">
@@ -34,6 +35,8 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
                       <CardTitle className="text-xl text-foreground font-semibold flex items-center gap-2">
                         {exp.company === 'Spotify' ? (
                             <img src={SpotifyLogo} alt="Spotify logo" className="w-5 h-5" />
+                          ) : exp.company === 'Groq' ? (
+                            <img src={GroqLogo} alt="Groq logo" className="w-5 h-5" />
                           ) : (
                             <>
                               {/* default (light) logo */}
