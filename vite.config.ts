@@ -31,6 +31,7 @@ export default defineConfig(({ mode }) => ({
           ui: ['@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
           router: ['react-router-dom'],
           query: ['@tanstack/react-query'],
+          monitoring: ['@sentry/react'],
         },
       },
     },

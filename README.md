@@ -189,9 +189,26 @@ npm run test:coverage
 - Mobile-responsive design with parallax animations
 - Automated CI/CD deployment to GitHub Pages
 
-## 📈 Analytics
+## 📈 Analytics & Monitoring
 
+### Analytics
 This site uses [Google Analytics](https://analytics.google.com). The tracking script is included in `index.html` and is configured to only run in production.
+
+### Error Tracking
+Client-side error monitoring is provided by [Sentry](https://sentry.io). To enable:
+
+1. Create a Sentry project at https://sentry.io
+2. Copy your DSN from the project settings
+3. Create a `.env` file in the project root:
+   ```bash
+   VITE_SENTRY_DSN=your_sentry_dsn_here
+   ```
+
+### Uptime Monitoring
+External uptime monitoring is configured with [UptimeRobot](https://uptimerobot.com):
+- **Status Page:** [https://stats.uptimerobot.com/zquZllQfNJ](https://stats.uptimerobot.com/zquZllQfNJ)
+- **Check Interval:** 5 minutes
+- **Monitored URL:** https://dylanbochman.com
 
 ## 🔍 SEO & Professional Visibility
 
