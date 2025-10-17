@@ -6,6 +6,14 @@ import SloGauge from "@/components/icons/SloGauge";
 import UptimeTimeline from "@/components/icons/UptimeTimeline";
 
 const ContactSection = () => {
+  const handleRunbookClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    // Get current theme at click time (not render time)
+    const isDark = document.documentElement.classList.contains('dark');
+    const currentTheme = isDark ? 'dark' : 'light';
+    window.open(`/runbook.html?theme=${currentTheme}`, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <section id="contact" className="py-16 px-6 bg-gradient-to-t from-foreground/10 to-transparent relative mt-16">
       {/* SRE Background Elements - Hidden on mobile */}
@@ -54,7 +62,7 @@ const ContactSection = () => {
           </a>
         </div>
         <div className="text-foreground/40 text-sm border-t border-foreground/20 pt-8">
-          <p>© 2025 Dylan Bochman. All rights reserved. | <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank" rel="noopener noreferrer" className="hover:text-foreground/60 transition-colors">Status</a> | <a href="/runbook.html" target="_blank" rel="noopener noreferrer" className="hover:text-foreground/60 transition-colors">Runbook</a></p>
+          <p>© 2025 Dylan Bochman. All rights reserved. | <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank" rel="noopener noreferrer" className="hover:text-foreground/60 transition-colors">Status</a> | <a href="/runbook.html" onClick={handleRunbookClick} className="hover:text-foreground/60 transition-colors">Runbook</a></p>
         </div>
       </div>
     </section>

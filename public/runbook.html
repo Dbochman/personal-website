@@ -5,15 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>dylanbochman.com - Operational Runbook</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             line-height: 1.6;
             color: #333;
+            background: #fff;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .content-wrapper {
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background: #fff;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
         
         /* Dark mode styles */
@@ -39,8 +48,154 @@
         body.dark .alert-info { background: #172554; border-color: #2563eb; color: #93c5fd; }
         body.dark .back-link { color: #8b949e; }
         body.dark .back-link:hover { color: #58a6ff; }
+
+        /* Let's Connect Section */
+        .connect-section {
+            padding: 4rem 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
+            text-align: center;
+            margin-top: 4rem;
+        }
+        body.dark .connect-section {
+            background: linear-gradient(to top, rgba(255,255,255,0.05), transparent);
+        }
+        .connect-button {
+            background: #333;
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        body.dark .connect-button {
+            background: #e6edf3;
+            color: #0d1117;
+        }
+        .connect-button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+        .connect-footer {
+            opacity: 0.4;
+            font-size: 0.875rem;
+            border-top: 1px solid rgba(0,0,0,0.2);
+            padding-top: 2rem;
+        }
+        body.dark .connect-footer {
+            border-top-color: rgba(255,255,255,0.2);
+        }
+        .connect-footer a:hover {
+            opacity: 0.6;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            background: #333;
+            color: #fff;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+        body.dark .back-to-top {
+            background: #e6edf3;
+            color: #0d1117;
+        }
+        .back-to-top.visible {
+            display: flex;
+        }
+        .back-to-top:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        body.dark header {
+            background: rgba(13, 17, 23, 0.9);
+            border-bottom: 1px solid rgba(230, 237, 243, 0.2);
+        }
+        .header-content {
+            padding: 1rem 6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .site-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            letter-spacing: -0.05em;
+            color: #333;
+            line-height: 1.5;
+            margin: 0;
+            border: none;
+            padding: 0;
+        }
+        body.dark .site-title {
+            color: #e6edf3;
+            border: none;
+        }
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        nav a, .theme-toggle {
+            color: rgba(0, 0, 0, 0.7);
+            text-decoration: none;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            display: inline-flex;
+            align-items: center;
+        }
+        body.dark nav a, body.dark .theme-toggle { color: rgba(230, 237, 243, 0.7); }
+        nav a:hover, .theme-toggle:hover {
+            color: #000;
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+        }
+        body.dark nav a:hover, body.dark .theme-toggle:hover { color: #e6edf3; }
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+        }
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+
         h1, h2, h3 { color: #2563eb; margin-top: 2em; }
-        h1 { border-bottom: 3px solid #2563eb; padding-bottom: 10px; }
+        .content-wrapper h1 { border-bottom: 3px solid #2563eb; padding-bottom: 10px; }
         h2 { border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; }
         code {
             background: #f3f4f6;
@@ -88,9 +243,22 @@
     </style>
 </head>
 <body>
-    <a href="/" class="back-link">← Back to dylanbochman.com</a>
-    
-    <h1>🚨 dylanbochman.com - Operational Runbook</h1>
+    <header>
+        <div class="header-content">
+            <h1 class="site-title">Dylan Bochman</h1>
+            <nav>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+                    <svg class="icon icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    <svg class="icon icon-sun" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="content-wrapper">
+        <a href="/" class="back-link">← Back to dylanbochman.com</a>
+
+        <h1>🚨 dylanbochman.com - Operational Runbook</h1>
 
     <div class="alert alert-info">
         <strong>Quick References:</strong><br>
@@ -364,38 +532,126 @@ dylanbochman.com CNAME dbochman.github.io</code></pre>
         <li><a href="https://developer.chrome.com/docs/devtools/" target="_blank">Chrome DevTools</a></li>
     </ul>
 
-    <hr style="margin: 40px 0; border: 1px solid #e5e7eb;">
-    
-    <p><strong>Last Updated:</strong> October 2025<br>
-    <strong>Version:</strong> 1.0<br>
-    <strong>Owner:</strong> Dylan Bochman, Technical Incident Manager</p>
+    </div>
 
-    <a href="/" class="back-link">← Back to dylanbochman.com</a>
+    <!-- Let's Connect Section -->
+    <section class="connect-section">
+        <div style="max-width: 56rem; margin: 0 auto;">
+            <h3 style="font-size: 2.25rem; font-weight: bold; margin-bottom: 2rem; margin-top: 0; border: none; padding: 0; color: inherit;">
+                Let's Connect
+            </h3>
+            <p style="opacity: 0.8; margin-bottom: 2rem; font-size: 1.125rem;">
+                Interested in discussing on-call tooling, challenging incidents, or potential opportunities?
+            </p>
+            <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem;">
+                <a href="mailto:dylanbochman@gmail.com" style="text-decoration: none;">
+                    <button class="connect-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        Request Resume
+                    </button>
+                </a>
+                <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                    <button class="connect-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                        LinkedIn
+                    </button>
+                </a>
+            </div>
+            <div class="connect-footer">
+                <p style="margin: 0;">© 2025 Dylan Bochman. All rights reserved. | <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Status</a> | <a href="/" style="color: inherit; text-decoration: none;">Home</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top" onclick="scrollToTop()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m18 15-6-6-6 6"/>
+        </svg>
+    </button>
 
     <script>
-        // Theme detection - matches main site behavior exactly
+        // Theme management
+        let isDark = false;
+
+        function updateThemeIcons() {
+            const moonIcon = document.querySelector('.icon-moon');
+            const sunIcon = document.querySelector('.icon-sun');
+            if (isDark) {
+                moonIcon.style.display = 'none';
+                sunIcon.style.display = 'block';
+            } else {
+                moonIcon.style.display = 'block';
+                sunIcon.style.display = 'none';
+            }
+        }
+
         function applyTheme() {
-            // Main site only uses system preference, no localStorage
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            if (prefersDark) {
+            // Check URL parameter first
+            const urlParams = new URLSearchParams(window.location.search);
+            const themeParam = urlParams.get('theme');
+
+            if (themeParam) {
+                // User explicitly passed a theme from main site
+                isDark = themeParam === 'dark';
+            } else {
+                // No URL parameter, fall back to system preference
+                isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+
+            if (isDark) {
                 document.body.classList.add('dark');
             } else {
                 document.body.classList.remove('dark');
             }
+            updateThemeIcons();
+        }
+
+        function toggleTheme() {
+            isDark = !isDark;
+            if (isDark) {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
+            updateThemeIcons();
         }
 
         // Apply theme immediately to prevent flash
         applyTheme();
 
-        // Listen for system theme changes (matches main site behavior)
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            if (e.matches) {
-                document.body.classList.add('dark');
+        // Listen for system theme changes (only if no explicit theme was passed)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (!urlParams.get('theme')) {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                isDark = e.matches;
+                if (isDark) {
+                    document.body.classList.add('dark');
+                } else {
+                    document.body.classList.remove('dark');
+                }
+                updateThemeIcons();
+            });
+        }
+
+        // Back to Top functionality
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function toggleBackToTopVisibility() {
+            const backToTopButton = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
             } else {
-                document.body.classList.remove('dark');
+                backToTopButton.classList.remove('visible');
             }
-        });
+        }
+
+        window.addEventListener('scroll', toggleBackToTopVisibility);
     </script>
 </body>
 </html>
