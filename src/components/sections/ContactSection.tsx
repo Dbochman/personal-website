@@ -40,7 +40,7 @@ const ContactSection = () => {
           </a>
         </div>
         <div className="text-foreground/40 text-sm border-t border-foreground/20 pt-8">
-          <p>© 2025 Dylan Bochman. All rights reserved.</p>
+          <p>© 2025 Dylan Bochman. All rights reserved. | <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank" rel="noopener noreferrer" className="hover:text-foreground/60 transition-colors">Status</a></p>
         </div>
       </div>
     </section>
