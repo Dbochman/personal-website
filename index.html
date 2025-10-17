@@ -54,7 +54,16 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-VDM15EMJN2');
+  gtag('config', 'G-VDM15EMJN2', {
+    anonymize_ip: true,
+    cookie_expires: 63072000, // 2 years
+    sample_rate: 100
+  });
+  
+  // Track resume downloads
+  gtag('config', 'G-VDM15EMJN2', {
+    custom_map: {'custom_parameter_1': 'resume_download'}
+  });
 </script>
 
   <body>

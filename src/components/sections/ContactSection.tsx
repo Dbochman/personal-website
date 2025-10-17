@@ -26,13 +26,27 @@ const ContactSection = () => {
           Interested in discussing on-call tooling, challenging incidents, or potential opportunities?
         </p>
         <div className="flex justify-center gap-4 mb-12">
-          <a href="mailto:dylanbochman@gmail.com">
+          <a href="mailto:dylanbochman@gmail.com" onClick={() => {
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'resume_request', {
+                event_category: 'engagement',
+                event_label: 'email_contact'
+              });
+            }
+          }}>
             <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium">
               <Mail className="w-4 h-4 mr-2" />
               Request Resume
             </Button>
           </a>
-          <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer" onClick={() => {
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'linkedin_click', {
+                event_category: 'engagement',
+                event_label: 'external_link'
+              });
+            }
+          }}>
             <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium">
               <Linkedin className="w-4 h-4 mr-2" />
               LinkedIn
