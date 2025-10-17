@@ -9,7 +9,7 @@ import SpotifyLogo from '@/assets/logos/spotify.svg';
 import HashiCorpLogo from '@/assets/logos/hashicorp.svg';
 import HashiDarkLogo from '@/assets/logos/hashicorp-dark.svg';
 import GroqLogo from '@/assets/logos/groq.svg';
-import { useTheme } from '@/hooks/useTheme'
+// import { useTheme } from '@/hooks/useTheme'
 
 interface ExperienceSectionProps {
   value: string;
