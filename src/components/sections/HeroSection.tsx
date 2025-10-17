@@ -2,10 +2,8 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Mail, Linkedin, MapPin, Activity } from "lucide-react";
-import SloGauge from "@/components/icons/SloGauge";
 import ErrorRateChart from "@/components/icons/ErrorRateChart";
 import LatencyHistogram from "@/components/icons/LatencyHistogram";
-import UptimeTimeline from "@/components/icons/UptimeTimeline";
 import AlertCounter from "@/components/icons/AlertCounter";
 
 const HeroSection = () => {

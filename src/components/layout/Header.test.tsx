@@ -1,6 +1,6 @@
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { render, fireEvent, getAllByLabelText } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import { queryByTestId } from '@testing-library/dom'
 import React from 'react'
 
@@ -8,7 +8,7 @@ import React from 'react'
 vi.mock('@/context/NavigationContext', () => ({
   __esModule: true,
   NavigationContext: {
-    Provider: ({ children, value }: { children: React.ReactNode; value: any }) => <>{children}</>,
+    Provider: ({ children }: { children: React.ReactNode; value: unknown }) => <>{children}</>,
   },
   useNavigation: () => ({
     openExperienceAccordion: vi.fn(),

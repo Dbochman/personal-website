@@ -120,19 +120,17 @@
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -146,31 +144,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
@@ -207,22 +207,22 @@ const MetricWave = () =&gt; {
       &lt;path
         d="M0,30 Q20,20 40,30 T80,30 T120,30 T160,30"
         fill="none"
-        stroke="rgba(255,255,255,0.4)"
+        stroke="hsl(var(--foreground) / 0.4)"
         strokeWidth="2"
         className="wave-line motion-safe:animate-pulse"
       /&gt;
       
       {/* Metric bars */}
-      &lt;rect x="20" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" /&gt;
-      &lt;rect x="30" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '0.5s' }} /&gt;
-      &lt;rect x="40" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '1s' }} /&gt;
-      &lt;rect x="50" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '1.5s' }} /&gt;
-      &lt;rect x="60" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '2s' }} /&gt;
-      &lt;rect x="70" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '2.5s' }} /&gt;
-      &lt;rect x="80" y="46" width="4" height="8" fill="rgba(255,255,255,0.5)" className="metric-bar" style={{ animationDelay: '3s' }} /&gt;
+      &lt;rect x="20" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" /&gt;
+      &lt;rect x="30" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '0.5s' }} /&gt;
+      &lt;rect x="40" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '1s' }} /&gt;
+      &lt;rect x="50" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '1.5s' }} /&gt;
+      &lt;rect x="60" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '2s' }} /&gt;
+      &lt;rect x="70" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '2.5s' }} /&gt;
+      &lt;rect x="80" y="46" width="4" height="8" fill="hsl(var(--foreground) / 0.5)" className="metric-bar" style={{ animationDelay: '3s' }} /&gt;
       
       {/* Baseline */}
-      &lt;line x1="0" y1="54" x2="160" y2="54" stroke="rgba(255,255,255,0.3)" strokeWidth="1" /&gt;
+      &lt;line x1="0" y1="54" x2="160" y2="54" stroke="hsl(var(--foreground) / 0.3)" strokeWidth="1" /&gt;
     &lt;/svg&gt;
   );
 };
@@ -235,7 +235,7 @@ export default MetricWave;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-28T17:26:38.127Z
+                at 2025-10-17T02:02:49.360Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

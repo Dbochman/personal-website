@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>60/60</span>
+                <span class='fraction'>71/71</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>60/60</span>
+                <span class='fraction'>71/71</span>
             </div>
         
             
@@ -139,15 +139,41 @@
 <a name='L74'></a><a href='#L74'>74</a>
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
-<a name='L77'></a><a href='#L77'>77</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -218,15 +244,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Mail, ExternalLink, MapPin, Activity } from "lucide-react";
+import { Mail, Linkedin, MapPin, Activity } from "lucide-react";
+import SloGauge from "@/components/icons/SloGauge";
+import ErrorRateChart from "@/components/icons/ErrorRateChart";
+import LatencyHistogram from "@/components/icons/LatencyHistogram";
+import UptimeTimeline from "@/components/icons/UptimeTimeline";
+import AlertCounter from "@/components/icons/AlertCounter";
 &nbsp;
 const HeroSection = () =&gt; {
   return (
     &lt;section className="py-20 px-6 relative"&gt;
-      {/* Floating geometric shapes */}
-      &lt;div className="absolute top-20 left-10 w-20 h-20 border-2 border-foreground/20 rotate-45 animate-spin" style={{animationDuration: '20s'}}&gt;&lt;/div&gt;
-      &lt;div className="absolute top-40 right-20 w-12 h-12 bg-foreground/10 rotate-12 animate-pulse"&gt;&lt;/div&gt;
-      &lt;div className="absolute bottom-20 left-1/4 w-6 h-6 bg-foreground rounded-full animate-bounce" style={{animationDelay: '2s'}}&gt;&lt;/div&gt;
+      {/* SRE Monitoring Dashboard Elements - Hidden on mobile */}
+      &lt;div className="hidden md:block"&gt;
+        &lt;div className="absolute top-32 right-12 w-32 h-16 parallax-element" data-speed="0.15" title="Error Rate Monitoring"&gt;
+          &lt;ErrorRateChart /&gt;
+        &lt;/div&gt;
+        &lt;div className="absolute bottom-20 left-16 w-24 h-20 parallax-element" data-speed="0.12" title="Latency Distribution"&gt;
+          &lt;LatencyHistogram /&gt;
+        &lt;/div&gt;
+        &lt;div className="absolute top-20 left-8 w-90 h-16 parallax-element" data-speed="0.18" title="Active Alerts"&gt;
+          &lt;AlertCounter /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
       
       &lt;div className="container mx-auto max-w-6xl relative z-10"&gt;
         &lt;div className="text-center mb-8"&gt;
@@ -254,22 +293,22 @@ const HeroSection = () =&gt; {
             &lt;div className="absolute -inset-4 bg-gradient-to-r from-transparent via-foreground/5 to-transparent blur-xl"&gt;&lt;/div&gt;
             &lt;p className="text-xl text-foreground/90 mb-8 leading-relaxed max-w-3xl mx-auto relative bg-background/30 p-6 border border-foreground/10 backdrop-blur-sm"&gt;
               Specializing in &lt;span className="text-foreground font-semibold border-b border-foreground/40"&gt;Reliability, Resilience, and Incident Management&lt;/span&gt;, with experience spanning SRE 
-              and Product Management at &lt;span className="font-mono text-foreground"&gt;HashiCorp&lt;/span&gt; and &lt;span className="font-mono text-foreground"&gt;Spotify&lt;/span&gt;. Focused on enhancing service availability 
+              and Product Management at &lt;span className="font-mono text-foreground"&gt;Groq&lt;/span&gt;, &lt;span className="font-mono text-foreground"&gt;HashiCorp&lt;/span&gt;, and &lt;span className="font-mono text-foreground"&gt;Spotify&lt;/span&gt;. Focused on enhancing service availability 
               and streamlining operations in complex environments.
             &lt;/p&gt;
           &lt;/div&gt;
           
           &lt;div className="flex justify-center gap-4 mb-8"&gt;
             &lt;a href="mailto:dylanbochman@gmail.com"&gt;
-              &lt;Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium"&gt;
+              &lt;Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium"&gt;
                 &lt;Mail className="w-4 h-4 mr-2" /&gt;
                 Get In Touch
               &lt;/Button&gt;
             &lt;/a&gt;
-            &lt;a href="/DylanBochmanResume.pdf" target="_blank" rel="noopener noreferrer"&gt;
-              &lt;Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium"&gt;
-                &lt;ExternalLink className="w-4 h-4 mr-2" /&gt;
-                View Resume
+            &lt;a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer"&gt;
+              &lt;Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium"&gt;
+                &lt;Linkedin className="w-4 h-4 mr-2" /&gt;
+                LinkedIn
               &lt;/Button&gt;
             &lt;/a&gt;
           &lt;/div&gt;
@@ -298,7 +337,7 @@ export default HeroSection;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-06-28T17:26:38.127Z
+                at 2025-10-17T02:02:49.360Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

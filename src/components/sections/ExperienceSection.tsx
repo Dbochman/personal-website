@@ -17,7 +17,7 @@ interface ExperienceSectionProps {
 }
 
 const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => {
-  const { isDark } = useTheme()
+  // const { isDark } = useTheme()
   return (
     <section id="experience">
       <Accordion type="single" collapsible value={value} onValueChange={onValueChange} className="space-y-4">
