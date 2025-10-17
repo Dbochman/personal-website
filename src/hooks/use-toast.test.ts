@@ -122,7 +122,10 @@ describe('useToast', () => {
 
   describe('toast function', () => {
     it('should return toast controls', () => {
-      const result = toast({ title: 'Test' })
+      let result: any
+      act(() => {
+        result = toast({ title: 'Test' })
+      })
       
       expect(result).toHaveProperty('id')
       expect(result).toHaveProperty('dismiss')
