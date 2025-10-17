@@ -210,6 +210,19 @@ External uptime monitoring is configured with [UptimeRobot](https://uptimerobot.
 - **Check Interval:** 5 minutes
 - **Monitored URL:** https://dylanbochman.com
 
+### Performance Monitoring
+Comprehensive performance monitoring with [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci):
+- **Core Web Vitals:** FCP <2s, LCP <3s, CLS <0.1, TTI <4s
+- **Quality Gates:** Performance ≥90%, Accessibility ≥95%, SEO ≥95%
+- **Resource Budgets:** Total 500KB, JS 300KB, CSS 75KB, Images 100KB
+- **Bundle Analysis:** Interactive bundle analysis with rollup-plugin-visualizer
+
+### Operational Documentation
+- **Incident Response:** [/runbook.md](https://dylanbochman.com/runbook.md)
+- **SRE Procedures:** Complete troubleshooting and recovery procedures
+- **Performance Standards:** Defined SLIs/SLOs for reliability monitoring
+- **Escalation Paths:** Contact information and support channels
+
 ## 🔍 SEO & Professional Visibility
 
 This personal resume website implements comprehensive SEO optimization for professional discovery and career visibility:
