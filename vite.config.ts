@@ -19,4 +19,24 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Enable build optimizations
+    minify: 'esbuild',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        // Manual chunk splitting for better caching
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+          router: ['react-router-dom'],
+          query: ['@tanstack/react-query'],
+        },
+      },
+    },
+    // Compress assets
+    assetsInlineLimit: 4096,
+    // Optimize chunk size warnings
+    chunkSizeWarningLimit: 500,
+  },
 }));
