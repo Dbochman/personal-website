@@ -373,35 +373,27 @@ dylanbochman.com CNAME dbochman.github.io</code></pre>
     <a href="/" class="back-link">← Back to dylanbochman.com</a>
 
     <script>
-        // Theme detection - matches main site behavior
+        // Theme detection - matches main site behavior exactly
         function applyTheme() {
-            // Check if user has a saved preference
-            const savedTheme = localStorage.getItem('theme');
+            // Main site only uses system preference, no localStorage
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
             
-            if (savedTheme) {
-                document.body.className = savedTheme === 'dark' ? 'dark' : '';
+            if (prefersDark) {
+                document.body.classList.add('dark');
             } else {
-                // Fall back to system preference
-                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.body.className = prefersDark ? 'dark' : '';
+                document.body.classList.remove('dark');
             }
         }
 
         // Apply theme immediately to prevent flash
         applyTheme();
 
-        // Listen for system theme changes
+        // Listen for system theme changes (matches main site behavior)
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-            // Only auto-switch if user hasn't set a preference
-            if (!localStorage.getItem('theme')) {
-                document.body.className = e.matches ? 'dark' : '';
-            }
-        });
-
-        // Listen for storage changes (if user changes theme on main site)
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'theme') {
-                applyTheme();
+            if (e.matches) {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
             }
         });
     </script>
