@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dylanbochman.com - Operational Runbook</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Dark mode styles */
+        body.dark {
+            background: #0d1117;
+            color: #e6edf3;
+        }
+        body.dark a { color: #58a6ff; }
+        body.dark h1, body.dark h2, body.dark h3 { color: #58a6ff; }
+        body.dark code {
+            background: #161b22;
+            border: 1px solid #30363d;
+            color: #e6edf3;
+        }
+        body.dark pre {
+            background: #161b22;
+            border: 1px solid #30363d;
+        }
+        body.dark th { background: #21262d; color: #e6edf3; }
+        body.dark th, body.dark td { border-color: #30363d; }
+        body.dark .alert-danger { background: #2d1617; border-color: #dc2626; color: #fca5a5; }
+        body.dark .alert-warning { background: #2d1f17; border-color: #d97706; color: #fbbf24; }
+        body.dark .alert-info { background: #172554; border-color: #2563eb; color: #93c5fd; }
+        body.dark .back-link { color: #8b949e; }
+        body.dark .back-link:hover { color: #58a6ff; }
+        h1, h2, h3 { color: #2563eb; margin-top: 2em; }
+        h1 { border-bottom: 3px solid #2563eb; padding-bottom: 10px; }
+        h2 { border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; }
+        code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Consolas', monospace;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid #e5e7eb;
+        }
+        pre code { background: none; padding: 0; }
+        ul, ol { padding-left: 20px; }
+        li { margin: 5px 0; }
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid;
+        }
+        .alert-danger { background: #fef2f2; border-color: #dc2626; color: #991b1b; }
+        .alert-warning { background: #fffbeb; border-color: #d97706; color: #92400e; }
+        .alert-info { background: #eff6ff; border-color: #2563eb; color: #1d4ed8; }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th { background: #f9fafb; font-weight: 600; }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #6b7280;
+            text-decoration: none;
+        }
+        .back-link:hover { color: #2563eb; }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">← Back to dylanbochman.com</a>
+    
+    <h1>🚨 dylanbochman.com - Operational Runbook</h1>
+
+    <div class="alert alert-info">
+        <strong>Quick References:</strong><br>
+        • <strong>Site Status:</strong> <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank">stats.uptimerobot.com/zquZllQfNJ</a><br>
+        • <strong>Repository:</strong> <a href="https://github.com/Dbochman/personal-website" target="_blank">github.com/Dbochman/personal-website</a><br>
+        • <strong>Deployment Target:</strong> <a href="https://github.com/Dbochman/dbochman.github.io" target="_blank">github.com/Dbochman/dbochman.github.io</a><br><br>
+        
+        <strong>Dependency Status Pages:</strong><br>
+        • <strong>GitHub:</strong> <a href="https://githubstatus.com" target="_blank">githubstatus.com</a> (Pages, Actions, API)<br>
+        • <strong>Fastly CDN:</strong> <a href="https://status.fastly.com" target="_blank">status.fastly.com</a> (GitHub Pages CDN)<br>
+        • <strong>NPM Registry:</strong> <a href="https://status.npmjs.org" target="_blank">status.npmjs.org</a> (Package downloads)<br>
+        • <strong>Google Services:</strong> <a href="https://status.cloud.google.com" target="_blank">status.cloud.google.com</a> (Analytics, Fonts)<br>
+        • <strong>Sentry:</strong> <a href="https://status.sentry.io" target="_blank">status.sentry.io</a> (Error tracking)
+    </div>
+
+    <h2>🏗️ Architecture Overview</h2>
+    <ul>
+        <li><strong>Hosting:</strong> GitHub Pages with CDN (Fastly)</li>
+        <li><strong>Domain:</strong> dylanbochman.com (custom domain via CNAME)</li>
+        <li><strong>Tech Stack:</strong> React 18 + TypeScript + Vite + Tailwind CSS</li>
+        <li><strong>Deployment:</strong> GitHub Actions CI/CD pipeline</li>
+        <li><strong>Monitoring:</strong> UptimeRobot + Sentry + Google Analytics</li>
+    </ul>
+
+    <h3>Infrastructure Components</h3>
+    <ul>
+        <li><strong>Origin:</strong> GitHub Pages (static hosting)</li>
+        <li><strong>CDN:</strong> Fastly (via GitHub Pages)</li>
+        <li><strong>DNS:</strong> Domain registrar DNS (points to GitHub Pages)</li>
+        <li><strong>CI/CD:</strong> GitHub Actions (.github/workflows/deploy.yml)</li>
+        <li><strong>Dependencies:</strong> NPM packages (managed by Dependabot)</li>
+    </ul>
+
+    <h2>🔥 Incident Classification</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Priority</th>
+                <th>Symptoms</th>
+                <th>Impact</th>
+                <th>Response Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>P0 - Critical</strong></td>
+                <td>HTTP 5xx errors, complete site unavailability</td>
+                <td>All users unable to access site</td>
+                <td>Immediate (&lt; 5 minutes)</td>
+            </tr>
+            <tr>
+                <td><strong>P1 - High</strong></td>
+                <td>Slow loading, broken functionality</td>
+                <td>Poor user experience, potential reputation damage</td>
+                <td>&lt; 30 minutes</td>
+            </tr>
+            <tr>
+                <td><strong>P2 - Medium</strong></td>
+                <td>Broken links, styling issues, analytics gaps</td>
+                <td>Limited functionality loss</td>
+                <td>&lt; 2 hours</td>
+            </tr>
+            <tr>
+                <td><strong>P3 - Low</strong></td>
+                <td>Outdated content, dependency updates</td>
+                <td>No immediate user impact</td>
+                <td>Next business day</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>📊 Monitoring & Alerting</h2>
+
+    <h3>UptimeRobot (External Monitoring)</h3>
+    <ul>
+        <li><strong>Check Frequency:</strong> Every 5 minutes</li>
+        <li><strong>Monitored URL:</strong> https://dylanbochman.com</li>
+        <li><strong>Alert Method:</strong> Email notification</li>
+        <li><strong>Status Page:</strong> <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank">stats.uptimerobot.com/zquZllQfNJ</a></li>
+    </ul>
+
+    <h3>Sentry (Error Tracking)</h3>
+    <ul>
+        <li>Client-side JavaScript errors</li>
+        <li>Performance monitoring</li>
+        <li>Release tracking</li>
+        <li>User session data</li>
+    </ul>
+
+    <h3>Google Analytics</h3>
+    <ul>
+        <li>Traffic patterns</li>
+        <li>User engagement metrics</li>
+        <li>Resume download tracking</li>
+        <li>Geographic distribution</li>
+    </ul>
+
+    <h3>GitHub Actions (CI/CD Monitoring)</h3>
+    <ul>
+        <li><strong>Build status:</strong> Check workflow runs</li>
+        <li><strong>Test results:</strong> Automated test suite</li>
+        <li><strong>Security:</strong> npm audit + Dependabot alerts</li>
+        <li><strong>Performance:</strong> Lighthouse CI budgets</li>
+    </ul>
+
+    <h2>🛠️ Troubleshooting Guide</h2>
+
+    <div class="alert alert-danger">
+        <h3>Site Completely Down (P0)</h3>
+        <strong>Immediate Actions:</strong>
+        <ol>
+            <li><strong>Check Status Page:</strong> Verify UptimeRobot confirms outage</li>
+            <li><strong>Test Direct Access:</strong> Try dbochman.github.io (bypasses custom domain)</li>
+            <li><strong>GitHub Status:</strong> Check <a href="https://githubstatus.com" target="_blank">githubstatus.com</a></li>
+            <li><strong>DNS Check:</strong> Use <code>nslookup dylanbochman.com</code></li>
+        </ol>
+        
+        <strong>Common Causes & Solutions:</strong>
+        <ul>
+            <li><strong>GitHub Pages Outage:</strong> Check <a href="https://githubstatus.com" target="_blank">githubstatus.com</a>, wait for resolution</li>
+            <li><strong>CDN Issues:</strong> Check <a href="https://status.fastly.com" target="_blank">Fastly status</a>, may resolve automatically</li>
+            <li><strong>DNS Issues:</strong> Contact domain registrar, verify CNAME record</li>
+            <li><strong>Repository Access:</strong> Check if repo is public, verify deployment token</li>
+            <li><strong>Build Failure:</strong> Check GitHub Actions logs, fix build errors</li>
+            <li><strong>NPM Registry Down:</strong> Check <a href="https://status.npmjs.org" target="_blank">npm status</a>, deployments may fail</li>
+        </ul>
+    </div>
+
+    <div class="alert alert-warning">
+        <h3>Slow Performance (P1)</h3>
+        <strong>Investigation Steps:</strong>
+        <ol>
+            <li><strong>Lighthouse Test:</strong> Run performance audit</li>
+            <li><strong>Bundle Analysis:</strong> Check dist/bundle-analysis.html</li>
+            <li><strong>CDN Status:</strong> Verify Fastly CDN performance</li>
+            <li><strong>Analytics:</strong> Check Core Web Vitals in Google Analytics</li>
+        </ol>
+        
+        <strong>Common Fixes:</strong>
+        <ul>
+            <li><strong>Large Bundle:</strong> Review JavaScript imports, implement code splitting</li>
+            <li><strong>Image Optimization:</strong> Compress images, use modern formats</li>
+            <li><strong>Third-party Scripts:</strong> Audit external dependencies</li>
+            <li><strong>CDN Cache:</strong> May resolve automatically after cache refresh</li>
+        </ul>
+    </div>
+
+    <h3>JavaScript Errors (P1/P2)</h3>
+    <strong>Investigation:</strong>
+    <ol>
+        <li><strong>Sentry Dashboard:</strong> Review error frequency and stack traces</li>
+        <li><strong>Browser Console:</strong> Test in multiple browsers</li>
+        <li><strong>Recent Deployments:</strong> Check if error correlates with recent changes</li>
+    </ol>
+
+    <h3>Build/Deployment Failures (P1)</h3>
+    <strong>Investigation:</strong>
+    <ol>
+        <li><strong>GitHub Actions:</strong> Check workflow logs in .github/workflows/deploy.yml</li>
+        <li><strong>Test Results:</strong> Review npm test output</li>
+        <li><strong>Security Audit:</strong> Check npm audit results</li>
+        <li><strong>Dependencies:</strong> Verify package-lock.json integrity</li>
+    </ol>
+
+    <h2>🚀 Recovery Procedures</h2>
+
+    <h3>Emergency Rollback</h3>
+    <pre><code># Identify last known good commit
+git log --oneline -10
+
+# Create rollback branch
+git checkout -b emergency-rollback
+
+# Reset to stable commit
+git reset --hard &lt;stable-commit-hash&gt;
+
+# Force push (bypasses branch protection)
+git push origin main --force</code></pre>
+
+    <h3>DNS Recovery</h3>
+    <pre><code># Verify current DNS settings
+nslookup dylanbochman.com
+
+# Expected CNAME record
+dylanbochman.com CNAME dbochman.github.io</code></pre>
+
+    <h2>📈 Performance Standards</h2>
+
+    <h3>Core Web Vitals (SLIs)</h3>
+    <ul>
+        <li><strong>First Contentful Paint:</strong> &lt; 2.0s</li>
+        <li><strong>Largest Contentful Paint:</strong> &lt; 3.0s</li>
+        <li><strong>Cumulative Layout Shift:</strong> &lt; 0.1</li>
+        <li><strong>Time to Interactive:</strong> &lt; 4.0s</li>
+    </ul>
+
+    <h3>Quality Gates (SLOs)</h3>
+    <ul>
+        <li><strong>Performance Score:</strong> ≥ 90%</li>
+        <li><strong>Accessibility Score:</strong> ≥ 95%</li>
+        <li><strong>SEO Score:</strong> ≥ 95%</li>
+        <li><strong>Uptime:</strong> ≥ 99.9% (measured monthly)</li>
+    </ul>
+
+    <h3>Resource Budgets</h3>
+    <ul>
+        <li><strong>Total Bundle Size:</strong> &lt; 500KB</li>
+        <li><strong>JavaScript:</strong> &lt; 300KB</li>
+        <li><strong>CSS:</strong> &lt; 75KB</li>
+        <li><strong>Images:</strong> &lt; 100KB</li>
+    </ul>
+
+    <h2>🔧 Maintenance Procedures</h2>
+
+    <h3>Weekly Tasks</h3>
+    <ul>
+        <li>Review UptimeRobot reports</li>
+        <li>Check Sentry error trends</li>
+        <li>Review Google Analytics traffic</li>
+        <li>Monitor Dependabot PRs</li>
+    </ul>
+
+    <h3>Monthly Tasks</h3>
+    <ul>
+        <li>Update dependencies (security patches)</li>
+        <li>Review performance metrics</li>
+        <li>Analyze user engagement data</li>
+        <li>Update resume PDF if needed</li>
+    </ul>
+
+    <h3>Quarterly Tasks</h3>
+    <ul>
+        <li>Full security audit</li>
+        <li>Performance optimization review</li>
+        <li>Content refresh</li>
+        <li>Backup verification</li>
+    </ul>
+
+    <h2>📞 Escalation Paths</h2>
+
+    <h3>Primary Response</h3>
+    <p><strong>Dylan Bochman</strong> - Site Owner/SRE<br>
+    Email: dylanbochman@gmail.com<br>
+    LinkedIn: <a href="https://linkedin.com/in/dbochman" target="_blank">linkedin.com/in/dbochman</a></p>
+
+    <h3>External Dependencies</h3>
+    <ul>
+        <li><strong>GitHub Support:</strong> For platform-level issues (<a href="https://githubstatus.com" target="_blank">status</a>)</li>
+        <li><strong>Domain Registrar:</strong> For DNS-related problems</li>
+        <li><strong>Google Support:</strong> For Analytics issues (<a href="https://status.cloud.google.com" target="_blank">status</a>)</li>
+        <li><strong>Fastly CDN:</strong> For CDN-related issues (<a href="https://status.fastly.com" target="_blank">status</a>)</li>
+        <li><strong>Sentry Support:</strong> For error tracking issues (<a href="https://status.sentry.io" target="_blank">status</a>)</li>
+    </ul>
+
+    <h2>📚 Additional Resources</h2>
+
+    <h3>Documentation</h3>
+    <ul>
+        <li><a href="https://docs.github.com/en/pages" target="_blank">GitHub Pages Docs</a></li>
+        <li><a href="https://vitejs.dev/guide/" target="_blank">Vite Documentation</a></li>
+        <li><a href="https://react.dev/" target="_blank">React Documentation</a></li>
+        <li><a href="https://developers.google.com/web/tools/lighthouse" target="_blank">Lighthouse Performance</a></li>
+    </ul>
+
+    <h3>Tools</h3>
+    <ul>
+        <li><a href="https://pagespeed.web.dev/" target="_blank">PageSpeed Insights</a></li>
+        <li><a href="https://gtmetrix.com/" target="_blank">GTmetrix</a></li>
+        <li><a href="https://webpagetest.org/" target="_blank">WebPageTest</a></li>
+        <li><a href="https://developer.chrome.com/docs/devtools/" target="_blank">Chrome DevTools</a></li>
+    </ul>
+
+    <hr style="margin: 40px 0; border: 1px solid #e5e7eb;">
+    
+    <p><strong>Last Updated:</strong> October 2025<br>
+    <strong>Version:</strong> 1.0<br>
+    <strong>Owner:</strong> Dylan Bochman, Technical Incident Manager</p>
+
+    <a href="/" class="back-link">← Back to dylanbochman.com</a>
+
+    <script>
+        // Theme detection - matches main site behavior
+        function applyTheme() {
+            // Check if user has a saved preference
+            const savedTheme = localStorage.getItem('theme');
+            
+            if (savedTheme) {
+                document.body.className = savedTheme === 'dark' ? 'dark' : '';
+            } else {
+                // Fall back to system preference
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.body.className = prefersDark ? 'dark' : '';
+            }
+        }
+
+        // Apply theme immediately to prevent flash
+        applyTheme();
+
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+            // Only auto-switch if user hasn't set a preference
+            if (!localStorage.getItem('theme')) {
+                document.body.className = e.matches ? 'dark' : '';
+            }
+        });
+
+        // Listen for storage changes (if user changes theme on main site)
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'theme') {
+                applyTheme();
+            }
+        });
+    </script>
+</body>
+</html>
