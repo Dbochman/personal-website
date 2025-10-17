@@ -292,45 +292,6 @@
         <li><strong>Dependencies:</strong> NPM packages (managed by Dependabot)</li>
     </ul>
 
-    <h2>🔥 Incident Classification</h2>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Priority</th>
-                <th>Symptoms</th>
-                <th>Impact</th>
-                <th>Response Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>P0 - Critical</strong></td>
-                <td>HTTP 5xx errors, complete site unavailability</td>
-                <td>All users unable to access site</td>
-                <td>Immediate (&lt; 5 minutes)</td>
-            </tr>
-            <tr>
-                <td><strong>P1 - High</strong></td>
-                <td>Slow loading, broken functionality</td>
-                <td>Poor user experience, potential reputation damage</td>
-                <td>&lt; 30 minutes</td>
-            </tr>
-            <tr>
-                <td><strong>P2 - Medium</strong></td>
-                <td>Broken links, styling issues, analytics gaps</td>
-                <td>Limited functionality loss</td>
-                <td>&lt; 2 hours</td>
-            </tr>
-            <tr>
-                <td><strong>P3 - Low</strong></td>
-                <td>Outdated content, dependency updates</td>
-                <td>No immediate user impact</td>
-                <td>Next business day</td>
-            </tr>
-        </tbody>
-    </table>
-
     <h2>📊 Monitoring & Alerting</h2>
 
     <h3>UptimeRobot (External Monitoring)</h3>
@@ -339,22 +300,6 @@
         <li><strong>Monitored URL:</strong> https://dylanbochman.com</li>
         <li><strong>Alert Method:</strong> Email notification</li>
         <li><strong>Status Page:</strong> <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank">stats.uptimerobot.com/zquZllQfNJ</a></li>
-    </ul>
-
-    <h3>Sentry (Error Tracking)</h3>
-    <ul>
-        <li>Client-side JavaScript errors</li>
-        <li>Performance monitoring</li>
-        <li>Release tracking</li>
-        <li>User session data</li>
-    </ul>
-
-    <h3>Google Analytics</h3>
-    <ul>
-        <li>Traffic patterns</li>
-        <li>User engagement metrics</li>
-        <li>Resume download tracking</li>
-        <li>Geographic distribution</li>
     </ul>
 
     <h3>GitHub Actions (CI/CD Monitoring)</h3>
@@ -368,7 +313,7 @@
     <h2>🛠️ Troubleshooting Guide</h2>
 
     <div class="alert alert-danger">
-        <h3>Site Completely Down (P0)</h3>
+        <strong>Site Completely Down</strong><br>
         <strong>Immediate Actions:</strong>
         <ol>
             <li><strong>Check Status Page:</strong> Verify UptimeRobot confirms outage</li>
@@ -389,7 +334,7 @@
     </div>
 
     <div class="alert alert-warning">
-        <h3>Slow Performance (P1)</h3>
+        <strong>Slow Performance</strong><br>
         <strong>Investigation Steps:</strong>
         <ol>
             <li><strong>Lighthouse Test:</strong> Run performance audit</li>
@@ -407,7 +352,7 @@
         </ul>
     </div>
 
-    <h3>JavaScript Errors (P1/P2)</h3>
+    <h3>JavaScript Errors</h3>
     <strong>Investigation:</strong>
     <ol>
         <li><strong>Sentry Dashboard:</strong> Review error frequency and stack traces</li>
@@ -415,7 +360,7 @@
         <li><strong>Recent Deployments:</strong> Check if error correlates with recent changes</li>
     </ol>
 
-    <h3>Build/Deployment Failures (P1)</h3>
+    <h3>Build/Deployment Failures</h3>
     <strong>Investigation:</strong>
     <ol>
         <li><strong>GitHub Actions:</strong> Check workflow logs in .github/workflows/deploy.yml</li>
@@ -445,58 +390,6 @@ nslookup dylanbochman.com
 
 # Expected CNAME record
 dylanbochman.com CNAME dbochman.github.io</code></pre>
-
-    <h2>📈 Performance Standards</h2>
-
-    <h3>Core Web Vitals (SLIs)</h3>
-    <ul>
-        <li><strong>First Contentful Paint:</strong> &lt; 2.0s</li>
-        <li><strong>Largest Contentful Paint:</strong> &lt; 3.0s</li>
-        <li><strong>Cumulative Layout Shift:</strong> &lt; 0.1</li>
-        <li><strong>Time to Interactive:</strong> &lt; 4.0s</li>
-    </ul>
-
-    <h3>Quality Gates (SLOs)</h3>
-    <ul>
-        <li><strong>Performance Score:</strong> ≥ 90%</li>
-        <li><strong>Accessibility Score:</strong> ≥ 95%</li>
-        <li><strong>SEO Score:</strong> ≥ 95%</li>
-        <li><strong>Uptime:</strong> ≥ 99.9% (measured monthly)</li>
-    </ul>
-
-    <h3>Resource Budgets</h3>
-    <ul>
-        <li><strong>Total Bundle Size:</strong> &lt; 500KB</li>
-        <li><strong>JavaScript:</strong> &lt; 300KB</li>
-        <li><strong>CSS:</strong> &lt; 75KB</li>
-        <li><strong>Images:</strong> &lt; 100KB</li>
-    </ul>
-
-    <h2>🔧 Maintenance Procedures</h2>
-
-    <h3>Weekly Tasks</h3>
-    <ul>
-        <li>Review UptimeRobot reports</li>
-        <li>Check Sentry error trends</li>
-        <li>Review Google Analytics traffic</li>
-        <li>Monitor Dependabot PRs</li>
-    </ul>
-
-    <h3>Monthly Tasks</h3>
-    <ul>
-        <li>Update dependencies (security patches)</li>
-        <li>Review performance metrics</li>
-        <li>Analyze user engagement data</li>
-        <li>Update resume PDF if needed</li>
-    </ul>
-
-    <h3>Quarterly Tasks</h3>
-    <ul>
-        <li>Full security audit</li>
-        <li>Performance optimization review</li>
-        <li>Content refresh</li>
-        <li>Backup verification</li>
-    </ul>
 
     <h2>📞 Escalation Paths</h2>
 
