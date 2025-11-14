@@ -66,7 +66,7 @@ describe('NavigationContext', () => {
       // Test that context works properly instead of accessing internal properties
       const TestConsumer = () => {
         try {
-          const context = useNavigation()
+          useNavigation()
           return <div data-testid="context-success">Success</div>
         } catch {
           return <div data-testid="context-error">Error</div>

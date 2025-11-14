@@ -1,6 +1,14 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useToast, toast, reducer } from './use-toast'
+import type { ToasterToast } from '@/components/ui/toast'
+
+// Type for toast controls returned by the toast function
+type ToastControls = {
+  id: string
+  dismiss: () => void
+  update: (props: Partial<ToasterToast>) => void
+}
 
 // Mock setTimeout and clearTimeout
 vi.useFakeTimers()
@@ -122,11 +130,11 @@ describe('useToast', () => {
 
   describe('toast function', () => {
     it('should return toast controls', () => {
-      let result: any
+      let result: ToastControls
       act(() => {
         result = toast({ title: 'Test' })
       })
-      
+
       expect(result).toHaveProperty('id')
       expect(result).toHaveProperty('dismiss')
       expect(result).toHaveProperty('update')
@@ -137,8 +145,8 @@ describe('useToast', () => {
 
     it('should update toast properties', () => {
       const { result } = renderHook(() => useToast())
-      
-      let toastControls: any
+
+      let toastControls: ToastControls
       act(() => {
         toastControls = result.current.toast({ title: 'Original Title' })
       })
@@ -155,8 +163,8 @@ describe('useToast', () => {
 
     it('should dismiss toast via returned dismiss function', () => {
       const { result } = renderHook(() => useToast())
-      
-      let toastControls: any
+
+      let toastControls: ToastControls
       act(() => {
         toastControls = result.current.toast({ title: 'Test' })
       })
