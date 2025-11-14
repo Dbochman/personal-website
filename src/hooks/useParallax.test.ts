@@ -3,8 +3,15 @@ import { renderHook, act } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useParallax } from './useParallax';
 
+type MockIntersectionObserver = {
+  observe: ReturnType<typeof vi.fn>;
+  disconnect: ReturnType<typeof vi.fn>;
+  unobserve: ReturnType<typeof vi.fn>;
+  callback?: IntersectionObserverCallback;
+};
+
 describe('useParallax', () => {
-  let mockIntersectionObserver: any;
+  let mockIntersectionObserver: MockIntersectionObserver;
   
   beforeEach(() => {
     vi.spyOn(window, 'addEventListener');
@@ -179,7 +186,7 @@ describe('useParallax', () => {
   it('should handle environment without IntersectionObserver', () => {
     // Temporarily remove IntersectionObserver
     const originalIO = global.IntersectionObserver;
-    global.IntersectionObserver = undefined as any;
+    global.IntersectionObserver = undefined as unknown as typeof IntersectionObserver;
 
     const { unmount } = renderHook(() => useParallax());
 
