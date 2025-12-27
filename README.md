@@ -219,7 +219,7 @@ Comprehensive performance monitoring with [Lighthouse CI](https://github.com/Goo
 - **Bundle Analysis:** Interactive bundle analysis with rollup-plugin-visualizer
 
 ### Operational Documentation
-- **Incident Response:** [/runbook.md](https://dylanbochman.com/runbook.md)
+- **Incident Response:** [/runbook.html](https://dylanbochman.com/runbook.html)
 - **SRE Procedures:** Complete troubleshooting and recovery procedures
 - **Performance Standards:** Defined SLIs/SLOs for reliability monitoring
 - **Escalation Paths:** Contact information and support channels
