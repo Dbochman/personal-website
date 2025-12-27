@@ -16,9 +16,9 @@ const GoalsSection = () => {
         <CardContent className="p-8">
           <div className="text-center">
             <p className="text-lg text-foreground/90 leading-relaxed">
-              I'm currently at <a href="https://groq.com/about-us/" className="font-mono text-foreground underline hover:text-foreground/80" target="_blank" rel="noopener noreferrer">Groq</a>,
+              I'm currently at <a href="https://www.nvidia.com/en-us/about-nvidia/" className="font-mono text-foreground underline hover:text-foreground/80" target="_blank" rel="noopener noreferrer">Nvidia</a>,
               where I'm applying my resilience expertise and incident management skills to build
-              <span className="text-foreground font-bold border-b-2 border-foreground/40"> sustainable response teams</span>.  
+              <span className="text-foreground font-bold border-b-2 border-foreground/40"> operational resilience for AI inference infrastructure</span>.
               My goal remains to empower engineers, drive operational excellence, and cultivate collaborative, blameless engineering cultures.
             </p>
           </div>
