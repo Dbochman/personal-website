@@ -9,7 +9,16 @@ import SpotifyLogo from '@/assets/logos/spotify.svg';
 import HashiCorpLogo from '@/assets/logos/hashicorp.svg';
 import HashiDarkLogo from '@/assets/logos/hashicorp-dark.svg';
 import GroqLogo from '@/assets/logos/groq.svg';
+import NvidiaLogo from '@/assets/logos/nvidia.png';
 // import { useTheme } from '@/hooks/useTheme'
+
+// Company logo configuration for consistent rendering
+const companyLogos: Record<string, { light: string; dark?: string; alt: string }> = {
+  'Nvidia': { light: NvidiaLogo, alt: 'Nvidia logo' },
+  'Groq': { light: GroqLogo, alt: 'Groq logo' },
+  'Spotify': { light: SpotifyLogo, alt: 'Spotify logo' },
+  'HashiCorp (IBM)': { light: HashiDarkLogo, dark: HashiCorpLogo, alt: 'HashiCorp logo' }
+};
 
 interface ExperienceSectionProps {
   value: string;
@@ -23,7 +32,7 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
       <Accordion type="single" collapsible value={value} onValueChange={onValueChange} className="space-y-4">
         <AccordionSection
           title="Professional Experience"
-          summary="Incident Management @ Groq · SRE @ HashiCorp & Spotify · 7+ years scaling reliability"
+          summary="Incident Management @ Nvidia · Previously Groq, HashiCorp & Spotify · 7+ years scaling reliability"
           value="experience"
         >
           <div className="space-y-8">
@@ -33,26 +42,30 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
                   <div className="flex justify-between items-start">
                     <div>
                       <CardTitle className="text-xl text-foreground font-semibold flex items-center gap-2">
-                        {exp.company === 'Spotify' ? (
-                            <img src={SpotifyLogo} alt="Spotify logo" className="w-5 h-5" />
-                          ) : exp.company === 'Groq' ? (
-                            <img src={GroqLogo} alt="Groq logo" className="w-5 h-5" />
-                          ) : (
+                        {companyLogos[exp.company] ? (
+                          companyLogos[exp.company].dark ? (
                             <>
-                              {/* default (light) logo */}
+                              {/* Light mode logo */}
                               <img
-                                src={HashiDarkLogo}
-                                alt="HashiCorp logo"
+                                src={companyLogos[exp.company].light}
+                                alt={companyLogos[exp.company].alt}
                                 className="w-5 h-5 block dark:hidden"
                               />
-                              {/* dark-mode logo */}
+                              {/* Dark mode logo */}
                               <img
-                                src={HashiCorpLogo}
-                                alt="HashiCorp logo"
+                                src={companyLogos[exp.company].dark}
+                                alt={companyLogos[exp.company].alt}
                                 className="w-5 h-5 hidden dark:block"
                               />
                             </>
-                          )}
+                          ) : (
+                            <img
+                              src={companyLogos[exp.company].light}
+                              alt={companyLogos[exp.company].alt}
+                              className="w-5 h-5"
+                            />
+                          )
+                        ) : null}
                         {exp.company}
                       </CardTitle>
                       <CardDescription className="text-lg text-foreground/80 font-medium">
