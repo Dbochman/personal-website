@@ -50,13 +50,14 @@ This repo contains the full editable source code, including:
 This project uses GitHub Actions for automated CI/CD. The workflow triggers on pushes to the `main` branch and is defined in `.github/workflows/deploy.yml`:
 
 **Workflow Steps:**
-1. **Checkout** - Source code checkout with `actions/checkout@v4`
-2. **Setup Node.js** - Node.js 20 installation with `actions/setup-node@v4`
+1. **Checkout** - Source code checkout with `actions/checkout@v6`
+2. **Setup Node.js** - Node.js 24 LTS installation with `actions/setup-node@v6`
 3. **Cache Dependencies** - NPM cache using `actions/cache@v4` for faster builds
 4. **Install Dependencies** - `npm install` to install all project dependencies
-5. **Run Tests** - `npm test` executes the full Vitest test suite
-6. **Build** - `npm run build` creates optimized production bundle
-7. **Deploy** - Uses `peaceiris/actions-gh-pages@v4` to deploy to external repository
+5. **Security Audit** - `npm audit` for vulnerability scanning
+6. **Run Tests** - `npm test` executes the full Vitest test suite
+7. **Build** - `npm run build` creates optimized production bundle
+8. **Deploy** - Uses `peaceiris/actions-gh-pages@v4` to deploy to external repository
 
 **Deployment Details:**
 - **Target:** `Dbochman/dbochman.github.io` repository (separate GitHub Pages repo)
@@ -67,8 +68,8 @@ This project uses GitHub Actions for automated CI/CD. The workflow triggers on p
 ## 🔧 Development
 
 ### Prerequisites
-- Node.js 20 or higher
-- npm (comes with Node.js)
+- Node.js 24 LTS or higher
+- npm 11.x (comes with Node.js 24)
 
 ### Getting Started
 ```bash
@@ -158,8 +159,8 @@ npm run test:coverage
 
 # Coverage targets achieved:
 # - Critical files: 100% coverage
-# - Overall test files: 13 test suites
-# - Total tests: 62 passing tests
+# - Overall test files: 14 test suites
+# - Total tests: 86 passing tests
 ```
 
 ### Configuration
@@ -242,22 +243,22 @@ The `Seo` component uses [react-helmet-async](https://github.com/staylor/react-h
 - Open Graph properties for LinkedIn/professional networks
 
 ### Professional SEO Strategy
-**Target Keywords:** `Site Reliability Engineer`, `Technical Incident Manager`, `Dylan Bochman`, `SRE Spotify`, `HashiCorp SRE`
+**Target Keywords:** `Site Reliability Engineer`, `Technical Incident Manager`, `Dylan Bochman`, `SRE Nvidia`, `SRE Groq`, `SRE Spotify`, `HashiCorp SRE`
 
 **Key Optimizations for Career Visibility:**
 - Professional title in page title and structured data
-- Company names (HashiCorp, Spotify) for association-based searches
+- Company names (Nvidia, Groq, HashiCorp, Spotify) for association-based searches
 - Technical skills keywords in meta descriptions
 - LinkedIn profile linked via structured data
 - Resume PDF indexed for document searches
 
 ## 🎯 Portfolio Focus
 
-This site showcases expertise in **Site Reliability Engineering (SRE)** and includes:
+This site showcases expertise in **Site Reliability Engineering (SRE)** and **Incident Management** and includes:
 
-- **Professional Experience:** SRE roles at HashiCorp/IBM and Spotify
-- **Core Expertise:** Incident management, monitoring, post-incident analysis
-- **Technical Skills:** Infrastructure reliability, SLO strategy, cross-functional coordination
+- **Professional Experience:** Technical Incident Manager roles at Nvidia (upcoming), Groq, HashiCorp/IBM, and Spotify
+- **Core Expertise:** Incident command & coordination, post-incident analysis, SLO monitoring & strategy
+- **Technical Skills:** Infrastructure reliability, operational resilience, cross-functional coordination
 - **Resume:** Available for download as PDF
 
 ## ✨ Future Plans
