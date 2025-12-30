@@ -186,9 +186,50 @@ npm run test:coverage
 - ESLint for code quality
 
 **Features:**
-- Dark/light mode with system preference detection
+- Advanced dark/light theme system with dynamic favicons
 - Mobile-responsive design with parallax animations
 - Automated CI/CD deployment to GitHub Pages
+
+## 🎨 Theme System
+
+This site implements a sophisticated dark/light theme system with seamless user experience and technical polish:
+
+### User Experience
+- **Dynamic Favicons:** Separate favicon sets for light and dark themes (12 variants including ico, png, and apple-touch-icon)
+- **Theme Persistence:** Theme selection persists across page navigation via URL parameters
+- **Smooth Transitions:** 1.2-second CSS transitions for theme changes using custom timing variables
+- **No Flash:** Preload class technique prevents flash of unstyled content on page load
+- **Bidirectional Consistency:** Theme state maintained between homepage and operational runbook
+
+### Technical Implementation
+
+**Flash Prevention:**
+```javascript
+// Blocking script in <head> applies theme before CSS loads
+document.documentElement.classList.add('preload');
+// Theme applied based on URL param or system preference
+// Preload class removed after 100ms to enable smooth transitions
+```
+
+**Theme Persistence:**
+- URL parameters (`?theme=light` / `?theme=dark`) passed between pages
+- Header component checks URL param first, then falls back to system preference
+- Custom `themeChange` events trigger favicon updates across components
+- Dynamic home link updates maintain theme state during navigation
+
+**Timing & Transitions:**
+- Custom CSS variables for animation timing (`--timing-slow: 1.2s`)
+- Easing functions (`--easing-smooth: cubic-bezier(0.4, 0.0, 0.2, 1)`)
+- Transitions disabled during initial load, enabled after DOM ready
+- Applied to background-color, color, and border-color for consistency
+
+**Files Modified:**
+- `index.html` - Theme initialization and favicon management
+- `public/runbook.html` - Consistent theme handling for operational docs
+- `src/components/layout/Header.tsx` - Theme toggle and URL parameter handling
+- `src/hooks/useTheme.ts` - Theme state management (unused but available)
+
+This implementation demonstrates attention to UX details and performance optimization—key skills for reliability engineering.
 
 ## 📈 Analytics & Monitoring
 
