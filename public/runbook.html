@@ -7,6 +7,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // Apply theme immediately to prevent flash
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const themeParam = urlParams.get('theme');
+            let isDark;
+
+            if (themeParam) {
+                isDark = themeParam === 'dark';
+            } else {
+                isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
     <style>
         :root {
             --background: 0 0% 100%;
@@ -323,7 +341,7 @@
         <div class="header-content">
             <h1 class="site-title">Dylan Bochman</h1>
             <nav>
-                <a href="/">Home</a>
+                <a href="/" id="homeLink">Home</a>
                 <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
                     <svg class="icon icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
                     <svg class="icon icon-sun" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
@@ -518,10 +536,22 @@ dylanbochman.com CNAME dbochman.github.io</code></pre>
                 document.documentElement.classList.remove('dark');
             }
             updateThemeIcons();
+            updateHomeLinks();
+        }
+
+        function updateHomeLinks() {
+            const theme = isDark ? 'dark' : 'light';
+            const homeLinks = document.querySelectorAll('a[href="/"]');
+            homeLinks.forEach(link => {
+                link.href = `/?theme=${theme}`;
+            });
         }
 
         // Apply theme immediately to prevent flash
         applyTheme();
+
+        // Update home links on page load
+        document.addEventListener('DOMContentLoaded', updateHomeLinks);
 
         // Listen for system theme changes (only if no explicit theme was passed)
         const urlParams = new URLSearchParams(window.location.search);
