@@ -166,9 +166,15 @@
         }
 
         nav {
-            display: flex;
+            display: none; /* Hidden on mobile by default */
             gap: 1.5rem;
             align-items: center;
+        }
+
+        @media (min-width: 768px) {
+            nav {
+                display: flex; /* Show on desktop */
+            }
         }
 
         nav a, .theme-toggle {
@@ -200,6 +206,140 @@
         .icon {
             width: 20px;
             height: 20px;
+        }
+
+        /* Mobile navigation controls */
+        .mobile-nav-controls {
+            display: none; /* Hidden on desktop */
+        }
+
+        @media (max-width: 767px) {
+            .mobile-nav-controls {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+
+        /* Mobile menu button */
+        .mobile-menu-button {
+            background: none;
+            border: none;
+            color: hsl(var(--foreground) / 0.7);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color var(--timing-fast) var(--easing-smooth);
+        }
+
+        .mobile-menu-button:hover {
+            color: hsl(var(--foreground));
+        }
+
+        /* Mobile menu overlay */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: hsl(var(--background) / 0.8);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--timing-fast) var(--easing-smooth), visibility var(--timing-fast) var(--easing-smooth);
+            z-index: 999;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Mobile menu panel */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 400px;
+            background: hsl(var(--background) / 0.95);
+            backdrop-filter: blur(12px);
+            border-left: 1px solid hsl(var(--foreground) / 0.2);
+            transform: translateX(100%);
+            transition: transform var(--timing-fast) var(--easing-smooth);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid hsl(var(--foreground) / 0.2);
+        }
+
+        .mobile-menu-title {
+            font-family: ui-monospace, 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            margin: 0;
+            border: none;
+            padding: 0;
+        }
+
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            color: hsl(var(--foreground) / 0.7);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color var(--timing-fast) var(--easing-smooth);
+        }
+
+        .mobile-menu-close:hover {
+            color: hsl(var(--foreground));
+        }
+
+        .mobile-menu-nav {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .mobile-menu-nav a,
+        .mobile-menu-nav button {
+            display: flex;
+            align-items: center;
+            min-height: 44px;
+            padding: 1rem;
+            color: hsl(var(--foreground) / 0.7);
+            text-decoration: none;
+            font-family: ui-monospace, 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 1.125rem;
+            transition: all var(--timing-fast) var(--easing-smooth);
+            border-radius: 0.5rem;
+            width: 100%;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            justify-content: flex-start;
+        }
+
+        .mobile-menu-nav a:hover,
+        .mobile-menu-nav button:hover {
+            color: hsl(var(--foreground));
+            background: hsl(var(--foreground) / 0.05);
         }
 
         /* Typography */
@@ -379,6 +519,8 @@
     <header>
         <div class="header-content">
             <h1 class="text-2xl font-bold text-foreground font-mono tracking-tight">Dylan Bochman</h1>
+
+            <!-- Desktop Navigation -->
             <nav>
                 <a href="/" id="homeLink">Home</a>
                 <a href="#monitoring">Monitoring</a>
@@ -388,8 +530,44 @@
                     <svg class="icon icon-sun" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
                 </button>
             </nav>
+
+            <!-- Mobile Navigation Controls -->
+            <div class="mobile-nav-controls">
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
+                    <svg class="icon icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    <svg class="icon icon-sun" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                </button>
+                <button class="mobile-menu-button" onclick="openMobileMenu()" aria-label="Open menu">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" x2="20" y1="12" y2="12"></line>
+                        <line x1="4" x2="20" y1="6" y2="6"></line>
+                        <line x1="4" x2="20" y1="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
+
+    <!-- Mobile menu overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay" onclick="closeMobileMenu()"></div>
+
+    <!-- Mobile menu panel -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <h2 class="mobile-menu-title">Menu</h2>
+            <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close menu">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18"></path>
+                    <path d="m6 6 12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <nav class="mobile-menu-nav">
+            <a href="/" id="mobileHomeLink" onclick="closeMobileMenu()">Home</a>
+            <a href="#monitoring" onclick="closeMobileMenu()">Monitoring</a>
+            <a href="#recovery" onclick="closeMobileMenu()">Recovery</a>
+        </nav>
+    </div>
 
     <div class="content-wrapper">
         <h1 class="page-title" data-text="Operational Runbook">Operational Runbook</h1>
@@ -535,16 +713,18 @@ dylanbochman.com CNAME dbochman.github.io</code></pre>
     <script>
         // Theme management
         let isDark = false;
+        let userHasToggledTheme = false; // Track if user has manually changed theme
 
         function updateThemeIcons() {
-            const moonIcon = document.querySelector('.icon-moon');
-            const sunIcon = document.querySelector('.icon-sun');
+            // Update all theme icons (desktop + mobile menu)
+            const moonIcons = document.querySelectorAll('.icon-moon');
+            const sunIcons = document.querySelectorAll('.icon-sun');
             if (isDark) {
-                moonIcon.style.display = 'none';
-                sunIcon.style.display = 'block';
+                moonIcons.forEach(icon => icon.style.display = 'none');
+                sunIcons.forEach(icon => icon.style.display = 'block');
             } else {
-                moonIcon.style.display = 'block';
-                sunIcon.style.display = 'none';
+                moonIcons.forEach(icon => icon.style.display = 'block');
+                sunIcons.forEach(icon => icon.style.display = 'none');
             }
         }
 
@@ -577,6 +757,7 @@ dylanbochman.com CNAME dbochman.github.io</code></pre>
         }
 
         function toggleTheme() {
+            userHasToggledTheme = true; // Mark that user has manually toggled
             isDark = !isDark;
             if (isDark) {
                 document.documentElement.classList.add('dark');
@@ -607,18 +788,40 @@ dylanbochman.com CNAME dbochman.github.io</code></pre>
         // Update home links on page load
         document.addEventListener('DOMContentLoaded', updateHomeLinks);
 
-        // Listen for system theme changes (only if no explicit theme was passed)
+        // Listen for system theme changes (only if no explicit theme was passed AND user hasn't toggled)
         const urlParams = new URLSearchParams(window.location.search);
         if (!urlParams.get('theme')) {
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-                isDark = e.matches;
-                if (isDark) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
+                // Only respond to system changes if user hasn't manually toggled
+                if (!userHasToggledTheme) {
+                    isDark = e.matches;
+                    if (isDark) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                    updateThemeIcons();
                 }
-                updateThemeIcons();
             });
+        }
+
+        // Mobile menu functions
+        function openMobileMenu() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const menu = document.getElementById('mobileMenu');
+            overlay.classList.add('active');
+            menu.classList.add('active');
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const menu = document.getElementById('mobileMenu');
+            overlay.classList.remove('active');
+            menu.classList.remove('active');
+            // Re-enable body scroll
+            document.body.style.overflow = '';
         }
 
     </script>
