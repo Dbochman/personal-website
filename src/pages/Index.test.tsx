@@ -2,7 +2,7 @@
 import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import Index from './Index';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import { HelmetProvider } from 'react-helmet-async';
 
 describe('Index Page', () => {
