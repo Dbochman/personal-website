@@ -114,8 +114,9 @@
             padding: 0 1.5rem;
         }
 
-        a {
+        .content-wrapper a {
             color: hsl(var(--foreground));
+            text-decoration: underline !important;
             transition: opacity var(--timing-fast) var(--easing-smooth);
         }
 
@@ -379,20 +380,28 @@
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 2.25rem !important;
+            font-weight: 700 !important;
             border-bottom: 2px solid hsl(var(--foreground) / 0.2);
             padding-bottom: 0.5rem;
-            margin-top: 1rem;
+            margin-top: 2rem !important;
+            margin-bottom: 1rem !important;
         }
 
         h2 {
-            font-size: 1.5rem;
+            font-size: 1.75rem !important;
+            font-weight: 700 !important;
             border-bottom: 1px solid hsl(var(--border));
             padding-bottom: 0.375rem;
+            margin-top: 1.5rem !important;
+            margin-bottom: 0.75rem !important;
         }
 
         h3 {
-            font-size: 1.25rem;
+            font-size: 1.375rem !important;
+            font-weight: 700 !important;
+            margin-top: 1.25rem !important;
+            margin-bottom: 0.5rem !important;
         }
 
         @media (max-width: 768px) {
@@ -573,8 +582,8 @@
         <h1 class="page-title" data-text="Operational Runbook">Operational Runbook</h1>
 
     <h2>Quick References</h2>
-    <p><strong>Status:</strong> <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank">stats.uptimerobot.com/zquZllQfNJ</a> | <strong>Repo:</strong> <a href="https://github.com/Dbochman/personal-website" target="_blank">Dbochman/personal-website</a> | <strong>Deploy:</strong> <a href="https://github.com/Dbochman/dbochman.github.io" target="_blank">Dbochman/dbochman.github.io</a></p>
-    <p><strong>Dependencies:</strong> <a href="https://githubstatus.com" target="_blank">GitHub</a> | <a href="https://status.fastly.com" target="_blank">Fastly</a> | <a href="https://status.npmjs.org" target="_blank">NPM</a> | <a href="https://status.cloud.google.com" target="_blank">Google</a> | <a href="https://status.sentry.io" target="_blank">Sentry</a></p>
+    <p><strong>Status:</strong> <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank" style="text-decoration: underline;">stats.uptimerobot.com/zquZllQfNJ</a> | <strong>Repo:</strong> <a href="https://github.com/Dbochman/personal-website" target="_blank" style="text-decoration: underline;">Dbochman/personal-website</a> | <strong>Deploy:</strong> <a href="https://github.com/Dbochman/dbochman.github.io" target="_blank" style="text-decoration: underline;">Dbochman/dbochman.github.io</a></p>
+    <p><strong>Dependencies:</strong> <a href="https://githubstatus.com" target="_blank" style="text-decoration: underline;">GitHub</a> | <a href="https://status.fastly.com" target="_blank" style="text-decoration: underline;">Fastly</a> | <a href="https://status.npmjs.org" target="_blank" style="text-decoration: underline;">NPM</a> | <a href="https://status.cloud.google.com" target="_blank" style="text-decoration: underline;">Google</a> | <a href="https://status.sentry.io" target="_blank" style="text-decoration: underline;">Sentry</a></p>
 
     <h2>Architecture Overview</h2>
     <ul>
@@ -600,9 +609,9 @@
     <h3>UptimeRobot (External Monitoring)</h3>
     <ul>
         <li><strong>Check Frequency:</strong> Every 5 minutes</li>
-        <li><strong>Monitored URL:</strong> https://dylanbochman.com</li>
+        <li><strong>Monitored URL:</strong> <a href="https://dylanbochman.com" target="_blank">https://dylanbochman.com</a></li>
         <li><strong>Alert Method:</strong> Email notification</li>
-        <li><strong>Status Page:</strong> <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank">stats.uptimerobot.com/zquZllQfNJ</a></li>
+        <li><strong>Status Page:</strong> <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank" style="text-decoration: underline;">stats.uptimerobot.com/zquZllQfNJ</a></li>
     </ul>
 
     <h3>GitHub Actions (CI/CD Monitoring)</h3>
@@ -616,7 +625,7 @@
     <h2>Troubleshooting Guide</h2>
 
     <h3>Site Completely Down</h3>
-    <p><strong>Actions:</strong> Check <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank">UptimeRobot</a> → Try dbochman.github.io → Check <a href="https://githubstatus.com" target="_blank">GitHub status</a> → Run <code>nslookup dylanbochman.com</code></p>
+    <p><strong>Actions:</strong> Check <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank">UptimeRobot</a> → Try <a href="https://dbochman.github.io" target="_blank">dbochman.github.io</a> → Check <a href="https://githubstatus.com" target="_blank">GitHub status</a> → Run <code>nslookup dylanbochman.com</code></p>
     <p><strong>Causes:</strong> GitHub Pages outage | CDN issues (<a href="https://status.fastly.com" target="_blank">Fastly</a>) | DNS misconfiguration | Repo access | Build failure | NPM registry down</p>
 
     <h3>Slow Performance</h3>
