@@ -12,9 +12,9 @@ const Sidebar = () => {
           <h3 className="text-lg font-bold text-foreground mb-6">Core Expertise</h3>
           <div className="space-y-2">
             {coreExpertise.map((tech, index) => (
-              <div 
+              <div
                 key={index}
-                className="text-xs text-foreground/80 p-2 border border-foreground/20 bg-foreground/5 hover:bg-foreground/10 transition-colors cursor-pointer"
+                className="text-xs text-foreground/80 p-2 border border-foreground/20 bg-foreground/5 hover:bg-foreground/10 transition-colors"
               >
                 {tech}
               </div>
