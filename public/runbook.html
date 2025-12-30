@@ -3,13 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dylanbochman.com - Operational Runbook</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Disable transitions on page load to prevent flash */
+        .preload * {
+            transition: none !important;
+        }
+    </style>
     <script>
+        // Update favicons based on theme
+        function updateFavicons(isDark) {
+            const theme = isDark ? 'dark' : 'light';
+            document.getElementById('favicon').href = `/favicon-${theme}.ico`;
+            document.getElementById('favicon-16').href = `/favicon-16x16-${theme}.png`;
+            document.getElementById('favicon-32').href = `/favicon-32x32-${theme}.png`;
+            document.getElementById('apple-touch-icon').href = `/apple-touch-icon-${theme}.png`;
+        }
+
         // Apply theme immediately to prevent flash
         (function() {
+            // Disable transitions during initial load
+            document.documentElement.classList.add('preload');
+
             const urlParams = new URLSearchParams(window.location.search);
             const themeParam = urlParams.get('theme');
             let isDark;
@@ -23,8 +37,24 @@
             if (isDark) {
                 document.documentElement.classList.add('dark');
             }
+
+            // Update favicons immediately
+            updateFavicons(isDark);
+
+            // Re-enable transitions after page loads
+            window.addEventListener('load', () => {
+                document.documentElement.classList.remove('preload');
+            });
         })();
     </script>
+    <title>dylanbochman.com - Operational Runbook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" id="favicon" href="/favicon-light.ico" />
+    <link rel="icon" id="favicon-16" type="image/png" sizes="16x16" href="/favicon-16x16-light.png" />
+    <link rel="icon" id="favicon-32" type="image/png" sizes="32x32" href="/favicon-32x32-light.png" />
+    <link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-light.png" />
     <style>
         :root {
             --background: 0 0% 100%;
@@ -526,6 +556,13 @@ dylanbochman.com CNAME dbochman.github.io</code></pre>
                 document.documentElement.classList.remove('dark');
             }
             updateThemeIcons();
+            updateFavicons(isDark);
+            // Update home links immediately since DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', updateHomeLinks);
+            } else {
+                updateHomeLinks();
+            }
         }
 
         function toggleTheme() {
@@ -537,11 +574,17 @@ dylanbochman.com CNAME dbochman.github.io</code></pre>
             }
             updateThemeIcons();
             updateHomeLinks();
+            updateFavicons(isDark);
         }
 
         function updateHomeLinks() {
             const theme = isDark ? 'dark' : 'light';
-            const homeLinks = document.querySelectorAll('a[href="/"]');
+            // Select all links and filter to only home links
+            const allLinks = document.querySelectorAll('a');
+            const homeLinks = Array.from(allLinks).filter(link => {
+                const url = new URL(link.href, window.location.origin);
+                return url.pathname === '/' && url.origin === window.location.origin;
+            });
             homeLinks.forEach(link => {
                 link.href = `/?theme=${theme}`;
             });

@@ -22,18 +22,33 @@ const Header = () => {
 const [isDark, setIsDark] = useState(false)
 
 useEffect(() => {
-  if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    if (prefersDark) {
-      document.documentElement.classList.add('dark')
-      setIsDark(true)
-    }
+  // Check URL parameter first, then fall back to system preference
+  const urlParams = new URLSearchParams(window.location.search)
+  const themeParam = urlParams.get('theme')
+
+  let initialDark = false
+
+  if (themeParam) {
+    initialDark = themeParam === 'dark'
+  } else if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
+    initialDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  }
+
+  if (initialDark) {
+    document.documentElement.classList.add('dark')
+    setIsDark(true)
+  } else {
+    document.documentElement.classList.remove('dark')
+    setIsDark(false)
   }
 }, [])
 
 const toggleTheme = () => {
   document.documentElement.classList.toggle('dark')
-  setIsDark(!isDark)
+  const newIsDark = !isDark
+  setIsDark(newIsDark)
+  // Dispatch custom event for favicon update
+  window.dispatchEvent(new CustomEvent('themeChange', { detail: { isDark: newIsDark } }))
 }
 
   return (
