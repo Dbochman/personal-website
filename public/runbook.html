@@ -38,12 +38,11 @@
                 document.documentElement.classList.add('dark');
             }
 
-            // Update favicons immediately
-            updateFavicons(isDark);
-
             // Re-enable transitions after a short delay (prevents flash but enables smooth transitions)
             setTimeout(() => {
                 document.documentElement.classList.remove('preload');
+                // Update favicons after DOM is ready
+                updateFavicons(isDark);
             }, 100);
         })();
     </script>
