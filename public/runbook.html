@@ -41,10 +41,10 @@
             // Update favicons immediately
             updateFavicons(isDark);
 
-            // Re-enable transitions after page loads
-            window.addEventListener('load', () => {
+            // Re-enable transitions after a short delay (prevents flash but enables smooth transitions)
+            setTimeout(() => {
                 document.documentElement.classList.remove('preload');
-            });
+            }, 100);
         })();
     </script>
     <title>dylanbochman.com - Operational Runbook</title>
