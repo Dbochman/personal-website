@@ -368,9 +368,11 @@
 <body>
     <header>
         <div class="header-content">
-            <h1 class="site-title">Dylan Bochman</h1>
+            <h1 class="site-title" style="font-weight: 700;">Dylan Bochman</h1>
             <nav>
                 <a href="/" id="homeLink">Home</a>
+                <a href="#monitoring">Monitoring</a>
+                <a href="#recovery">Recovery</a>
                 <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode">
                     <svg class="icon icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
                     <svg class="icon icon-sun" style="display:none" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
@@ -405,7 +407,7 @@
         <li><strong>Dependencies:</strong> NPM packages (managed by Dependabot)</li>
     </ul>
 
-    <h2>Monitoring & Alerting</h2>
+    <h2 id="monitoring">Monitoring & Alerting</h2>
 
     <h3>UptimeRobot (External Monitoring)</h3>
     <ul>
@@ -439,7 +441,7 @@
     <h3>Build/Deployment Failures</h3>
     <p><strong>Check:</strong> GitHub Actions logs → npm test output → npm audit results → package-lock.json integrity</p>
 
-    <h2>Recovery Procedures</h2>
+    <h2 id="recovery">Recovery Procedures</h2>
 
     <h3>Emergency Rollback</h3>
     <pre><code># Identify last known good commit
