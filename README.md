@@ -16,7 +16,7 @@ This is the source repository for [dbochman.github.io](https://dbochman.github.i
 This repo contains the full editable source code, including:
 
 ```
-├── public/              # Static assets (resume PDF, favicon, social preview image)
+├── public/              # Static assets (runbook.html, resume PDF, dynamic favicons for light/dark themes, social preview image)
 ├── src/                 # Main application source code
 │   ├── components/       # Reusable UI components
 │   │   ├── ui/            # Radix UI components (accordion, button, card, etc.)
