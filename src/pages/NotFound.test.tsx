@@ -20,7 +20,10 @@ describe('NotFound', () => {
 
   it('should render 404 error message', () => {
     render(
-      <MemoryRouter initialEntries={['/non-existent-page']}>
+      <MemoryRouter
+        initialEntries={['/non-existent-page']}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <NotFound />
       </MemoryRouter>
     )
@@ -31,7 +34,10 @@ describe('NotFound', () => {
 
   it('should render return to home link', () => {
     render(
-      <MemoryRouter initialEntries={['/non-existent-page']}>
+      <MemoryRouter
+        initialEntries={['/non-existent-page']}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <NotFound />
       </MemoryRouter>
     )
@@ -46,7 +52,10 @@ describe('NotFound', () => {
     const testPath = '/some/invalid/path'
 
     render(
-      <MemoryRouter initialEntries={[testPath]}>
+      <MemoryRouter
+        initialEntries={[testPath]}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <NotFound />
       </MemoryRouter>
     )
@@ -59,7 +68,10 @@ describe('NotFound', () => {
 
   it('should render SEO component with correct props', () => {
     render(
-      <MemoryRouter initialEntries={['/non-existent-page']}>
+      <MemoryRouter
+        initialEntries={['/non-existent-page']}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <NotFound />
       </MemoryRouter>
     )
@@ -71,7 +83,10 @@ describe('NotFound', () => {
 
   it('should have proper styling classes', () => {
     render(
-      <MemoryRouter initialEntries={['/non-existent-page']}>
+      <MemoryRouter
+        initialEntries={['/non-existent-page']}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <NotFound />
       </MemoryRouter>
     )
@@ -91,10 +106,13 @@ describe('NotFound', () => {
 
   it('should log different paths separately', () => {
     const consoleSpy = vi.spyOn(console, 'error')
-    
+
     // Render first path
     const { unmount } = render(
-      <MemoryRouter initialEntries={['/first-path']}>
+      <MemoryRouter
+        initialEntries={['/first-path']}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <NotFound />
       </MemoryRouter>
     )
@@ -109,7 +127,10 @@ describe('NotFound', () => {
 
     // Render second path in new component
     render(
-      <MemoryRouter initialEntries={['/second-path']}>
+      <MemoryRouter
+        initialEntries={['/second-path']}
+        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+      >
         <NotFound />
       </MemoryRouter>
     )

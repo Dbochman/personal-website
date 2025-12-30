@@ -9,7 +9,7 @@ describe('Index Page', () => {
   it('should render all sections and key details', () => {
     render(
       <HelmetProvider>
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Index />
         </BrowserRouter>
       </HelmetProvider>
