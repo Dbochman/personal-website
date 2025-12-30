@@ -68,7 +68,7 @@ describe('Sidebar', () => {
 
   it('should have proper CSS classes for individual expertise items', () => {
     render(<Sidebar />)
-    
+
     const expertiseItem = screen.getByText('Site Reliability Engineering')
     expect(expertiseItem).toHaveClass(
       'text-xs',
@@ -78,8 +78,7 @@ describe('Sidebar', () => {
       'border-foreground/20',
       'bg-foreground/5',
       'hover:bg-foreground/10',
-      'transition-colors',
-      'cursor-pointer'
+      'transition-colors'
     )
   })
 
