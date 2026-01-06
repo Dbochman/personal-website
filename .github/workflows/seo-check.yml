@@ -1,0 +1,138 @@
+name: Weekly SEO Check
+
+on:
+  # Run every Monday at 9 AM UTC (1 AM PST / 4 AM EST)
+  schedule:
+    - cron: '0 9 * * 1'
+
+  # Allow manual triggering from GitHub UI
+  workflow_dispatch:
+
+jobs:
+  seo-check:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write  # For creating issues with results
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run SEO metrics check
+        id: seo-check
+        run: |
+          echo "Running SEO check for dylanbochman.com..."
+          npm run check-seo > seo-results.txt 2>&1 || true
+          cat seo-results.txt
+
+      - name: Extract metrics
+        id: extract
+        run: |
+          # Extract key metrics from output
+          MOBILE_PERF=$(grep "📱 MOBILE METRICS" -A 1 seo-results.txt | grep "Performance:" | awk '{print $3}' || echo "N/A")
+          MOBILE_SEO=$(grep "📱 MOBILE METRICS" -A 4 seo-results.txt | grep "SEO:" | awk '{print $3}' || echo "N/A")
+          DESKTOP_PERF=$(grep "💻 DESKTOP METRICS" -A 1 seo-results.txt | grep "Performance:" | awk '{print $3}' || echo "N/A")
+          DESKTOP_SEO=$(grep "💻 DESKTOP METRICS" -A 4 seo-results.txt | grep "SEO:" | awk '{print $3}' || echo "N/A")
+
+          echo "mobile_performance=$MOBILE_PERF" >> $GITHUB_OUTPUT
+          echo "mobile_seo=$MOBILE_SEO" >> $GITHUB_OUTPUT
+          echo "desktop_performance=$DESKTOP_PERF" >> $GITHUB_OUTPUT
+          echo "desktop_seo=$DESKTOP_SEO" >> $GITHUB_OUTPUT
+
+      - name: Create summary
+        run: |
+          echo "## 🔍 Weekly SEO Check Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Date:** $(date -u +%Y-%m-%d)" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** https://dylanbochman.com" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Scores" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Mobile | Desktop |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|--------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Performance | ${{ steps.extract.outputs.mobile_performance }} | ${{ steps.extract.outputs.desktop_performance }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| SEO Score | ${{ steps.extract.outputs.mobile_seo }} | ${{ steps.extract.outputs.desktop_seo }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📝 Full Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat seo-results.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload results artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-results-${{ github.run_number }}
+          path: seo-results.txt
+          retention-days: 90
+
+      - name: Check for performance degradation
+        id: check-degradation
+        run: |
+          # Extract numeric scores
+          MOBILE_PERF=$(echo "${{ steps.extract.outputs.mobile_performance }}" | grep -o '[0-9]*')
+          MOBILE_SEO=$(echo "${{ steps.extract.outputs.mobile_seo }}" | grep -o '[0-9]*')
+          DESKTOP_PERF=$(echo "${{ steps.extract.outputs.desktop_performance }}" | grep -o '[0-9]*')
+          DESKTOP_SEO=$(echo "${{ steps.extract.outputs.desktop_seo }}" | grep -o '[0-9]*')
+
+          # Flag if any score is below threshold
+          ALERT=false
+          if [ ! -z "$MOBILE_PERF" ] && [ "$MOBILE_PERF" -lt 70 ]; then ALERT=true; fi
+          if [ ! -z "$MOBILE_SEO" ] && [ "$MOBILE_SEO" -lt 90 ]; then ALERT=true; fi
+          if [ ! -z "$DESKTOP_PERF" ] && [ "$DESKTOP_PERF" -lt 80 ]; then ALERT=true; fi
+          if [ ! -z "$DESKTOP_SEO" ] && [ "$DESKTOP_SEO" -lt 90 ]; then ALERT=true; fi
+
+          echo "alert=$ALERT" >> $GITHUB_OUTPUT
+
+      - name: Create issue for degradation
+        if: steps.check-degradation.outputs.alert == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const date = new Date().toISOString().split('T')[0];
+            const body = `## ⚠️ SEO Performance Alert
+
+            The weekly SEO check detected scores below acceptable thresholds.
+
+            ### Scores
+
+            | Metric | Mobile | Desktop | Threshold |
+            |--------|--------|---------|-----------|
+            | Performance | ${{ steps.extract.outputs.mobile_performance }} | ${{ steps.extract.outputs.desktop_performance }} | 70/80 |
+            | SEO Score | ${{ steps.extract.outputs.mobile_seo }} | ${{ steps.extract.outputs.desktop_seo }} | 90 |
+
+            ### Action Required
+
+            1. Review the [full workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            2. Check PageSpeed Insights: https://pagespeed.web.dev/analysis?url=https://dylanbochman.com
+            3. Investigate recent changes that may have impacted performance
+            4. Run \`npm run check-seo\` locally for detailed diagnostics
+
+            ### Resources
+
+            - [SEO Measurement Docs](https://github.com/${{ github.repository }}/blob/main/docs/SEO_MEASUREMENT.md)
+            - [Core Web Vitals Guide](https://web.dev/vitals/)
+
+            ---
+
+            **Workflow Run:** ${{ github.run_id }}
+            **Date:** ${date}
+            `;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🔍 SEO Alert: Performance degradation detected (${date})`,
+              body: body,
+              labels: ['seo', 'performance', 'automated']
+            });
