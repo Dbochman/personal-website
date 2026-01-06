@@ -45,6 +45,13 @@ This document provides an overview of all planning, monitoring, and documentatio
     2. Async font loading (attempted)
     3. System font stack (major win)
 
+### Lighthouse Metrics Storage
+- **`lighthouse-metrics` branch** - Dedicated branch for automated Lighthouse metrics
+  - **Location:** `docs/metrics/lighthouse-history.json` and `docs/metrics/latest.json`
+  - **Access:** `git checkout lighthouse-metrics` or view on [GitHub](https://github.com/Dbochman/personal-website/tree/lighthouse-metrics/docs/metrics)
+  - **Why separate:** Eliminates git conflicts when automated workflow commits updates
+  - **Updated:** After every deployment via Lighthouse CI workflow
+
 ---
 
 ## 🔍 SEO & Analytics
@@ -84,14 +91,24 @@ This document provides an overview of all planning, monitoring, and documentatio
 ├── NODE_V24_UPGRADE_CHECKLIST.md      [✅ Completed]
 └── docs/
     ├── PLANNING_DOCS_INDEX.md         [📋 This file]
+    ├── FUTURE_WORK_ROADMAP.md         [🔮 Active]
     ├── PERFORMANCE_EVALUATION_GUIDE.md [📊 Active]
     ├── SEO_MEASUREMENT.md             [🔍 Active]
     ├── AUTOMATED_SEO_CHECKS.md        [🔍 Active]
     ├── ANALYTICS_INTEGRATIONS.md      [📈 Active]
     ├── CONSOLE_ERROR_MONITORING.md    [🐛 Active]
-    └── performance-reports/
-        ├── 2026-01-baseline.md        [📊 Historical]
-        └── 2026-01-post-optimization.md [📊 Completed]
+    ├── performance-reports/
+    │   ├── 2026-01-baseline.md        [📊 Historical]
+    │   └── 2026-01-post-optimization.md [📊 Completed]
+    └── metrics/                       [⚠️  Moved to lighthouse-metrics branch]
+        ├── ga4-history.json           [Still on main]
+        └── search-console-history.json [Still on main]
+
+lighthouse-metrics branch (separate):
+└── docs/
+    └── metrics/
+        ├── lighthouse-history.json    [🔄 Auto-updated]
+        └── latest.json                [🔄 Auto-updated]
 ```
 
 ---
@@ -141,8 +158,14 @@ This document provides an overview of all planning, monitoring, and documentatio
 
 ### 📝 Pending/Optional Tasks
 - [ ] Add `engines` field to package.json (Node >=24)
-- [ ] Delete backup branch after confidence period
-- [ ] Consider additional performance optimizations (see guide)
+- [ ] Consider additional performance optimizations (see `FUTURE_WORK_ROADMAP.md`)
+
+### ✅ Recent Updates (January 6, 2026)
+- ✅ Created comprehensive future work roadmap (`FUTURE_WORK_ROADMAP.md`)
+- ✅ Moved Lighthouse metrics to separate `lighthouse-metrics` branch
+- ✅ Fixed Lighthouse workflow git conflict issues
+- ✅ Cleaned up old merged branches (backup, test, dependabot branches)
+- ✅ Rebased `feat/nvidia-role-update` branch onto latest main
 
 ---
 
