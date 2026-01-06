@@ -21,7 +21,21 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Inter', 'system-ui', 'sans-serif'],
+				// Modern system font stack - zero web fonts, instant rendering
+				// macOS/iOS: San Francisco, Windows: Segoe UI, Android: Roboto
+				sans: [
+					'ui-sans-serif',
+					'system-ui',
+					'-apple-system',
+					'BlinkMacSystemFont',
+					'Segoe UI',
+					'Roboto',
+					'Helvetica Neue',
+					'Arial',
+					'sans-serif',
+					'Apple Color Emoji',
+					'Segoe UI Emoji'
+				],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
