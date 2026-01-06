@@ -2,6 +2,7 @@ import { createRoot } from 'react-dom/client'
 import * as Sentry from "@sentry/react"
 import App from './App.tsx'
 import './index.css'
+import { reportWebVitals } from './lib/reportWebVitals'
 
 // Initialize Sentry for error tracking
 Sentry.init({
@@ -22,3 +23,6 @@ if (
 }
 
 createRoot(document.getElementById("root")!).render(<App />);
+
+// Report Core Web Vitals to Google Analytics
+reportWebVitals();
