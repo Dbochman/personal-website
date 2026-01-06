@@ -1,21 +1,21 @@
 {
-  "generated": "2026-01-06T16:03:21.443Z",
+  "generated": "2026-01-06T16:12:17.979Z",
   "lighthouse": {
     "date": "2026-01-06",
     "scores": {
-      "performance": 55,
+      "performance": 80,
       "accessibility": 100,
       "bestPractices": 100,
       "seo": 100
     },
     "coreWebVitals": {
-      "lcp": 5120.130999999999,
-      "fid": 293,
-      "cls": 0,
-      "fcp": 3155.673999999999,
-      "tti": 5123.130999999999,
-      "tbt": 665.0000000000005,
-      "speedIndex": 5207.6795454279345
+      "lcp": 3284.4199999999996,
+      "fid": 199,
+      "cls": 0.06259455351981005,
+      "fcp": 2351.63,
+      "tti": 3718.6699999999996,
+      "tbt": 368,
+      "speedIndex": 2351.63
     }
   },
   "seo": {
@@ -26,18 +26,10 @@
     "seoScore": null
   },
   "analytics": {
-    "lastCheck": "2026-01-06T16:03:21.443Z",
-    "sessions_7d": 51,
-    "users_7d": 42,
-    "pageviews_7d": 205,
-    "avgSessionDuration": 355,
-    "bounceRate": 0.75,
-    "topPages": [
-      {
-        "page": "/",
-        "pageViews": 205
-      }
-    ]
+    "note": "Will be populated by GA4 Data API when configured",
+    "pageviews_7d": null,
+    "sessions_7d": null,
+    "topPages": []
   },
   "searchConsole": {
     "note": "Populated by weekly Search Console workflow",
