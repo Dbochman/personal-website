@@ -53,7 +53,7 @@ declare global {
     gtag: (
       command: string,
       eventName: string,
-      eventParams?: Record<string, any>
+      eventParams?: Record<string, unknown>
     ) => void;
   }
 }
