@@ -56,15 +56,15 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
+          # Stash the newly generated metrics files
+          git stash push docs/metrics/lighthouse-history.json docs/metrics/latest.json
+
           # Create or switch to lighthouse-metrics branch
           git fetch origin lighthouse-metrics:lighthouse-metrics 2>/dev/null || git checkout -b lighthouse-metrics
           git checkout lighthouse-metrics
 
-          # Ensure metrics directory exists
-          mkdir -p docs/metrics
-
-          # Copy metrics files from main branch
-          git checkout main -- docs/metrics/lighthouse-history.json docs/metrics/latest.json 2>/dev/null || true
+          # Restore the stashed metrics files
+          git stash pop || true
 
           # Add and commit if there are changes
           git add docs/metrics/lighthouse-history.json docs/metrics/latest.json
