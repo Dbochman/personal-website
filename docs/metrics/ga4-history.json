@@ -1,1 +1,36 @@
-[]
+[
+  {
+    "timestamp": "2026-01-06T16:03:21.442Z",
+    "date": "2026-01-06",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 51,
+      "users": 42,
+      "pageViews": 205,
+      "averageSessionDuration": 355,
+      "bounceRate": 0.75
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 51,
+        "users": 42,
+        "pageViews": 205
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 44,
+        "users": 39
+      },
+      {
+        "device": "mobile",
+        "sessions": 7,
+        "users": 3
+      }
+    ]
+  }
+]

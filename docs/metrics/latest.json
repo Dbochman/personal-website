@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-06T15:58:06.569Z",
+  "generated": "2026-01-06T16:03:21.443Z",
   "lighthouse": {
     "date": "2026-01-06",
     "scores": {
@@ -26,10 +26,18 @@
     "seoScore": null
   },
   "analytics": {
-    "note": "Will be populated by GA4 Data API when configured",
-    "pageviews_7d": null,
-    "sessions_7d": null,
-    "topPages": []
+    "lastCheck": "2026-01-06T16:03:21.443Z",
+    "sessions_7d": 51,
+    "users_7d": 42,
+    "pageviews_7d": 205,
+    "avgSessionDuration": 355,
+    "bounceRate": 0.75,
+    "topPages": [
+      {
+        "page": "/",
+        "pageViews": 205
+      }
+    ]
   },
   "searchConsole": {
     "note": "Populated by weekly Search Console workflow",
