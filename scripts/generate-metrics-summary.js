@@ -51,6 +51,16 @@ function generateSummary() {
       seoScore: null,
     };
 
+    // Placeholder for Search Console data (will be populated by weekly workflow)
+    summary.searchConsole = {
+      note: "Populated by weekly Search Console workflow",
+      lastCheck: null,
+      clicks: null,
+      impressions: null,
+      averageCTR: null,
+      averagePosition: null,
+    };
+
     // Placeholder for Analytics data (will be populated by GA4 workflow)
     summary.analytics = {
       note: "Will be populated by GA4 Data API when configured",

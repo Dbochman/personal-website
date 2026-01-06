@@ -1,0 +1,152 @@
+name: Search Console Data Export
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run weekly on Mondays at 11 AM UTC (after SEO check and Lighthouse)
+    - cron: '0 11 * * 1'
+
+jobs:
+  fetch-search-data:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch Search Console data
+        env:
+          SEARCH_CONSOLE_CREDENTIALS: ${{ secrets.SEARCH_CONSOLE_CREDENTIALS }}
+        run: node scripts/fetch-search-console-data.js
+
+      - name: Commit updated metrics
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/metrics/search-console-history.json docs/metrics/latest.json
+          git diff --staged --quiet || git commit -m "chore: update Search Console metrics [skip ci]"
+          git push
+
+      - name: Upload search data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-console-data
+          path: docs/metrics/search-console-history.json
+          retention-days: 90
+
+      - name: Check for significant ranking drops
+        run: |
+          node -e "
+          const fs = require('fs');
+          const historyFile = 'docs/metrics/search-console-history.json';
+
+          if (!fs.existsSync(historyFile)) {
+            console.log('⚠️  No history file found, skipping ranking check');
+            process.exit(0);
+          }
+
+          const history = JSON.parse(fs.readFileSync(historyFile, 'utf8'));
+
+          if (history.length < 2) {
+            console.log('⚠️  Not enough historical data for comparison');
+            process.exit(0);
+          }
+
+          const latest = history[history.length - 1];
+          const previous = history[history.length - 2];
+
+          console.log('📊 Search Console Metrics:');
+          console.log(\`   Clicks: \${latest.summary.totalClicks} (prev: \${previous.summary.totalClicks})\`);
+          console.log(\`   Impressions: \${latest.summary.totalImpressions} (prev: \${previous.summary.totalImpressions})\`);
+          console.log(\`   Avg Position: \${latest.summary.averagePosition} (prev: \${previous.summary.averagePosition})\`);
+          console.log(\`   Avg CTR: \${latest.summary.averageCTR}% (prev: \${previous.summary.averageCTR}%)\`);
+
+          const failures = [];
+
+          // Check for significant drops (>20% decrease)
+          const clicksChange = ((latest.summary.totalClicks - previous.summary.totalClicks) / previous.summary.totalClicks) * 100;
+          const impressionsChange = ((latest.summary.totalImpressions - previous.summary.totalImpressions) / previous.summary.totalImpressions) * 100;
+          const positionChange = latest.summary.averagePosition - previous.summary.averagePosition;
+
+          if (clicksChange < -20) {
+            failures.push(\`Clicks dropped by \${Math.abs(Math.round(clicksChange))}%\`);
+          }
+          if (impressionsChange < -20) {
+            failures.push(\`Impressions dropped by \${Math.abs(Math.round(impressionsChange))}%\`);
+          }
+          if (positionChange > 5) {
+            failures.push(\`Average position worsened by \${Math.round(positionChange * 10) / 10} positions\`);
+          }
+
+          if (failures.length > 0) {
+            console.error('❌ Significant SEO metric drops detected:');
+            failures.forEach(f => console.error(\`   - \${f}\`));
+            process.exit(1);
+          } else {
+            console.log('✅ No significant ranking drops detected');
+          }
+          "
+
+      - name: Create issue for ranking drops
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const history = JSON.parse(fs.readFileSync('docs/metrics/search-console-history.json', 'utf8'));
+            const latest = history[history.length - 1];
+            const previous = history[history.length - 2];
+            const date = new Date().toISOString().split('T')[0];
+
+            const clicksChange = ((latest.summary.totalClicks - previous.summary.totalClicks) / previous.summary.totalClicks) * 100;
+            const impressionsChange = ((latest.summary.totalImpressions - previous.summary.totalImpressions) / previous.summary.totalImpressions) * 100;
+            const positionChange = latest.summary.averagePosition - previous.summary.averagePosition;
+
+            const body = `## 📉 Search Console Ranking Alert
+
+            **Date:** ${date}
+            **Period:** ${latest.period.start} to ${latest.period.end}
+
+            ### Metrics Comparison
+            | Metric | Current | Previous | Change |
+            |--------|---------|----------|--------|
+            | Clicks | ${latest.summary.totalClicks} | ${previous.summary.totalClicks} | ${clicksChange > 0 ? '+' : ''}${Math.round(clicksChange)}% |
+            | Impressions | ${latest.summary.totalImpressions} | ${previous.summary.totalImpressions} | ${impressionsChange > 0 ? '+' : ''}${Math.round(impressionsChange)}% |
+            | Avg Position | ${latest.summary.averagePosition} | ${previous.summary.averagePosition} | ${positionChange > 0 ? '+' : ''}${Math.round(positionChange * 10) / 10} |
+            | Avg CTR | ${latest.summary.averageCTR}% | ${previous.summary.averageCTR}% | ${((latest.summary.averageCTR - previous.summary.averageCTR) / previous.summary.averageCTR * 100).toFixed(1)}% |
+
+            ### Top Queries (This Period)
+            ${latest.topQueries.slice(0, 5).map((q, i) =>
+              \`\${i + 1}. **\${q.query}** - \${q.clicks} clicks, position \${Math.round(q.position * 10) / 10}\`
+            ).join('\\n')}
+
+            ### Actions Required
+            1. Review the [search console data artifact](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            2. Investigate ranking drops for affected queries
+            3. Check for algorithm updates or penalties
+            4. Review content freshness and quality
+            5. Analyze competitor changes
+
+            ---
+            *This issue was automatically created by the Search Console workflow.*`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Search Ranking Drop Detected (${date})`,
+              body: body,
+              labels: ['seo', 'search-console', 'automated']
+            });

@@ -21,7 +21,8 @@
     "lighthouse": "lighthouse http://localhost:8080 --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
     "lighthouse:production": "lighthouse https://dylanbochman.com --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
     "save-lighthouse-scores": "node scripts/save-lighthouse-scores.js",
-    "generate-metrics-summary": "node scripts/generate-metrics-summary.js"
+    "generate-metrics-summary": "node scripts/generate-metrics-summary.js",
+    "fetch-search-console": "node scripts/fetch-search-console-data.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -59,6 +60,7 @@
     "cmdk": "^1.0.0",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.3.0",
+    "googleapis": "^169.0.0",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.562.0",
     "next-themes": "^0.4.6",
