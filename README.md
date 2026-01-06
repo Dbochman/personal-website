@@ -101,6 +101,12 @@ npm run lint         # Run ESLint for code quality checks
 npm test             # Run all tests once with Vitest
 npm run test:watch   # Run tests in watch mode for development
 npm run test:coverage # Run tests with coverage report
+npm run test:e2e     # Run Playwright console error monitoring tests
+npm run test:e2e:ui  # Run Playwright tests in interactive UI mode
+npm run test:e2e:headed # Run Playwright tests with visible browser
+
+# SEO & Monitoring
+npm run check-seo    # Check SEO metrics with PageSpeed Insights API
 ```
 
 ### Development Notes
@@ -183,6 +189,7 @@ npm run test:coverage
 **Testing & Quality:**
 - [Vitest](https://vitest.dev/) test runner with jsdom environment
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for component testing
+- [Playwright](https://playwright.dev/) for end-to-end console error monitoring
 - ESLint for code quality
 
 **Features:**
@@ -233,6 +240,31 @@ document.documentElement.classList.add('preload');
 
 ### Analytics
 This site uses [Google Analytics](https://analytics.google.com). The tracking script is included in `index.html` and is configured to only run in production.
+
+### Automated SEO Monitoring
+Weekly automated SEO checks using PageSpeed Insights API:
+- **Workflow:** `.github/workflows/seo-check.yml`
+- **Schedule:** Every Monday at 9 AM UTC
+- **Metrics:** Performance, SEO scores, Core Web Vitals (mobile & desktop)
+- **Alerting:** GitHub issues created if scores drop below thresholds
+- **Documentation:** [docs/AUTOMATED_SEO_CHECKS.md](docs/AUTOMATED_SEO_CHECKS.md)
+- **Manual Check:** `npm run check-seo`
+
+### Console Error Monitoring
+Automated console error detection with Playwright:
+- **Workflow:** `.github/workflows/console-check.yml`
+- **Trigger:** Runs after each successful deployment
+- **Coverage:** Home page and runbook page
+- **Alerting:** GitHub issues created when errors detected
+- **Documentation:** [docs/CONSOLE_ERROR_MONITORING.md](docs/CONSOLE_ERROR_MONITORING.md)
+- **Local Testing:** `npm run test:e2e`
+
+### Core Web Vitals Tracking
+Real-user monitoring with web-vitals library:
+- **Integration:** Google Analytics 4 custom events
+- **Metrics:** LCP, FID, CLS, INP, FCP, TTFB
+- **Mode:** Production only
+- **Dashboard:** Google Analytics Events → Web Vitals category
 
 ### Error Tracking
 Client-side error monitoring is provided by [Sentry](https://sentry.io). To enable:

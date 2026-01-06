@@ -597,7 +597,7 @@
         <li><strong>Tech Stack:</strong> React 18 + TypeScript + Vite 7 + Tailwind CSS 3</li>
         <li><strong>Runtime:</strong> Node.js 24 LTS (npm 11.x)</li>
         <li><strong>Deployment:</strong> GitHub Actions CI/CD pipeline</li>
-        <li><strong>Monitoring:</strong> UptimeRobot + Sentry + Google Analytics</li>
+        <li><strong>Monitoring:</strong> UptimeRobot + Automated SEO Checks + Console Error Detection + Core Web Vitals + Google Analytics</li>
     </ul>
 
     <h3>Infrastructure Components</h3>
@@ -619,10 +619,36 @@
         <li><strong>Status Page:</strong> <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank" style="text-decoration: underline;">stats.uptimerobot.com/zquZllQfNJ</a></li>
     </ul>
 
+    <h3>Automated SEO Monitoring</h3>
+    <ul>
+        <li><strong>Workflow:</strong> Weekly SEO Check (GitHub Actions)</li>
+        <li><strong>Schedule:</strong> Every Monday at 9 AM UTC</li>
+        <li><strong>Metrics:</strong> Performance, SEO scores, Core Web Vitals</li>
+        <li><strong>Alerting:</strong> GitHub issues created if scores drop below thresholds</li>
+        <li><strong>Documentation:</strong> <a href="https://github.com/Dbochman/personal-website/blob/main/docs/AUTOMATED_SEO_CHECKS.md" target="_blank" style="text-decoration: underline;">AUTOMATED_SEO_CHECKS.md</a></li>
+    </ul>
+
+    <h3>Console Error Monitoring</h3>
+    <ul>
+        <li><strong>Workflow:</strong> Automated Playwright tests after each deployment</li>
+        <li><strong>Coverage:</strong> Home page + Runbook page</li>
+        <li><strong>Detection:</strong> JavaScript errors, runtime exceptions, console warnings</li>
+        <li><strong>Alerting:</strong> GitHub issues with screenshots and error logs</li>
+        <li><strong>Documentation:</strong> <a href="https://github.com/Dbochman/personal-website/blob/main/docs/CONSOLE_ERROR_MONITORING.md" target="_blank" style="text-decoration: underline;">CONSOLE_ERROR_MONITORING.md</a></li>
+    </ul>
+
+    <h3>Core Web Vitals Tracking</h3>
+    <ul>
+        <li><strong>Integration:</strong> Google Analytics 4 custom events</li>
+        <li><strong>Metrics:</strong> LCP, FID, CLS, INP, FCP, TTFB</li>
+        <li><strong>Mode:</strong> Production only (real user monitoring)</li>
+        <li><strong>Dashboard:</strong> Google Analytics → Events → Web Vitals</li>
+    </ul>
+
     <h3>GitHub Actions (CI/CD Monitoring)</h3>
     <ul>
         <li><strong>Build status:</strong> Check workflow runs</li>
-        <li><strong>Test results:</strong> Automated test suite</li>
+        <li><strong>Test results:</strong> Automated test suite (Vitest + Playwright)</li>
         <li><strong>Security:</strong> npm audit + Dependabot alerts</li>
         <li><strong>Performance:</strong> Lighthouse CI budgets</li>
     </ul>
