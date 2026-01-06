@@ -2,7 +2,6 @@ import { createRoot } from 'react-dom/client'
 import * as Sentry from "@sentry/react"
 import App from './App.tsx'
 import './index.css'
-import { reportWebVitals } from './lib/reportWebVitals'
 
 // Initialize Sentry for error tracking
 Sentry.init({
@@ -24,5 +23,12 @@ if (
 
 createRoot(document.getElementById("root")!).render(<App />);
 
-// Report Core Web Vitals to Google Analytics
-reportWebVitals();
+// Lazy load Web Vitals reporting after page has loaded
+// This defers ~40KB of code that's not needed for initial render
+if (typeof window !== 'undefined') {
+  window.addEventListener('load', () => {
+    import('./lib/reportWebVitals').then(({ reportWebVitals }) => {
+      reportWebVitals();
+    });
+  });
+}
