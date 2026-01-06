@@ -1,0 +1,148 @@
+name: Lighthouse CI
+
+on:
+  workflow_run:
+    workflows: ["Build, Test, and Deploy"]
+    types:
+      - completed
+  workflow_dispatch:
+  schedule:
+    # Run weekly on Mondays at 10 AM UTC (after SEO check)
+    - cron: '0 10 * * 1'
+
+jobs:
+  lighthouse:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Wait for deployment to be live
+        if: github.event_name == 'workflow_run'
+        run: |
+          echo "Waiting 30 seconds for GitHub Pages deployment to propagate..."
+          sleep 30
+
+      - name: Run Lighthouse on production
+        run: |
+          npm install -g lighthouse
+          npm run lighthouse:production
+
+      - name: Save Lighthouse scores to history
+        run: npm run save-lighthouse-scores
+
+      - name: Generate metrics summary
+        run: npm run generate-metrics-summary
+
+      - name: Commit updated metrics
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/metrics/lighthouse-history.json docs/metrics/latest.json
+          git diff --staged --quiet || git commit -m "chore: update Lighthouse metrics [skip ci]"
+          git push
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: |
+            lighthouse-report.json
+            docs/metrics/
+          retention-days: 90
+
+      - name: Check performance thresholds
+        run: |
+          node -e "
+          const report = require('./lighthouse-report.json');
+          const performance = Math.round((report.categories?.performance?.score ?? 0) * 100);
+          const accessibility = Math.round((report.categories?.accessibility?.score ?? 0) * 100);
+          const seo = Math.round((report.categories?.seo?.score ?? 0) * 100);
+          const bestPractices = Math.round((report.categories?.['best-practices']?.score ?? 0) * 100);
+
+          console.log('📊 Lighthouse Scores:');
+          console.log(\`   Performance: \${performance}\`);
+          console.log(\`   Accessibility: \${accessibility}\`);
+          console.log(\`   SEO: \${seo}\`);
+          console.log(\`   Best Practices: \${bestPractices}\`);
+
+          const failures = [];
+          if (performance < 90) failures.push(\`Performance: \${performance} (threshold: 90)\`);
+          if (accessibility < 95) failures.push(\`Accessibility: \${accessibility} (threshold: 95)\`);
+          if (seo < 95) failures.push(\`SEO: \${seo} (threshold: 95)\`);
+          if (bestPractices < 90) failures.push(\`Best Practices: \${bestPractices} (threshold: 90)\`);
+
+          if (failures.length > 0) {
+            console.error('❌ Lighthouse thresholds not met:');
+            failures.forEach(f => console.error(\`   - \${f}\`));
+            process.exit(1);
+          } else {
+            console.log('✅ All Lighthouse thresholds met!');
+          }
+          "
+
+      - name: Create issue for performance degradation
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('./lighthouse-report.json', 'utf8'));
+            const date = new Date().toISOString().split('T')[0];
+
+            const performance = Math.round((report.categories?.performance?.score ?? 0) * 100);
+            const accessibility = Math.round((report.categories?.accessibility?.score ?? 0) * 100);
+            const seo = Math.round((report.categories?.seo?.score ?? 0) * 100);
+            const bestPractices = Math.round((report.categories?.['best-practices']?.score ?? 0) * 100);
+
+            const body = `## 📉 Lighthouse Performance Alert
+
+            **Date:** ${date}
+            **URL:** https://dylanbochman.com
+
+            ### Scores
+            | Category | Score | Threshold | Status |
+            |----------|-------|-----------|--------|
+            | Performance | ${performance} | 90 | ${performance >= 90 ? '✅' : '❌'} |
+            | Accessibility | ${accessibility} | 95 | ${accessibility >= 95 ? '✅' : '❌'} |
+            | SEO | ${seo} | 95 | ${seo >= 95 ? '✅' : '❌'} |
+            | Best Practices | ${bestPractices} | 90 | ${bestPractices >= 90 ? '✅' : '❌'} |
+
+            ### Core Web Vitals
+            - **LCP:** ${(report.audits?.['largest-contentful-paint']?.displayValue || 'N/A')}
+            - **FCP:** ${(report.audits?.['first-contentful-paint']?.displayValue || 'N/A')}
+            - **CLS:** ${(report.audits?.['cumulative-layout-shift']?.displayValue || 'N/A')}
+            - **TBT:** ${(report.audits?.['total-blocking-time']?.displayValue || 'N/A')}
+            - **Speed Index:** ${(report.audits?.['speed-index']?.displayValue || 'N/A')}
+
+            ### Actions Required
+            1. Review the [Lighthouse report artifact](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            2. Investigate performance regressions
+            3. Check the metrics history at \`docs/metrics/lighthouse-history.json\`
+            4. Address failing audits in the Lighthouse report
+
+            ---
+            *This issue was automatically created by the Lighthouse CI workflow.*`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Lighthouse Performance Degradation (${date})`,
+              body: body,
+              labels: ['performance', 'lighthouse', 'automated']
+            });
