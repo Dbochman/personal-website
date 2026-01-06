@@ -103,10 +103,10 @@ describe('Seo', () => {
 
     await waitFor(() => {
       expect(document.querySelector('meta[property="og:type"]')?.getAttribute('content')).toBe('website')
-      expect(document.querySelector('meta[property="og:url"]')?.getAttribute('content')).toBe('https://dbochman.github.io')
+      expect(document.querySelector('meta[property="og:url"]')?.getAttribute('content')).toBe('https://dylanbochman.com')
       expect(document.querySelector('meta[property="og:title"]')?.getAttribute('content')).toBe(`${title} | Dylan Bochman`)
       expect(document.querySelector('meta[property="og:description"]')?.getAttribute('content')).toBe(description)
-      expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://dbochman.github.io/social-preview.png')
+      expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://dylanbochman.com/social-preview.png')
     })
   })
 
@@ -126,8 +126,8 @@ describe('Seo', () => {
     )
 
     await waitFor(() => {
-      expect(document.querySelector('meta[property="og:url"]')?.getAttribute('content')).toBe('https://dbochman.github.io/custom-page')
-      expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://dbochman.github.io/custom-image.png')
+      expect(document.querySelector('meta[property="og:url"]')?.getAttribute('content')).toBe('https://dylanbochman.com/custom-page')
+      expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://dylanbochman.com/custom-image.png')
     })
   })
 
@@ -141,10 +141,10 @@ describe('Seo', () => {
 
     await waitFor(() => {
       expect(document.querySelector('meta[property="twitter:card"]')?.getAttribute('content')).toBe('summary_large_image')
-      expect(document.querySelector('meta[property="twitter:url"]')?.getAttribute('content')).toBe('https://dbochman.github.io')
+      expect(document.querySelector('meta[property="twitter:url"]')?.getAttribute('content')).toBe('https://dylanbochman.com')
       expect(document.querySelector('meta[property="twitter:title"]')?.getAttribute('content')).toBe(`${title} | Dylan Bochman`)
       expect(document.querySelector('meta[property="twitter:description"]')?.getAttribute('content')).toBe(description)
-      expect(document.querySelector('meta[property="twitter:image"]')?.getAttribute('content')).toBe('https://dbochman.github.io/social-preview.png')
+      expect(document.querySelector('meta[property="twitter:image"]')?.getAttribute('content')).toBe('https://dylanbochman.com/social-preview.png')
     })
   })
 
@@ -164,8 +164,8 @@ describe('Seo', () => {
     )
 
     await waitFor(() => {
-      expect(document.querySelector('meta[property="twitter:url"]')?.getAttribute('content')).toBe('https://dbochman.github.io/twitter-page')
-      expect(document.querySelector('meta[property="twitter:image"]')?.getAttribute('content')).toBe('https://dbochman.github.io/twitter-image.png')
+      expect(document.querySelector('meta[property="twitter:url"]')?.getAttribute('content')).toBe('https://dylanbochman.com/twitter-page')
+      expect(document.querySelector('meta[property="twitter:image"]')?.getAttribute('content')).toBe('https://dylanbochman.com/twitter-image.png')
     })
   })
 
@@ -194,8 +194,8 @@ describe('Seo', () => {
       expect(keywordsContent).toContain('Dylan Bochman')
       
       // Verify URLs are constructed correctly
-      expect(document.querySelector('meta[property="og:url"]')?.getAttribute('content')).toBe('https://dbochman.github.io/test-url')
-      expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://dbochman.github.io/test-image.jpg')
+      expect(document.querySelector('meta[property="og:url"]')?.getAttribute('content')).toBe('https://dylanbochman.com/test-url')
+      expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://dylanbochman.com/test-image.jpg')
     })
   })
 })

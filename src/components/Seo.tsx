@@ -13,8 +13,8 @@ interface SeoProps {
 const Seo = ({ title, description, imageUrl, url, keywords }: SeoProps) => {
   const siteName = 'Dylan Bochman';
   const fullTitle = `${title} | ${siteName}`;
-  const fullImageUrl = imageUrl ? `https://dbochman.github.io${imageUrl}` : 'https://dbochman.github.io/social-preview.png';
-  const fullUrl = url ? `https://dbochman.github.io${url}` : 'https://dbochman.github.io';
+  const fullImageUrl = imageUrl ? `https://dylanbochman.com${imageUrl}` : 'https://dylanbochman.com/social-preview.png';
+  const fullUrl = url ? `https://dylanbochman.com${url}` : 'https://dylanbochman.com';
   
   // Default technical skills keywords
   const defaultKeywords = [
@@ -22,6 +22,7 @@ const Seo = ({ title, description, imageUrl, url, keywords }: SeoProps) => {
     'SRE',
     'Technical Incident Manager',
     'Incident Management',
+    'Groq',
     'HashiCorp',
     'Spotify',
     'Post-Incident Analysis',
