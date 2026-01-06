@@ -26,3 +26,14 @@ dist-ssr
 # LHCI artefacts
 .lighthouseci/*
 !.lighthouserc.json
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# SEO check results
+seo-results*/
+
+# Coverage temp files
+coverage/.tmp/

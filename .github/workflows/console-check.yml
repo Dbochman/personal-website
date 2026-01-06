@@ -1,0 +1,112 @@
+name: Console Error Check
+
+on:
+  # Run after successful deployment
+  workflow_run:
+    workflows: ["Build, Test, and Deploy"]
+    types:
+      - completed
+
+  # Allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  console-check:
+    # Only run if the deploy workflow succeeded
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Wait for deployment to be live
+        run: |
+          echo "Waiting 30 seconds for GitHub Pages deployment to propagate..."
+          sleep 30
+
+      - name: Run console error checks on production
+        env:
+          BASE_URL: https://dylanbochman.com
+        run: npx playwright test
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: console-check-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 30
+
+      - name: Create issue for console errors
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const date = new Date().toISOString().split('T')[0];
+            const runUrl = `https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
+
+            const body = `## 🚨 Console Errors Detected
+
+            The automated console error check found issues on the deployed site.
+
+            ### Details
+
+            - **Date**: ${date}
+            - **Site**: https://dylanbochman.com
+            - **Workflow Run**: [View Details](${runUrl})
+
+            ### What to do
+
+            1. Review the [test results](${runUrl}) for specific error messages
+            2. Check the artifacts for detailed logs
+            3. Reproduce locally by running: \`npm run test:e2e\`
+            4. Fix the errors and redeploy
+
+            ### Test Report
+
+            Download the full test report from the workflow artifacts to see:
+            - Console error messages
+            - Screenshots of failures
+            - Network activity logs
+
+            ---
+
+            **Automated check run**: ${{ github.run_id }}
+            `;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Console Errors Detected (${date})`,
+              body: body,
+              labels: ['bug', 'console-error', 'automated']
+            });
+
+      - name: Post success summary
+        if: success()
+        run: |
+          echo "## ✅ Console Error Check Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "No critical console errors detected on the production site." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Checked:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Home page (https://dylanbochman.com)" >> $GITHUB_STEP_SUMMARY
+          echo "- Runbook page (https://dylanbochman.com/runbook.html)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Date:** $(date -u +%Y-%m-%d\ %H:%M\ UTC)" >> $GITHUB_STEP_SUMMARY
