@@ -11,12 +11,12 @@ This document provides an overview of all planning, monitoring, and documentatio
 ### Node.js v24 Upgrade
 **Status:** ✅ COMPLETED (January 6, 2026)
 
-- **`/NODE_V24_UPGRADE_PLAN.md`** - Comprehensive upgrade plan with phases, timeline, and lessons learned
+- **`docs/completed-projects/NODE_V24_UPGRADE_PLAN.md`** - Comprehensive upgrade plan with phases, timeline, and lessons learned
   - Status: Completed successfully
   - Duration: ~45 minutes (Phases 3-7)
   - Version achieved: Node v24.12.0, npm v11.6.2
 
-- **`/NODE_V24_UPGRADE_CHECKLIST.md`** - Execution checklist with all tasks marked complete
+- **`docs/completed-projects/NODE_V24_UPGRADE_CHECKLIST.md`** - Execution checklist with all tasks marked complete
   - Status: All items checked off
   - Issues documented and resolved
   - Rollback plan available (not needed)
@@ -87,8 +87,8 @@ This document provides an overview of all planning, monitoring, and documentatio
 
 ```
 /
-├── NODE_V24_UPGRADE_PLAN.md           [✅ Completed]
-├── NODE_V24_UPGRADE_CHECKLIST.md      [✅ Completed]
+├── README.md                          [📖 Project overview]
+├── CLAUDE.md                          [🤖 Claude Code config]
 └── docs/
     ├── PLANNING_DOCS_INDEX.md         [📋 This file]
     ├── FUTURE_WORK_ROADMAP.md         [🔮 Active]
@@ -97,12 +97,15 @@ This document provides an overview of all planning, monitoring, and documentatio
     ├── AUTOMATED_SEO_CHECKS.md        [🔍 Active]
     ├── ANALYTICS_INTEGRATIONS.md      [📈 Active]
     ├── CONSOLE_ERROR_MONITORING.md    [🐛 Active]
+    ├── completed-projects/
+    │   ├── NODE_V24_UPGRADE_PLAN.md   [✅ Completed]
+    │   └── NODE_V24_UPGRADE_CHECKLIST.md [✅ Completed]
     ├── performance-reports/
     │   ├── 2026-01-baseline.md        [📊 Historical]
     │   └── 2026-01-post-optimization.md [📊 Completed]
-    └── metrics/                       [⚠️  Moved to lighthouse-metrics branch]
-        ├── ga4-history.json           [Still on main]
-        └── search-console-history.json [Still on main]
+    └── metrics/                       [⚠️  Lighthouse files moved to lighthouse-metrics branch]
+        ├── ga4-history.json           [📈 GA4 data]
+        └── search-console-history.json [🔍 Search Console data]
 
 lighthouse-metrics branch (separate):
 └── docs/
