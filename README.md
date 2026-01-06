@@ -283,11 +283,46 @@ External uptime monitoring is configured with [UptimeRobot](https://uptimerobot.
 - **Monitored URL:** https://dylanbochman.com
 
 ### Performance Monitoring
-Comprehensive performance monitoring with [Lighthouse CI](https://github.com/GoogleChrome/lighthouse-ci):
-- **Core Web Vitals:** FCP <2s, LCP <3s, CLS <0.1, TTI <4s
-- **Quality Gates:** Performance ≥90%, Accessibility ≥95%, SEO ≥95%
-- **Resource Budgets:** Total 500KB, JS 300KB, CSS 75KB, Images 100KB
-- **Bundle Analysis:** Interactive bundle analysis with rollup-plugin-visualizer
+Comprehensive performance monitoring with Lighthouse CI:
+- **Workflow:** `.github/workflows/lighthouse.yml`
+- **Schedule:** After deployment, weekly Mondays at 10 AM UTC
+- **Metrics:** Performance, Accessibility, Best Practices, SEO scores
+- **Core Web Vitals:** LCP, FID, CLS, FCP, TTI, TBT, Speed Index
+- **Historical Tracking:** `docs/metrics/lighthouse-history.json` (100 entries)
+- **Alerting:** GitHub issues when scores drop below thresholds
+- **Manual Test:** `npm run lighthouse:production`
+
+### Search Console Integration
+Automated SEO visibility tracking via Google Search Console API:
+- **Workflow:** `.github/workflows/search-console.yml`
+- **Schedule:** Weekly on Mondays at 11 AM UTC
+- **Metrics:** Clicks, impressions, CTR, average position
+- **Data:** Top queries and pages from last 7 days
+- **Historical Tracking:** `docs/metrics/search-console-history.json` (52 weeks)
+- **Alerting:** GitHub issues for >20% ranking drops
+- **Manual Fetch:** `npm run fetch-search-console`
+- **Setup Required:** Google Cloud service account with Search Console API access
+
+### GA4 Analytics Export
+Automated visitor analytics from Google Analytics 4 Data API:
+- **Workflow:** `.github/workflows/ga4-export.yml`
+- **Schedule:** Weekly on Mondays at 12 PM UTC
+- **Metrics:** Sessions, users, page views, bounce rate, session duration
+- **Data:** Top pages and device breakdown from last 7 days
+- **Historical Tracking:** `docs/metrics/ga4-history.json` (52 weeks)
+- **Alerting:** GitHub issues for >30% traffic drops or bounce rate spikes
+- **Manual Fetch:** `npm run fetch-ga4`
+- **Setup Required:** Google Cloud service account with GA4 Data API access
+
+### Metrics Dashboard
+All analytics consolidated in `docs/metrics/latest.json`:
+- Latest Lighthouse scores and Core Web Vitals
+- Search Console performance (clicks, impressions, CTR, position)
+- GA4 analytics (sessions, users, pageviews, top pages)
+- Automated updates from weekly workflows
+- Accessible via GitHub raw URL for external dashboards
+
+**Complete Setup Guide:** [docs/ANALYTICS_INTEGRATIONS.md](docs/ANALYTICS_INTEGRATIONS.md)
 
 ### Operational Documentation
 - **Incident Response:** [/runbook.html](https://dylanbochman.com/runbook.html)
