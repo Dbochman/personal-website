@@ -13,10 +13,16 @@
         // Update favicons based on theme
         function updateFavicons(isDark) {
             const theme = isDark ? 'dark' : 'light';
-            document.getElementById('favicon').href = `/favicon-${theme}.ico`;
-            document.getElementById('favicon-16').href = `/favicon-16x16-${theme}.png`;
-            document.getElementById('favicon-32').href = `/favicon-32x32-${theme}.png`;
-            document.getElementById('apple-touch-icon').href = `/apple-touch-icon-${theme}.png`;
+            const favicon = document.getElementById('favicon');
+            const favicon16 = document.getElementById('favicon-16');
+            const favicon32 = document.getElementById('favicon-32');
+            const appleTouchIcon = document.getElementById('apple-touch-icon');
+
+            // Only update if elements exist (they may not be loaded yet)
+            if (favicon) favicon.href = `/favicon-${theme}.ico`;
+            if (favicon16) favicon16.href = `/favicon-16x16-${theme}.png`;
+            if (favicon32) favicon32.href = `/favicon-32x32-${theme}.png`;
+            if (appleTouchIcon) appleTouchIcon.href = `/apple-touch-icon-${theme}.png`;
         }
 
         // Apply theme immediately to prevent flash
