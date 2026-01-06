@@ -22,9 +22,11 @@
     "lighthouse:production": "lighthouse https://dylanbochman.com --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
     "save-lighthouse-scores": "node scripts/save-lighthouse-scores.js",
     "generate-metrics-summary": "node scripts/generate-metrics-summary.js",
-    "fetch-search-console": "node scripts/fetch-search-console-data.js"
+    "fetch-search-console": "node scripts/fetch-search-console-data.js",
+    "fetch-ga4": "node scripts/fetch-ga4-data.js"
   },
   "dependencies": {
+    "@google-analytics/data": "^5.2.1",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",

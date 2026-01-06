@@ -1,0 +1,217 @@
+/**
+ * Fetch Google Analytics 4 (GA4) data
+ *
+ * This script fetches analytics data from the GA4 Data API
+ * and saves it to docs/metrics/ga4-history.json for tracking visitor engagement.
+ *
+ * Required environment variables:
+ * - GA4_CREDENTIALS: Base64-encoded service account JSON credentials
+ * - GA4_PROPERTY_ID: Your GA4 property ID (format: properties/123456789)
+ *
+ * Setup instructions:
+ * 1. Go to https://console.cloud.google.com/
+ * 2. Create a new project or select existing
+ * 3. Enable "Google Analytics Data API"
+ * 4. Create a service account and download JSON key
+ * 5. In GA4 (https://analytics.google.com), go to Admin > Property Access Management
+ * 6. Add the service account email as a Viewer
+ * 7. Get your property ID from Admin > Property Settings
+ * 8. Base64 encode the JSON key: cat service-account.json | base64
+ * 9. Add to GitHub secrets:
+ *    - GA4_CREDENTIALS (base64-encoded JSON)
+ *    - GA4_PROPERTY_ID (e.g., properties/123456789)
+ */
+
+import { BetaAnalyticsDataClient } from '@google-analytics/data';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const HISTORY_FILE = path.join(__dirname, '../docs/metrics/ga4-history.json');
+
+async function fetchGA4Data() {
+  try {
+    // Check for credentials
+    if (!process.env.GA4_CREDENTIALS || !process.env.GA4_PROPERTY_ID) {
+      console.log('⚠️  No GA4 credentials found, skipping');
+      console.log('💡 To enable: Set GA4_CREDENTIALS and GA4_PROPERTY_ID environment variables');
+      return;
+    }
+
+    // Decode and parse credentials
+    const credentials = JSON.parse(
+      Buffer.from(process.env.GA4_CREDENTIALS, 'base64').toString('utf-8')
+    );
+
+    const propertyId = process.env.GA4_PROPERTY_ID;
+
+    // Initialize GA4 client
+    const analyticsDataClient = new BetaAnalyticsDataClient({
+      credentials,
+    });
+
+    console.log(`📊 Fetching GA4 data for property ${propertyId}...`);
+
+    // Fetch data for last 7 days
+    const [response] = await analyticsDataClient.runReport({
+      property: propertyId,
+      dateRanges: [
+        {
+          startDate: '7daysAgo',
+          endDate: 'today',
+        },
+      ],
+      dimensions: [
+        { name: 'pagePath' },
+        { name: 'deviceCategory' },
+      ],
+      metrics: [
+        { name: 'sessions' },
+        { name: 'totalUsers' },
+        { name: 'screenPageViews' },
+        { name: 'averageSessionDuration' },
+        { name: 'bounceRate' },
+      ],
+    });
+
+    // Extract overall metrics
+    let totalSessions = 0;
+    let totalUsers = 0;
+    let totalPageViews = 0;
+    let totalSessionDuration = 0;
+    let totalBounceRate = 0;
+
+    const pageMetrics = {};
+    const deviceMetrics = {};
+
+    response.rows?.forEach(row => {
+      const pagePath = row.dimensionValues[0].value;
+      const deviceCategory = row.dimensionValues[1].value;
+      const sessions = parseInt(row.metricValues[0].value || '0', 10);
+      const users = parseInt(row.metricValues[1].value || '0', 10);
+      const pageViews = parseInt(row.metricValues[2].value || '0', 10);
+      const sessionDuration = parseFloat(row.metricValues[3].value || '0');
+      const bounceRate = parseFloat(row.metricValues[4].value || '0');
+
+      totalSessions += sessions;
+      totalUsers += users;
+      totalPageViews += pageViews;
+      totalSessionDuration += sessionDuration * sessions;
+      totalBounceRate += bounceRate * sessions;
+
+      // Track by page
+      if (!pageMetrics[pagePath]) {
+        pageMetrics[pagePath] = { sessions: 0, users: 0, pageViews: 0 };
+      }
+      pageMetrics[pagePath].sessions += sessions;
+      pageMetrics[pagePath].users += users;
+      pageMetrics[pagePath].pageViews += pageViews;
+
+      // Track by device
+      if (!deviceMetrics[deviceCategory]) {
+        deviceMetrics[deviceCategory] = { sessions: 0, users: 0 };
+      }
+      deviceMetrics[deviceCategory].sessions += sessions;
+      deviceMetrics[deviceCategory].users += users;
+    });
+
+    const avgSessionDuration = totalSessions > 0 ? totalSessionDuration / totalSessions : 0;
+    const avgBounceRate = totalSessions > 0 ? totalBounceRate / totalSessions : 0;
+
+    // Get top pages
+    const topPages = Object.entries(pageMetrics)
+      .map(([page, metrics]) => ({ page, ...metrics }))
+      .sort((a, b) => b.pageViews - a.pageViews)
+      .slice(0, 10);
+
+    // Create data entry
+    const dataEntry = {
+      timestamp: new Date().toISOString(),
+      date: new Date().toISOString().split('T')[0],
+      period: {
+        description: 'Last 7 days',
+      },
+      summary: {
+        sessions: totalSessions,
+        users: totalUsers,
+        pageViews: totalPageViews,
+        averageSessionDuration: Math.round(avgSessionDuration),
+        bounceRate: Math.round(avgBounceRate * 100) / 100,
+      },
+      topPages,
+      deviceBreakdown: Object.entries(deviceMetrics).map(([device, metrics]) => ({
+        device,
+        ...metrics,
+      })),
+    };
+
+    // Read existing history
+    let history = [];
+    if (fs.existsSync(HISTORY_FILE)) {
+      history = JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8'));
+    }
+
+    // Append new data
+    history.push(dataEntry);
+
+    // Keep only last 52 entries (1 year of weekly data)
+    if (history.length > 52) {
+      history = history.slice(-52);
+    }
+
+    // Write updated history
+    fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
+
+    console.log('✅ GA4 data saved to history');
+    console.log(`📈 Sessions: ${totalSessions}, Users: ${totalUsers}, Page Views: ${totalPageViews}`);
+    console.log(`📊 Total historical entries: ${history.length}`);
+
+    // Update the metrics summary
+    updateMetricsSummary(dataEntry.summary, topPages);
+
+  } catch (error) {
+    console.error('❌ Error fetching GA4 data:', error.message);
+    if (error.code === 'PERMISSION_DENIED') {
+      console.error('💡 Make sure the service account has Viewer access to the GA4 property');
+    }
+    // Don't fail the build if GA4 fetch fails
+    process.exit(0);
+  }
+}
+
+function updateMetricsSummary(analyticsData, topPages) {
+  const SUMMARY_FILE = path.join(__dirname, '../docs/metrics/latest.json');
+
+  try {
+    let summary = { generated: new Date().toISOString() };
+
+    if (fs.existsSync(SUMMARY_FILE)) {
+      summary = JSON.parse(fs.readFileSync(SUMMARY_FILE, 'utf8'));
+    }
+
+    summary.analytics = {
+      lastCheck: new Date().toISOString(),
+      sessions_7d: analyticsData.sessions,
+      users_7d: analyticsData.users,
+      pageviews_7d: analyticsData.pageViews,
+      avgSessionDuration: analyticsData.averageSessionDuration,
+      bounceRate: analyticsData.bounceRate,
+      topPages: topPages.slice(0, 5).map(p => ({
+        page: p.page,
+        pageViews: p.pageViews,
+      })),
+    };
+
+    summary.generated = new Date().toISOString();
+
+    fs.writeFileSync(SUMMARY_FILE, JSON.stringify(summary, null, 2));
+    console.log('✅ Updated metrics summary with GA4 data');
+  } catch (error) {
+    console.error('⚠️  Could not update metrics summary:', error.message);
+  }
+}
+
+fetchGA4Data();

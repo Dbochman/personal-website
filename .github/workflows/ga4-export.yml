@@ -1,0 +1,167 @@
+name: GA4 Data Export
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run weekly on Mondays at 12 PM UTC (after SEO, Lighthouse, and Search Console)
+    - cron: '0 12 * * 1'
+
+jobs:
+  fetch-analytics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch GA4 analytics data
+        env:
+          GA4_CREDENTIALS: ${{ secrets.GA4_CREDENTIALS }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: node scripts/fetch-ga4-data.js
+
+      - name: Commit updated metrics
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/metrics/ga4-history.json docs/metrics/latest.json
+          git diff --staged --quiet || git commit -m "chore: update GA4 analytics metrics [skip ci]"
+          git push
+
+      - name: Upload analytics data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ga4-analytics-data
+          path: docs/metrics/ga4-history.json
+          retention-days: 90
+
+      - name: Check for traffic anomalies
+        run: |
+          node -e "
+          const fs = require('fs');
+          const historyFile = 'docs/metrics/ga4-history.json';
+
+          if (!fs.existsSync(historyFile)) {
+            console.log('⚠️  No history file found, skipping anomaly check');
+            process.exit(0);
+          }
+
+          const history = JSON.parse(fs.readFileSync(historyFile, 'utf8'));
+
+          if (history.length < 2) {
+            console.log('⚠️  Not enough historical data for comparison');
+            process.exit(0);
+          }
+
+          const latest = history[history.length - 1];
+          const previous = history[history.length - 2];
+
+          console.log('📊 GA4 Analytics Metrics:');
+          console.log(\`   Sessions: \${latest.summary.sessions} (prev: \${previous.summary.sessions})\`);
+          console.log(\`   Users: \${latest.summary.users} (prev: \${previous.summary.users})\`);
+          console.log(\`   Page Views: \${latest.summary.pageViews} (prev: \${previous.summary.pageViews})\`);
+          console.log(\`   Avg Session Duration: \${latest.summary.averageSessionDuration}s (prev: \${previous.summary.averageSessionDuration}s)\`);
+          console.log(\`   Bounce Rate: \${latest.summary.bounceRate}% (prev: \${previous.summary.bounceRate}%)\`);
+
+          const failures = [];
+
+          // Check for significant drops (>30% decrease in traffic)
+          const sessionsChange = ((latest.summary.sessions - previous.summary.sessions) / previous.summary.sessions) * 100;
+          const usersChange = ((latest.summary.users - previous.summary.users) / previous.summary.users) * 100;
+          const pageViewsChange = ((latest.summary.pageViews - previous.summary.pageViews) / previous.summary.pageViews) * 100;
+
+          // Check for concerning increases in bounce rate (>10 percentage points)
+          const bounceRateChange = latest.summary.bounceRate - previous.summary.bounceRate;
+
+          if (sessionsChange < -30) {
+            failures.push(\`Sessions dropped by \${Math.abs(Math.round(sessionsChange))}%\`);
+          }
+          if (usersChange < -30) {
+            failures.push(\`Users dropped by \${Math.abs(Math.round(usersChange))}%\`);
+          }
+          if (pageViewsChange < -30) {
+            failures.push(\`Page views dropped by \${Math.abs(Math.round(pageViewsChange))}%\`);
+          }
+          if (bounceRateChange > 10) {
+            failures.push(\`Bounce rate increased by \${Math.round(bounceRateChange * 10) / 10} percentage points\`);
+          }
+
+          if (failures.length > 0) {
+            console.error('❌ Significant traffic anomalies detected:');
+            failures.forEach(f => console.error(\`   - \${f}\`));
+            process.exit(1);
+          } else {
+            console.log('✅ No significant traffic anomalies detected');
+          }
+          "
+
+      - name: Create issue for traffic anomalies
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const history = JSON.parse(fs.readFileSync('docs/metrics/ga4-history.json', 'utf8'));
+            const latest = history[history.length - 1];
+            const previous = history[history.length - 2];
+            const date = new Date().toISOString().split('T')[0];
+
+            const sessionsChange = ((latest.summary.sessions - previous.summary.sessions) / previous.summary.sessions) * 100;
+            const usersChange = ((latest.summary.users - previous.summary.users) / previous.summary.users) * 100;
+            const pageViewsChange = ((latest.summary.pageViews - previous.summary.pageViews) / previous.summary.pageViews) * 100;
+            const bounceRateChange = latest.summary.bounceRate - previous.summary.bounceRate;
+
+            const body = `## 📉 Traffic Anomaly Alert
+
+            **Date:** ${date}
+            **Period:** ${latest.period.description}
+
+            ### Metrics Comparison
+            | Metric | Current | Previous | Change |
+            |--------|---------|----------|--------|
+            | Sessions | ${latest.summary.sessions} | ${previous.summary.sessions} | ${sessionsChange > 0 ? '+' : ''}${Math.round(sessionsChange)}% |
+            | Users | ${latest.summary.users} | ${previous.summary.users} | ${usersChange > 0 ? '+' : ''}${Math.round(usersChange)}% |
+            | Page Views | ${latest.summary.pageViews} | ${previous.summary.pageViews} | ${pageViewsChange > 0 ? '+' : ''}${Math.round(pageViewsChange)}% |
+            | Avg Session Duration | ${latest.summary.averageSessionDuration}s | ${previous.summary.averageSessionDuration}s | ${latest.summary.averageSessionDuration - previous.summary.averageSessionDuration}s |
+            | Bounce Rate | ${latest.summary.bounceRate}% | ${previous.summary.bounceRate}% | ${bounceRateChange > 0 ? '+' : ''}${Math.round(bounceRateChange * 10) / 10}% |
+
+            ### Top Pages (This Period)
+            ${latest.topPages.slice(0, 5).map((p, i) =>
+              \`\${i + 1}. **\${p.page}** - \${p.pageViews} views\`
+            ).join('\\n')}
+
+            ### Device Breakdown
+            ${latest.deviceBreakdown.map(d =>
+              \`- **\${d.device}**: \${d.sessions} sessions, \${d.users} users\`
+            ).join('\\n')}
+
+            ### Actions Required
+            1. Review the [GA4 data artifact](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            2. Check for tracking issues or implementation changes
+            3. Investigate potential causes: marketing campaigns, seasonal trends, technical issues
+            4. Review Google Search Console for search traffic changes
+            5. Check for any site errors or performance degradation
+
+            ---
+            *This issue was automatically created by the GA4 Data Export workflow.*`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Traffic Anomaly Detected (${date})`,
+              body: body,
+              labels: ['analytics', 'ga4', 'automated']
+            });
