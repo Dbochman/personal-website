@@ -1,17 +1,6 @@
 import { createRoot } from 'react-dom/client'
-import * as Sentry from "@sentry/react"
 import App from './App.tsx'
 import './index.css'
-
-// Initialize Sentry for error tracking
-Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN,
-  environment: import.meta.env.MODE,
-  tracesSampleRate: 1.0,
-  integrations: [
-    Sentry.browserTracingIntegration(),
-  ],
-})
 
 // Respect system dark-mode on first paint
 if (
@@ -22,6 +11,24 @@ if (
 }
 
 createRoot(document.getElementById("root")!).render(<App />);
+
+// Lazy load Sentry after initial render
+// This defers ~128KB (44KB gzipped) of code that's not needed for first paint
+if (typeof window !== 'undefined') {
+  // Initialize Sentry after a short delay to allow critical rendering first
+  setTimeout(() => {
+    import('@sentry/react').then((Sentry) => {
+      Sentry.init({
+        dsn: import.meta.env.VITE_SENTRY_DSN,
+        environment: import.meta.env.MODE,
+        tracesSampleRate: 1.0,
+        integrations: [
+          Sentry.browserTracingIntegration(),
+        ],
+      });
+    });
+  }, 1000);
+}
 
 // Lazy load Web Vitals reporting after page has loaded
 // This defers ~40KB of code that's not needed for initial render
