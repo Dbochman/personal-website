@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { navigationItems } from "@/data/navigation";
 import MobileNav from "@/components/MobileNav";
 import { useNavigation } from '@/context/NavigationContext';
@@ -63,16 +64,29 @@ const toggleTheme = () => {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex gap-6">
-            {navigationItems.map((item) => (
-              <a 
-                key={item.href}
-                href={item.href} 
-                onClick={item.href === '#experience' ? handleExperienceClick : undefined}
-                className="text-foreground/70 hover:text-foreground transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4"
-              >
-                {item.label}
-              </a>
-            ))}
+            {navigationItems.map((item) => {
+              const isHashLink = item.href.startsWith('#');
+              const linkClass = "text-foreground/70 hover:text-foreground transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4";
+
+              return isHashLink ? (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={item.href === '#experience' ? handleExperienceClick : undefined}
+                  className={linkClass}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className={linkClass}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
             <button
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
