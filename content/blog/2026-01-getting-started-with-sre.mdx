@@ -1,82 +1,21 @@
 ---
-title: "Getting Started with Site Reliability Engineering"
-slug: "getting-started-with-sre"
+title: "Hello, World"
+slug: "hello-world"
 date: "2026-01-07"
 author: "Dylan Bochman"
-description: "An introduction to Site Reliability Engineering principles and practices, drawn from experience at Groq, HashiCorp, and Spotify."
-tags: ["SRE", "Reliability", "DevOps"]
-category: "Technical"
+description: "A placeholder post while this blog is under active development."
+tags: ["Meta"]
+category: "General"
 featured: true
 draft: false
 ---
 
-# Getting Started with Site Reliability Engineering
+# Hello, World
 
-Site Reliability Engineering (SRE) is a discipline that combines software engineering and systems administration to build and maintain highly reliable, scalable systems. In this post, I'll share key principles and practices that have proven effective across my experience at Groq, HashiCorp, and Spotify.
+This blog is under active development.
 
-## What is SRE?
+I plan to use this space for writing about reliability, incident response, and operating complex systems, but none of that exists yet in a form worth publishing.
 
-SRE is fundamentally about applying software engineering principles to operations problems. Rather than treating operations as a separate function, SRE embeds reliability directly into the software development lifecycle.
+For now, this post simply confirms that the blog works.
 
-### Core Principles
-
-1. **Embrace Risk**: Perfect reliability is impossible and unnecessary. Focus on appropriate levels of reliability for your use case.
-
-2. **Service Level Objectives (SLOs)**: Define clear, measurable targets for system reliability that align with user needs.
-
-3. **Eliminate Toil**: Automate repetitive, manual work to free up time for engineering improvements.
-
-4. **Monitor Everything**: Comprehensive observability is essential for understanding system behavior and diagnosing issues.
-
-## Key Practices
-
-### Incident Management
-
-Effective incident management is crucial for maintaining reliability:
-
-```typescript
-interface Incident {
-  severity: 'critical' | 'high' | 'medium' | 'low';
-  status: 'investigating' | 'identified' | 'mitigating' | 'resolved';
-  impact: string;
-  startTime: Date;
-}
-
-function escalateIncident(incident: Incident): void {
-  if (incident.severity === 'critical') {
-    // Immediate escalation
-    notifyOnCall();
-    createWarRoom();
-  }
-}
-```
-
-### SLO Monitoring
-
-Define and track SLOs to measure reliability:
-
-- **Availability**: 99.9% uptime
-- **Latency**: p99 < 200ms
-- **Error Rate**: < 0.1%
-
-### Post-Incident Reviews
-
-After every incident, conduct a blameless post-mortem to:
-- Document what happened
-- Identify root causes
-- Create action items for prevention
-
-## Getting Started
-
-If you're new to SRE, start here:
-
-1. **Read the fundamentals**: Google's SRE book is the definitive resource
-2. **Define your first SLO**: Pick one critical service and establish baseline metrics
-3. **Automate one thing**: Find your biggest toil and eliminate it
-4. **Practice incident response**: Run game days to prepare your team
-
-## Conclusion
-
-SRE is a journey, not a destination. Start small, measure everything, and continuously improve. The practices outlined here have helped teams at scale maintain reliability while moving fast.
-
-*Want to learn more? Follow me for more posts on incident management, observability, and operational excellence.*
+More to come.
