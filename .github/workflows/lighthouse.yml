@@ -56,7 +56,9 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-          # Move metrics files to temp location (they're untracked, can't stash)
+          # Move files to temp location before branch switch
+          # (Prevents git checkout from overwriting freshly generated files)
+          mv lighthouse-report.json /tmp/lighthouse-report.json
           mv docs/metrics/lighthouse-history.json /tmp/lighthouse-history.json
           mv docs/metrics/latest.json /tmp/latest.json
 
@@ -64,7 +66,8 @@ jobs:
           git fetch origin lighthouse-metrics:lighthouse-metrics 2>/dev/null || git checkout -b lighthouse-metrics
           git checkout lighthouse-metrics
 
-          # Move metrics files back
+          # Move files back from temp location
+          mv /tmp/lighthouse-report.json lighthouse-report.json
           mv /tmp/lighthouse-history.json docs/metrics/lighthouse-history.json
           mv /tmp/latest.json docs/metrics/latest.json
 
