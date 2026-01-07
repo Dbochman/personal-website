@@ -1,5 +1,4 @@
 import matter from 'gray-matter';
-import readingTime from 'reading-time';
 import { format } from 'date-fns';
 import type { BlogPost, BlogFrontmatter, ReadingTimeResult } from '@/types/blog';
 
@@ -20,9 +19,34 @@ export function parseMDX(content: string): {
 
 /**
  * Calculate reading time for content
+ * Browser-compatible implementation without Node.js dependencies
  */
 export function calculateReadingTime(content: string): ReadingTimeResult {
-  return readingTime(content) as ReadingTimeResult;
+  // Remove code blocks, links, and other non-readable content
+  const cleanContent = content
+    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+    .replace(/`[^`]*`/g, '') // Remove inline code
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Convert links to just text
+    .replace(/[#*_~]/g, ''); // Remove markdown formatting
+
+  // Count words (split by whitespace and filter empty strings)
+  const words = cleanContent
+    .split(/\s+/)
+    .filter(word => word.length > 0).length;
+
+  // Calculate reading time (average 200 words per minute)
+  const wordsPerMinute = 200;
+  const minutes = Math.ceil(words / wordsPerMinute);
+
+  // Format the text output
+  const text = `${minutes} min read`;
+
+  return {
+    text,
+    minutes,
+    time: minutes * 60 * 1000, // in milliseconds
+    words,
+  };
 }
 
 /**

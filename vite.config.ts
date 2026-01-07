@@ -58,7 +58,7 @@ export default defineConfig(({ mode }) => ({
           router: ['react-router-dom'],
           query: ['@tanstack/react-query'],
           monitoring: ['@sentry/react'],
-          mdx: ['@mdx-js/rollup', 'gray-matter', 'reading-time', 'date-fns'],
+          mdx: ['@mdx-js/rollup', 'gray-matter', 'date-fns'],
         },
       },
     },
