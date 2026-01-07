@@ -1,6 +1,7 @@
 
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { BrowserRouter } from 'react-router-dom';
 import MobileNav from './MobileNav';
 import { NavigationContext } from '@/context/NavigationContext';
 
@@ -9,9 +10,11 @@ describe('MobileNav', () => {
     const openExperienceAccordion = vi.fn();
 
     render(
-      <NavigationContext.Provider value={{ openExperienceAccordion }}>
-        <MobileNav />
-      </NavigationContext.Provider>
+      <BrowserRouter>
+        <NavigationContext.Provider value={{ openExperienceAccordion }}>
+          <MobileNav />
+        </NavigationContext.Provider>
+      </BrowserRouter>
     );
 
     // Check that the menu is initially closed
