@@ -5,6 +5,12 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { componentTagger } from "lovable-tagger";
 import { visualizer } from "rollup-plugin-visualizer";
+import mdx from "@mdx-js/rollup";
+import remarkGfm from "remark-gfm";
+import remarkFrontmatter from "remark-frontmatter";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypePrism from "rehype-prism-plus";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,6 +22,14 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
   },
   plugins: [
+    mdx({
+      remarkPlugins: [remarkGfm, remarkFrontmatter],
+      rehypePlugins: [
+        rehypeSlug,
+        [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+        rehypePrism,
+      ],
+    }),
     react(),
     mode === 'development' &&
     componentTagger(),
@@ -44,6 +58,7 @@ export default defineConfig(({ mode }) => ({
           router: ['react-router-dom'],
           query: ['@tanstack/react-query'],
           monitoring: ['@sentry/react'],
+          mdx: ['@mdx-js/rollup', 'gray-matter', 'reading-time', 'date-fns'],
         },
       },
     },
