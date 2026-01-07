@@ -8,6 +8,17 @@ This document provides an overview of all planning, monitoring, and documentatio
 
 ## 📋 Active Planning Documents
 
+### Blog Feature Development
+**Status:** 🚧 PLANNED (January 7, 2026)
+
+- **`docs/BLOG_FEATURE_PLAN.md`** - Comprehensive plan for MDX-based blog implementation
+  - Status: Planning complete, ready for Phase 1
+  - Approach: MDX with file-system routing
+  - Timeline: 5 phases (5 weeks estimated)
+  - Features: Search, tags, comments, RSS, SEO optimization
+  - Branch strategy: Feature branches for each phase with individual commits per feature
+  - See document for detailed implementation roadmap
+
 ### Node.js v24 Upgrade
 **Status:** ✅ COMPLETED (January 6, 2026)
 
@@ -91,6 +102,8 @@ This document provides an overview of all planning, monitoring, and documentatio
 ├── CLAUDE.md                          [🤖 Claude Code config]
 └── docs/
     ├── PLANNING_DOCS_INDEX.md         [📋 This file]
+    ├── BLOG_FEATURE_PLAN.md           [🚧 Active - Blog implementation plan]
+    ├── BUNDLE_ANALYSIS_2026-01.md     [📊 Active - Bundle size analysis]
     ├── FUTURE_WORK_ROADMAP.md         [🔮 Active]
     ├── PERFORMANCE_EVALUATION_GUIDE.md [📊 Active]
     ├── SEO_MEASUREMENT.md             [🔍 Active]
@@ -120,6 +133,11 @@ lighthouse-metrics branch (separate):
 
 ### When to Use Each Document
 
+**Planning a Major Feature:**
+- Start with plan document (e.g., `BLOG_FEATURE_PLAN.md`)
+- Follow branch strategy and commit guidelines
+- Use quality gates before merging each phase
+
 **Planning a Major Upgrade:**
 - Start with plan document (e.g., `NODE_V24_UPGRADE_PLAN.md`)
 - Use checklist for execution (e.g., `NODE_V24_UPGRADE_CHECKLIST.md`)
@@ -128,6 +146,11 @@ lighthouse-metrics branch (separate):
 1. Use `PERFORMANCE_EVALUATION_GUIDE.md`
 2. Create new report in `performance-reports/YYYY-MM.md`
 3. Compare against baseline and previous months
+
+**Bundle Size Analysis:**
+- Reference `BUNDLE_ANALYSIS_2026-01.md` for current state
+- Run `npm run build:analyze` to regenerate
+- Compare against previous analysis
 
 **SEO Optimization:**
 - Reference `SEO_MEASUREMENT.md` for strategy
@@ -163,7 +186,14 @@ lighthouse-metrics branch (separate):
 - [ ] Add `engines` field to package.json (Node >=24)
 - [ ] Consider additional performance optimizations (see `FUTURE_WORK_ROADMAP.md`)
 
-### ✅ Recent Updates (January 6, 2026)
+### ✅ Recent Updates
+**January 7, 2026:**
+- ✅ Created comprehensive blog feature plan (`BLOG_FEATURE_PLAN.md`)
+- ✅ Removed 22 unused Radix UI dependencies (37 packages total)
+- ✅ Updated vite.config.ts manual chunks
+- ✅ Created bundle analysis documentation (`BUNDLE_ANALYSIS_2026-01.md`)
+
+**January 6, 2026:**
 - ✅ Created comprehensive future work roadmap (`FUTURE_WORK_ROADMAP.md`)
 - ✅ Moved Lighthouse metrics to separate `lighthouse-metrics` branch
 - ✅ Fixed Lighthouse workflow git conflict issues
@@ -255,4 +285,4 @@ lighthouse-metrics branch (separate):
 
 **Maintained By:** Repository Owner
 **Review Frequency:** Update when planning docs are added/completed
-**Last Reviewed:** January 6, 2026
+**Last Reviewed:** January 7, 2026
