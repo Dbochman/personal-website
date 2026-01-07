@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dylan Bochman</title>
+    <script>
+      // Single Page App (SPA) redirect for GitHub Pages
+      // This script takes the current URL and converts the path and query
+      // string into just a query string, and then redirects the browser
+      // to the new URL with only a query string and hash fragment,
+      // which GitHub Pages will serve as index.html with the query string
+      // and hash fragment intact. When index.html loads, the SPA router
+      // will parse the query string and navigate to the correct route.
+
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+
+      // Store the path for the redirect
+      var pathSegmentsToKeep = 0;
+      var l = window.location;
+
+      // Store current path in sessionStorage and redirect to root
+      sessionStorage.redirect = l.href;
+
+      // Redirect to index.html
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

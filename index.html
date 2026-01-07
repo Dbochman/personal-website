@@ -11,6 +11,17 @@
       }
     </style>
     <script>
+      // GitHub Pages SPA redirect handler
+      // This must run before any other scripts to handle redirects from 404.html
+      (function() {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+        }
+      })();
+    </script>
+    <script>
       // Apply theme IMMEDIATELY to prevent flash - must be first script in head
       (function() {
         // Disable transitions during initial load
