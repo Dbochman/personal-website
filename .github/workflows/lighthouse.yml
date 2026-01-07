@@ -56,15 +56,17 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
 
-          # Stash the newly generated metrics files
-          git stash push docs/metrics/lighthouse-history.json docs/metrics/latest.json
+          # Move metrics files to temp location (they're untracked, can't stash)
+          mv docs/metrics/lighthouse-history.json /tmp/lighthouse-history.json
+          mv docs/metrics/latest.json /tmp/latest.json
 
           # Create or switch to lighthouse-metrics branch
           git fetch origin lighthouse-metrics:lighthouse-metrics 2>/dev/null || git checkout -b lighthouse-metrics
           git checkout lighthouse-metrics
 
-          # Restore the stashed metrics files
-          git stash pop || true
+          # Move metrics files back
+          mv /tmp/lighthouse-history.json docs/metrics/lighthouse-history.json
+          mv /tmp/latest.json docs/metrics/latest.json
 
           # Add and commit if there are changes
           git add docs/metrics/lighthouse-history.json docs/metrics/latest.json
