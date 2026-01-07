@@ -32,6 +32,8 @@ function shouldIgnoreMessage(message: string): boolean {
 test.describe('Console Error Monitoring', () => {
   const pagesToTest = [
     { name: 'Home Page', url: '/' },
+    { name: 'Blog List Page', url: '/blog' },
+    { name: 'Blog Post Page', url: '/blog/2026-01-getting-started-with-sre' },
     { name: 'Runbook Page', url: '/runbook.html' },
   ];
 
@@ -104,6 +106,17 @@ test.describe('Console Error Monitoring', () => {
   test('Home page loads successfully', async ({ page }) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/Dylan Bochman/);
+  });
+
+  test('Blog list page loads successfully', async ({ page }) => {
+    await page.goto('/blog');
+    await expect(page).toHaveTitle(/Blog - Dylan Bochman/);
+    await expect(page.locator('h1')).toContainText('Blog');
+  });
+
+  test('Blog post page loads successfully', async ({ page }) => {
+    await page.goto('/blog/2026-01-getting-started-with-sre');
+    await expect(page).toHaveTitle(/Getting Started with SRE/);
   });
 
   test('Runbook page loads successfully', async ({ page }) => {

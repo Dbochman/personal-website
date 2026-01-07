@@ -14,7 +14,7 @@ import { useState } from 'react';
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
-  const { openExperienceAccordion } = useNavigation();
+  const navigation = useNavigation();
 
   const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -24,7 +24,8 @@ const MobileNav = () => {
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth' });
     }
-    openExperienceAccordion();
+    // Only call openExperienceAccordion if we're within a NavigationProvider
+    navigation?.openExperienceAccordion();
   };
 
   return (
