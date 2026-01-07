@@ -106,7 +106,7 @@ describe('Seo', () => {
       expect(document.querySelector('meta[property="og:url"]')?.getAttribute('content')).toBe('https://dylanbochman.com')
       expect(document.querySelector('meta[property="og:title"]')?.getAttribute('content')).toBe(`${title} | Dylan Bochman`)
       expect(document.querySelector('meta[property="og:description"]')?.getAttribute('content')).toBe(description)
-      expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://dylanbochman.com/social-preview.png')
+      expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://dylanbochman.com/social-preview.webp')
     })
   })
 
@@ -144,7 +144,7 @@ describe('Seo', () => {
       expect(document.querySelector('meta[property="twitter:url"]')?.getAttribute('content')).toBe('https://dylanbochman.com')
       expect(document.querySelector('meta[property="twitter:title"]')?.getAttribute('content')).toBe(`${title} | Dylan Bochman`)
       expect(document.querySelector('meta[property="twitter:description"]')?.getAttribute('content')).toBe(description)
-      expect(document.querySelector('meta[property="twitter:image"]')?.getAttribute('content')).toBe('https://dylanbochman.com/social-preview.png')
+      expect(document.querySelector('meta[property="twitter:image"]')?.getAttribute('content')).toBe('https://dylanbochman.com/social-preview.webp')
     })
   })
 

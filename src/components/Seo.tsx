@@ -13,7 +13,7 @@ interface SeoProps {
 const Seo = ({ title, description, imageUrl, url, keywords }: SeoProps) => {
   const siteName = 'Dylan Bochman';
   const fullTitle = `${title} | ${siteName}`;
-  const fullImageUrl = imageUrl ? `https://dylanbochman.com${imageUrl}` : 'https://dylanbochman.com/social-preview.png';
+  const fullImageUrl = imageUrl ? `https://dylanbochman.com${imageUrl}` : 'https://dylanbochman.com/social-preview.webp';
   const fullUrl = url ? `https://dylanbochman.com${url}` : 'https://dylanbochman.com';
   
   // Default technical skills keywords
