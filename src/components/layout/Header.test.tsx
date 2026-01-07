@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { render, fireEvent } from '@testing-library/react'
 import { queryByTestId } from '@testing-library/dom'
 import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
 
 // Mock the NavigationContext module
 vi.mock('@/context/NavigationContext', () => ({
@@ -59,9 +60,11 @@ describe('Header dark-mode toggle', () => {
     }
 
     render(
-      <NavigationContext.Provider value={mockContext}>
-        <Header />
-      </NavigationContext.Provider>
+      <BrowserRouter>
+        <NavigationContext.Provider value={mockContext}>
+          <Header />
+        </NavigationContext.Provider>
+      </BrowserRouter>
     )
 
     // html should already have .dark
@@ -77,9 +80,11 @@ describe('Header dark-mode toggle', () => {
     }
 
     const { getAllByLabelText } = render(
-      <NavigationContext.Provider value={mockContext}>
-        <Header />
-      </NavigationContext.Provider>
+      <BrowserRouter>
+        <NavigationContext.Provider value={mockContext}>
+          <Header />
+        </NavigationContext.Provider>
+      </BrowserRouter>
     )
 
     // find both dark mode toggles
