@@ -9,8 +9,7 @@ export const NavigationContext = createContext<NavigationContextType | undefined
 
 export const useNavigation = () => {
   const context = useContext(NavigationContext);
-  if (!context) {
-    throw new Error('useNavigation must be used within a NavigationProvider');
-  }
+  // Return undefined if not within a provider (e.g., on blog pages)
+  // This allows the Header to work without the provider
   return context;
 };

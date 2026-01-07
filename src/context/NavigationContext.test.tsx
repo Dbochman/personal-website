@@ -27,22 +27,17 @@ describe('NavigationContext', () => {
       })
     })
 
-    it('should throw error when used outside provider', () => {
-      // Suppress console.error for this test since we expect an error
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-      
-      expect(() => {
-        renderHook(() => useNavigation())
-      }).toThrow('useNavigation must be used within a NavigationProvider')
-      
-      consoleSpy.mockRestore()
+    it('should return undefined when used outside provider', () => {
+      const { result } = renderHook(() => useNavigation())
+
+      expect(result.current).toBeUndefined()
     })
 
     it('should provide access to openExperienceAccordion function', () => {
       const TestComponent = () => {
-        const { openExperienceAccordion } = useNavigation()
+        const navigation = useNavigation()
         return (
-          <button onClick={openExperienceAccordion} data-testid="trigger-button">
+          <button onClick={navigation?.openExperienceAccordion} data-testid="trigger-button">
             Open Experience
           </button>
         )
@@ -62,25 +57,21 @@ describe('NavigationContext', () => {
   })
 
   describe('NavigationContext', () => {
-    it('should create context with proper default behavior', () => {
-      // Test that context works properly instead of accessing internal properties
+    it('should return undefined when used without provider', () => {
+      // Test that context returns undefined without provider instead of throwing
       const TestConsumer = () => {
-        try {
-          useNavigation()
-          return <div data-testid="context-success">Success</div>
-        } catch {
-          return <div data-testid="context-error">Error</div>
-        }
+        const context = useNavigation()
+        return <div data-testid="context-result">{context === undefined ? 'undefined' : 'defined'}</div>
       }
 
       const { getByTestId } = render(<TestConsumer />)
-      expect(getByTestId('context-error')).toBeInTheDocument()
+      expect(getByTestId('context-result')).toHaveTextContent('undefined')
     })
 
     it('should allow provider to pass values to consumers', () => {
       const TestConsumer = () => {
         const context = useNavigation()
-        return <div data-testid="context-value">{typeof context.openExperienceAccordion}</div>
+        return <div data-testid="context-value">{typeof context?.openExperienceAccordion}</div>
       }
 
       const { getByTestId } = render(

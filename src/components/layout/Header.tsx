@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react'
 import { Sun, Moon } from 'lucide-react'
 
 const Header = () => {
-  const { openExperienceAccordion } = useNavigation();
+  const navigation = useNavigation();
 
   const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -17,7 +17,8 @@ const Header = () => {
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth' });
     }
-    openExperienceAccordion();
+    // Only call openExperienceAccordion if we're within a NavigationProvider
+    navigation?.openExperienceAccordion();
   };
 
 const [isDark, setIsDark] = useState(false)
