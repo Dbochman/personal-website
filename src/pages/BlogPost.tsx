@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { MDXProvider } from '@mdx-js/react';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
+import PageLayout from '@/components/layout/PageLayout';
 import { Badge } from '@/components/ui/badge';
 import { mdxComponents } from '@/components/blog/MDXComponents';
 import { loadBlogPost } from '@/lib/blog-loader';
@@ -50,15 +51,17 @@ export default function BlogPost() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-muted-foreground">Loading post...</div>
-      </div>
+      <PageLayout>
+        <div className="flex items-center justify-center py-12">
+          <div className="text-muted-foreground">Loading post...</div>
+        </div>
+      </PageLayout>
     );
   }
 
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-background">
+      <PageLayout>
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-3xl mx-auto">
             <div className="bg-destructive/10 text-destructive px-4 py-3 rounded-md mb-4">
@@ -73,7 +76,7 @@ export default function BlogPost() {
             </Link>
           </div>
         </div>
-      </div>
+      </PageLayout>
     );
   }
 
@@ -96,7 +99,7 @@ export default function BlogPost() {
         <link rel="canonical" href={`https://dylanbochman.com/blog/${post.slug}`} />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <PageLayout>
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-3xl mx-auto">
             {/* Back link */}
@@ -180,7 +183,7 @@ export default function BlogPost() {
             </footer>
           </div>
         </div>
-      </div>
+      </PageLayout>
     </>
   );
 }

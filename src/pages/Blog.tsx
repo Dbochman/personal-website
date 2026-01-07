@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import PageLayout from '@/components/layout/PageLayout';
 import { BlogList } from '@/components/blog/BlogList';
 import { loadBlogPosts } from '@/lib/blog-loader';
 import type { BlogPost } from '@/types/blog';
@@ -43,7 +44,7 @@ export default function Blog() {
         <link rel="canonical" href="https://dylanbochman.com/blog" />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      <PageLayout>
         <div className="container mx-auto px-4 py-12">
           <header className="mb-12">
             <h1 className="text-4xl font-bold mb-4">Blog</h1>
@@ -66,7 +67,7 @@ export default function Blog() {
 
           {!loading && !error && <BlogList posts={posts} />}
         </div>
-      </div>
+      </PageLayout>
     </>
   );
 }
