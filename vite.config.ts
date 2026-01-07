@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => ({
         // Manual chunk splitting for better caching
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          ui: ['@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+          ui: ['@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-toast', '@radix-ui/react-tooltip'],
           router: ['react-router-dom'],
           query: ['@tanstack/react-query'],
           monitoring: ['@sentry/react'],
