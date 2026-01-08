@@ -1,63 +1,92 @@
 ---
-title: "Adventures in AI-Assisted Web Development"
-slug: "adventures-in-ai-assisted-web-development"
-description: "I needed a new portfolio site and used it as an excuse to get familiar with AI development tools. Here's how it went."
+title: "Building This Site with AI Tools"
 date: "2025-01-07"
 author: "Dylan Bochman"
+description: "Using AI development tools to build a portfolio site, and what the experience revealed about how these tools fit into real work."
 tags: ["AI Development", "Lovable", "Claude Code", "Web Development"]
-category: "Development"
-featured: true
+category: "Technical"
 draft: false
 ---
 
-I had been meaning to create a new website to better serve as a professional portfolio—which as an SRE/Reliability/Resilience guy has been interesting. I also wanted to get more familiar with AI tools, and this was a nice small project that was easy to dig into. I started with Lovable for the initial design, focusing on aesthetics and overall structure. I remember using ChatGPT to refine my Lovable prompts and give it more reliability flavor. Once I had Lovable's output in a good place, I exported to GitHub and continued my adventures with Claude Code primarily, with a bit of Codex, for every PR after that.
+# Building This Site with AI Tools
 
-## The Lovable Phase
+I built this site using AI development tools. [Lovable](https://lovable.dev) for the initial design and structure, [Claude Code](https://code.claude.com/docs/en/overview) and some for everything after that.
 
-Lovable was great for the early exploration. Layout, colors, typography, responsive behavior—I could iterate through ideas quickly just by describing what I wanted. The early commits tell the story: lots of styling tweaks, copy changes, and the occasional "Reverted to commit" when something didn't land right.
+The goal was not just to ship a website. It was to understand how these tools actually fit into a development workflow. A portfolio site was a reasonable scope for my experiment.
 
-Once it felt like *me*, I exported to GitHub and the engineering side began.
+## Why This Approach
 
-## Enter Claude Code
+AI tools are easy to demo and hard to evaluate. Most examples are either trivially simple or carefully curated. I wanted to understand the friction, the handoffs, and the failure modes.
 
-The first couple PRs set the tone for what working with Claude Code would be like:
+A personal website provided:
 
-- **PR #1**: Found and fixed a toast listener memory leak I hadn't even noticed
-- **PR #2**: Set up the whole Vitest testing infrastructure
+- Low stakes if something went wrong
+- Enough complexity to encounter real problems
+- A concrete artifact to show for the effort
 
-From there, Claude Code (and occasionally Codex) handled feature work, testing, performance tuning, and the monitoring setup. The blog you're reading now came from PRs #54-56—three focused PRs that included tests, TypeScript types, and proper SEO. More structure than I'd probably have done on my own.
+The result is a site I can point to and say: this is what AI assisted development actually looked like for me.
 
-## A Debugging Story
+## Working with Lovable
 
-Here's one that sticks with me. The blog's MDX loader wasn't working—Vite's MDX plugin was processing files before the raw import could grab them, so I kept getting React components instead of strings.
+[Lovable](https://lovable.dev) handled visual exploration. Layout, typography, color, responsive behavior. I could iterate through design ideas by describing what I wanted rather than writing CSS.
 
-Claude Code tried a bunch of fixes: different `import.meta.glob` configurations, renaming files from `.mdx` to `.md`, various import strategies. Nothing worked. After a few rounds I finally asked: "Is there not some other filetype we could use to avoid all this?"
+At one point I asked Lovable to audit the codebase and suggest improvements. The response was more structured than I expected:
 
-Obvious in hindsight: just use `.txt` files. No plugin touches `.txt`. Three small edits and it worked.
+> Let me first check the detailed audit and refactoring plan to understand the critical issues that need to be addressed.
 
-That's kind of how the collaboration goes—Claude Code grinds through the implementation attempts, and I ask the dumb questions that occasionally turn out to be the right ones.
+It identified that the main Index component had grown to 364 lines and proposed breaking it into focused components. After implementing the changes:
 
-## What Stuck With Me
+> ✅ Critical Issues Resolved:
+> 1. Data Layer Extraction - Created centralized data management in /src/data/ with TypeScript interfaces
+> 2. Component Decomposition - Broke down the 364-line monolithic Index.tsx into 8 focused components (83% size reduction)
+> 3. Separation of Concerns - Established clear boundaries between layout, content, and data layers
 
-**Lovable is great for the fuzzy stuff.** Exploring visual directions through conversation beats writing CSS when you're still figuring out what you want.
+The refactoring left each component under 100 lines with a single responsibility. That level of systematic improvement from a conversational prompt was unexpected.
 
-**Claude Code adds rigor I wouldn't.** Every PR came with tests, error handling, edge case coverage. The repo has 123 tests now. I would not have written 123 tests.
+I also used ChatGPT to refine my Lovable prompts and push the aesthetic toward something that felt more like a reliability engineering portfolio.
 
-**Timing the handoff matters.** Export from Lovable once the visuals feel settled. Too early and you're doing design work in the wrong tool.
+Once the design felt settled, I exported to GitHub. Every PR after that went through Claude Code, sometimes with Codex.
 
-**Context helps a lot.** I added a CLAUDE.md file explaining the project structure and it noticeably improved how well Claude Code's output fit with existing code.
+## What Claude Code Did Well
 
-## Where It Landed
+The first two PRs set expectations:
 
-- 200+ commits
-- 123 tests
-- 95/100 Lighthouse performance
-- Monitoring, CI/CD, automated deploys
+- PR #1 found and fixed a toast listener memory leak I had missed
+- PR #2 set up the entire testing infrastructure with Vitest and React Testing Library
 
-The site does what I needed it to do. And I came out the other side actually comfortable building with these tools—which was kind of the point.
+From there, Claude Code handled feature work, performance tuning, and monitoring setup. The blog system came from three focused PRs with tests, TypeScript types, and SEO implementation.
+
+The repository now has 123 tests. I would not have written that many on my own.
+
+## Where Judgment Was Still Required
+
+AI tools do not eliminate the need for direction. They shift it.
+
+One example: the blog content loader was not working. Vite's MDX plugin processed files before the raw import could access them, returning React components instead of strings.
+
+Claude Code tried several fixes. Different glob configurations, renaming files from `.mdx` to `.md`, various import strategies. None worked.
+
+After a few rounds I asked whether we could use a different file extension entirely. The answer was obvious once stated: use `.txt` files. No plugin processes `.txt`. Three edits and it worked.
+
+The pattern repeated throughout. Claude Code handles implementation. I ask questions and make decisions about direction.
+
+## Outcomes
+
+This site is a concrete example of working with AI tools on a real project.
+
+Specifically, it shows:
+
+- How to divide work between tools based on what each does well
+- When to hand off from design tooling to engineering tooling
+- How to maintain code quality with AI assistance
+- Where human judgment remains essential
+
+The site shipped with 200+ commits, 123 tests, 95/100 Lighthouse performance, and a monitoring stack. That outcome reflects both what the tools contributed and the decisions I made along the way.
+
+## Takeaway
+
+AI tools are useful. They are not autonomous.
+
+The value is not in replacing judgment. It is in accelerating the mechanical work so that judgment can be applied more often and more carefully.
 
 Repository: [github.com/Dbochman/personal-website](https://github.com/Dbochman/personal-website)
-
----
-
-*Questions? [LinkedIn](https://www.linkedin.com/in/dbochman/) or [email](mailto:dylanbochman@gmail.com).*
