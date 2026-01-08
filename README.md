@@ -16,27 +16,32 @@ This is the source repository for [dbochman.github.io](https://dbochman.github.i
 This repo contains the full editable source code, including:
 
 ```
+├── content/             # MDX blog posts and content
+│   └── blog/             # Blog posts in MDX format
 ├── public/              # Static assets (runbook.html, resume PDF, dynamic favicons for light/dark themes, social preview image)
 ├── src/                 # Main application source code
 │   ├── components/       # Reusable UI components
 │   │   ├── ui/            # Radix UI components (accordion, button, card, etc.)
+│   │   ├── blog/          # Blog-specific components (CodeBlock, Callout, Comments, RelatedPosts)
 │   │   ├── sections/      # Main content sections (Hero, Experience, Goals, Contact)
 │   │   ├── layout/        # Layout components (Header, PageLayout, ParallaxBackground)
 │   │   ├── icons/         # Custom SVG icon components (geometric patterns)
 │   │   └── ...            # Navigation, utility components (Sidebar, BackToTop, etc.)
-│   ├── pages/            # Route components (Index, NotFound)
+│   ├── pages/            # Route components (Index, Blog, BlogPost, NotFound)
 │   ├── data/             # Content data (experiences, expertise, navigation)
 │   ├── context/          # React context providers (NavigationContext)
 │   ├── hooks/            # Custom React hooks (useParallax, useTheme, use-mobile)
-│   ├── lib/              # Utility functions (utils.ts)
+│   ├── lib/              # Utility functions (utils.ts, blog-loader.ts)
+│   ├── types/            # TypeScript type definitions (blog.ts)
 │   ├── assets/           # Static assets (company logos)
 │   ├── main.tsx          # Application entry point with dark mode detection
 │   ├── App.tsx           # Root component with routing
 │   └── index.css         # Global Tailwind CSS styles
 ├── dist/                # Build output directory (auto-generated)
+├── docs/                # Project documentation and planning
 ├── .github/workflows/   # GitHub Actions CI/CD pipeline
 ├── index.html           # HTML template with Google Analytics
-├── vite.config.ts       # Vite build configuration with path aliases
+├── vite.config.ts       # Vite build configuration with path aliases and MDX
 ├── tailwind.config.ts   # Tailwind design system configuration
 ├── vitest.config.ts     # Test configuration
 ├── vitest-setup.ts      # Test setup with DOM matchers
@@ -398,10 +403,36 @@ This site showcases expertise in **Site Reliability Engineering (SRE)** and **In
 - **Technical Skills:** Infrastructure reliability, operational resilience, cross-functional coordination
 - **Resume:** Available for download as PDF
 
+## 📝 Blog
+
+This site features an MDX-based blog for sharing SRE insights, technical tutorials, and professional experiences.
+
+### Blog Features
+- **MDX Support:** Write posts in Markdown with embedded React components
+- **Enhanced Components:** Custom CodeBlock with copy button, Callout boxes, optimized images
+- **Syntax Highlighting:** Code blocks with Shiki for beautiful syntax highlighting
+- **Search & Filter:** Find posts by title, description, or tags
+- **Related Posts:** Discover similar content based on shared tags
+- **Comments:** GitHub Discussions-powered comments via Giscus
+- **SEO Optimized:** Article structured data, Open Graph tags, social previews
+
+### Blog URLs
+- **Blog Home:** [/blog](https://dylanbochman.com/blog)
+- **Sample Posts:**
+  - [Adventures in AI-Assisted Web Development](/blog/2025-01-07-adventures-in-ai-assisted-web-development)
+  - [Uptime Monitoring for a Personal Site](/blog/2025-01-07-uptime-monitoring-for-a-personal-site)
+  - [Writing a Runbook for My Personal Website](/blog/2025-01-07-writing-a-runbook-for-my-personal-website)
+
+### Blog Performance
+- **Blog Listing:** 94% Lighthouse score
+- **Individual Posts:** 65% Lighthouse score (limited by runtime MDX compilation)
+- **Zero Layout Shift:** CLS of 0 across all blog pages
+- **Zero Blocking Time:** TBT of 0ms for optimal interactivity
+
 ## ✨ Future Plans
 
--   **Add a blog:** Create a simple blog to share SRE articles and tutorials
--   **Improve accessibility:** Conduct a full accessibility audit and address any issues  
+-   **Complete blog SEO phase:** RSS feed, enhanced structured data, social preview images
+-   **Improve accessibility:** Conduct a full accessibility audit and address any issues
 -   **Implement i18n:** Add support for multiple languages
 -   **Enhanced animations:** Expand parallax and interaction effects
 
