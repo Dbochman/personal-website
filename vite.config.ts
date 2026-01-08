@@ -77,15 +77,10 @@ export default defineConfig(({ mode }) => ({
             if (id.includes('gray-matter') || id.includes('date-fns')) {
               return 'blog-loader';
             }
-            // Split MDX into smaller chunks for better loading
-            if (id.includes('@mdx-js/mdx') || id.includes('@mdx-js/react')) {
-              return 'mdx-core';
-            }
-            if (id.includes('remark-') || id.includes('unified') || id.includes('micromark')) {
-              return 'mdx-remark';
-            }
-            if (id.includes('rehype-')) {
-              return 'mdx-rehype';
+            // Keep all MDX dependencies together to avoid circular dependency issues
+            if (id.includes('@mdx-js') || id.includes('remark-') || id.includes('rehype-') ||
+                id.includes('unified') || id.includes('micromark')) {
+              return 'mdx-runtime';
             }
             if (id.includes('lucide-react')) {
               return 'icons';
