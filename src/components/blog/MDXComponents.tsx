@@ -7,17 +7,17 @@ import { type MDXComponents } from 'mdx/types';
 export const mdxComponents: MDXComponents = {
   // Headings
   h1: ({ children }) => (
-    <h1 className="text-4xl font-bold mt-16 mb-6 text-foreground scroll-mt-20 first:mt-0" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h1 className="text-5xl font-extrabold mt-20 mb-8 text-foreground scroll-mt-20 first:mt-0 tracking-tight" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h1>
   ),
   h2: ({ children }) => (
-    <h2 className="text-3xl font-bold mt-16 mb-6 text-foreground scroll-mt-20 first:mt-0" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h2 className="text-4xl font-extrabold mt-20 mb-8 text-foreground scroll-mt-20 first:mt-0 tracking-tight border-b-2 border-border pb-4" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="text-2xl font-semibold mt-12 mb-5 text-foreground scroll-mt-20 first:mt-0" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h3 className="text-3xl font-bold mt-16 mb-6 text-foreground scroll-mt-20 first:mt-0" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h3>
   ),

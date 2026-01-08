@@ -176,7 +176,7 @@ export default function BlogPost() {
             </header>
 
             {/* Post content */}
-            <article className="prose prose-xl max-w-none prose-headings:font-bold prose-p:text-xl prose-p:leading-loose prose-li:text-xl prose-li:leading-loose prose-headings:mb-6 prose-headings:mt-12 first:prose-headings:mt-0">
+            <article className="prose prose-xl max-w-none">
               {MDXContent && (
                 <MDXProvider components={mdxComponents}>
                   <MDXContent />
