@@ -50,9 +50,9 @@ export function Comments({ slug }: CommentsProps) {
     const script = document.createElement('script');
     script.src = 'https://giscus.app/client.js';
     script.setAttribute('data-repo', 'Dbochman/personal-website');
-    script.setAttribute('data-repo-id', 'R_kgDONdlvVw');
-    script.setAttribute('data-category', 'Blog Comments');
-    script.setAttribute('data-category-id', 'DIC_kwDONdlvV84Cl6Z3');
+    script.setAttribute('data-repo-id', 'R_kgDOO7-rBw');
+    script.setAttribute('data-category', 'General');
+    script.setAttribute('data-category-id', 'DIC_kwDOO7-rB84C0ubL');
     script.setAttribute('data-mapping', 'specific');
     script.setAttribute('data-term', slug);
     script.setAttribute('data-strict', '0');
