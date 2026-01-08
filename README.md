@@ -11,6 +11,15 @@ This is the source repository for [dbochman.github.io](https://dbochman.github.i
 - **Production URL:** [https://dylanbochman.com](https://dylanbochman.com)
 - **Deployment Method:** Static site hosted on GitHub Pages
 
+## 🎯 Portfolio Focus
+
+Site Reliability Engineering (SRE) and Incident Management expertise:
+
+- **Experience:** Technical Incident Manager at Nvidia (upcoming), Groq, HashiCorp/IBM, Spotify
+- **Expertise:** Incident command, post-incident analysis, SLO monitoring
+- **Skills:** Infrastructure reliability, operational resilience, cross-functional coordination
+- **Resume:** Available for download as PDF
+
 ## 🛠 Project Structure
 
 ```
@@ -122,15 +131,6 @@ Comprehensive testing with [Vitest](https://vitest.dev/) and [React Testing Libr
 - MDX blog with syntax highlighting
 - Automated CI/CD to GitHub Pages
 
-## 🎨 Theme System
-
-Sophisticated dark/light theme with:
-- **Dynamic Favicons:** Separate icons for light/dark themes
-- **Theme Persistence:** URL parameters maintain theme across pages
-- **Smooth Transitions:** 1.2s CSS transitions
-- **No Flash:** Preload technique prevents unstyled content flash
-- **System Preference Detection:** Defaults to OS theme preference
-
 ## 📈 Analytics & Monitoring
 
 Comprehensive monitoring and analytics setup:
@@ -152,15 +152,6 @@ Comprehensive monitoring and analytics setup:
 - Setup guides: [docs/ANALYTICS_INTEGRATIONS.md](docs/ANALYTICS_INTEGRATIONS.md)
 - Runbook: [/runbook.html](https://dylanbochman.com/runbook.html)
 - Metrics dashboard: `docs/metrics/latest.json`
-
-## 🎯 Portfolio Focus
-
-Site Reliability Engineering (SRE) and Incident Management expertise:
-
-- **Experience:** Technical Incident Manager at Nvidia (upcoming), Groq, HashiCorp/IBM, Spotify
-- **Expertise:** Incident command, post-incident analysis, SLO monitoring
-- **Skills:** Infrastructure reliability, operational resilience, cross-functional coordination
-- **Resume:** Available for download as PDF
 
 ## 📝 Blog
 
