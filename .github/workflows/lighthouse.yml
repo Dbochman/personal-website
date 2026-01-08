@@ -66,6 +66,9 @@ jobs:
           git fetch origin lighthouse-metrics:lighthouse-metrics 2>/dev/null || git checkout -b lighthouse-metrics
           git checkout lighthouse-metrics
 
+          # Remove existing directories if they exist
+          rm -rf lighthouse-reports docs/metrics
+
           # Move files back from temp location
           mv /tmp/lighthouse-reports lighthouse-reports
           mv /tmp/metrics docs/metrics
@@ -88,6 +91,7 @@ jobs:
           retention-days: 90
 
       - name: Check performance thresholds (multi-page)
+        id: threshold_check
         run: |
           node -e "
           const fs = require('fs');
@@ -127,7 +131,7 @@ jobs:
           "
 
       - name: Create issue for performance degradation
-        if: failure()
+        if: failure() && steps.threshold_check.conclusion == 'failure'
         uses: actions/github-script@v7
         with:
           script: |
