@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { navigationItems } from "@/data/navigation";
 import MobileNav from "@/components/MobileNav";
 import { useNavigation } from '@/context/NavigationContext';
@@ -9,6 +9,8 @@ import { Sun, Moon } from 'lucide-react'
 
 const Header = () => {
   const navigation = useNavigation();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -69,16 +71,35 @@ const toggleTheme = () => {
               const isHashLink = item.href.startsWith('#');
               const linkClass = "text-foreground/70 hover:text-foreground transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4";
 
-              return isHashLink ? (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={item.href === '#experience' ? handleExperienceClick : undefined}
-                  className={linkClass}
-                >
-                  {item.label}
-                </a>
-              ) : (
+              // If it's a hash link and we're not on the homepage, use Link to navigate home first
+              if (isHashLink && !isHomePage) {
+                return (
+                  <Link
+                    key={item.href}
+                    to={`/${item.href}`}
+                    className={linkClass}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              }
+
+              // If it's a hash link on the homepage, use anchor tag for smooth scrolling
+              if (isHashLink && isHomePage) {
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={item.href === '#experience' ? handleExperienceClick : undefined}
+                    className={linkClass}
+                  >
+                    {item.label}
+                  </a>
+                );
+              }
+
+              // For regular routes, use Link
+              return (
                 <Link
                   key={item.href}
                   to={item.href}
