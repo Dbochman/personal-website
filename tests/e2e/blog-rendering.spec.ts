@@ -5,7 +5,7 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 test.describe('Blog Post Rendering', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to a blog post that has all markdown features
-    await page.goto(`${BASE_URL}/blog/adventures-in-ai-assisted-web-development`);
+    await page.goto(`${BASE_URL}/blog/2025-01-07-adventures-in-ai-assisted-web-development`);
     await page.waitForLoadState('networkidle');
   });
 
@@ -317,8 +317,8 @@ test.describe('Blog Post Rendering', () => {
 
 test.describe('Multiple Blog Posts Rendering', () => {
   const blogPosts = [
-    'adventures-in-ai-assisted-web-development',
-    'writing-a-runbook-for-my-personal-website',
+    '2025-01-07-adventures-in-ai-assisted-web-development',
+    '2025-01-07-writing-a-runbook-for-my-personal-website',
   ];
 
   for (const slug of blogPosts) {
