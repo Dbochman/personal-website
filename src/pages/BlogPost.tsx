@@ -87,7 +87,7 @@ export default function BlogPost() {
               className="inline-flex items-center gap-2 text-primary hover:underline"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to Blog
+              View all posts
             </Link>
           </div>
         </div>
@@ -123,7 +123,7 @@ export default function BlogPost() {
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to Blog
+              View all posts
             </Link>
 
             {/* Post header */}
