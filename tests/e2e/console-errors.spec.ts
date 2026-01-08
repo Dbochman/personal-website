@@ -25,6 +25,10 @@ const IGNORED_PATTERNS = [
   // React Fast Refresh (HMR) errors in development only
   /RefreshRuntime/i,
   /Failed to fetch dynamically imported module/i,
+  // Giscus API 404s are expected when no discussions exist yet
+  /giscus\.app\/api\/discussions/i,
+  // Giscus comment widget warnings are expected
+  /\[giscus\]/i,
 ];
 
 function shouldIgnoreMessage(message: string): boolean {
@@ -42,12 +46,24 @@ test.describe('Console Error Monitoring', () => {
   for (const page of pagesToTest) {
     test(`${page.name} should have no critical console errors`, async ({ page: playwright }) => {
       const consoleMessages: ConsoleMessage[] = [];
+      const failed404Urls = new Set<string>();
+
+      // Listen for 404 responses to filter Giscus
+      playwright.on('response', response => {
+        if (response.status() === 404) {
+          failed404Urls.add(response.url());
+        }
+      });
 
       // Listen for console messages
       playwright.on('console', msg => {
         const type = msg.type();
         if (type === 'error' || type === 'warning') {
           const text = msg.text();
+          // Skip if the error is about a Giscus 404 (which we already tracked)
+          if (text.includes('Failed to load resource') && Array.from(failed404Urls).some(url => /giscus\.app/.test(url))) {
+            return; // Ignore Giscus 404s
+          }
           if (!shouldIgnoreMessage(text)) {
             consoleMessages.push({
               type: type as 'error' | 'warning',
