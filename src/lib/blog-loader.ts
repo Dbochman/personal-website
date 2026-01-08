@@ -15,23 +15,25 @@ const blogModules = import.meta.glob('/content/blog/*.txt', {
  * @returns Promise resolving to array of BlogPost objects
  */
 export async function loadBlogPosts(includeDrafts = false): Promise<BlogPost[]> {
-  const posts: BlogPost[] = [];
-
-  for (const [path, moduleLoader] of Object.entries(blogModules)) {
-    try {
-      // Extract slug from path
-      const slug = path.split('/').pop()?.replace('.txt', '') || '';
-      const module = await moduleLoader();
-      const content = module.default;
-      const post = createBlogPost(content, slug);
-      posts.push(post);
-    } catch (error) {
-      console.error(`Error loading blog post from ${path}:`, error);
-    }
-  }
+  const entries = Object.entries(blogModules);
+  const posts = await Promise.all(
+    entries.map(async ([path, moduleLoader]) => {
+      try {
+        // Extract slug from path
+        const slug = path.split('/').pop()?.replace('.txt', '') || '';
+        const module = await moduleLoader();
+        const content = module.default;
+        return createBlogPost(content, slug);
+      } catch (error) {
+        console.error(`Error loading blog post from ${path}:`, error);
+        return null;
+      }
+    })
+  );
 
   // Filter out drafts unless explicitly requested
-  return includeDrafts ? posts : filterDraftPosts(posts);
+  const loadedPosts = posts.filter(Boolean) as BlogPost[];
+  return includeDrafts ? loadedPosts : filterDraftPosts(loadedPosts);
 }
 
 /**

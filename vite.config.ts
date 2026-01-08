@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           vendor: ['react', 'react-dom'],
           ui: ['@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-toast', '@radix-ui/react-tooltip'],
-          router: ['react-router'],
+          router: ['react-router-dom'],
           query: ['@tanstack/react-query'],
           monitoring: ['@sentry/react'],
           // Split blog-related dependencies into separate chunks
