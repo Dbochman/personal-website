@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Check, Copy } from 'lucide-react';
 
 interface CodeBlockProps {
@@ -8,14 +8,19 @@ interface CodeBlockProps {
 
 export function CodeBlock({ children, className }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
+  const preRef = useRef<HTMLPreElement>(null);
 
   const handleCopy = async () => {
-    const codeElement = document.querySelector(`pre.${className} code`);
+    const codeElement = preRef.current?.querySelector('code');
     if (codeElement) {
       const text = codeElement.textContent || '';
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      try {
+        await navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (error) {
+        console.error('Failed to copy code:', error);
+      }
     }
   };
 
@@ -33,7 +38,10 @@ export function CodeBlock({ children, className }: CodeBlockProps) {
           <Copy className="w-4 h-4 text-muted-foreground" />
         )}
       </button>
-      <pre className={`my-4 overflow-x-auto rounded-lg bg-muted p-4 text-sm ${className || ''}`}>
+      <pre
+        ref={preRef}
+        className={`my-4 overflow-x-auto rounded-lg bg-muted p-4 text-sm ${className || ''}`}
+      >
         {children}
       </pre>
     </div>

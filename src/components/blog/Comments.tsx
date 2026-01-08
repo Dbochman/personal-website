@@ -9,6 +9,7 @@ export function Comments({ slug }: CommentsProps) {
   const commentsRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const { theme } = useTheme();
+  const currentSlugRef = useRef<string | null>(null);
 
   // Lazy load comments when they come into view
   useEffect(() => {
@@ -29,14 +30,23 @@ export function Comments({ slug }: CommentsProps) {
     return () => observer.disconnect();
   }, []);
 
-  // Load Giscus script when visible
-  useEffect(() => {
-    if (!isVisible || !commentsRef.current) return;
-
-    const giscusTheme = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  const getGiscusTheme = () =>
+    theme === 'dark' ||
+    (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
       ? 'dark'
       : 'light';
 
+  const sendThemeUpdate = (giscusTheme: string) => {
+    const iframe = commentsRef.current?.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+    iframe?.contentWindow?.postMessage(
+      { giscus: { setConfig: { theme: giscusTheme } } },
+      'https://giscus.app'
+    );
+  };
+
+  const loadGiscus = (giscusTheme: string) => {
+    if (!commentsRef.current) return;
+    commentsRef.current.innerHTML = '';
     const script = document.createElement('script');
     script.src = 'https://giscus.app/client.js';
     script.setAttribute('data-repo', 'Dbochman/personal-website');
@@ -53,8 +63,21 @@ export function Comments({ slug }: CommentsProps) {
     script.setAttribute('data-lang', 'en');
     script.setAttribute('crossorigin', 'anonymous');
     script.async = true;
-
     commentsRef.current.appendChild(script);
+  };
+
+  // Load Giscus script when visible
+  useEffect(() => {
+    if (!isVisible || !commentsRef.current) return;
+
+    const giscusTheme = getGiscusTheme();
+    if (currentSlugRef.current !== slug) {
+      currentSlugRef.current = slug;
+      loadGiscus(giscusTheme);
+      return;
+    }
+
+    sendThemeUpdate(giscusTheme);
   }, [isVisible, slug, theme]);
 
   return (
