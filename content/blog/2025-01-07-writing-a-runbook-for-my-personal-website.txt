@@ -30,7 +30,7 @@ The runbook is a static HTML file outside the React app. That seemed simpler at 
 
 The commits tell the story:
 
-```
+```bash
 e00fbc3 refactor: redesign operational runbook for visual consistency
 675068c Fix runbook theme detection to match main site behavior
 e620784 fix: prevent theme flash when loading runbook from homepage

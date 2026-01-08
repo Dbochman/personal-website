@@ -39,7 +39,7 @@ export const mdxComponents: MDXComponents = {
 
   // Paragraphs and text
   p: ({ children }) => (
-    <p className="my-4 text-foreground/80 leading-7">
+    <p className="my-6 text-foreground/90 text-lg leading-relaxed">
       {children}
     </p>
   ),
@@ -58,17 +58,17 @@ export const mdxComponents: MDXComponents = {
 
   // Lists
   ul: ({ children }) => (
-    <ul className="my-4 ml-6 list-disc space-y-2 text-foreground/80">
+    <ul className="my-6 ml-6 list-disc space-y-3 text-foreground/90">
       {children}
     </ul>
   ),
   ol: ({ children }) => (
-    <ol className="my-4 ml-6 list-decimal space-y-2 text-foreground/80">
+    <ol className="my-6 ml-6 list-decimal space-y-3 text-foreground/90">
       {children}
     </ol>
   ),
   li: ({ children }) => (
-    <li className="leading-7">
+    <li className="text-lg leading-relaxed">
       {children}
     </li>
   ),
