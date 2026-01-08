@@ -15,12 +15,11 @@ export function RelatedPosts({ currentPost, allPosts, maxPosts = 3 }: RelatedPos
     .filter((post) => post.slug !== currentPost.slug && !post.draft)
     .map((post) => {
       const sharedTags = post.tags.filter((tag) => currentPost.tags.includes(tag));
-      return { post, score: sharedTags.length };
+      return { post, sharedTags, score: sharedTags.length };
     })
     .filter((item) => item.score > 0)
     .sort((a, b) => b.score - a.score)
-    .slice(0, maxPosts)
-    .map((item) => item.post);
+    .slice(0, maxPosts);
 
   if (relatedPosts.length === 0) {
     return null;
@@ -30,7 +29,7 @@ export function RelatedPosts({ currentPost, allPosts, maxPosts = 3 }: RelatedPos
     <div className="mt-12 pt-8 border-t border-border">
       <h2 className="text-2xl font-bold mb-6">Related Posts</h2>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {relatedPosts.map((post) => (
+        {relatedPosts.map(({ post, sharedTags }) => (
           <Link
             key={post.slug}
             to={`/blog/${post.slug}`}
@@ -53,7 +52,12 @@ export function RelatedPosts({ currentPost, allPosts, maxPosts = 3 }: RelatedPos
               </time>
             </div>
             <div className="flex flex-wrap gap-1">
-              {post.tags.slice(0, 2).map((tag) => (
+              {sharedTags.map((tag) => (
+                <Badge key={tag} variant="default" className="text-xs">
+                  {tag}
+                </Badge>
+              ))}
+              {post.tags.filter((tag) => !sharedTags.includes(tag)).slice(0, Math.max(0, 2 - sharedTags.length)).map((tag) => (
                 <Badge key={tag} variant="secondary" className="text-xs">
                   {tag}
                 </Badge>
