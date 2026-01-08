@@ -40,16 +40,18 @@ jobs:
           echo "Waiting 30 seconds for GitHub Pages deployment to propagate..."
           sleep 30
 
-      - name: Run Lighthouse on production
+      - name: Run Lighthouse on production (multi-page)
+        run: node scripts/lighthouse-multi-page.mjs
+
+      - name: Save Lighthouse reports
         run: |
-          npm install -g lighthouse
-          npm run lighthouse:production
+          # Multi-page script generates lighthouse-reports/summary.json
+          # Copy to docs/metrics for historical tracking
+          mkdir -p docs/metrics
+          cp lighthouse-reports/summary.json docs/metrics/latest-multi-page.json
 
-      - name: Save Lighthouse scores to history
-        run: npm run save-lighthouse-scores
-
-      - name: Generate metrics summary
-        run: npm run generate-metrics-summary
+          # Also save timestamp for tracking
+          echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"commit\": \"${{ github.sha }}\"}" > docs/metrics/last-run.json
 
       - name: Commit updated metrics to lighthouse-metrics branch
         run: |
@@ -57,68 +59,70 @@ jobs:
           git config --local user.name "github-actions[bot]"
 
           # Move files to temp location before branch switch
-          # (Prevents git checkout from overwriting freshly generated files)
-          mv lighthouse-report.json /tmp/lighthouse-report.json
-          mv docs/metrics/lighthouse-history.json /tmp/lighthouse-history.json
-          mv docs/metrics/latest.json /tmp/latest.json
+          mv lighthouse-reports /tmp/lighthouse-reports
+          mv docs/metrics /tmp/metrics
 
           # Create or switch to lighthouse-metrics branch
           git fetch origin lighthouse-metrics:lighthouse-metrics 2>/dev/null || git checkout -b lighthouse-metrics
           git checkout lighthouse-metrics
 
           # Move files back from temp location
-          mv /tmp/lighthouse-report.json lighthouse-report.json
-          mv /tmp/lighthouse-history.json docs/metrics/lighthouse-history.json
-          mv /tmp/latest.json docs/metrics/latest.json
+          mv /tmp/lighthouse-reports lighthouse-reports
+          mv /tmp/metrics docs/metrics
 
           # Add and commit if there are changes
-          git add docs/metrics/lighthouse-history.json docs/metrics/latest.json
-          git diff --staged --quiet || git commit -m "chore: update Lighthouse metrics [skip ci]"
+          git add lighthouse-reports/ docs/metrics/
+          git diff --staged --quiet || git commit -m "chore: update multi-page Lighthouse metrics [skip ci]"
 
           # Push to lighthouse-metrics branch
           git push origin lighthouse-metrics
 
-      - name: Upload Lighthouse report
+      - name: Upload Lighthouse reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse-report
+          name: lighthouse-reports
           path: |
-            lighthouse-report.json
+            lighthouse-reports/
             docs/metrics/
           retention-days: 90
 
-      - name: Check performance thresholds
+      - name: Check performance thresholds (multi-page)
         run: |
           node -e "
-          const report = require('./lighthouse-report.json');
-          const performance = Math.round((report.categories?.performance?.score ?? 0) * 100);
-          const accessibility = Math.round((report.categories?.accessibility?.score ?? 0) * 100);
-          const seo = Math.round((report.categories?.seo?.score ?? 0) * 100);
-          const bestPractices = Math.round((report.categories?.['best-practices']?.score ?? 0) * 100);
+          const fs = require('fs');
+          const summary = JSON.parse(fs.readFileSync('./lighthouse-reports/summary.json', 'utf8'));
 
-          console.log('📊 Lighthouse Scores:');
-          console.log(\`   Performance: \${performance}\`);
-          console.log(\`   Accessibility: \${accessibility}\`);
-          console.log(\`   SEO: \${seo}\`);
-          console.log(\`   Best Practices: \${bestPractices}\`);
+          console.log('📊 Multi-Page Lighthouse Scores:\\n');
+          console.log('┌─────────────────┬──────┬──────┬─────┬───────┐');
+          console.log('│ Page            │ Perf │ A11y │ SEO │ Best  │');
+          console.log('├─────────────────┼──────┼──────┼─────┼───────┤');
 
           const failures = [];
-          // Performance threshold lowered to 50 due to CI environment variability
-          // Local tests achieve 95-98, but GitHub Actions runners score 44-80 (highly variable)
-          // Threshold set to catch true regressions (<50) while allowing for CI variance
-          // See: docs/performance-reports/2026-01-post-optimization.md
-          if (performance < 50) failures.push(\`Performance: \${performance} (threshold: 50)\`);
-          if (accessibility < 95) failures.push(\`Accessibility: \${accessibility} (threshold: 95)\`);
-          if (seo < 95) failures.push(\`SEO: \${seo} (threshold: 95)\`);
-          if (bestPractices < 90) failures.push(\`Best Practices: \${bestPractices} (threshold: 90)\`);
+          summary.forEach(page => {
+            const pageName = page.page.padEnd(15);
+            const perf = String(page.performance).padStart(4);
+            const a11y = String(page.accessibility).padStart(4);
+            const seo = String(page.seo).padStart(3);
+            const best = String(page.bestPractices).padStart(5);
+            console.log(\`│ \${pageName} │ \${perf} │ \${a11y} │ \${seo} │ \${best} │\`);
+
+            // Check thresholds per page
+            if (page.performance < 50) failures.push(\`\${page.page}: Performance \${page.performance} < 50\`);
+            if (page.accessibility < 95) failures.push(\`\${page.page}: Accessibility \${page.accessibility} < 95\`);
+            if (page.seo < 95) failures.push(\`\${page.page}: SEO \${page.seo} < 95\`);
+            if (page.bestPractices < 90) failures.push(\`\${page.page}: Best Practices \${page.bestPractices} < 90\`);
+          });
+
+          console.log('└─────────────────┴──────┴──────┴─────┴───────┘\\n');
 
           if (failures.length > 0) {
-            console.error('❌ Lighthouse thresholds not met:');
+            console.error('❌ Lighthouse thresholds not met:\\n');
             failures.forEach(f => console.error(\`   - \${f}\`));
+            console.error('\\n📝 Thresholds: Performance ≥50, Accessibility ≥95, SEO ≥95, Best Practices ≥90');
             process.exit(1);
           } else {
-            console.log('✅ All Lighthouse thresholds met!');
+            console.log('✅ All pages passed Lighthouse thresholds!');
           }
           "
 
@@ -128,49 +132,61 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const report = JSON.parse(fs.readFileSync('./lighthouse-report.json', 'utf8'));
+            const summary = JSON.parse(fs.readFileSync('./lighthouse-reports/summary.json', 'utf8'));
             const date = new Date().toISOString().split('T')[0];
 
-            const performance = Math.round((report.categories?.performance?.score ?? 0) * 100);
-            const accessibility = Math.round((report.categories?.accessibility?.score ?? 0) * 100);
-            const seo = Math.round((report.categories?.seo?.score ?? 0) * 100);
-            const bestPractices = Math.round((report.categories?.['best-practices']?.score ?? 0) * 100);
+            // Build scores table
+            let scoresTable = `| Page | Performance | Accessibility | SEO | Best Practices |\n`;
+            scoresTable += `|------|-------------|---------------|-----|----------------|\n`;
 
-            const body = `## 📉 Lighthouse Performance Alert
+            summary.forEach(page => {
+              const perfStatus = page.performance >= 50 ? '✅' : '❌';
+              const a11yStatus = page.accessibility >= 95 ? '✅' : '❌';
+              const seoStatus = page.seo >= 95 ? '✅' : '❌';
+              const bpStatus = page.bestPractices >= 90 ? '✅' : '❌';
+
+              scoresTable += `| ${page.page} | ${page.performance} ${perfStatus} | ${page.accessibility} ${a11yStatus} | ${page.seo} ${seoStatus} | ${page.bestPractices} ${bpStatus} |\n`;
+            });
+
+            // Build Core Web Vitals table
+            let vitalsTable = `| Page | LCP | FCP | CLS | TBT |\n`;
+            vitalsTable += `|------|-----|-----|-----|-----|\n`;
+
+            summary.forEach(page => {
+              vitalsTable += `| ${page.page} | ${page.lcp} | ${page.fcp} | ${page.cls} | ${page.tbt} |\n`;
+            });
+
+            const body = `## 📉 Multi-Page Lighthouse Performance Alert
 
             **Date:** ${date}
-            **URL:** https://dylanbochman.com
+            **Base URL:** https://dylanbochman.com
 
-            ### Scores
-            | Category | Score | Threshold | Status |
-            |----------|-------|-----------|--------|
-            | Performance | ${performance} | 50 (CI) | ${performance >= 50 ? '✅' : '❌'} |
-            | Accessibility | ${accessibility} | 95 | ${accessibility >= 95 ? '✅' : '❌'} |
-            | SEO | ${seo} | 95 | ${seo >= 95 ? '✅' : '❌'} |
-            | Best Practices | ${bestPractices} | 90 | ${bestPractices >= 90 ? '✅' : '❌'} |
+            ### Scores by Page
+            ${scoresTable}
 
-            > **Note:** Performance threshold is 50 for CI environment due to high variability (44-80 range). Local tests achieve 95-98 scores.
+            **Thresholds:** Performance ≥50 (CI), Accessibility ≥95, SEO ≥95, Best Practices ≥90
+
+            > **Note:** Performance threshold is 50 for CI environment due to high variability. Local tests achieve 70-99 scores depending on page complexity.
 
             ### Core Web Vitals
-            - **LCP:** ${(report.audits?.['largest-contentful-paint']?.displayValue || 'N/A')}
-            - **FCP:** ${(report.audits?.['first-contentful-paint']?.displayValue || 'N/A')}
-            - **CLS:** ${(report.audits?.['cumulative-layout-shift']?.displayValue || 'N/A')}
-            - **TBT:** ${(report.audits?.['total-blocking-time']?.displayValue || 'N/A')}
-            - **Speed Index:** ${(report.audits?.['speed-index']?.displayValue || 'N/A')}
+            ${vitalsTable}
+
+            ### Pages Tested
+            ${summary.map(p => `- **${p.page}**: ${p.url}`).join('\n')}
 
             ### Actions Required
-            1. Review the [Lighthouse report artifact](${context.payload.repository.html_url}/actions/runs/${context.runId})
-            2. Investigate performance regressions
-            3. Check the [metrics history](${context.payload.repository.html_url}/blob/lighthouse-metrics/docs/metrics/lighthouse-history.json) on the lighthouse-metrics branch
-            4. Address failing audits in the Lighthouse report
+            1. Review the [Lighthouse reports artifact](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            2. Check detailed reports in \`lighthouse-reports/\` directory
+            3. Investigate pages with failing scores
+            4. Review [metrics history](${context.payload.repository.html_url}/tree/lighthouse-metrics/lighthouse-reports) on lighthouse-metrics branch
 
             ---
-            *This issue was automatically created by the Lighthouse CI workflow.*`;
+            *This issue was automatically created by the Multi-Page Lighthouse CI workflow.*`;
 
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `🚨 Lighthouse Performance Degradation (${date})`,
+              title: `🚨 Multi-Page Lighthouse Performance Degradation (${date})`,
               body: body,
               labels: ['performance', 'lighthouse', 'automated']
             });
