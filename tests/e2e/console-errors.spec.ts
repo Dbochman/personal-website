@@ -14,6 +14,8 @@ interface ConsoleMessage {
   timestamp: string;
 }
 
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
+
 // Patterns to ignore (known/acceptable warnings)
 const IGNORED_PATTERNS = [
   // Google Analytics cookie warnings are expected
@@ -71,7 +73,7 @@ test.describe('Console Error Monitoring', () => {
       });
 
       // Navigate to the page
-      await playwright.goto(page.url);
+      await playwright.goto(`${BASE_URL}${page.url}`);
 
       // Wait for page to be fully loaded
       await playwright.waitForLoadState('networkidle');
@@ -104,12 +106,12 @@ test.describe('Console Error Monitoring', () => {
   }
 
   test('Home page loads successfully', async ({ page }) => {
-    await page.goto('/');
+    await page.goto(`${BASE_URL}/`);
     await expect(page).toHaveTitle(/Dylan Bochman/);
   });
 
   test('Blog list page loads successfully', async ({ page }) => {
-    await page.goto('/blog');
+    await page.goto(`${BASE_URL}/blog`);
     await expect(page).toHaveTitle(/Blog - Dylan Bochman/);
     // Use more specific selector to avoid matching multiple h1 elements
     await expect(page.locator('main h1').first()).toContainText('Blog');
@@ -117,7 +119,7 @@ test.describe('Console Error Monitoring', () => {
 
   test('Blog post page loads successfully', async ({ page }) => {
     // Use the filename as the URL slug, not the frontmatter slug
-    await page.goto('/blog/2026-01-getting-started-with-sre');
+    await page.goto(`${BASE_URL}/blog/2026-01-getting-started-with-sre`);
     // The actual post title from frontmatter is "Hello, World"
     // Wait for the page to load and check for blog content
     await page.waitForLoadState('networkidle');
@@ -126,7 +128,7 @@ test.describe('Console Error Monitoring', () => {
   });
 
   test('Runbook page loads successfully', async ({ page }) => {
-    await page.goto('/runbook.html');
+    await page.goto(`${BASE_URL}/runbook.html`);
     await expect(page.locator('h1.page-title')).toContainText('Operational Runbook');
   });
 });
