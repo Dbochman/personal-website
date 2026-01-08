@@ -1,0 +1,82 @@
+---
+title: "Uptime Monitoring for a Personal Site"
+date: "2025-01-07"
+author: "Dylan Bochman"
+description: "Setting up external monitoring for a portfolio site, and why treating small systems like production systems is a useful habit."
+tags: ["Reliability", "Monitoring", "UptimeRobot", "SRE"]
+category: "Technical"
+draft: false
+---
+
+# Uptime Monitoring for a Personal Site
+
+I set up external uptime monitoring for my personal website.
+
+The site does not have significant traffic or business impact. The motivation was not risk mitigation. It was consistency. If I claim to care about reliability, the systems I own should reflect that, regardless of scale.
+
+That includes knowing when something is broken before someone tells me.
+
+## Why Monitor a Personal Site
+
+Monitoring is a habit, not just a response to risk.
+
+For production systems, monitoring exists because the cost of undetected failure is high. For personal systems, monitoring exists because the practice of instrumenting and observing systems should be automatic.
+
+The questions are the same at any scale:
+
+- Is the system available?
+- How would I know if it was not?
+- What does the historical availability look like?
+- Where do I look when something seems wrong?
+
+If those questions are not answered for a simple system, they are unlikely to be answered well for a complex one.
+
+## Implementation
+
+I used UptimeRobot. Free tier, five minute check interval, email alerts on failure.
+
+Setup took about five minutes:
+
+- Create account
+- Add monitor for the site URL
+- Configure alerting
+- Link the public status page in the site footer
+
+UptimeRobot also provides a public status page, which shows current status and historical uptime. I linked it from the site footer.
+
+## What This Demonstrates
+
+This is a small example of treating owned systems as production systems.
+
+Specifically, it shows:
+
+- Default toward observability, even when not strictly required
+- Preference for external monitoring over assumptions about availability
+- Willingness to instrument systems before problems occur
+- Use of public status pages as a transparency mechanism
+
+None of this is complex. The value is in the habit of doing it at all.
+
+## Tradeoffs
+
+Five minute check intervals are coarse. For a personal site, that is acceptable. For a production system, I would want faster detection and more sophisticated alerting.
+
+Email alerting is simple but sufficient here. I check email frequently enough that detection to notification latency is reasonable.
+
+If I wanted more coverage, I could add monitors for specific paths like `/blog` or `/runbook.html`, configure response time thresholds, or integrate with Slack. For now, the basic setup is enough.
+
+## Why Include This on a Personal Site
+
+Reliability work often produces artifacts that are invisible until something fails.
+
+A status page is a visible artifact. It shows that monitoring exists, that availability is tracked, and that I default toward operational visibility even for low stakes systems.
+
+For a portfolio meant to represent how I think about reliability, that visibility matters.
+
+## Takeaway
+
+Monitoring is not proportional to importance. It is proportional to ownership.
+
+If a system is worth running, it is worth observing.
+
+Status page: [stats.uptimerobot.com/zquZllQfNJ](https://stats.uptimerobot.com/zquZllQfNJ)
