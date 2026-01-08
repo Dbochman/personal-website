@@ -12,12 +12,15 @@ import rehypePrism from 'rehype-prism-plus';
 import PageLayout from '@/components/layout/PageLayout';
 import { Badge } from '@/components/ui/badge';
 import { mdxComponents } from '@/components/blog/MDXComponents';
-import { loadBlogPost } from '@/lib/blog-loader';
+import { loadBlogPost, loadBlogPosts } from '@/lib/blog-loader';
+import { Comments } from '@/components/blog/Comments';
+import { RelatedPosts } from '@/components/blog/RelatedPosts';
 import type { BlogPost as BlogPostType } from '@/types/blog';
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
   const [post, setPost] = useState<BlogPostType | null>(null);
+  const [allPosts, setAllPosts] = useState<BlogPostType[]>([]);
   const [MDXContent, setMDXContent] = useState<React.ComponentType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +34,10 @@ export default function BlogPost() {
 
     const loadPost = async () => {
       try {
-        const loadedPost = await loadBlogPost(slug);
+        const [loadedPost, posts] = await Promise.all([
+          loadBlogPost(slug),
+          loadBlogPosts(),
+        ]);
 
         if (!loadedPost) {
           setError('Post not found');
@@ -40,6 +46,7 @@ export default function BlogPost() {
         }
 
         setPost(loadedPost);
+        setAllPosts(posts);
 
         // Evaluate the MDX content at runtime with custom components
         const { default: Content } = await evaluate(loadedPost.content, {
@@ -181,6 +188,12 @@ export default function BlogPost() {
                 </MDXProvider>
               )}
             </article>
+
+            {/* Related Posts */}
+            <RelatedPosts currentPost={post} allPosts={allPosts} />
+
+            {/* Comments */}
+            <Comments slug={post.slug} />
 
             {/* Post footer */}
             <footer className="mt-12 pt-8 border-t border-border">
