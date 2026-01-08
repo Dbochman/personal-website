@@ -34,22 +34,36 @@ export async function loadBlogPosts(includeDrafts = false): Promise<BlogPost[]> 
 
 /**
  * Load a single blog post by slug
- * @param slug - The post slug (filename without extension)
+ * @param slug - The post slug (from frontmatter or URL)
  * @returns Promise resolving to BlogPost or null if not found
  */
 export async function loadBlogPost(slug: string): Promise<BlogPost | null> {
-  const path = `/content/blog/${slug}.txt`;
-  const module = blogModules[path];
-
-  if (!module) {
-    return null;
+  // First, try direct path match (legacy support)
+  const directPath = `/content/blog/${slug}.txt`;
+  if (blogModules[directPath]) {
+    try {
+      const content = blogModules[directPath].default;
+      return createBlogPost(content, slug);
+    } catch (error) {
+      console.error(`Error loading blog post from ${directPath}:`, error);
+    }
   }
 
-  try {
-    const content = module.default;
-    return createBlogPost(content, slug);
-  } catch (error) {
-    console.error(`Error loading blog post ${slug}:`, error);
-    return null;
+  // If not found, search through all posts by slug in frontmatter
+  for (const [path, module] of Object.entries(blogModules)) {
+    try {
+      const content = module.default;
+      // Don't pass slug parameter - let it use frontmatter slug
+      const post = createBlogPost(content);
+
+      // Match by slug from frontmatter
+      if (post.slug === slug) {
+        return post;
+      }
+    } catch (error) {
+      console.error(`Error loading blog post from ${path}:`, error);
+    }
   }
+
+  return null;
 }

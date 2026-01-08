@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { MDXProvider } from '@mdx-js/react';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
-import { compile, run } from '@mdx-js/mdx';
+import { evaluate } from '@mdx-js/mdx';
 import * as runtime from 'react/jsx-runtime';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
@@ -41,19 +41,17 @@ export default function BlogPost() {
 
         setPost(loadedPost);
 
-        // Compile the MDX content at runtime
-        const compiled = await compile(loadedPost.content, {
-          outputFormat: 'function-body',
+        // Evaluate the MDX content at runtime with custom components
+        const { default: Content } = await evaluate(loadedPost.content, {
+          ...runtime,
           remarkPlugins: [remarkGfm],
           rehypePlugins: [
             rehypeSlug,
             [rehypeAutolinkHeadings, { behavior: 'wrap' }],
             rehypePrism,
           ],
+          useMDXComponents: () => mdxComponents,
         });
-
-        // Run the compiled MDX to get a React component
-        const { default: Content } = await run(compiled, runtime);
         setMDXContent(() => Content);
         setLoading(false);
       } catch (err) {
