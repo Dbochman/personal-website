@@ -121,8 +121,8 @@ test.describe('Console Error Monitoring', () => {
     // The actual post title from frontmatter is "Hello, World"
     // Wait for the page to load and check for blog content
     await page.waitForLoadState('networkidle');
-    // Check that we're on a blog post page by looking for the blog post container
-    await expect(page.locator('article, main')).toBeVisible();
+    // Check that we're on a blog post page by looking for the blog post article
+    await expect(page.locator('article.prose')).toBeVisible();
   });
 
   test('Runbook page loads successfully', async ({ page }) => {

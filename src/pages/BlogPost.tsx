@@ -3,6 +3,12 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { MDXProvider } from '@mdx-js/react';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
+import { compile, run } from '@mdx-js/mdx';
+import * as runtime from 'react/jsx-runtime';
+import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypePrism from 'rehype-prism-plus';
 import PageLayout from '@/components/layout/PageLayout';
 import { Badge } from '@/components/ui/badge';
 import { mdxComponents } from '@/components/blog/MDXComponents';
@@ -35,9 +41,20 @@ export default function BlogPost() {
 
         setPost(loadedPost);
 
-        // Dynamically import the MDX file
-        const mdxModule = await import(`../../content/blog/${slug}.mdx`);
-        setMDXContent(() => mdxModule.default);
+        // Compile the MDX content at runtime
+        const compiled = await compile(loadedPost.content, {
+          outputFormat: 'function-body',
+          remarkPlugins: [remarkGfm],
+          rehypePlugins: [
+            rehypeSlug,
+            [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+            rehypePrism,
+          ],
+        });
+
+        // Run the compiled MDX to get a React component
+        const { default: Content } = await run(compiled, runtime);
+        setMDXContent(() => Content);
         setLoading(false);
       } catch (err) {
         console.error('Error loading blog post:', err);
