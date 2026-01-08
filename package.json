@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-sitemap.js && vite build",
+    "build": "node scripts/generate-sitemap.js && vite build && node scripts/prerender.mjs",
     "build:dev": "node scripts/generate-sitemap.js && vite build --mode development",
     "build:analyze": "ANALYZE=true npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "prerender": "node scripts/prerender.mjs",
     "test": "vitest",
     "test:watch": "vitest",
     "test:coverage": "vitest --coverage",
