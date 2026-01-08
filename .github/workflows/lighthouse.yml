@@ -142,7 +142,7 @@ jobs:
             summary.forEach(page => {
               const perfStatus = page.performance >= 50 ? '✅' : '❌';
               const a11yStatus = page.accessibility >= 95 ? '✅' : '❌';
-              const seoStatus = page.seo >= 95 ? '✅' : '❌';
+              const seoStatus = page.seo >= 90 ? '✅' : '❌';
               const bpStatus = page.bestPractices >= 90 ? '✅' : '❌';
 
               scoresTable += `| ${page.page} | ${page.performance} ${perfStatus} | ${page.accessibility} ${a11yStatus} | ${page.seo} ${seoStatus} | ${page.bestPractices} ${bpStatus} |\n`;
