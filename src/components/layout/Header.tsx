@@ -11,6 +11,7 @@ const Header = () => {
   const navigation = useNavigation();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const isBlogPage = location.pathname.startsWith('/blog');
 
   const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -22,6 +23,11 @@ const Header = () => {
     // Only call openExperienceAccordion if we're within a NavigationProvider
     navigation?.openExperienceAccordion();
   };
+
+  // Show simplified nav on blog pages: Home, Blog, Theme toggle
+  const navItemsToShow = isBlogPage
+    ? [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }]
+    : navigationItems;
 
 const [isDark, setIsDark] = useState(false)
 
@@ -67,22 +73,9 @@ const toggleTheme = () => {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex gap-6">
-            {navigationItems.map((item) => {
+            {navItemsToShow.map((item) => {
               const isHashLink = item.href.startsWith('#');
               const linkClass = "text-foreground/70 hover:text-foreground transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4";
-
-              // If it's a hash link and we're not on the homepage, use Link to navigate home first
-              if (isHashLink && !isHomePage) {
-                return (
-                  <Link
-                    key={item.href}
-                    to={`/${item.href}`}
-                    className={linkClass}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              }
 
               // If it's a hash link on the homepage, use anchor tag for smooth scrolling
               if (isHashLink && isHomePage) {
