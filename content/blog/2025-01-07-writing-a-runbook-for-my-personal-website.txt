@@ -1,0 +1,63 @@
+---
+title: "Writing a Runbook for My Personal Website"
+slug: "writing-a-runbook-for-my-personal-website"
+description: "I built an operational runbook for my portfolio site. Overkill? Maybe. But it was a good exercise."
+date: "2025-01-07"
+author: "Dylan Bochman"
+tags: ["SRE", "Runbooks", "Reliability", "Web Development"]
+category: "SRE"
+featured: true
+draft: false
+---
+
+At some point while building my portfolio site, I decided it needed a runbook. Is an operational runbook overkill for a personal website? Probably. But I'm an SRE, and it felt wrong not to have one.
+
+## What's In It
+
+The runbook lives at [/runbook.html](https://dylanbochman.com/runbook.html) and covers:
+
+- **Incident response** — what to do if the site goes down
+- **Troubleshooting procedures** — common issues and fixes
+- **Performance standards** — SLIs and SLOs for the site
+- **Dependency status pages** — links to GitHub, Cloudflare, etc.
+- **Escalation paths** — which is mostly just my own contact info
+
+It's structured the way I'd structure a runbook at work: start with "is there an incident?" and branch from there.
+
+## The Integration Headaches
+
+The runbook is a static HTML file outside the React app. That seemed simpler at the time—no build step, always accessible even if the main site breaks. But getting it to feel consistent with the main site turned into a whole thing.
+
+The commits tell the story:
+
+```
+e00fbc3 refactor: redesign operational runbook for visual consistency
+675068c Fix runbook theme detection to match main site behavior
+e620784 fix: prevent theme flash when loading runbook from homepage
+419a7b1 feat: add Tailwind CDN to runbook for consistency
+1f7f018 fix: remove Tailwind CDN from runbook.html
+```
+
+Notice that last one? Added Tailwind, then removed it. The CDN approach caused flash-of-unstyled-content issues. Ended up just writing the styles inline.
+
+Theme handling was particularly annoying. The main site detects system preference and persists theme choice. The runbook needed to do the same thing, but couldn't share the React code. So I duplicated the theme detection logic in vanilla JS, then spent a few commits fixing edge cases like "user clicks to runbook while in dark mode, runbook flashes light then switches."
+
+## Why Bother
+
+A few reasons:
+
+**Practice.** Writing runbooks is a skill. Doing it for a low-stakes project lets you experiment with structure and content without production pressure.
+
+**Demonstration.** The site is a portfolio. Having a runbook shows I think about operational concerns even for side projects.
+
+**It's actually useful.** When GitHub Pages had an incident last month, I checked my runbook's dependency status links instead of googling. Small win.
+
+## What I'd Do Differently
+
+Keep it in the React app. The "static file for resilience" idea sounds good but creates more problems than it solves. If the React app is down, I'm probably checking GitHub status anyway, not my own runbook.
+
+Or go fully static—no theme switching, no JavaScript, just a plain document. The middle ground was the worst of both worlds.
+
+---
+
+*The runbook is live at [dylanbochman.com/runbook.html](https://dylanbochman.com/runbook.html) if you want to see what it looks like.*

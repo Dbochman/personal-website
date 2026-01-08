@@ -1,0 +1,63 @@
+---
+title: "Adventures in AI-Assisted Web Development"
+slug: "adventures-in-ai-assisted-web-development"
+description: "I needed a new portfolio site and used it as an excuse to get familiar with AI development tools. Here's how it went."
+date: "2025-01-07"
+author: "Dylan Bochman"
+tags: ["AI Development", "Lovable", "Claude Code", "Web Development"]
+category: "Development"
+featured: true
+draft: false
+---
+
+I had been meaning to create a new website to better serve as a professional portfolio—which as an SRE/Reliability/Resilience guy has been interesting. I also wanted to get more familiar with AI tools, and this was a nice small project that was easy to dig into. I started with Lovable for the initial design, focusing on aesthetics and overall structure. I remember using ChatGPT to refine my Lovable prompts and give it more reliability flavor. Once I had Lovable's output in a good place, I exported to GitHub and continued my adventures with Claude Code primarily, with a bit of Codex, for every PR after that.
+
+## The Lovable Phase
+
+Lovable was great for the early exploration. Layout, colors, typography, responsive behavior—I could iterate through ideas quickly just by describing what I wanted. The early commits tell the story: lots of styling tweaks, copy changes, and the occasional "Reverted to commit" when something didn't land right.
+
+Once it felt like *me*, I exported to GitHub and the engineering side began.
+
+## Enter Claude Code
+
+The first couple PRs set the tone for what working with Claude Code would be like:
+
+- **PR #1**: Found and fixed a toast listener memory leak I hadn't even noticed
+- **PR #2**: Set up the whole Vitest testing infrastructure
+
+From there, Claude Code (and occasionally Codex) handled feature work, testing, performance tuning, and the monitoring setup. The blog you're reading now came from PRs #54-56—three focused PRs that included tests, TypeScript types, and proper SEO. More structure than I'd probably have done on my own.
+
+## A Debugging Story
+
+Here's one that sticks with me. The blog's MDX loader wasn't working—Vite's MDX plugin was processing files before the raw import could grab them, so I kept getting React components instead of strings.
+
+Claude Code tried a bunch of fixes: different `import.meta.glob` configurations, renaming files from `.mdx` to `.md`, various import strategies. Nothing worked. After a few rounds I finally asked: "Is there not some other filetype we could use to avoid all this?"
+
+Obvious in hindsight: just use `.txt` files. No plugin touches `.txt`. Three small edits and it worked.
+
+That's kind of how the collaboration goes—Claude Code grinds through the implementation attempts, and I ask the dumb questions that occasionally turn out to be the right ones.
+
+## What Stuck With Me
+
+**Lovable is great for the fuzzy stuff.** Exploring visual directions through conversation beats writing CSS when you're still figuring out what you want.
+
+**Claude Code adds rigor I wouldn't.** Every PR came with tests, error handling, edge case coverage. The repo has 123 tests now. I would not have written 123 tests.
+
+**Timing the handoff matters.** Export from Lovable once the visuals feel settled. Too early and you're doing design work in the wrong tool.
+
+**Context helps a lot.** I added a CLAUDE.md file explaining the project structure and it noticeably improved how well Claude Code's output fit with existing code.
+
+## Where It Landed
+
+- 200+ commits
+- 123 tests
+- 95/100 Lighthouse performance
+- Monitoring, CI/CD, automated deploys
+
+The site does what I needed it to do. And I came out the other side actually comfortable building with these tools—which was kind of the point.
+
+Repository: [github.com/Dbochman/personal-website](https://github.com/Dbochman/personal-website)
+
+---
+
+*Questions? [LinkedIn](https://www.linkedin.com/in/dbochman/) or [email](mailto:dylanbochman@gmail.com).*
