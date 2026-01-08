@@ -56,22 +56,44 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         // Manual chunk splitting for better caching
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          ui: ['@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-toast', '@radix-ui/react-tooltip'],
-          router: ['react-router-dom'],
-          query: ['@tanstack/react-query'],
-          monitoring: ['@sentry/react'],
-          // Split blog-related dependencies into separate chunks
-          'blog-loader': ['gray-matter', 'date-fns'],
-          // MDX runtime and plugins - only loaded on blog post pages
-          'mdx-runtime': [
-            '@mdx-js/mdx',
-            'remark-gfm',
-            'rehype-slug',
-            'rehype-autolink-headings',
-            'rehype-prism-plus',
-          ],
+        manualChunks(id) {
+          // Core vendor chunks
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
+              return 'vendor';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'ui';
+            }
+            if (id.includes('react-router')) {
+              return 'router';
+            }
+            if (id.includes('@tanstack/react-query')) {
+              return 'query';
+            }
+            if (id.includes('@sentry')) {
+              return 'monitoring';
+            }
+            if (id.includes('gray-matter') || id.includes('date-fns')) {
+              return 'blog-loader';
+            }
+            // Split MDX into smaller chunks for better loading
+            if (id.includes('@mdx-js/mdx') || id.includes('@mdx-js/react')) {
+              return 'mdx-core';
+            }
+            if (id.includes('remark-') || id.includes('unified') || id.includes('micromark')) {
+              return 'mdx-remark';
+            }
+            if (id.includes('rehype-')) {
+              return 'mdx-rehype';
+            }
+            if (id.includes('lucide-react')) {
+              return 'icons';
+            }
+            if (id.includes('next-themes')) {
+              return 'theme';
+            }
+          }
         },
       },
     },
