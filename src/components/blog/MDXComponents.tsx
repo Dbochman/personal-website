@@ -7,39 +7,39 @@ import { type MDXComponents } from 'mdx/types';
 export const mdxComponents: MDXComponents = {
   // Headings
   h1: ({ children }) => (
-    <h1 className="text-5xl font-extrabold mt-20 mb-8 text-foreground scroll-mt-20 first:mt-0 tracking-tight">
+    <h1 className="text-4xl font-bold mt-8 mb-4 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h1>
   ),
   h2: ({ children }) => (
-    <h2 className="text-4xl font-extrabold mt-32 mb-8 text-foreground scroll-mt-20 first:mt-0 tracking-tight border-b-2 border-border pb-4">
+    <h2 className="text-3xl font-bold mt-8 mb-4 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="text-3xl font-bold mt-24 mb-6 text-foreground scroll-mt-20 first:mt-0">
+    <h3 className="text-2xl font-semibold mt-6 mb-3 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h3>
   ),
   h4: ({ children }) => (
-    <h4 className="text-xl font-semibold mt-4 mb-2 text-foreground scroll-mt-20">
+    <h4 className="text-xl font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h4>
   ),
   h5: ({ children }) => (
-    <h5 className="text-lg font-semibold mt-4 mb-2 text-foreground scroll-mt-20">
+    <h5 className="text-lg font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h5>
   ),
   h6: ({ children }) => (
-    <h6 className="text-base font-semibold mt-4 mb-2 text-foreground scroll-mt-20">
+    <h6 className="text-base font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h6>
   ),
 
   // Paragraphs and text
   p: ({ children }) => (
-    <p className="mb-8 text-foreground/95 text-xl leading-loose last:mb-0">
+    <p className="my-4 text-foreground/80 leading-7">
       {children}
     </p>
   ),
@@ -48,7 +48,7 @@ export const mdxComponents: MDXComponents = {
   a: ({ href, children }) => (
     <a
       href={href}
-      className="text-primary underline decoration-2 underline-offset-2 hover:decoration-primary/50 font-medium transition-colors"
+      className="text-primary underline hover:text-primary/80 font-medium"
       target={href?.startsWith('http') ? '_blank' : undefined}
       rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
     >
@@ -58,24 +58,24 @@ export const mdxComponents: MDXComponents = {
 
   // Lists
   ul: ({ children }) => (
-    <ul className="mb-8 ml-6 list-disc space-y-4 text-foreground/95 last:mb-0">
+    <ul className="my-4 ml-6 list-disc space-y-2 text-foreground/80">
       {children}
     </ul>
   ),
   ol: ({ children }) => (
-    <ol className="mb-8 ml-6 list-decimal space-y-4 text-foreground/95 last:mb-0">
+    <ol className="my-4 ml-6 list-decimal space-y-2 text-foreground/80">
       {children}
     </ol>
   ),
   li: ({ children }) => (
-    <li className="text-xl leading-loose pl-2">
+    <li className="leading-7">
       {children}
     </li>
   ),
 
   // Code blocks
   pre: ({ children }) => (
-    <pre className="mb-8 overflow-x-auto rounded-lg bg-muted p-6 text-base last:mb-0">
+    <pre className="my-4 overflow-x-auto rounded-lg bg-muted p-4 text-sm">
       {children}
     </pre>
   ),
@@ -155,12 +155,12 @@ export const mdxComponents: MDXComponents = {
 
   // Strong and emphasis
   strong: ({ children }) => (
-    <strong className="font-bold text-foreground/100">
+    <strong className="font-bold text-foreground">
       {children}
     </strong>
   ),
   em: ({ children }) => (
-    <em className="italic text-foreground/95">
+    <em className="italic">
       {children}
     </em>
   ),
