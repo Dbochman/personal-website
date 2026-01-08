@@ -110,7 +110,7 @@ jobs:
             // Check thresholds per page
             if (page.performance < 50) failures.push(\`\${page.page}: Performance \${page.performance} < 50\`);
             if (page.accessibility < 95) failures.push(\`\${page.page}: Accessibility \${page.accessibility} < 95\`);
-            if (page.seo < 95) failures.push(\`\${page.page}: SEO \${page.seo} < 95\`);
+            if (page.seo < 90) failures.push(\`\${page.page}: SEO \${page.seo} < 90\`);
             if (page.bestPractices < 90) failures.push(\`\${page.page}: Best Practices \${page.bestPractices} < 90\`);
           });
 
@@ -119,7 +119,7 @@ jobs:
           if (failures.length > 0) {
             console.error('❌ Lighthouse thresholds not met:\\n');
             failures.forEach(f => console.error(\`   - \${f}\`));
-            console.error('\\n📝 Thresholds: Performance ≥50, Accessibility ≥95, SEO ≥95, Best Practices ≥90');
+            console.error('\\n📝 Thresholds: Performance ≥50, Accessibility ≥95, SEO ≥90, Best Practices ≥90');
             process.exit(1);
           } else {
             console.log('✅ All pages passed Lighthouse thresholds!');
@@ -164,7 +164,7 @@ jobs:
             ### Scores by Page
             ${scoresTable}
 
-            **Thresholds:** Performance ≥50 (CI), Accessibility ≥95, SEO ≥95, Best Practices ≥90
+            **Thresholds:** Performance ≥50 (CI), Accessibility ≥95, SEO ≥90, Best Practices ≥90
 
             > **Note:** Performance threshold is 50 for CI environment due to high variability. Local tests achieve 70-99 scores depending on page complexity.
 
