@@ -11,10 +11,13 @@ import {
 import { navigationItems } from "@/data/navigation";
 import { useNavigation } from '@/context/NavigationContext';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
   const navigation = useNavigation();
+  const location = useLocation();
+  const isBlogPage = location.pathname.startsWith('/blog');
 
   const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -27,6 +30,11 @@ const MobileNav = () => {
     // Only call openExperienceAccordion if we're within a NavigationProvider
     navigation?.openExperienceAccordion();
   };
+
+  // Show simplified nav on blog pages: Home, Blog
+  const navItemsToShow = isBlogPage
+    ? [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }]
+    : navigationItems;
 
   return (
     <div className="md:hidden">
@@ -58,7 +66,7 @@ const MobileNav = () => {
           {/* Navigation items */}
           <nav className="flex-1 p-6">
             <ul className="space-y-4">
-              {navigationItems.map((item) => (
+              {navItemsToShow.map((item) => (
                 <li key={item.href}>
                   <a
                     href={item.href}

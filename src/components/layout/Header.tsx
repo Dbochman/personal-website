@@ -24,7 +24,7 @@ const Header = () => {
     navigation?.openExperienceAccordion();
   };
 
-  // Show simplified nav on blog pages: Home, Blog, Theme toggle
+  // Show simplified nav on blog pages: Home, Blog
   const navItemsToShow = isBlogPage
     ? [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }]
     : navigationItems;
