@@ -7,17 +7,17 @@ import { type MDXComponents } from 'mdx/types';
 export const mdxComponents: MDXComponents = {
   // Headings
   h1: ({ children }) => (
-    <h1 className="text-4xl font-bold mt-8 mb-4 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h1 className="text-4xl font-bold mt-16 mb-6 text-foreground scroll-mt-20 first:mt-0" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h1>
   ),
   h2: ({ children }) => (
-    <h2 className="text-3xl font-bold mt-8 mb-4 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h2 className="text-3xl font-bold mt-16 mb-6 text-foreground scroll-mt-20 first:mt-0" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="text-2xl font-semibold mt-6 mb-3 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h3 className="text-2xl font-semibold mt-12 mb-5 text-foreground scroll-mt-20 first:mt-0" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
       {children}
     </h3>
   ),
@@ -39,7 +39,7 @@ export const mdxComponents: MDXComponents = {
 
   // Paragraphs and text
   p: ({ children }) => (
-    <p className="my-6 text-foreground/90 text-lg leading-relaxed">
+    <p className="mb-8 text-foreground/95 text-xl leading-loose last:mb-0">
       {children}
     </p>
   ),
@@ -48,7 +48,7 @@ export const mdxComponents: MDXComponents = {
   a: ({ href, children }) => (
     <a
       href={href}
-      className="text-primary hover:underline font-medium"
+      className="text-primary underline decoration-2 underline-offset-2 hover:decoration-primary/50 font-medium transition-colors"
       target={href?.startsWith('http') ? '_blank' : undefined}
       rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
     >
@@ -58,24 +58,24 @@ export const mdxComponents: MDXComponents = {
 
   // Lists
   ul: ({ children }) => (
-    <ul className="my-6 ml-6 list-disc space-y-3 text-foreground/90">
+    <ul className="mb-8 ml-6 list-disc space-y-4 text-foreground/95 last:mb-0">
       {children}
     </ul>
   ),
   ol: ({ children }) => (
-    <ol className="my-6 ml-6 list-decimal space-y-3 text-foreground/90">
+    <ol className="mb-8 ml-6 list-decimal space-y-4 text-foreground/95 last:mb-0">
       {children}
     </ol>
   ),
   li: ({ children }) => (
-    <li className="text-lg leading-relaxed">
+    <li className="text-xl leading-loose pl-2">
       {children}
     </li>
   ),
 
   // Code blocks
   pre: ({ children }) => (
-    <pre className="my-4 overflow-x-auto rounded-lg bg-muted p-4 text-sm">
+    <pre className="mb-8 overflow-x-auto rounded-lg bg-muted p-6 text-base last:mb-0">
       {children}
     </pre>
   ),
@@ -155,12 +155,12 @@ export const mdxComponents: MDXComponents = {
 
   // Strong and emphasis
   strong: ({ children }) => (
-    <strong className="font-bold text-foreground">
+    <strong className="font-bold text-foreground/100">
       {children}
     </strong>
   ),
   em: ({ children }) => (
-    <em className="italic">
+    <em className="italic text-foreground/95">
       {children}
     </em>
   ),
