@@ -59,10 +59,19 @@ export default defineConfig(({ mode }) => ({
         manualChunks: {
           vendor: ['react', 'react-dom'],
           ui: ['@radix-ui/react-accordion', '@radix-ui/react-dialog', '@radix-ui/react-toast', '@radix-ui/react-tooltip'],
-          router: ['react-router-dom'],
+          router: ['react-router'],
           query: ['@tanstack/react-query'],
           monitoring: ['@sentry/react'],
-          mdx: ['@mdx-js/rollup', 'gray-matter', 'date-fns'],
+          // Split blog-related dependencies into separate chunks
+          'blog-loader': ['gray-matter', 'date-fns'],
+          // MDX runtime and plugins - only loaded on blog post pages
+          'mdx-runtime': [
+            '@mdx-js/mdx',
+            'remark-gfm',
+            'rehype-slug',
+            'rehype-autolink-headings',
+            'rehype-prism-plus',
+          ],
         },
       },
     },

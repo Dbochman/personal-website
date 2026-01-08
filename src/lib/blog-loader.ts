@@ -3,10 +3,11 @@ import { createBlogPost, filterDraftPosts } from './mdx';
 
 // Import all blog post files as raw text
 // Using .txt extension to avoid any plugin processing
+// Non-eager loading for better code splitting
 const blogModules = import.meta.glob('/content/blog/*.txt', {
-  eager: true,
+  eager: false,
   query: '?raw'
-}) as Record<string, { default: string }>;
+}) as Record<string, () => Promise<{ default: string }>>;
 
 /**
  * Load all blog posts from the content/blog directory
@@ -16,10 +17,11 @@ const blogModules = import.meta.glob('/content/blog/*.txt', {
 export async function loadBlogPosts(includeDrafts = false): Promise<BlogPost[]> {
   const posts: BlogPost[] = [];
 
-  for (const [path, module] of Object.entries(blogModules)) {
+  for (const [path, moduleLoader] of Object.entries(blogModules)) {
     try {
       // Extract slug from path
       const slug = path.split('/').pop()?.replace('.txt', '') || '';
+      const module = await moduleLoader();
       const content = module.default;
       const post = createBlogPost(content, slug);
       posts.push(post);
@@ -42,7 +44,8 @@ export async function loadBlogPost(slug: string): Promise<BlogPost | null> {
   const directPath = `/content/blog/${slug}.txt`;
   if (blogModules[directPath]) {
     try {
-      const content = blogModules[directPath].default;
+      const module = await blogModules[directPath]();
+      const content = module.default;
       return createBlogPost(content, slug);
     } catch (error) {
       console.error(`Error loading blog post from ${directPath}:`, error);
@@ -50,8 +53,9 @@ export async function loadBlogPost(slug: string): Promise<BlogPost | null> {
   }
 
   // If not found, search through all posts by slug in frontmatter
-  for (const [path, module] of Object.entries(blogModules)) {
+  for (const [path, moduleLoader] of Object.entries(blogModules)) {
     try {
+      const module = await moduleLoader();
       const content = module.default;
       // Don't pass slug parameter - let it use frontmatter slug
       const post = createBlogPost(content);
