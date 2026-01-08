@@ -1,4 +1,7 @@
 import { type MDXComponents } from 'mdx/types';
+import { CodeBlock } from './CodeBlock';
+import { Callout } from './Callout';
+import { BlogImage } from './BlogImage';
 
 /**
  * Custom components for MDX rendering
@@ -73,11 +76,11 @@ export const mdxComponents: MDXComponents = {
     </li>
   ),
 
-  // Code blocks
-  pre: ({ children }) => (
-    <pre className="my-4 overflow-x-auto rounded-lg bg-muted p-4 text-sm">
+  // Code blocks with copy button
+  pre: ({ children, className }) => (
+    <CodeBlock className={className}>
       {children}
-    </pre>
+    </CodeBlock>
   ),
   code: ({ children, className }) => {
     const isInline = !className;
@@ -143,13 +146,11 @@ export const mdxComponents: MDXComponents = {
     </td>
   ),
 
-  // Images
+  // Images with lazy loading
   img: ({ src, alt }) => (
-    <img
-      src={src}
+    <BlogImage
+      src={src || ''}
       alt={alt || ''}
-      className="my-4 rounded-lg max-w-full h-auto"
-      loading="lazy"
     />
   ),
 
@@ -164,4 +165,8 @@ export const mdxComponents: MDXComponents = {
       {children}
     </em>
   ),
+
+  // Custom components available in MDX
+  Callout,
+  BlogImage,
 };
