@@ -62,7 +62,16 @@ export default defineConfig(({ mode }) => ({
           router: ['react-router-dom'],
           query: ['@tanstack/react-query'],
           monitoring: ['@sentry/react'],
-          mdx: ['@mdx-js/rollup', 'gray-matter', 'date-fns'],
+          // Split blog-related dependencies into separate chunks
+          'blog-loader': ['gray-matter', 'date-fns'],
+          // MDX runtime and plugins - only loaded on blog post pages
+          'mdx-runtime': [
+            '@mdx-js/mdx',
+            'remark-gfm',
+            'rehype-slug',
+            'rehype-autolink-headings',
+            'rehype-prism-plus',
+          ],
         },
       },
     },
