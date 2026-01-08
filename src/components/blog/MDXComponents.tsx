@@ -7,32 +7,32 @@ import { type MDXComponents } from 'mdx/types';
 export const mdxComponents: MDXComponents = {
   // Headings
   h1: ({ children }) => (
-    <h1 className="text-5xl font-extrabold mt-20 mb-8 text-foreground scroll-mt-20 first:mt-0 tracking-tight" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h1 className="text-5xl font-extrabold mt-20 mb-8 text-foreground scroll-mt-20 first:mt-0 tracking-tight">
       {children}
     </h1>
   ),
   h2: ({ children }) => (
-    <h2 className="text-4xl font-extrabold mt-32 mb-8 text-foreground scroll-mt-20 first:mt-0 tracking-tight border-b-2 border-border pb-4" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h2 className="text-4xl font-extrabold mt-32 mb-8 text-foreground scroll-mt-20 first:mt-0 tracking-tight border-b-2 border-border pb-4">
       {children}
     </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="text-3xl font-bold mt-24 mb-6 text-foreground scroll-mt-20 first:mt-0" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h3 className="text-3xl font-bold mt-24 mb-6 text-foreground scroll-mt-20 first:mt-0">
       {children}
     </h3>
   ),
   h4: ({ children }) => (
-    <h4 className="text-xl font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h4 className="text-xl font-semibold mt-4 mb-2 text-foreground scroll-mt-20">
       {children}
     </h4>
   ),
   h5: ({ children }) => (
-    <h5 className="text-lg font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h5 className="text-lg font-semibold mt-4 mb-2 text-foreground scroll-mt-20">
       {children}
     </h5>
   ),
   h6: ({ children }) => (
-    <h6 className="text-base font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+    <h6 className="text-base font-semibold mt-4 mb-2 text-foreground scroll-mt-20">
       {children}
     </h6>
   ),
