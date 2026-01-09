@@ -1,0 +1,33 @@
+backend:
+  name: github
+  repo: Dbochman/personal-website
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+
+# Local development workflow - uncomment for local testing
+# local_backend: true
+
+media_folder: "public/images/blog"
+public_folder: "/images/blog"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "txt"
+    format: "frontmatter"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
+      - {label: "Author", name: "author", widget: "string", default: "Dylan Bochman"}
+      - {label: "Description", name: "description", widget: "text", hint: "Brief summary for SEO and preview cards"}
+      - {label: "Tags", name: "tags", widget: "list", default: []}
+      - {label: "Category", name: "category", widget: "string", required: false}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false, required: false}
+      - {label: "Draft", name: "draft", widget: "boolean", default: true}
+      - {label: "Slug", name: "slug", widget: "string", required: false, hint: "Optional custom URL slug"}
+      - {label: "Featured Image", name: "image", widget: "image", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}

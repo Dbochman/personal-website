@@ -14,7 +14,7 @@ interface ConsoleMessage {
   timestamp: string;
 }
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:8080';
 
 // Patterns to ignore (known/acceptable warnings)
 const IGNORED_PATTERNS = [
