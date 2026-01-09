@@ -158,6 +158,21 @@
         });
       })();
     </script>
+
+    <!-- Netlify Identity Widget - handles password recovery tokens -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+      // Redirect to CMS after successful login/signup
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/editor/";
+            });
+          }
+        });
+      }
+    </script>
   </head>
 
 <!-- Google tag (gtag.js) -->
