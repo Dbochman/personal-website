@@ -1,9 +1,6 @@
 backend:
-  name: github
-  repo: Dbochman/personal-website
+  name: git-gateway
   branch: main
-  base_url: https://api.netlify.com
-  auth_endpoint: auth
 
 # Local development workflow - uncomment for local testing
 # local_backend: true
