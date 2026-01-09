@@ -29,7 +29,7 @@ export default function Blog() {
         <title>Blog - Dylan Bochman</title>
         <meta
           name="description"
-          content="Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability."
+          content="Practical notes on reliability, incident response, and system design, written while building and operating this site."
         />
         <meta
           name="keywords"
@@ -38,7 +38,7 @@ export default function Blog() {
         <meta property="og:title" content="Blog - Dylan Bochman" />
         <meta
           property="og:description"
-          content="Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability."
+          content="Practical notes on reliability, incident response, and system design, written while building and operating this site."
         />
         <meta property="og:type" content="website" />
         <link rel="canonical" href="https://dylanbochman.com/blog" />
