@@ -78,7 +78,7 @@ export default function Blog() {
               </a>
             </div>
             <p className="text-xl text-muted-foreground">
-              "Reflections on reliability, resilience, and web developement in the age of AI."
+              Reflections on reliability, resilience, and web developement in the age of AI.
             </p>
           </header>
 
