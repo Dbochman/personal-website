@@ -49,7 +49,7 @@ export default function Blog() {
           <header className="mb-12">
             <h1 className="text-4xl font-bold mb-4">Blog</h1>
             <p className="text-xl text-muted-foreground">
-              Insights on Site Reliability Engineering, Incident Management, and DevOps practices.
+              "Reflections on reliability, resilience, and web developement in the age of AI."
             </p>
           </header>
 
