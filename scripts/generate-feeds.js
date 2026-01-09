@@ -92,7 +92,7 @@ function generateRssFeed(posts) {
     <lastBuildDate>${lastBuildDate}</lastBuildDate>
     <atom:link href="${baseUrl}/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
-      <url>${baseUrl}/social-preview.webp</url>
+      <url>${baseUrl}/social-preview.png</url>
       <title>${escapeXml(siteName)} - Blog</title>
       <link>${baseUrl}/blog</link>
     </image>
