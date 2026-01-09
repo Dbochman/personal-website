@@ -271,6 +271,16 @@ lighthouse-metrics branch (separate):
 
 ---
 
+## 📝 CMS & Content Management
+
+- **`docs/CMS_SETUP.md`** - Decap CMS configuration and usage guide
+  - Status: ✅ Complete
+  - Editor URL: https://dylanbochman.netlify.app/editor/
+  - Backend: Git Gateway via Netlify Identity
+  - **Important:** Use `.netlify.app` subdomain (not custom domain) due to Cloudflare proxy
+
+---
+
 ## 📚 Related Documentation
 
 - **`README.md`** - Project overview, now includes Performance section

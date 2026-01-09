@@ -1,0 +1,125 @@
+---
+title: "Building a Blog, One Revert at a Time"
+date: 2026-01-09
+author: Dylan Bochman
+description: "MDX files that wouldn't load, bundles that wouldn't split, and authentication that wouldn't authenticate. A story of reframing problems instead of solving them."
+tags:
+  - Web Development
+  - CMS
+  - Tooling
+category: Technical
+draft: false
+image: ""
+---
+# Building a Blog, One Revert at a Time
+
+This site started as a static portfolio. Adding a blog seemed straightforward. Adding a CMS to manage that blog was where things got interesting.
+
+What follows is a description of the technical decisions, the problems that emerged, and how they were eventually resolved. If you are considering a similar setup, this might save you some time. Or at least provide some comfort that your struggles are not unique.
+
+## The Initial Architecture
+
+The blog implementation started with a reasonable plan: use MDX for content, store posts in the repository, and render them at runtime. MDX offered the flexibility to embed React components directly in posts, which seemed useful for a technical blog.
+
+The first phase went smoothly. Dependencies were installed, types were defined, and a sample post was created. The commit history from that period reads like a checklist being executed:
+
+- [Phase 1 - Blog Foundation](https://github.com/Dbochman/personal-website/commit/0081ec806078e09b178327a5ea379cd816b10b6e)
+- [Phase 2 - Blog Listing Page](https://github.com/Dbochman/personal-website/commit/94deb8042deaa41bc9407adb170395f1f1744962)
+- [Phase 3 - Individual Blog Post Pages](https://github.com/Dbochman/personal-website/commit/c8b3122ed75c2ba642f125941d135e0a240f9005)
+
+This is the part of the project where everything works and you start to wonder if you have finally become a competent developer.
+
+Then the production build broke.
+
+## The MDX Problem
+
+The issue was subtle. During development, everything worked. In production, the blog posts would not load. Console errors pointed to import failures, but the imports looked correct.
+
+The root cause was a conflict between how Vite processes files and how the blog was trying to load them. The MDX plugin was transforming `.mdx` files before the loader could access their raw content. The loader expected source text. It received pre-compiled React components. This is the software equivalent of ordering a sandwich and receiving a photograph of a sandwich.
+
+Several approaches were attempted:
+
+- Adjusting glob patterns
+- Adding query parameters to imports
+- Renaming files from `.mdx` to `.md`
+
+Each made local sense. None addressed the underlying conflict. The problem was not in the details. The problem was the frame.
+
+The solution was to step outside the problem entirely. By renaming the content files to `.txt`, they bypassed the entire plugin pipeline. No plugin knew what to do with `.txt` files, so they passed through untouched. The blog loader received raw text, parsed the frontmatter, and compiled the MDX at runtime.
+
+The [fix commit](https://github.com/Dbochman/personal-website/commit/7ada85eb35301b863bb0ebe6a397453f045bb87b) has a calm message that belies the hours spent reaching it:
+
+> "Renamed blog post files from .mdx to .txt to avoid plugin processing"
+
+Sometimes the best solution is the one that makes the problem disappear rather than the one that solves it directly.
+
+## Performance Consequences
+
+Runtime MDX compilation is not free. The blog post pages landed at around 65% on Lighthouse performance scores, compared to 94% for the listing page that did not compile MDX.
+
+Being an engineer, I naturally tried to optimize this. The plan was elegant: split the MDX runtime into smaller chunks that could load in parallel.
+
+The [optimization commit](https://github.com/Dbochman/personal-website/commit/47dd90ffae82e661609970ae003db0dcf919e97c) looked promising. Three tidy chunks: `mdx-core`, `mdx-remark`, `mdx-rehype`. Textbook code splitting.
+
+Twenty minutes later came the [revert](https://github.com/Dbochman/personal-website/commit/fc69c9d905cf542de4af5b89eca197dced094ccf):
+
+> "The granular chunk splitting caused circular dependency issues that broke blog post rendering in production with 'can't access lexical declaration before initialization' errors."
+
+The modules had initialization order requirements that the split violated. In trying to make things faster, I had made them not work at all. A valuable reminder that "broken" is slower than "slow."
+
+The final bundle sits at 1.1MB for the MDX runtime, compressed to 373KB. Not small, but acceptable for content pages where users expect to spend time reading rather than bouncing immediately.
+
+## Adding the CMS
+
+With the blog functional, the next question was how to manage content. Editing files in a code editor and committing through Git worked fine for an engineer, but it added friction to writing. And friction is the enemy of actually writing anything.
+
+Decap CMS (formerly Netlify CMS) was a reasonable choice. It is open source, requires no backend infrastructure, and commits directly to the repository. The [initial integration](https://github.com/Dbochman/personal-website/commit/a375a7584ba2fdef9335a0ff4f170682088a8d7c) went quickly.
+
+The CMS configuration mapped to the existing content structure. Blog posts lived in `content/blog/`, used YAML frontmatter, and the CMS respected that schema. Authentication would use Netlify Identity with Git Gateway.
+
+I deployed, navigated to the editor, clicked login, and watched it fail.
+
+## The Authentication Problem
+
+The symptom was a 405 error when attempting to log in through the CMS at the custom domain. The Netlify Identity token endpoint was returning "Method Not Allowed." This is the HTTP status code equivalent of a door that looks like it should open but does not.
+
+What followed was a small adventure in configuration archaeology. The fix attempts accumulated:
+
+1. [Update CMS config to use Netlify Git Gateway](https://github.com/Dbochman/personal-website/commit/39e86a34d45939e6c4c602938597fbce9d3a45b2)
+2. [Add Netlify build config](https://github.com/Dbochman/personal-website/commit/a118e698dff42e2585acfb623b3b07f39a50b877)
+3. [Add Netlify Identity widget to handle password recovery](https://github.com/Dbochman/personal-website/commit/2a632395fca2cda0f9282bdbaa89e03648c1178f)
+4. [Configure CMS to use Netlify site for authentication](https://github.com/Dbochman/personal-website/commit/f2d4c784f3bc0b125dd53e137618c8973acdf668)
+5. [Add Netlify Identity widget with API URL to editor](https://github.com/Dbochman/personal-website/commit/5657392d0a7889e4db8e8adcced922e10140c2c6)
+6. [Revert CMS config to simple git-gateway setup](https://github.com/Dbochman/personal-website/commit/da6e407ee52b8d6299e4a14a907c66d460e3c256)
+
+Six commits. Each one a hypothesis. Each one wrong.
+
+The actual problem was not in the code at all. It was infrastructure.
+
+The custom domain routes through Cloudflare, which proxies requests. Cloudflare was intercepting the `/.netlify/identity/*` endpoints before they could reach Netlify's servers. The requests were arriving at Cloudflare, which had no idea what to do with them, and returned 405.
+
+The CMS worked correctly on the `.netlify.app` subdomain, where requests went directly to Netlify without proxying. The custom domain failed because the Identity API requests never reached their destination.
+
+I could have disabled the Cloudflare proxy. I could have configured bypass rules. Instead, I chose the path of least resistance: use the Netlify subdomain for the CMS and [document it](https://github.com/Dbochman/personal-website/commit/68856c2f2583b5ce62fa0ecaa9d772721105047d).
+
+The CMS is a private admin interface with no SEO value. Hosting it on a different subdomain costs nothing except a small amount of pride.
+
+## What This Surfaced
+
+Three different problems. Three different solutions. One common pattern.
+
+The MDX loading issue was solved by using `.txt` files that no plugin would touch. The bundle splitting issue was solved by not splitting. The authentication issue was solved by using a different domain.
+
+None of these were the solutions that would have been chosen upfront. They emerged from hitting walls and looking for doors nearby. Each required stepping back and questioning whether the original approach was the right frame.
+
+The instinct when something breaks is to fix it within the current structure. Add configuration. Adjust parameters. Try variations. Sometimes that works. Other times, the structure itself is the problem, and the fix is to step outside it.
+
+## Current State
+
+The blog is functional. Posts are written in a text editor or through the CMS at `dylanbochman.netlify.app/editor`. Content commits directly to the repository. The site rebuilds and deploys automatically.
+
+Performance is adequate rather than optimal. The runtime MDX compilation adds weight that build-time compilation would avoid. That optimization remains available if it becomes necessary, but the current implementation is stable and the tradeoff is acceptable.
+
+The CMS documentation now explicitly states to use the `.netlify.app` subdomain. This is not a workaround waiting to be fixed. It is the architecture.
+
+Sometimes the right solution is the one that works, even when it is not the one that was planned. Especially when it is not the one that was planned.
