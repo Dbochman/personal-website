@@ -13,7 +13,7 @@ const PAGES = [
   { name: 'home', url: BASE_URL },
   { name: 'blog', url: `${BASE_URL}/blog` },
   { name: 'blog-post-404', url: `${BASE_URL}/blog/2025-01-08-fixing-404-errors-on-github-pages-spas` },
-  { name: 'runbook', url: `${BASE_URL}/runbook.html` }
+  { name: 'runbook', url: `${BASE_URL}/runbook` }
 ];
 
 async function runLighthouse(url, outputPath) {

@@ -12,6 +12,7 @@ const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const isBlogPage = location.pathname.startsWith('/blog');
+  const isRunbookPage = location.pathname === '/runbook';
 
   const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -24,10 +25,13 @@ const Header = () => {
     navigation?.openExperienceAccordion();
   };
 
-  // Show simplified nav on blog pages: Home, Blog
-  const navItemsToShow = isBlogPage
-    ? [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }]
-    : navigationItems;
+  // Show simplified nav on blog and runbook pages
+  let navItemsToShow = navigationItems;
+  if (isBlogPage) {
+    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }];
+  } else if (isRunbookPage) {
+    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }, { href: "/runbook", label: "Runbook" }];
+  }
 
 const [isDark, setIsDark] = useState(false)
 
