@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { HelmetProvider } from 'react-helmet-async';
 import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
@@ -33,6 +33,8 @@ const App = () => (
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/runbook" element={<Runbook />} />
+              {/* Redirect old runbook.html URL to new clean URL */}
+              <Route path="/runbook.html" element={<Navigate to="/runbook" replace />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
