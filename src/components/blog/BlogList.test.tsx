@@ -141,11 +141,13 @@ describe('BlogList', () => {
     expect(screen.getByText('Third Post')).toBeInTheDocument();
   });
 
-  it('renders posts in date order (newest first)', () => {
+  it('renders posts with featured first, then by date (newest first)', () => {
     renderWithRouter(<BlogList posts={mockPosts} />);
-    const postTitles = screen.getAllByRole('link').map((link) => link.textContent);
+    // Get headings which contain the titles
+    const postTitles = screen.getAllByRole('heading', { level: 3 }).map((h) => h.textContent);
 
-    // First Post (2026-01-07) should come before Second Post (2026-01-06)
+    // First Post is featured, so it comes first
+    // Then Second Post (2026-01-06) and Third Post (2026-01-05) by date
     const firstPostIndex = postTitles.indexOf('First Post');
     const secondPostIndex = postTitles.indexOf('Second Post');
     const thirdPostIndex = postTitles.indexOf('Third Post');
