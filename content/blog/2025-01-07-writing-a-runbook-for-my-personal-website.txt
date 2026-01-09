@@ -14,7 +14,7 @@ At some point while building my portfolio site, I decided it needed a runbook. I
 
 ## What's In It
 
-The runbook lives at [/runbook.html](https://dylanbochman.com/runbook.html) and covers:
+The runbook lives at [/runbook](https://dylanbochman.com/runbook) and covers:
 
 - **Incident response** — what to do if the site goes down
 - **Troubleshooting procedures** — common issues and fixes
@@ -58,6 +58,38 @@ Keep it in the React app. The "static file for resilience" idea sounds good but 
 
 Or go fully static—no theme switching, no JavaScript, just a plain document. The middle ground was the worst of both worlds.
 
+## Update: I Actually Did It
+
+A few weeks after writing this, I migrated the runbook into the React app. Turns out I was right about the middle ground being the worst option.
+
+The migration was straightforward: extracted the content into a TypeScript data file, built a React component with the same sections, added it to the routing. Deleted 868 lines of standalone HTML and replaced it with a properly integrated page that shares the site's Header, Footer, and theme management.
+
+No more duplicated theme detection logic. No more worrying about visual consistency. The runbook now gets the same treatment as the blog—lazy loaded, properly routed, integrated with the navigation. The URL cleaned up too: `/runbook` instead of `/runbook.html`.
+
+Should have done this from the start. The "what if the React app breaks" scenario I was worried about never materialized, and even if it did, the runbook wouldn't help—I'd be fixing the deployment pipeline, not reading documentation.
+
+## What the Tests Missed
+
+After implementing the migration, I ran the full test suite: Lighthouse performance tests and E2E console error checks. Everything passed. Eleven green checks. All four pages hitting performance targets.
+
+Then I ran static analysis with Codex before merging. It caught two medium-severity issues that the tests completely missed:
+
+1. **Dead URL in footer** — The footer still linked to `/runbook.html` with a hardcoded theme parameter, bypassing React Router entirely. Clicking it would have hit a 404.
+
+2. **No redirect for old URLs** — Anyone with a bookmark to `/runbook.html` or finding it via search engines would get a 404. The SPA's redirect logic would try to load the route, but it didn't exist.
+
+Both issues were functional bugs, not just style problems. They would have broken user experience in production. But the test suite didn't flag them because:
+
+- The Lighthouse tests only checked the new `/runbook` URL
+- The E2E tests didn't click the footer link or test old URLs
+- Neither test validated that deprecated URLs redirected properly
+
+This is the gap between "tests pass" and "code works." Tests validate what you explicitly check. Static analysis catches what you forgot to check. In this case: backward compatibility and internal link integrity.
+
+Fixed both issues by updating the footer to use React Router's `Link` component and adding a redirect route from `/runbook.html` → `/runbook`. Tests still pass, but now the code actually works for all the ways users might access the runbook.
+
+Good reminder that comprehensive tests don't replace code review or static analysis. They're complementary tools.
+
 ---
 
-*The runbook is live at [dylanbochman.com/runbook.html](https://dylanbochman.com/runbook.html) if you want to see what it looks like.*
+*The runbook is live at [dylanbochman.com/runbook](https://dylanbochman.com/runbook) if you want to see what it looks like.*
