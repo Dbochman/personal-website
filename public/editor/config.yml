@@ -1,9 +1,6 @@
 backend:
   name: git-gateway
   branch: main
-  # Use Netlify site for Identity authentication
-  identity_url: "https://dylanbochman.netlify.app/.netlify/identity"
-  gateway_url: "https://dylanbochman.netlify.app/.netlify/git/github"
 
 # Local development workflow - uncomment for local testing
 # local_backend: true
