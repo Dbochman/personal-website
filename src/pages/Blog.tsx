@@ -29,7 +29,7 @@ export default function Blog() {
         <title>Blog - Dylan Bochman</title>
         <meta
           name="description"
-          content="Practical notes on reliability, incident response, and system design, written while building and operating this site."
+          content="Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability."
         />
         <meta
           name="keywords"
