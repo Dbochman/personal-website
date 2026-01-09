@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Rss } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { BlogList } from '@/components/blog/BlogList';
 import { loadBlogPosts } from '@/lib/blog-loader';
@@ -35,19 +36,47 @@ export default function Blog() {
           name="keywords"
           content="SRE Blog, Incident Management, DevOps, System Reliability, Technical Writing, Post-Incident Analysis"
         />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dylanbochman.com/blog" />
         <meta property="og:title" content="Blog - Dylan Bochman" />
         <meta
           property="og:description"
           content="Practical notes on reliability, incident response, and system design, written while building and operating this site."
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://dylanbochman.com/social-preview.webp" />
+        <meta property="og:site_name" content="Dylan Bochman" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://dylanbochman.com/blog" />
+        <meta name="twitter:title" content="Blog - Dylan Bochman" />
+        <meta
+          name="twitter:description"
+          content="Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability."
+        />
+        <meta name="twitter:image" content="https://dylanbochman.com/social-preview.webp" />
+
         <link rel="canonical" href="https://dylanbochman.com/blog" />
       </Helmet>
 
       <PageLayout>
         <div className="container mx-auto px-4 py-12">
           <header className="mb-12">
-            <h1 className="text-4xl font-bold mb-4">Blog</h1>
+            <div className="flex items-center gap-4 mb-4">
+              <h1 className="text-4xl font-bold">Blog</h1>
+              <a
+                href="/rss.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-orange-500 transition-colors"
+                title="Subscribe via RSS"
+                aria-label="RSS Feed"
+              >
+                <Rss className="w-6 h-6" />
+              </a>
+            </div>
             <p className="text-xl text-muted-foreground">
               "Reflections on reliability, resilience, and web developement in the age of AI."
             </p>

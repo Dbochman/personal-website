@@ -28,8 +28,12 @@ export function BlogList({ posts }: BlogListProps) {
       filtered = filterPostsByTag(filtered, selectedTag);
     }
 
-    // Sort by date (newest first)
-    return sortPostsByDate(filtered, 'desc');
+    // Sort: featured posts first, then by date (newest first)
+    const sorted = sortPostsByDate(filtered, 'desc');
+    const featured = sorted.filter(post => post.featured);
+    const nonFeatured = sorted.filter(post => !post.featured);
+
+    return [...featured, ...nonFeatured];
   }, [posts, searchTerm, selectedTag]);
 
   const handleTagClick = (tag: string) => {

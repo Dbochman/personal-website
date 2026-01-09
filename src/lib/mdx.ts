@@ -61,14 +61,15 @@ export function formatDate(dateString: string, formatString: string = 'MMMM d, y
  */
 export function createBlogPost(
   content: string,
-  slug?: string
+  fallbackSlug?: string
 ): BlogPost {
   const { frontmatter, content: mdxContent } = parseMDX(content);
   const readingTimeResult = calculateReadingTime(mdxContent);
 
   return {
     ...frontmatter,
-    slug: slug || frontmatter.slug,
+    // Frontmatter slug is authoritative; fallback to filename-derived slug
+    slug: frontmatter.slug || fallbackSlug,
     content: mdxContent,
     readingTime: readingTimeResult.text,
   };

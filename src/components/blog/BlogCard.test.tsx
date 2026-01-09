@@ -23,11 +23,13 @@ const renderWithRouter = (component: React.ReactElement) => {
 };
 
 describe('BlogCard', () => {
-  it('renders post title with link', () => {
+  it('renders entire card as clickable link', () => {
     renderWithRouter(<BlogCard post={mockPost} />);
-    const titleLink = screen.getByRole('link', { name: mockPost.title });
-    expect(titleLink).toBeInTheDocument();
-    expect(titleLink).toHaveAttribute('href', `/blog/${mockPost.slug}`);
+    const cardLink = screen.getByRole('link');
+    expect(cardLink).toBeInTheDocument();
+    expect(cardLink).toHaveAttribute('href', `/blog/${mockPost.slug}`);
+    // Title should be visible within the link
+    expect(screen.getByText(mockPost.title)).toBeInTheDocument();
   });
 
   it('displays formatted date', () => {
@@ -67,7 +69,7 @@ describe('BlogCard', () => {
 
   it('renders with card component classes', () => {
     const { container } = renderWithRouter(<BlogCard post={mockPost} />);
-    const card = container.querySelector('.hover\\:shadow-lg');
+    const card = container.querySelector('.group-hover\\:shadow-lg');
     expect(card).toBeInTheDocument();
   });
 });
