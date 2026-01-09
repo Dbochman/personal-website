@@ -145,6 +145,6 @@ test.describe('Console Error Monitoring', () => {
 
   test('Runbook page loads successfully', async ({ page }) => {
     await page.goto(`${BASE_URL}/runbook`);
-    await expect(page.locator('h1')).toContainText('Operational Runbook');
+    await expect(page.getByRole('heading', { name: 'Operational Runbook' })).toBeVisible();
   });
 });
