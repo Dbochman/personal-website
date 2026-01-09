@@ -40,7 +40,7 @@ test.describe('Console Error Monitoring', () => {
     { name: 'Home Page', url: '/' },
     { name: 'Blog List Page', url: '/blog' },
     { name: 'Blog Post Page', url: '/blog/2026-01-getting-started-with-sre' },
-    { name: 'Runbook Page', url: '/runbook.html' },
+    { name: 'Runbook Page', url: '/runbook' },
   ];
 
   for (const page of pagesToTest) {
@@ -144,7 +144,7 @@ test.describe('Console Error Monitoring', () => {
   });
 
   test('Runbook page loads successfully', async ({ page }) => {
-    await page.goto(`${BASE_URL}/runbook.html`);
-    await expect(page.locator('h1.page-title')).toContainText('Operational Runbook');
+    await page.goto(`${BASE_URL}/runbook`);
+    await expect(page.locator('h1')).toContainText('Operational Runbook');
   });
 });
