@@ -167,10 +167,11 @@ MDX-based blog for SRE insights and technical tutorials:
 
 **Content Management:**
 - **CMS:** Decap CMS (free, open-source headless CMS)
-- **Editor URL:** [/editor](https://dylanbochman.com/editor/index.html)
-- **Authentication:** GitHub OAuth
+- **Editor URL:** [https://dylanbochman.netlify.app/editor](https://dylanbochman.netlify.app/editor/index.html)
+- **Authentication:** Netlify Identity (email/password)
 - **Workflow:** Edit posts visually → Publish → Auto-deploy via GitHub Actions
 - **Benefits:** No manual git commits, markdown preview, image uploads
+- **Note:** Use Netlify URL for CMS access (not dylanbochman.com/editor)
 
 **Blog URLs:**
 - [Blog Home](https://dylanbochman.com/blog)

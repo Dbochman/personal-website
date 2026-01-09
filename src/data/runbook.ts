@@ -68,7 +68,7 @@ export const quickReferences: QuickReference[] = [
   {
     label: "CMS",
     links: [
-      { text: "dylanbochman.com/editor", url: "https://dylanbochman.com/editor/index.html" },
+      { text: "dylanbochman.netlify.app/editor", url: "https://dylanbochman.netlify.app/editor/index.html" },
     ],
   },
   {
