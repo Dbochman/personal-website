@@ -35,12 +35,28 @@ export default function Blog() {
           name="keywords"
           content="SRE Blog, Incident Management, DevOps, System Reliability, Technical Writing, Post-Incident Analysis"
         />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://dylanbochman.com/blog" />
         <meta property="og:title" content="Blog - Dylan Bochman" />
         <meta
           property="og:description"
           content="Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability."
         />
-        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://dylanbochman.com/social-preview.webp" />
+        <meta property="og:site_name" content="Dylan Bochman" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://dylanbochman.com/blog" />
+        <meta name="twitter:title" content="Blog - Dylan Bochman" />
+        <meta
+          name="twitter:description"
+          content="Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability."
+        />
+        <meta name="twitter:image" content="https://dylanbochman.com/social-preview.webp" />
+
         <link rel="canonical" href="https://dylanbochman.com/blog" />
       </Helmet>
 

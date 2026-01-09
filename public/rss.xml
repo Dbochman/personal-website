@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dylan Bochman - Blog</title>
+    <link>https://dylanbochman.com/blog</link>
+    <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 07 Jan 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>https://dylanbochman.com/social-preview.webp</url>
+      <title>Dylan Bochman - Blog</title>
+      <link>https://dylanbochman.com/blog</link>
+    </image>
+    <item>
+      <title>Hello, World</title>
+      <link>https://dylanbochman.com/blog/hello-world</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/hello-world</guid>
+      <description>My first blog post, Welcome!.</description>
+      <pubDate>Wed, 07 Jan 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>Meta</category>
+    </item>
+    <item>
+      <title>Fixing 404 Errors on GitHub Pages SPAs</title>
+      <link>https://dylanbochman.com/blog/2025-01-08-fixing-404-errors-on-github-pages-spas</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2025-01-08-fixing-404-errors-on-github-pages-spas</guid>
+      <description>Pre-rendering React routes to eliminate console errors on a statically hosted single page application.</description>
+      <pubDate>Wed, 08 Jan 2025 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>Reliability</category>
+      <category>Web Development</category>
+    </item>
+    <item>
+      <title>Building This Site with AI Tools</title>
+      <link>https://dylanbochman.com/blog/2025-01-07-adventures-in-ai-assisted-web-development</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2025-01-07-adventures-in-ai-assisted-web-development</guid>
+      <description>Using AI development tools to build a portfolio site, and what the experience revealed about how these tools fit into real work.</description>
+      <pubDate>Tue, 07 Jan 2025 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>AI Development</category>
+      <category>Lovable</category>
+      <category>Claude Code</category>
+      <category>Web Development</category>
+    </item>
+    <item>
+      <title>Uptime Monitoring for a Personal Site</title>
+      <link>https://dylanbochman.com/blog/2025-01-07-uptime-monitoring-for-a-personal-site</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2025-01-07-uptime-monitoring-for-a-personal-site</guid>
+      <description>Setting up external monitoring for a portfolio site, and why treating small systems like production systems is a useful habit.</description>
+      <pubDate>Tue, 07 Jan 2025 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>Reliability</category>
+      <category>Monitoring</category>
+      <category>SRE</category>
+    </item>
+    <item>
+      <title>Writing a Runbook for My Personal Website</title>
+      <link>https://dylanbochman.com/blog/writing-a-runbook-for-my-personal-website</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/writing-a-runbook-for-my-personal-website</guid>
+      <description>I built an operational runbook for my portfolio site. Overkill? Maybe. But it was a good exercise.</description>
+      <pubDate>Tue, 07 Jan 2025 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>SRE</category>
+      <category>Runbooks</category>
+      <category>Reliability</category>
+      <category>Web Development</category>
+    </item>
+  </channel>
+</rss>
