@@ -66,6 +66,12 @@ export const quickReferences: QuickReference[] = [
     ],
   },
   {
+    label: "CMS",
+    links: [
+      { text: "dylanbochman.com/editor", url: "https://dylanbochman.com/editor/index.html" },
+    ],
+  },
+  {
     label: "Dependencies",
     links: [
       { text: "GitHub", url: "https://githubstatus.com" },
@@ -84,6 +90,7 @@ export const architectureOverview = {
     { item: "Tech Stack", value: "React 18 + TypeScript + Vite 7 + Tailwind CSS 3" },
     { item: "Runtime", value: "Node.js 24 LTS (npm 11.x)" },
     { item: "Deployment", value: "GitHub Actions CI/CD pipeline" },
+    { item: "Content Management", value: "Decap CMS (GitHub OAuth, /editor route)" },
     { item: "Monitoring", value: "UptimeRobot + Automated SEO Checks + Console Error Detection + Core Web Vitals + Google Analytics" },
   ],
 };
@@ -165,6 +172,12 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
     title: "Build/Deployment Failures",
     check: "GitHub Actions logs → npm test output → npm audit results → package-lock.json integrity",
   },
+  {
+    title: "CMS Editor Issues",
+    investigate: "Check /editor/index.html loads → Verify GitHub OAuth is working → Check browser console for errors",
+    causes: "GitHub API rate limits | OAuth app misconfiguration | CORS issues | Decap CMS CDN down",
+    fixes: "Verify config.yml settings → Check GitHub permissions → Clear browser cache → Try different browser",
+  },
 ];
 
 export const recoveryProcedures: RecoveryProcedure[] = [
@@ -235,5 +248,5 @@ export const additionalResources: ResourceCategory[] = [
 export const runbookMetadata = {
   maintainer: "Dylan Bochman",
   email: "dylanbochman@gmail.com",
-  lastUpdated: "2025-12-30",
+  lastUpdated: "2026-01-09",
 };

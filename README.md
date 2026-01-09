@@ -165,6 +165,13 @@ MDX-based blog for SRE insights and technical tutorials:
 - GitHub Discussions comments (Giscus)
 - SEO optimized with structured data
 
+**Content Management:**
+- **CMS:** Decap CMS (free, open-source headless CMS)
+- **Editor URL:** [/editor](https://dylanbochman.com/editor/index.html)
+- **Authentication:** GitHub OAuth
+- **Workflow:** Edit posts visually → Publish → Auto-deploy via GitHub Actions
+- **Benefits:** No manual git commits, markdown preview, image uploads
+
 **Blog URLs:**
 - [Blog Home](https://dylanbochman.com/blog)
 - [Adventures in AI-Assisted Web Development](https://dylanbochman.com/blog/2025-01-07-adventures-in-ai-assisted-web-development)
