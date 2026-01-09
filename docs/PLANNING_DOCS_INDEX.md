@@ -1,6 +1,6 @@
 # Planning Documents Index
 
-**Last Updated:** January 6, 2026
+**Last Updated:** January 8, 2026
 
 This document provides an overview of all planning, monitoring, and documentation files in the repository.
 
@@ -23,6 +23,20 @@ This document provides an overview of all planning, monitoring, and documentatio
   - Features Implemented: Search, tags, Giscus comments, syntax highlighting, CodeBlock with copy, Callout, BlogImage, RelatedPosts
   - Performance: Blog listing 94%, Blog post 65% (limited by runtime MDX)
   - See document for completion notes and performance analysis
+
+### Tailwind CSS v4 Upgrade
+**Status:** 📋 PLANNED (January 8, 2026)
+
+- **`docs/TAILWIND_V4_UPGRADE_PLAN.md`** - Comprehensive upgrade plan from v3.4.11 to v4.x
+  - Status: Research complete, ready for execution
+  - Key Changes:
+    - Replace `tailwindcss-animate` with `tw-animate-css`
+    - Migrate HSL color variables to new format
+    - Convert `tailwind.config.ts` to CSS-based `@theme` configuration
+    - Switch to `@tailwindcss/vite` plugin
+  - Benefits: 3.5-5x faster builds, first-party Vite integration, modern CSS features
+  - Risk Level: Medium - requires CSS restructuring
+  - Browser Requirements: Safari 16.4+, Chrome 111+, Firefox 128+
 
 ### Node.js v24 Upgrade
 **Status:** ✅ COMPLETED (January 6, 2026)
@@ -107,6 +121,7 @@ This document provides an overview of all planning, monitoring, and documentatio
 ├── CLAUDE.md                          [🤖 Claude Code config]
 └── docs/
     ├── PLANNING_DOCS_INDEX.md         [📋 This file]
+    ├── TAILWIND_V4_UPGRADE_PLAN.md    [📋 Planned - Tailwind v4 migration]
     ├── BLOG_FEATURE_PLAN.md           [🚧 Active - Blog implementation plan]
     ├── BUNDLE_ANALYSIS_2026-01.md     [📊 Active - Bundle size analysis]
     ├── FUTURE_WORK_ROADMAP.md         [🔮 Active]
@@ -188,11 +203,13 @@ lighthouse-metrics branch (separate):
 - Console error monitoring on every deployment
 
 ### 📝 Pending/Optional Tasks
+- [ ] Tailwind CSS v4 upgrade (see `TAILWIND_V4_UPGRADE_PLAN.md`)
 - [ ] Add `engines` field to package.json (Node >=24)
 - [ ] Consider additional performance optimizations (see `FUTURE_WORK_ROADMAP.md`)
 
 ### ✅ Recent Updates
 **January 8, 2026:**
+- 📋 Created Tailwind CSS v4 upgrade plan (`TAILWIND_V4_UPGRADE_PLAN.md`)
 - ✅ Completed Blog Phase 4 (PR #62 merged) - Enhanced features with comments, syntax highlighting, related posts
 - ✅ Configured Giscus comments with GitHub Discussions integration
 - ✅ Implemented shared tag highlighting in RelatedPosts component
