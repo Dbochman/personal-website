@@ -1,92 +1,75 @@
 ---
 title: "Building This Site with AI Tools"
-date: "2025-01-07"
+date: "2025-01-08"
 author: "Dylan Bochman"
-description: "Using AI development tools to build a portfolio site, and what the experience revealed about how these tools fit into real work."
-tags: ["AI Development", "Lovable", "Claude Code", "Web Development"]
+description: "Building a personal website with AI-assisted tools, and what that work surfaced about how they behave during real development."
+tags: ["AI Development", "Web Development", "Tooling"]
 category: "Technical"
 draft: false
 ---
 
 # Building This Site with AI Tools
 
-I built this site using AI development tools. [Lovable](https://lovable.dev) for the initial design and structure, [Claude Code](https://code.claude.com/docs/en/overview) and some for everything after that.
+I built this site using AI-assisted development tools.
 
-The goal was not just to ship a website. It was to understand how these tools actually fit into a development workflow. A portfolio site was a reasonable scope for my experiment.
+The goal was not simply to get a website online. I wanted to understand how these tools behave when they are used over time, across multiple phases of work, and in the presence of real friction. A personal site was a reasonable scope for that. It was small enough to be tackle independently, but complex enough to surface intersting techinical issues.
 
-## Why This Approach
+What follows is not a tutorial or a recommendation. It is a description of how the work actually unfolded.
 
-AI tools are easy to demo and hard to evaluate. Most examples are either trivially simple or carefully curated. I wanted to understand the friction, the handoffs, and the failure modes.
+## Why I Used This Project as a Testbed
 
-A personal website provided:
+Most examples of AI-assisted development fall into one of two categories. They are either very small, or they are carefully staged. Both tend to hide the parts that matter once you move past initial generation.
 
-- Low stakes if something went wrong
-- Enough complexity to encounter real problems
-- A concrete artifact to show for the effort
+This project had a few characteristics that made it useful as a testbed. It evolved incrementally rather than being built all at once, which meant early decisions had real downstream effects. It mixed design, content, and engineering concerns, forcing tradeoffs that do not appear in isolated demos. It also needed to remain readable and maintainable after the initial build, which made shortcuts more visible over time.
 
-The result is a site I can point to and say: this is what AI assisted development actually looked like for me.
+That combination made it easier to see where the tools helped and where they started to get in the way.
 
-## Working with Lovable
+## Early Design Work with Lovable
 
-[Lovable](https://lovable.dev) handled visual exploration. Layout, typography, color, responsive behavior. I could iterate through design ideas by describing what I wanted rather than writing CSS.
+I started with [Lovable](https://lovable.dev) for visual exploration. At that stage, I cared more about layout, typography, and overall structure than about code quality.
 
-At one point I asked Lovable to audit the codebase and suggest improvements. The response was more structured than I expected:
+Lovable worked well for this. I could describe intent and quickly see results without committing to implementation details. That made it easy to explore multiple directions and discard them without sunk cost.
 
-> Let me first check the detailed audit and refactoring plan to understand the critical issues that need to be addressed.
+Once the overall direction felt right, I asked Lovable to audit the codebase and suggest improvements. I expected something vague. What came back was closer to an early-stage architectural review.
 
-It identified that the main Index component had grown to 364 lines and proposed breaking it into focused components. After implementing the changes:
+It flagged that the main `Index` component had grown to several hundred lines and was taking on multiple responsibilities. The suggested changes were plausible and aligned with common architectural patterns: static content should be moved into a dedicated data layer, the page should be broken into smaller and more focused components, and layout concerns should be separated from content and behavior.
 
-> ✅ Critical Issues Resolved:
-> 1. Data Layer Extraction - Created centralized data management in /src/data/ with TypeScript interfaces
-> 2. Component Decomposition - Broke down the 364-line monolithic Index.tsx into 8 focused components (83% size reduction)
-> 3. Separation of Concerns - Established clear boundaries between layout, content, and data layers
+After applying those changes, the structure was noticeably easier to reason about. Each component had a narrow responsibility, and changes stopped cascading in unexpected ways. Nothing about the refactor was novel, but the consistency of the suggestions was useful.
 
-The refactoring left each component under 100 lines with a single responsibility. That level of systematic improvement from a conversational prompt was unexpected.
+During this phase, I also refined the design prompts to push the aesthetic away from generic startup patterns and toward something more restrained and professional. That mattered less for how the site looked than for what it signaled about intent.
 
-I also used ChatGPT to refine my Lovable prompts and push the aesthetic toward something that felt more like a reliability engineering portfolio.
+Once the design direction stabilized, I exported the project to GitHub and shifted into a more conventional development workflow.
 
-Once the design felt settled, I exported to GitHub. Every PR after that went through Claude Code, sometimes with Codex.
+## Working Day to Day with Claude Code
 
-## What Claude Code Did Well
+From that point forward, most changes went through Claude Code.
 
-The first two PRs set expectations:
+Early pull requests were informative. One surfaced and fixed a toast listener memory leak I had missed. Another set up the initial testing infrastructure. That established a baseline for what the tool was good at: mechanical work, pattern application, and filling in well-scoped gaps.
 
-- PR #1 found and fixed a toast listener memory leak I had missed
-- PR #2 set up the entire testing infrastructure with Vitest and React Testing Library
+As the project continued, Claude Code handled a large amount of implementation work. It was effective at feature additions, test scaffolding, performance-related cleanup, monitoring setup, and building out the initial blog system with types and tests.
 
-From there, Claude Code handled feature work, performance tuning, and monitoring setup. The blog system came from three focused PRs with tests, TypeScript types, and SEO implementation.
+This was where the time savings were most obvious. The site ended up with a level of test coverage and consistency that I would have been unlikely to produce on my own for a personal project.
 
-The repository now has 123 tests. I would not have written that many on my own.
+The standards did not change. The pace did.
 
-## Where Judgment Was Still Required
+## Where Things Started to Break Down
 
-AI tools do not eliminate the need for direction. They shift it.
+The limitations became clearer once problems required diagnosis rather than execution.
 
-One example: the blog content loader was not working. Vite's MDX plugin processed files before the raw import could access them, returning React components instead of strings.
+One example involved loading blog content. The build system processed MDX files before raw imports could access them, which meant the loader received rendered React components instead of source content. The symptom was confusing if you did not already know where to look.
 
-Claude Code tried several fixes. Different glob configurations, renaming files from `.mdx` to `.md`, various import strategies. None worked.
+Claude Code tried to solve this the way it solves most problems, by iterating. It suggested alternative glob patterns, renaming files from `.mdx` to `.md`, and adjusting import strategies. Each attempt made sense locally. None addressed the underlying issue.
 
-After a few rounds I asked whether we could use a different file extension entirely. The answer was obvious once stated: use `.txt` files. No plugin processes `.txt`. Three edits and it worked.
+After a few rounds, it became clear that the problem was not configuration. It was the frame. I asked whether we could use a file type that no plugin would touch. Switching the content source to `.txt` avoided the entire processing pipeline. A few small edits later, the issue was gone.
 
-The pattern repeated throughout. Claude Code handles implementation. I ask questions and make decisions about direction.
+That pattern repeated in smaller ways throughout the project. When the problem fit the existing frame, the tools were fast and effective. When the frame itself needed to change, they struggled to recognize that on their own.
 
-## Outcomes
+## What This Work Surfaced
 
-This site is a concrete example of working with AI tools on a real project.
+Over time, a consistent limitation emerged.
 
-Specifically, it shows:
+When a problem required reframing rather than iteration, the tools rarely identified that shift themselves. They tended to propose increasingly complex variations on the same approach. Once a new frame was introduced, implementation was quick and reliable.
 
-- How to divide work between tools based on what each does well
-- When to hand off from design tooling to engineering tooling
-- How to maintain code quality with AI assistance
-- Where human judgment remains essential
+The gap was not execution speed. It was recognizing when the current approach was no longer the right one.
 
-The site shipped with 200+ commits, 123 tests, 95/100 Lighthouse performance, and a monitoring stack. That outcome reflects both what the tools contributed and the decisions I made along the way.
-
-## Takeaway
-
-AI tools are useful. They are not autonomous.
-
-The value is not in replacing judgment. It is in accelerating the mechanical work so that judgment can be applied more often and more carefully.
-
-Repository: [github.com/Dbochman/personal-website](https://github.com/Dbochman/personal-website)
+https://github.com/Dbochman/personal-website
