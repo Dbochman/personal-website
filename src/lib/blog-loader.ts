@@ -19,11 +19,12 @@ export async function loadBlogPosts(includeDrafts = false): Promise<BlogPost[]> 
   const posts = await Promise.all(
     entries.map(async ([path, moduleLoader]) => {
       try {
-        // Extract slug from path
-        const slug = path.split('/').pop()?.replace('.txt', '') || '';
+        // Extract filename slug as fallback only
+        const filenameSlug = path.split('/').pop()?.replace('.txt', '') || '';
         const module = await moduleLoader();
         const content = module.default;
-        return createBlogPost(content, slug);
+        // Frontmatter slug is authoritative; filename is fallback
+        return createBlogPost(content, filenameSlug);
       } catch (error) {
         console.error(`Error loading blog post from ${path}:`, error);
         return null;

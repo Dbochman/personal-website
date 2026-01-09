@@ -93,9 +93,26 @@ const test = "code block";
       expect(post.readingTime).toContain('min');
     });
 
-    it('should allow slug override', () => {
-      const post = createBlogPost(sampleMDX, 'custom-slug');
-      expect(post.slug).toBe('custom-slug');
+    it('should use frontmatter slug over fallback', () => {
+      // Frontmatter slug is authoritative; fallback only used when frontmatter has no slug
+      const post = createBlogPost(sampleMDX, 'fallback-slug');
+      expect(post.slug).toBe('test-post'); // Uses frontmatter slug, not fallback
+    });
+
+    it('should use fallback slug when frontmatter has no slug', () => {
+      const mdxWithoutSlug = `---
+title: "No Slug Post"
+date: "2025-01-15"
+author: "Test Author"
+description: "A post without a slug"
+tags: ["test"]
+draft: false
+---
+
+# Content
+`;
+      const post = createBlogPost(mdxWithoutSlug, 'filename-derived-slug');
+      expect(post.slug).toBe('filename-derived-slug');
     });
   });
 
