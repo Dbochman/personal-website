@@ -86,6 +86,33 @@ npm run deploy       # Deploy to GitHub Pages (oncology-career-canvas only)
 - SEO considerations for portfolio sites
 - Responsive design patterns with Tailwind CSS
 
+## Git Workflow
+
+**Always use feature branches and PRs.** Do not commit directly to main.
+
+### For any code changes:
+
+1. Create a feature branch: `git checkout -b feature/descriptive-name`
+2. Make commits on the branch
+3. Push and open a PR: `gh pr create`
+4. Wait for review before merging
+5. Merge via PR: `gh pr merge --squash --delete-branch`
+
+### Why PRs matter:
+- Code review catches issues before they reach main
+- PR descriptions capture "The Journey" for blog material
+- Easier to revert a single squashed commit than untangle direct pushes
+- Main branch stays stable
+
+### Exceptions:
+- Documentation-only changes (CLAUDE.md, README) may go direct if trivial
+- Emergency hotfixes, but open a PR immediately after
+
+## Patterns to Avoid
+
+- **localStorage**: Use URL params or other stateless approaches for persistence
+- **Direct commits to main**: Always use feature branches and PRs
+
 ## Commit Message Style Guide
 
 Commits in this repository are blog source material. Write them with future Claude in mind.
