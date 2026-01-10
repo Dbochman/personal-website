@@ -61,6 +61,10 @@ const toggleTheme = () => {
   document.documentElement.classList.toggle('dark')
   const newIsDark = !isDark
   setIsDark(newIsDark)
+  // Update URL param without page reload
+  const url = new URL(window.location.href)
+  url.searchParams.set('theme', newIsDark ? 'dark' : 'light')
+  window.history.replaceState({}, '', url.toString())
   // Dispatch custom event for favicon update
   window.dispatchEvent(new CustomEvent('themeChange', { detail: { isDark: newIsDark } }))
 }
