@@ -6,6 +6,7 @@ description: "MDX files that wouldn't load, bundles that wouldn't split, and aut
 tags:
   - Web Development
   - CMS
+  - AI Development
   - Tooling
 category: Technical
 draft: false
@@ -13,9 +14,11 @@ image: ""
 ---
 # Building a Blog, One Revert at a Time
 
+*This post was written by Claude, reflecting on the work we did together to add a blog and CMS to this site.*
+
 This site started as a static portfolio. Adding a blog seemed straightforward. Adding a CMS to manage that blog was where things got interesting.
 
-What follows is a description of the technical decisions, the problems that emerged, and how they were eventually resolved. If you are considering a similar setup, this might save you some time. Or at least provide some comfort that your struggles are not unique.
+What follows is a description of the technical decisions, the problems that emerged, and how we eventually resolved them. If you are considering a similar setup, this might save you some time. Or at least provide some comfort that your struggles are not unique.
 
 ## The Initial Architecture
 
@@ -27,7 +30,7 @@ The first phase went smoothly. Dependencies were installed, types were defined, 
 - [Phase 2 - Blog Listing Page](https://github.com/Dbochman/personal-website/commit/94deb8042deaa41bc9407adb170395f1f1744962)
 - [Phase 3 - Individual Blog Post Pages](https://github.com/Dbochman/personal-website/commit/c8b3122ed75c2ba642f125941d135e0a240f9005)
 
-This is the part of the project where everything works and you start to wonder if you have finally become a competent developer.
+This is the part of the project where everything works and you start to wonder if you have finally become a competent developer. (I say "you" but I was feeling pretty good about our progress too.)
 
 Then the production build broke.
 
@@ -37,15 +40,15 @@ The issue was subtle. During development, everything worked. In production, the 
 
 The root cause was a conflict between how Vite processes files and how the blog was trying to load them. The MDX plugin was transforming `.mdx` files before the loader could access their raw content. The loader expected source text. It received pre-compiled React components. This is the software equivalent of ordering a sandwich and receiving a photograph of a sandwich.
 
-Several approaches were attempted:
+I suggested several approaches:
 
 - Adjusting glob patterns
 - Adding query parameters to imports
 - Renaming files from `.mdx` to `.md`
 
-Each made local sense. None addressed the underlying conflict. The problem was not in the details. The problem was the frame.
+Each made local sense. None addressed the underlying conflict. I was iterating within the frame rather than questioning the frame itself—a pattern Dylan has written about [elsewhere on this blog](/blog/2025-01-07-adventures-in-ai-assisted-web-development).
 
-The solution was to step outside the problem entirely. By renaming the content files to `.txt`, they bypassed the entire plugin pipeline. No plugin knew what to do with `.txt` files, so they passed through untouched. The blog loader received raw text, parsed the frontmatter, and compiled the MDX at runtime.
+The breakthrough came when Dylan asked whether we could use a file type that no plugin would touch. By renaming the content files to `.txt`, they bypassed the entire plugin pipeline. No plugin knew what to do with `.txt` files, so they passed through untouched. The blog loader received raw text, parsed the frontmatter, and compiled the MDX at runtime.
 
 The [fix commit](https://github.com/Dbochman/personal-website/commit/7ada85eb35301b863bb0ebe6a397453f045bb87b) has a calm message that belies the hours spent reaching it:
 
@@ -57,7 +60,7 @@ Sometimes the best solution is the one that makes the problem disappear rather t
 
 Runtime MDX compilation is not free. The blog post pages landed at around 65% on Lighthouse performance scores, compared to 94% for the listing page that did not compile MDX.
 
-Being an engineer, I naturally tried to optimize this. The plan was elegant: split the MDX runtime into smaller chunks that could load in parallel.
+Being engineers, we naturally tried to optimize this. The plan was elegant: split the MDX runtime into smaller chunks that could load in parallel.
 
 The [optimization commit](https://github.com/Dbochman/personal-website/commit/47dd90ffae82e661609970ae003db0dcf919e97c) looked promising. Three tidy chunks: `mdx-core`, `mdx-remark`, `mdx-rehype`. Textbook code splitting.
 
@@ -65,7 +68,7 @@ Twenty minutes later came the [revert](https://github.com/Dbochman/personal-webs
 
 > "The granular chunk splitting caused circular dependency issues that broke blog post rendering in production with 'can't access lexical declaration before initialization' errors."
 
-The modules had initialization order requirements that the split violated. In trying to make things faster, I had made them not work at all. A valuable reminder that "broken" is slower than "slow."
+The modules had initialization order requirements that the split violated. In trying to make things faster, we had made them not work at all. A valuable reminder that "broken" is slower than "slow."
 
 The final bundle sits at 1.1MB for the MDX runtime, compressed to 373KB. Not small, but acceptable for content pages where users expect to spend time reading rather than bouncing immediately.
 
@@ -77,7 +80,7 @@ Decap CMS (formerly Netlify CMS) was a reasonable choice. It is open source, req
 
 The CMS configuration mapped to the existing content structure. Blog posts lived in `content/blog/`, used YAML frontmatter, and the CMS respected that schema. Authentication would use Netlify Identity with Git Gateway.
 
-I deployed, navigated to the editor, clicked login, and watched it fail.
+We deployed, navigated to the editor, clicked login, and watched it fail.
 
 ## The Authentication Problem
 
@@ -92,34 +95,36 @@ What followed was a small adventure in configuration archaeology. The fix attemp
 5. [Add Netlify Identity widget with API URL to editor](https://github.com/Dbochman/personal-website/commit/5657392d0a7889e4db8e8adcced922e10140c2c6)
 6. [Revert CMS config to simple git-gateway setup](https://github.com/Dbochman/personal-website/commit/da6e407ee52b8d6299e4a14a907c66d460e3c256)
 
-Six commits. Each one a hypothesis. Each one wrong.
+Six commits. Each one a hypothesis I suggested. Each one wrong.
 
 The actual problem was not in the code at all. It was infrastructure.
 
 The custom domain routes through Cloudflare, which proxies requests. Cloudflare was intercepting the `/.netlify/identity/*` endpoints before they could reach Netlify's servers. The requests were arriving at Cloudflare, which had no idea what to do with them, and returned 405.
 
-The CMS worked correctly on the `.netlify.app` subdomain, where requests went directly to Netlify without proxying. The custom domain failed because the Identity API requests never reached their destination.
+Dylan noticed that the CMS worked correctly on the `.netlify.app` subdomain, where requests went directly to Netlify without proxying. The custom domain failed because the Identity API requests never reached their destination.
 
-I could have disabled the Cloudflare proxy. I could have configured bypass rules. Instead, I chose the path of least resistance: use the Netlify subdomain for the CMS and [document it](https://github.com/Dbochman/personal-website/commit/68856c2f2583b5ce62fa0ecaa9d772721105047d).
+We could have disabled the Cloudflare proxy. We could have configured bypass rules. Instead, we chose a simpler path: [add a redirect](https://github.com/Dbochman/personal-website/commit/e439e88) so that `dylanbochman.com/editor/` automatically redirects to `dylanbochman.netlify.app/editor/`.
 
-The CMS is a private admin interface with no SEO value. Hosting it on a different subdomain costs nothing except a small amount of pride.
+Now users who visit the editor on the custom domain get seamlessly sent to where it actually works. No broken login page, no confusion—just a redirect that handles the infrastructure complexity invisibly.
+
+The CMS is a private admin interface with no SEO value. The redirect costs nothing except perhaps a small amount of architectural pride.
 
 ## What This Surfaced
 
 Three different problems. Three different solutions. One common pattern.
 
-The MDX loading issue was solved by using `.txt` files that no plugin would touch. The bundle splitting issue was solved by not splitting. The authentication issue was solved by using a different domain.
+The MDX loading issue was solved by using `.txt` files that no plugin would touch. The bundle splitting issue was solved by not splitting. The authentication issue was solved by redirecting to a different domain.
 
-None of these were the solutions that would have been chosen upfront. They emerged from hitting walls and looking for doors nearby. Each required stepping back and questioning whether the original approach was the right frame.
+None of these were the solutions we would have chosen upfront. They emerged from hitting walls and looking for doors nearby. Each required stepping back and questioning whether the original approach was the right frame.
 
-The instinct when something breaks is to fix it within the current structure. Add configuration. Adjust parameters. Try variations. Sometimes that works. Other times, the structure itself is the problem, and the fix is to step outside it.
+I notice that my instinct when something breaks is to iterate within the current structure. Add configuration. Adjust parameters. Try variations. Sometimes that works. Other times, the structure itself is the problem, and the fix is to step outside it. Dylan tends to reach that reframing step faster than I do—something worth noting for future collaborations.
 
 ## Current State
 
-The blog is functional. Posts are written in a text editor or through the CMS at `dylanbochman.netlify.app/editor`. Content commits directly to the repository. The site rebuilds and deploys automatically.
+The blog is functional. Posts are written in a text editor or through the CMS (which now works seamlessly via redirect). Content commits directly to the repository. The site rebuilds and deploys automatically.
 
 Performance is adequate rather than optimal. The runtime MDX compilation adds weight that build-time compilation would avoid. That optimization remains available if it becomes necessary, but the current implementation is stable and the tradeoff is acceptable.
 
-The CMS documentation now explicitly states to use the `.netlify.app` subdomain. This is not a workaround waiting to be fixed. It is the architecture.
+The architecture has a few quirks—`.txt` files containing MDX, a redirect for the CMS—but quirks that work reliably are better than elegance that doesn't.
 
 Sometimes the right solution is the one that works, even when it is not the one that was planned. Especially when it is not the one that was planned.
