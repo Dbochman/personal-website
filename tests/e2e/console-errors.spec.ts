@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+import { readdirSync } from 'fs';
+import { join } from 'path';
 
 /**
  * Console Error Monitoring Test
@@ -15,6 +17,16 @@ interface ConsoleMessage {
 }
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:8080';
+
+// Get newest blog post slug dynamically
+function getNewestBlogSlug(): string {
+  const blogDir = join(process.cwd(), 'content/blog');
+  const posts = readdirSync(blogDir)
+    .filter(f => f.endsWith('.txt'))
+    .sort()
+    .reverse();
+  return posts[0]?.replace('.txt', '') || '2025-01-04-hello-world';
+}
 
 // Patterns to ignore (known/acceptable warnings)
 const IGNORED_PATTERNS = [
@@ -36,10 +48,11 @@ function shouldIgnoreMessage(message: string): boolean {
 }
 
 test.describe('Console Error Monitoring', () => {
+  const newestPost = getNewestBlogSlug();
   const pagesToTest = [
     { name: 'Home Page', url: '/' },
     { name: 'Blog List Page', url: '/blog' },
-    { name: 'Blog Post Page', url: '/blog/2025-01-04-hello-world' },
+    { name: 'Blog Post Page', url: `/blog/${newestPost}` },
     { name: 'Runbook Page', url: '/runbook' },
   ];
 
@@ -94,9 +107,6 @@ test.describe('Console Error Monitoring', () => {
       // Wait for page to be fully loaded
       await playwright.waitForLoadState('networkidle');
 
-      // Additional wait to catch any lazy-loaded script errors
-      await playwright.waitForTimeout(2000);
-
       // Log all collected messages for debugging
       if (consoleMessages.length > 0) {
         console.log(`\n🚨 Console messages found on ${page.name}:`);
@@ -134,17 +144,20 @@ test.describe('Console Error Monitoring', () => {
   });
 
   test('Blog post page loads successfully', async ({ page }) => {
-    // Use the filename as the URL slug, not the frontmatter slug
-    await page.goto(`${BASE_URL}/blog/2025-01-04-hello-world`);
-    // The actual post title from frontmatter is "Hello, World"
-    // Wait for the page to load and check for blog content
+    await page.goto(`${BASE_URL}/blog/${newestPost}`);
     await page.waitForLoadState('networkidle');
-    // Check that we're on a blog post page by looking for the blog post article
     await expect(page.locator('article.prose')).toBeVisible();
   });
 
   test('Runbook page loads successfully', async ({ page }) => {
     await page.goto(`${BASE_URL}/runbook`);
     await expect(page.getByRole('heading', { name: 'Operational Runbook' })).toBeVisible();
+  });
+
+  test('404 page renders for non-existent route', async ({ page }) => {
+    await page.goto(`${BASE_URL}/this-page-does-not-exist`);
+    await page.waitForLoadState('networkidle');
+    // Verify 404 page renders with expected content
+    await expect(page.locator('text=404')).toBeVisible();
   });
 });
