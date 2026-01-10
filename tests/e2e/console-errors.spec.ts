@@ -39,7 +39,7 @@ test.describe('Console Error Monitoring', () => {
   const pagesToTest = [
     { name: 'Home Page', url: '/' },
     { name: 'Blog List Page', url: '/blog' },
-    { name: 'Blog Post Page', url: '/blog/2026-01-getting-started-with-sre' },
+    { name: 'Blog Post Page', url: '/blog/2025-01-04-hello-world' },
     { name: 'Runbook Page', url: '/runbook' },
   ];
 
@@ -135,7 +135,7 @@ test.describe('Console Error Monitoring', () => {
 
   test('Blog post page loads successfully', async ({ page }) => {
     // Use the filename as the URL slug, not the frontmatter slug
-    await page.goto(`${BASE_URL}/blog/2026-01-getting-started-with-sre`);
+    await page.goto(`${BASE_URL}/blog/2025-01-04-hello-world`);
     // The actual post title from frontmatter is "Hello, World"
     // Wait for the page to load and check for blog content
     await page.waitForLoadState('networkidle');
