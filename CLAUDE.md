@@ -148,6 +148,38 @@ This is a workaround that became architecture.
 
 The `[blog]` tag helps the hook identify commits worth expanding on, even if the count threshold hasn't been reached.
 
+### Grouping Commits Across Sessions
+
+For features that span multiple sessions, use `[blog:tag-name]` to group related commits:
+
+```
+fix: Update CMS config to use git-gateway [blog:cms-auth]
+
+Attempt #3. GitHub OAuth returned 404, trying Netlify Identity instead.
+```
+
+```
+fix: Add redirect for /editor to Netlify subdomain [blog:cms-auth]
+
+The actual fix. Cloudflare was intercepting identity requests.
+Dylan noticed it worked on the .netlify.app domain.
+```
+
+When drafting a post, I can search for all commits with the same tag (`git log --grep="\[blog:cms-auth\]"`) to find the full story even if it happened across days or weeks.
+
+---
+
+## Session Notes
+
+At the end of sessions where notable work happened, append a brief entry to `.claude/session-notes.md`. This captures context that doesn't fit in commits:
+
+- Observations about patterns we noticed
+- The "we tried X but realized Y" moments
+- Questions that came up but weren't resolved
+- Anything that might inform a future blog post
+
+Keep entries brief. Date each one. This is less formal than a blog post, more durable than conversation memory.
+
 ---
 
 ## Pull Request Style Guide

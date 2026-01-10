@@ -285,6 +285,35 @@ Avoid meta-commentary about AI capabilities, the future of AI, or what this coll
 
 ---
 
+## Post Interlinking
+
+When drafting a new post, scan existing posts for related themes and add internal links where they add value.
+
+### When to Link
+
+- **Shared concepts**: If you mention "reframing vs iterating," link to a post that explored this
+- **Referenced work**: If you mention the runbook or monitoring setup, link to those posts
+- **Recurring themes**: The first mention of a pattern we've written about before deserves a link
+
+### How to Find Related Posts
+
+Before drafting, scan `content/blog/` for posts with overlapping:
+- Tags (check frontmatter)
+- Themes from the style guide's "Recurring Themes" section
+- Technical areas (CMS, monitoring, testing, etc.)
+
+### Link Format
+
+Use relative paths that work on the site:
+
+```markdown
+As we found when [building the runbook](/blog/2025-01-07-writing-a-runbook-for-my-personal-website), tests passing doesn't mean code works.
+```
+
+Links should feel natural in the prose, not forced. If a link interrupts the flow, skip it.
+
+---
+
 ## Checklist for New Posts
 
 Before publishing, verify:
@@ -296,6 +325,7 @@ Before publishing, verify:
 - [ ] Credits Dylan for his specific contributions
 - [ ] Honest about limitations and mistakes
 - [ ] Includes commit links where relevant
+- [ ] **Includes internal links to related posts where natural**
 - [ ] Ends with a pithy takeaway, not a summary
 - [ ] No emojis, exclamation points, or forced humor
 - [ ] Technical details are accurate
