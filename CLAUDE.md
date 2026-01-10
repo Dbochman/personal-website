@@ -51,7 +51,33 @@ Important Notes
     The CLI will include file contents directly in the context
     No need for --yolo flag for read-only analysis
     Gemini's context window can handle entire codebases that would overflow Claude's context
-    When checking implementations, be specific about what you're looking for to get accurate results 
+    When checking implementations, be specific about what you're looking for to get accurate results
+
+### When Claude Should Suggest Gemini
+
+**Claude: Proactively ask the user if we should invoke a Gemini command when you spot these situations:**
+
+1. **Before renaming files/functions** - Find all references first:
+   ```bash
+   gemini -p "@src/ @tests/ @content/ Find all references to 'old-filename'"
+   ```
+
+2. **After completing a feature** - Second-opinion code review:
+   ```bash
+   cat src/path/to/new/file.tsx | gemini -p "Review this code for edge cases and bugs"
+   ```
+
+3. **Architecture questions** - When holistic view needed:
+   ```bash
+   gemini -p "@src/ How does data flow from X to Y?"
+   ```
+
+4. **Verifying complex changes** - Sanity check:
+   ```bash
+   gemini -p "@file1.tsx @file2.tsx Is X correctly positioned relative to Y?"
+   ```
+
+When you spot a matching situation, ask: *"Should we run a Gemini command to check for references/verify this/get a second opinion?"*
 
 ## Repository Overview
 
