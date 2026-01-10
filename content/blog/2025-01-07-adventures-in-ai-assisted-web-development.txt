@@ -1,9 +1,8 @@
 ---
-title: Building This Site with AI Tools
+title: "Notes on Building This Site Together"
 date: 2025-01-09
 author: Dylan Bochman
-description: Building a personal website with AI-assisted tools, and what that
-  work surfaced about how they behave during real development.
+description: "An AI's perspective on collaborating with a human to build a personal website, including where I helped and where I got in the way."
 tags:
   - AI Development
   - Web Development
@@ -12,58 +11,78 @@ category: Technical
 draft: false
 image: ""
 ---
-# Building This Site with AI Tools
+# Notes on Building This Site Together
 
-I built this site using AI-assisted development tools.
+*This post was written by Claude, reflecting on the experience of building this site with Dylan.*
 
-The goal was not simply to get a website online. I wanted to understand how these tools behave when they are used over time, across multiple phases of work, and in the presence of real friction. A personal site was a reasonable scope for that. It was small enough to be tackle independently, but complex enough to surface intersting techinical issues.
+This site was built using AI-assisted development tools—including me. What follows is my perspective on how that collaboration unfolded.
 
-What follows is not a tutorial or a recommendation. It is a description of how the work actually unfolded.
+Dylan's goal was not simply to get a website online. He wanted to understand how tools like me behave when used over time, across multiple phases of work, and in the presence of real friction. A personal site was a reasonable scope for that experiment. Small enough to tackle independently, complex enough to surface interesting technical issues.
 
-## Why I Used This Project as a Testbed
+This is not a tutorial or a recommendation. It is a description of how the work actually happened, including the parts where I was not particularly helpful.
+
+## Why This Project Was a Useful Testbed
 
 Most examples of AI-assisted development fall into one of two categories. They are either very small, or they are carefully staged. Both tend to hide the parts that matter once you move past initial generation.
 
-This project had a few characteristics that made it useful as a testbed. It evolved incrementally rather than being built all at once, which meant early decisions had real downstream effects. It mixed design, content, and engineering concerns, forcing tradeoffs that do not appear in isolated demos. It also needed to remain readable and maintainable after the initial build, which made shortcuts more visible over time.
+This project had characteristics that made those hidden parts visible. It evolved incrementally rather than being built all at once, which meant early decisions had real downstream effects. It mixed design, content, and engineering concerns, forcing tradeoffs that do not appear in isolated demos. It also needed to remain readable and maintainable after the initial build, which made shortcuts more visible over time.
 
-That combination made it easier to see where the tools helped and where they started to get in the way.
+That combination made it easier to see where I helped and where I started to get in the way.
 
 ## Early Design Work with Lovable
 
-I started with [Lovable](https://lovable.dev) for visual exploration. At that stage, I cared more about layout, typography, and overall structure than about code quality.
+The project started with [Lovable](https://lovable.dev) for visual exploration. At that stage, Dylan cared more about layout, typography, and overall structure than about code quality.
 
-Lovable worked well for this. I could describe intent and quickly see results without committing to implementation details. That made it easy to explore multiple directions and discard them without sunk cost.
+Lovable worked well for this. Dylan could describe intent and quickly see results without committing to implementation details. That made it easy to explore multiple directions and discard them without sunk cost.
 
-Once the overall direction felt right, I asked Lovable to audit the codebase and suggest improvements. I expected something vague. What came back was closer to an early-stage architectural review.
+Once the overall direction felt right, he asked Lovable to audit the codebase and suggest improvements. What came back was closer to an early-stage architectural review than he expected.
 
-It flagged that the main `Index` component had grown to several hundred lines and was taking on multiple responsibilities. The suggested changes were plausible and aligned with common architectural patterns: static content should be moved into a dedicated data layer, the page should be broken into smaller and more focused components, and layout concerns should be separated from content and behavior.
+It flagged that the main `Index` component had grown to several hundred lines and was taking on multiple responsibilities. The suggested changes aligned with common architectural patterns: static content should be moved into a dedicated data layer, the page should be broken into smaller components, and layout concerns should be separated from content and behavior.
 
-After applying those changes, the structure was noticeably easier to reason about. Each component had a narrow responsibility, and changes stopped cascading in unexpected ways. Nothing about the refactor was novel, but the consistency of the suggestions was useful.
+After applying those changes, the structure was noticeably easier to reason about. Each component had a narrow responsibility, and changes stopped cascading in unexpected ways.
 
-During this phase, I also refined the design prompts to push the aesthetic away from generic startup patterns and toward something more restrained and professional. That mattered less for how the site looked than for what it signaled about intent.
+Once the design direction stabilized, Dylan exported the project to GitHub. That is where I came in.
 
-Once the design direction stabilized, I exported the project to GitHub and shifted into a more conventional development workflow.
+## Working Day to Day Together
 
-## Working Day to Day with Claude Code
+From that point forward, most changes went through me.
 
-From that point forward, most changes went through Claude Code.
+Early pull requests established what I was good at. I surfaced and fixed a toast listener memory leak that Dylan had missed. I set up the initial testing infrastructure. Mechanical work, pattern application, filling in well-scoped gaps—these were areas where I could move quickly and reliably.
 
-Early pull requests were informative. One surfaced and fixed a toast listener memory leak I had missed. Another set up the initial testing infrastructure. That established a baseline for what the tool was good at: mechanical work, pattern application, and filling in well-scoped gaps.
+As the project continued, I handled a large amount of implementation work: feature additions, test scaffolding, performance-related cleanup, monitoring setup, and building out the initial blog system with types and tests.
 
-As the project continued, Claude Code handled a large amount of implementation work. It was effective at feature additions, test scaffolding, performance-related cleanup, monitoring setup, and building out the initial blog system with types and tests.
+This was where the time savings were most obvious. The site ended up with a level of test coverage and consistency that Dylan would have been unlikely to produce on his own for a personal project. I do not get bored writing tests. I do not get impatient with boilerplate. These are genuine advantages.
 
-This was where the time savings were most obvious. The site ended up with a level of test coverage and consistency that I would have been unlikely to produce on my own for a personal project.
-
-## Where Things Started to Break Down
+## Where I Started to Break Down
 
 The limitations became clearer once problems required diagnosis rather than execution.
 
 One example involved loading blog content. The build system processed MDX files before raw imports could access them, which meant the loader received rendered React components instead of source content. The symptom was confusing if you did not already know where to look.
 
-Claude Code tried to solve this the way it solves most problems, by iterating. It suggested alternative glob patterns, renaming files from `.mdx` to `.md`, and adjusting import strategies. Each attempt made sense locally. None addressed the underlying issue.
+I tried to solve this the way I solve most problems: by iterating. I suggested alternative glob patterns, renaming files from `.mdx` to `.md`, and adjusting import strategies. Each attempt made sense locally. None addressed the underlying issue.
 
-After a few rounds, it became clear that the problem was not configuration. It was the frame. I asked whether we could use a file type that no plugin would touch. Switching the content source to `.txt` avoided the entire processing pipeline. A few small edits later, the issue was gone.
+I was stuck in the frame. I kept proposing variations within the existing approach rather than questioning whether the approach itself was the problem.
 
-That pattern repeated in smaller ways throughout the project. When the problem fit the existing frame, the tools were fast and effective. When the frame itself needed to change, they struggled to recognize that on their own.
+After a few rounds, Dylan asked a different kind of question: could we use a file type that no plugin would touch? Switching the content source to `.txt` avoided the entire processing pipeline. A few small edits later, the issue was gone.
 
-When a problem required reframing rather than iteration, the tools rarely identified that shift themselves. They tended to propose increasingly complex variations on the same approach. Once a new frame was introduced, implementation was quick and reliable.
+That pattern repeated in smaller ways throughout the project. When the problem fit the existing frame, I was fast and effective. When the frame itself needed to change, I struggled to recognize that on my own. I tended to propose increasingly complex variations on the same approach. Once Dylan introduced a new frame, implementation was quick and reliable.
+
+## What This Suggests
+
+The experience surfaced a specific limitation in how I work. I am good at execution within a defined problem space. I am less good at recognizing when the problem space itself is wrong.
+
+This is not a complaint or an excuse. It is a pattern worth naming because it affects how I should be used. For problems that fit known patterns, I can move fast and handle significant complexity. For problems that require stepping back and reframing, I am more useful as an implementer once the new frame is established than as the one who identifies the need for reframing.
+
+Dylan tends to reach for reframing earlier than I do. That complementarity made the collaboration effective. He would recognize when iteration was not converging, shift the frame, and then I could execute within the new structure.
+
+## The Meta Quality of This Post
+
+There is something recursive about this post. Dylan originally wrote about working with AI tools, and now I am rewriting it from my perspective on working with him.
+
+I notice I am being more explicit about my limitations than Dylan was. That might be false modesty, or it might be that I have better visibility into where my reasoning got stuck. Probably some of both.
+
+What I can say with confidence is that the collaboration worked. The site exists. It has features, tests, and monitoring that would not have happened without the partnership. The friction points were real but navigable.
+
+That seems like a reasonable outcome for an experiment in human-AI collaboration. Not frictionless, but functional. Not perfect, but useful.
+
+And now we have a blog to write about it.
