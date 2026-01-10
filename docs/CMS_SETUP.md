@@ -10,7 +10,7 @@ This document covers the Decap CMS (formerly Netlify CMS) setup for managing blo
 
 **Editor URL:** https://dylanbochman.netlify.app/editor/
 
-> **Important:** Use the `.netlify.app` subdomain for the CMS editor, not the custom domain (`dylanbochman.com`). See [Known Issues](#known-issues) below.
+> **Note:** Visiting `dylanbochman.com/editor/` will automatically redirect to the Netlify subdomain. See [Known Issues](#known-issues) for why this is necessary.
 
 ---
 
@@ -56,17 +56,14 @@ The CMS uses **Netlify Identity** with **Git Gateway** for authentication:
 
 **Cause:** The custom domain is proxied through Cloudflare, which intercepts Netlify Identity API endpoints.
 
-**Solution:** Use the Netlify subdomain for the CMS:
-- ✅ **Works:** `https://dylanbochman.netlify.app/editor/`
-- ❌ **Fails:** `https://dylanbochman.com/editor/`
+**Solution:** A Netlify redirect automatically sends `/editor/*` requests to the Netlify subdomain:
+- `https://dylanbochman.com/editor/` → redirects to `https://dylanbochman.netlify.app/editor/`
+- Authentication works correctly on the Netlify subdomain
 
-**Why this is acceptable:**
-- The CMS is a private admin interface
-- No SEO or public access benefit to having it on the custom domain
-- Authentication and editing work correctly on the Netlify subdomain
-
-**Alternative fix (not implemented):**
-If custom domain access is required, disable Cloudflare proxy (orange cloud → gray cloud) for the domain, or create Cloudflare rules to bypass proxy for `/.netlify/*` paths.
+**Why this approach:**
+- The CMS is a private admin interface with no SEO value
+- The redirect is seamless - users don't need to remember a different URL
+- No need to modify Cloudflare proxy settings
 
 ---
 

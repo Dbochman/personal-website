@@ -2,6 +2,13 @@
   command = "npm run build:netlify"
   publish = "dist"
 
+# Redirect /editor to Netlify subdomain where Identity works
+[[redirects]]
+  from = "/editor/*"
+  to = "https://dylanbochman.netlify.app/editor/:splat"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
