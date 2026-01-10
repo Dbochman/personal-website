@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router";
 import { HelmetProvider } from 'react-helmet-async';
 import { lazy, Suspense } from "react";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 
 // Lazy load pages that aren't on the critical path
@@ -28,6 +29,7 @@ const App = () => (
             v7_relativeSplatPath: true,
           }}
         >
+          <ScrollToTop />
           <ThemeProvider>
             <Suspense fallback={<div>Loading...</div>}>
               <Routes>
