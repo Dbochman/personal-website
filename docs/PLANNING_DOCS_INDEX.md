@@ -279,6 +279,12 @@ lighthouse-metrics branch (separate):
   - Backend: Git Gateway via Netlify Identity
   - **Important:** Use `.netlify.app` subdomain (not custom domain) due to Cloudflare proxy
 
+- **`docs/BLOG_STYLE_GUIDE.md`** - Voice and conventions for blog posts
+  - Status: ✅ Complete
+  - Defines the collaborative Claude + Dylan voice
+  - Covers pronouns, tone, structure, and technical content
+  - Includes checklist for new posts
+
 ---
 
 ## 📚 Related Documentation
