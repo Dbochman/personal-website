@@ -4,14 +4,17 @@ import { describe, expect, it } from 'vitest';
 import Index from './Index';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 describe('Index Page', () => {
   it('should render all sections and key details', () => {
     render(
       <HelmetProvider>
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <Index />
-        </BrowserRouter>
+        <ThemeProvider>
+          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Index />
+          </BrowserRouter>
+        </ThemeProvider>
       </HelmetProvider>
     );
 

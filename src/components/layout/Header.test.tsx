@@ -4,6 +4,7 @@ import { render, fireEvent } from '@testing-library/react'
 import { queryByTestId } from '@testing-library/dom'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { ThemeProvider } from '@/context/ThemeContext'
 
 // Mock the NavigationContext module
 vi.mock('@/context/NavigationContext', () => ({
@@ -61,9 +62,11 @@ describe('Header dark-mode toggle', () => {
 
     render(
       <BrowserRouter>
-        <NavigationContext.Provider value={mockContext}>
-          <Header />
-        </NavigationContext.Provider>
+        <ThemeProvider>
+          <NavigationContext.Provider value={mockContext}>
+            <Header />
+          </NavigationContext.Provider>
+        </ThemeProvider>
       </BrowserRouter>
     )
 
@@ -81,9 +84,11 @@ describe('Header dark-mode toggle', () => {
 
     const { getAllByLabelText } = render(
       <BrowserRouter>
-        <NavigationContext.Provider value={mockContext}>
-          <Header />
-        </NavigationContext.Provider>
+        <ThemeProvider>
+          <NavigationContext.Provider value={mockContext}>
+            <Header />
+          </NavigationContext.Provider>
+        </ThemeProvider>
       </BrowserRouter>
     )
 
