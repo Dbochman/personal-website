@@ -49,7 +49,7 @@ jobs:
         with:
           name: ga4-analytics-data
           path: docs/metrics/ga4-history.json
-          retention-days: 90
+          retention-days: 30
 
       - name: Check for traffic anomalies
         run: |

@@ -97,7 +97,7 @@ jobs:
           path: |
             lighthouse-reports/
             docs/metrics/
-          retention-days: 90
+          retention-days: 30
 
       - name: Check performance thresholds (multi-page)
         id: threshold_check

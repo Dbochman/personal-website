@@ -60,7 +60,7 @@ jobs:
           path: |
             test-results/
             playwright-report/
-          retention-days: 30
+          retention-days: 14
 
       - name: Create issue for console errors
         if: failure()

@@ -74,7 +74,7 @@ jobs:
         with:
           name: seo-results-${{ github.run_number }}
           path: seo-results.txt
-          retention-days: 90
+          retention-days: 30
 
       - name: Check for performance degradation
         id: check-degradation

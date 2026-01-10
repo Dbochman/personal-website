@@ -48,7 +48,7 @@ jobs:
         with:
           name: search-console-data
           path: docs/metrics/search-console-history.json
-          retention-days: 90
+          retention-days: 30
 
       - name: Check for significant ranking drops
         run: |

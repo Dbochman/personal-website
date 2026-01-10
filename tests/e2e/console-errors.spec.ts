@@ -57,7 +57,7 @@ test.describe('Console Error Monitoring', () => {
   ];
 
   for (const page of pagesToTest) {
-    test(`${page.name} should have no critical console errors`, async ({ page: playwright }) => {
+    test(`@smoke ${page.name} should have no critical console errors`, async ({ page: playwright }) => {
       const consoleMessages: ConsoleMessage[] = [];
       const failed404Urls = new Set<string>();
 
@@ -131,33 +131,31 @@ test.describe('Console Error Monitoring', () => {
     });
   }
 
-  test('Home page loads successfully', async ({ page }) => {
+  test('@smoke Home page loads successfully', async ({ page }) => {
     await page.goto(`${BASE_URL}/`);
     await expect(page).toHaveTitle(/Dylan Bochman/);
   });
 
-  test('Blog list page loads successfully', async ({ page }) => {
+  test('@smoke Blog list page loads successfully', async ({ page }) => {
     await page.goto(`${BASE_URL}/blog`);
     await expect(page).toHaveTitle(/Blog - Dylan Bochman/);
-    // Use more specific selector to avoid matching multiple h1 elements
     await expect(page.locator('main h1').first()).toContainText('Blog');
   });
 
-  test('Blog post page loads successfully', async ({ page }) => {
+  test('@smoke Blog post page loads successfully', async ({ page }) => {
     await page.goto(`${BASE_URL}/blog/${newestPost}`);
     await page.waitForLoadState('networkidle');
     await expect(page.locator('article.prose')).toBeVisible();
   });
 
-  test('Runbook page loads successfully', async ({ page }) => {
+  test('@smoke Runbook page loads successfully', async ({ page }) => {
     await page.goto(`${BASE_URL}/runbook`);
     await expect(page.getByRole('heading', { name: 'Operational Runbook' })).toBeVisible();
   });
 
-  test('404 page renders for non-existent route', async ({ page }) => {
+  test('@smoke 404 page renders for non-existent route', async ({ page }) => {
     await page.goto(`${BASE_URL}/this-page-does-not-exist`);
     await page.waitForLoadState('networkidle');
-    // Verify 404 page renders with expected content
     await expect(page.locator('text=404')).toBeVisible();
   });
 });
