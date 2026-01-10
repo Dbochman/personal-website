@@ -86,6 +86,70 @@ npm run deploy       # Deploy to GitHub Pages (oncology-career-canvas only)
 - SEO considerations for portfolio sites
 - Responsive design patterns with Tailwind CSS
 
+## Commit Message Style Guide
+
+Commits in this repository are blog source material. Write them with future Claude in mind.
+
+### Format
+
+```
+<type>(<scope>): <subject>
+
+[optional body]
+
+[optional footer]
+```
+
+### The Body Matters
+
+For non-trivial commits, add a body that captures context:
+
+**Instead of:**
+```
+fix: Update CMS config to use git-gateway
+```
+
+**Write:**
+```
+fix: Update CMS config to use git-gateway
+
+GitHub OAuth was returning 404. Hypothesis: git-gateway with Netlify
+Identity might work since the site is hosted on Netlify.
+
+This is attempt #3. Previous tries: explicit GitHub backend, adding
+repo/branch config. None worked.
+```
+
+### When to Add Context
+
+Add a body when:
+- The commit is one of several attempts at the same problem
+- The "why" isn't obvious from the subject line
+- You're trying something that might not work
+- The change has non-obvious implications
+
+Skip the body for:
+- Truly trivial changes (typos, formatting)
+- Changes where the subject says it all
+
+### Marking Blog-Worthy Commits
+
+Add `[blog]` to commits that have a story:
+
+```
+feat: Switch blog content from .mdx to .txt files [blog]
+
+The MDX plugin was transforming files before we could load them raw.
+Dylan suggested using a file type no plugin would touch. .txt files
+bypass the entire processing pipeline.
+
+This is a workaround that became architecture.
+```
+
+The `[blog]` tag helps the hook identify commits worth expanding on, even if the count threshold hasn't been reached.
+
+---
+
 ## Pull Request Style Guide
 
 PRs in this repository serve dual purposes: code review and blog source material. Write PR descriptions with future Claude in mind—the one who will be drafting blog posts from commit history.
