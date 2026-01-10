@@ -1,4 +1,3 @@
-
 import { renderHook, act } from '@testing-library/react'
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { useTheme } from './useTheme'
@@ -20,10 +19,29 @@ const mockMatchMedia = (matches: boolean) => {
   })
 }
 
+// Mock history.replaceState
+const mockReplaceState = vi.fn()
+Object.defineProperty(window, 'history', {
+  writable: true,
+  value: { replaceState: mockReplaceState },
+})
+
+// Helper to set URL search params
+const setUrlParams = (params: string) => {
+  Object.defineProperty(window, 'location', {
+    writable: true,
+    value: {
+      search: params,
+      href: `http://localhost${params}`,
+    },
+  })
+}
+
 describe('useTheme', () => {
   beforeEach(() => {
-    // Reset document classes
     document.documentElement.className = ''
+    setUrlParams('')
+    mockReplaceState.mockClear()
     vi.clearAllMocks()
   })
 
@@ -33,84 +51,115 @@ describe('useTheme', () => {
 
   it('should initialize with light theme when system preference is light', () => {
     mockMatchMedia(false)
-    
+
     const { result } = renderHook(() => useTheme())
-    
+
     expect(result.current.isDark).toBe(false)
     expect(document.documentElement.classList.contains('dark')).toBe(false)
   })
 
   it('should initialize with dark theme when system preference is dark', () => {
     mockMatchMedia(true)
-    
+
     const { result } = renderHook(() => useTheme())
-    
+
+    expect(result.current.isDark).toBe(true)
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
+  })
+
+  it('should use URL param over system preference', () => {
+    mockMatchMedia(true) // System prefers dark
+    setUrlParams('?theme=light') // But URL says light
+
+    const { result } = renderHook(() => useTheme())
+
+    expect(result.current.isDark).toBe(false)
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
+  })
+
+  it('should use dark theme from URL param', () => {
+    mockMatchMedia(false) // System prefers light
+    setUrlParams('?theme=dark') // But URL says dark
+
+    const { result } = renderHook(() => useTheme())
+
     expect(result.current.isDark).toBe(true)
     expect(document.documentElement.classList.contains('dark')).toBe(true)
   })
 
   it('should toggle theme from light to dark', () => {
     mockMatchMedia(false)
-    
+
     const { result } = renderHook(() => useTheme())
-    
+
     expect(result.current.isDark).toBe(false)
-    
+
     act(() => {
       result.current.toggleTheme()
     })
-    
+
     expect(result.current.isDark).toBe(true)
     expect(document.documentElement.classList.contains('dark')).toBe(true)
   })
 
   it('should toggle theme from dark to light', () => {
     mockMatchMedia(true)
-    
+
     const { result } = renderHook(() => useTheme())
-    
+
     expect(result.current.isDark).toBe(true)
-    
+
     act(() => {
       result.current.toggleTheme()
     })
-    
+
     expect(result.current.isDark).toBe(false)
     expect(document.documentElement.classList.contains('dark')).toBe(false)
   })
 
   it('should handle multiple theme toggles', () => {
     mockMatchMedia(false)
-    
+
     const { result } = renderHook(() => useTheme())
-    
+
     expect(result.current.isDark).toBe(false)
-    
+
     act(() => {
       result.current.toggleTheme()
     })
     expect(result.current.isDark).toBe(true)
-    
+
     act(() => {
       result.current.toggleTheme()
     })
     expect(result.current.isDark).toBe(false)
-    
+
     act(() => {
       result.current.toggleTheme()
     })
     expect(result.current.isDark).toBe(true)
   })
 
+  it('should update URL param when toggling theme', () => {
+    mockMatchMedia(false)
+
+    const { result } = renderHook(() => useTheme())
+
+    act(() => {
+      result.current.toggleTheme()
+    })
+
+    expect(mockReplaceState).toHaveBeenCalled()
+  })
+
   it('should handle missing matchMedia gracefully', () => {
-    // Mock missing matchMedia
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: undefined,
     })
-    
+
     const { result } = renderHook(() => useTheme())
-    
+
     expect(result.current.isDark).toBe(false)
     expect(document.documentElement.classList.contains('dark')).toBe(false)
   })
