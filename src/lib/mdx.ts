@@ -90,6 +90,21 @@ export function sortPostsByDate(
 }
 
 /**
+ * Sort blog posts by reading time
+ */
+export function sortPostsByReadingTime(
+  posts: BlogPost[],
+  order: 'asc' | 'desc' = 'desc'
+): BlogPost[] {
+  return [...posts].sort((a, b) => {
+    // Parse "X min read" to get minutes
+    const minutesA = parseInt(a.readingTime) || 0;
+    const minutesB = parseInt(b.readingTime) || 0;
+    return order === 'desc' ? minutesB - minutesA : minutesA - minutesB;
+  });
+}
+
+/**
  * Filter posts by tag
  */
 export function filterPostsByTag(posts: BlogPost[], tag: string): BlogPost[] {

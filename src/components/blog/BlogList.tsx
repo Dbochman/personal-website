@@ -1,9 +1,18 @@
 import { useState, useMemo } from 'react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { BlogCard } from './BlogCard';
 import type { BlogPost } from '@/types/blog';
-import { filterPostsBySearch, filterPostsByTag, sortPostsByDate, getAllTags } from '@/lib/mdx';
+import { filterPostsBySearch, filterPostsByTag, sortPostsByDate, sortPostsByReadingTime, getAllTags } from '@/lib/mdx';
+
+type SortOption = 'newest' | 'oldest' | 'longest' | 'shortest';
 
 interface BlogListProps {
   posts: BlogPost[];
@@ -12,6 +21,7 @@ interface BlogListProps {
 export function BlogList({ posts }: BlogListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [sortOption, setSortOption] = useState<SortOption>('newest');
 
   const allTags = useMemo(() => getAllTags(posts), [posts]);
 
@@ -28,13 +38,30 @@ export function BlogList({ posts }: BlogListProps) {
       filtered = filterPostsByTag(filtered, selectedTag);
     }
 
-    // Sort: featured posts first, then by date (newest first)
-    const sorted = sortPostsByDate(filtered, 'desc');
+    // Apply sort based on selected option
+    let sorted: BlogPost[];
+    switch (sortOption) {
+      case 'oldest':
+        sorted = sortPostsByDate(filtered, 'asc');
+        break;
+      case 'longest':
+        sorted = sortPostsByReadingTime(filtered, 'desc');
+        break;
+      case 'shortest':
+        sorted = sortPostsByReadingTime(filtered, 'asc');
+        break;
+      case 'newest':
+      default:
+        sorted = sortPostsByDate(filtered, 'desc');
+        break;
+    }
+
+    // Featured posts first, then sorted results
     const featured = sorted.filter(post => post.featured);
     const nonFeatured = sorted.filter(post => !post.featured);
 
     return [...featured, ...nonFeatured];
-  }, [posts, searchTerm, selectedTag]);
+  }, [posts, searchTerm, selectedTag, sortOption]);
 
   const handleTagClick = (tag: string) => {
     setSelectedTag(selectedTag === tag ? null : tag);
@@ -52,22 +79,40 @@ export function BlogList({ posts }: BlogListProps) {
           className="max-w-md"
         />
 
-        {/* Tags Filter */}
-        {allTags.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            <span className="text-sm font-medium text-muted-foreground">Filter by tag:</span>
-            {allTags.map((tag) => (
-              <Badge
-                key={tag}
-                variant={selectedTag === tag ? 'default' : 'outline'}
-                className="cursor-pointer hover:bg-primary/10"
-                onClick={() => handleTagClick(tag)}
-              >
-                {tag}
-              </Badge>
-            ))}
+        {/* Tags Filter and Sort */}
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          {allTags.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-sm font-medium text-muted-foreground">Filter by tag:</span>
+              {allTags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant={selectedTag === tag ? 'default' : 'outline'}
+                  className="cursor-pointer hover:bg-primary/10"
+                  onClick={() => handleTagClick(tag)}
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          )}
+
+          {/* Sort Selector */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-muted-foreground">Sort:</span>
+            <Select value={sortOption} onValueChange={(value: SortOption) => setSortOption(value)}>
+              <SelectTrigger className="w-[150px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="newest">Newest First</SelectItem>
+                <SelectItem value="oldest">Oldest First</SelectItem>
+                <SelectItem value="longest">Longest First</SelectItem>
+                <SelectItem value="shortest">Shortest First</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-        )}
+        </div>
       </div>
 
       {/* Posts Grid */}
