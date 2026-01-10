@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { useLocation } from 'react-router-dom'
 
 interface ThemeContextType {
   isDark: boolean
@@ -7,7 +8,16 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | null>(null)
 
+// Track if theme was set by user toggle (not URL)
+let userToggledTheme = false
+
+// Reset function for tests
+export function resetThemeState() {
+  userToggledTheme = false
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
+  const location = useLocation()
   const [isDark, setIsDark] = useState(() => {
     // Initialize from DOM to match server-rendered state
     if (typeof document !== 'undefined') {
@@ -17,29 +27,38 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   })
 
   useEffect(() => {
-    // Check URL parameter first, then fall back to system preference
-    const urlParams = new URLSearchParams(window.location.search)
-    const themeParam = urlParams.get('theme')
-
-    let initialDark = false
-
-    if (themeParam) {
-      initialDark = themeParam === 'dark'
-    } else {
-      const mql = window.matchMedia?.('(prefers-color-scheme: dark)')
-      initialDark = mql?.matches ?? false
+    // Skip URL sync if user just toggled (prevents URL from overriding user choice)
+    if (userToggledTheme) {
+      userToggledTheme = false
+      return
     }
 
-    if (initialDark) {
+    // Check URL parameter first, then fall back to system preference
+    const urlParams = new URLSearchParams(location.search)
+    const themeParam = urlParams.get('theme')
+
+    let targetDark: boolean
+
+    if (themeParam) {
+      targetDark = themeParam === 'dark'
+    } else {
+      const mql = window.matchMedia?.('(prefers-color-scheme: dark)')
+      targetDark = mql?.matches ?? false
+    }
+
+    if (targetDark) {
       document.documentElement.classList.add('dark')
     } else {
       document.documentElement.classList.remove('dark')
     }
-    setIsDark(initialDark)
-  }, [])
+    setIsDark(targetDark)
+  }, [location.search])
 
   const toggleTheme = () => {
     const newIsDark = !isDark
+
+    // Mark that user toggled, so URL sync effect doesn't override
+    userToggledTheme = true
 
     if (newIsDark) {
       document.documentElement.classList.add('dark')

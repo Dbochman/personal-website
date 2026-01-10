@@ -19,31 +19,31 @@ const queryClient = new QueryClient();
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter
           future={{
             v7_startTransition: true,
             v7_relativeSplatPath: true,
           }}
         >
-          <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/runbook" element={<Runbook />} />
-              {/* Redirect old runbook.html URL to new clean URL */}
-              <Route path="/runbook.html" element={<Navigate to="/runbook" replace />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
+          <ThemeProvider>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/runbook" element={<Runbook />} />
+                {/* Redirect old runbook.html URL to new clean URL */}
+                <Route path="/runbook.html" element={<Navigate to="/runbook" replace />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </ThemeProvider>
         </BrowserRouter>
-        </TooltipProvider>
-      </ThemeProvider>
+      </TooltipProvider>
     </QueryClientProvider>
   </HelmetProvider>
 );

@@ -1,6 +1,7 @@
 import { renderHook, act } from '@testing-library/react'
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
-import { ThemeProvider, useTheme } from '@/context/ThemeContext'
+import { ThemeProvider, useTheme, resetThemeState } from '@/context/ThemeContext'
+import { MemoryRouter } from 'react-router-dom'
 import { ReactNode } from 'react'
 
 // Save original window properties
@@ -40,15 +41,22 @@ const setUrlParams = (params: string) => {
   })
 }
 
-// Wrapper component for tests
-const wrapper = ({ children }: { children: ReactNode }) => (
-  <ThemeProvider>{children}</ThemeProvider>
-)
+// Wrapper component for tests - ThemeProvider must be inside Router
+const createWrapper = (initialEntries: string[] = ['/']) => {
+  return ({ children }: { children: ReactNode }) => (
+    <MemoryRouter initialEntries={initialEntries}>
+      <ThemeProvider>{children}</ThemeProvider>
+    </MemoryRouter>
+  )
+}
+
+const wrapper = createWrapper()
 
 describe('useTheme', () => {
   beforeEach(() => {
     document.documentElement.className = ''
     setUrlParams('')
+    resetThemeState()
     // Mock history with full API structure
     Object.defineProperty(window, 'history', {
       writable: true,
@@ -97,9 +105,10 @@ describe('useTheme', () => {
 
   it('should use URL param over system preference', () => {
     mockMatchMedia(true) // System prefers dark
-    setUrlParams('?theme=light') // But URL says light
 
-    const { result } = renderHook(() => useTheme(), { wrapper })
+    const { result } = renderHook(() => useTheme(), {
+      wrapper: createWrapper(['/?theme=light'])
+    })
 
     expect(result.current.isDark).toBe(false)
     expect(document.documentElement.classList.contains('dark')).toBe(false)
@@ -107,9 +116,10 @@ describe('useTheme', () => {
 
   it('should use dark theme from URL param', () => {
     mockMatchMedia(false) // System prefers light
-    setUrlParams('?theme=dark') // But URL says dark
 
-    const { result } = renderHook(() => useTheme(), { wrapper })
+    const { result } = renderHook(() => useTheme(), {
+      wrapper: createWrapper(['/?theme=dark'])
+    })
 
     expect(result.current.isDark).toBe(true)
     expect(document.documentElement.classList.contains('dark')).toBe(true)

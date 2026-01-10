@@ -61,7 +61,7 @@ describe('Header dark-mode toggle', () => {
     }
 
     render(
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ThemeProvider>
           <NavigationContext.Provider value={mockContext}>
             <Header />
@@ -83,7 +83,7 @@ describe('Header dark-mode toggle', () => {
     }
 
     const { getAllByLabelText } = render(
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ThemeProvider>
           <NavigationContext.Provider value={mockContext}>
             <Header />

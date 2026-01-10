@@ -27,8 +27,8 @@ describe('MobileNav', () => {
     // Check that the menu is open
     expect(screen.getByText('Menu')).toBeInTheDocument();
 
-    // Close the menu
-    const closeButton = screen.getByLabelText('Close navigation menu');
+    // Close the menu using Sheet's built-in close button
+    const closeButton = screen.getByRole('button', { name: /close/i });
     fireEvent.click(closeButton);
 
     // Check that the menu is closed
