@@ -15,3 +15,16 @@ Dylan's instinct to add commit message guidance was right. The `[blog]` tag give
 Three pieces now feed into posts: commit messages (signals), PR descriptions (narrative), session notes (context). The hook ties them together.
 
 ---
+
+## 2026-01-10 (continued)
+
+Expanded the blog system with three features Dylan suggested:
+- `[blog:tag-name]` for grouping commits across sessions
+- Post interlinking guidance in the style guide
+- This session notes file
+
+Also fixed redundant `# Title` in all posts—title now comes only from frontmatter. Dylan picked "The Blog That Writes Itself" as the title for the auto-blog post.
+
+The system feels complete now. We'll see how it performs when the hook actually fires.
+
+---
