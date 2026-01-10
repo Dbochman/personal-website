@@ -24,6 +24,15 @@ This document provides an overview of all planning, monitoring, and documentatio
   - Performance: Blog listing 94%, Blog post 65% (limited by runtime MDX)
   - See document for completion notes and performance analysis
 
+### Test & CI/CD Improvements
+**Status:** 📋 PLANNED (January 10, 2026)
+
+- **`docs/TEST_AND_CICD_IMPROVEMENT_PLAN.md`** - Comprehensive plan for test quality and CI/CD efficiency
+  - Part 1: Fix fragile tests (hardcoded slugs, arbitrary waits)
+  - Part 2: Add missing coverage (404, sort, search, tags)
+  - Part 3: CI/CD optimization (cache Playwright, remove redundancy)
+  - Estimated impact: ~40% faster CI, fewer false failures
+
 ### Tailwind CSS v4 Upgrade
 **Status:** 📋 PLANNED (January 8, 2026)
 
@@ -122,6 +131,7 @@ This document provides an overview of all planning, monitoring, and documentatio
 └── docs/
     ├── OPERATIONS_MANUAL.md           [🚨 Bus factor doc - how to run everything]
     ├── PLANNING_DOCS_INDEX.md         [📋 This file]
+    ├── TEST_AND_CICD_IMPROVEMENT_PLAN.md [📋 Planned - Test & CI/CD optimization]
     ├── TAILWIND_V4_UPGRADE_PLAN.md    [📋 Planned - Tailwind v4 migration]
     ├── BLOG_FEATURE_PLAN.md           [🚧 Active - Blog implementation plan]
     ├── BUNDLE_ANALYSIS_2026-01.md     [📊 Active - Bundle size analysis]
