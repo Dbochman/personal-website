@@ -11,15 +11,6 @@ This is the source repository for [dbochman.github.io](https://dbochman.github.i
 - **Production URL:** [https://dylanbochman.com](https://dylanbochman.com)
 - **Deployment Method:** Static site hosted on GitHub Pages
 
-## 🎯 Portfolio Focus
-
-Site Reliability Engineering (SRE) and Incident Management expertise:
-
-- **Experience:** Technical Incident Manager at Nvidia (upcoming), Groq, HashiCorp/IBM, Spotify
-- **Expertise:** Incident command, post-incident analysis, SLO monitoring
-- **Skills:** Infrastructure reliability, operational resilience, cross-functional coordination
-- **Resume:** Available for download as PDF
-
 ## 🛠 Project Structure
 
 ```
