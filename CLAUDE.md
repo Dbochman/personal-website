@@ -85,3 +85,81 @@ npm run deploy       # Deploy to GitHub Pages (oncology-career-canvas only)
 - GitHub Pages deployment constraints (static hosting only)
 - SEO considerations for portfolio sites
 - Responsive design patterns with Tailwind CSS
+
+## Pull Request Style Guide
+
+PRs in this repository serve dual purposes: code review and blog source material. Write PR descriptions with future Claude in mind—the one who will be drafting blog posts from commit history.
+
+### PR Description Template
+
+```markdown
+## Summary
+[1-2 sentences: what this PR accomplishes]
+
+## The Journey
+[This is the blog material. Capture:]
+- What problem we were trying to solve
+- What we tried first (especially if it didn't work)
+- The pivot moment—what question or reframe led to the solution
+- Why the final approach works
+
+## Changes
+- [Bullet list of technical changes]
+
+## What I Learned
+[Optional: patterns worth noting, surprises, things that might apply elsewhere]
+
+## Test Plan
+- [ ] [How to verify this works]
+```
+
+### Why "The Journey" Matters
+
+The interesting parts of blog posts are:
+- **Dead ends**: "We tried X, but it failed because Y"
+- **Pivots**: "Dylan asked whether we could Z instead"
+- **Surprises**: "This broke in production but not locally because..."
+
+These details exist in the moment but evaporate from commit messages. Capture them in the PR while context is fresh.
+
+### Example
+
+**Instead of:**
+```markdown
+## Summary
+Fix CMS authentication
+
+## Changes
+- Updated config to use git-gateway
+- Added redirect for /editor route
+```
+
+**Write:**
+```markdown
+## Summary
+Fix CMS authentication by redirecting to Netlify subdomain
+
+## The Journey
+CMS login was returning 405 on the custom domain. We tried:
+1. Switching to git-gateway backend (didn't help)
+2. Adding Netlify Identity widget explicitly (didn't help)
+3. Various API URL configurations (didn't help)
+
+Six commits, each a hypothesis, each wrong. The actual problem was
+infrastructure: Cloudflare proxies the custom domain, intercepting
+/.netlify/identity/* requests before they reach Netlify.
+
+Dylan noticed it worked on the .netlify.app subdomain. The fix was
+accepting the constraint: add a redirect so /editor goes to the
+subdomain where auth actually works.
+
+## Changes
+- Added redirect rule in netlify.toml
+- Updated CMS docs with correct URL
+
+## What I Learned
+When iterating on config changes isn't converging, the problem might
+be outside the code entirely. Should have tested the subdomain earlier.
+```
+
+This PR description becomes a blog post outline with minimal additional work.
