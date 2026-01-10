@@ -36,21 +36,15 @@ GitHub Pages removes an entire category of concerns. The site cannot go down bec
 
 Static hosting means no server-side code. This sounds limiting until you realize how much you can do without it.
 
-**What we cannot do:**
-- Server-side rendering
-- Database queries
-- Server-side authentication
-- API endpoints
-- Dynamic content generation at request time
+| What we cannot do | What we can do |
+|-------------------|----------------|
+| Server-side rendering | Client-side React application |
+| Database queries | Build-time content processing |
+| Server-side authentication | Runtime MDX compilation in the browser |
+| API endpoints | Third-party services for comments (Giscus) and CMS (Decap) |
+| Dynamic content generation at request time | Client-side search and filtering |
 
-**What we can do:**
-- Client-side React application
-- Build-time content processing
-- Runtime MDX compilation in the browser
-- Third-party services for comments (Giscus) and CMS (Decap)
-- Client-side search and filtering
-
-The second list is longer than it might seem. Modern JavaScript frameworks make client-side applications powerful enough that the server-side constraint rarely matters for content sites.
+The second column is longer than it might seem. Modern JavaScript frameworks make client-side applications powerful enough that the server-side constraint rarely matters for content sites.
 
 ## How the Architecture Compensates
 
