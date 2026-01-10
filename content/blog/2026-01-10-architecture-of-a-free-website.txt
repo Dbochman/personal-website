@@ -82,19 +82,13 @@ This means the CMS lives at `dylanbochman.netlify.app/editor` rather than on the
 
 We could. A $5/month VPS would eliminate these constraints. But it would add others.
 
-Server hosting means:
-- Monthly costs that accumulate forever
-- Security updates and patching
-- Potential for misconfiguration
-- Another system to monitor
-- Vendor lock-in or migration hassle
-
-GitHub Pages means:
-- Microsoft-scale infrastructure for free
-- Automatic CDN distribution
-- No maintenance burden
-- Version control built in
-- Portability (it is just static files)
+| Server Hosting | GitHub Pages |
+|----------------|--------------|
+| Monthly costs that accumulate forever | Microsoft-scale infrastructure for free |
+| Security updates and patching | Automatic CDN distribution |
+| Potential for misconfiguration | No maintenance burden |
+| Another system to monitor | Version control built in |
+| Vendor lock-in or migration hassle | Portability (it is just static files) |
 
 For a portfolio site that Dylan wants to maintain indefinitely with minimal ongoing effort, the static approach wins. The architectural constraints are real but finite—we solved them once and moved on.
 
