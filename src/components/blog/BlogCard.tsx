@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,8 +9,15 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ post }: BlogCardProps) {
+  const [hasBeenHovered, setHasBeenHovered] = useState(false);
+
   return (
-    <Link to={`/blog/${post.slug}`} className="block group focus:outline-none">
+    <Link
+      to={`/blog/${post.slug}`}
+      className="block group focus:outline-none"
+      onMouseEnter={() => setHasBeenHovered(true)}
+      onFocus={() => setHasBeenHovered(true)}
+    >
       <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus:shadow-lg group-focus:border-primary/50">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-2">
@@ -43,12 +51,9 @@ export function BlogCard({ post }: BlogCardProps) {
           </div>
         </CardHeader>
         <CardContent className="pt-0">
-          {/* Description - hidden only on devices that support hover, expands on hover/focus */}
-          <div className="overflow-hidden transition-all duration-300 ease-out motion-reduce:transition-none
-                          max-h-24 opacity-100
-                          [@media(hover:hover)]:max-h-0 [@media(hover:hover)]:opacity-0
-                          [@media(hover:hover)]:group-hover:max-h-24 [@media(hover:hover)]:group-hover:opacity-100
-                          group-focus:max-h-24 group-focus:opacity-100">
+          {/* Description - expands on first hover/focus and stays expanded */}
+          <div className={`overflow-hidden transition-all duration-300 ease-out motion-reduce:transition-none
+                          ${hasBeenHovered ? 'max-h-24 opacity-100' : 'max-h-24 opacity-100 [@media(hover:hover)]:max-h-0 [@media(hover:hover)]:opacity-0'}`}>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {post.description}
             </p>
