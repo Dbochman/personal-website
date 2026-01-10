@@ -120,6 +120,7 @@ This document provides an overview of all planning, monitoring, and documentatio
 ├── README.md                          [📖 Project overview]
 ├── CLAUDE.md                          [🤖 Claude Code config]
 └── docs/
+    ├── OPERATIONS_MANUAL.md           [🚨 Bus factor doc - how to run everything]
     ├── PLANNING_DOCS_INDEX.md         [📋 This file]
     ├── TAILWIND_V4_UPGRADE_PLAN.md    [📋 Planned - Tailwind v4 migration]
     ├── BLOG_FEATURE_PLAN.md           [🚧 Active - Blog implementation plan]
@@ -287,9 +288,18 @@ lighthouse-metrics branch (separate):
 
 ---
 
+## 🚨 Operations Manual
+
+- **`docs/OPERATIONS_MANUAL.md`** - Complete guide to operating and maintaining the site
+  - Status: ✅ Active
+  - Audience: Anyone taking over the project
+  - Covers: Architecture, deployments, services, troubleshooting, emergency procedures
+
+---
+
 ## 📚 Related Documentation
 
-- **`README.md`** - Project overview, now includes Performance section
+- **`README.md`** - Project overview
 - **`CLAUDE.md`** - Development guidelines and instructions
 - **`.github/workflows/`** - CI/CD automation configurations
 
