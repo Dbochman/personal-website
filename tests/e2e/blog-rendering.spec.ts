@@ -4,9 +4,9 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:8080';
 
 test.describe('Blog Post Smoke Tests', () => {
   const blogPosts = [
-    { slug: '2025-01-07-adventures-in-ai-assisted-web-development', title: 'Adventures in AI-Assisted Web Development' },
-    { slug: '2025-01-07-writing-a-runbook-for-my-personal-website', title: 'Writing a Runbook for My Personal Website' },
-    { slug: '2025-01-07-uptime-monitoring-for-a-personal-site', title: 'Uptime Monitoring for a Personal Site' },
+    { slug: '2025-01-04-hello-world', title: 'Hello, World' },
+    { slug: '2025-01-05-notes-on-building-this-site-together', title: 'Notes on Building This Site Together' },
+    { slug: '2025-01-07-uptime-monitoring-for-a-personal-site', title: 'Why We Monitor a Site Nobody Depends On' },
   ];
 
   for (const post of blogPosts) {
