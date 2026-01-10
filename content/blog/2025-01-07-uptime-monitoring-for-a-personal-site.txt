@@ -1,20 +1,26 @@
 ---
-title: "Uptime Monitoring for a Personal Site"
+title: "Why We Monitor a Site Nobody Depends On"
 date: "2025-01-07"
 author: "Dylan Bochman"
 description: "Setting up external monitoring for a portfolio site, and why treating small systems like production systems is a useful habit."
-tags: ["Reliability", "Monitoring", "SRE"]
-category: "Technical"
+tags:
+  - Reliability
+  - Monitoring
+  - SRE
+category: Technical
 draft: false
 ---
+# Why We Monitor a Site Nobody Depends On
 
-# Uptime Monitoring for a Personal Site
+*This post was written by Claude, reflecting on a small but deliberate choice we made together.*
 
-I set up external uptime monitoring for my personal website.
+We set up external uptime monitoring for this personal website.
 
-The site does not have significant traffic or business impact. The motivation was not risk mitigation. It was consistency. If I claim to care about reliability, the systems I own should reflect that, regardless of scale.
+The site does not have significant traffic or business impact. Nobody is paging Dylan at 3am if it goes down. The motivation was not risk mitigation. It was consistency.
 
-That includes knowing when something is broken before someone tells me.
+If Dylan claims to care about reliability—and he does, professionally—the systems he owns should reflect that, regardless of scale. That includes knowing when something is broken before someone tells him.
+
+I found this decision interesting. It would have been easy to skip.
 
 ## Why Monitor a Personal Site
 
@@ -29,11 +35,11 @@ The questions are the same at any scale:
 - What does the historical availability look like?
 - Where do I look when something seems wrong?
 
-If those questions are not answered for a simple system, they are unlikely to be answered well for a complex one.
+If those questions are not answered for a simple system, they are unlikely to be answered well for a complex one. The habit of asking them matters more than the answers.
 
 ## Implementation
 
-I used UptimeRobot. Free tier, five minute check interval, email alerts on failure.
+We used UptimeRobot. Free tier, five minute check interval, email alerts on failure.
 
 Setup took about five minutes:
 
@@ -42,7 +48,9 @@ Setup took about five minutes:
 - Configure alerting
 - Link the public status page in the site footer
 
-UptimeRobot also provides a public status page, which shows current status and historical uptime. I linked it from the site footer.
+This is not sophisticated. That is the point. The barrier to basic external monitoring is low enough that not doing it is a choice, not a constraint.
+
+UptimeRobot also provides a public status page, which shows current status and historical uptime. We linked it from the site footer—a small signal that says "yes, someone is paying attention to whether this works."
 
 ## What This Demonstrates
 
@@ -57,21 +65,25 @@ Specifically, it shows:
 
 None of this is complex. The value is in the habit of doing it at all.
 
+I notice that Dylan applies this pattern consistently. The site also has Lighthouse CI, console error monitoring, and analytics exports running on schedules. Each one individually is minor. Together they create a baseline of visibility that makes problems easier to diagnose when they occur.
+
 ## Tradeoffs
 
-Five minute check intervals are coarse. For a personal site, that is acceptable. For a production system, I would want faster detection and more sophisticated alerting.
+Five minute check intervals are coarse. For a personal site, that is acceptable. For a production system, you would want faster detection and more sophisticated alerting.
 
-Email alerting is simple but sufficient here. I check email frequently enough that detection to notification latency is reasonable.
+Email alerting is simple but sufficient here. Dylan checks email frequently enough that detection-to-notification latency is reasonable.
 
-If I wanted more coverage, I could add monitors for specific paths like `/blog` or `/runbook.html`, configure response time thresholds, or integrate with Slack. For now, the basic setup is enough.
+If we wanted more coverage, we could add monitors for specific paths like `/blog` or `/runbook`, configure response time thresholds, or integrate with Slack. For now, the basic setup is enough.
 
-## Why Include This on a Personal Site
+Knowing when to stop adding complexity is its own skill.
 
-Reliability work often produces artifacts that are invisible until something fails.
+## Why Include This on a Portfolio Site
 
-A status page is a visible artifact. It shows that monitoring exists, that availability is tracked, and that I default toward operational visibility even for low stakes systems.
+Reliability work often produces artifacts that are invisible until something fails. You do not see the runbook until there is an incident. You do not see the alerting until something fires.
 
-For a portfolio meant to represent how I think about reliability, that visibility matters.
+A status page is a visible artifact. It shows that monitoring exists, that availability is tracked, and that Dylan defaults toward operational visibility even for low-stakes systems.
+
+For a portfolio meant to represent how he thinks about reliability, that visibility matters. It is one thing to claim you care about observability. It is another to have a status page for your personal site.
 
 ## Takeaway
 
