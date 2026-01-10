@@ -4,12 +4,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { navigationItems } from "@/data/navigation";
 import MobileNav from "@/components/MobileNav";
 import { useNavigation } from '@/context/NavigationContext';
-import { useState, useEffect } from 'react'
+import { useTheme } from '@/hooks/useTheme';
 import { Sun, Moon } from 'lucide-react'
 
 const Header = () => {
   const navigation = useNavigation();
   const location = useLocation();
+  const { isDark, toggleTheme } = useTheme();
   const isHomePage = location.pathname === '/';
   const isBlogPage = location.pathname.startsWith('/blog');
   const isRunbookPage = location.pathname === '/runbook';
@@ -32,42 +33,6 @@ const Header = () => {
   } else if (isRunbookPage) {
     navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }, { href: "/runbook", label: "Runbook" }];
   }
-
-const [isDark, setIsDark] = useState(false)
-
-useEffect(() => {
-  // Check URL parameter first, then fall back to system preference
-  const urlParams = new URLSearchParams(window.location.search)
-  const themeParam = urlParams.get('theme')
-
-  let initialDark = false
-
-  if (themeParam) {
-    initialDark = themeParam === 'dark'
-  } else if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
-    initialDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-  }
-
-  if (initialDark) {
-    document.documentElement.classList.add('dark')
-    setIsDark(true)
-  } else {
-    document.documentElement.classList.remove('dark')
-    setIsDark(false)
-  }
-}, [])
-
-const toggleTheme = () => {
-  document.documentElement.classList.toggle('dark')
-  const newIsDark = !isDark
-  setIsDark(newIsDark)
-  // Update URL param without page reload
-  const url = new URL(window.location.href)
-  url.searchParams.set('theme', newIsDark ? 'dark' : 'light')
-  window.history.replaceState({}, '', url.toString())
-  // Dispatch custom event for favicon update
-  window.dispatchEvent(new CustomEvent('themeChange', { detail: { isDark: newIsDark } }))
-}
 
   return (
     <header className="bg-background/90 backdrop-blur-sm border-b border-foreground/20 sticky top-0 z-10">

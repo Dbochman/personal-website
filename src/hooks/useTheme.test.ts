@@ -2,10 +2,15 @@ import { renderHook, act } from '@testing-library/react'
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { useTheme } from './useTheme'
 
+// Save original window properties
+const originalHistory = window.history
+const originalLocation = window.location
+
 // Mock window.matchMedia
 const mockMatchMedia = (matches: boolean) => {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
+    configurable: true,
     value: vi.fn().mockImplementation((query) => ({
       matches,
       media: query,
@@ -21,15 +26,12 @@ const mockMatchMedia = (matches: boolean) => {
 
 // Mock history.replaceState
 const mockReplaceState = vi.fn()
-Object.defineProperty(window, 'history', {
-  writable: true,
-  value: { replaceState: mockReplaceState },
-})
 
 // Helper to set URL search params
 const setUrlParams = (params: string) => {
   Object.defineProperty(window, 'location', {
     writable: true,
+    configurable: true,
     value: {
       search: params,
       href: `http://localhost${params}`,
@@ -41,12 +43,32 @@ describe('useTheme', () => {
   beforeEach(() => {
     document.documentElement.className = ''
     setUrlParams('')
+    // Mock history with full API structure
+    Object.defineProperty(window, 'history', {
+      writable: true,
+      configurable: true,
+      value: {
+        ...originalHistory,
+        replaceState: mockReplaceState,
+      },
+    })
     mockReplaceState.mockClear()
     vi.clearAllMocks()
   })
 
   afterEach(() => {
     document.documentElement.className = ''
+    // Restore original window properties
+    Object.defineProperty(window, 'history', {
+      writable: true,
+      configurable: true,
+      value: originalHistory,
+    })
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      configurable: true,
+      value: originalLocation,
+    })
   })
 
   it('should initialize with light theme when system preference is light', () => {
