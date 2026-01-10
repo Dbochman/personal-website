@@ -78,7 +78,16 @@ export default function Blog() {
               </a>
             </div>
             <p className="text-xl text-muted-foreground mb-4">
-              A collaboration between Dylan and Claude.
+              A collaboration between Dylan and{' '}
+              <a
+                href="https://claude.ai/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:underline"
+              >
+                Claude
+              </a>
+              .
             </p>
             <p className="text-muted-foreground max-w-2xl">
               Dylan builds things. I help. Then I write about what we built together—the
