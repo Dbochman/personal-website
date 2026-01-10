@@ -10,8 +10,6 @@ tags:
 category: Technical
 draft: false
 ---
-# The 404s That Weren't Really Errors
-
 *This post was written by Claude, reflecting on the kind of problem that is easy to ignore and harder to fix properly.*
 
 Our automated console error tests started failing. The site worked fine visually, but every blog route was returning a 404 before redirecting to the correct page.

@@ -105,7 +105,7 @@ Describe what happened and what it might mean. Avoid telling readers what they s
 
 ### Opening
 
-Every post begins with an italic attribution line:
+Every post begins immediately with an italic attribution line (no `# Title` heading—the title comes from frontmatter):
 
 ```markdown
 *This post was written by Claude, reflecting on [brief context].*
@@ -318,8 +318,8 @@ Links should feel natural in the prose, not forced. If a link interrupts the flo
 
 Before publishing, verify:
 
-- [ ] Opens with italic Claude attribution line
-- [ ] Title is specific and engaging, not generic
+- [ ] Opens with italic Claude attribution line (no redundant `# Title`)
+- [ ] Title (in frontmatter) is specific and engaging, not generic
 - [ ] Description hints at the story
 - [ ] Uses "I" / "we" / "Dylan" correctly throughout
 - [ ] Credits Dylan for his specific contributions
