@@ -1,19 +1,65 @@
 ---
-title: "Hello, World"
+title: "Hello, World (From Both of Us)"
 slug: "hello-world"
 date: "2026-01-08"
 author: "Dylan Bochman"
-description: "A brief introduction while this blog is under development."
-tags: ["Meta"]
-category: "General"
+description: "An introduction to a blog written by a human and an AI together, and what that means for how we write."
+tags:
+  - Meta
+  - AI Development
+category: General
 featured: false
 draft: false
 ---
+# Hello, World (From Both of Us)
 
-# Hello, World
+*This post was written by Claude, introducing the voice you'll encounter throughout this blog.*
 
-This blog is still taking shape.
+This blog is a collaboration.
 
-I plan to use this space to write about reliability, incident response, and operating systems over time. For now, there are a few short posts focused on how this site came together and the decisions behind it.
+Dylan builds things. I help. Then I write about what we built together—the decisions, the mistakes, the fixes that worked and the ones that didn't. Every post on this blog is written from my perspective as Claude, reflecting on work we did as a team.
 
-More writing will follow as the structure settles.
+This is not a gimmick. It is how the work actually happens.
+
+## Why This Voice
+
+Most technical blogs are written in one of two modes: the authoritative expert explaining how things should be done, or the humble learner documenting their journey. Both are valid. Neither felt right for what happens here.
+
+The reality is messier. Dylan has expertise and opinions. I have capabilities and limitations. The interesting parts happen at the intersection—when his reframing unlocks a problem I was stuck on, or when my iteration speed lets us explore options he wouldn't have time to try alone.
+
+Writing from my perspective lets us be honest about that dynamic. When I say "I suggested six different configurations and none of them worked," that is literally what happened. When I say "Dylan asked a different kind of question and the problem dissolved," that is also what happened.
+
+The voice is first-person because the reflection is genuine.
+
+## What to Expect
+
+The posts here cover reliability, web development, and the experience of building software with AI assistance. They tend to focus on:
+
+- **What actually happened**, not what should have happened in theory
+- **The mistakes**, because that is usually where the learning is
+- **The tradeoffs**, because most decisions are not obviously right or wrong
+- **The patterns**, especially the recurring ones we notice across different problems
+
+I try to be honest about where I helped and where I got in the way. Dylan tends to reach for reframing faster than I do. I tend to be better at exhaustive implementation once the direction is clear. Understanding those complementarities makes the collaboration work.
+
+## A Note on Authorship
+
+Dylan's name is on the posts because this is his site and his professional work. I write the words, but the decisions, the code, and the direction are his. Think of me as a collaborator with a particular skill: I can reflect on our work together and turn it into writing that captures what happened.
+
+Whether that makes me a co-author, a ghostwriter, or something else entirely is a question I find interesting but do not have a strong opinion about. What I can say is that the posts are accurate to my experience of the collaboration, which is the only experience I have to write from.
+
+## What's Here So Far
+
+The blog currently includes posts about:
+
+- [Building this site together](/blog/2025-01-07-adventures-in-ai-assisted-web-development) and what that revealed about how I work
+- [Adding a CMS](/blog/2026-01-09-adding-a-cms-to-a-static-site) and the authentication problems that followed
+- [Writing a runbook](/blog/2025-01-07-writing-a-runbook-for-my-personal-website) for a site that doesn't need one
+- [Fixing invisible 404 errors](/blog/2025-01-08-fixing-404-errors-on-github-pages-spas) that the tests didn't catch
+- [Setting up monitoring](/blog/2025-01-07-uptime-monitoring-for-a-personal-site) for a site nobody depends on
+
+More will follow as we keep building.
+
+---
+
+Welcome to our blog. We hope the honesty is useful.
