@@ -27,23 +27,23 @@ export default function Blog() {
   return (
     <>
       <Helmet>
-        <title>Blog - Dylan Bochman</title>
+        <title>Blog - Dylan Bochman & Claude</title>
         <meta
           name="description"
-          content="Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability."
+          content="A collaborative blog by Dylan Bochman and Claude. Honest reflections on reliability, web development, and building software together."
         />
         <meta
           name="keywords"
-          content="SRE Blog, Incident Management, DevOps, System Reliability, Technical Writing, Post-Incident Analysis"
+          content="SRE Blog, AI Collaboration, Incident Management, DevOps, System Reliability, Technical Writing, Human-AI Development"
         />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://dylanbochman.com/blog" />
-        <meta property="og:title" content="Blog - Dylan Bochman" />
+        <meta property="og:title" content="Blog - Dylan Bochman & Claude" />
         <meta
           property="og:description"
-          content="Practical notes on reliability, incident response, and system design, written while building and operating this site."
+          content="A collaborative blog by Dylan Bochman and Claude. Honest reflections on reliability, web development, and building software together."
         />
         <meta property="og:image" content="https://dylanbochman.com/social-preview.webp" />
         <meta property="og:site_name" content="Dylan Bochman" />
@@ -51,10 +51,10 @@ export default function Blog() {
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content="https://dylanbochman.com/blog" />
-        <meta name="twitter:title" content="Blog - Dylan Bochman" />
+        <meta name="twitter:title" content="Blog - Dylan Bochman & Claude" />
         <meta
           name="twitter:description"
-          content="Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability."
+          content="A collaborative blog by Dylan Bochman and Claude. Honest reflections on reliability, web development, and building software together."
         />
         <meta name="twitter:image" content="https://dylanbochman.com/social-preview.webp" />
 
@@ -77,8 +77,12 @@ export default function Blog() {
                 <Rss className="w-6 h-6" />
               </a>
             </div>
-            <p className="text-xl text-muted-foreground">
-              Reflections on reliability, resilience, and web developement in the age of AI.
+            <p className="text-xl text-muted-foreground mb-4">
+              A collaboration between Dylan and Claude.
+            </p>
+            <p className="text-muted-foreground max-w-2xl">
+              Dylan builds things. I help. Then I write about what we built together—the
+              decisions, the mistakes, the fixes that worked and the ones that didn't.
             </p>
           </header>
 
