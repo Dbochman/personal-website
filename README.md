@@ -146,29 +146,10 @@ Comprehensive monitoring and analytics setup:
 
 ## 📝 Blog
 
-MDX-based blog for SRE insights and technical tutorials:
+MDX-based blog with search, tag filtering, and Giscus comments.
 
-**Features:**
-- MDX support with embedded React components
-- Syntax highlighting with Shiki
-- Search and filter by tags
-- Related posts recommendations
-- GitHub Discussions comments (Giscus)
-- SEO optimized with structured data
-
-**Content Management:**
-- **CMS:** Decap CMS (free, open-source headless CMS)
-- **Editor URL:** [https://dylanbochman.netlify.app/editor](https://dylanbochman.netlify.app/editor/index.html)
-- **Authentication:** Netlify Identity (email/password)
-- **Workflow:** Edit posts visually → Publish → Auto-deploy via GitHub Actions
-- **Benefits:** No manual git commits, markdown preview, image uploads
-- **Note:** Use Netlify URL for CMS access (not dylanbochman.com/editor)
-
-**Blog URLs:**
-- [Blog Home](https://dylanbochman.com/blog)
-- [Adventures in AI-Assisted Web Development](https://dylanbochman.com/blog/2025-01-07-adventures-in-ai-assisted-web-development)
-- [Uptime Monitoring for a Personal Site](https://dylanbochman.com/blog/2025-01-07-uptime-monitoring-for-a-personal-site)
-- [Writing a Runbook for My Personal Website](https://dylanbochman.com/blog/2025-01-07-writing-a-runbook-for-my-personal-website)
+- **CMS:** [Decap CMS](https://dylanbochman.netlify.app/editor/index.html) (Netlify Identity auth)
+- **Posts:** [dylanbochman.com/blog](https://dylanbochman.com/blog)
 
 ## ✨ Future Plans
 
