@@ -43,12 +43,12 @@ export function BlogCard({ post }: BlogCardProps) {
           </div>
         </CardHeader>
         <CardContent className="pt-0">
-          {/* Description - hidden on desktop, expands on hover/focus */}
+          {/* Description - hidden only on devices that support hover, expands on hover/focus */}
           <div className="overflow-hidden transition-all duration-300 ease-out motion-reduce:transition-none
                           max-h-24 opacity-100
-                          md:max-h-0 md:opacity-0
-                          md:group-hover:max-h-24 md:group-hover:opacity-100
-                          md:group-focus:max-h-24 md:group-focus:opacity-100">
+                          [@media(hover:hover)]:max-h-0 [@media(hover:hover)]:opacity-0
+                          [@media(hover:hover)]:group-hover:max-h-24 [@media(hover:hover)]:group-hover:opacity-100
+                          group-focus:max-h-24 group-focus:opacity-100">
             <p className="text-muted-foreground text-sm leading-relaxed">
               {post.description}
             </p>
