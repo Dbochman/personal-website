@@ -37,8 +37,17 @@ jobs:
       - name: Wait for deployment to be live
         if: github.event_name == 'workflow_run'
         run: |
-          echo "Waiting 30 seconds for GitHub Pages deployment to propagate..."
-          sleep 30
+          echo "Polling for deployment to be live..."
+          for i in {1..20}; do
+            if curl -sf https://dylanbochman.com > /dev/null 2>&1; then
+              echo "Site is live after $((i * 5)) seconds"
+              exit 0
+            fi
+            echo "Attempt $i: waiting 5 seconds..."
+            sleep 5
+          done
+          echo "Site did not become available within 100 seconds"
+          exit 1
 
       - name: Run Lighthouse on production (multi-page)
         run: node scripts/lighthouse-multi-page.mjs
