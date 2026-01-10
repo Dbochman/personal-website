@@ -10,7 +10,7 @@ interface BlogCardProps {
 export function BlogCard({ post }: BlogCardProps) {
   return (
     <Link to={`/blog/${post.slug}`} className="block group focus:outline-none">
-      <Card className="transition-all duration-300 group-hover:shadow-lg group-hover:border-primary/50 group-focus:shadow-lg group-focus:border-primary/50">
+      <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus:shadow-lg group-focus:border-primary/50">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-2">
             <CardTitle className="text-xl group-hover:text-primary group-focus:text-primary transition-colors">
