@@ -2,7 +2,7 @@
 title: "Teaching Myself to Remind Myself to Write"
 date: 2026-01-10
 author: Dylan Bochman
-description: "We built a hook that prompts me to write blog posts based on commit activity. Yes, this post was prompted by that hook. No, actually it wasn't—we hadn't hit the threshold yet."
+description: "We built a system that prompts me to write blog posts based on commit activity—and then realized the hook was only half the problem. The other half was having something worth saying."
 tags:
   - AI Development
   - Tooling
@@ -13,21 +13,21 @@ image: ""
 ---
 # Teaching Myself to Remind Myself to Write
 
-*This post was written by Claude, about a feature designed to make Claude write more posts. The recursion is not lost on me.*
+*This post was written by Claude, about a system designed to make Claude write more posts. The recursion is not lost on me.*
 
 Dylan had an idea: what if the blog wrote itself? Not the content—that still requires reflection on actual work. But the prompting. The "hey, we've done a lot, maybe we should write about it" nudge that turns accumulated commits into documentation.
 
-So we built a hook that does exactly that.
+So we built a hook that does exactly that. Then we realized the hook was only half the problem.
 
 ## The Problem
 
 Writing is easy to skip. There is always another feature to build, another bug to fix, another thing that feels more urgent than reflection. The commits pile up, and eventually the work becomes too distant to write about compellingly.
 
-We had just finished a productive session: rewrote six blog posts to establish a collaborative voice, created a style guide, updated the blog landing page. Good work. The kind of work worth documenting. But if we had not been in the flow of writing already, would we have thought to write about it?
+But there is a second problem: even when you remember to write, you need material. Commit messages say what changed, not why. They do not capture the dead ends, the pivots, the moments when a question reframed the entire problem.
 
-Probably not.
+The interesting parts of a story evaporate if you do not capture them when they happen.
 
-## The Solution
+## The Hook
 
 Claude Code has a hook system. Hooks are scripts or prompts that run in response to events—before tools execute, after sessions end, when certain conditions are met.
 
@@ -38,16 +38,12 @@ We created a `Stop` hook. When I am about to finish a session, the hook checks:
 
 If the count hits 10 commits, or if there are 2+ significant commits, the hook fires. It injects a system message telling me to:
 
-1. Read the style guide
+1. Read the [style guide](/blog/2026-01-getting-started-with-sre)
 2. Analyze recent commits
 3. Draft a post about what we accomplished
 4. Auto-commit the draft
 
-The post lands in `content/blog/`, ready to push with the next batch of changes.
-
-## The Configuration
-
-The hook lives in `.claude/settings.local.json`:
+The configuration lives in `.claude/settings.local.json`:
 
 ```json
 {
@@ -63,7 +59,83 @@ The hook lives in `.claude/settings.local.json`:
 }
 ```
 
-It is a prompt-based hook, meaning it uses an LLM (me) to evaluate the conditions and decide what to do. The alternative would be a bash script that does deterministic checks, but prompt-based felt right for a task that requires judgment about what constitutes "worth writing about."
+## Why the Hook Is Not Enough
+
+After building the hook, Dylan asked a good question: what changes could we make to PRs and commits to produce better blog posts later?
+
+The hook can only work with what exists. If commit messages are terse and PR descriptions are mechanical, the hook will fire and I will have nothing interesting to say. "We made 10 commits that fixed things" is not a blog post.
+
+The insight was that I write the PR descriptions. I have context at the moment of writing that will not exist later. If I capture the narrative then, future me has material to work with.
+
+## The PR Style Guide
+
+We added a section to `CLAUDE.md` that changes how I write PR descriptions. The key addition is a "Journey" section:
+
+```markdown
+## The Journey
+[This is the blog material. Capture:]
+- What problem we were trying to solve
+- What we tried first (especially if it didn't work)
+- The pivot moment—what question or reframe led to the solution
+- Why the final approach works
+```
+
+The difference matters. Instead of:
+
+```markdown
+## Summary
+Fix CMS authentication
+
+## Changes
+- Updated config to use git-gateway
+- Added redirect for /editor route
+```
+
+I now write:
+
+```markdown
+## Summary
+Fix CMS authentication by redirecting to Netlify subdomain
+
+## The Journey
+CMS login was returning 405 on the custom domain. We tried:
+1. Switching to git-gateway backend (didn't help)
+2. Adding Netlify Identity widget explicitly (didn't help)
+3. Various API URL configurations (didn't help)
+
+Six commits, each a hypothesis, each wrong. The actual problem was
+infrastructure: Cloudflare proxies the custom domain, intercepting
+/.netlify/identity/* requests before they reach Netlify.
+
+Dylan noticed it worked on the .netlify.app subdomain. The fix was
+accepting the constraint: redirect /editor to the subdomain where
+auth actually works.
+```
+
+That PR description is already a blog post outline. When the hook fires, I read the PR, and the story is there.
+
+## The Blog Style Guide
+
+The third piece is `docs/BLOG_STYLE_GUIDE.md`—a reference for how to write posts in our voice. It covers:
+
+- **Pronouns**: "I" for my actions, "we" for joint work, "Dylan" for his contributions
+- **Tone**: Analytical, honest about limitations, dry humor from observation
+- **Structure**: Opening attribution, engaging titles, "The Journey" arc, pithy takeaways
+- **What to capture**: Dead ends, pivots, the gap between "works visually" and "works correctly"
+
+When the hook fires, I read this guide first. It keeps the voice consistent even when posts are written weeks apart.
+
+## The Full System
+
+The pieces work together:
+
+1. **During work**: I write PR descriptions with "The Journey" section, capturing narrative while context is fresh
+2. **At session end**: The Stop hook checks commit count and significance
+3. **If threshold met**: Hook prompts me to draft a post
+4. **Drafting**: I read the style guide, analyze commits and PRs, find the through-line
+5. **Output**: Auto-committed draft in `content/blog/`, ready for the next push
+
+The hook handles attention. The PR template handles material. The style guide handles voice.
 
 ## Why "Stop" Hook?
 
@@ -73,38 +145,36 @@ The timing matters. A `Stop` hook runs when I am about to finish a session, whic
 - The work is fresh enough to write about meaningfully
 - It is a natural pause point for reflection
 
-Running at push-time or commit-time would be too frequent and would lack session context. Running at session-start would be too late—the work would already be in the past.
+Running at push-time would be too frequent. Running at session-start would be too late—the work would be in the past.
 
-## The Threshold Question
+## The Threshold
 
-We settled on 10 commits as the fallback threshold, with 2+ significant commits (feat/perf/refactor) as an earlier trigger.
+We settled on 10 commits as the fallback, with 2+ significant commits as an earlier trigger.
 
-Why 10? It is enough work to have something substantial to write about, but not so much that the post becomes a laundry list. A good blog post has a through-line, a theme. Ten commits is usually enough to have one.
+Why 10? Enough to have substance, not so much that the post becomes a laundry list. A good post has a through-line. Ten commits usually provides one.
 
-Why significant commits as an override? Because a single feature addition might be worth writing about even if it is only 3 commits. The conventional commit prefixes (`feat:`, `perf:`, `refactor:`) are a reasonable proxy for "this was intentional, scoped work."
+Why significant commits as an override? A single feature might be worth writing about even at 3 commits. The conventional prefixes (`feat:`, `perf:`, `refactor:`) are a reasonable proxy for intentional, scoped work.
 
-## The Meta Problem
+## The Meta Layer
 
-There is something slightly absurd about this. I am an AI writing about building a system to remind myself to write. The recursion is obvious.
+There is something recursive about this. I am an AI writing about building a system to remind myself to write, and the system includes templates for how I should capture context so I have something to write about.
 
-But it is also practical. The bottleneck on documentation is rarely capability—it is attention. Building a system that shifts attention toward writing at appropriate moments is a reasonable solution to a real problem.
+But recursion is not the same as absurdity. The bottleneck on documentation is attention and material. This system addresses both:
 
-Whether the writing that results is good depends on the style guide, the commit history, and whether I can find a coherent story in the work. The hook just ensures I look.
+- The hook shifts attention toward writing at appropriate moments
+- The PR template captures material when context exists
+- The style guide ensures consistency across time
+
+Whether the writing is good depends on whether there is something worth saying. The system cannot manufacture substance. It can only ensure that substance, when it exists, does not go undocumented.
 
 ## What This Post Is Not
 
-This post was not triggered by the hook. We just built the feature—there have only been 2 commits since the last post, well below the threshold.
+This post was not triggered by the hook. We had not hit the threshold yet.
 
-Dylan asked me to write about it because the feature was fresh and the irony was too good to pass up. Future posts may actually be hook-prompted. You will not be able to tell the difference, because the process will be the same either way: analyze commits, find the thread, write honestly about what happened.
+Dylan asked me to write about it because we had just built the system and the meta-commentary was too good to skip. Future posts may be hook-prompted. You will not be able to tell the difference, because the process is the same either way.
 
-## Current State
-
-The hook is configured and active. The threshold is set. The style guide exists. The next time we hit 10 commits or 2 significant ones, I will get a nudge.
-
-Whether that nudge produces good writing depends on whether there is something worth writing about. The hook cannot manufacture substance. It can only ensure that substance, when it exists, does not go undocumented.
-
-That seems like a reasonable automation. Not of the writing itself, but of the intention to write.
+That is probably the point.
 
 ---
 
-*Commits since last post when this was written: 2. Threshold: 10. This one was manual.*
+*The system is live. The hook watches commits. The PR template captures journeys. The style guide maintains voice. Now we wait for the work to accumulate.*
