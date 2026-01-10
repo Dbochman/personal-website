@@ -3,17 +3,12 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
-// Apply theme on first paint (localStorage > system preference)
-if (typeof window !== 'undefined') {
-  const stored = localStorage.getItem('theme-preference')
-  const prefersDark = stored === 'dark' ||
-    (stored === null && window.matchMedia?.('(prefers-color-scheme: dark)')?.matches)
-
-  if (prefersDark) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
+// Respect system dark-mode on first paint
+if (
+  typeof window !== 'undefined' &&
+  window.matchMedia?.('(prefers-color-scheme: dark)')?.matches
+) {
+  document.documentElement.classList.add('dark')
 }
 
 createRoot(document.getElementById("root")!).render(<App />);

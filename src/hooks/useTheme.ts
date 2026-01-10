@@ -1,25 +1,16 @@
 import { useState, useEffect } from 'react'
 
-const THEME_STORAGE_KEY = 'theme-preference'
-
 export function useTheme() {
-  const [isDark, setIsDark] = useState(() => {
-    // Initialize from DOM to avoid flash
-    return document.documentElement.classList.contains('dark')
-  })
+  const [isDark, setIsDark] = useState(false)
 
   useEffect(() => {
-    // Check localStorage first, then URL parameter, then system preference
-    const stored = localStorage.getItem(THEME_STORAGE_KEY)
+    // Check URL parameter first, then fall back to system preference
     const urlParams = new URLSearchParams(window.location.search)
     const themeParam = urlParams.get('theme')
 
     let initialDark = false
 
-    if (stored !== null) {
-      // User has explicitly set a preference
-      initialDark = stored === 'dark'
-    } else if (themeParam) {
+    if (themeParam) {
       initialDark = themeParam === 'dark'
     } else {
       const mql = window.matchMedia?.('(prefers-color-scheme: dark)')
@@ -39,8 +30,6 @@ export function useTheme() {
     document.documentElement.classList.toggle('dark')
     setIsDark(prev => {
       const newIsDark = !prev
-      // Persist to localStorage
-      localStorage.setItem(THEME_STORAGE_KEY, newIsDark ? 'dark' : 'light')
       // Dispatch custom event for favicon update
       window.dispatchEvent(new CustomEvent('themeChange', { detail: { isDark: newIsDark } }))
       return newIsDark
