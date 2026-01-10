@@ -11,7 +11,7 @@ import {
 import { navigationItems } from "@/data/navigation";
 import { useNavigation } from '@/context/NavigationContext';
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
@@ -70,17 +70,38 @@ const MobileNav = () => {
           {/* Navigation items */}
           <nav className="flex-1 p-6">
             <ul className="space-y-4">
-              {navItemsToShow.map((item) => (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    onClick={item.href === '#experience' ? handleExperienceClick : () => setOpen(false)}
-                    className="block py-4 px-4 text-foreground/70 hover:text-foreground transition-colors font-mono text-lg hover:underline decoration-2 underline-offset-4 hover:bg-foreground/5 rounded-lg min-h-[44px] flex items-center"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
+              {navItemsToShow.map((item) => {
+                const isHashLink = item.href.startsWith('#');
+                const linkClass = "block py-4 px-4 text-foreground/70 hover:text-foreground transition-colors font-mono text-lg hover:underline decoration-2 underline-offset-4 hover:bg-foreground/5 rounded-lg min-h-[44px] flex items-center";
+
+                // Hash links use anchor tags for smooth scrolling
+                if (isHashLink) {
+                  return (
+                    <li key={item.href}>
+                      <a
+                        href={item.href}
+                        onClick={item.href === '#experience' ? handleExperienceClick : () => setOpen(false)}
+                        className={linkClass}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  );
+                }
+
+                // Non-hash links use React Router Link for client-side navigation
+                return (
+                  <li key={item.href}>
+                    <Link
+                      to={item.href}
+                      onClick={() => setOpen(false)}
+                      className={linkClass}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </SheetContent>

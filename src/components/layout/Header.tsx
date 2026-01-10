@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { navigationItems } from "@/data/navigation";
 import MobileNav from "@/components/MobileNav";
 import { useNavigation } from '@/context/NavigationContext';
-import { useTheme } from '@/hooks/useTheme';
+import { useTheme } from '@/context/ThemeContext';
 import { Sun, Moon } from 'lucide-react'
 
 const Header = () => {
