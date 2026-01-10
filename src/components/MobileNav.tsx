@@ -1,5 +1,5 @@
 
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -55,16 +55,9 @@ const MobileNav = () => {
           side="right" 
           className="w-full bg-background/95 backdrop-blur-md border-foreground/20 p-0"
         >
-          <SheetHeader className="flex flex-row justify-between items-center p-6 border-b border-foreground/20">
+          <SheetHeader className="p-6 border-b border-foreground/20">
             <SheetTitle className="text-foreground font-mono text-lg">Menu</SheetTitle>
             <SheetDescription className="sr-only">A list of navigation links.</SheetDescription>
-            <button
-              onClick={() => setOpen(false)}
-              className="p-2 text-foreground/70 hover:text-foreground transition-colors"
-              aria-label="Close navigation menu"
-            >
-              <X className="w-6 h-6" />
-            </button>
           </SheetHeader>
           
           {/* Navigation items */}

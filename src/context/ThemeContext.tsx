@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { useLocation } from 'react-router-dom'
 
 interface ThemeContextType {
   isDark: boolean
@@ -7,7 +8,16 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | null>(null)
 
+// Track if theme has been initialized (first load complete)
+let hasInitialized = false
+
+// Reset function for tests
+export function resetThemeState() {
+  hasInitialized = false
+}
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
+  const location = useLocation()
   const [isDark, setIsDark] = useState(() => {
     // Initialize from DOM to match server-rendered state
     if (typeof document !== 'undefined') {
@@ -17,26 +27,33 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   })
 
   useEffect(() => {
-    // Check URL parameter first, then fall back to system preference
-    const urlParams = new URLSearchParams(window.location.search)
+    const urlParams = new URLSearchParams(location.search)
     const themeParam = urlParams.get('theme')
 
-    let initialDark = false
+    let targetDark: boolean | null = null
 
     if (themeParam) {
-      initialDark = themeParam === 'dark'
-    } else {
+      // URL has explicit theme param - always respect it
+      targetDark = themeParam === 'dark'
+    } else if (!hasInitialized) {
+      // First load with no URL param - use system preference
       const mql = window.matchMedia?.('(prefers-color-scheme: dark)')
-      initialDark = mql?.matches ?? false
+      targetDark = mql?.matches ?? false
     }
+    // If no theme param and already initialized, preserve current state (targetDark stays null)
 
-    if (initialDark) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
+    hasInitialized = true
+
+    // Only update if we have a target (explicit param or first load)
+    if (targetDark !== null) {
+      if (targetDark) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+      setIsDark(targetDark)
     }
-    setIsDark(initialDark)
-  }, [])
+  }, [location.search])
 
   const toggleTheme = () => {
     const newIsDark = !isDark
