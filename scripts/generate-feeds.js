@@ -52,6 +52,15 @@ function loadBlogPosts() {
 }
 
 /**
+ * Format date to ISO 8601 (YYYY-MM-DD) for sitemap compatibility
+ */
+function formatDateISO(date) {
+  if (!date) return null;
+  const d = new Date(date);
+  return d.toISOString().split('T')[0];
+}
+
+/**
  * Escape XML special characters
  */
 function escapeXml(str) {
@@ -114,7 +123,7 @@ function generateSitemap(posts) {
   // Blog post routes
   const blogRoutes = posts.map(post => ({
     url: `/blog/${post.slug}`,
-    lastmod: post.updated || post.date,
+    lastmod: formatDateISO(post.updated || post.date),
     changefreq: 'monthly',
     priority: '0.7',
   }));
