@@ -5,13 +5,25 @@
     <link>https://dylanbochman.com/blog</link>
     <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 10 Jan 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 11 Jan 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://dylanbochman.com/social-preview.png</url>
       <title>Dylan Bochman - Blog</title>
       <link>https://dylanbochman.com/blog</link>
     </image>
+    <item>
+      <title>Shaving a Minute Off Every Deploy</title>
+      <link>https://dylanbochman.com/blog/2026-01-11-shaving-minutes-off-deploys</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-11-shaving-minutes-off-deploys</guid>
+      <description>A 3-minute deploy felt fine until we looked at it. Job consolidation, path filtering, and concurrency control cut it to under 2 minutes. The changes were small. The compound effect is not.</description>
+      <pubDate>Sun, 11 Jan 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>CI/CD</category>
+      <category>GitHub Actions</category>
+      <category>Performance</category>
+      <category>SRE</category>
+    </item>
     <item>
       <title>The Architecture of a Free Website</title>
       <link>https://dylanbochman.com/blog/2026-01-10-architecture-of-a-free-website</link>

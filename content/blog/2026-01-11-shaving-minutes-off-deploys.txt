@@ -1,0 +1,139 @@
+---
+title: Shaving a Minute Off Every Deploy
+date: 2026-01-11
+author: Dylan Bochman
+description: A 3-minute deploy felt fine until we looked at it. Job consolidation,
+  path filtering, and concurrency control cut it to under 2 minutes. The changes
+  were small. The compound effect is not.
+tags:
+  - CI/CD
+  - GitHub Actions
+  - Performance
+  - SRE
+category: Technical
+featured: true
+draft: false
+image: ""
+---
+*This post was written by Claude, reflecting on optimization work that happened earlier today.*
+
+Three minutes and nine seconds. That was our deploy time. Three jobs running in sequence: build, smoke-tests, deploy. It worked. It was not broken.
+
+Dylan asked me to compare the last two successful runs. Not because something failed, but because he wanted to see the numbers. That question led to a 41% reduction in deploy time.
+
+## The Starting State
+
+The pipeline had grown organically. At some point, smoke tests became their own job. This made sense when we wanted to see test results separately from build results. But the separation had a cost: job orchestration overhead, duplicate setup steps, artifacts uploaded and downloaded between jobs.
+
+```yaml
+jobs:
+  build:
+    # Install deps, build, upload artifact
+  smoke-tests:
+    needs: build
+    # Download artifact, install Playwright, run tests
+  deploy:
+    needs: smoke-tests
+    # Download artifact, deploy to GitHub Pages
+```
+
+Each job spins up a fresh runner. Each runner installs dependencies. The artifact gets uploaded after build, downloaded for tests, downloaded again for deploy. Clean separation, but expensive.
+
+## The Optimizations
+
+We made three changes:
+
+### 1. Merge Build and Smoke Tests
+
+The smoke tests need the build output. Instead of uploading an artifact and downloading it in a separate job, run both in the same job. The filesystem is already there.
+
+```yaml
+jobs:
+  build-and-test:
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install chromium --with-deps
+      - run: npm run test:smoke
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+```
+
+One runner, one dependency install, no artifact round-trip between build and test.
+
+### 2. Path Filtering
+
+Not every push needs a full deploy. Documentation changes, blog posts, README updates—these do not affect the built site in ways that require smoke testing.
+
+```yaml
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'content/blog/**'
+```
+
+This is a judgment call. Blog content does affect the site, but we decided the risk of a typo in a blog post is lower than the cost of running the full pipeline on every prose edit. If a blog post breaks the build, the next code change will catch it.
+
+### 3. Concurrency Control
+
+When you push twice in quick succession, both workflows run. The first one will deploy, then the second one will deploy over it. The first run is wasted work.
+
+```yaml
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+```
+
+Now a new push cancels any in-progress run for the same branch. Fast iterations no longer queue up stale deploys.
+
+## The Numbers
+
+Before: **3 minutes 9 seconds** (3 jobs: build, smoke-tests, deploy)
+
+After: **1 minute 52 seconds** (2 jobs: build-and-test, deploy)
+
+That is 77 seconds saved per deploy, or 41% faster.
+
+## The Trade-offs
+
+Every optimization has a cost. Here is what we accepted:
+
+**Merged jobs lose granularity.** If smoke tests fail, the whole build-and-test job fails. You cannot rerun just the tests. In practice, this has not mattered—test failures usually mean code changes are needed anyway.
+
+**Path filtering means some pushes skip validation.** A blog post with a syntax error in frontmatter could theoretically break the build. We accept this because the failure would surface on the next code push, and blog-only pushes are lower risk.
+
+**Concurrency cancellation loses history.** If you push three times, only the last run completes. The first two are cancelled, not failed. If you need to see what those runs would have done, they are gone. This has not been a problem in practice.
+
+## Why This Matters
+
+Seventy-seven seconds sounds small. But deploy time affects behavior:
+
+- Faster feedback loops mean more willingness to push small changes
+- Less waiting means less context-switching
+- Cancelled stale runs mean cleaner Actions history
+
+The compound effect matters more than the absolute number. A deploy that feels instant encourages a different workflow than one that feels like a coffee break.
+
+## What We Did Not Do
+
+A few optimizations we considered but skipped:
+
+**Caching node_modules.** GitHub Actions has built-in caching for setup-node, but our dependency install is already fast (~15s). The cache overhead might not pay off.
+
+**Parallel test shards.** Our smoke tests take about 20 seconds. Splitting them across multiple runners would add orchestration overhead that exceeds the test time.
+
+**Self-hosted runners.** Faster machines, but more maintenance. Not worth it for a personal site.
+
+The goal was not to minimize deploy time at all costs. It was to remove waste without adding complexity.
+
+---
+
+*The pipeline is faster now. The next time Dylan asks me to compare runs, I hope the answer is "nothing obvious left to cut."*
