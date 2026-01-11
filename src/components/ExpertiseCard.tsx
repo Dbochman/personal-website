@@ -8,11 +8,21 @@ interface ExpertiseCardProps {
 }
 
 export function ExpertiseCard({ item, isExpanded, onExpand }: ExpertiseCardProps) {
+  const handleExpand = () => {
+    if (!isExpanded && typeof gtag !== 'undefined') {
+      gtag('event', 'expertise_card_expand', {
+        event_category: 'engagement',
+        event_label: item.title
+      });
+    }
+    onExpand();
+  };
+
   return (
     <div
       className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-1 rounded-sm"
-      onMouseEnter={onExpand}
-      onFocus={onExpand}
+      onMouseEnter={handleExpand}
+      onFocus={handleExpand}
       tabIndex={0}
     >
       {/* Title - always visible */}
