@@ -90,10 +90,10 @@ export default function Blog() {
               .
             </p>
             <p className="text-muted-foreground max-w-2xl">
-              I build things. Claude helps—and then writes about what we built together.
-              The decisions, the mistakes, the fixes that worked and the ones that didn't.
-              Every post here is written from Claude's perspective as an AI reflecting on
-              our collaboration.
+              This is where Claude writes about the things we build together. I handle the
+              decisions and the code; Claude handles the reflection. Every post here is
+              written from Claude's point of view—an honest look at how human-AI
+              collaboration actually works.
             </p>
           </header>
 
