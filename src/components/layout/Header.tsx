@@ -31,7 +31,7 @@ const Header = () => {
   if (isBlogPage) {
     navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }];
   } else if (isRunbookPage) {
-    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }, { href: "/runbook", label: "Runbook" }];
+    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }];
   }
 
   return (
