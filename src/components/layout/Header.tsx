@@ -39,9 +39,9 @@ const Header = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold text-foreground font-mono tracking-tight">
+            <Link to="/" className="text-2xl font-bold text-foreground font-mono tracking-tight hover:no-underline">
               Dylan Bochman
-            </h1>
+            </Link>
           </div>
           
           {/* Desktop Navigation */}
