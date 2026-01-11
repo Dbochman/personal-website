@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { BlogList } from './BlogList';
@@ -159,5 +159,74 @@ describe('BlogList', () => {
   it('renders empty list correctly', () => {
     renderWithRouter(<BlogList posts={[]} />);
     expect(screen.getByText('No posts found matching your criteria.')).toBeInTheDocument();
+  });
+
+  describe('analytics', () => {
+    beforeEach(() => {
+      window.gtag = vi.fn();
+    });
+
+    afterEach(() => {
+      delete (window as unknown as { gtag?: unknown }).gtag;
+    });
+
+    it('fires tag_filter_click event when tag is selected', () => {
+      renderWithRouter(<BlogList posts={mockPosts} />);
+
+      const reactTags = screen.getAllByText('React');
+      const reactFilterBadge = reactTags.find(el =>
+        el.classList.contains('cursor-pointer') ||
+        el.parentElement?.classList.contains('cursor-pointer')
+      );
+
+      if (reactFilterBadge) {
+        fireEvent.click(reactFilterBadge);
+
+        expect(window.gtag).toHaveBeenCalledWith('event', 'tag_filter_click', {
+          event_category: 'engagement',
+          event_label: 'React'
+        });
+      }
+    });
+
+    it('does not fire tag_filter_click when tag is deselected', () => {
+      renderWithRouter(<BlogList posts={mockPosts} />);
+
+      const reactTags = screen.getAllByText('React');
+      const reactFilterBadge = reactTags.find(el =>
+        el.classList.contains('cursor-pointer') ||
+        el.parentElement?.classList.contains('cursor-pointer')
+      );
+
+      if (reactFilterBadge) {
+        fireEvent.click(reactFilterBadge); // Select
+        vi.mocked(window.gtag).mockClear();
+        fireEvent.click(reactFilterBadge); // Deselect
+
+        expect(window.gtag).not.toHaveBeenCalled();
+      }
+    });
+
+    it('fires blog_search event on search input blur', () => {
+      renderWithRouter(<BlogList posts={mockPosts} />);
+      const searchInput = screen.getByPlaceholderText('Search posts...');
+
+      fireEvent.change(searchInput, { target: { value: 'DevOps' } });
+      fireEvent.blur(searchInput);
+
+      expect(window.gtag).toHaveBeenCalledWith('event', 'blog_search', {
+        event_category: 'engagement',
+        event_label: 'DevOps'
+      });
+    });
+
+    it('does not fire blog_search event when search is empty', () => {
+      renderWithRouter(<BlogList posts={mockPosts} />);
+      const searchInput = screen.getByPlaceholderText('Search posts...');
+
+      fireEvent.blur(searchInput);
+
+      expect(window.gtag).not.toHaveBeenCalled();
+    });
   });
 });

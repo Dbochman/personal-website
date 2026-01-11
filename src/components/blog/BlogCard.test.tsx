@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { BlogCard } from './BlogCard';
 import type { BlogPost } from '@/types/blog';
@@ -60,5 +60,50 @@ describe('BlogCard', () => {
     const { container } = renderWithRouter(<BlogCard post={mockPost} />);
     const card = container.querySelector('.group-hover\\:shadow-lg');
     expect(card).toBeInTheDocument();
+  });
+
+  describe('analytics', () => {
+    beforeEach(() => {
+      window.gtag = vi.fn();
+    });
+
+    afterEach(() => {
+      delete (window as unknown as { gtag?: unknown }).gtag;
+    });
+
+    it('fires blog_card_expand event on first hover', () => {
+      renderWithRouter(<BlogCard post={mockPost} />);
+      const link = screen.getByRole('link');
+
+      fireEvent.mouseEnter(link);
+
+      expect(window.gtag).toHaveBeenCalledWith('event', 'blog_card_expand', {
+        event_category: 'engagement',
+        event_label: mockPost.slug
+      });
+    });
+
+    it('fires blog_card_expand event only once', () => {
+      renderWithRouter(<BlogCard post={mockPost} />);
+      const link = screen.getByRole('link');
+
+      fireEvent.mouseEnter(link);
+      fireEvent.mouseLeave(link);
+      fireEvent.mouseEnter(link);
+
+      expect(window.gtag).toHaveBeenCalledTimes(1);
+    });
+
+    it('fires blog_card_expand event on focus', () => {
+      renderWithRouter(<BlogCard post={mockPost} />);
+      const link = screen.getByRole('link');
+
+      fireEvent.focus(link);
+
+      expect(window.gtag).toHaveBeenCalledWith('event', 'blog_card_expand', {
+        event_category: 'engagement',
+        event_label: mockPost.slug
+      });
+    });
   });
 });
