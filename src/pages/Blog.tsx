@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Rss } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { BlogList } from '@/components/blog/BlogList';
+import { FeaturedHero } from '@/components/blog/FeaturedHero';
 import { loadBlogPosts } from '@/lib/blog-loader';
 import type { BlogPost } from '@/types/blog';
 
@@ -23,6 +24,10 @@ export default function Blog() {
         setLoading(false);
       });
   }, []);
+
+  // Extract featured post and regular posts
+  const featuredPost = useMemo(() => posts.find((p) => p.featured), [posts]);
+  const regularPosts = useMemo(() => posts.filter((p) => !p.featured), [posts]);
 
   return (
     <>
@@ -110,7 +115,12 @@ export default function Blog() {
             </div>
           )}
 
-          {!loading && !error && <BlogList posts={posts} />}
+          {!loading && !error && (
+            <>
+              {featuredPost && <FeaturedHero post={featuredPost} />}
+              <BlogList posts={regularPosts} />
+            </>
+          )}
         </div>
       </PageLayout>
     </>

@@ -56,17 +56,6 @@ describe('BlogCard', () => {
     });
   });
 
-  it('displays featured badge when post is featured', () => {
-    renderWithRouter(<BlogCard post={mockPost} />);
-    expect(screen.getByText('Featured')).toBeInTheDocument();
-  });
-
-  it('does not display featured badge when post is not featured', () => {
-    const nonFeaturedPost = { ...mockPost, featured: false };
-    renderWithRouter(<BlogCard post={nonFeaturedPost} />);
-    expect(screen.queryByText('Featured')).not.toBeInTheDocument();
-  });
-
   it('renders with card component classes', () => {
     const { container } = renderWithRouter(<BlogCard post={mockPost} />);
     const card = container.querySelector('.group-hover\\:shadow-lg');

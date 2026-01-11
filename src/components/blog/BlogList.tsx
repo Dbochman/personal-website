@@ -39,28 +39,17 @@ export function BlogList({ posts }: BlogListProps) {
     }
 
     // Apply sort based on selected option
-    let sorted: BlogPost[];
     switch (sortOption) {
       case 'oldest':
-        sorted = sortPostsByDate(filtered, 'asc');
-        break;
+        return sortPostsByDate(filtered, 'asc');
       case 'longest':
-        sorted = sortPostsByReadingTime(filtered, 'desc');
-        break;
+        return sortPostsByReadingTime(filtered, 'desc');
       case 'shortest':
-        sorted = sortPostsByReadingTime(filtered, 'asc');
-        break;
+        return sortPostsByReadingTime(filtered, 'asc');
       case 'newest':
       default:
-        sorted = sortPostsByDate(filtered, 'desc');
-        break;
+        return sortPostsByDate(filtered, 'desc');
     }
-
-    // Featured posts first, then sorted results
-    const featured = sorted.filter(post => post.featured);
-    const nonFeatured = sorted.filter(post => !post.featured);
-
-    return [...featured, ...nonFeatured];
   }, [posts, searchTerm, selectedTag, sortOption]);
 
   const handleTagClick = (tag: string) => {
