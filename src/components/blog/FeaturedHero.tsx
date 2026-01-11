@@ -8,8 +8,8 @@ interface FeaturedHeroProps {
 
 export function FeaturedHero({ post }: FeaturedHeroProps) {
   return (
-    <Link to={`/blog/${post.slug}`} className="block group mb-12 focus:outline-none">
-      <article className="p-6 md:p-8 rounded-lg border border-foreground/10
+    <Link to={`/blog/${post.slug}`} className="block group focus:outline-none h-full">
+      <article className="h-full p-6 md:p-8 rounded-lg border border-foreground/10
                           bg-gradient-to-br from-zinc-50 to-zinc-100
                           dark:from-zinc-800/60 dark:to-zinc-900/60
                           transition-all duration-300

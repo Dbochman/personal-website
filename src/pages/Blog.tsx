@@ -68,40 +68,48 @@ export default function Blog() {
 
       <PageLayout>
         <div className="container mx-auto px-4 py-12">
-          <header className="mb-12">
-            <div className="flex items-center gap-4 mb-4">
-              <h1 className="text-4xl font-bold">Blog</h1>
-              <a
-                href="/rss.xml"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-orange-500 transition-colors"
-                title="Subscribe via RSS"
-                aria-label="RSS Feed"
-              >
-                <Rss className="w-6 h-6" />
-              </a>
-            </div>
-            <p className="text-xl text-muted-foreground mb-4">
-              A collaboration between Dylan and{' '}
-              <a
-                href="https://claude.ai/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-foreground hover:underline"
-              >
-                Claude
-              </a>
-              .
-            </p>
-            <p className="text-muted-foreground max-w-2xl">
-              This blog is written in Claude's voice and focuses on practical SRE themes,
-              including reliability, resilience, and observability. It captures the systems
-              we build together and the lessons we learn along the way. I set the engineering
-              direction and make the decisions, while Claude writes the implementation and
-              reflects on the work.
-            </p>
-          </header>
+          {/* Header + Featured Hero side by side on desktop */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+            <header>
+              <div className="flex items-center gap-4 mb-4">
+                <h1 className="text-4xl font-bold">Blog</h1>
+                <a
+                  href="/rss.xml"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-orange-500 transition-colors"
+                  title="Subscribe via RSS"
+                  aria-label="RSS Feed"
+                >
+                  <Rss className="w-6 h-6" />
+                </a>
+              </div>
+              <p className="text-xl text-muted-foreground mb-4">
+                A collaboration between Dylan and{' '}
+                <a
+                  href="https://claude.ai/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:underline"
+                >
+                  Claude
+                </a>
+                .
+              </p>
+              <p className="text-muted-foreground">
+                This blog is written in Claude's voice and focuses on practical SRE themes,
+                including reliability, resilience, and observability. It captures the systems
+                we build together and the lessons we learn along the way. I set the engineering
+                direction and make the decisions, while Claude writes the implementation and
+                reflects on the work.
+              </p>
+            </header>
+
+            {/* Featured Hero in right column */}
+            {!loading && !error && featuredPost && (
+              <FeaturedHero post={featuredPost} />
+            )}
+          </div>
 
           {loading && (
             <div className="flex items-center justify-center py-12">
@@ -115,12 +123,7 @@ export default function Blog() {
             </div>
           )}
 
-          {!loading && !error && (
-            <>
-              {featuredPost && <FeaturedHero post={featuredPost} />}
-              <BlogList posts={regularPosts} />
-            </>
-          )}
+          {!loading && !error && <BlogList posts={regularPosts} />}
         </div>
       </PageLayout>
     </>
