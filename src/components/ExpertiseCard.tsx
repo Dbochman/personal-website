@@ -10,7 +10,7 @@ interface ExpertiseCardProps {
 export function ExpertiseCard({ item, isExpanded, onExpand }: ExpertiseCardProps) {
   return (
     <div
-      className="group focus:outline-none"
+      className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-1 rounded-sm"
       onMouseEnter={onExpand}
       onFocus={onExpand}
       tabIndex={0}
