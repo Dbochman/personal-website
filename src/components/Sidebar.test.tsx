@@ -3,16 +3,47 @@ import { render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import Sidebar from './Sidebar'
 
-// Mock the expertise data
+// Mock the expertise data with new structure
 vi.mock('@/data/expertise', () => ({
   coreExpertise: [
-    'Site Reliability Engineering',
-    'Incident Command & Coordination',
-    'Post-Incident Analysis and Reporting',
-    'SLO Monitoring and Strategy',
-    'Test Expertise Item'
+    {
+      title: 'Site Reliability Engineering',
+      description: 'Building reliable systems',
+      companies: ['groq', 'spotify'],
+      skills: ['Terraform', 'Kubernetes']
+    },
+    {
+      title: 'Incident Command & Coordination',
+      description: 'Leading incident response',
+      companies: ['groq'],
+      skills: ['Incident Command']
+    },
+    {
+      title: 'Post-Incident Analysis and Reporting',
+      description: 'Analyzing incidents',
+      companies: ['hashicorp'],
+      skills: ['Root Cause Analysis']
+    },
+    {
+      title: 'SLO Monitoring and Strategy',
+      description: 'Defining SLOs',
+      companies: ['spotify'],
+      skills: ['SLO Design']
+    },
+    {
+      title: 'Test Expertise Item',
+      description: 'Test description',
+      companies: ['groq'],
+      skills: ['Testing']
+    }
   ]
 }))
+
+// Mock SVG imports
+vi.mock('@/assets/logos/spotify.svg', () => ({ default: 'spotify.svg' }))
+vi.mock('@/assets/logos/groq.svg', () => ({ default: 'groq.svg' }))
+vi.mock('@/assets/logos/hashicorp.svg', () => ({ default: 'hashicorp.svg' }))
+vi.mock('@/assets/logos/hashicorp-dark.svg', () => ({ default: 'hashicorp-dark.svg' }))
 
 describe('Sidebar', () => {
   it('should render the Core Expertise heading', () => {
@@ -61,44 +92,36 @@ describe('Sidebar', () => {
 
   it('should have proper CSS classes for expertise items container', () => {
     render(<Sidebar />)
-    
-    const itemsContainer = screen.getByText('Site Reliability Engineering').parentElement
-    expect(itemsContainer).toHaveClass('space-y-2')
+
+    // The container with expertise cards
+    const heading = screen.getByText('Core Expertise')
+    const itemsContainer = heading.parentElement?.querySelector('.space-y-2')
+    expect(itemsContainer).toBeInTheDocument()
   })
 
   it('should have proper CSS classes for individual expertise items', () => {
     render(<Sidebar />)
 
+    // The title is now in a div inside ExpertiseCard
     const expertiseItem = screen.getByText('Site Reliability Engineering')
-    expect(expertiseItem).toHaveClass(
-      'text-xs',
-      'text-foreground/80',
-      'p-2',
-      'border',
-      'border-foreground/20',
-      'bg-foreground/5',
-      'hover:bg-foreground/10',
-      'transition-colors'
-    )
+    expect(expertiseItem).toHaveClass('text-xs', 'text-foreground/80', 'p-2')
   })
 
   it('should render the correct number of expertise items', () => {
     render(<Sidebar />)
-    
-    const expertiseItems = screen.getAllByText(/Site Reliability Engineering|Incident Command|Post-Incident Analysis|SLO Monitoring|Test Expertise Item/)
-    expect(expertiseItems).toHaveLength(5)
+
+    // Each expertise item has a title element - count those
+    const expertiseCards = screen.getByText('Core Expertise').parentElement?.querySelectorAll('[tabindex="0"]')
+    expect(expertiseCards?.length).toBe(5)
   })
 
   it('should have unique keys for expertise items', () => {
     render(<Sidebar />)
-    
-    // Check that all items are rendered (no React key warnings in console)
-    const items = screen.getAllByText(/.*/).filter(el => 
-      el.classList.contains('text-xs') && 
-      el.classList.contains('text-foreground/80')
-    )
-    
-    expect(items.length).toBeGreaterThan(0)
+
+    // Check that all expertise titles are rendered
+    expect(screen.getByText('Site Reliability Engineering')).toBeInTheDocument()
+    expect(screen.getByText('Incident Command & Coordination')).toBeInTheDocument()
+    expect(screen.getByText('Post-Incident Analysis and Reporting')).toBeInTheDocument()
   })
 
   it('should be accessible with proper semantic structure', () => {

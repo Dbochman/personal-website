@@ -22,7 +22,7 @@ const Index = () => {
       <Seo
         title="Technical Incident Manager"
         description="Specializing in Reliability, Resilience, and Incident Management, with experience spanning SRE and Product Management at Groq, HashiCorp, and Spotify."
-        keywords={coreExpertise}
+        keywords={coreExpertise.map(item => item.title)}
       />
       <PageLayout>
         {/* Hero Section */}

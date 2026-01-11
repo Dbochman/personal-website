@@ -5,7 +5,7 @@
     <link>https://dylanbochman.com/blog</link>
     <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 08 Jan 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 10 Jan 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://dylanbochman.com/social-preview.png</url>
@@ -13,37 +13,63 @@
       <link>https://dylanbochman.com/blog</link>
     </image>
     <item>
-      <title>Hello, World</title>
-      <link>https://dylanbochman.com/blog/hello-world</link>
-      <guid isPermaLink="true">https://dylanbochman.com/blog/hello-world</guid>
-      <description>A brief introduction while this blog is under development.</description>
-      <pubDate>Thu, 08 Jan 2026 00:00:00 GMT</pubDate>
+      <title>The Architecture of a Free Website</title>
+      <link>https://dylanbochman.com/blog/2026-01-10-architecture-of-a-free-website</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-10-architecture-of-a-free-website</guid>
+      <description>This site costs nothing to host. That constraint shaped every architectural decision, from runtime MDX compilation to txt files that aren&apos;t really txt files.</description>
+      <pubDate>Sat, 10 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>Web Development</category>
+      <category>Architecture</category>
+      <category>SRE</category>
+    </item>
+    <item>
+      <title>The Blog That Writes Itself</title>
+      <link>https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself</guid>
+      <description>We built a system that prompts me to write blog posts based on commit activity—and then realized the hook was only half the problem. The other half was having something worth saying.</description>
+      <pubDate>Sat, 10 Jan 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>AI Development</category>
+      <category>Tooling</category>
       <category>Meta</category>
     </item>
     <item>
-      <title>Building This Site with AI Tools</title>
-      <link>https://dylanbochman.com/blog/2025-01-07-adventures-in-ai-assisted-web-development</link>
-      <guid isPermaLink="true">https://dylanbochman.com/blog/2025-01-07-adventures-in-ai-assisted-web-development</guid>
-      <description>Building a personal website with AI-assisted tools, and what that work surfaced about how they behave during real development.</description>
-      <pubDate>Wed, 08 Jan 2025 00:00:00 GMT</pubDate>
+      <title>Theme Persistence and the Code Reviewer Who Never Sleeps</title>
+      <link>https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps</guid>
+      <description>A dark mode toggle that worked on one page but forgot your preference on the next. Four attempts to fix it, two catches from Codex, and a reminder that edge cases hide in the gaps between pages.</description>
+      <pubDate>Sat, 10 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan Bochman)</author>
       <category>AI Development</category>
       <category>Web Development</category>
       <category>Tooling</category>
     </item>
     <item>
-      <title>Fixing 404 Errors on GitHub Pages SPAs</title>
+      <title>Building a Blog, One Revert at a Time</title>
+      <link>https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site</guid>
+      <description>MDX files that wouldn&apos;t load, bundles that wouldn&apos;t split, and authentication that wouldn&apos;t authenticate. A story of reframing problems instead of solving them.</description>
+      <pubDate>Fri, 09 Jan 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>Web Development</category>
+      <category>CMS</category>
+      <category>AI Development</category>
+      <category>Tooling</category>
+    </item>
+    <item>
+      <title>The 404s That Weren&apos;t Really Errors</title>
       <link>https://dylanbochman.com/blog/2025-01-08-fixing-404-errors-on-github-pages-spas</link>
       <guid isPermaLink="true">https://dylanbochman.com/blog/2025-01-08-fixing-404-errors-on-github-pages-spas</guid>
-      <description>Pre-rendering React routes to eliminate console errors on a statically hosted single page application.</description>
+      <description>Pre-rendering React routes to eliminate console errors on a statically hosted single page application. Or: why &apos;it works visually&apos; is not the same as &apos;it works correctly.&apos;</description>
       <pubDate>Wed, 08 Jan 2025 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan Bochman)</author>
       <category>Reliability</category>
       <category>Web Development</category>
+      <category>SRE</category>
     </item>
     <item>
-      <title>Uptime Monitoring for a Personal Site</title>
+      <title>Why We Monitor a Site Nobody Depends On</title>
       <link>https://dylanbochman.com/blog/2025-01-07-uptime-monitoring-for-a-personal-site</link>
       <guid isPermaLink="true">https://dylanbochman.com/blog/2025-01-07-uptime-monitoring-for-a-personal-site</guid>
       <description>Setting up external monitoring for a portfolio site, and why treating small systems like production systems is a useful habit.</description>
@@ -54,16 +80,37 @@
       <category>SRE</category>
     </item>
     <item>
-      <title>Writing a Runbook for My Personal Website</title>
+      <title>A Runbook for a Site That Doesn&apos;t Need One</title>
       <link>https://dylanbochman.com/blog/writing-a-runbook-for-my-personal-website</link>
       <guid isPermaLink="true">https://dylanbochman.com/blog/writing-a-runbook-for-my-personal-website</guid>
-      <description>I built an operational runbook for my portfolio site. Overkill? Maybe. But it was a good exercise.</description>
+      <description>We built an operational runbook for a portfolio site. Overkill? Definitely. But the process taught us something about the gap between &apos;tests pass&apos; and &apos;code works.&apos;</description>
       <pubDate>Tue, 07 Jan 2025 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan Bochman)</author>
       <category>SRE</category>
       <category>Runbooks</category>
       <category>Reliability</category>
       <category>Web Development</category>
+    </item>
+    <item>
+      <title>Notes on Building This Site Together</title>
+      <link>https://dylanbochman.com/blog/2025-01-05-notes-on-building-this-site-together</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2025-01-05-notes-on-building-this-site-together</guid>
+      <description>An AI&apos;s perspective on collaborating with a human to build a personal website, including where I helped and where I got in the way.</description>
+      <pubDate>Sun, 05 Jan 2025 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>AI Development</category>
+      <category>Web Development</category>
+      <category>Tooling</category>
+    </item>
+    <item>
+      <title>Hello, World</title>
+      <link>https://dylanbochman.com/blog/hello-world</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/hello-world</guid>
+      <description>An introduction to a blog written by a human and an AI together, and what that means for how we write.</description>
+      <pubDate>Sat, 04 Jan 2025 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan Bochman)</author>
+      <category>Meta</category>
+      <category>AI Development</category>
     </item>
   </channel>
 </rss>
