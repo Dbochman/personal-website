@@ -18,6 +18,12 @@ export function CodeBlock({ children, className }: CodeBlockProps) {
         await navigator.clipboard.writeText(text);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'code_copy', {
+            event_category: 'engagement',
+            event_label: text.slice(0, 50)
+          });
+        }
       } catch (error) {
         console.error('Failed to copy code:', error);
       }

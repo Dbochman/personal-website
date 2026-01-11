@@ -7,8 +7,17 @@ interface FeaturedHeroProps {
 }
 
 export function FeaturedHero({ post }: FeaturedHeroProps) {
+  const handleClick = () => {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'featured_hero_click', {
+        event_category: 'engagement',
+        event_label: post.slug
+      });
+    }
+  };
+
   return (
-    <Link to={`/blog/${post.slug}`} className="block group focus:outline-none h-full">
+    <Link to={`/blog/${post.slug}`} className="block group focus:outline-none h-full" onClick={handleClick}>
       <article className="h-full p-6 md:p-8 rounded-lg border border-foreground/10
                           bg-gradient-to-br from-zinc-50 to-zinc-100
                           dark:from-zinc-800/60 dark:to-zinc-900/60
