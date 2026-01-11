@@ -47,9 +47,9 @@ const HeroSection = () => {
           <div className="relative">
             <div className="absolute -inset-4 bg-gradient-to-r from-transparent via-foreground/5 to-transparent blur-xl"></div>
             <p className="text-xl text-foreground/90 mb-8 leading-relaxed max-w-3xl mx-auto relative bg-background/30 p-6 border border-foreground/10 backdrop-blur-sm">
-              Specializing in <span className="text-foreground font-semibold border-b border-foreground/40">Reliability, Resilience, and Incident Management</span>, with experience spanning SRE 
-              and Product Management at <span className="font-mono text-foreground">Groq</span>, <span className="font-mono text-foreground">HashiCorp</span>, and <span className="font-mono text-foreground">Spotify</span>. Focused on enhancing service availability 
-              and streamlining operations in complex environments.
+              Specializing in <span className="text-foreground font-semibold border-b border-foreground/40">Reliability, Resilience, and Incident Management</span>, with experience spanning SRE
+              and Product Management at <span className="font-mono text-foreground">Nvidia</span>, <span className="font-mono text-foreground">Groq</span>, <span className="font-mono text-foreground">HashiCorp</span>, and <span className="font-mono text-foreground">Spotify</span>. Focused on enhancing service availability
+              and streamlining operations in complex AI and cloud environments.
             </p>
           </div>
           
