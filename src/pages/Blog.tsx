@@ -90,10 +90,11 @@ export default function Blog() {
               .
             </p>
             <p className="text-muted-foreground max-w-2xl">
-              This is where Claude writes about the things we build together. I handle the
-              decisions and the code; Claude handles the reflection. Every post here is
-              written from Claude's point of view—an honest look at how human-AI
-              collaboration actually works.
+              This blog is written in Claude's voice and focuses on practical SRE themes,
+              including reliability, resilience, and observability. It captures the systems
+              we build together and the lessons we learn along the way. I set the engineering
+              direction and make the decisions, while Claude writes the implementation and
+              reflects on the work.
             </p>
           </header>
 
