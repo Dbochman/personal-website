@@ -53,7 +53,23 @@ export function BlogList({ posts }: BlogListProps) {
   }, [posts, searchTerm, selectedTag, sortOption]);
 
   const handleTagClick = (tag: string) => {
-    setSelectedTag(selectedTag === tag ? null : tag);
+    const newTag = selectedTag === tag ? null : tag;
+    setSelectedTag(newTag);
+    if (newTag && typeof gtag !== 'undefined') {
+      gtag('event', 'tag_filter_click', {
+        event_category: 'engagement',
+        event_label: newTag
+      });
+    }
+  };
+
+  const handleSearchBlur = () => {
+    if (searchTerm && typeof gtag !== 'undefined') {
+      gtag('event', 'blog_search', {
+        event_category: 'engagement',
+        event_label: searchTerm
+      });
+    }
   };
 
   return (
@@ -65,6 +81,7 @@ export function BlogList({ posts }: BlogListProps) {
           placeholder="Search posts..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          onBlur={handleSearchBlur}
           className="max-w-md"
         />
 

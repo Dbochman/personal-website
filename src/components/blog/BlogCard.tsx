@@ -11,12 +11,24 @@ interface BlogCardProps {
 export function BlogCard({ post }: BlogCardProps) {
   const [hasBeenHovered, setHasBeenHovered] = useState(false);
 
+  const handleFirstInteraction = () => {
+    if (!hasBeenHovered) {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'blog_card_expand', {
+          event_category: 'engagement',
+          event_label: post.slug
+        });
+      }
+      setHasBeenHovered(true);
+    }
+  };
+
   return (
     <Link
       to={`/blog/${post.slug}`}
       className="block group focus:outline-none"
-      onMouseEnter={() => setHasBeenHovered(true)}
-      onFocus={() => setHasBeenHovered(true)}
+      onMouseEnter={handleFirstInteraction}
+      onFocus={handleFirstInteraction}
     >
       <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus:shadow-lg group-focus:border-primary/50">
         <CardHeader className="pb-3">

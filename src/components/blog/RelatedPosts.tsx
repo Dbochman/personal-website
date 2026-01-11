@@ -34,6 +34,14 @@ export function RelatedPosts({ currentPost, allPosts, maxPosts = 3 }: RelatedPos
             key={post.slug}
             to={`/blog/${post.slug}`}
             className="group block p-4 rounded-lg border border-border hover:border-primary transition-colors"
+            onClick={() => {
+              if (typeof gtag !== 'undefined') {
+                gtag('event', 'related_post_click', {
+                  event_category: 'engagement',
+                  event_label: post.slug
+                });
+              }
+            }}
           >
             <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors line-clamp-2">
               {post.title}
