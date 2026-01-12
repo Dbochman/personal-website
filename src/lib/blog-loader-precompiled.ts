@@ -6,6 +6,13 @@ const compiledModules = import.meta.glob('/src/generated/blog/*.js', {
   eager: true,
 }) as Record<string, { compiledMDX: string; frontmatter: Record<string, unknown>; readingTime: string }>;
 
+// Warn if no modules found (likely forgot to run precompile)
+if (Object.keys(compiledModules).length === 0) {
+  console.warn(
+    '[blog-loader] No precompiled posts found in src/generated/blog/. ' +
+    'Run "npm run precompile-mdx" or restart dev server.'
+  );
+}
 
 // Cache for loaded posts
 const postCache = new Map<string, { post: BlogPost; Component: React.ComponentType }>();
