@@ -56,6 +56,53 @@ export const DEFAULT_INCIDENT: IncidentDetails = {
   eta: '',
 };
 
+export const SERVICE_PRESETS: Record<string, { label: string; service: string }> = {
+  'api': {
+    label: 'API',
+    service: 'API',
+  },
+  'web-app': {
+    label: 'Web Application',
+    service: 'the web application',
+  },
+  'mobile-app': {
+    label: 'Mobile App',
+    service: 'the mobile application',
+  },
+  'dashboard': {
+    label: 'Dashboard',
+    service: 'the dashboard',
+  },
+  'authentication': {
+    label: 'Authentication',
+    service: 'authentication services',
+  },
+  'payments': {
+    label: 'Payments',
+    service: 'payment processing',
+  },
+  'notifications': {
+    label: 'Notifications',
+    service: 'the notification system',
+  },
+  'database': {
+    label: 'Database',
+    service: 'database services',
+  },
+  'cdn': {
+    label: 'CDN / Static Assets',
+    service: 'content delivery',
+  },
+  'email': {
+    label: 'Email',
+    service: 'email delivery',
+  },
+  'all-services': {
+    label: 'All Services',
+    service: 'all services',
+  },
+};
+
 export interface SummaryPreset {
   label: string;
   description: string;

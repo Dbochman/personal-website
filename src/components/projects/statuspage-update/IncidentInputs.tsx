@@ -10,16 +10,18 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import type { IncidentDetails, IncidentPhase, Severity } from './types';
-import { SEVERITY_CONFIG, SUMMARY_PRESETS, ACTION_PRESETS, CADENCE_PRESETS } from './types';
+import { SEVERITY_CONFIG, SUMMARY_PRESETS, ACTION_PRESETS, CADENCE_PRESETS, SERVICE_PRESETS } from './types';
 
 interface IncidentInputsProps {
   incident: IncidentDetails;
   phase: IncidentPhase;
+  selectedServicePreset: string;
   selectedPreset: string;
   selectedActionPreset: string;
   selectedCadence: string;
   customCadence: string;
   onChange: (field: keyof IncidentDetails, value: string) => void;
+  onServicePresetChange: (preset: string) => void;
   onPresetChange: (preset: string) => void;
   onActionPresetChange: (preset: string) => void;
   onCadenceChange: (cadence: string) => void;
@@ -29,11 +31,13 @@ interface IncidentInputsProps {
 export function IncidentInputs({
   incident,
   phase,
+  selectedServicePreset,
   selectedPreset,
   selectedActionPreset,
   selectedCadence,
   customCadence,
   onChange,
+  onServicePresetChange,
   onPresetChange,
   onActionPresetChange,
   onCadenceChange,
@@ -48,15 +52,39 @@ export function IncidentInputs({
         <CardTitle className="text-base">Incident Details</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
+        {/* Service Preset */}
+        <div className="space-y-2">
+          <Label htmlFor="servicePreset">Affected Service</Label>
+          <Select value={selectedServicePreset || 'none'} onValueChange={onServicePresetChange}>
+            <SelectTrigger id="servicePreset">
+              <SelectValue placeholder="Select a service..." />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">Select a service...</SelectItem>
+              {Object.entries(SERVICE_PRESETS).map(([key, preset]) => (
+                <SelectItem key={key} value={key}>
+                  {preset.label}
+                </SelectItem>
+              ))}
+              <SelectItem value="custom">Custom</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
         {/* Service name */}
         <div className="space-y-2">
-          <Label htmlFor="service">Affected Service</Label>
+          <Label htmlFor="service">Service Name</Label>
           <Input
             id="service"
             placeholder="e.g., API, Dashboard, Authentication"
             value={incident.service}
             onChange={(e) => onChange('service', e.target.value)}
           />
+          <p className="text-xs text-muted-foreground">
+            {selectedServicePreset && selectedServicePreset !== 'custom' && selectedServicePreset !== 'none'
+              ? 'Edit to customize (will switch to Custom)'
+              : 'Enter the affected service name'}
+          </p>
         </div>
 
         {/* Severity */}

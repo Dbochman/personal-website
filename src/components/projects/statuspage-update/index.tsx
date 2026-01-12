@@ -4,11 +4,12 @@ import { PhaseSelector } from './PhaseSelector';
 import { MessageOutput } from './MessageOutput';
 import { generateStatusMessage, generateTitle } from './templates';
 import type { IncidentPhase, IncidentDetails } from './types';
-import { DEFAULT_INCIDENT, SUMMARY_PRESETS, ACTION_PRESETS, CADENCE_PRESETS } from './types';
+import { DEFAULT_INCIDENT, SUMMARY_PRESETS, ACTION_PRESETS, CADENCE_PRESETS, SERVICE_PRESETS } from './types';
 
 export default function StatusPageUpdate() {
   const [phase, setPhase] = useState<IncidentPhase>('investigating');
   const [incident, setIncident] = useState<IncidentDetails>(DEFAULT_INCIDENT);
+  const [selectedServicePreset, setSelectedServicePreset] = useState<string>('');
   const [selectedPreset, setSelectedPreset] = useState<string>('');
   const [selectedActionPreset, setSelectedActionPreset] = useState<string>('');
   const [selectedCadence, setSelectedCadence] = useState<string>('');
@@ -16,6 +17,14 @@ export default function StatusPageUpdate() {
 
   const handleIncidentChange = (field: keyof IncidentDetails, value: string) => {
     setIncident((prev) => ({ ...prev, [field]: value }));
+
+    // Auto-switch to custom if user edits service
+    if (field === 'service' && selectedServicePreset && selectedServicePreset !== 'custom') {
+      const servicePreset = SERVICE_PRESETS[selectedServicePreset];
+      if (servicePreset && value !== servicePreset.service) {
+        setSelectedServicePreset('custom');
+      }
+    }
 
     // Auto-switch to custom if user edits description
     if (field === 'description' && selectedPreset && selectedPreset !== 'custom') {
@@ -31,6 +40,17 @@ export default function StatusPageUpdate() {
       if (actionPreset && value !== actionPreset.action) {
         setSelectedActionPreset('custom');
       }
+    }
+  };
+
+  const handleServicePresetChange = (presetKey: string) => {
+    setSelectedServicePreset(presetKey);
+    if (presetKey && presetKey !== 'custom' && presetKey !== 'none' && SERVICE_PRESETS[presetKey]) {
+      const preset = SERVICE_PRESETS[presetKey];
+      setIncident((prev) => ({
+        ...prev,
+        service: preset.service,
+      }));
     }
   };
 
@@ -89,11 +109,13 @@ export default function StatusPageUpdate() {
       <IncidentInputs
         incident={incident}
         phase={phase}
+        selectedServicePreset={selectedServicePreset}
         selectedPreset={selectedPreset}
         selectedActionPreset={selectedActionPreset}
         selectedCadence={selectedCadence}
         customCadence={customCadence}
         onChange={handleIncidentChange}
+        onServicePresetChange={handleServicePresetChange}
         onPresetChange={handlePresetChange}
         onActionPresetChange={handleActionPresetChange}
         onCadenceChange={handleCadenceChange}
