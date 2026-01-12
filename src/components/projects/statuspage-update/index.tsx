@@ -78,7 +78,9 @@ export default function StatusPageUpdate() {
 
   const handleCadenceChange = (cadenceKey: string) => {
     setSelectedCadence(cadenceKey);
-    if (cadenceKey && cadenceKey !== 'custom' && cadenceKey !== 'none' && CADENCE_PRESETS[cadenceKey]) {
+    if (cadenceKey === 'none') {
+      setCustomCadence('');
+    } else if (cadenceKey && cadenceKey !== 'custom' && CADENCE_PRESETS[cadenceKey]) {
       setCustomCadence(CADENCE_PRESETS[cadenceKey].statement);
     }
   };
