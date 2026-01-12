@@ -1,7 +1,57 @@
 import { type MDXComponents } from 'mdx/types';
+import { Link } from 'react-router-dom';
 import { CodeBlock } from './CodeBlock';
 import { Callout } from './Callout';
 import { BlogImage } from './BlogImage';
+
+// Check if URL is internal to dylanbochman.com
+const isInternalUrl = (href: string | undefined): string | null => {
+  if (!href) return null;
+
+  // Already a relative path
+  if (href.startsWith('/') && !href.startsWith('//')) {
+    return href;
+  }
+
+  // Absolute URL to our domain
+  try {
+    const url = new URL(href);
+    if (url.hostname === 'dylanbochman.com' || url.hostname === 'www.dylanbochman.com') {
+      return url.pathname + url.search + url.hash;
+    }
+  } catch {
+    // Not a valid URL, treat as external
+  }
+
+  return null;
+};
+
+// Smart link component that uses React Router for internal links
+const SmartLink = ({ href, children }: { href?: string; children?: React.ReactNode }) => {
+  const internalPath = isInternalUrl(href);
+
+  if (internalPath) {
+    return (
+      <Link
+        to={internalPath}
+        className="text-primary underline hover:text-primary/80 font-medium"
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      className="text-primary underline hover:text-primary/80 font-medium"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </a>
+  );
+};
 
 /**
  * Custom components for MDX rendering
@@ -47,17 +97,8 @@ export const mdxComponents: MDXComponents = {
     </p>
   ),
 
-  // Links
-  a: ({ href, children }) => (
-    <a
-      href={href}
-      className="text-primary underline hover:text-primary/80 font-medium"
-      target={href?.startsWith('http') ? '_blank' : undefined}
-      rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-    >
-      {children}
-    </a>
-  ),
+  // Links - uses React Router for internal links to preserve state
+  a: SmartLink,
 
   // Lists
   ul: ({ children }) => (
