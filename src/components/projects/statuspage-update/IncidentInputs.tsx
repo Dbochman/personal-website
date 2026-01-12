@@ -163,7 +163,7 @@ export function IncidentInputs({
                   <SelectValue placeholder="Select an action..." />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">Select an action...</SelectItem>
+                  <SelectItem value="none">None</SelectItem>
                   {Object.entries(ACTION_PRESETS).map(([key, preset]) => (
                     <SelectItem key={key} value={key}>
                       {preset.label}
@@ -208,7 +208,7 @@ export function IncidentInputs({
                   <SelectValue placeholder="Select update frequency..." />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">Select update frequency...</SelectItem>
+                  <SelectItem value="none">None</SelectItem>
                   {Object.entries(CADENCE_PRESETS).map(([key, preset]) => (
                     <SelectItem key={key} value={key}>
                       {preset.label}
