@@ -259,7 +259,7 @@ const RunbookFooter = () => (
   </footer>
 );
 
-const RUNBOOK_BLOG_SLUG = 'writing-a-runbook-for-my-personal-website';
+const RUNBOOK_BLOG_SLUG = '2025-01-07-writing-a-runbook-for-my-personal-website';
 
 export default function Runbook() {
   const location = useLocation();
