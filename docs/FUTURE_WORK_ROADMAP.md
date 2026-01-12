@@ -1,6 +1,6 @@
 # Future Work Roadmap
 
-**Last Updated:** January 6, 2026
+**Last Updated:** January 11, 2026
 **Status:** Draft for Review
 
 This document outlines potential future work for the personal website, organized by priority and timeline.
@@ -9,6 +9,16 @@ This document outlines potential future work for the personal website, organized
 
 ## 🎯 Recently Completed (January 2026)
 
+- ✅ **MDX Precompilation** (January 11) - PR #84 merged
+  - Blog LCP improved 5.6s → 3.1s (45% faster)
+  - Moved MDX compilation from runtime to build-time
+  - Synchronous loaders for SSR/pre-rendering compatibility
+- ✅ **Bundle Size Optimization** (January 11)
+  - Removed unused blog-loader.ts (55KB savings)
+  - Created lightweight blog-utils.ts for tree-shaking
+- ✅ **Sentry Loading Optimization** (January 11)
+  - Changed from setTimeout to requestIdleCallback
+  - Defers ~128KB until browser is truly idle
 - ✅ Node.js v24 upgrade (v22 → v24.12.0)
 - ✅ Performance optimization (55 → 98 Lighthouse score)
 - ✅ System font stack implementation (eliminated 1.6MB web fonts)
@@ -20,119 +30,38 @@ This document outlines potential future work for the personal website, organized
 
 ## 🔥 High Priority (Next 1-2 Months)
 
-### 1. Image Optimization & Modern Formats
-**Priority:** HIGH
-**Effort:** Medium (4-6 hours)
-**Impact:** Further improve LCP and reduce bandwidth
-
-**Current State:**
-- Images are likely PNG/JPG format
-- No WebP/AVIF support
-- No responsive images with srcset
-
-**Action Items:**
-- [ ] Audit all images in `public/` and `src/assets/`
-- [ ] Convert hero/banner images to WebP format
-- [ ] Add AVIF format with WebP fallback
-- [ ] Implement responsive images with srcset
-- [ ] Add lazy loading to below-fold images
-- [ ] Compress images to target <200KB each
-
-**Expected Impact:**
-- LCP improvement: 1.8s → 1.2s (estimated)
-- Bandwidth savings: 50-70%
-- Better mobile performance
-
-**Resources:**
-- [WebP Converter](https://squoosh.app)
-- [Next.js Image Component](https://nextjs.org/docs/pages/api-reference/components/image) (for reference)
+### 1. ~~Image Optimization & Modern Formats~~ ✅ Already Optimized
+**Status:** Complete - Site uses SVGs for logos, WebP for social preview, small PNGs for favicons. No heavy images requiring optimization.
 
 ---
 
-### 2. Progressive Web App (PWA) Features
-**Priority:** HIGH
-**Effort:** High (8-12 hours)
-**Impact:** Offline capability, installability, engagement
-
-**Current State:**
-- No service worker
-- No web app manifest
-- PWA score: 0/100
-
-**Action Items:**
-- [ ] Create `manifest.json` with app metadata
-- [ ] Add app icons (192x192, 512x512)
-- [ ] Implement service worker for offline support
-- [ ] Cache static assets (JS, CSS, fonts)
-- [ ] Add install prompt for mobile users
-- [ ] Test offline functionality
-
-**Expected Impact:**
-- PWA score: 0 → 90+
-- Offline access to cached pages
-- "Add to Home Screen" capability
-- Improved repeat visitor performance
-
-**Resources:**
-- [Vite PWA Plugin](https://vite-pwa-org.netlify.app/)
-- [Workbox](https://developer.chrome.com/docs/workbox/)
+### 2. ~~Progressive Web App (PWA) Features~~ - Low Value for Personal Site
+**Status:** Deprioritized - PWA benefits (offline, installability) provide minimal value for a personal portfolio. Most visitors are one-time (recruiters, colleagues). The site already loads fast (2.7s LCP).
 
 ---
 
-### 3. Bundle Size Analysis & Code Splitting
-**Priority:** MEDIUM-HIGH
-**Effort:** Medium (6-8 hours)
-**Impact:** Reduce initial bundle, improve FID
+### 3. ~~Bundle Size Analysis & Code Splitting~~ ✅ Largely Complete
+**Status:** (Updated January 11, 2026)
+- ✅ Removed unused blog-loader.ts (55KB savings)
+- ✅ Created lightweight blog-utils.ts for tree-shaking
+- ✅ Sentry deferred via requestIdleCallback (~128KB deferred)
+- ✅ MDX chunk splitting implemented
+- ✅ Manual chunks configured in vite.config.ts
 
-**Current State:**
-- Main bundle: ~156KB
-- No route-based code splitting
-- Some heavy dependencies loaded upfront
-
-**Action Items:**
-- [ ] Run bundle analyzer: `npm run build:analyze`
-- [ ] Identify largest dependencies
-- [ ] Implement React.lazy() for heavy components
-- [ ] Split routes into separate chunks
-- [ ] Consider dynamic imports for rarely-used features
-- [ ] Evaluate if all dependencies are necessary
-
-**Expected Impact:**
-- Initial bundle: -30-40%
-- FID improvement: 59ms → <40ms (estimated)
-- Faster initial page load
-
-**Resources:**
-- [Vite Bundle Analyzer](https://github.com/btd/rollup-plugin-visualizer)
-- [React Code Splitting](https://react.dev/reference/react/lazy)
+Further optimization (React.lazy, route splitting) would provide diminishing returns given current performance.
 
 ---
 
 ## 📅 Medium Priority (Next 3-6 Months)
 
-### 4. SEO Content Expansion
-**Priority:** MEDIUM
-**Effort:** High (ongoing)
-**Impact:** Increased organic traffic, better rankings
-
-**Current State:**
-- Portfolio site with basic content
-- No blog or case studies
-- Limited keyword targeting
-
-**Action Items:**
-- [ ] Add blog/articles section
-- [ ] Write case studies for key projects
-- [ ] Create technical posts (React, TypeScript, etc.)
-- [ ] Add structured data for articles
-- [ ] Internal linking strategy
-- [ ] Target long-tail keywords in your niche
-
-**Expected Impact:**
-- More indexed pages
-- Increased organic impressions
-- Higher domain authority
-- Better visibility for professional terms
+### 4. ~~SEO Content Expansion~~ ✅ Complete
+**Status:** Blog fully implemented with:
+- ✅ Multiple technical blog posts
+- ✅ RSS feed
+- ✅ Structured data (JSON-LD)
+- ✅ Social previews (Open Graph, Twitter Cards)
+- ✅ Sitemap with priorities
+- ✅ Tag filtering and search
 
 ---
 
@@ -140,19 +69,25 @@ This document outlines potential future work for the personal website, organized
 **Priority:** MEDIUM
 **Effort:** Medium (6-8 hours)
 **Impact:** Better data visibility and decision-making
+**Detailed Plan:** `~/.claude/plans/validated-cuddling-cloud.md` (Analytics Dashboard section)
 
 **Current State:**
-- GA4 and Search Console integrated
-- Weekly automated exports
-- No visual dashboard
+- GA4 and Search Console integrated (52 weeks of data)
+- Lighthouse scores tracked (100 entries)
+- Weekly automated exports via GitHub Actions
+- Recharts already installed
+
+**Planned Implementation:**
+- Public page at `/analytics` with 3 tabs (Traffic, Search, Performance)
+- Historical trend charts (12-week / 52-week views)
+- Summary cards with key metrics
+- Static JSON imports (no backend needed)
 
 **Action Items:**
-- [ ] Create analytics dashboard page (optional: admin-only)
-- [ ] Visualize key metrics (charts with Recharts)
-- [ ] Show weekly/monthly trends
-- [ ] Add goal tracking
-- [ ] Set up custom events for key actions
-- [ ] Create monthly automated summary report
+- [ ] Create `src/pages/Analytics.tsx` with tab layout
+- [ ] Create chart components using Recharts
+- [ ] Add route and navigation
+- [ ] Handle empty states for sparse data
 
 **Expected Impact:**
 - Better insights into user behavior
@@ -238,14 +173,13 @@ This document outlines potential future work for the personal website, organized
 **Effort:** Medium (4-6 hours)
 **Impact:** Better visibility into production issues
 
-**Current State:**
+**Current State:** (Updated January 11, 2026)
 - Console error monitoring via E2E tests
-- No real user monitoring (RUM)
+- ✅ Sentry integrated with lazy loading (requestIdleCallback)
+- ✅ Browser tracing enabled
 
-**Action Items:**
-- [ ] Integrate Sentry or similar error tracking
+**Remaining Items:**
 - [ ] Set up Real User Monitoring (RUM)
-- [ ] Track JavaScript errors in production
 - [ ] Monitor performance in real users' browsers
 - [ ] Set up alerts for error spikes
 - [ ] Create error dashboards
@@ -278,20 +212,26 @@ This document outlines potential future work for the personal website, organized
 **Priority:** LOW-MEDIUM
 **Effort:** Medium (6-8 hours)
 **Impact:** Better code quality and confidence
+**Detailed Plan:** `~/.claude/plans/validated-cuddling-cloud.md` (Visual Regression Testing section)
 
 **Current State:**
-- 86 tests passing
-- Vitest for unit tests
-- Playwright for E2E
-- Good coverage
+- 21 unit test files (Vitest)
+- 4 E2E test suites (Playwright)
+- Console error monitoring on deploy
+- No visual regression testing yet
+
+**Visual Regression Testing Plan:**
+- Use Playwright's built-in `toHaveScreenshot()` API
+- 16 baseline screenshots (4 pages × 2 viewports × 2 themes)
+- Pages: Home, Blog listing, Blog post, Runbook
+- Run on every PR via new GitHub workflow
 
 **Action Items:**
-- [ ] Increase test coverage to 90%+
-- [ ] Add visual regression testing (Percy, Chromatic)
-- [ ] Performance testing in CI
-- [ ] Add mutation testing
-- [ ] E2E tests for critical user journeys
-- [ ] Accessibility testing in CI (axe-core)
+- [ ] Create `tests/e2e/visual-regression.spec.ts`
+- [ ] Update `playwright.config.ts` with screenshot settings
+- [ ] Create `.github/workflows/pr-tests.yml`
+- [ ] Generate and commit baseline screenshots
+- [ ] Add npm scripts for snapshot updates
 
 ---
 
@@ -306,54 +246,28 @@ This document outlines potential future work for the personal website, organized
 - [ ] Implement blue-green deployments
 - [ ] Add deployment rollback capability
 - [ ] Set up uptime monitoring alerts
-- [ ] Create deployment runbook
+- ~~[ ] Create deployment runbook~~ ✅ Complete - /runbook page exists with full operations guide
 - [ ] Add dependency update automation (Renovate)
 
 ---
 
 ## 📊 Quick Wins (Can Do Anytime)
 
-### Small Improvements (1-2 hours each)
+### Small Improvements - Status
 
-1. **Add `engines` field to package.json**
-   ```json
-   "engines": {
-     "node": ">=24.0.0",
-     "npm": ">=11.0.0"
-   }
-   ```
+1. ~~**Add `engines` field to package.json**~~ ✅ Completed January 11, 2026
 
-2. **Delete backup branch** (after confidence period)
-   ```bash
-   git branch -d backup/pre-node-v24-upgrade
-   git push origin --delete backup/pre-node-v24-upgrade
-   ```
+2. ~~**Delete backup branch**~~ ✅ Already deleted
 
-3. **Add meta tags for social media**
-   - Open Graph tags for better link previews
-   - Twitter Card metadata
-   - LinkedIn optimization
+3. ~~**Add meta tags for social media**~~ ✅ Complete - Seo.tsx provides Open Graph and Twitter Card meta tags
 
-4. **Implement 404 page improvements**
-   - Better error messaging
-   - Helpful navigation links
-   - Search functionality
+4. ~~**Implement 404 page improvements**~~ ✅ Complete - 404.html handles SPA routing for GitHub Pages
 
-5. **Add sitemap.xml priority and changefreq**
-   - Update sitemap generation script
-   - Set priorities for important pages
-   - Add lastmod timestamps
+5. ~~**Add sitemap.xml priority and changefreq**~~ ✅ Complete - sitemap.xml has priority, changefreq, and lastmod
 
-6. **Favicon optimization**
-   - Add multiple sizes
-   - Add apple-touch-icon
-   - Add theme-color meta tag
+6. ~~**Favicon optimization**~~ ✅ Complete - Multiple sizes (16x16, 32x32, 180x180), dark/light variants, theme-color meta tag
 
-7. **Security headers**
-   - Add Content-Security-Policy
-   - X-Frame-Options
-   - X-Content-Type-Options
-   - Referrer-Policy
+7. ~~**Security headers**~~ - Not applicable (GitHub Pages doesn't allow custom HTTP headers)
 
 ---
 
@@ -375,10 +289,10 @@ This document outlines potential future work for the personal website, organized
 
 Track these metrics to measure impact of future work:
 
-**Performance:**
-- Lighthouse scores (target: maintain 95+ local, 50+ CI)
-- Core Web Vitals (maintain all "Good")
-- Bundle size (target: <200KB)
+**Performance:** (Updated January 11, 2026)
+- Lighthouse scores: Homepage 92%, Blog 89% (local)
+- Core Web Vitals: LCP 2.7s (homepage), 3.1s (blog)
+- Blog performance improved 45% via MDX precompilation
 
 **SEO & Traffic:**
 - Organic search impressions (target: +50% over 6 months)
@@ -399,30 +313,22 @@ Track these metrics to measure impact of future work:
 
 ## 🗓️ Suggested Prioritization
 
-### This Month (January 2026)
-1. Add `engines` field to package.json
-2. Image optimization audit (identify opportunities)
-3. Bundle analysis (understand current state)
+### ✅ January 2026 - COMPLETED
+1. ~~Add `engines` field to package.json~~ ✅
+2. ~~Image optimization audit~~ ✅ Already optimized
+3. ~~Bundle analysis~~ ✅ Optimizations implemented
+4. ~~MDX precompilation~~ ✅ 45% LCP improvement
+5. ~~Blog Phase 5 (SEO)~~ ✅ RSS, structured data, social previews
 
-### Next Month (February 2026)
-1. Image optimization implementation (WebP/AVIF)
-2. PWA basics (manifest, icons)
-3. Start bundle size optimization
+### Remaining Optional Work
+**Maintenance:**
+- Tailwind CSS v4 upgrade (plan exists in `docs/`)
+- Test & CI/CD improvements (plan exists in `docs/`)
 
-### Q1 2026 (Jan-Mar)
-1. Complete PWA implementation
-2. Code splitting & lazy loading
-3. Performance budget setup
-
-### Q2 2026 (Apr-Jun)
-1. SEO content expansion (blog/case studies)
-2. Analytics dashboard
-3. Advanced monitoring setup
-
-### Q3-Q4 2026
-1. CDN evaluation and implementation
-2. Testing improvements
-3. Content features
+**Nice-to-Have (detailed plans created January 11):**
+- Analytics Dashboard (plan in `~/.claude/plans/validated-cuddling-cloud.md`)
+- Visual Regression Testing (plan in `~/.claude/plans/validated-cuddling-cloud.md`)
+- Dependency automation (Renovate)
 
 ---
 

@@ -15,6 +15,7 @@ import {
   FileText,
   AlertTriangle,
   Gauge,
+  MessageSquare,
   type LucideIcon,
 } from 'lucide-react';
 import type { ProjectMeta, ProjectStatus } from '@/types/project';
@@ -27,6 +28,7 @@ const iconRegistry: Record<string, LucideIcon> = {
   FileText,
   AlertTriangle,
   Gauge,
+  MessageSquare,
 };
 
 interface ProjectCardProps {

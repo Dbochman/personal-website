@@ -495,12 +495,46 @@ Following Phase 4 completion, performance optimization work was performed:
 - CLS: 0 (excellent)
 
 **Analysis:**
-Runtime MDX compilation is the limiting factor. Significant further improvement would require switching to build-time MDX compilation (complex architectural change). Current performance is acceptable for a blog with rich features (comments, syntax highlighting, related posts).
+Runtime MDX compilation was identified as the limiting factor. **This was addressed in January 11, 2026 with build-time MDX precompilation (see below).**
 
 **Console Warnings:**
 Investigated and documented console warnings from Giscus iframe and SVG icons. All are benign and don't affect functionality.
 
 ---
 
-**Last Updated:** 2026-01-08
-**Status:** ✅ ALL PHASES COMPLETE - Blog Feature Fully Implemented
+## ⏩ MDX Precompilation (January 11, 2026)
+
+Following the performance analysis above, build-time MDX precompilation was implemented to address the runtime compilation bottleneck.
+
+**Implementation (PR #84):**
+1. **Build-time MDX compilation** - `scripts/precompile-mdx.js` compiles MDX at build time
+2. **Synchronous loaders** - `src/lib/blog-loader-precompiled.ts` with `getPostsSync()` and `getPostSync()` for SSR/pre-rendering compatibility
+3. **Filename-based slugs** - Slugs extracted from filenames (e.g., `2025-01-04-hello-world.txt`) rather than frontmatter
+4. **Lightweight utilities** - Created `src/lib/blog-utils.ts` for tree-shaking of filter/sort functions
+
+**Bundle Optimization:**
+- Removed unused `blog-loader.ts` (55KB savings)
+- Sentry loading optimized via `requestIdleCallback` (defers ~128KB)
+- MDX runtime chunks eliminated from critical path
+
+**Results:**
+- Blog LCP: **5.6s → 3.1s (45% improvement)**
+- Homepage: 92% Lighthouse score
+- Blog: 89% Lighthouse score
+- FCP: Improved significantly
+- TBT: 0ms (excellent)
+- CLS: 0 (excellent)
+
+**Key Files Changed:**
+- `scripts/precompile-mdx.js` - Build-time MDX compilation
+- `src/lib/blog-loader-precompiled.ts` - Synchronous blog data access
+- `src/lib/blog-utils.ts` - Lightweight filter/sort utilities
+- `src/pages/BlogPost.tsx` - Uses sync loaders, direct component prop passing
+- `src/pages/Blog.tsx` - Uses sync loaders
+- `src/main.tsx` - Sentry with requestIdleCallback
+- `content/blog/2026-01-10-architecture-of-a-free-website.txt` - Updated to document precompilation
+
+---
+
+**Last Updated:** 2026-01-11
+**Status:** ✅ ALL PHASES COMPLETE + MDX PRECOMPILATION - Blog Feature Fully Optimized

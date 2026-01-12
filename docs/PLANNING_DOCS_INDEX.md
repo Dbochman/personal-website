@@ -1,6 +1,6 @@
 # Planning Documents Index
 
-**Last Updated:** January 8, 2026
+**Last Updated:** January 11, 2026
 
 This document provides an overview of all planning, monitoring, and documentation files in the repository.
 
@@ -9,19 +9,20 @@ This document provides an overview of all planning, monitoring, and documentatio
 ## 📋 Active Planning Documents
 
 ### Blog Feature Development
-**Status:** 🎉 PHASE 4 COMPLETE (January 8, 2026)
+**Status:** 🎉 MDX PRECOMPILATION COMPLETE (January 11, 2026)
 
 - **`docs/BLOG_FEATURE_PLAN.md`** - Comprehensive plan for MDX-based blog implementation
-  - Status: Phase 4 complete, Phase 5 (SEO) pending
+  - Status: ALL PHASES COMPLETE including MDX Precompilation (PR #84)
   - Completed Phases:
     - ✅ Phase 1: Foundation (MDX processing, types, utilities)
     - ✅ Phase 2: Blog Listing (search, filter, tags)
     - ✅ Phase 3: Individual Post Pages (MDX rendering, TOC)
     - ✅ Phase 4: Enhanced Features (comments, syntax highlighting, related posts)
-    - ⏳ Phase 5: SEO & Discovery (RSS, structured data, social previews)
-  - Approach: Runtime MDX compilation with custom components
+    - ✅ Phase 5: SEO & Discovery (RSS feed, sitemap, structured data, social previews)
+    - ✅ MDX Precompilation: Build-time compilation, sync loaders, 45% LCP improvement
+  - Approach: **Build-time MDX precompilation** (migrated from runtime)
   - Features Implemented: Search, tags, Giscus comments, syntax highlighting, CodeBlock with copy, Callout, BlogImage, RelatedPosts
-  - Performance: Blog listing 94%, Blog post 65% (limited by runtime MDX)
+  - Performance: Homepage 92%, Blog 89%, Blog LCP: 5.6s → 3.1s (45% faster)
   - See document for completion notes and performance analysis
 
 ### Test & CI/CD Improvements
@@ -197,12 +198,22 @@ lighthouse-metrics branch (separate):
 ## 📈 Current Status Summary
 
 ### ✅ Completed Projects
-1. **Node.js v24 Upgrade** (January 6, 2026)
+1. **MDX Precompilation** (January 11, 2026)
+   - Moved blog MDX compilation from runtime to build-time
+   - Blog LCP: 5.6s → 3.1s (45% improvement)
+   - PR #84 merged, synchronous loaders for SSR compatibility
+
+2. **Bundle & Performance Optimization** (January 11, 2026)
+   - Removed unused blog-loader.ts (55KB savings)
+   - Sentry loading optimized via requestIdleCallback
+   - Current scores: Homepage 92%, Blog 89%
+
+3. **Node.js v24 Upgrade** (January 6, 2026)
    - All phases completed successfully
    - Zero vulnerabilities, zero errors
    - Performance: 98/100 local Lighthouse score
 
-2. **Performance Optimization** (January 6, 2026)
+4. **Initial Performance Optimization** (January 6, 2026)
    - Improved from 55 → 98 performance score
    - LCP: 5120ms → 1839ms (-55%)
    - System fonts, lazy-loading implemented
@@ -215,10 +226,27 @@ lighthouse-metrics branch (separate):
 
 ### 📝 Pending/Optional Tasks
 - [ ] Tailwind CSS v4 upgrade (see `TAILWIND_V4_UPGRADE_PLAN.md`)
-- [ ] Add `engines` field to package.json (Node >=24)
-- [ ] Consider additional performance optimizations (see `FUTURE_WORK_ROADMAP.md`)
+- [x] ~~Add `engines` field to package.json (Node >=24)~~ - Done January 11, 2026
+- [ ] Test & CI/CD improvements (see `TEST_AND_CICD_IMPROVEMENT_PLAN.md`)
+- [ ] Analytics Dashboard (detailed plan in `~/.claude/plans/validated-cuddling-cloud.md`)
+- [ ] Visual Regression Testing (detailed plan in `~/.claude/plans/validated-cuddling-cloud.md`)
 
 ### ✅ Recent Updates
+**January 11, 2026:**
+- ✅ **MDX Precompilation merged** (PR #84) - Major performance improvement
+  - Blog LCP improved 5.6s → 3.1s (45% faster)
+  - Moved MDX compilation from runtime to build-time
+  - Implemented synchronous loaders for SSR/pre-rendering
+- ✅ **Bundle size optimization** - Removed unused blog-loader.ts (55KB savings)
+- ✅ **Sentry loading optimized** - Changed to requestIdleCallback for better main thread performance
+- ✅ Updated architecture blog post to reflect MDX precompilation approach
+- ✅ Fixed runbook hero article slug (filename-based format)
+- ✅ Verified font and CSS optimization (already optimized - system fonts, no render-blocking CSS)
+- ✅ Added `engines` field to package.json (Node >=24, npm >=11)
+- ✅ Cleaned up FUTURE_WORK_ROADMAP.md - removed false positives (many items already complete)
+- 📋 **Created detailed Analytics Dashboard plan** - public /analytics page with GA4, Search Console, Lighthouse charts
+- 📋 **Created detailed Visual Regression Testing plan** - Playwright toHaveScreenshot(), 16 baselines, runs on PRs
+
 **January 8, 2026:**
 - 📋 Created Tailwind CSS v4 upgrade plan (`TAILWIND_V4_UPGRADE_PLAN.md`)
 - ✅ Completed Blog Phase 4 (PR #62 merged) - Enhanced features with comments, syntax highlighting, related posts
@@ -352,4 +380,4 @@ lighthouse-metrics branch (separate):
 
 **Maintained By:** Repository Owner
 **Review Frequency:** Update when planning docs are added/completed
-**Last Reviewed:** January 8, 2026
+**Last Reviewed:** January 11, 2026
