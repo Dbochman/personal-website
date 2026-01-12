@@ -1,11 +1,10 @@
 import type { BlogPost } from '@/types/blog';
-import { calculateReadingTime } from './mdx';
 import * as runtime from 'react/jsx-runtime';
 
-// Import precompiled blog posts - use eager to debug
+// Import precompiled blog posts
 const compiledModules = import.meta.glob('/src/generated/blog/*.js', {
   eager: true,
-}) as Record<string, { compiledMDX: string; frontmatter: Record<string, unknown> }>;
+}) as Record<string, { compiledMDX: string; frontmatter: Record<string, unknown>; readingTime: string }>;
 
 
 // Cache for loaded posts
@@ -37,7 +36,8 @@ function extractSlugFromPath(path: string): string {
 function createPostFromFrontmatter(
   frontmatter: Record<string, unknown>,
   content: string,
-  slug: string
+  slug: string,
+  readingTime: string
 ): BlogPost {
   return {
     slug,
@@ -51,7 +51,7 @@ function createPostFromFrontmatter(
     draft: Boolean(frontmatter.draft),
     image: frontmatter.image ? String(frontmatter.image) : undefined,
     updated: frontmatter.updated ? String(frontmatter.updated) : undefined,
-    readingTime: calculateReadingTime(content).text,
+    readingTime,
     content, // Store the compiled code, not raw MDX
   };
 }
@@ -66,7 +66,7 @@ function loadPostsSync(includeDrafts = false): BlogPost[] {
     .map(([path, module]) => {
       try {
         const slug = extractSlugFromPath(path);
-        const post = createPostFromFrontmatter(module.frontmatter, module.compiledMDX, slug);
+        const post = createPostFromFrontmatter(module.frontmatter, module.compiledMDX, slug, module.readingTime);
 
         // Cache the component
         if (!postCache.has(post.slug)) {
@@ -128,7 +128,7 @@ export async function loadBlogPostPrecompiled(slug: string): Promise<BlogPost | 
 
   if (module) {
     try {
-      const post = createPostFromFrontmatter(module.frontmatter, module.compiledMDX, slug);
+      const post = createPostFromFrontmatter(module.frontmatter, module.compiledMDX, slug, module.readingTime);
       const Component = executeCompiledMDX(module.compiledMDX);
       postCache.set(slug, { post, Component });
       return post;

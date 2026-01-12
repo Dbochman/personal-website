@@ -54,12 +54,18 @@ async function precompileMDX() {
         ],
       });
 
+      // Calculate reading time from raw MDX content (not compiled JS)
+      const wordCount = mdxContent.trim().split(/\s+/).length;
+      const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+      const readingTimeText = `${readingTime} min read`;
+
       // Write compiled output
       const outputFile = join(OUTPUT_DIR, `${slug}.js`);
       const outputContent = `// Auto-generated - do not edit
 // Source: ${file}
 export const compiledMDX = ${JSON.stringify(String(compiled))};
 export const frontmatter = ${JSON.stringify(frontmatter)};
+export const readingTime = ${JSON.stringify(readingTimeText)};
 `;
 
       await writeFile(outputFile, outputContent);

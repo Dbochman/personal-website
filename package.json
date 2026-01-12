@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/precompile-mdx.js && vite",
     "precompile-mdx": "node scripts/precompile-mdx.js",
     "build": "node scripts/generate-feeds.js && node scripts/precompile-mdx.js && vite build && node scripts/prerender.mjs",
     "build:netlify": "node scripts/generate-feeds.js && node scripts/precompile-mdx.js && vite build",
