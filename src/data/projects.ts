@@ -2,8 +2,8 @@ import { lazy } from 'react';
 import type { ProjectDefinition, ProjectMeta } from '@/types/project';
 
 // Lazy load project components for code splitting
-const PlaceholderProject = lazy(
-  () => import('@/components/projects/PlaceholderProject')
+const UptimeCalculator = lazy(
+  () => import('@/components/projects/uptime-calculator')
 );
 
 /**
@@ -12,15 +12,15 @@ const PlaceholderProject = lazy(
  */
 export const projectRegistry: ProjectDefinition[] = [
   {
-    slug: 'placeholder',
-    title: 'Placeholder Project',
+    slug: 'uptime-calculator',
+    title: 'SLO Uptime Calculator',
     description:
-      'A placeholder project for testing the projects infrastructure. This will be replaced with real projects.',
-    tags: ['Testing', 'Infrastructure'],
-    icon: 'Box',
-    status: 'experimental',
+      'Calculate realistic SLOs based on your incident response times. See how much of your error budget goes to response overhead before you even start fixing things.',
+    tags: ['SRE', 'Calculator', 'SLA'],
+    icon: 'Calculator',
+    status: 'active',
     createdAt: '2025-01-12',
-    component: PlaceholderProject,
+    component: UptimeCalculator,
   },
 ];
 
