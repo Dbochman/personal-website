@@ -22,7 +22,7 @@ export function generateStatusMessage(
   // Use placeholders if fields are empty
   const serviceName = service.trim() || '[Service Name]';
   const issueDesc = description.trim() || '[brief description of the issue]';
-  const actionsTaken = actions.trim() || '[actions being taken]';
+  const actionsTaken = actions.trim();
 
   switch (phase) {
     case 'investigating':
@@ -75,11 +75,11 @@ function generateIdentified(
     `We have identified the cause of the ${adjective} issue affecting ${service}.`,
     '',
     `Issue: ${description}`,
-    '',
-    `Our team is ${actions}.`,
-    '',
-    updateLine,
   ];
+  if (actions) {
+    lines.push('', `Our team is ${actions}.`);
+  }
+  lines.push('', updateLine);
   return lines.join('\n');
 }
 
@@ -96,11 +96,11 @@ function generateFixing(
     `We are actively working on a fix for the issue affecting ${service}.`,
     '',
     `Issue: ${description}`,
-    '',
-    `Our team is ${actions}.`,
-    '',
-    updateLine,
   ];
+  if (actions) {
+    lines.push('', `Our team is ${actions}.`);
+  }
+  lines.push('', updateLine);
   return lines.join('\n');
 }
 
@@ -113,10 +113,13 @@ function generateMonitoring(
   const updateLine = cadenceStatement
     ? cadenceStatement
     : 'We will continue to monitor and provide a final update once we confirm the issue is fully resolved.';
+  const monitoringLine = actions
+    ? `We have ${actions} and are monitoring the results.`
+    : 'We are monitoring the results.';
   const lines = [
     `A fix has been implemented for the issue affecting ${service}.`,
     '',
-    `We have ${actions} and are monitoring the results.`,
+    monitoringLine,
     '',
     updateLine,
   ];
