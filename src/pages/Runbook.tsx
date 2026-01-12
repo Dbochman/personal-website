@@ -1,10 +1,8 @@
-import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
 import { FeaturedHero } from '@/components/blog/FeaturedHero';
-import { loadBlogPost } from '@/lib/blog-loader';
-import type { BlogPost } from '@/types/blog';
+import { getPostSync } from '@/lib/blog-loader-precompiled';
 import {
   quickReferences,
   architectureOverview,
@@ -265,16 +263,12 @@ const RUNBOOK_BLOG_SLUG = 'writing-a-runbook-for-my-personal-website';
 
 export default function Runbook() {
   const location = useLocation();
-  const [relatedPost, setRelatedPost] = useState<BlogPost | null>(null);
 
   // Check if user navigated from a blog post (via React Router state)
   const cameFromBlog = (location.state as { fromBlog?: boolean })?.fromBlog === true;
 
-  useEffect(() => {
-    if (!cameFromBlog) {
-      loadBlogPost(RUNBOOK_BLOG_SLUG).then(setRelatedPost);
-    }
-  }, [cameFromBlog]);
+  // Load synchronously for SSR/pre-rendering
+  const relatedPost = !cameFromBlog ? getPostSync(RUNBOOK_BLOG_SLUG) : null;
 
   return (
     <>

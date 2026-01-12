@@ -1,93 +1,32 @@
-import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { MDXProvider } from '@mdx-js/react';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
-import { evaluate } from '@mdx-js/mdx';
-import * as runtime from 'react/jsx-runtime';
-import remarkGfm from 'remark-gfm';
-import rehypeSlug from 'rehype-slug';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypePrism from 'rehype-prism-plus';
 import PageLayout from '@/components/layout/PageLayout';
 import { Badge } from '@/components/ui/badge';
 import { mdxComponents } from '@/components/blog/MDXComponents';
-import { loadBlogPost, loadBlogPosts } from '@/lib/blog-loader';
+import {
+  getPostSync,
+  getPostsSync,
+  getPostComponent,
+} from '@/lib/blog-loader-precompiled';
 import { Comments } from '@/components/blog/Comments';
 import { RelatedPosts } from '@/components/blog/RelatedPosts';
-import type { BlogPost as BlogPostType } from '@/types/blog';
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
-  const [post, setPost] = useState<BlogPostType | null>(null);
-  const [allPosts, setAllPosts] = useState<BlogPostType[]>([]);
-  const [MDXContent, setMDXContent] = useState<React.ComponentType | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!slug) {
-      setError('No post slug provided');
-      setLoading(false);
-      return;
-    }
+  // Load synchronously for SSR/pre-rendering
+  const post = slug ? getPostSync(slug) : null;
+  const allPosts = getPostsSync();
+  const MDXContent = slug ? getPostComponent(slug) : null;
 
-    const loadPost = async () => {
-      try {
-        const [loadedPost, posts] = await Promise.all([
-          loadBlogPost(slug),
-          loadBlogPosts(),
-        ]);
-
-        if (!loadedPost) {
-          setError('Post not found');
-          setLoading(false);
-          return;
-        }
-
-        setPost(loadedPost);
-        setAllPosts(posts);
-
-        // Evaluate the MDX content at runtime with custom components
-        const { default: Content } = await evaluate(loadedPost.content, {
-          ...runtime,
-          remarkPlugins: [remarkGfm],
-          rehypePlugins: [
-            rehypeSlug,
-            [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-            rehypePrism,
-          ],
-          useMDXComponents: () => mdxComponents,
-        });
-        setMDXContent(() => Content);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error loading blog post:', err);
-        setError('Failed to load blog post');
-        setLoading(false);
-      }
-    };
-
-    loadPost();
-  }, [slug]);
-
-  if (loading) {
-    return (
-      <PageLayout>
-        <div className="flex items-center justify-center py-12">
-          <div className="text-muted-foreground">Loading post...</div>
-        </div>
-      </PageLayout>
-    );
-  }
-
-  if (error || !post) {
+  if (!post) {
     return (
       <PageLayout>
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-3xl mx-auto">
             <div className="bg-destructive/10 text-destructive px-4 py-3 rounded-md mb-4">
-              {error || 'Post not found'}
+              Post not found
             </div>
             <Link
               to="/blog"
@@ -226,9 +165,7 @@ export default function BlogPost() {
             {/* Post content */}
             <article className="prose prose-lg max-w-none">
               {MDXContent && (
-                <MDXProvider components={mdxComponents}>
-                  <MDXContent />
-                </MDXProvider>
+                <MDXContent components={mdxComponents} />
               )}
             </article>
 

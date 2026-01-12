@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-feeds.js && vite build && node scripts/prerender.mjs",
-    "build:netlify": "node scripts/generate-feeds.js && vite build",
-    "build:dev": "node scripts/generate-feeds.js && vite build --mode development",
+    "precompile-mdx": "node scripts/precompile-mdx.js",
+    "build": "node scripts/generate-feeds.js && node scripts/precompile-mdx.js && vite build && node scripts/prerender.mjs",
+    "build:netlify": "node scripts/generate-feeds.js && node scripts/precompile-mdx.js && vite build",
+    "build:dev": "node scripts/generate-feeds.js && node scripts/precompile-mdx.js && vite build --mode development",
     "build:analyze": "ANALYZE=true npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
