@@ -24,47 +24,38 @@ export function generateStatusMessage(
   const issueDesc = description.trim() || '[brief description of the issue]';
   const actionsTaken = actions.trim() || '[actions being taken]';
 
-  let message: string;
   switch (phase) {
     case 'investigating':
-      message = generateInvestigating(serviceName, severity, issueDesc);
-      break;
+      return generateInvestigating(serviceName, severity, issueDesc, cadenceStatement);
     case 'identified':
-      message = generateIdentified(serviceName, severity, issueDesc, actionsTaken);
-      break;
+      return generateIdentified(serviceName, severity, issueDesc, actionsTaken, cadenceStatement);
     case 'fixing':
-      message = generateFixing(serviceName, issueDesc, actionsTaken);
-      break;
+      return generateFixing(serviceName, issueDesc, actionsTaken, cadenceStatement);
     case 'monitoring':
-      message = generateMonitoring(serviceName, issueDesc, actionsTaken);
-      break;
+      return generateMonitoring(serviceName, issueDesc, actionsTaken, cadenceStatement);
     case 'resolved':
-      message = generateResolved(serviceName, issueDesc);
-      break;
+      return generateResolved(serviceName, issueDesc);
     default:
-      message = '';
+      return '';
   }
-
-  // Append cadence statement if provided (not for resolved phase)
-  if (cadenceStatement && phase !== 'resolved') {
-    message = message + '\n\n' + cadenceStatement;
-  }
-
-  return message;
 }
 
 function generateInvestigating(
   service: string,
   severity: Severity,
-  description: string
+  description: string,
+  cadenceStatement?: string
 ): string {
   const impact = SEVERITY_IMPACT[severity];
+  const updateLine = cadenceStatement
+    ? cadenceStatement
+    : 'Our team is actively investigating and we will provide an update as soon as we have more information.';
   const lines = [
     `We are investigating an issue affecting ${service}.`,
     '',
     `${impact} ${description}.`,
     '',
-    'Our team is actively investigating and we will provide an update as soon as we have more information.',
+    updateLine,
   ];
   return lines.join('\n');
 }
@@ -73,9 +64,13 @@ function generateIdentified(
   service: string,
   severity: Severity,
   description: string,
-  actions: string
+  actions: string,
+  cadenceStatement?: string
 ): string {
   const adjective = SEVERITY_ADJECTIVE[severity];
+  const updateLine = cadenceStatement
+    ? cadenceStatement
+    : 'We will provide another update once the fix has been implemented.';
   const lines = [
     `We have identified the cause of the ${adjective} issue affecting ${service}.`,
     '',
@@ -83,7 +78,7 @@ function generateIdentified(
     '',
     `Our team is ${actions}.`,
     '',
-    'We will provide another update once the fix has been implemented.',
+    updateLine,
   ];
   return lines.join('\n');
 }
@@ -91,8 +86,12 @@ function generateIdentified(
 function generateFixing(
   service: string,
   description: string,
-  actions: string
+  actions: string,
+  cadenceStatement?: string
 ): string {
+  const updateLine = cadenceStatement
+    ? cadenceStatement
+    : 'We will provide another update once the fix has been deployed.';
   const lines = [
     `We are actively working on a fix for the issue affecting ${service}.`,
     '',
@@ -100,7 +99,7 @@ function generateFixing(
     '',
     `Our team is ${actions}.`,
     '',
-    'We will provide another update once the fix has been deployed.',
+    updateLine,
   ];
   return lines.join('\n');
 }
@@ -108,14 +107,18 @@ function generateFixing(
 function generateMonitoring(
   service: string,
   description: string,
-  actions: string
+  actions: string,
+  cadenceStatement?: string
 ): string {
+  const updateLine = cadenceStatement
+    ? cadenceStatement
+    : 'We will continue to monitor and provide a final update once we confirm the issue is fully resolved.';
   const lines = [
     `A fix has been implemented for the issue affecting ${service}.`,
     '',
     `We have ${actions} and are monitoring the results.`,
     '',
-    'We will continue to monitor and provide a final update once we confirm the issue is fully resolved.',
+    updateLine,
   ];
   return lines.join('\n');
 }
