@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { BlogPost } from '@/types/blog';
@@ -10,6 +10,13 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   const [hasBeenHovered, setHasBeenHovered] = useState(false);
+  const navigate = useNavigate();
+
+  const handleAuthorClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/blog?author=${post.author}`);
+  };
 
   const handleFirstInteraction = () => {
     if (!hasBeenHovered) {
@@ -36,7 +43,12 @@ export function BlogCard({ post }: BlogCardProps) {
             {post.title}
           </CardTitle>
           <CardDescription className="flex items-center gap-2 text-sm">
-            <span>{post.author}</span>
+            <button
+              onClick={handleAuthorClick}
+              className="hover:text-primary hover:underline transition-colors"
+            >
+              {post.author}
+            </button>
             <span>•</span>
             <time dateTime={post.date}>
               {new Date(post.date).toLocaleDateString('en-US', {

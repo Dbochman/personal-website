@@ -122,10 +122,13 @@ export default function BlogPost() {
               </h1>
 
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
-                <div className="flex items-center gap-2">
+                <Link
+                  to={`/blog?author=${post.author}`}
+                  className="flex items-center gap-2 hover:text-primary transition-colors"
+                >
                   <User className="w-4 h-4" />
-                  <span>{post.author}</span>
-                </div>
+                  <span className="hover:underline">{post.author}</span>
+                </Link>
 
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
@@ -184,7 +187,13 @@ export default function BlogPost() {
             <footer className="mt-12 pt-8 border-t border-border">
               <div className="flex items-center justify-between">
                 <div className="text-sm text-muted-foreground">
-                  Written by {post.author}
+                  Written by{' '}
+                  <Link
+                    to={`/blog?author=${post.author}`}
+                    className="hover:text-primary hover:underline transition-colors"
+                  >
+                    {post.author}
+                  </Link>
                 </div>
                 <Link
                   to="/blog"

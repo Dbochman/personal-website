@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -19,10 +20,30 @@ interface BlogListProps {
 }
 
 export function BlogList({ posts }: BlogListProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedAuthor, setSelectedAuthor] = useState<BlogAuthor | 'all'>('all');
   const [sortOption, setSortOption] = useState<SortOption>('newest');
+
+  // Initialize author filter from URL params
+  useEffect(() => {
+    const authorParam = searchParams.get('author');
+    if (authorParam === 'Claude' || authorParam === 'Dylan') {
+      setSelectedAuthor(authorParam);
+    }
+  }, [searchParams]);
+
+  // Update URL when author filter changes
+  const handleAuthorChange = (value: BlogAuthor | 'all') => {
+    setSelectedAuthor(value);
+    if (value === 'all') {
+      searchParams.delete('author');
+    } else {
+      searchParams.set('author', value);
+    }
+    setSearchParams(searchParams);
+  };
 
   const allTags = useMemo(() => getAllTags(posts), [posts]);
 
@@ -127,7 +148,7 @@ export function BlogList({ posts }: BlogListProps) {
           {/* Author Filter */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-muted-foreground">Author:</span>
-            <Select value={selectedAuthor} onValueChange={(value: BlogAuthor | 'all') => setSelectedAuthor(value)}>
+            <Select value={selectedAuthor} onValueChange={handleAuthorChange}>
               <SelectTrigger className="w-[120px]">
                 <SelectValue />
               </SelectTrigger>
@@ -174,7 +195,7 @@ export function BlogList({ posts }: BlogListProps) {
               onClick={() => {
                 setSearchTerm('');
                 setSelectedTags([]);
-                setSelectedAuthor('all');
+                handleAuthorChange('all');
               }}
               className="mt-2 text-sm text-primary hover:underline"
             >

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import type { BlogPost } from '@/types/blog';
 
@@ -8,6 +8,14 @@ interface FeaturedHeroProps {
 }
 
 export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps) {
+  const navigate = useNavigate();
+
+  const handleAuthorClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/blog?author=${post.author}`);
+  };
+
   const handleClick = () => {
     if (typeof gtag !== 'undefined') {
       gtag('event', 'featured_hero_click', {
@@ -40,7 +48,12 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
 
         {/* Meta */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-          <span>{post.author}</span>
+          <button
+            onClick={handleAuthorClick}
+            className="hover:text-primary hover:underline transition-colors"
+          >
+            {post.author}
+          </button>
           <span>•</span>
           <time dateTime={post.date}>
             {new Date(post.date).toLocaleDateString('en-US', {
