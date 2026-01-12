@@ -32,6 +32,9 @@ export function generateStatusMessage(
     case 'identified':
       message = generateIdentified(serviceName, severity, issueDesc, actionsTaken);
       break;
+    case 'fixing':
+      message = generateFixing(serviceName, issueDesc, actionsTaken);
+      break;
     case 'monitoring':
       message = generateMonitoring(serviceName, issueDesc, actionsTaken);
       break;
@@ -85,6 +88,23 @@ function generateIdentified(
   return lines.join('\n');
 }
 
+function generateFixing(
+  service: string,
+  description: string,
+  actions: string
+): string {
+  const lines = [
+    `We are actively working on a fix for the issue affecting ${service}.`,
+    '',
+    `Issue: ${description}`,
+    '',
+    `Our team is ${actions}.`,
+    '',
+    'We will provide another update once the fix has been deployed.',
+  ];
+  return lines.join('\n');
+}
+
 function generateMonitoring(
   service: string,
   description: string,
@@ -131,6 +151,8 @@ export function generateTitle(
       return `[Investigating] ${severityLabel} issue with ${service}`;
     case 'identified':
       return `[Identified] ${severityLabel} issue with ${service}`;
+    case 'fixing':
+      return `[Fixing] ${severityLabel} issue with ${service}`;
     case 'monitoring':
       return `[Monitoring] Issue with ${service}`;
     case 'resolved':

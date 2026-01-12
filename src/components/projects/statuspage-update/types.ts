@@ -1,4 +1,4 @@
-export type IncidentPhase = 'investigating' | 'identified' | 'monitoring' | 'resolved';
+export type IncidentPhase = 'investigating' | 'identified' | 'fixing' | 'monitoring' | 'resolved';
 
 export type Severity = 'minor' | 'major' | 'critical';
 
@@ -20,6 +20,11 @@ export const PHASE_CONFIG: Record<IncidentPhase, { label: string; description: s
     label: 'Identified',
     description: 'Root cause found, working on a fix',
     color: 'text-orange-500',
+  },
+  fixing: {
+    label: 'Fixing',
+    description: 'Actively implementing a fix',
+    color: 'text-purple-500',
   },
   monitoring: {
     label: 'Monitoring',
