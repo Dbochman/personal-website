@@ -118,6 +118,7 @@ function generateSitemap(posts) {
   const staticRoutes = [
     { url: '/', changefreq: 'monthly', priority: '1.0' },
     { url: '/blog', changefreq: 'weekly', priority: '0.9' },
+    { url: '/projects', changefreq: 'weekly', priority: '0.8' },
   ];
 
   // Blog post routes
@@ -184,7 +185,7 @@ function main() {
 
   console.log('\n📊 Summary:');
   console.log(`   - ${posts.length} blog posts in RSS feed`);
-  console.log(`   - ${posts.length + 2} URLs in sitemap (${posts.length} posts + 2 static pages)`);
+  console.log(`   - ${posts.length + 3} URLs in sitemap (${posts.length} posts + 3 static pages)`);
 }
 
 main();

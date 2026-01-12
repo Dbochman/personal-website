@@ -8,8 +8,26 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import * as Icons from 'lucide-react';
+import {
+  Box,
+  Calculator,
+  Clock,
+  FileText,
+  AlertTriangle,
+  Gauge,
+  type LucideIcon,
+} from 'lucide-react';
 import type { ProjectMeta, ProjectStatus } from '@/types/project';
+
+// Icon registry - add icons here as new projects are added
+const iconRegistry: Record<string, LucideIcon> = {
+  Box,
+  Calculator,
+  Clock,
+  FileText,
+  AlertTriangle,
+  Gauge,
+};
 
 interface ProjectCardProps {
   project: ProjectMeta;
@@ -42,10 +60,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
     }
   };
 
-  // Dynamic icon lookup from lucide-react
-  const IconComponent = project.icon
-    ? (Icons as Record<string, React.FC<{ className?: string }>>)[project.icon]
-    : null;
+  // Icon lookup from registry
+  const IconComponent = project.icon ? iconRegistry[project.icon] : null;
 
   return (
     <Link
