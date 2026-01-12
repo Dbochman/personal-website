@@ -59,7 +59,7 @@ export const DEFAULT_INCIDENT: IncidentDetails = {
 export const SERVICE_PRESETS: Record<string, { label: string; service: string }> = {
   'api': {
     label: 'API',
-    service: 'API',
+    service: 'the API',
   },
   'web-app': {
     label: 'Web Application',
