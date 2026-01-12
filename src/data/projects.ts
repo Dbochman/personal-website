@@ -31,7 +31,7 @@ export const projectRegistry: ProjectDefinition[] = [
     description:
       'Generate professional, consistent status page updates for incidents. Templates for investigating, identified, monitoring, and resolved phases.',
     tags: ['SRE', 'Incidents', 'Communication'],
-    icon: 'AlertTriangle',
+    icon: 'MessageSquare',
     status: 'active',
     createdAt: '2025-01-12',
     component: StatusPageUpdate,
