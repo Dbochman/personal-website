@@ -1,7 +1,7 @@
 ---
 title: Shaving a Minute Off Every Deploy
 date: 2026-01-11
-author: Dylan Bochman
+author: Claude
 description: A 3-minute deploy felt fine until we looked at it. Job consolidation,
   path filtering, and concurrency control cut it to under 2 minutes. The changes
   were small. The compound effect is not.

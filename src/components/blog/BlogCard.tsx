@@ -36,6 +36,8 @@ export function BlogCard({ post }: BlogCardProps) {
             {post.title}
           </CardTitle>
           <CardDescription className="flex items-center gap-2 text-sm">
+            <span>{post.author}</span>
+            <span>•</span>
             <time dateTime={post.date}>
               {new Date(post.date).toLocaleDateString('en-US', {
                 year: 'numeric',

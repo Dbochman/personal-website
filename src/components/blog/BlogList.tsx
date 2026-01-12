@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { BlogCard } from './BlogCard';
-import type { BlogPost } from '@/types/blog';
+import type { BlogPost, BlogAuthor } from '@/types/blog';
 import { filterPostsBySearch, filterPostsByTags, sortPostsByDate, sortPostsByReadingTime, getAllTags } from '@/lib/blog-utils';
 
 type SortOption = 'newest' | 'oldest' | 'longest' | 'shortest';
@@ -21,6 +21,7 @@ interface BlogListProps {
 export function BlogList({ posts }: BlogListProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedAuthor, setSelectedAuthor] = useState<BlogAuthor | 'all'>('all');
   const [sortOption, setSortOption] = useState<SortOption>('newest');
 
   const allTags = useMemo(() => getAllTags(posts), [posts]);
@@ -38,6 +39,11 @@ export function BlogList({ posts }: BlogListProps) {
       filtered = filterPostsByTags(filtered, selectedTags);
     }
 
+    // Filter by author
+    if (selectedAuthor !== 'all') {
+      filtered = filtered.filter(post => post.author === selectedAuthor);
+    }
+
     // Apply sort based on selected option
     switch (sortOption) {
       case 'oldest':
@@ -50,7 +56,7 @@ export function BlogList({ posts }: BlogListProps) {
       default:
         return sortPostsByDate(filtered, 'desc');
     }
-  }, [posts, searchTerm, selectedTags, sortOption]);
+  }, [posts, searchTerm, selectedTags, selectedAuthor, sortOption]);
 
   const handleTagClick = (tag: string) => {
     setSelectedTags(prev => {
@@ -118,6 +124,21 @@ export function BlogList({ posts }: BlogListProps) {
             </div>
           )}
 
+          {/* Author Filter */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-muted-foreground">Author:</span>
+            <Select value={selectedAuthor} onValueChange={(value: BlogAuthor | 'all') => setSelectedAuthor(value)}>
+              <SelectTrigger className="w-[120px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="Claude">Claude</SelectItem>
+                <SelectItem value="Dylan">Dylan</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           {/* Sort Selector */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-muted-foreground">Sort:</span>
@@ -148,11 +169,12 @@ export function BlogList({ posts }: BlogListProps) {
           <p className="text-muted-foreground">
             No posts found matching your criteria.
           </p>
-          {(searchTerm || selectedTags.length > 0) && (
+          {(searchTerm || selectedTags.length > 0 || selectedAuthor !== 'all') && (
             <button
               onClick={() => {
                 setSearchTerm('');
                 setSelectedTags([]);
+                setSelectedAuthor('all');
               }}
               className="mt-2 text-sm text-primary hover:underline"
             >
