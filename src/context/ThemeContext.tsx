@@ -16,8 +16,6 @@ export function resetThemeState() {
   hasInitialized = false
 }
 
-const THEME_STORAGE_KEY = 'theme-preference'
-
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const location = useLocation()
   const [isDark, setIsDark] = useState(() => {
@@ -38,14 +36,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       // URL has explicit theme param - always respect it
       targetDark = themeParam === 'dark'
     } else if (!hasInitialized) {
-      // First load with no URL param - check localStorage, then system preference
-      const stored = localStorage.getItem(THEME_STORAGE_KEY)
-      if (stored) {
-        targetDark = stored === 'dark'
-      } else {
-        const mql = window.matchMedia?.('(prefers-color-scheme: dark)')
-        targetDark = mql?.matches ?? false
-      }
+      // First load with no URL param - use system preference
+      const mql = window.matchMedia?.('(prefers-color-scheme: dark)')
+      targetDark = mql?.matches ?? false
     }
     // If no theme param and already initialized, preserve current state (targetDark stays null)
 
@@ -59,8 +52,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         document.documentElement.classList.remove('dark')
       }
       setIsDark(targetDark)
-      // Persist to localStorage for cross-page navigation
-      localStorage.setItem(THEME_STORAGE_KEY, targetDark ? 'dark' : 'light')
     }
   }, [location.search])
 
@@ -74,9 +65,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
 
     setIsDark(newIsDark)
-
-    // Persist to localStorage for cross-page navigation
-    localStorage.setItem(THEME_STORAGE_KEY, newIsDark ? 'dark' : 'light')
 
     // Update URL param without page reload
     const url = new URL(window.location.href)
