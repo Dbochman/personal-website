@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import { BlogCard } from './BlogCard';
 import type { BlogPost } from '@/types/blog';
-import { filterPostsBySearch, filterPostsByTag, sortPostsByDate, sortPostsByReadingTime, getAllTags } from '@/lib/mdx';
+import { filterPostsBySearch, filterPostsByTags, sortPostsByDate, sortPostsByReadingTime, getAllTags } from '@/lib/mdx';
 
 type SortOption = 'newest' | 'oldest' | 'longest' | 'shortest';
 
@@ -20,7 +20,7 @@ interface BlogListProps {
 
 export function BlogList({ posts }: BlogListProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [sortOption, setSortOption] = useState<SortOption>('newest');
 
   const allTags = useMemo(() => getAllTags(posts), [posts]);
@@ -33,9 +33,9 @@ export function BlogList({ posts }: BlogListProps) {
       filtered = filterPostsBySearch(filtered, searchTerm);
     }
 
-    // Filter by selected tag
-    if (selectedTag) {
-      filtered = filterPostsByTag(filtered, selectedTag);
+    // Filter by selected tags (OR logic)
+    if (selectedTags.length > 0) {
+      filtered = filterPostsByTags(filtered, selectedTags);
     }
 
     // Apply sort based on selected option
@@ -50,17 +50,24 @@ export function BlogList({ posts }: BlogListProps) {
       default:
         return sortPostsByDate(filtered, 'desc');
     }
-  }, [posts, searchTerm, selectedTag, sortOption]);
+  }, [posts, searchTerm, selectedTags, sortOption]);
 
   const handleTagClick = (tag: string) => {
-    const newTag = selectedTag === tag ? null : tag;
-    setSelectedTag(newTag);
-    if (newTag && typeof gtag !== 'undefined') {
-      gtag('event', 'tag_filter_click', {
-        event_category: 'engagement',
-        event_label: newTag
-      });
-    }
+    setSelectedTags(prev => {
+      const isSelected = prev.includes(tag);
+      const newTags = isSelected
+        ? prev.filter(t => t !== tag)
+        : [...prev, tag];
+
+      if (!isSelected && typeof gtag !== 'undefined') {
+        gtag('event', 'tag_filter_click', {
+          event_category: 'engagement',
+          event_label: tag
+        });
+      }
+
+      return newTags;
+    });
   };
 
   const handleSearchBlur = () => {
@@ -93,7 +100,7 @@ export function BlogList({ posts }: BlogListProps) {
               {allTags.map((tag) => (
                 <Badge
                   key={tag}
-                  variant={selectedTag === tag ? 'default' : 'outline'}
+                  variant={selectedTags.includes(tag) ? 'default' : 'outline'}
                   className="cursor-pointer hover:bg-primary/10"
                   onClick={() => handleTagClick(tag)}
                 >
@@ -133,11 +140,11 @@ export function BlogList({ posts }: BlogListProps) {
           <p className="text-muted-foreground">
             No posts found matching your criteria.
           </p>
-          {(searchTerm || selectedTag) && (
+          {(searchTerm || selectedTags.length > 0) && (
             <button
               onClick={() => {
                 setSearchTerm('');
-                setSelectedTag(null);
+                setSelectedTags([]);
               }}
               className="mt-2 text-sm text-primary hover:underline"
             >

@@ -6,6 +6,7 @@ import {
   createBlogPost,
   sortPostsByDate,
   filterPostsByTag,
+  filterPostsByTags,
   filterPostsBySearch,
   getAllTags,
   getAllCategories,
@@ -186,6 +187,69 @@ Content`),
     it('should return posts with common tag', () => {
       const filtered = filterPostsByTag(posts, 'DevOps');
       expect(filtered).toHaveLength(2);
+    });
+  });
+
+  describe('filterPostsByTags', () => {
+    const posts: BlogPost[] = [
+      createBlogPost(`---
+title: "SRE Post"
+slug: "sre"
+date: "2026-01-07"
+author: "Test"
+description: "SRE content"
+tags: ["SRE", "DevOps"]
+draft: false
+---
+Content`),
+      createBlogPost(`---
+title: "Security Post"
+slug: "security"
+date: "2026-01-07"
+author: "Test"
+description: "Security content"
+tags: ["Security", "DevOps"]
+draft: false
+---
+Content`),
+      createBlogPost(`---
+title: "AI Post"
+slug: "ai"
+date: "2026-01-07"
+author: "Test"
+description: "AI content"
+tags: ["AI", "ML"]
+draft: false
+---
+Content`),
+    ];
+
+    it('should return all posts when tags array is empty', () => {
+      const filtered = filterPostsByTags(posts, []);
+      expect(filtered).toHaveLength(3);
+    });
+
+    it('should filter posts by single tag', () => {
+      const filtered = filterPostsByTags(posts, ['SRE']);
+      expect(filtered).toHaveLength(1);
+      expect(filtered[0].title).toBe('SRE Post');
+    });
+
+    it('should filter posts by multiple tags (OR logic)', () => {
+      const filtered = filterPostsByTags(posts, ['SRE', 'Security']);
+      expect(filtered).toHaveLength(2);
+    });
+
+    it('should return posts matching any of the tags', () => {
+      const filtered = filterPostsByTags(posts, ['SRE', 'AI']);
+      expect(filtered).toHaveLength(2);
+      expect(filtered.map(p => p.title)).toContain('SRE Post');
+      expect(filtered.map(p => p.title)).toContain('AI Post');
+    });
+
+    it('should return empty array when no posts match', () => {
+      const filtered = filterPostsByTags(posts, ['NonExistent']);
+      expect(filtered).toHaveLength(0);
     });
   });
 

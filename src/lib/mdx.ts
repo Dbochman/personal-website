@@ -112,6 +112,14 @@ export function filterPostsByTag(posts: BlogPost[], tag: string): BlogPost[] {
 }
 
 /**
+ * Filter posts by multiple tags (OR logic - posts with ANY of the selected tags)
+ */
+export function filterPostsByTags(posts: BlogPost[], tags: string[]): BlogPost[] {
+  if (tags.length === 0) return posts;
+  return posts.filter(post => tags.some(tag => post.tags.includes(tag)));
+}
+
+/**
  * Filter posts by search term (title + description)
  */
 export function filterPostsBySearch(posts: BlogPost[], searchTerm: string): BlogPost[] {
