@@ -35,7 +35,7 @@ export function BlogCard({ post }: BlogCardProps) {
             {/* Main card link - covers entire card */}
             <Link
               to={`/blog/${post.slug}`}
-              className="after:absolute after:inset-0 focus:outline-none"
+              className="after:absolute after:inset-0 after:content-[''] focus:outline-none"
             >
               {post.title}
             </Link>

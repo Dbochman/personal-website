@@ -38,7 +38,7 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
           <Link
             to={`/blog/${post.slug}`}
             onClick={handleClick}
-            className="after:absolute after:inset-0 focus:outline-none"
+            className="after:absolute after:inset-0 after:content-[''] focus:outline-none"
           >
             {post.title}
           </Link>
