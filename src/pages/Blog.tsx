@@ -1,29 +1,14 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Rss } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { BlogList } from '@/components/blog/BlogList';
 import { FeaturedHero } from '@/components/blog/FeaturedHero';
-import { loadBlogPosts } from '@/lib/blog-loader';
-import type { BlogPost } from '@/types/blog';
+import { getPostsSync } from '@/lib/blog-loader-precompiled';
 
 export default function Blog() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    loadBlogPosts()
-      .then((loadedPosts) => {
-        setPosts(loadedPosts);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Error loading blog posts:', err);
-        setError('Failed to load blog posts. Please try again later.');
-        setLoading(false);
-      });
-  }, []);
+  // Load synchronously for SSR/pre-rendering
+  const posts = getPostsSync();
 
   // Extract featured post and regular posts
   const featuredPost = useMemo(() => posts.find((p) => p.featured), [posts]);
@@ -106,24 +91,10 @@ export default function Blog() {
             </header>
 
             {/* Featured Hero in right column */}
-            {!loading && !error && featuredPost && (
-              <FeaturedHero post={featuredPost} />
-            )}
+            {featuredPost && <FeaturedHero post={featuredPost} />}
           </div>
 
-          {loading && (
-            <div className="flex items-center justify-center py-12">
-              <div className="text-muted-foreground">Loading posts...</div>
-            </div>
-          )}
-
-          {error && (
-            <div className="bg-destructive/10 text-destructive px-4 py-3 rounded-md">
-              {error}
-            </div>
-          )}
-
-          {!loading && !error && <BlogList posts={regularPosts} />}
+          <BlogList posts={regularPosts} />
         </div>
       </PageLayout>
     </>
