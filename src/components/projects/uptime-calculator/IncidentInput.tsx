@@ -12,7 +12,7 @@ export function IncidentInput({ value, onChange }: IncidentInputProps) {
     <Card>
       <CardContent className="pt-6">
         <div className="space-y-2">
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
             <div>
               <Label htmlFor="incidents" className="text-sm font-medium">
                 Expected incidents per month
@@ -21,7 +21,7 @@ export function IncidentInput({ value, onChange }: IncidentInputProps) {
                 How many incidents typically require response?
               </p>
             </div>
-            <span className="text-sm font-mono tabular-nums text-primary">
+            <span className="text-sm font-mono tabular-nums text-primary shrink-0">
               {value} {value === 1 ? 'incident' : 'incidents'}
             </span>
           </div>
