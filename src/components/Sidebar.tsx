@@ -10,7 +10,7 @@ const Sidebar = () => {
   return (
     <div className="space-y-6">
       {/* Core Expertise Card */}
-      <Card className="bg-background/60 backdrop-blur-sm border-foreground/20">
+      <Card className="bg-background/60 backdrop-blur-sm border-transparent">
         <CardContent className="p-6">
           <h3 className="text-lg font-bold text-foreground mb-6">Core Expertise</h3>
           <div className="space-y-2">
