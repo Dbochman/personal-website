@@ -20,6 +20,7 @@ const Sidebar = () => {
                 item={item}
                 isExpanded={expandedIndex === index}
                 onExpand={() => setExpandedIndex(index)}
+                onCollapse={() => setExpandedIndex(null)}
               />
             ))}
           </div>

@@ -5,9 +5,10 @@ interface ExpertiseCardProps {
   item: ExpertiseItem;
   isExpanded: boolean;
   onExpand: () => void;
+  onCollapse: () => void;
 }
 
-export function ExpertiseCard({ item, isExpanded, onExpand }: ExpertiseCardProps) {
+export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: ExpertiseCardProps) {
   const handleExpand = () => {
     if (!isExpanded && typeof gtag !== 'undefined') {
       gtag('event', 'expertise_card_expand', {
@@ -22,7 +23,9 @@ export function ExpertiseCard({ item, isExpanded, onExpand }: ExpertiseCardProps
     <div
       className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-1 rounded-sm"
       onMouseEnter={handleExpand}
+      onMouseLeave={onCollapse}
       onFocus={handleExpand}
+      onBlur={onCollapse}
       tabIndex={0}
     >
       {/* Title - always visible */}
