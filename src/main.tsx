@@ -19,11 +19,10 @@ if (typeof window !== 'undefined') {
 
 createRoot(document.getElementById("root")!).render(<App />);
 
-// Lazy load Sentry after initial render
-// This defers ~128KB (44KB gzipped) of code that's not needed for first paint
+// Lazy load Sentry when browser is idle
+// This defers ~128KB (44KB gzipped) of code until the browser is truly idle
 if (typeof window !== 'undefined') {
-  // Initialize Sentry after a short delay to allow critical rendering first
-  setTimeout(() => {
+  const initSentry = () => {
     import('@sentry/react').then((Sentry) => {
       Sentry.init({
         dsn: import.meta.env.VITE_SENTRY_DSN,
@@ -34,7 +33,14 @@ if (typeof window !== 'undefined') {
         ],
       });
     });
-  }, 1000);
+  };
+
+  // Use requestIdleCallback if available, otherwise fall back to setTimeout
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(initSentry, { timeout: 5000 });
+  } else {
+    setTimeout(initSentry, 2000);
+  }
 }
 
 // Lazy load Web Vitals reporting after page has loaded
