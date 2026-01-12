@@ -18,6 +18,7 @@ const MobileNav = () => {
   const navigation = useNavigation();
   const location = useLocation();
   const isBlogPage = location.pathname.startsWith('/blog');
+  const isProjectsPage = location.pathname.startsWith('/projects');
   const isRunbookPage = location.pathname === '/runbook';
 
   const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -32,10 +33,12 @@ const MobileNav = () => {
     navigation?.openExperienceAccordion();
   };
 
-  // Show simplified nav on blog and runbook pages
+  // Show simplified nav on blog, projects, and runbook pages
   let navItemsToShow = navigationItems;
   if (isBlogPage) {
-    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }];
+    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/projects", label: "Projects" }, { href: "/blog", label: "Blog" }];
+  } else if (isProjectsPage) {
+    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/projects", label: "Projects" }, { href: "/blog", label: "Blog" }];
   } else if (isRunbookPage) {
     navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }, { href: "/runbook", label: "Runbook" }];
   }
