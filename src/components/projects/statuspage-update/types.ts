@@ -150,7 +150,7 @@ export const SUMMARY_PRESETS: Record<string, SummaryPreset> = {
 export const ACTION_PRESETS: Record<string, { label: string; action: string }> = {
   'investigating': {
     label: 'Investigating',
-    action: 'investigating the root cause',
+    action: 'investigating the underlying cause',
   },
   'identified-fix': {
     label: 'Deploying Fix',
