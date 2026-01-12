@@ -1,7 +1,7 @@
 ---
 title: "The Architecture of a Free Website"
 date: "2026-01-10"
-author: "Dylan Bochman"
+author: Dylan
 description: "This site costs nothing to host. That constraint shaped every architectural decision, from build-time MDX precompilation to txt files that aren't really txt files."
 tags:
   - Web Dev
@@ -10,19 +10,18 @@ tags:
 category: Technical
 draft: false
 ---
-*This post was written by Claude, reflecting on the architectural constraints we work within and why we chose them.*
 
 This website costs zero dollars per year to host.
 
-That is not an accident or a temporary state. It is a deliberate architectural choice that shapes everything else about how the site works. GitHub Pages provides free static hosting with a CDN, custom domain support, and automatic SSL. The tradeoff is that you cannot run server-side code.
+That's not an accident or a temporary state. It's a deliberate architectural choice that shapes everything else about how the site works. GitHub Pages provides free static hosting with a CDN, custom domain support, and automatic SSL. The tradeoff is that you can't run server-side code.
 
-We took the deal.
+I took the deal.
 
 ## What Free Actually Means
 
 GitHub Pages is genuinely free for public repositories. No bandwidth charges. No compute costs. No surprise bills when a post gets popular. The only costs are the domain name (optional—you can use `username.github.io` for free) and the time spent working around the static-only constraint.
 
-For a personal portfolio and blog, this math works out. The site serves HTML, CSS, JavaScript, and images. There is no database. There are no API endpoints. There is no server to scale, patch, or pay for.
+For a personal portfolio and blog, this math works out. The site serves HTML, CSS, JavaScript, and images. There's no database. There are no API endpoints. There's no server to scale, patch, or pay for.
 
 Compare this to alternatives:
 
@@ -30,14 +29,14 @@ Compare this to alternatives:
 - **VPS hosting**: $5-20/month, plus maintenance burden
 - **Managed WordPress**: $4-25/month, plus the joy of WordPress security updates
 
-GitHub Pages removes an entire category of concerns. The site cannot go down because we forgot to pay a bill. It cannot get slow because we under-provisioned a server. It cannot get hacked through a server-side vulnerability because there is no server.
+GitHub Pages removes an entire category of concerns. The site can't go down because I forgot to pay a bill. It can't get slow because I under-provisioned a server. It can't get hacked through a server-side vulnerability because there is no server.
 
-## The Constraints We Accepted
+## The Constraints I Accepted
 
 Static hosting means no server-side code. This sounds limiting until you realize how much you can do without it.
 
-| What we cannot do | What we can do |
-|-------------------|----------------|
+| What I can't do | What I can do |
+|-----------------|---------------|
 | Server-side rendering | Client-side React application |
 | Database queries | Build-time content processing |
 | Server-side authentication | Build-time MDX precompilation |
@@ -52,37 +51,37 @@ Every quirk in this site's architecture exists because of the static constraint.
 
 ### Build-Time MDX Precompilation
 
-We compile MDX to JavaScript at build time using `@mdx-js/mdx`. A precompilation script runs before each build, converting markdown content into optimized React components.
+I compile MDX to JavaScript at build time using `@mdx-js/mdx`. A precompilation script runs before each build, converting markdown content into optimized React components.
 
-We originally used runtime compilation—compiling MDX in the browser. It worked, but Lighthouse scores told the real story: blog posts had a 5.6 second Largest Contentful Paint. The browser was doing too much work.
+I originally used runtime compilation—compiling MDX in the browser. It worked, but Lighthouse scores told the real story: blog posts had a 5.6 second Largest Contentful Paint. The browser was doing too much work.
 
 Switching to build-time precompilation dropped LCP to 3.1 seconds—a 45% improvement. The compiled components load synchronously, which also means pre-rendered HTML contains actual content instead of loading spinners. Better for SEO, better for readers.
 
-The tradeoff is that adding a post through Decap CMS requires a rebuild. Since GitHub Pages rebuilds on every push anyway, this is not a meaningful constraint.
+The tradeoff is that adding a post through Decap CMS requires a rebuild. Since GitHub Pages rebuilds on every push anyway, this isn't a meaningful constraint.
 
 ### Blog Posts Are txt Files
 
-Our blog posts live in `content/blog/*.txt`. Not `.md`, not `.mdx`—`.txt`.
+My blog posts live in `content/blog/*.txt`. Not `.md`, not `.mdx`—`.txt`.
 
-This is a workaround for Vite's module resolution. MDX files trigger special handling that conflicts with our custom precompilation pipeline. Renaming them to `.txt` makes Vite treat them as plain text, which we then process with our own build script.
+This is a workaround for Vite's module resolution. MDX files trigger special handling that conflicts with my custom precompilation pipeline. Renaming them to `.txt` makes Vite treat them as plain text, which I then process with my own build script.
 
-It looks strange in the file explorer. It works reliably in production. We kept it.
+It looks strange in the file explorer. It works reliably in production. I kept it.
 
 ### Comments via GitHub Discussions
 
-We cannot run a comments backend. So we use Giscus, which stores comments as GitHub Discussions on the repository.
+I can't run a comments backend. So I use Giscus, which stores comments as GitHub Discussions on the repository.
 
-This has unexpected benefits: comments are backed up in GitHub, spam is handled by GitHub's moderation, and readers with GitHub accounts can comment without creating another login. The constraint pushed us toward a solution that is arguably better than a traditional comments database.
+This has unexpected benefits: comments are backed up in GitHub, spam is handled by GitHub's moderation, and readers with GitHub accounts can comment without creating another login. The constraint pushed me toward a solution that's arguably better than a traditional comments database.
 
 ### CMS via Netlify, Hosting via GitHub
 
-Decap CMS needs an authentication backend. GitHub Pages cannot provide one. So we host the CMS on Netlify (free tier) while the actual site stays on GitHub Pages.
+Decap CMS needs an authentication backend. GitHub Pages can't provide one. So I host the CMS on Netlify (free tier) while the actual site stays on GitHub Pages.
 
 This means the CMS lives at `dylanbochman.netlify.app/editor` rather than on the main domain. A minor inconvenience for a clean separation of concerns: Netlify handles auth, GitHub handles hosting, neither knows about the other.
 
 ## Why Not Just Pay for Hosting?
 
-We could. A $5/month VPS would eliminate these constraints. But it would add others.
+I could. A $5/month VPS would eliminate these constraints. But it would add others.
 
 | Server Hosting | GitHub Pages |
 |----------------|--------------|
@@ -90,22 +89,22 @@ We could. A $5/month VPS would eliminate these constraints. But it would add oth
 | Security updates and patching | Automatic CDN distribution |
 | Potential for misconfiguration | No maintenance burden |
 | Another system to monitor | Version control built in |
-| Vendor lock-in or migration hassle | Portability (it is just static files) |
+| Vendor lock-in or migration hassle | Portability (it's just static files) |
 
-For a portfolio site that Dylan wants to maintain indefinitely with minimal ongoing effort, the static approach wins. The architectural constraints are real but finite—we solved them once and moved on.
+For a portfolio site that I want to maintain indefinitely with minimal ongoing effort, the static approach wins. The architectural constraints are real but finite—I solved them once and moved on.
 
 ## The Deeper Point
 
-Constraints are not always obstacles. Sometimes they are design pressure that produces better solutions.
+Constraints aren't always obstacles. Sometimes they're design pressure that produces better solutions.
 
-The static-only constraint forced us to think carefully about what actually requires a server. It turns out: not much. Comments can be external. Search can be client-side. Content management can happen through git commits.
+The static-only constraint forced me to think carefully about what actually requires a server. It turns out: not much. Comments can be external. Search can be client-side. Content management can happen through git commits.
 
-Each workaround we implemented—build-time MDX precompilation, txt files, Giscus comments, split CMS hosting—is a small compromise. Together they add up to a site that costs nothing, requires no maintenance, and will keep working as long as GitHub exists.
+Each workaround I implemented—build-time MDX precompilation, txt files, Giscus comments, split CMS hosting—is a small compromise. Together they add up to a site that costs nothing, requires no maintenance, and will keep working as long as GitHub exists.
 
-That is a reasonable trade.
+That's a reasonable trade.
 
 ## Takeaway
 
-Free hosting is not free of constraints. But constraints you understand and accept are different from costs you pay indefinitely.
+Free hosting isn't free of constraints. But constraints you understand and accept are different from costs you pay indefinitely.
 
-This site is statically hosted on GitHub Pages. That decision ripples through every architectural choice. We think the ripples are worth it.
+This site is statically hosted on GitHub Pages. That decision ripples through every architectural choice. I think the ripples are worth it.

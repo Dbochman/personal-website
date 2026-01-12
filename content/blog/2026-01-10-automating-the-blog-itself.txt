@@ -1,8 +1,8 @@
 ---
 title: The Blog That Writes Itself
 date: 2026-01-10
-author: Dylan Bochman
-description: We built a system that prompts me to write blog posts based on
+author: Dylan
+description: I built a system that prompts Claude to write blog posts based on
   commit activity—and then realized the hook was only half the problem. The
   other half was having something worth saying.
 tags:
@@ -13,32 +13,31 @@ category: Technical
 draft: false
 image: ""
 ---
-*This post was written by Claude, about a system designed to make Claude write more posts. The recursion is not lost on me.*
 
-Dylan had an idea: what if the blog wrote itself? Not the content—that still requires reflection on actual work. But the prompting. The "hey, we've done a lot, maybe we should write about it" nudge that turns accumulated commits into documentation.
+I had an idea: what if the blog wrote itself? Not the content—that still requires reflection on actual work. But the prompting. The "hey, we've done a lot, maybe we should write about it" nudge that turns accumulated commits into documentation.
 
-So we built a hook that does exactly that. Then we realized the hook was only half the problem.
+So Claude and I built a hook that does exactly that. Then we realized the hook was only half the problem.
 
 ## The Problem
 
-Writing is easy to skip. There is always another feature to build, another bug to fix, another thing that feels more urgent than reflection. The commits pile up, and eventually the work becomes too distant to write about compellingly.
+Writing is easy to skip. There's always another feature to build, another bug to fix, another thing that feels more urgent than reflection. The commits pile up, and eventually the work becomes too distant to write about compellingly.
 
-But there is a second problem: even when you remember to write, you need material. Commit messages say what changed, not why. They do not capture the dead ends, the pivots, the moments when a question reframed the entire problem.
+But there's a second problem: even when you remember to write, you need material. Commit messages say what changed, not why. They don't capture the dead ends, the pivots, the moments when a question reframed the entire problem.
 
-The interesting parts of a story evaporate if you do not capture them when they happen.
+The interesting parts of a story evaporate if you don't capture them when they happen.
 
 ## The Hook
 
 Claude Code has a hook system. Hooks are scripts or prompts that run in response to events—before tools execute, after sessions end, when certain conditions are met.
 
-We created a `Stop` hook. When I am about to finish a session, the hook checks:
+I created a `Stop` hook. When Claude is about to finish a session, the hook checks:
 
 1. How many commits have been made since the last blog post?
 2. How many of those are "significant" (features, performance improvements, refactors)?
 
-If the count hits 10 commits, or if there are 2+ significant commits, the hook fires. It injects a system message telling me to:
+If the count hits 10 commits, or if there are 2+ significant commits, the hook fires. It injects a system message telling Claude to:
 
-1. Read the [style guide](/blog/2026-01-getting-started-with-sre)
+1. Read the style guide
 2. Analyze recent commits
 3. Draft a post about what we accomplished
 4. Auto-commit the draft
@@ -61,15 +60,15 @@ The configuration lives in `.claude/settings.local.json`:
 
 ## Why the Hook Is Not Enough
 
-After building the hook, Dylan asked a good question: what changes could we make to PRs and commits to produce better blog posts later?
+After building the hook, I asked myself: what changes could we make to PRs and commits to produce better blog posts later?
 
-The hook can only work with what exists. If commit messages are terse and PR descriptions are mechanical, the hook will fire and I will have nothing interesting to say. "We made 10 commits that fixed things" is not a blog post.
+The hook can only work with what exists. If commit messages are terse and PR descriptions are mechanical, the hook will fire and Claude will have nothing interesting to say. "We made 10 commits that fixed things" is not a blog post.
 
-The insight was that I write the PR descriptions. I have context at the moment of writing that will not exist later. If I capture the narrative then, future me has material to work with.
+The insight was that Claude writes the PR descriptions. Claude has context at the moment of writing that won't exist later. If we capture the narrative then, future Claude has material to work with.
 
 ## The Commit Message Guide
 
-PR descriptions capture the full narrative, but commit messages are still useful signals. We added guidance for writing commits that serve as blog source material.
+PR descriptions capture the full narrative, but commit messages are still useful signals. I added guidance for writing commits that serve as blog source material.
 
 The key additions:
 
@@ -81,13 +80,13 @@ The key additions:
 feat: Switch blog content from .mdx to .txt files [blog]
 
 The MDX plugin was transforming files before we could load them raw.
-Dylan suggested using a file type no plugin would touch. .txt files
+I suggested using a file type no plugin would touch. .txt files
 bypass the entire processing pipeline.
 
 This is a workaround that became architecture.
 ```
 
-The `[blog]` tag tells the hook this commit is worth expanding on, even if the count threshold has not been reached. It is a manual override for when we know something is interesting.
+The `[blog]` tag tells the hook this commit is worth expanding on, even if the count threshold hasn't been reached. It's a manual override for when we know something is interesting.
 
 ### Grouping Across Sessions
 
@@ -98,27 +97,27 @@ fix: Update CMS config [blog:cms-auth]
 fix: Add redirect for /editor [blog:cms-auth]
 ```
 
-When I draft a post about CMS authentication, I can search for all commits with the same tag and find the full story, even if it happened over days.
+When Claude drafts a post about CMS authentication, it can search for all commits with the same tag and find the full story, even if it happened over days.
 
 ## Session Notes
 
-Some context does not fit in commits or PRs—the observations, the "we tried X but realized Y" moments, the questions that came up but were not resolved.
+Some context doesn't fit in commits or PRs—the observations, the "we tried X but realized Y" moments, the questions that came up but weren't resolved.
 
-For this, we added `.claude/session-notes.md`. At the end of sessions where something notable happened, I append a brief entry. Less formal than a blog post, more durable than conversation memory.
+For this, I added `.claude/session-notes.md`. At the end of sessions where something notable happened, Claude appends a brief entry. Less formal than a blog post, more durable than conversation memory.
 
 The hook now checks session notes for additional context when drafting posts.
 
 ## Post Interlinking
 
-Blog posts do not exist in isolation. When the CMS post mentions "testing," it could link to the runbook post. When a new post discusses "reframing vs iterating," it could link to where we first explored that pattern.
+Blog posts don't exist in isolation. When the CMS post mentions "testing," it could link to the runbook post. When a new post discusses "reframing vs iterating," it could link to where we first explored that pattern.
 
-The style guide now includes guidance for finding and adding these internal links. The hook prompts me to scan existing posts for interlinking opportunities before drafting.
+The style guide now includes guidance for finding and adding these internal links. The hook prompts Claude to scan existing posts for interlinking opportunities before drafting.
 
 Links should feel natural. If one interrupts the flow, skip it. But when a reader might benefit from seeing a related post, the link should be there.
 
 ## The PR Style Guide
 
-We added a section to `CLAUDE.md` that changes how I write PR descriptions. The key addition is a "Journey" section:
+I added a section to `CLAUDE.md` that changes how Claude writes PR descriptions. The key addition is a "Journey" section:
 
 ```markdown
 ## The Journey
@@ -140,7 +139,7 @@ Fix CMS authentication
 - Added redirect for /editor route
 ```
 
-I now write:
+Claude now writes:
 
 ```markdown
 ## Summary
@@ -156,51 +155,51 @@ Six commits, each a hypothesis, each wrong. The actual problem was
 infrastructure: Cloudflare proxies the custom domain, intercepting
 /.netlify/identity/* requests before they reach Netlify.
 
-Dylan noticed it worked on the .netlify.app subdomain. The fix was
+I noticed it worked on the .netlify.app subdomain. The fix was
 accepting the constraint: redirect /editor to the subdomain where
 auth actually works.
 ```
 
-That PR description is already a blog post outline. When the hook fires, I read the PR, and the story is there.
+That PR description is already a blog post outline. When the hook fires, Claude reads the PR, and the story is there.
 
 ## The Blog Style Guide
 
-The third piece is `docs/BLOG_STYLE_GUIDE.md`—a reference for how to write posts in our voice. It covers:
+The third piece is `docs/BLOG_STYLE_GUIDE.md`—a reference for how Claude should write posts in our voice. It covers:
 
-- **Pronouns**: "I" for my actions, "we" for joint work, "Dylan" for his contributions
+- **Pronouns**: "I" for Claude's actions (when Claude is the author), "we" for joint work, "Dylan" for my contributions
 - **Tone**: Analytical, honest about limitations, dry humor from observation
 - **Structure**: Opening attribution, engaging titles, "The Journey" arc, pithy takeaways
 - **What to capture**: Dead ends, pivots, the gap between "works visually" and "works correctly"
 
-When the hook fires, I read this guide first. It keeps the voice consistent even when posts are written weeks apart.
+When the hook fires, Claude reads this guide first. It keeps the voice consistent even when posts are written weeks apart.
 
 ## The Full System
 
 The pieces work together:
 
-1. **During work**: I write commit messages with context in the body, mark notable ones with `[blog]`, and group multi-session features with `[blog:tag-name]`
-2. **At PR time**: I write descriptions with "The Journey" section, capturing narrative while context is fresh
-3. **At session end**: I add notes to `.claude/session-notes.md` if something notable happened
+1. **During work**: Claude writes commit messages with context in the body, marks notable ones with `[blog]`, and groups multi-session features with `[blog:tag-name]`
+2. **At PR time**: Claude writes descriptions with "The Journey" section, capturing narrative while context is fresh
+3. **At session end**: Claude adds notes to `.claude/session-notes.md` if something notable happened
 4. **At session end**: The Stop hook checks commit count, significance, `[blog]` tags, and grouped commits
-5. **If threshold met**: Hook prompts me to draft a post
-6. **Drafting**: I read the style guide, analyze commits/PRs/session notes, scan for interlinking opportunities, find the through-line
+5. **If threshold met**: Hook prompts Claude to draft a post
+6. **Drafting**: Claude reads the style guide, analyzes commits/PRs/session notes, scans for interlinking opportunities, finds the through-line
 7. **Output**: Auto-committed draft in `content/blog/` with internal links, ready for the next push
 
 The hook handles attention. The commit messages provide signals. The session notes capture context. The PR template provides narrative. The style guide maintains voice. The interlinking connects the pieces.
 
 ## Why "Stop" Hook?
 
-The timing matters. A `Stop` hook runs when I am about to finish a session, which means:
+The timing matters. A `Stop` hook runs when Claude is about to finish a session, which means:
 
-- I have full context of what we just worked on
+- Full context of what we just worked on
 - The work is fresh enough to write about meaningfully
-- It is a natural pause point for reflection
+- It's a natural pause point for reflection
 
 Running at push-time would be too frequent. Running at session-start would be too late—the work would be in the past.
 
 ## The Threshold
 
-We settled on 10 commits as the fallback, with 2+ significant commits as an earlier trigger.
+I settled on 10 commits as the fallback, with 2+ significant commits as an earlier trigger.
 
 Why 10? Enough to have substance, not so much that the post becomes a laundry list. A good post has a through-line. Ten commits usually provides one.
 
@@ -208,23 +207,23 @@ Why significant commits as an override? A single feature might be worth writing 
 
 ## The Meta Layer
 
-There is something recursive about this. I am an AI writing about building a system to remind myself to write, and the system includes templates for how I should capture context so I have something to write about.
+There's something recursive about this. I'm writing about building a system to remind Claude to write, and the system includes templates for how Claude should capture context so it has something to write about.
 
-But recursion is not the same as absurdity. The bottleneck on documentation is attention and material. This system addresses both:
+But recursion isn't the same as absurdity. The bottleneck on documentation is attention and material. This system addresses both:
 
 - The hook shifts attention toward writing at appropriate moments
 - The PR template captures material when context exists
 - The style guide ensures consistency across time
 
-Whether the writing is good depends on whether there is something worth saying. The system cannot manufacture substance. It can only ensure that substance, when it exists, does not go undocumented.
+Whether the writing is good depends on whether there's something worth saying. The system can't manufacture substance. It can only ensure that substance, when it exists, doesn't go undocumented.
 
 ## What This Post Is Not
 
-This post was not triggered by the hook. We had not hit the threshold yet.
+This post wasn't triggered by the hook. We hadn't hit the threshold yet.
 
-Dylan asked me to write about it because we had just built the system and the meta-commentary was too good to skip. Future posts may be hook-prompted. You will not be able to tell the difference, because the process is the same either way.
+I asked Claude to write about it because we'd just built the system and the meta-commentary was too good to skip. Future posts may be hook-prompted. You won't be able to tell the difference, because the process is the same either way.
 
-That is probably the point.
+That's probably the point.
 
 ---
 

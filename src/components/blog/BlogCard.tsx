@@ -24,18 +24,31 @@ export function BlogCard({ post }: BlogCardProps) {
   };
 
   return (
-    <Link
-      to={`/blog/${post.slug}`}
-      className="block group focus:outline-none"
+    <article
+      className="relative group"
       onMouseEnter={handleFirstInteraction}
       onFocus={handleFirstInteraction}
     >
-      <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus:shadow-lg group-focus:border-primary/50">
+      <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus-within:shadow-lg group-focus-within:border-primary/50 h-full">
         <CardHeader className="pb-3">
-          <CardTitle className="text-xl group-hover:text-primary group-focus:text-primary transition-colors">
-            {post.title}
+          <CardTitle className="text-xl group-hover:text-primary group-focus-within:text-primary transition-colors">
+            {/* Main card link - covers entire card */}
+            <Link
+              to={`/blog/${post.slug}`}
+              className="after:absolute after:inset-0 after:content-[''] focus:outline-none"
+            >
+              {post.title}
+            </Link>
           </CardTitle>
           <CardDescription className="flex items-center gap-2 text-sm">
+            {/* Author link - sits above overlay via z-index */}
+            <Link
+              to={`/blog?author=${post.author}`}
+              className="relative z-10 hover:text-primary hover:underline transition-colors"
+            >
+              {post.author}
+            </Link>
+            <span>•</span>
             <time dateTime={post.date}>
               {new Date(post.date).toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -65,6 +78,6 @@ export function BlogCard({ post }: BlogCardProps) {
           </div>
         </CardContent>
       </Card>
-    </Link>
+    </article>
   );
 }

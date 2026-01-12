@@ -1,4 +1,9 @@
 /**
+ * Blog post author
+ */
+export type BlogAuthor = 'Claude' | 'Dylan';
+
+/**
  * Blog post frontmatter metadata
  */
 export interface BlogFrontmatter {
@@ -6,7 +11,7 @@ export interface BlogFrontmatter {
   slug: string;
   date: string;
   updated?: string;
-  author: string;
+  author: BlogAuthor;
   description: string;
   tags: string[];
   category?: string;
@@ -41,6 +46,7 @@ export interface BlogFilter {
   searchTerm?: string;
   tags?: string[];
   category?: string;
+  author?: BlogAuthor;
   sortBy?: 'date-asc' | 'date-desc' | 'title';
 }
 

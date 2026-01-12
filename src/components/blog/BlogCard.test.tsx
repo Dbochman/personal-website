@@ -8,7 +8,7 @@ const mockPost: BlogPost = {
   title: 'Test Blog Post',
   slug: 'test-blog-post',
   date: '2026-01-07',
-  author: 'Test Author',
+  author: 'Claude',
   description: 'This is a test blog post description',
   tags: ['Testing', 'Vitest', 'React'],
   category: 'Technical',
@@ -23,13 +23,18 @@ const renderWithRouter = (component: React.ReactElement) => {
 };
 
 describe('BlogCard', () => {
-  it('renders entire card as clickable link', () => {
+  it('renders title as clickable link to post', () => {
     renderWithRouter(<BlogCard post={mockPost} />);
-    const cardLink = screen.getByRole('link');
-    expect(cardLink).toBeInTheDocument();
-    expect(cardLink).toHaveAttribute('href', `/blog/${mockPost.slug}`);
-    // Title should be visible within the link
-    expect(screen.getByText(mockPost.title)).toBeInTheDocument();
+    const titleLink = screen.getByRole('link', { name: mockPost.title });
+    expect(titleLink).toBeInTheDocument();
+    expect(titleLink).toHaveAttribute('href', `/blog/${mockPost.slug}`);
+  });
+
+  it('renders author as clickable link to filtered posts', () => {
+    renderWithRouter(<BlogCard post={mockPost} />);
+    const authorLink = screen.getByRole('link', { name: mockPost.author });
+    expect(authorLink).toBeInTheDocument();
+    expect(authorLink).toHaveAttribute('href', `/blog?author=${mockPost.author}`);
   });
 
   it('displays formatted date', () => {
@@ -73,9 +78,9 @@ describe('BlogCard', () => {
 
     it('fires blog_card_expand event on first hover', () => {
       renderWithRouter(<BlogCard post={mockPost} />);
-      const link = screen.getByRole('link');
+      const article = screen.getByRole('article');
 
-      fireEvent.mouseEnter(link);
+      fireEvent.mouseEnter(article);
 
       expect(window.gtag).toHaveBeenCalledWith('event', 'blog_card_expand', {
         event_category: 'engagement',
@@ -85,20 +90,20 @@ describe('BlogCard', () => {
 
     it('fires blog_card_expand event only once', () => {
       renderWithRouter(<BlogCard post={mockPost} />);
-      const link = screen.getByRole('link');
+      const article = screen.getByRole('article');
 
-      fireEvent.mouseEnter(link);
-      fireEvent.mouseLeave(link);
-      fireEvent.mouseEnter(link);
+      fireEvent.mouseEnter(article);
+      fireEvent.mouseLeave(article);
+      fireEvent.mouseEnter(article);
 
       expect(window.gtag).toHaveBeenCalledTimes(1);
     });
 
     it('fires blog_card_expand event on focus', () => {
       renderWithRouter(<BlogCard post={mockPost} />);
-      const link = screen.getByRole('link');
+      const article = screen.getByRole('article');
 
-      fireEvent.focus(link);
+      fireEvent.focus(article);
 
       expect(window.gtag).toHaveBeenCalledWith('event', 'blog_card_expand', {
         event_category: 'engagement',

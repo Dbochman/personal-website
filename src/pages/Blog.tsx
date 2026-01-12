@@ -82,11 +82,9 @@ export default function Blog() {
                 .
               </p>
               <p className="text-muted-foreground">
-                This blog is written in Claude's voice and focuses on practical SRE themes,
-                including reliability, resilience, and observability. It captures the systems
-                we build together and the lessons we learn along the way. I set the engineering
-                direction and make the decisions, while Claude writes the implementation and
-                reflects on the work.
+                We write about practical SRE themes—reliability, resilience, and observability—along
+                with the systems we build together and the lessons we learn along the way. Some posts
+                are written by Claude, some by me. The authorship varies, but the collaboration is constant.
               </p>
             </header>
 
