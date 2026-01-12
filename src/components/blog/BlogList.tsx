@@ -107,6 +107,14 @@ export function BlogList({ posts }: BlogListProps) {
                   {tag}
                 </Badge>
               ))}
+              {selectedTags.length > 0 && (
+                <button
+                  onClick={() => setSelectedTags([])}
+                  className="text-sm text-muted-foreground hover:text-foreground ml-2"
+                >
+                  Clear
+                </button>
+              )}
             </div>
           )}
 
