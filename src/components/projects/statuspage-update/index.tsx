@@ -67,7 +67,12 @@ export default function StatusPageUpdate() {
 
   const handleActionPresetChange = (presetKey: string) => {
     setSelectedActionPreset(presetKey);
-    if (presetKey && presetKey !== 'custom' && presetKey !== 'none' && ACTION_PRESETS[presetKey]) {
+    if (presetKey === 'none') {
+      setIncident((prev) => ({
+        ...prev,
+        actions: '',
+      }));
+    } else if (presetKey && presetKey !== 'custom' && ACTION_PRESETS[presetKey]) {
       const preset = ACTION_PRESETS[presetKey];
       setIncident((prev) => ({
         ...prev,
