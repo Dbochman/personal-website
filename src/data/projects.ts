@@ -5,6 +5,9 @@ import type { ProjectDefinition, ProjectMeta } from '@/types/project';
 const UptimeCalculator = lazy(
   () => import('@/components/projects/uptime-calculator')
 );
+const StatusPageUpdate = lazy(
+  () => import('@/components/projects/statuspage-update')
+);
 
 /**
  * Project registry - single source of truth for all projects
@@ -21,6 +24,17 @@ export const projectRegistry: ProjectDefinition[] = [
     status: 'active',
     createdAt: '2025-01-12',
     component: UptimeCalculator,
+  },
+  {
+    slug: 'statuspage-update',
+    title: 'Status Page Update Generator',
+    description:
+      'Generate professional, consistent status page updates for incidents. Templates for investigating, identified, monitoring, and resolved phases.',
+    tags: ['SRE', 'Incidents', 'Communication'],
+    icon: 'AlertTriangle',
+    status: 'active',
+    createdAt: '2025-01-12',
+    component: StatusPageUpdate,
   },
 ];
 
