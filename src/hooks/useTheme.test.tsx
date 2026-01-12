@@ -57,6 +57,7 @@ describe('useTheme', () => {
     document.documentElement.className = ''
     setUrlParams('')
     resetThemeState()
+    localStorage.clear()
     // Mock history with full API structure
     Object.defineProperty(window, 'history', {
       writable: true,
