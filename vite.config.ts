@@ -74,9 +74,6 @@ export default defineConfig(({ mode }) => ({
             if (id.includes('@sentry')) {
               return 'monitoring';
             }
-            if (id.includes('gray-matter') || id.includes('date-fns')) {
-              return 'blog-loader';
-            }
             // Keep all MDX dependencies together to avoid circular dependency issues
             if (id.includes('@mdx-js') || id.includes('remark-') || id.includes('rehype-') ||
                 id.includes('unified') || id.includes('micromark')) {

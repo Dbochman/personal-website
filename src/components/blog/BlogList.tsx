@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import { BlogCard } from './BlogCard';
 import type { BlogPost } from '@/types/blog';
-import { filterPostsBySearch, filterPostsByTags, sortPostsByDate, sortPostsByReadingTime, getAllTags } from '@/lib/mdx';
+import { filterPostsBySearch, filterPostsByTags, sortPostsByDate, sortPostsByReadingTime, getAllTags } from '@/lib/blog-utils';
 
 type SortOption = 'newest' | 'oldest' | 'longest' | 'shortest';
 
