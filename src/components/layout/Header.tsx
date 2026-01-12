@@ -13,6 +13,7 @@ const Header = () => {
   const { isDark, toggleTheme } = useTheme();
   const isHomePage = location.pathname === '/';
   const isBlogPage = location.pathname.startsWith('/blog');
+  const isProjectsPage = location.pathname.startsWith('/projects');
   const isRunbookPage = location.pathname === '/runbook';
 
   const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -26,10 +27,12 @@ const Header = () => {
     navigation?.openExperienceAccordion();
   };
 
-  // Show simplified nav on blog and runbook pages
+  // Show simplified nav on blog, projects, and runbook pages
   let navItemsToShow = navigationItems;
   if (isBlogPage) {
-    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }];
+    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/projects", label: "Projects" }, { href: "/blog", label: "Blog" }];
+  } else if (isProjectsPage) {
+    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/projects", label: "Projects" }, { href: "/blog", label: "Blog" }];
   } else if (isRunbookPage) {
     navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }];
   }

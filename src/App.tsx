@@ -12,6 +12,8 @@ import Index from "./pages/Index";
 // Lazy load pages that aren't on the critical path
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
+const Projects = lazy(() => import("./pages/Projects"));
+const Project = lazy(() => import("./pages/Project"));
 const Runbook = lazy(() => import("./pages/Runbook"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -36,6 +38,8 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/projects/:slug" element={<Project />} />
                 <Route path="/runbook" element={<Runbook />} />
                 {/* Redirect old runbook.html URL to new clean URL */}
                 <Route path="/runbook.html" element={<Navigate to="/runbook" replace />} />
