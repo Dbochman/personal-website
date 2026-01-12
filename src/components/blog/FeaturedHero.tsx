@@ -40,6 +40,8 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
 
         {/* Meta */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+          <span>{post.author}</span>
+          <span>•</span>
           <time dateTime={post.date}>
             {new Date(post.date).toLocaleDateString('en-US', {
               year: 'numeric',
