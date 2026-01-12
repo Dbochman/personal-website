@@ -4,9 +4,10 @@ import type { BlogPost } from '@/types/blog';
 
 interface FeaturedHeroProps {
   post: BlogPost;
+  badgeText?: string;
 }
 
-export function FeaturedHero({ post }: FeaturedHeroProps) {
+export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps) {
   const handleClick = () => {
     if (typeof gtag !== 'undefined') {
       gtag('event', 'featured_hero_click', {
@@ -27,7 +28,7 @@ export function FeaturedHero({ post }: FeaturedHeroProps) {
         {/* Featured label */}
         <div className="mb-4">
           <Badge variant="secondary" className="text-xs uppercase tracking-wide">
-            Featured
+            {badgeText}
           </Badge>
         </div>
 

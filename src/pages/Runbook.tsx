@@ -1,5 +1,9 @@
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
+import { FeaturedHero } from '@/components/blog/FeaturedHero';
+import { loadBlogPost } from '@/lib/blog-loader';
+import type { BlogPost } from '@/types/blog';
 import {
   quickReferences,
   architectureOverview,
@@ -256,7 +260,22 @@ const RunbookFooter = () => (
   </footer>
 );
 
+const RUNBOOK_BLOG_SLUG = 'writing-a-runbook-for-my-personal-website';
+
 export default function Runbook() {
+  const [relatedPost, setRelatedPost] = useState<BlogPost | null>(null);
+  const [cameFromBlogPost, setCameFromBlogPost] = useState(false);
+
+  useEffect(() => {
+    // Check if user came from the runbook blog post
+    const referrer = document.referrer;
+    if (referrer.includes(RUNBOOK_BLOG_SLUG)) {
+      setCameFromBlogPost(true);
+    } else {
+      loadBlogPost(RUNBOOK_BLOG_SLUG).then(setRelatedPost);
+    }
+  }, []);
+
   return (
     <>
       <Helmet>
@@ -285,6 +304,13 @@ export default function Runbook() {
               Operational Runbook
             </h1>
           </header>
+
+          {/* Related Blog Post - hidden if user came from the blog post */}
+          {relatedPost && !cameFromBlogPost && (
+            <div className="mb-12">
+              <FeaturedHero post={relatedPost} badgeText="Related Post" />
+            </div>
+          )}
 
           <div className="space-y-8">
             <QuickReferencesSection />
