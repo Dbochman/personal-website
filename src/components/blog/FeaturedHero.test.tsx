@@ -8,7 +8,7 @@ const mockPost: BlogPost = {
   title: 'Featured Post Title',
   slug: 'featured-post',
   date: '2026-01-07',
-  author: 'Author',
+  author: 'Claude',
   description: 'This is the featured post description',
   tags: ['Featured', 'Blog'],
   category: 'Technical',
@@ -40,10 +40,16 @@ describe('FeaturedHero', () => {
     expect(screen.getByText(mockPost.description)).toBeInTheDocument();
   });
 
-  it('links to the correct post', () => {
+  it('renders title as link to post', () => {
     renderWithRouter(<FeaturedHero post={mockPost} />);
-    const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/blog/featured-post');
+    const titleLink = screen.getByRole('link', { name: mockPost.title });
+    expect(titleLink).toHaveAttribute('href', '/blog/featured-post');
+  });
+
+  it('renders author as link to filtered posts', () => {
+    renderWithRouter(<FeaturedHero post={mockPost} />);
+    const authorLink = screen.getByRole('link', { name: mockPost.author });
+    expect(authorLink).toHaveAttribute('href', `/blog?author=${mockPost.author}`);
   });
 
   describe('analytics', () => {
@@ -55,11 +61,11 @@ describe('FeaturedHero', () => {
       delete (window as unknown as { gtag?: unknown }).gtag;
     });
 
-    it('fires featured_hero_click event when clicked', () => {
+    it('fires featured_hero_click event when title clicked', () => {
       renderWithRouter(<FeaturedHero post={mockPost} />);
 
-      const link = screen.getByRole('link');
-      fireEvent.click(link);
+      const titleLink = screen.getByRole('link', { name: mockPost.title });
+      fireEvent.click(titleLink);
 
       expect(window.gtag).toHaveBeenCalledWith('event', 'featured_hero_click', {
         event_category: 'engagement',

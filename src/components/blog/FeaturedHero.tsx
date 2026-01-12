@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import type { BlogPost } from '@/types/blog';
 
@@ -8,14 +8,6 @@ interface FeaturedHeroProps {
 }
 
 export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps) {
-  const navigate = useNavigate();
-
-  const handleAuthorClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    navigate(`/blog?author=${post.author}`);
-  };
-
   const handleClick = () => {
     if (typeof gtag !== 'undefined') {
       gtag('event', 'featured_hero_click', {
@@ -26,13 +18,13 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
   };
 
   return (
-    <Link to={`/blog/${post.slug}`} className="block group focus:outline-none h-full" onClick={handleClick}>
-      <article className="h-full p-6 md:p-8 rounded-lg border border-foreground/10
-                          bg-gradient-to-br from-zinc-50 to-zinc-100
-                          dark:from-zinc-800/60 dark:to-zinc-900/60
-                          transition-all duration-300
-                          group-hover:border-primary/50 group-hover:shadow-lg
-                          group-focus:border-primary/50 group-focus:shadow-lg">
+    <article className="relative group h-full">
+      <div className="h-full p-6 md:p-8 rounded-lg border border-foreground/10
+                      bg-gradient-to-br from-zinc-50 to-zinc-100
+                      dark:from-zinc-800/60 dark:to-zinc-900/60
+                      transition-all duration-300
+                      group-hover:border-primary/50 group-hover:shadow-lg
+                      group-focus-within:border-primary/50 group-focus-within:shadow-lg">
         {/* Featured label */}
         <div className="mb-4">
           <Badge variant="secondary" className="text-xs uppercase tracking-wide">
@@ -40,20 +32,27 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
           </Badge>
         </div>
 
-        {/* Title */}
+        {/* Title with main link */}
         <h2 className="text-2xl md:text-3xl font-bold mb-3
-                       group-hover:text-primary group-focus:text-primary transition-colors">
-          {post.title}
+                       group-hover:text-primary group-focus-within:text-primary transition-colors">
+          <Link
+            to={`/blog/${post.slug}`}
+            onClick={handleClick}
+            className="after:absolute after:inset-0 focus:outline-none"
+          >
+            {post.title}
+          </Link>
         </h2>
 
         {/* Meta */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-          <button
-            onClick={handleAuthorClick}
-            className="hover:text-primary hover:underline transition-colors"
+          {/* Author link - sits above overlay via z-index */}
+          <Link
+            to={`/blog?author=${post.author}`}
+            className="relative z-10 hover:text-primary hover:underline transition-colors"
           >
             {post.author}
-          </button>
+          </Link>
           <span>•</span>
           <time dateTime={post.date}>
             {new Date(post.date).toLocaleDateString('en-US', {
@@ -79,7 +78,7 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
             </Badge>
           ))}
         </div>
-      </article>
-    </Link>
+      </div>
+    </article>
   );
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { BlogPost } from '@/types/blog';
@@ -10,13 +10,6 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   const [hasBeenHovered, setHasBeenHovered] = useState(false);
-  const navigate = useNavigate();
-
-  const handleAuthorClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    navigate(`/blog?author=${post.author}`);
-  };
 
   const handleFirstInteraction = () => {
     if (!hasBeenHovered) {
@@ -31,24 +24,30 @@ export function BlogCard({ post }: BlogCardProps) {
   };
 
   return (
-    <Link
-      to={`/blog/${post.slug}`}
-      className="block group focus:outline-none"
+    <article
+      className="relative group"
       onMouseEnter={handleFirstInteraction}
       onFocus={handleFirstInteraction}
     >
-      <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus:shadow-lg group-focus:border-primary/50">
+      <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus-within:shadow-lg group-focus-within:border-primary/50 h-full">
         <CardHeader className="pb-3">
-          <CardTitle className="text-xl group-hover:text-primary group-focus:text-primary transition-colors">
-            {post.title}
+          <CardTitle className="text-xl group-hover:text-primary group-focus-within:text-primary transition-colors">
+            {/* Main card link - covers entire card */}
+            <Link
+              to={`/blog/${post.slug}`}
+              className="after:absolute after:inset-0 focus:outline-none"
+            >
+              {post.title}
+            </Link>
           </CardTitle>
           <CardDescription className="flex items-center gap-2 text-sm">
-            <button
-              onClick={handleAuthorClick}
-              className="hover:text-primary hover:underline transition-colors"
+            {/* Author link - sits above overlay via z-index */}
+            <Link
+              to={`/blog?author=${post.author}`}
+              className="relative z-10 hover:text-primary hover:underline transition-colors"
             >
               {post.author}
-            </button>
+            </Link>
             <span>•</span>
             <time dateTime={post.date}>
               {new Date(post.date).toLocaleDateString('en-US', {
@@ -79,6 +78,6 @@ export function BlogCard({ post }: BlogCardProps) {
           </div>
         </CardContent>
       </Card>
-    </Link>
+    </article>
   );
 }

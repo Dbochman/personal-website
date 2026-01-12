@@ -1,4 +1,4 @@
-import type { BlogPost } from '@/types/blog';
+import type { BlogPost, BlogAuthor } from '@/types/blog';
 import * as runtime from 'react/jsx-runtime';
 
 // Import precompiled blog posts
@@ -29,6 +29,18 @@ function executeCompiledMDX(compiledCode: string): React.ComponentType {
 }
 
 /**
+ * Normalize author to valid BlogAuthor type
+ */
+function normalizeAuthor(author: unknown): BlogAuthor {
+  const authorStr = String(author || '').trim();
+  if (authorStr === 'Dylan' || authorStr.toLowerCase().includes('dylan')) {
+    return 'Dylan';
+  }
+  // Default to Claude for any other value
+  return 'Claude';
+}
+
+/**
  * Extract slug from module path
  */
 function extractSlugFromPath(path: string): string {
@@ -51,7 +63,7 @@ function createPostFromFrontmatter(
     title: String(frontmatter.title || 'Untitled'),
     description: String(frontmatter.description || ''),
     date: String(frontmatter.date || ''),
-    author: String(frontmatter.author || 'Unknown'),
+    author: normalizeAuthor(frontmatter.author),
     tags: Array.isArray(frontmatter.tags) ? frontmatter.tags.map(String) : [],
     category: String(frontmatter.category || 'General'),
     featured: Boolean(frontmatter.featured),

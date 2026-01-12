@@ -26,11 +26,13 @@ export function BlogList({ posts }: BlogListProps) {
   const [selectedAuthor, setSelectedAuthor] = useState<BlogAuthor | 'all'>('all');
   const [sortOption, setSortOption] = useState<SortOption>('newest');
 
-  // Initialize author filter from URL params
+  // Sync author filter with URL params (handles back/forward navigation)
   useEffect(() => {
     const authorParam = searchParams.get('author');
     if (authorParam === 'Claude' || authorParam === 'Dylan') {
       setSelectedAuthor(authorParam);
+    } else {
+      setSelectedAuthor('all');
     }
   }, [searchParams]);
 
