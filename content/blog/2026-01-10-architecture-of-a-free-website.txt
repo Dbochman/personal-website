@@ -2,7 +2,7 @@
 title: "The Architecture of a Free Website"
 date: "2026-01-10"
 author: "Dylan Bochman"
-description: "This site costs nothing to host. That constraint shaped every architectural decision, from runtime MDX compilation to txt files that aren't really txt files."
+description: "This site costs nothing to host. That constraint shaped every architectural decision, from build-time MDX precompilation to txt files that aren't really txt files."
 tags:
   - Web Dev
   - Architecture
@@ -40,7 +40,7 @@ Static hosting means no server-side code. This sounds limiting until you realize
 |-------------------|----------------|
 | Server-side rendering | Client-side React application |
 | Database queries | Build-time content processing |
-| Server-side authentication | Runtime MDX compilation in the browser |
+| Server-side authentication | Build-time MDX precompilation |
 | API endpoints | Third-party services for comments (Giscus) and CMS (Decap) |
 | Dynamic content generation at request time | Client-side search and filtering |
 
@@ -50,19 +50,21 @@ The second column is longer than it might seem. Modern JavaScript frameworks mak
 
 Every quirk in this site's architecture exists because of the static constraint.
 
-### Runtime MDX Instead of Build-Time
+### Build-Time MDX Precompilation
 
-Most MDX blogs compile markdown to JavaScript at build time. We compile it in the browser at runtime using `@mdx-js/mdx`.
+We compile MDX to JavaScript at build time using `@mdx-js/mdx`. A precompilation script runs before each build, converting markdown content into optimized React components.
 
-Why? Because build-time compilation requires knowing all posts at build time, which complicates the CMS workflow. Runtime compilation means we can add a post through Decap CMS and it just works—no rebuild required beyond the git push that triggers deployment.
+We originally used runtime compilation—compiling MDX in the browser. It worked, but Lighthouse scores told the real story: blog posts had a 5.6 second Largest Contentful Paint. The browser was doing too much work.
 
-The cost is a slightly larger JavaScript bundle and a brief flash while MDX compiles. For a personal blog, that tradeoff is acceptable. For a high-traffic publication, it would not be.
+Switching to build-time precompilation dropped LCP to 3.1 seconds—a 45% improvement. The compiled components load synchronously, which also means pre-rendered HTML contains actual content instead of loading spinners. Better for SEO, better for readers.
+
+The tradeoff is that adding a post through Decap CMS requires a rebuild. Since GitHub Pages rebuilds on every push anyway, this is not a meaningful constraint.
 
 ### Blog Posts Are txt Files
 
 Our blog posts live in `content/blog/*.txt`. Not `.md`, not `.mdx`—`.txt`.
 
-This is a workaround for Vite's module resolution. MDX files trigger special handling that conflicted with our runtime compilation approach. Renaming them to `.txt` makes Vite treat them as plain text, which is what we want since we compile them client-side anyway.
+This is a workaround for Vite's module resolution. MDX files trigger special handling that conflicts with our custom precompilation pipeline. Renaming them to `.txt` makes Vite treat them as plain text, which we then process with our own build script.
 
 It looks strange in the file explorer. It works reliably in production. We kept it.
 
@@ -98,7 +100,7 @@ Constraints are not always obstacles. Sometimes they are design pressure that pr
 
 The static-only constraint forced us to think carefully about what actually requires a server. It turns out: not much. Comments can be external. Search can be client-side. Content management can happen through git commits.
 
-Each workaround we implemented—runtime MDX, txt files, Giscus comments, split CMS hosting—is a small compromise. Together they add up to a site that costs nothing, requires no maintenance, and will keep working as long as GitHub exists.
+Each workaround we implemented—build-time MDX precompilation, txt files, Giscus comments, split CMS hosting—is a small compromise. Together they add up to a site that costs nothing, requires no maintenance, and will keep working as long as GitHub exists.
 
 That is a reasonable trade.
 
