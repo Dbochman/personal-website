@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
 import { FeaturedHero } from '@/components/blog/FeaturedHero';
@@ -263,18 +264,17 @@ const RunbookFooter = () => (
 const RUNBOOK_BLOG_SLUG = 'writing-a-runbook-for-my-personal-website';
 
 export default function Runbook() {
+  const location = useLocation();
   const [relatedPost, setRelatedPost] = useState<BlogPost | null>(null);
-  const [cameFromBlogPost, setCameFromBlogPost] = useState(false);
+
+  // Check if user navigated from a blog post (via React Router state)
+  const cameFromBlog = (location.state as { fromBlog?: boolean })?.fromBlog === true;
 
   useEffect(() => {
-    // Check if user came from the runbook blog post
-    const referrer = document.referrer;
-    if (referrer.includes(RUNBOOK_BLOG_SLUG)) {
-      setCameFromBlogPost(true);
-    } else {
+    if (!cameFromBlog) {
       loadBlogPost(RUNBOOK_BLOG_SLUG).then(setRelatedPost);
     }
-  }, []);
+  }, [cameFromBlog]);
 
   return (
     <>
@@ -305,8 +305,8 @@ export default function Runbook() {
             </h1>
           </header>
 
-          {/* Related Blog Post - hidden if user came from the blog post */}
-          {relatedPost && !cameFromBlogPost && (
+          {/* Related Blog Post - hidden if user came from a blog post */}
+          {relatedPost && !cameFromBlog && (
             <div className="mb-12">
               <FeaturedHero post={relatedPost} badgeText="Related Post" />
             </div>

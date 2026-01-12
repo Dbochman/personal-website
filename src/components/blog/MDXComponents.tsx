@@ -34,6 +34,7 @@ const SmartLink = ({ href, children }: { href?: string; children?: React.ReactNo
     return (
       <Link
         to={internalPath}
+        state={{ fromBlog: true }}
         className="text-primary underline hover:text-primary/80 font-medium"
       >
         {children}
