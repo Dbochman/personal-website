@@ -32,5 +32,98 @@
         "users": 3
       }
     ]
+  },
+  {
+    "timestamp": "2026-01-12T12:07:36.711Z",
+    "date": "2026-01-12",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 5719,
+      "users": 5628,
+      "pageViews": 6003,
+      "averageSessionDuration": 10,
+      "bounceRate": 0.94
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 1648,
+        "users": 1616,
+        "pageViews": 1866
+      },
+      {
+        "page": "/blog/adventures-in-ai-assisted-web-development",
+        "sessions": 797,
+        "users": 797,
+        "pageViews": 797
+      },
+      {
+        "page": "/runbook",
+        "sessions": 669,
+        "users": 667,
+        "pageViews": 678
+      },
+      {
+        "page": "/blog/",
+        "sessions": 552,
+        "users": 537,
+        "pageViews": 593
+      },
+      {
+        "page": "/blog",
+        "sessions": 454,
+        "users": 439,
+        "pageViews": 467
+      },
+      {
+        "page": "/blog/2026-01-getting-started-with-sre",
+        "sessions": 291,
+        "users": 288,
+        "pageViews": 288
+      },
+      {
+        "page": "/blog/2026-01-getting-started-with-sre/",
+        "sessions": 163,
+        "users": 161,
+        "pageViews": 167
+      },
+      {
+        "page": "/blog/2025-01-07-adventures-in-ai-assisted-web-development",
+        "sessions": 133,
+        "users": 125,
+        "pageViews": 138
+      },
+      {
+        "page": "/blog/2025-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 119,
+        "users": 118,
+        "pageViews": 121
+      },
+      {
+        "page": "/blog/2025-01-07-uptime-monitoring-for-a-personal-site",
+        "sessions": 88,
+        "users": 88,
+        "pageViews": 86
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 5156,
+        "users": 5101
+      },
+      {
+        "device": "mobile",
+        "sessions": 557,
+        "users": 523
+      },
+      {
+        "device": "tablet",
+        "sessions": 6,
+        "users": 4
+      }
+    ]
   }
 ]
