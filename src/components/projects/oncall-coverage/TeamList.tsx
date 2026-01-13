@@ -83,12 +83,18 @@ export function TeamList({ team }: TeamListProps) {
           {isSingleRegion ? (
             <span>Time Zone Agnostic</span>
           ) : isUSOnly ? (
-            // Show US East / US West
+            // Show US East / Central / West based on what timezones are present
             <>
               {uniqueTimezones.includes('America/New_York') && (
                 <div className="flex items-center gap-1.5">
                   <div className={`w-3 h-3 rounded ${TIMEZONE_COLORS['America/New_York'].bg}`} />
                   <span>US East</span>
+                </div>
+              )}
+              {uniqueTimezones.includes('America/Chicago') && (
+                <div className="flex items-center gap-1.5">
+                  <div className={`w-3 h-3 rounded ${TIMEZONE_COLORS['America/Chicago'].bg}`} />
+                  <span>US Central</span>
                 </div>
               )}
               {uniqueTimezones.includes('America/Los_Angeles') && (

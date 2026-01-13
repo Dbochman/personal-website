@@ -43,18 +43,40 @@ function formatHour(h: number): string {
   return `${h.toString().padStart(2, '0')}:00`;
 }
 
-// Helper to convert UTC to local time string
+// Helper to convert UTC hour to local time string using Intl (handles DST)
 function utcToLocal(utcHour: number, timezone: string): string {
-  const offsets: Record<string, number> = {
-    'America/New_York': -5,
-    'America/Los_Angeles': -8,
-    'America/Chicago': -6,
-    'Europe/London': 0,
-    'Asia/Tokyo': 9,
+  try {
+    // Create a date at the given UTC hour (use a recent date for accurate DST)
+    const date = new Date();
+    date.setUTCHours(utcHour, 0, 0, 0);
+
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: timezone,
+    });
+    return formatter.format(date);
+  } catch {
+    // Fallback if timezone is invalid
+    return formatHour(utcHour);
+  }
+}
+
+// Get short timezone label
+function getTimezoneLabel(timezone: string): string {
+  const labels: Record<string, string> = {
+    'America/New_York': 'ET',
+    'America/Los_Angeles': 'PT',
+    'America/Chicago': 'CT',
+    'Europe/London': 'GMT',
+    'Europe/Paris': 'CET',
+    'Europe/Berlin': 'CET',
+    'Asia/Tokyo': 'JST',
+    'Asia/Singapore': 'SGT',
+    'Asia/Shanghai': 'CST',
   };
-  const offset = offsets[timezone] ?? 0;
-  let local = (utcHour + offset + 24) % 24;
-  return formatHour(local);
+  return labels[timezone] || timezone.split('/').pop() || '';
 }
 
 // Helper to build rich tooltips
@@ -193,10 +215,11 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
           const hasTimezone = block.key && !['day', 'night', 'rotating'].includes(block.key);
           const localStart = hasTimezone && block.key ? utcToLocal(block.startHour, block.key) : null;
           const localEnd = hasTimezone && block.key ? utcToLocal(block.endHour % 24, block.key) : null;
+          const tzLabel = hasTimezone && block.key ? getTimezoneLabel(block.key) : null;
 
           const tooltip = buildTooltip([
             `⏰ ${formatHour(block.startHour)} - ${formatHour(block.endHour)} UTC`,
-            localStart && localEnd && `🏠 ${localStart} - ${localEnd} local`,
+            localStart && localEnd && tzLabel && `🏠 ${localStart} - ${localEnd} ${tzLabel}`,
             `⏱️ Duration: ${duration}h`,
             '',
             block.label ? `👤 ${block.label}` : '⚠️ No coverage',

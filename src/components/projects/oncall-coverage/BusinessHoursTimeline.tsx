@@ -18,15 +18,30 @@ function buildTooltip(lines: (string | null | undefined | false)[]): string {
   return lines.filter(Boolean).join('\n');
 }
 
-// Convert UTC hour to local time
+// Convert UTC hour to local time using Intl (handles DST)
+function utcToLocal(utcHour: number, timezone: string): string {
+  try {
+    const date = new Date();
+    date.setUTCHours(utcHour % 24, 0, 0, 0);
+
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: timezone,
+    });
+    return formatter.format(date);
+  } catch {
+    return `${(utcHour % 24).toString().padStart(2, '0')}:00`;
+  }
+}
+
 function utcToET(utcHour: number): string {
-  const et = (utcHour - 5 + 24) % 24;
-  return `${et}:00`;
+  return utcToLocal(utcHour, 'America/New_York');
 }
 
 function utcToPT(utcHour: number): string {
-  const pt = (utcHour - 8 + 24) % 24;
-  return `${pt}:00`;
+  return utcToLocal(utcHour, 'America/Los_Angeles');
 }
 
 export function BusinessHoursTimeline({
