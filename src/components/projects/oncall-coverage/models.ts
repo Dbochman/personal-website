@@ -170,71 +170,68 @@ const weeklyRotation: CoverageModel = {
   },
 };
 
-// Model 3: 12-Hour Shifts - balanced shift length for single-site teams
+// Model 3: 12-Hour Shifts - US/EU split for natural day/night coverage
 const twelveHourShifts: CoverageModel = {
   id: '12-hour-shifts',
-  name: '12-Hour Shifts (12-person)',
-  description: 'Two 12-hour shifts daily with rotating day/night coverage. Everyone rotates through both shifts, distributing night burden fairly across the team.',
+  name: '12-Hour Shifts (US/EU)',
+  description: 'Two 12-hour shifts with US team covering their daytime (12-00 UTC) and EU team covering theirs (00-12 UTC). Each region works business-adjacent hours.',
   rotationType: 'shift',
   team: [
-    // All 12 rotate through both day and night shifts
-    // Week A: First 6 on days, second 6 on nights
-    // Week B: Swap - second 6 on days, first 6 on nights
-    { name: 'Alex', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Jordan', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Taylor', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Morgan', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Sam', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Jamie', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Casey', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Riley', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Quinn', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Avery', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Drew', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
-    { name: 'Blake', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    // US team (New York) - covers 12:00-00:00 UTC (7am-7pm ET)
+    { name: 'Alex (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Jordan (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Taylor (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Morgan (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Sam (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Jamie (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    // EU team (London) - covers 00:00-12:00 UTC (midnight-noon GMT, or 7am-7pm in winter)
+    { name: 'Emma (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Liam (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Oliver (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Sophie (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Noah (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Isla (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
   ],
   coverage: createWeekCoverage((day, hour) => {
-    // Day shift: 12-00 UTC (7am-7pm ET)
-    // Night shift: 00-12 UTC (7pm-7am ET)
-    // All 12 people rotate through both shifts
-    const allPeople = ['Alex', 'Jordan', 'Taylor', 'Morgan', 'Sam', 'Jamie', 'Casey', 'Riley', 'Quinn', 'Avery', 'Drew', 'Blake'];
+    // US shift: 12-00 UTC (7am-7pm ET) - "day" shift
+    // EU shift: 00-12 UTC (midnight-noon GMT, ~7am-7pm local) - "night" shift label but daytime for EU
+    const usTeam = ['Alex (US)', 'Jordan (US)', 'Taylor (US)', 'Morgan (US)', 'Sam (US)', 'Jamie (US)'];
+    const euTeam = ['Emma (EU)', 'Liam (EU)', 'Oliver (EU)', 'Sophie (EU)', 'Noah (EU)', 'Isla (EU)'];
 
-    // Day shift uses first 6 in rotation, night uses second 6
-    // This rotates daily so everyone gets both shifts over time
     if (hour >= 0 && hour < 12) {
-      // Night shift: pick from pool offset by 6 from day shift
-      const primary = pickByDay(allPeople, day, 6);
-      const backup = pickByDay(allPeople, day, 9); // Offset by 3 from primary
+      // EU shift: 00-12 UTC
+      const primary = pickByDay(euTeam, day);
+      const backup = pickByDay(euTeam, day, 3);
       return { covered: true, members: [primary, backup] };
     }
-    // Day shift
-    const primary = pickByDay(allPeople, day);
-    const backup = pickByDay(allPeople, day, 3); // Offset by 3 from primary
+    // US shift: 12-00 UTC
+    const primary = pickByDay(usTeam, day);
+    const backup = pickByDay(usTeam, day, 3);
     return { covered: true, members: [primary, backup] };
   }),
   metrics: {
     coveragePercent: 100,
-    nightHoursPerPerson: 14, // Night burden shared: 84h × 2 roles / 12 people
+    nightHoursPerPerson: 0, // No one works nights in their local time
     weekendHoursPerPerson: 4, // Weekend duty distributed across all 12
     hoursPerWeekPerPerson: 28, // 168h × 2 roles / 12 people
     teamSize: 12,
     shiftLength: '12h',
-    rotation: 'Rotating day/night with offset backup',
-    onCallFrequency: '~2 shifts/week (rotating day/night)',
+    rotation: 'Regional day shifts with rotating primary/backup',
+    onCallFrequency: '~2 shifts/week within region',
     handoffsPerWeek: 14, // 2/day × 7 days
   },
   tradeoffs: {
     pros: [
+      'Zero night shifts - each region works their daytime',
       '12h shifts balance continuity vs. fatigue',
-      'Night burden shared equally - no permanent night crew',
       'Larger pool (12 people) absorbs PTO and sick days',
       'Primary + backup ensures escalation path',
     ],
     cons: [
-      'Everyone does some night shifts',
+      'Requires teams in both US and EU timezones',
       'Larger team size required (12 people)',
-      'Requires night shift differential pay',
-      'Rotating schedules can be harder to plan around',
+      'Handoff coordination between regions twice daily',
+      'Weekend coverage still required from both regions',
     ],
   },
 };
