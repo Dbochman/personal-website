@@ -8,6 +8,9 @@ const UptimeCalculator = lazy(
 const StatusPageUpdate = lazy(
   () => import('@/components/projects/statuspage-update')
 );
+const OncallCoverage = lazy(
+  () => import('@/components/projects/oncall-coverage')
+);
 
 /**
  * Project registry - single source of truth for all projects
@@ -35,6 +38,17 @@ export const projectRegistry: ProjectDefinition[] = [
     status: 'active',
     createdAt: '2025-01-12',
     component: StatusPageUpdate,
+  },
+  {
+    slug: 'oncall-coverage',
+    title: 'On-Call Coverage Models',
+    description:
+      'Compare on-call rotation models: follow-the-sun, weekly rotation, 12-hour shifts, and more. See coverage gaps, burden distribution, and tradeoffs.',
+    tags: ['SRE', 'On-Call', 'Planning'],
+    icon: 'Clock',
+    status: 'active',
+    createdAt: '2026-01-12',
+    component: OncallCoverage,
   },
 ];
 
