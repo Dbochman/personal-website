@@ -239,7 +239,7 @@ const twelveHourShifts: CoverageModel = {
 // Model 4: US Business Hours + On-Call - 24/7 with enhanced business hours
 const businessHoursOnly: CoverageModel = {
   id: 'business-hours',
-  name: 'US Business Hours + On-Call',
+  name: 'US Daytime + Rotating On-Call',
   description: '24/7 coverage with Primary + Secondary during US business hours (9am ET - 5pm PT), Primary only for nights and weekends.',
   rotationType: 'daily',
   team: [
@@ -311,10 +311,10 @@ const businessHoursOnly: CoverageModel = {
 };
 
 export const COVERAGE_MODELS: CoverageModel[] = [
-  businessHoursOnly, // Most common pattern first
   followTheSun,
   weeklyRotation,
   twelveHourShifts,
+  businessHoursOnly,
 ];
 
 export function getModelById(id: string): CoverageModel | undefined {
