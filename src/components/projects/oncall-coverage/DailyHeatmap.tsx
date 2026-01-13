@@ -32,31 +32,65 @@ const TIMEZONE_LABELS: Record<string, string> = {
   'America/Chicago': 'US (Chicago)',
 };
 
-interface RegionBlock {
+// Colors for shift types (single-site models)
+const SHIFT_COLORS: Record<string, { bg: string; text: string }> = {
+  'day': { bg: 'bg-amber-400 dark:bg-amber-500', text: 'text-white' },
+  'night': { bg: 'bg-indigo-500 dark:bg-indigo-600', text: 'text-white' },
+};
+
+interface CoverageBlock {
   startHour: number;
   endHour: number;
-  timezone: string | null;
+  key: string | null; // timezone or shift type
+  label: string | null;
 }
 
-// Group contiguous hours by member's timezone (for primary or secondary)
-function getRegionBlocks(
+// Determine if a member is day or night shift based on workingHours
+function getShiftType(member: TeamMember): 'day' | 'night' | 'rotating' | null {
+  const hours = member.workingHours.toLowerCase();
+  if (hours.includes('rotating')) return 'rotating'; // Everyone rotates through both
+  if (hours.includes('night')) return 'night';
+  if (hours.includes('day')) return 'day';
+  return null;
+}
+
+// For rotating shifts, determine shift by hour (0-12 = night, 12-24 = day)
+function getShiftByHour(hour: number): 'day' | 'night' {
+  return hour < 12 ? 'night' : 'day';
+}
+
+// Group contiguous hours by grouping key (timezone or shift)
+function getCoverageBlocks(
   daySlots: CoverageSlot[],
-  memberTimezoneMap: Map<string, string>,
-  memberIndex: number // 0 = primary, 1 = secondary
-): RegionBlock[] {
-  const blocks: RegionBlock[] = [];
-  let current: RegionBlock | null = null;
+  memberMap: Map<string, { key: string; label: string }>,
+  memberIndex: number,
+  useRotatingShifts = false
+): CoverageBlock[] {
+  const blocks: CoverageBlock[] = [];
+  let current: CoverageBlock | null = null;
 
   for (let hour = 0; hour < 24; hour++) {
     const slot = daySlots[hour];
-    const member = slot?.coveringMembers[memberIndex] || null;
-    const timezone = member ? memberTimezoneMap.get(member) || null : null;
+    const memberName = slot?.coveringMembers[memberIndex] || null;
 
-    if (current && current.timezone === timezone) {
+    // For rotating shifts, determine key by hour not by member
+    let key: string | null;
+    let label: string | null;
+    if (useRotatingShifts && memberName) {
+      const shift = getShiftByHour(hour);
+      key = shift;
+      label = shift === 'day' ? 'Day Shift' : 'Night Shift';
+    } else {
+      const info = memberName ? memberMap.get(memberName) : null;
+      key = info?.key || null;
+      label = info?.label || null;
+    }
+
+    if (current && current.key === key) {
       current.endHour = hour + 1;
     } else {
       if (current) blocks.push(current);
-      current = { startHour: hour, endHour: hour + 1, timezone };
+      current = { startHour: hour, endHour: hour + 1, key, label };
     }
   }
   if (current) blocks.push(current);
@@ -65,41 +99,79 @@ function getRegionBlocks(
 }
 
 export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps) {
-  // Map members to their timezones
-  const memberTimezoneMap = new Map<string, string>();
-  const uniqueTimezones: string[] = [];
+  // Check if single-site (all same timezone) with shift-based scheduling
+  const uniqueTimezones = [...new Set(team.map((m) => m.timezone))];
+  const isSingleSite = uniqueTimezones.length === 1;
+  const shiftTypes = team.map((m) => getShiftType(m));
+  const hasShifts = shiftTypes.some((s) => s !== null);
+  const hasRotatingShifts = shiftTypes.some((s) => s === 'rotating');
+  const useShiftMode = isSingleSite && hasShifts;
 
-  team.forEach((member) => {
-    memberTimezoneMap.set(member.name, member.timezone);
-    if (!uniqueTimezones.includes(member.timezone)) {
-      uniqueTimezones.push(member.timezone);
-    }
-  });
+  // Build member map based on mode
+  const memberMap = new Map<string, { key: string; label: string }>();
+  const legendItems: { key: string; label: string; colors: { bg: string } }[] = [];
+
+  if (useShiftMode) {
+    // Shift-based mode (fixed or rotating)
+    team.forEach((member) => {
+      const shift = getShiftType(member);
+      if (shift === 'rotating') {
+        // For rotating, member doesn't have fixed shift - will be determined by hour
+        memberMap.set(member.name, { key: 'rotating', label: 'Rotating' });
+      } else if (shift) {
+        const label = shift === 'day' ? 'Day Shift' : 'Night Shift';
+        memberMap.set(member.name, { key: shift, label });
+      }
+    });
+    legendItems.push(
+      { key: 'day', label: 'Day Shift', colors: SHIFT_COLORS['day'] },
+      { key: 'night', label: 'Night Shift', colors: SHIFT_COLORS['night'] }
+    );
+  } else {
+    // Timezone-based mode
+    team.forEach((member) => {
+      const tz = member.timezone;
+      const label = TIMEZONE_LABELS[tz] || tz;
+      memberMap.set(member.name, { key: tz, label });
+    });
+    uniqueTimezones.forEach((tz) => {
+      legendItems.push({
+        key: tz,
+        label: TIMEZONE_LABELS[tz] || tz,
+        colors: REGION_COLORS[tz] || { bg: 'bg-zinc-400' },
+      });
+    });
+  }
 
   const daySlots = coverage[dayIndex] || [];
-  const primaryBlocks = getRegionBlocks(daySlots, memberTimezoneMap, 0);
-  const secondaryBlocks = getRegionBlocks(daySlots, memberTimezoneMap, 1);
+  const primaryBlocks = getCoverageBlocks(daySlots, memberMap, 0, hasRotatingShifts);
+  const secondaryBlocks = getCoverageBlocks(daySlots, memberMap, 1, hasRotatingShifts);
 
-  const renderTimeline = (blocks: RegionBlock[], title: string) => (
+  const getColors = (key: string | null) => {
+    if (!key) return null;
+    if (useShiftMode) return SHIFT_COLORS[key];
+    return REGION_COLORS[key];
+  };
+
+  const renderTimeline = (blocks: CoverageBlock[], title: string) => (
     <div className="space-y-2">
       <h4 className="text-sm font-medium text-muted-foreground">{title}</h4>
       <div className="relative h-12 bg-zinc-200 dark:bg-zinc-700 rounded-lg overflow-hidden">
         {blocks.map((block, index) => {
           const widthPercent = ((block.endHour - block.startHour) / 24) * 100;
           const leftPercent = (block.startHour / 24) * 100;
-          const colors = block.timezone ? REGION_COLORS[block.timezone] : null;
-          const label = block.timezone ? TIMEZONE_LABELS[block.timezone] : null;
+          const colors = getColors(block.key);
 
           return (
             <div
               key={index}
               className={`absolute top-0 bottom-0 flex items-center justify-center ${colors?.bg || 'bg-zinc-300 dark:bg-zinc-600'}`}
               style={{ left: `${leftPercent}%`, width: `${widthPercent}%` }}
-              title={`${block.startHour}:00 - ${block.endHour}:00 UTC\n${label || 'No coverage'}`}
+              title={`${block.startHour}:00 - ${block.endHour}:00 UTC\n${block.label || 'No coverage'}`}
             >
-              {label && (
+              {block.label && (
                 <span className={`text-sm font-semibold ${colors?.text || 'text-zinc-500'}`}>
-                  {label}
+                  {block.label}
                 </span>
               )}
             </div>
@@ -133,16 +205,12 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
 
           {/* Legend */}
           <div className="flex flex-wrap items-center gap-4 pt-2 border-t text-xs">
-            {uniqueTimezones.map((tz) => {
-              const colors = REGION_COLORS[tz];
-              const label = TIMEZONE_LABELS[tz];
-              return (
-                <div key={tz} className="flex items-center gap-1.5">
-                  <div className={`w-3 h-3 rounded ${colors?.bg}`} />
-                  <span>{label}</span>
-                </div>
-              );
-            })}
+            {legendItems.map((item) => (
+              <div key={item.key} className="flex items-center gap-1.5">
+                <div className={`w-3 h-3 rounded ${item.colors.bg}`} />
+                <span>{item.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </CardContent>

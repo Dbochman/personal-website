@@ -173,65 +173,71 @@ const weeklyRotation: CoverageModel = {
   },
 };
 
-// Model 3: 12-Hour Shifts - Datadog's recommended shift length
-// Per Datadog: "12 hours as a guideline for shift lengths, which is long enough
-// to minimize handoffs but still short enough to manage the risk of fatigue"
+// Model 3: 12-Hour Shifts - balanced shift length for single-site teams
 const twelveHourShifts: CoverageModel = {
   id: '12-hour-shifts',
-  name: '12-Hour Shifts (8-person)',
-  description: 'Two 12-hour shifts daily with primary + backup. Backup is offset so you never backup the same day you were primary.',
+  name: '12-Hour Shifts (12-person)',
+  description: 'Two 12-hour shifts daily with rotating day/night coverage. Everyone rotates through both shifts, distributing night burden fairly across the team.',
   rotationType: 'shift',
   team: [
-    // Day shift rotation (primary + backup offset by 2 days)
-    { name: 'Alex', timezone: 'America/New_York', region: 'Single', workingHours: 'Day shift rotation', hoursPerWeek: 42, nightHours: 0, weekendHours: 12 },
-    { name: 'Jordan', timezone: 'America/New_York', region: 'Single', workingHours: 'Day shift rotation', hoursPerWeek: 42, nightHours: 0, weekendHours: 12 },
-    { name: 'Taylor', timezone: 'America/New_York', region: 'Single', workingHours: 'Day shift rotation', hoursPerWeek: 42, nightHours: 0, weekendHours: 12 },
-    { name: 'Morgan', timezone: 'America/New_York', region: 'Single', workingHours: 'Day shift rotation', hoursPerWeek: 42, nightHours: 0, weekendHours: 12 },
-    // Night shift rotation (primary + backup offset by 2 days)
-    { name: 'Casey', timezone: 'America/New_York', region: 'Single', workingHours: 'Night shift rotation', hoursPerWeek: 42, nightHours: 42, weekendHours: 12 },
-    { name: 'Riley', timezone: 'America/New_York', region: 'Single', workingHours: 'Night shift rotation', hoursPerWeek: 42, nightHours: 42, weekendHours: 12 },
-    { name: 'Quinn', timezone: 'America/New_York', region: 'Single', workingHours: 'Night shift rotation', hoursPerWeek: 42, nightHours: 42, weekendHours: 12 },
-    { name: 'Avery', timezone: 'America/New_York', region: 'Single', workingHours: 'Night shift rotation', hoursPerWeek: 42, nightHours: 42, weekendHours: 12 },
+    // All 12 rotate through both day and night shifts
+    // Week A: First 6 on days, second 6 on nights
+    // Week B: Swap - second 6 on days, first 6 on nights
+    { name: 'Alex', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Jordan', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Taylor', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Morgan', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Sam', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Jamie', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Casey', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Riley', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Quinn', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Avery', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Drew', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
+    { name: 'Blake', timezone: 'America/New_York', region: 'Single', workingHours: 'Rotating day/night shifts', hoursPerWeek: 28, nightHours: 14, weekendHours: 4 },
   ],
   coverage: createWeekCoverage((day, hour) => {
     // Day shift: 12-00 UTC (7am-7pm ET)
     // Night shift: 00-12 UTC (7pm-7am ET)
-    // Primary rotates daily, backup is offset by 2 days (never same person)
-    const dayPeople = ['Alex', 'Jordan', 'Taylor', 'Morgan'];
-    const nightPeople = ['Casey', 'Riley', 'Quinn', 'Avery'];
+    // All 12 people rotate through both shifts
+    const allPeople = ['Alex', 'Jordan', 'Taylor', 'Morgan', 'Sam', 'Jamie', 'Casey', 'Riley', 'Quinn', 'Avery', 'Drew', 'Blake'];
 
+    // Day shift uses first 6 in rotation, night uses second 6
+    // This rotates daily so everyone gets both shifts over time
     if (hour >= 0 && hour < 12) {
-      const primary = pickByDay(nightPeople, day);
-      const backup = pickByDay(nightPeople, day, 2); // Offset by 2
+      // Night shift: pick from pool offset by 6 from day shift
+      const primary = pickByDay(allPeople, day, 6);
+      const backup = pickByDay(allPeople, day, 9); // Offset by 3 from primary
       return { covered: true, members: [primary, backup] };
     }
-    const primary = pickByDay(dayPeople, day);
-    const backup = pickByDay(dayPeople, day, 2); // Offset by 2
+    // Day shift
+    const primary = pickByDay(allPeople, day);
+    const backup = pickByDay(allPeople, day, 3); // Offset by 3 from primary
     return { covered: true, members: [primary, backup] };
   }),
   metrics: {
     coveragePercent: 100,
-    nightHoursPerPerson: 42, // Night crew: 84h × 2 roles / 4 people
-    weekendHoursPerPerson: 12, // Weekend duty distributed
-    hoursPerWeekPerPerson: 42, // 168h × 2 roles / 8 people
-    teamSize: 8,
-    shiftLength: '12h (Datadog recommended)',
-    rotation: 'Daily rotation with offset backup',
-    onCallFrequency: '~3 shifts/week (mix of primary + backup)',
+    nightHoursPerPerson: 14, // Night burden shared: 84h × 2 roles / 12 people
+    weekendHoursPerPerson: 4, // Weekend duty distributed across all 12
+    hoursPerWeekPerPerson: 28, // 168h × 2 roles / 12 people
+    teamSize: 12,
+    shiftLength: '12h',
+    rotation: 'Rotating day/night with offset backup',
+    onCallFrequency: '~2 shifts/week (rotating day/night)',
     handoffsPerWeek: 14, // 2/day × 7 days
   },
   tradeoffs: {
     pros: [
-      '12h shifts balance continuity vs. fatigue (Datadog best practice)',
+      '12h shifts balance continuity vs. fatigue',
+      'Night burden shared equally - no permanent night crew',
+      'Larger pool (12 people) absorbs PTO and sick days',
       'Primary + backup ensures escalation path',
-      'Offset backup prevents same-day double duty',
-      'Works with single-site team',
     ],
     cons: [
-      'Half the team works night shifts',
-      'Higher burden with primary + backup roles',
+      'Everyone does some night shifts',
+      'Larger team size required (12 people)',
       'Requires night shift differential pay',
-      'Health impacts from regular night work',
+      'Rotating schedules can be harder to plan around',
     ],
   },
 };

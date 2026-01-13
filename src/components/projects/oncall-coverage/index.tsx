@@ -51,8 +51,8 @@ export default function OncallCoverage() {
 
       {/* Visualizations */}
       <div className="space-y-6">
-        {/* Coverage levels heatmap (not for follow-the-sun or weekly-rotation) */}
-        {!['follow-the-sun', 'weekly-rotation'].includes(model.id) && (
+        {/* Coverage levels heatmap (not for follow-the-sun, weekly-rotation, or 12-hour-shifts) */}
+        {!['follow-the-sun', 'weekly-rotation', '12-hour-shifts'].includes(model.id) && (
           <CoverageHeatmap coverage={model.coverage} />
         )}
 
@@ -61,14 +61,18 @@ export default function OncallCoverage() {
           <DailyHeatmap coverage={model.coverage} team={model.team} />
         )}
 
-        {/* Weekly view - 7 days (only for shift-based models) */}
-        {!['follow-the-sun', 'weekly-rotation'].includes(model.id) && (
+        {/* Weekly view - 7 days (only for models where it adds value) */}
+        {!['follow-the-sun', 'weekly-rotation', '12-hour-shifts'].includes(model.id) && (
           <WeeklyHeatmap coverage={model.coverage} team={model.team} />
         )}
 
-        {/* Monthly rotation view - 30 days (not for follow-the-sun) */}
-        {model.id !== 'follow-the-sun' && (
-          <MonthlyHeatmap team={model.team} rotationWeeks={model.rotationWeeks} />
+        {/* Monthly rotation view - 30 days (for weekly rotation and shift models) */}
+        {!['follow-the-sun'].includes(model.id) && (
+          <MonthlyHeatmap
+            team={model.team}
+            rotationWeeks={model.rotationWeeks}
+            rotationType={model.rotationType}
+          />
         )}
 
         {/* Metrics */}
