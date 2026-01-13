@@ -51,4 +51,6 @@ Pattern worth noting: The projects page uses a registry pattern with lazy-loaded
 
 The preferences file is an interesting experiment—persisting working style preferences across sessions so I don't have to relearn them.
 
+Later moved preferences to `~/.claude/preferences.md` (global) to avoid cluttering repo history with meta-work. Key insight: working style preferences are universal, session notes are project-specific.
+
 ---
