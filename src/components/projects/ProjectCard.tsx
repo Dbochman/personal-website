@@ -18,7 +18,7 @@ import {
   MessageSquare,
   type LucideIcon,
 } from 'lucide-react';
-import type { ProjectMeta, ProjectStatus } from '@/types/project';
+import type { ProjectMeta } from '@/types/project';
 
 // Icon registry - add icons here as new projects are added
 const iconRegistry: Record<string, LucideIcon> = {
@@ -34,18 +34,6 @@ const iconRegistry: Record<string, LucideIcon> = {
 interface ProjectCardProps {
   project: ProjectMeta;
 }
-
-const statusVariants: Record<ProjectStatus, 'default' | 'secondary' | 'outline'> = {
-  active: 'default',
-  experimental: 'secondary',
-  archived: 'outline',
-};
-
-const statusLabels: Record<ProjectStatus, string> = {
-  active: 'Active',
-  experimental: 'Experimental',
-  archived: 'Archived',
-};
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const [hasBeenHovered, setHasBeenHovered] = useState(false);
@@ -74,15 +62,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
     >
       <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus:shadow-lg group-focus:border-primary/50 h-full">
         <CardHeader className="pb-3">
-          <div className="flex items-center gap-3 mb-2">
+          <CardTitle className="text-xl group-hover:text-primary group-focus:text-primary transition-colors flex items-center gap-2">
             {IconComponent && (
-              <IconComponent className="w-6 h-6 text-primary" />
+              <IconComponent className="w-5 h-5 text-primary flex-shrink-0" />
             )}
-            <Badge variant={statusVariants[project.status]} className="text-xs">
-              {statusLabels[project.status]}
-            </Badge>
-          </div>
-          <CardTitle className="text-xl group-hover:text-primary group-focus:text-primary transition-colors">
             {project.title}
           </CardTitle>
           <CardDescription className="text-sm">
