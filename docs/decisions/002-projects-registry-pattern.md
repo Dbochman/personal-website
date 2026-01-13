@@ -18,7 +18,9 @@ Options considered:
 
 ## Decision
 
-Implemented a registry pattern in `src/data/projects.ts`:
+Implemented a registry pattern in `src/data/projects.ts`.
+
+**Data flow:** URL → wrapper page → registry lookup → lazy load component → render
 
 ```typescript
 const projects: ProjectDefinition[] = [
