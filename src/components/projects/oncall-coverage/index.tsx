@@ -11,6 +11,7 @@ import { CoverageHeatmap } from './CoverageHeatmap';
 import { DailyHeatmap } from './DailyHeatmap';
 import { WeeklyHeatmap } from './WeeklyHeatmap';
 import { MonthlyHeatmap } from './MonthlyHeatmap';
+import { BusinessHoursTimeline } from './BusinessHoursTimeline';
 import { MetricsPanel } from './MetricsPanel';
 import { TeamList } from './TeamList';
 import { Tradeoffs } from './Tradeoffs';
@@ -56,9 +57,18 @@ export default function OncallCoverage() {
           <CoverageHeatmap coverage={model.coverage} />
         )}
 
-        {/* Daily view - 24 hours (not for weekly-rotation) */}
-        {model.id !== 'weekly-rotation' && (
+        {/* Daily view - 24 hours (not for weekly-rotation or business-hours) */}
+        {!['weekly-rotation', 'business-hours'].includes(model.id) && (
           <DailyHeatmap coverage={model.coverage} team={model.team} />
+        )}
+
+        {/* Business hours timeline (only for business-hours model) */}
+        {model.id === 'business-hours' && (
+          <BusinessHoursTimeline
+            etPrimaryHours={{ start: 14, end: 19 }}
+            ptPrimaryHours={{ start: 19, end: 25 }}
+            overlapHours={{ start: 17, end: 22 }}
+          />
         )}
 
         {/* Weekly view - 7 days (only for models where it adds value) */}
@@ -67,7 +77,7 @@ export default function OncallCoverage() {
         )}
 
         {/* Monthly rotation view - 30 days */}
-        {!['follow-the-sun'].includes(model.id) && (
+        {!['follow-the-sun', 'business-hours'].includes(model.id) && (
           <MonthlyHeatmap
             team={model.team}
             rotationWeeks={model.rotationWeeks}

@@ -144,8 +144,8 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
   }
 
   const daySlots = coverage[dayIndex] || [];
-  const primaryBlocks = getCoverageBlocks(daySlots, memberMap, 0, hasRotatingShifts);
-  const secondaryBlocks = getCoverageBlocks(daySlots, memberMap, 1, hasRotatingShifts);
+  const primaryBlocks = getCoverageBlocks(daySlots, memberMap, 0, useShiftMode && hasRotatingShifts);
+  const secondaryBlocks = getCoverageBlocks(daySlots, memberMap, 1, useShiftMode && hasRotatingShifts);
 
   const getColors = (key: string | null) => {
     if (!key) return null;

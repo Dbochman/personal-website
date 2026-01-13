@@ -243,24 +243,25 @@ const businessHoursOnly: CoverageModel = {
   description: '24/7 coverage with Primary + Secondary during US business hours (9am ET - 5pm PT), Primary only for nights and weekends.',
   rotationType: 'daily',
   team: [
-    // East Coast (New York) - covers 9am-5pm ET = 14:00-22:00 UTC
-    { name: 'Alex (ET)', timezone: 'America/New_York', region: 'US', workingHours: '9am-5pm ET + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
-    { name: 'Jordan (ET)', timezone: 'America/New_York', region: 'US', workingHours: '9am-5pm ET + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
-    { name: 'Taylor (ET)', timezone: 'America/New_York', region: 'US', workingHours: '9am-5pm ET + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
-    // West Coast (Los Angeles) - covers 9am-5pm PT = 17:00-01:00 UTC
-    { name: 'Morgan (PT)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '9am-5pm PT + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
-    { name: 'Casey (PT)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '9am-5pm PT + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
-    { name: 'Riley (PT)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '9am-5pm PT + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    // East Coast (New York) - primary 9am-2pm ET = 14:00-19:00 UTC
+    { name: 'Alex (ET)', timezone: 'America/New_York', region: 'US', workingHours: 'Primary 9am-2pm ET (14-19 UTC) + rotating nights/weekends', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    { name: 'Jordan (ET)', timezone: 'America/New_York', region: 'US', workingHours: 'Primary 9am-2pm ET (14-19 UTC) + rotating nights/weekends', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    { name: 'Taylor (ET)', timezone: 'America/New_York', region: 'US', workingHours: 'Primary 9am-2pm ET (14-19 UTC) + rotating nights/weekends', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    // West Coast (Los Angeles) - primary 11am-5pm PT = 19:00-01:00 UTC
+    { name: 'Morgan (PT)', timezone: 'America/Los_Angeles', region: 'US', workingHours: 'Primary 11am-5pm PT (19-01 UTC) + rotating nights/weekends', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    { name: 'Casey (PT)', timezone: 'America/Los_Angeles', region: 'US', workingHours: 'Primary 11am-5pm PT (19-01 UTC) + rotating nights/weekends', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    { name: 'Riley (PT)', timezone: 'America/Los_Angeles', region: 'US', workingHours: 'Primary 11am-5pm PT (19-01 UTC) + rotating nights/weekends', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
   ],
   coverage: createWeekCoverage((day, hour) => {
     const isWeekday = day >= 1 && day <= 5;
     const etTeam = ['Alex (ET)', 'Jordan (ET)', 'Taylor (ET)'];
     const ptTeam = ['Morgan (PT)', 'Casey (PT)', 'Riley (PT)'];
-    const allTeam = [...etTeam, ...ptTeam];
+    // Interleave ET/PT for balanced off-hours rotation
+    const onCallRotation = ['Alex (ET)', 'Morgan (PT)', 'Jordan (ET)', 'Casey (PT)', 'Taylor (ET)', 'Riley (PT)'];
 
     const etPrimary = etTeam[day % etTeam.length];
     const ptPrimary = ptTeam[day % ptTeam.length];
-    const onCallPrimary = allTeam[day % allTeam.length];
+    const onCallPrimary = onCallRotation[day % onCallRotation.length];
 
     // Business hours: 9am ET - 5pm PT = 14:00-01:00 UTC
     const isBusinessHours = isWeekday && (hour >= 14 || hour < 1);
@@ -270,12 +271,16 @@ const businessHoursOnly: CoverageModel = {
         // ET only: 9am-12pm ET (before PT starts)
         return { covered: true, members: [etPrimary, onCallPrimary !== etPrimary ? onCallPrimary : ptPrimary] };
       }
-      if (hour >= 17 && hour < 22) {
-        // Overlap: ET primary, PT secondary
+      if (hour >= 17 && hour < 19) {
+        // Early overlap: ET primary, PT secondary (12pm-2pm ET / 9am-11am PT)
         return { covered: true, members: [etPrimary, ptPrimary] };
       }
+      if (hour >= 19 && hour < 22) {
+        // Late overlap: PT primary, ET secondary (2pm-5pm ET / 11am-2pm PT)
+        return { covered: true, members: [ptPrimary, etPrimary] };
+      }
       if (hour >= 22 || hour < 1) {
-        // PT primary, with secondary
+        // PT only: 2pm-5pm PT (after ET ends)
         return { covered: true, members: [ptPrimary, onCallPrimary !== ptPrimary ? onCallPrimary : etPrimary] };
       }
     }
