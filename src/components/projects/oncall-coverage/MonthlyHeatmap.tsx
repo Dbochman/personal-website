@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { MEMBER_COLORS } from './types';
 import type { TeamMember } from './types';
 
 interface MonthlyHeatmapProps {
@@ -7,19 +8,24 @@ interface MonthlyHeatmapProps {
   rotationType?: 'weekly' | 'daily' | 'shift';
 }
 
-// Pastel colors for team members
-const MEMBER_COLORS = [
-  { bg: 'bg-emerald-200 dark:bg-emerald-800', strip: 'bg-emerald-400 dark:bg-emerald-600', text: 'text-emerald-800 dark:text-emerald-200' },
-  { bg: 'bg-rose-200 dark:bg-rose-800', strip: 'bg-rose-400 dark:bg-rose-600', text: 'text-rose-800 dark:text-rose-200' },
-  { bg: 'bg-violet-200 dark:bg-violet-800', strip: 'bg-violet-400 dark:bg-violet-600', text: 'text-violet-800 dark:text-violet-200' },
-  { bg: 'bg-amber-200 dark:bg-amber-800', strip: 'bg-amber-400 dark:bg-amber-600', text: 'text-amber-800 dark:text-amber-200' },
-  { bg: 'bg-sky-200 dark:bg-sky-800', strip: 'bg-sky-400 dark:bg-sky-600', text: 'text-sky-800 dark:text-sky-200' },
-  { bg: 'bg-pink-200 dark:bg-pink-800', strip: 'bg-pink-400 dark:bg-pink-600', text: 'text-pink-800 dark:text-pink-200' },
-  { bg: 'bg-teal-200 dark:bg-teal-800', strip: 'bg-teal-400 dark:bg-teal-600', text: 'text-teal-800 dark:text-teal-200' },
-  { bg: 'bg-orange-200 dark:bg-orange-800', strip: 'bg-orange-400 dark:bg-orange-600', text: 'text-orange-800 dark:text-orange-200' },
-];
-
 const DAYS_OF_WEEK = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const DAYS_FULL = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+// Helper to build rich tooltips
+function buildTooltip(lines: (string | null | undefined | false)[]): string {
+  return lines.filter(Boolean).join('\n');
+}
+
+// Get timezone label for a team member
+function getTimezoneShort(member: TeamMember): string {
+  if (member.timezone.includes('New_York')) return 'ET';
+  if (member.timezone.includes('Los_Angeles')) return 'PT';
+  if (member.timezone.includes('Chicago')) return 'CT';
+  if (member.timezone.includes('London')) return 'GMT';
+  if (member.timezone.includes('Tokyo')) return 'JST';
+  if (member.timezone.includes('Singapore') || member.timezone.includes('Shanghai')) return 'SGT';
+  return member.region;
+}
 
 export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }: MonthlyHeatmapProps) {
   // Filter to active rotation members (not backup/off)
@@ -208,6 +214,21 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
                     const nightColors = getMemberColor(day.nightPrimaryColorIndex);
                     const dayName = getDisplayName(day.dayPrimary.name);
                     const nightName = getDisplayName(day.nightPrimary.name);
+                    const dayTz = getTimezoneShort(day.dayPrimary);
+                    const nightTz = getTimezoneShort(day.nightPrimary);
+
+                    const shiftTooltip = buildTooltip([
+                      `📅 ${DAYS_FULL[day.dayOfWeek]} (Day ${day.dayNumber})`,
+                      day.isWeekend && '🗓️ Weekend',
+                      '',
+                      `☀️ Day Shift (12h)`,
+                      `   Primary: ${dayName} (${dayTz})`,
+                      day.dayBackup && `   Backup: ${getDisplayName(day.dayBackup.name)}`,
+                      '',
+                      `🌙 Night Shift (12h)`,
+                      `   Primary: ${nightName} (${nightTz})`,
+                      day.nightBackup && `   Backup: ${getDisplayName(day.nightBackup.name)}`,
+                    ]);
 
                     return (
                       <div
@@ -215,7 +236,7 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
                         className={`aspect-square rounded overflow-hidden flex flex-col ${
                           day.isWeekend ? 'opacity-80' : ''
                         }`}
-                        title={`Day ${day.dayNumber}\n☀️ Day: ${dayName}\n🌙 Night: ${nightName}`}
+                        title={shiftTooltip}
                       >
                         {/* Day number */}
                         <div className="text-[10px] text-muted-foreground text-center bg-zinc-100 dark:bg-zinc-800/50 py-0.5">
@@ -224,7 +245,7 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
                         {/* Day shift - top half */}
                         <div
                           className={`flex-1 ${dayColors.bg} flex items-center justify-center`}
-                          title={`Day shift: ${dayName}`}
+                          title={`☀️ Day Shift: ${dayName} (${dayTz})`}
                         >
                           <span className={`text-[10px] font-semibold ${dayColors.text} truncate px-0.5`}>
                             {dayName}
@@ -233,7 +254,7 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
                         {/* Night shift - bottom half */}
                         <div
                           className={`flex-1 ${nightColors.strip} flex items-center justify-center`}
-                          title={`Night shift: ${nightName}`}
+                          title={`🌙 Night Shift: ${nightName} (${nightTz})`}
                         >
                           <span className="text-[10px] font-semibold text-white dark:text-zinc-900 truncate px-0.5">
                             {nightName}
@@ -268,6 +289,23 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
                   const secondaryColors = day.secondary ? getMemberColor(day.secondaryColorIndex) : null;
                   const primaryName = day.primary ? getDisplayName(day.primary.name) : 'None';
                   const secondaryName = day.secondary ? getDisplayName(day.secondary.name) : null;
+                  const primaryTz = day.primary ? getTimezoneShort(day.primary) : '';
+                  const secondaryTz = day.secondary ? getTimezoneShort(day.secondary) : '';
+                  const weekNum = Math.floor((day.dayNumber - 1) / 7) + 1;
+
+                  const rotationTooltip = buildTooltip([
+                    `📅 ${DAYS_FULL[day.dayOfWeek]} (Day ${day.dayNumber})`,
+                    rotationType === 'weekly' && `📆 Week ${weekNum} of ${cycleLength}`,
+                    day.isWeekend && '🗓️ Weekend',
+                    '',
+                    `👤 Primary: ${primaryName}${primaryTz ? ` (${primaryTz})` : ''}`,
+                    day.primary?.workingHours && `   ${day.primary.workingHours}`,
+                    secondaryName && '',
+                    secondaryName && `👥 Secondary: ${secondaryName}${secondaryTz ? ` (${secondaryTz})` : ''}`,
+                    day.secondary?.workingHours && `   ${day.secondary.workingHours}`,
+                    '',
+                    rotationType === 'weekly' ? '⏱️ 24/7 coverage for the week' : '⏱️ 24h shift',
+                  ]);
 
                   return (
                     <div
@@ -275,7 +313,7 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
                       className={`aspect-square rounded overflow-hidden flex flex-col ${
                         day.isWeekend ? 'opacity-80' : ''
                       }`}
-                      title={`Day ${day.dayNumber}\nPrimary: ${primaryName}${secondaryName ? `\nSecondary: ${secondaryName}` : ''}`}
+                      title={rotationTooltip}
                     >
                       {/* Primary section - main cell */}
                       <div
@@ -295,7 +333,7 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
                       {secondaryColors && secondaryName && (
                         <div
                           className={`h-6 ${secondaryColors.strip} flex items-center justify-center px-1`}
-                          title={`Secondary: ${secondaryName}`}
+                          title={`👥 Secondary: ${secondaryName}${secondaryTz ? ` (${secondaryTz})` : ''}`}
                         >
                           <span className="text-[11px] font-medium text-white dark:text-zinc-900 truncate">
                             {secondaryName}

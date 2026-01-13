@@ -38,6 +38,52 @@ const SHIFT_COLORS: Record<string, { bg: string; text: string }> = {
   'night': { bg: 'bg-indigo-500 dark:bg-indigo-600', text: 'text-white' },
 };
 
+// Helper to format hour with padding
+function formatHour(h: number): string {
+  return `${h.toString().padStart(2, '0')}:00`;
+}
+
+// Helper to convert UTC hour to local time string using Intl (handles DST)
+function utcToLocal(utcHour: number, timezone: string): string {
+  try {
+    // Create a date at the given UTC hour (use a recent date for accurate DST)
+    const date = new Date();
+    date.setUTCHours(utcHour, 0, 0, 0);
+
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: timezone,
+    });
+    return formatter.format(date);
+  } catch {
+    // Fallback if timezone is invalid
+    return formatHour(utcHour);
+  }
+}
+
+// Get short timezone label
+function getTimezoneLabel(timezone: string): string {
+  const labels: Record<string, string> = {
+    'America/New_York': 'ET',
+    'America/Los_Angeles': 'PT',
+    'America/Chicago': 'CT',
+    'Europe/London': 'GMT',
+    'Europe/Paris': 'CET',
+    'Europe/Berlin': 'CET',
+    'Asia/Tokyo': 'JST',
+    'Asia/Singapore': 'SGT',
+    'Asia/Shanghai': 'CST',
+  };
+  return labels[timezone] || timezone.split('/').pop() || '';
+}
+
+// Helper to build rich tooltips
+function buildTooltip(lines: (string | null | undefined | false)[]): string {
+  return lines.filter(Boolean).join('\n');
+}
+
 interface CoverageBlock {
   startHour: number;
   endHour: number;
@@ -144,8 +190,8 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
   }
 
   const daySlots = coverage[dayIndex] || [];
-  const primaryBlocks = getCoverageBlocks(daySlots, memberMap, 0, hasRotatingShifts);
-  const secondaryBlocks = getCoverageBlocks(daySlots, memberMap, 1, hasRotatingShifts);
+  const primaryBlocks = getCoverageBlocks(daySlots, memberMap, 0, useShiftMode && hasRotatingShifts);
+  const secondaryBlocks = getCoverageBlocks(daySlots, memberMap, 1, useShiftMode && hasRotatingShifts);
 
   const getColors = (key: string | null) => {
     if (!key) return null;
@@ -163,13 +209,30 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
           const colors = getColors(block.key);
           // Only show label for blocks wider than 20% (~5 hours)
           const showLabel = block.label && widthPercent >= 20;
+          const duration = block.endHour - block.startHour;
+
+          // Build local time conversions if we have a timezone key
+          const hasTimezone = block.key && !['day', 'night', 'rotating'].includes(block.key);
+          const localStart = hasTimezone && block.key ? utcToLocal(block.startHour, block.key) : null;
+          const localEnd = hasTimezone && block.key ? utcToLocal(block.endHour % 24, block.key) : null;
+          const tzLabel = hasTimezone && block.key ? getTimezoneLabel(block.key) : null;
+
+          const tooltip = buildTooltip([
+            `⏰ ${formatHour(block.startHour)} - ${formatHour(block.endHour)} UTC`,
+            localStart && localEnd && tzLabel && `🏠 ${localStart} - ${localEnd} ${tzLabel}`,
+            `⏱️ Duration: ${duration}h`,
+            '',
+            block.label ? `👤 ${block.label}` : '⚠️ No coverage',
+            title === 'Primary' && '   Handles all incoming incidents',
+            title === 'Secondary' && '   Escalation backup for primary',
+          ]);
 
           return (
             <div
               key={index}
               className={`absolute top-0 bottom-0 flex items-center justify-center ${colors?.bg || 'bg-zinc-300 dark:bg-zinc-600'}`}
               style={{ left: `${leftPercent}%`, width: `${widthPercent}%` }}
-              title={`${block.startHour}:00 - ${block.endHour}:00 UTC\n${block.label || 'No coverage'}`}
+              title={tooltip}
             >
               {showLabel && (
                 <span className={`text-sm font-semibold ${colors?.text || 'text-zinc-500'} truncate px-1`}>
