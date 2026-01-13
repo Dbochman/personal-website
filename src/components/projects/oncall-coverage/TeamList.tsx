@@ -1,12 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { TeamMember } from './types';
-import { REGION_COLORS } from './types';
+import { REGION_COLORS, TIMEZONE_LABELS } from './types';
 
 interface TeamListProps {
   team: TeamMember[];
 }
 
 export function TeamList({ team }: TeamListProps) {
+  // Get unique timezones from team
+  const uniqueTimezones = [...new Set(team.map((m) => m.timezone))];
+
   return (
     <Card>
       <CardHeader className="pb-2">
@@ -16,6 +19,7 @@ export function TeamList({ team }: TeamListProps) {
         <div className="space-y-2">
           {team.map((member, index) => {
             const color = REGION_COLORS[member.region];
+            const tzLabel = TIMEZONE_LABELS[member.timezone] || member.region;
             return (
               <div
                 key={index}
@@ -24,7 +28,7 @@ export function TeamList({ team }: TeamListProps) {
                 {/* Region indicator */}
                 <div
                   className={`w-2 h-8 rounded-full ${color.bg}`}
-                  title={member.region}
+                  title={tzLabel}
                 />
 
                 {/* Name and schedule */}
@@ -52,15 +56,17 @@ export function TeamList({ team }: TeamListProps) {
           })}
         </div>
 
-        {/* Region legend */}
-        <div className="flex flex-wrap gap-3 mt-3 pt-3 border-t text-xs text-muted-foreground">
-          {Object.entries(REGION_COLORS).map(([region, color]) => {
-            const hasRegion = team.some((m) => m.region === region);
-            if (!hasRegion) return null;
+        {/* Region legend with specific cities */}
+        <div className="flex flex-wrap gap-4 mt-3 pt-3 border-t text-xs text-muted-foreground">
+          {uniqueTimezones.map((tz) => {
+            const member = team.find((m) => m.timezone === tz);
+            if (!member) return null;
+            const color = REGION_COLORS[member.region];
+            const label = TIMEZONE_LABELS[tz] || member.region;
             return (
-              <div key={region} className="flex items-center gap-1">
-                <div className={`w-2 h-2 rounded-full ${color.bg}`} />
-                <span>{region}</span>
+              <div key={tz} className="flex items-center gap-1.5">
+                <div className={`w-3 h-3 rounded ${color.bg}`} />
+                <span>{label}</span>
               </div>
             );
           })}

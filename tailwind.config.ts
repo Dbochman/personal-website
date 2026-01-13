@@ -20,6 +20,9 @@ export default {
 			}
 		},
 		extend: {
+			gridTemplateColumns: {
+				'24': 'repeat(24, minmax(0, 1fr))',
+			},
 			fontFamily: {
 				// Modern system font stack - zero web fonts, instant rendering
 				// macOS/iOS: San Francisco, Windows: Segoe UI, Android: Roboto

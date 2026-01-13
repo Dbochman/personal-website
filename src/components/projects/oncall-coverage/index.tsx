@@ -8,6 +8,9 @@ import {
 } from '@/components/ui/select';
 import { COVERAGE_MODELS, getModelById } from './models';
 import { CoverageHeatmap } from './CoverageHeatmap';
+import { DailyHeatmap } from './DailyHeatmap';
+import { WeeklyHeatmap } from './WeeklyHeatmap';
+import { MonthlyHeatmap } from './MonthlyHeatmap';
 import { MetricsPanel } from './MetricsPanel';
 import { TeamList } from './TeamList';
 import { Tradeoffs } from './Tradeoffs';
@@ -48,8 +51,23 @@ export default function OncallCoverage() {
 
       {/* Visualizations */}
       <div className="space-y-6">
-        {/* Heatmap */}
-        <CoverageHeatmap coverage={model.coverage} />
+        {/* Coverage levels heatmap (not for follow-the-sun) */}
+        {model.id !== 'follow-the-sun' && (
+          <CoverageHeatmap coverage={model.coverage} />
+        )}
+
+        {/* Daily view - 24 hours */}
+        <DailyHeatmap coverage={model.coverage} team={model.team} />
+
+        {/* Weekly view - 7 days (not for follow-the-sun which has daily handoffs) */}
+        {model.id !== 'follow-the-sun' && (
+          <WeeklyHeatmap coverage={model.coverage} team={model.team} />
+        )}
+
+        {/* Monthly rotation view - 30 days (not for follow-the-sun) */}
+        {model.id !== 'follow-the-sun' && (
+          <MonthlyHeatmap team={model.team} rotationWeeks={model.rotationWeeks} />
+        )}
 
         {/* Metrics */}
         <MetricsPanel metrics={model.metrics} />

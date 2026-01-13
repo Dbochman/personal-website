@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Clock, Moon, Calendar, Users, Timer, RefreshCw } from 'lucide-react';
 import type { ModelMetrics } from './types';
 
 interface MetricsPanelProps {
@@ -8,82 +7,72 @@ interface MetricsPanelProps {
 
 export function MetricsPanel({ metrics }: MetricsPanelProps) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
-      {/* Key Metrics */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium">Key Metrics</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <MetricRow
-            icon={<Clock className="w-4 h-4" />}
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm font-medium">Key Metrics</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <MetricBox
             label="Coverage"
             value={`${metrics.coveragePercent}%`}
             highlight={metrics.coveragePercent === 100}
           />
-          <MetricRow
-            icon={<Moon className="w-4 h-4" />}
-            label="Night Hours"
-            value={`${metrics.nightHoursPerPerson}h/person`}
-            warning={metrics.nightHoursPerPerson > 10}
-          />
-          <MetricRow
-            icon={<Calendar className="w-4 h-4" />}
-            label="Weekend Hours"
-            value={`${metrics.weekendHoursPerPerson}h/person`}
-          />
-          <MetricRow
-            icon={<Timer className="w-4 h-4" />}
-            label="Hours/Week"
-            value={`${metrics.hoursPerWeekPerPerson}h/person`}
-          />
-        </CardContent>
-      </Card>
-
-      {/* Model Details */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium">Model Details</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <MetricRow
-            icon={<Users className="w-4 h-4" />}
+          <MetricBox
             label="Team Size"
-            value={`${metrics.teamSize} engineers`}
+            value={`${metrics.teamSize}`}
           />
-          <MetricRow
-            icon={<Clock className="w-4 h-4" />}
+          <MetricBox
             label="Shift Length"
             value={metrics.shiftLength}
           />
-          <MetricRow
-            icon={<RefreshCw className="w-4 h-4" />}
-            label="Rotation"
-            value={metrics.rotation}
+          <MetricBox
+            label="Handoffs/Week"
+            value={`${metrics.handoffsPerWeek}`}
+            warning={metrics.handoffsPerWeek > 14}
           />
-        </CardContent>
-      </Card>
-    </div>
+          <MetricBox
+            label="Night Hours"
+            value={`${metrics.nightHoursPerPerson}h`}
+            highlight={metrics.nightHoursPerPerson === 0}
+            warning={metrics.nightHoursPerPerson > 10}
+          />
+          <MetricBox
+            label="Weekend Hours"
+            value={`${metrics.weekendHoursPerPerson}h`}
+          />
+          <MetricBox
+            label="Hours/Week"
+            value={`${metrics.hoursPerWeekPerPerson}h`}
+          />
+          <MetricBox
+            label="Frequency"
+            value={metrics.onCallFrequency}
+            small
+          />
+        </div>
+        <div className="mt-4 pt-3 border-t text-sm text-muted-foreground">
+          <span className="font-medium">Rotation:</span> {metrics.rotation}
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
-interface MetricRowProps {
-  icon: React.ReactNode;
+interface MetricBoxProps {
   label: string;
   value: string;
   highlight?: boolean;
   warning?: boolean;
+  small?: boolean;
 }
 
-function MetricRow({ icon, label, value, highlight, warning }: MetricRowProps) {
+function MetricBox({ label, value, highlight, warning, small }: MetricBoxProps) {
   return (
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-2 text-muted-foreground">
-        {icon}
-        <span className="text-sm">{label}</span>
-      </div>
-      <span
-        className={`text-sm font-medium ${
+    <div className="space-y-1">
+      <div className="text-xs text-muted-foreground">{label}</div>
+      <div
+        className={`font-semibold ${small ? 'text-sm' : 'text-lg'} ${
           highlight
             ? 'text-green-600 dark:text-green-400'
             : warning
@@ -92,7 +81,7 @@ function MetricRow({ icon, label, value, highlight, warning }: MetricRowProps) {
         }`}
       >
         {value}
-      </span>
+      </div>
     </div>
   );
 }
