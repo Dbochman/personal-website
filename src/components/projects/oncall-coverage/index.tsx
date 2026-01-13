@@ -51,16 +51,18 @@ export default function OncallCoverage() {
 
       {/* Visualizations */}
       <div className="space-y-6">
-        {/* Coverage levels heatmap (not for follow-the-sun) */}
-        {model.id !== 'follow-the-sun' && (
+        {/* Coverage levels heatmap (not for follow-the-sun or weekly-rotation) */}
+        {!['follow-the-sun', 'weekly-rotation'].includes(model.id) && (
           <CoverageHeatmap coverage={model.coverage} />
         )}
 
-        {/* Daily view - 24 hours */}
-        <DailyHeatmap coverage={model.coverage} team={model.team} />
+        {/* Daily view - 24 hours (not for weekly-rotation) */}
+        {model.id !== 'weekly-rotation' && (
+          <DailyHeatmap coverage={model.coverage} team={model.team} />
+        )}
 
-        {/* Weekly view - 7 days (not for follow-the-sun which has daily handoffs) */}
-        {model.id !== 'follow-the-sun' && (
+        {/* Weekly view - 7 days (only for shift-based models) */}
+        {!['follow-the-sun', 'weekly-rotation'].includes(model.id) && (
           <WeeklyHeatmap coverage={model.coverage} team={model.team} />
         )}
 
