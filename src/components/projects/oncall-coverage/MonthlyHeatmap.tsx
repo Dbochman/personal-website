@@ -45,13 +45,54 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
     return members[(day + offset) % members.length];
   };
 
+  // Check if shift model is regional (EU/US split) vs rotating
+  const uniqueTimezones = [...new Set(rotationMembers.map((m) => m.timezone))];
+  const isRegionalShift = rotationType === 'shift' && uniqueTimezones.length > 1;
+
+  // For regional shifts, split by region (supports EU/US or APAC/US)
+  const euMembers = rotationMembers.filter((m) => m.region === 'EU');
+  const apacMembers = rotationMembers.filter((m) => m.region === 'APAC');
+  const usMembers = rotationMembers.filter((m) => m.region === 'US');
+  const dayShiftMembers = euMembers.length > 0 ? euMembers : apacMembers;
+
   // Generate 30 days of coverage based on rotation type
   const days = Array.from({ length: 30 }, (_, dayIndex) => {
     const dayOfWeek = dayIndex % 7; // 0=Mon, 1=Tue, ..., 5=Sat, 6=Sun
     const isWeekend = dayOfWeek >= 5;
 
     if (rotationType === 'shift') {
-      // Daily shift rotation - day primary rotates through all, night offset by half
+      if (isRegionalShift && dayShiftMembers.length > 0 && usMembers.length > 0) {
+        // Regional shift: APAC/EU covers first 12h, US covers second 12h
+        const dayPrimaryIdx = dayIndex % dayShiftMembers.length;
+        const dayBackupIdx = (dayIndex + Math.floor(dayShiftMembers.length / 2)) % dayShiftMembers.length;
+        const usPrimaryIndex = dayIndex % usMembers.length;
+        const usBackupIndex = (dayIndex + Math.floor(usMembers.length / 2)) % usMembers.length;
+
+        // Find color indices in full rotation members list
+        const dayPrimaryColorIndex = rotationMembers.indexOf(dayShiftMembers[dayPrimaryIdx]);
+        const usPrimaryColorIndex = rotationMembers.indexOf(usMembers[usPrimaryIndex]);
+
+        return {
+          dayNumber: dayIndex + 1,
+          dayOfWeek,
+          // Day shift = APAC or EU team
+          dayPrimary: dayShiftMembers[dayPrimaryIdx],
+          dayPrimaryColorIndex: dayPrimaryColorIndex,
+          dayBackup: dayShiftMembers[dayBackupIdx],
+          dayBackupColorIndex: rotationMembers.indexOf(dayShiftMembers[dayBackupIdx]),
+          // Evening/Night shift = US team
+          nightPrimary: usMembers[usPrimaryIndex],
+          nightPrimaryColorIndex: usPrimaryColorIndex,
+          nightBackup: usMembers[usBackupIndex],
+          nightBackupColorIndex: rotationMembers.indexOf(usMembers[usBackupIndex]),
+          isWeekend,
+          isShift: true as const,
+          isDaily: false as const,
+          isRegional: true as const,
+        };
+      }
+
+      // Rotating shift: everyone cycles through both day and night
       const dayPrimaryIndex = dayIndex % rotationMembers.length;
       const dayBackupIndex = (dayIndex + 3) % rotationMembers.length;
       const nightPrimaryIndex = (dayIndex + 6) % rotationMembers.length;
@@ -73,6 +114,7 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
         isWeekend,
         isShift: true as const,
         isDaily: false as const,
+        isRegional: false as const,
       };
     }
 
@@ -275,7 +317,13 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
                   <div className="flex-1 bg-zinc-300 dark:bg-zinc-600" />
                   <div className="flex-1 bg-zinc-500 dark:bg-zinc-400" />
                 </div>
-                <span className="text-muted-foreground">Day / Night</span>
+                <span className="text-muted-foreground">
+                  {isRegionalShift
+                    ? apacMembers.length > 0
+                      ? 'APAC / US'
+                      : 'EU / US'
+                    : 'Day / Night'}
+                </span>
               </div>
             ) : (
               <div className="flex items-center gap-2">
@@ -302,9 +350,13 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
           {/* Cycle info */}
           <p className="text-xs text-muted-foreground pt-1">
             {rotationType === 'shift'
-              ? `${rotationMembers.length}-person rotation. Each person cycles through both day and night shifts over ${rotationMembers.length} days.`
+              ? isRegionalShift
+                ? apacMembers.length > 0
+                  ? `${apacMembers.length} APAC + ${usMembers.length} US. APAC covers 02-14 UTC (daytime Tokyo), US covers 14-02 UTC (daytime LA). Each region rotates within their shift.`
+                  : `${euMembers.length} EU + ${usMembers.length} US. EU covers daytime, US covers evening/night. Each region rotates within their shift.`
+                : `${rotationMembers.length}-person rotation. Each person cycles through both day and night shifts over ${rotationMembers.length} days.`
               : rotationType === 'daily'
-                ? `${rotationMembers.length}-person daily rotation. Primary + Secondary weekdays, Primary only weekends.`
+                ? `${rotationMembers.length}-person daily rotation. Primary 24/7, Secondary during business hours only (weekdays).`
                 : `${cycleLength}-week rotation. Secondary shadows primary before taking over the next week.`}
           </p>
         </div>

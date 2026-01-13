@@ -170,68 +170,68 @@ const weeklyRotation: CoverageModel = {
   },
 };
 
-// Model 3: 12-Hour Shifts - US/EU split for natural day/night coverage
+// Model 3: 12-Hour Shifts - APAC + US West (nearly opposite timezones)
 const twelveHourShifts: CoverageModel = {
   id: '12-hour-shifts',
-  name: '12-Hour Shifts (US/EU)',
-  description: 'Two 12-hour shifts with US team covering their daytime (12-00 UTC) and EU team covering theirs (00-12 UTC). Each region works business-adjacent hours.',
+  name: 'APAC + US West (12h)',
+  description: 'Two 12-hour shifts with APAC (11am-11pm Tokyo) and US West (6am-6pm LA). Nearly opposite timezones mean both teams work reasonable daytime hours.',
   rotationType: 'shift',
   team: [
-    // US team (New York) - covers 12:00-00:00 UTC (7am-7pm ET)
-    { name: 'Alex (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    { name: 'Jordan (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    { name: 'Taylor (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    { name: 'Morgan (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    { name: 'Sam (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    { name: 'Jamie (US)', timezone: 'America/New_York', region: 'US', workingHours: 'Day shift 7am-7pm ET', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    // EU team (London) - covers 00:00-12:00 UTC (midnight-noon GMT, or 7am-7pm in winter)
-    { name: 'Emma (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    { name: 'Liam (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    { name: 'Oliver (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    { name: 'Sophie (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    { name: 'Noah (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
-    { name: 'Isla (EU)', timezone: 'Europe/London', region: 'EU', workingHours: 'Day shift 7am-7pm GMT', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    // APAC team (Tokyo) - covers 02:00-14:00 UTC (11am-11pm JST)
+    { name: 'Yuki (APAC)', timezone: 'Asia/Tokyo', region: 'APAC', workingHours: '11am-11pm JST (02-14 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Hana (APAC)', timezone: 'Asia/Tokyo', region: 'APAC', workingHours: '11am-11pm JST (02-14 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Kenji (APAC)', timezone: 'Asia/Tokyo', region: 'APAC', workingHours: '11am-11pm JST (02-14 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Sakura (APAC)', timezone: 'Asia/Tokyo', region: 'APAC', workingHours: '11am-11pm JST (02-14 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Ren (APAC)', timezone: 'Asia/Tokyo', region: 'APAC', workingHours: '11am-11pm JST (02-14 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Aoi (APAC)', timezone: 'Asia/Tokyo', region: 'APAC', workingHours: '11am-11pm JST (02-14 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    // US West team (Los Angeles) - covers 14:00-02:00 UTC (6am-6pm PST)
+    { name: 'Alex (US)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '6am-6pm PT (14-02 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Jordan (US)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '6am-6pm PT (14-02 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Taylor (US)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '6am-6pm PT (14-02 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Morgan (US)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '6am-6pm PT (14-02 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Sam (US)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '6am-6pm PT (14-02 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
+    { name: 'Jamie (US)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '6am-6pm PT (14-02 UTC)', hoursPerWeek: 28, nightHours: 0, weekendHours: 4 },
   ],
   coverage: createWeekCoverage((day, hour) => {
-    // US shift: 12-00 UTC (7am-7pm ET) - "day" shift
-    // EU shift: 00-12 UTC (midnight-noon GMT, ~7am-7pm local) - "night" shift label but daytime for EU
+    // APAC shift: 02-14 UTC (11am-11pm Tokyo)
+    // US West shift: 14-02 UTC (6am-6pm LA)
+    const apacTeam = ['Yuki (APAC)', 'Hana (APAC)', 'Kenji (APAC)', 'Sakura (APAC)', 'Ren (APAC)', 'Aoi (APAC)'];
     const usTeam = ['Alex (US)', 'Jordan (US)', 'Taylor (US)', 'Morgan (US)', 'Sam (US)', 'Jamie (US)'];
-    const euTeam = ['Emma (EU)', 'Liam (EU)', 'Oliver (EU)', 'Sophie (EU)', 'Noah (EU)', 'Isla (EU)'];
 
-    if (hour >= 0 && hour < 12) {
-      // EU shift: 00-12 UTC
-      const primary = pickByDay(euTeam, day);
-      const backup = pickByDay(euTeam, day, 3);
+    if (hour >= 2 && hour < 14) {
+      // APAC shift: 02-14 UTC
+      const primary = pickByDay(apacTeam, day);
+      const backup = pickByDay(apacTeam, day, 3);
       return { covered: true, members: [primary, backup] };
     }
-    // US shift: 12-00 UTC
+    // US West shift: 14-02 UTC (wraps around midnight)
     const primary = pickByDay(usTeam, day);
     const backup = pickByDay(usTeam, day, 3);
     return { covered: true, members: [primary, backup] };
   }),
   metrics: {
     coveragePercent: 100,
-    nightHoursPerPerson: 0, // No one works nights in their local time
+    nightHoursPerPerson: 0, // Both teams work daytime in their timezone
     weekendHoursPerPerson: 4, // Weekend duty distributed across all 12
     hoursPerWeekPerPerson: 28, // 168h × 2 roles / 12 people
     teamSize: 12,
     shiftLength: '12h',
-    rotation: 'Regional day shifts with rotating primary/backup',
+    rotation: 'Regional shifts with rotating primary/backup',
     onCallFrequency: '~2 shifts/week within region',
     handoffsPerWeek: 14, // 2/day × 7 days
   },
   tradeoffs: {
     pros: [
-      'Zero night shifts - each region works their daytime',
+      'Zero night shifts - both teams work daytime hours',
+      'Clean 12h handoff with no gaps',
       '12h shifts balance continuity vs. fatigue',
-      'Larger pool (12 people) absorbs PTO and sick days',
       'Primary + backup ensures escalation path',
     ],
     cons: [
-      'Requires teams in both US and EU timezones',
+      'Requires teams in APAC and US West specifically',
+      'Slightly shifted hours (11am-11pm Tokyo, 6am-6pm LA)',
       'Larger team size required (12 people)',
-      'Handoff coordination between regions twice daily',
-      'Weekend coverage still required from both regions',
+      'Communication across 17-hour timezone gap',
     ],
   },
 };
