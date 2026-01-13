@@ -26,8 +26,6 @@ function pickByDay(members: string[], day: number, offset = 0): string {
 }
 
 // Model 1: Follow-the-Sun (3 Regions) - The healthiest option
-// Per Datadog: "shifts can be scheduled to follow the sun and distribute
-// on-call responsibilities across time zones in a way that minimizes nighttime work"
 const followTheSun: CoverageModel = {
   id: 'follow-the-sun',
   name: 'Follow-the-Sun (3 Regions)',
@@ -127,7 +125,6 @@ const followTheSun: CoverageModel = {
 };
 
 // Model 2: Weekly Rotation (24/7) - With primary + secondary
-// Per Datadog: "6-8 engineers so that each serves on-call no more than once per month"
 const weeklyRotation: CoverageModel = {
   id: 'weekly-rotation',
   name: 'Weekly Rotation (8-person)',
@@ -135,14 +132,14 @@ const weeklyRotation: CoverageModel = {
   rotationType: 'weekly',
   rotationWeeks: 8,
   team: [
-    { name: 'Alex', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary/Secondary every 4 weeks', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
-    { name: 'Jordan', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary/Secondary every 4 weeks', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
-    { name: 'Taylor', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary/Secondary every 4 weeks', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
-    { name: 'Morgan', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary/Secondary every 4 weeks', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
-    { name: 'Casey', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary/Secondary every 4 weeks', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
-    { name: 'Riley', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary/Secondary every 4 weeks', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
-    { name: 'Quinn', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary/Secondary every 4 weeks', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
-    { name: 'Avery', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary/Secondary every 4 weeks', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
+    { name: 'Alex', timezone: 'America/New_York', region: 'Single', workingHours: 'Week 1 Primary, Week 8 Secondary', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
+    { name: 'Jordan', timezone: 'America/New_York', region: 'Single', workingHours: 'Week 2 Primary, Week 1 Secondary', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
+    { name: 'Taylor', timezone: 'America/New_York', region: 'Single', workingHours: 'Week 3 Primary, Week 2 Secondary', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
+    { name: 'Morgan', timezone: 'America/New_York', region: 'Single', workingHours: 'Week 4 Primary, Week 3 Secondary', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
+    { name: 'Casey', timezone: 'America/New_York', region: 'Single', workingHours: 'Week 5 Primary, Week 4 Secondary', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
+    { name: 'Riley', timezone: 'America/New_York', region: 'Single', workingHours: 'Week 6 Primary, Week 5 Secondary', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
+    { name: 'Quinn', timezone: 'America/New_York', region: 'Single', workingHours: 'Week 7 Primary, Week 6 Secondary', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
+    { name: 'Avery', timezone: 'America/New_York', region: 'Single', workingHours: 'Week 8 Primary, Week 7 Secondary', hoursPerWeek: 42, nightHours: 14, weekendHours: 12 },
   ],
   // This week: Alex is primary, Jordan is secondary
   coverage: createWeekCoverage(() => ({ covered: true, members: ['Alex', 'Jordan'] })),
@@ -242,120 +239,85 @@ const twelveHourShifts: CoverageModel = {
   },
 };
 
-// Model 4: Primary + Secondary with rotating secondary
-const primarySecondary: CoverageModel = {
-  id: 'primary-secondary',
-  name: 'Primary + Secondary (8-person)',
-  description: 'Two-tier escalation with rotating backup. Primary owns the week, secondary rotates to spread the backup burden.',
-  rotationType: 'weekly',
-  rotationWeeks: 8,
-  team: [
-    { name: 'Alex', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary all week', hoursPerWeek: 168, nightHours: 56, weekendHours: 48 },
-    { name: 'Jordan', timezone: 'America/New_York', region: 'Single', workingHours: 'Secondary rotation (1 day/week)', hoursPerWeek: 24, nightHours: 8, weekendHours: 6 },
-    { name: 'Taylor', timezone: 'America/New_York', region: 'Single', workingHours: 'Secondary rotation (1 day/week)', hoursPerWeek: 24, nightHours: 8, weekendHours: 6 },
-    { name: 'Morgan', timezone: 'America/New_York', region: 'Single', workingHours: 'Secondary rotation (1 day/week)', hoursPerWeek: 24, nightHours: 8, weekendHours: 6 },
-    { name: 'Casey', timezone: 'America/New_York', region: 'Single', workingHours: 'Secondary rotation (1 day/week)', hoursPerWeek: 24, nightHours: 8, weekendHours: 6 },
-    { name: 'Riley', timezone: 'America/New_York', region: 'Single', workingHours: 'Secondary rotation (1 day/week)', hoursPerWeek: 24, nightHours: 8, weekendHours: 6 },
-    { name: 'Quinn', timezone: 'America/New_York', region: 'Single', workingHours: 'Secondary rotation (1 day/week)', hoursPerWeek: 24, nightHours: 8, weekendHours: 6 },
-    { name: 'Avery', timezone: 'America/New_York', region: 'Single', workingHours: 'Secondary rotation (1 day/week)', hoursPerWeek: 24, nightHours: 8, weekendHours: 6 },
-  ],
-  coverage: createWeekCoverage((day) => {
-    // Primary is always Alex, secondary rotates
-    const secondaryRotation = ['Jordan', 'Taylor', 'Morgan', 'Casey', 'Riley', 'Quinn', 'Avery'];
-    return {
-      covered: true,
-      members: ['Alex', pickByDay(secondaryRotation, day)],
-    };
-  }),
-  metrics: {
-    coveragePercent: 100,
-    nightHoursPerPerson: 14, // (56 + 56) / 8
-    weekendHoursPerPerson: 12, // (48 + 48) / 8
-    hoursPerWeekPerPerson: 42, // (168 + 168) / 8
-    teamSize: 8,
-    shiftLength: '168h (full week)',
-    rotation: 'Primary weekly, Secondary daily rotation',
-    onCallFrequency: 'Primary every 8 weeks, Secondary 1 day/week',
-    handoffsPerWeek: 1,
-  },
-  tradeoffs: {
-    pros: [
-      'Built-in backup for complex or extended incidents',
-      'Secondary learns from primary (mentorship)',
-      'Reduced stress knowing backup is available',
-      'Escalation path without finding new responder',
-    ],
-    cons: [
-      'Two people partially committed at all times',
-      'Secondary interruptions can be unpredictable',
-      'Higher total on-call burden across team',
-      'Requires clear escalation criteria',
-    ],
-  },
-};
-
-// Model 6: Business Hours Only - For non-critical services
+// Model 4: US Business Hours + On-Call - 24/7 with enhanced business hours
 const businessHoursOnly: CoverageModel = {
   id: 'business-hours',
-  name: 'Business Hours Only',
-  description: 'Coverage during business hours only with daily rotation. Appropriate for internal tools and services without SLA obligations.',
+  name: 'US Business Hours + On-Call',
+  description: '24/7 coverage with Primary + Secondary during US business hours (9am ET - 5pm PT), Primary only for nights and weekends.',
   rotationType: 'daily',
   team: [
-    { name: 'Alex', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary Mon & Fri', hoursPerWeek: 16, nightHours: 0, weekendHours: 0 },
-    { name: 'Jordan', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary Tuesday', hoursPerWeek: 8, nightHours: 0, weekendHours: 0 },
-    { name: 'Taylor', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary Wednesday', hoursPerWeek: 8, nightHours: 0, weekendHours: 0 },
-    { name: 'Morgan', timezone: 'America/New_York', region: 'Single', workingHours: 'Primary Thursday', hoursPerWeek: 8, nightHours: 0, weekendHours: 0 },
+    // East Coast (New York) - covers 9am-5pm ET = 14:00-22:00 UTC
+    { name: 'Alex (ET)', timezone: 'America/New_York', region: 'US', workingHours: '9am-5pm ET + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    { name: 'Jordan (ET)', timezone: 'America/New_York', region: 'US', workingHours: '9am-5pm ET + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    { name: 'Taylor (ET)', timezone: 'America/New_York', region: 'US', workingHours: '9am-5pm ET + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    // West Coast (Los Angeles) - covers 9am-5pm PT = 17:00-01:00 UTC
+    { name: 'Morgan (PT)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '9am-5pm PT + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    { name: 'Casey (PT)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '9am-5pm PT + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
+    { name: 'Riley (PT)', timezone: 'America/Los_Angeles', region: 'US', workingHours: '9am-5pm PT + on-call rotation', hoursPerWeek: 28, nightHours: 10, weekendHours: 8 },
   ],
   coverage: createWeekCoverage((day, hour) => {
     const isWeekday = day >= 1 && day <= 5;
-    // 9am-5pm ET = 14-22 UTC
-    const isBusinessHours = hour >= 14 && hour < 22;
-    // Daily rotation: Mon=Alex, Tue=Jordan, Wed=Taylor, Thu=Morgan, Fri=Alex
-    const dailyPrimary: Record<number, string> = {
-      1: 'Alex',    // Monday
-      2: 'Jordan',  // Tuesday
-      3: 'Taylor',  // Wednesday
-      4: 'Morgan',  // Thursday
-      5: 'Alex',    // Friday
-    };
-    if (isWeekday && isBusinessHours) {
-      return { covered: true, members: [dailyPrimary[day]] };
+    const etTeam = ['Alex (ET)', 'Jordan (ET)', 'Taylor (ET)'];
+    const ptTeam = ['Morgan (PT)', 'Casey (PT)', 'Riley (PT)'];
+    const allTeam = [...etTeam, ...ptTeam];
+
+    const etPrimary = etTeam[day % etTeam.length];
+    const ptPrimary = ptTeam[day % ptTeam.length];
+    const onCallPrimary = allTeam[day % allTeam.length];
+
+    // Business hours: 9am ET - 5pm PT = 14:00-01:00 UTC
+    const isBusinessHours = isWeekday && (hour >= 14 || hour < 1);
+
+    if (isBusinessHours) {
+      if (hour >= 14 && hour < 17) {
+        // ET only: 9am-12pm ET (before PT starts)
+        return { covered: true, members: [etPrimary, onCallPrimary !== etPrimary ? onCallPrimary : ptPrimary] };
+      }
+      if (hour >= 17 && hour < 22) {
+        // Overlap: ET primary, PT secondary
+        return { covered: true, members: [etPrimary, ptPrimary] };
+      }
+      if (hour >= 22 || hour < 1) {
+        // PT primary, with secondary
+        return { covered: true, members: [ptPrimary, onCallPrimary !== ptPrimary ? onCallPrimary : etPrimary] };
+      }
     }
-    return { covered: false, members: [] };
+
+    // Off-hours: Primary only (nights 01:00-14:00 UTC weekdays, all weekend)
+    return { covered: true, members: [onCallPrimary] };
   }),
   metrics: {
-    coveragePercent: 24, // 40h of 168h
-    nightHoursPerPerson: 0,
-    weekendHoursPerPerson: 0,
-    hoursPerWeekPerPerson: 10,
-    teamSize: 4,
-    shiftLength: '8h',
-    rotation: 'Daily rotation of primary',
-    onCallFrequency: '1 day every 4 days',
-    handoffsPerWeek: 5,
+    coveragePercent: 100,
+    nightHoursPerPerson: 10,
+    weekendHoursPerPerson: 8,
+    hoursPerWeekPerPerson: 28,
+    teamSize: 6,
+    shiftLength: '8h business + rotating on-call',
+    rotation: 'Daily rotation, coast-based during business hours',
+    onCallFrequency: '~5 days per week (mix of business + on-call)',
+    handoffsPerWeek: 14,
   },
   tradeoffs: {
     pros: [
-      'Minimal on-call burden',
-      'No nights or weekends - fully sustainable',
-      'Works with very small teams',
-      'Appropriate for internal/low-criticality services',
+      '24/7 coverage for all incidents',
+      'Enhanced coverage (Primary + Secondary) during peak hours',
+      'Off-hours incidents get immediate response',
+      'Balanced burden across team',
     ],
     cons: [
-      '76% of the week has no coverage',
-      'After-hours incidents wait until morning',
-      'Not suitable for customer-facing services',
-      'May need emergency escalation path',
+      'Everyone takes some night/weekend on-call',
+      'Off-hours have reduced redundancy (no secondary)',
+      'Requires staff on both coasts',
+      'Higher overall on-call burden than business-hours-only',
     ],
   },
 };
 
 export const COVERAGE_MODELS: CoverageModel[] = [
-  followTheSun,      // Healthiest first
+  businessHoursOnly, // Most common pattern first
+  followTheSun,
   weeklyRotation,
   twelveHourShifts,
-  primarySecondary,
-  businessHoursOnly,
 ];
 
 export function getModelById(id: string): CoverageModel | undefined {

@@ -29,14 +29,15 @@ export function WeeklyHeatmap({ coverage, team }: WeeklyHeatmapProps) {
 
   const getDisplayName = (name: string) => name.replace(/\s*\(.*\)/, '');
 
-  // Get primary and secondary for each day (use midday hour as representative)
+  // Get primary and secondary for each day (find first covered slot)
   const getDayAssignment = (dayIndex: number) => {
     const daySlots = coverage[dayIndex] || [];
-    // Find the most common primary/secondary across the day
-    const middaySlot = daySlots[12] || daySlots[0];
-    const primary = middaySlot?.coveringMembers[0] || null;
-    const secondary = middaySlot?.coveringMembers[1] || null;
-    return { primary, secondary };
+    // Find first covered slot in the day
+    const coveredSlot = daySlots.find((slot) => slot.covered && slot.coveringMembers.length > 0);
+    const primary = coveredSlot?.coveringMembers[0] || null;
+    const secondary = coveredSlot?.coveringMembers[1] || null;
+    const hasCoverage = !!coveredSlot;
+    return { primary, secondary, hasCoverage };
   };
 
   // Monday first order
@@ -50,23 +51,26 @@ export function WeeklyHeatmap({ coverage, team }: WeeklyHeatmapProps) {
       <CardContent>
         <div className="grid grid-cols-7 gap-2">
           {dayOrder.map((dayIndex) => {
-            const { primary, secondary } = getDayAssignment(dayIndex);
+            const { primary, secondary, hasCoverage } = getDayAssignment(dayIndex);
             const primaryColors = primary ? memberColorMap.get(primary) : null;
             const secondaryColors = secondary ? memberColorMap.get(secondary) : null;
-            const primaryName = primary ? getDisplayName(primary) : 'None';
+            const primaryName = primary ? getDisplayName(primary) : null;
             const secondaryName = secondary ? getDisplayName(secondary) : null;
             const isWeekend = dayIndex === 0 || dayIndex === 6;
+            const isPrimaryOnly = hasCoverage && !secondary;
 
             return (
               <div
                 key={dayIndex}
                 className={`rounded overflow-hidden flex flex-col ${
-                  isWeekend ? 'opacity-80' : ''
+                  !hasCoverage ? 'opacity-50' : isPrimaryOnly ? 'opacity-80' : ''
                 }`}
-                title={`${DAYS_FULL[dayIndex]}\nPrimary: ${primaryName}${secondaryName ? `\nSecondary: ${secondaryName}` : ''}`}
+                title={`${DAYS_FULL[dayIndex]}${hasCoverage ? `\nPrimary: ${primaryName}${secondaryName ? `\nSecondary: ${secondaryName}` : ' (on-call)'}` : '\nNo coverage'}`}
               >
                 {/* Day label */}
-                <div className="text-xs font-medium text-muted-foreground text-center py-1 bg-zinc-100 dark:bg-zinc-800">
+                <div className={`text-xs font-medium text-muted-foreground text-center py-1 ${
+                  isPrimaryOnly ? 'bg-zinc-200 dark:bg-zinc-700' : 'bg-zinc-100 dark:bg-zinc-800'
+                }`}>
                   {DAYS_FULL[dayIndex].slice(0, 3)}
                 </div>
 
@@ -75,10 +79,13 @@ export function WeeklyHeatmap({ coverage, team }: WeeklyHeatmapProps) {
                   className={`flex-1 min-h-[60px] ${primaryColors?.bg || 'bg-zinc-200 dark:bg-zinc-700'} flex flex-col items-center justify-center p-2`}
                 >
                   <span
-                    className={`text-sm font-semibold truncate w-full text-center ${primaryColors?.text || 'text-zinc-600'}`}
+                    className={`text-sm font-semibold truncate w-full text-center ${primaryColors?.text || 'text-zinc-500 dark:text-zinc-400'}`}
                   >
-                    {primaryName}
+                    {hasCoverage ? primaryName : 'No coverage'}
                   </span>
+                  {isPrimaryOnly && (
+                    <span className="text-xs opacity-75 mt-0.5">on-call</span>
+                  )}
                 </div>
 
                 {/* Secondary section */}

@@ -62,11 +62,11 @@ export default function OncallCoverage() {
         )}
 
         {/* Weekly view - 7 days (only for models where it adds value) */}
-        {!['follow-the-sun', 'weekly-rotation', '12-hour-shifts'].includes(model.id) && (
+        {!['follow-the-sun', 'weekly-rotation', '12-hour-shifts', 'business-hours'].includes(model.id) && (
           <WeeklyHeatmap coverage={model.coverage} team={model.team} />
         )}
 
-        {/* Monthly rotation view - 30 days (for weekly rotation and shift models) */}
+        {/* Monthly rotation view - 30 days */}
         {!['follow-the-sun'].includes(model.id) && (
           <MonthlyHeatmap
             team={model.team}

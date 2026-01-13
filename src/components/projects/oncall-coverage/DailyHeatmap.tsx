@@ -16,7 +16,7 @@ const REGION_COLORS: Record<string, { bg: string; text: string }> = {
   'Europe/Paris': { bg: 'bg-rose-400 dark:bg-rose-600', text: 'text-white' },
   'Europe/Berlin': { bg: 'bg-rose-400 dark:bg-rose-600', text: 'text-white' },
   'America/New_York': { bg: 'bg-emerald-500 dark:bg-emerald-600', text: 'text-white' },
-  'America/Los_Angeles': { bg: 'bg-emerald-500 dark:bg-emerald-600', text: 'text-white' },
+  'America/Los_Angeles': { bg: 'bg-sky-500 dark:bg-sky-600', text: 'text-white' },
   'America/Chicago': { bg: 'bg-emerald-500 dark:bg-emerald-600', text: 'text-white' },
 };
 
@@ -27,9 +27,9 @@ const TIMEZONE_LABELS: Record<string, string> = {
   'Europe/London': 'EU (London)',
   'Europe/Paris': 'EU (Paris)',
   'Europe/Berlin': 'EU (Berlin)',
-  'America/New_York': 'US (New York)',
-  'America/Los_Angeles': 'US (Los Angeles)',
-  'America/Chicago': 'US (Chicago)',
+  'America/New_York': 'US East (ET)',
+  'America/Los_Angeles': 'US West (PT)',
+  'America/Chicago': 'US Central (CT)',
 };
 
 // Colors for shift types (single-site models)
@@ -49,8 +49,8 @@ interface CoverageBlock {
 function getShiftType(member: TeamMember): 'day' | 'night' | 'rotating' | null {
   const hours = member.workingHours.toLowerCase();
   if (hours.includes('rotating')) return 'rotating'; // Everyone rotates through both
-  if (hours.includes('night')) return 'night';
-  if (hours.includes('day')) return 'day';
+  if (hours.includes('night shift')) return 'night';
+  if (hours.includes('day shift')) return 'day';
   return null;
 }
 
@@ -161,6 +161,8 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
           const widthPercent = ((block.endHour - block.startHour) / 24) * 100;
           const leftPercent = (block.startHour / 24) * 100;
           const colors = getColors(block.key);
+          // Only show label for blocks wider than 20% (~5 hours)
+          const showLabel = block.label && widthPercent >= 20;
 
           return (
             <div
@@ -169,8 +171,8 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
               style={{ left: `${leftPercent}%`, width: `${widthPercent}%` }}
               title={`${block.startHour}:00 - ${block.endHour}:00 UTC\n${block.label || 'No coverage'}`}
             >
-              {block.label && (
-                <span className={`text-sm font-semibold ${colors?.text || 'text-zinc-500'}`}>
+              {showLabel && (
+                <span className={`text-sm font-semibold ${colors?.text || 'text-zinc-500'} truncate px-1`}>
                   {block.label}
                 </span>
               )}

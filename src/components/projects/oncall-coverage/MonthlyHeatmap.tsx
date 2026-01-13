@@ -47,6 +47,9 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
 
   // Generate 30 days of coverage based on rotation type
   const days = Array.from({ length: 30 }, (_, dayIndex) => {
+    const dayOfWeek = dayIndex % 7; // 0=Mon, 1=Tue, ..., 5=Sat, 6=Sun
+    const isWeekend = dayOfWeek >= 5;
+
     if (rotationType === 'shift') {
       // Daily shift rotation - day primary rotates through all, night offset by half
       const dayPrimaryIndex = dayIndex % rotationMembers.length;
@@ -56,7 +59,7 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
 
       return {
         dayNumber: dayIndex + 1,
-        dayOfWeek: dayIndex % 7,
+        dayOfWeek,
         // Day shift
         dayPrimary: rotationMembers[dayPrimaryIndex],
         dayPrimaryColorIndex: dayPrimaryIndex,
@@ -67,8 +70,31 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
         nightPrimaryColorIndex: nightPrimaryIndex,
         nightBackup: rotationMembers[nightBackupIndex],
         nightBackupColorIndex: nightBackupIndex,
-        isWeekend: dayIndex % 7 >= 5,
+        isWeekend,
         isShift: true as const,
+        isDaily: false as const,
+      };
+    }
+
+    if (rotationType === 'daily') {
+      // Daily rotation - rotates through all team members
+      const primaryIndex = dayIndex % rotationMembers.length;
+      // Secondary is offset (different person)
+      const secondaryIndex = (dayIndex + Math.floor(rotationMembers.length / 2)) % rotationMembers.length;
+      // Weekends: primary only (no secondary)
+      const hasSecondary = !isWeekend;
+
+      return {
+        dayNumber: dayIndex + 1,
+        dayOfWeek,
+        primary: rotationMembers[primaryIndex],
+        primaryColorIndex: primaryIndex,
+        secondary: hasSecondary ? rotationMembers[secondaryIndex] : null,
+        secondaryColorIndex: hasSecondary ? secondaryIndex : -1,
+        isWeekend,
+        isShift: false as const,
+        isDaily: true as const,
+        hasCoverage: true, // 24/7 coverage
       };
     }
 
@@ -79,13 +105,14 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
 
     return {
       dayNumber: dayIndex + 1,
-      dayOfWeek: dayIndex % 7,
+      dayOfWeek,
       primary: rotationMembers[primaryIndex],
       primaryColorIndex: primaryIndex,
       secondary: rotationMembers[secondaryIndex],
       secondaryColorIndex: secondaryIndex,
-      isWeekend: dayIndex % 7 >= 5,
+      isWeekend,
       isShift: false as const,
+      isDaily: false as const,
     };
   });
 
@@ -174,11 +201,31 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
                     );
                   }
 
-                  // Weekly rotation rendering (primary/secondary)
-                  const primaryColors = getMemberColor(day.primaryColorIndex);
-                  const secondaryColors = getMemberColor(day.secondaryColorIndex);
-                  const primaryName = getDisplayName(day.primary.name);
-                  const secondaryName = getDisplayName(day.secondary.name);
+                  // Daily rotation with weekend gaps
+                  if (day.isDaily && !day.hasCoverage) {
+                    return (
+                      <div
+                        key={dayIndex}
+                        className="aspect-square rounded overflow-hidden flex flex-col opacity-50"
+                        title={`Day ${day.dayNumber}\nNo coverage (weekend)`}
+                      >
+                        <div className="flex-1 bg-zinc-200 dark:bg-zinc-700 flex flex-col items-center justify-center p-1">
+                          <span className="text-xs text-muted-foreground leading-tight">
+                            {day.dayNumber}
+                          </span>
+                          <span className="text-[10px] text-zinc-500 dark:text-zinc-400">
+                            Off
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  // Weekly/Daily rotation rendering (primary/secondary)
+                  const primaryColors = day.primary ? getMemberColor(day.primaryColorIndex) : null;
+                  const secondaryColors = day.secondary ? getMemberColor(day.secondaryColorIndex) : null;
+                  const primaryName = day.primary ? getDisplayName(day.primary.name) : 'None';
+                  const secondaryName = day.secondary ? getDisplayName(day.secondary.name) : null;
 
                   return (
                     <div
@@ -186,31 +233,33 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
                       className={`aspect-square rounded overflow-hidden flex flex-col ${
                         day.isWeekend ? 'opacity-80' : ''
                       }`}
-                      title={`Day ${day.dayNumber}\nPrimary: ${primaryName}\nSecondary: ${secondaryName}`}
+                      title={`Day ${day.dayNumber}\nPrimary: ${primaryName}${secondaryName ? `\nSecondary: ${secondaryName}` : ''}`}
                     >
                       {/* Primary section - main cell */}
                       <div
-                        className={`flex-1 ${primaryColors.bg} flex flex-col items-center justify-center p-1`}
+                        className={`flex-1 ${primaryColors?.bg || 'bg-zinc-200 dark:bg-zinc-700'} flex flex-col items-center justify-center p-1`}
                       >
                         <span className="text-xs text-muted-foreground leading-tight">
                           {day.dayNumber}
                         </span>
                         <span
-                          className={`text-xs font-semibold truncate w-full text-center leading-tight ${primaryColors.text}`}
+                          className={`text-xs font-semibold truncate w-full text-center leading-tight ${primaryColors?.text || 'text-zinc-600'}`}
                         >
                           {primaryName}
                         </span>
                       </div>
 
                       {/* Secondary section - bottom strip */}
-                      <div
-                        className={`h-6 ${secondaryColors.strip} flex items-center justify-center px-1`}
-                        title={`Secondary: ${secondaryName}`}
-                      >
-                        <span className="text-[11px] font-medium text-white dark:text-zinc-900 truncate">
-                          {secondaryName}
-                        </span>
-                      </div>
+                      {secondaryColors && secondaryName && (
+                        <div
+                          className={`h-6 ${secondaryColors.strip} flex items-center justify-center px-1`}
+                          title={`Secondary: ${secondaryName}`}
+                        >
+                          <span className="text-[11px] font-medium text-white dark:text-zinc-900 truncate">
+                            {secondaryName}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -254,7 +303,9 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
           <p className="text-xs text-muted-foreground pt-1">
             {rotationType === 'shift'
               ? `${rotationMembers.length}-person rotation. Each person cycles through both day and night shifts over ${rotationMembers.length} days.`
-              : `${cycleLength}-week rotation. Secondary shadows primary before taking over the next week.`}
+              : rotationType === 'daily'
+                ? `${rotationMembers.length}-person daily rotation. Primary + Secondary weekdays, Primary only weekends.`
+                : `${cycleLength}-week rotation. Secondary shadows primary before taking over the next week.`}
           </p>
         </div>
       </CardContent>
