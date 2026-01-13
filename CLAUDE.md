@@ -11,7 +11,7 @@ At the beginning of each session:
 
 ## Preferences
 
-See `.claude/preferences.md` for Dylan's working style preferences (verbosity, autonomy, commit frequency, etc.).
+See `~/.claude/preferences.md` for Dylan's working style preferences (global, not in repo).
 
 ## Repository Overview
 
