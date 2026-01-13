@@ -13,6 +13,22 @@ const COLORS = {
   rotating: { bg: 'bg-zinc-400 dark:bg-zinc-600', text: 'text-white' },
 };
 
+// Helper to build rich tooltips
+function buildTooltip(lines: (string | null | undefined | false)[]): string {
+  return lines.filter(Boolean).join('\n');
+}
+
+// Convert UTC hour to local time
+function utcToET(utcHour: number): string {
+  const et = (utcHour - 5 + 24) % 24;
+  return `${et}:00`;
+}
+
+function utcToPT(utcHour: number): string {
+  const pt = (utcHour - 8 + 24) % 24;
+  return `${pt}:00`;
+}
+
 export function BusinessHoursTimeline({
   etPrimaryHours = { start: 14, end: 19 },
   ptPrimaryHours = { start: 19, end: 25 }, // 25 = 01:00 next day
@@ -69,14 +85,30 @@ export function BusinessHoursTimeline({
                 <div
                   className={`${COLORS.et.bg} flex items-center justify-center`}
                   style={{ width: `${etPrimaryWidth}%` }}
-                  title={`US East (ET) Primary: ${formatHour(etPrimaryHours.start)}-${formatHour(etPrimaryHours.end)} UTC`}
+                  title={buildTooltip([
+                    '👤 US East (ET) - Primary',
+                    '',
+                    `⏰ ${formatHour(etPrimaryHours.start)} - ${formatHour(etPrimaryHours.end)} UTC`,
+                    `🏠 ${utcToET(etPrimaryHours.start)} - ${utcToET(etPrimaryHours.end)} ET`,
+                    `⏱️ Duration: ${etPrimaryHours.end - etPrimaryHours.start}h`,
+                    '',
+                    '📋 Handles all incoming incidents',
+                  ])}
                 >
                   <span className={`text-sm font-semibold ${COLORS.et.text}`}>US East</span>
                 </div>
                 <div
                   className={`${COLORS.pt.bg} flex items-center justify-center`}
                   style={{ width: `${ptPrimaryWidth}%` }}
-                  title={`US West (PT) Primary: ${formatHour(ptPrimaryHours.start)}-${formatHour(ptPrimaryHours.end)} UTC`}
+                  title={buildTooltip([
+                    '👤 US West (PT) - Primary',
+                    '',
+                    `⏰ ${formatHour(ptPrimaryHours.start)} - ${formatHour(ptPrimaryHours.end > 24 ? ptPrimaryHours.end - 24 : ptPrimaryHours.end)} UTC`,
+                    `🏠 ${utcToPT(ptPrimaryHours.start)} - ${utcToPT(ptPrimaryHours.end > 24 ? ptPrimaryHours.end - 24 : ptPrimaryHours.end)} PT`,
+                    `⏱️ Duration: ${ptPrimaryHours.end - ptPrimaryHours.start}h`,
+                    '',
+                    '📋 Handles all incoming incidents',
+                  ])}
                 >
                   <span className={`text-sm font-semibold ${COLORS.pt.text}`}>US West</span>
                 </div>
@@ -91,7 +123,14 @@ export function BusinessHoursTimeline({
                 <div
                   className={`${COLORS.rotating.bg} flex items-center justify-center`}
                   style={{ width: `${etOnlyWidth}%` }}
-                  title="Rotating: Only ET in office"
+                  title={buildTooltip([
+                    '🔄 Rotating Secondary',
+                    '',
+                    `⏰ ${formatHour(businessStart)} - ${formatHour(overlapHours.start)} UTC`,
+                    `⏱️ Duration: ${overlapHours.start - businessStart}h`,
+                    '',
+                    '📋 Only ET in office - secondary from on-call rotation',
+                  ])}
                 >
                   <span className={`text-xs font-medium ${COLORS.rotating.text}`}>Rotating</span>
                 </div>
@@ -99,7 +138,15 @@ export function BusinessHoursTimeline({
                 <div
                   className={`${COLORS.pt.bg} flex items-center justify-center`}
                   style={{ width: `${ptSecondaryWidth}%` }}
-                  title={`US West (PT) Secondary: ${formatHour(overlapHours.start)}-${formatHour(etPrimaryHours.end)} UTC`}
+                  title={buildTooltip([
+                    '👥 US West (PT) - Secondary',
+                    '',
+                    `⏰ ${formatHour(overlapHours.start)} - ${formatHour(etPrimaryHours.end)} UTC`,
+                    `🏠 ${utcToPT(overlapHours.start)} - ${utcToPT(etPrimaryHours.end)} PT`,
+                    `⏱️ Duration: ${etPrimaryHours.end - overlapHours.start}h`,
+                    '',
+                    '📋 Escalation backup while ET is primary',
+                  ])}
                 >
                   <span className={`text-xs font-medium ${COLORS.pt.text}`}>US West</span>
                 </div>
@@ -107,7 +154,15 @@ export function BusinessHoursTimeline({
                 <div
                   className={`${COLORS.et.bg} flex items-center justify-center`}
                   style={{ width: `${etSecondaryWidth}%` }}
-                  title={`US East (ET) Secondary: ${formatHour(etPrimaryHours.end)}-${formatHour(overlapHours.end)} UTC`}
+                  title={buildTooltip([
+                    '👥 US East (ET) - Secondary',
+                    '',
+                    `⏰ ${formatHour(etPrimaryHours.end)} - ${formatHour(overlapHours.end)} UTC`,
+                    `🏠 ${utcToET(etPrimaryHours.end)} - ${utcToET(overlapHours.end)} ET`,
+                    `⏱️ Duration: ${overlapHours.end - etPrimaryHours.end}h`,
+                    '',
+                    '📋 Escalation backup while PT is primary',
+                  ])}
                 >
                   <span className={`text-xs font-medium ${COLORS.et.text}`}>US East</span>
                 </div>
@@ -115,7 +170,14 @@ export function BusinessHoursTimeline({
                 <div
                   className={`${COLORS.rotating.bg} flex items-center justify-center`}
                   style={{ width: `${ptOnlyWidth}%` }}
-                  title="Rotating: Only PT in office"
+                  title={buildTooltip([
+                    '🔄 Rotating Secondary',
+                    '',
+                    `⏰ ${formatHour(overlapHours.end)} - ${formatHour(businessEnd > 24 ? businessEnd - 24 : businessEnd)} UTC`,
+                    `⏱️ Duration: ${businessEnd - overlapHours.end}h`,
+                    '',
+                    '📋 Only PT in office - secondary from on-call rotation',
+                  ])}
                 >
                   <span className={`text-xs font-medium ${COLORS.rotating.text}`}>Rotating</span>
                 </div>
@@ -143,7 +205,18 @@ export function BusinessHoursTimeline({
             <div className="relative h-10 rounded-lg overflow-hidden flex">
               <div
                 className={`w-full ${COLORS.rotating.bg} flex items-center justify-center`}
-                title="Rotating on-call (alternates ET/PT daily)"
+                title={buildTooltip([
+                  '🔄 Rotating On-Call',
+                  '',
+                  `⏰ 0${offHoursStart}:00 - ${offHoursEnd}:00 UTC`,
+                  `⏱️ Duration: ${offHoursEnd - offHoursStart}h`,
+                  '',
+                  '👤 Primary only (no secondary coverage)',
+                  '🔁 Alternates between ET and PT daily:',
+                  '   Mon: PT, Tue: ET, Wed: PT, Thu: ET...',
+                  '',
+                  '📋 Handles all incidents until business hours resume',
+                ])}
               >
                 <span className={`text-sm font-semibold ${COLORS.rotating.text}`}>
                   Rotating On-Call (Primary Only)

@@ -38,6 +38,30 @@ const SHIFT_COLORS: Record<string, { bg: string; text: string }> = {
   'night': { bg: 'bg-indigo-500 dark:bg-indigo-600', text: 'text-white' },
 };
 
+// Helper to format hour with padding
+function formatHour(h: number): string {
+  return `${h.toString().padStart(2, '0')}:00`;
+}
+
+// Helper to convert UTC to local time string
+function utcToLocal(utcHour: number, timezone: string): string {
+  const offsets: Record<string, number> = {
+    'America/New_York': -5,
+    'America/Los_Angeles': -8,
+    'America/Chicago': -6,
+    'Europe/London': 0,
+    'Asia/Tokyo': 9,
+  };
+  const offset = offsets[timezone] ?? 0;
+  let local = (utcHour + offset + 24) % 24;
+  return formatHour(local);
+}
+
+// Helper to build rich tooltips
+function buildTooltip(lines: (string | null | undefined | false)[]): string {
+  return lines.filter(Boolean).join('\n');
+}
+
 interface CoverageBlock {
   startHour: number;
   endHour: number;
@@ -163,13 +187,29 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
           const colors = getColors(block.key);
           // Only show label for blocks wider than 20% (~5 hours)
           const showLabel = block.label && widthPercent >= 20;
+          const duration = block.endHour - block.startHour;
+
+          // Build local time conversions if we have a timezone key
+          const hasTimezone = block.key && !['day', 'night', 'rotating'].includes(block.key);
+          const localStart = hasTimezone && block.key ? utcToLocal(block.startHour, block.key) : null;
+          const localEnd = hasTimezone && block.key ? utcToLocal(block.endHour % 24, block.key) : null;
+
+          const tooltip = buildTooltip([
+            `⏰ ${formatHour(block.startHour)} - ${formatHour(block.endHour)} UTC`,
+            localStart && localEnd && `🏠 ${localStart} - ${localEnd} local`,
+            `⏱️ Duration: ${duration}h`,
+            '',
+            block.label ? `👤 ${block.label}` : '⚠️ No coverage',
+            title === 'Primary' && '   Handles all incoming incidents',
+            title === 'Secondary' && '   Escalation backup for primary',
+          ]);
 
           return (
             <div
               key={index}
               className={`absolute top-0 bottom-0 flex items-center justify-center ${colors?.bg || 'bg-zinc-300 dark:bg-zinc-600'}`}
               style={{ left: `${leftPercent}%`, width: `${widthPercent}%` }}
-              title={`${block.startHour}:00 - ${block.endHour}:00 UTC\n${block.label || 'No coverage'}`}
+              title={tooltip}
             >
               {showLabel && (
                 <span className={`text-sm font-semibold ${colors?.text || 'text-zinc-500'} truncate px-1`}>
