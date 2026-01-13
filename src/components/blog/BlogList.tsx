@@ -151,7 +151,7 @@ export function BlogList({ posts }: BlogListProps) {
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-muted-foreground">Author:</span>
             <Select value={selectedAuthor} onValueChange={handleAuthorChange}>
-              <SelectTrigger className="w-[120px]">
+              <SelectTrigger className="w-[120px]" aria-label="Filter by author">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -166,7 +166,7 @@ export function BlogList({ posts }: BlogListProps) {
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-muted-foreground">Sort:</span>
             <Select value={sortOption} onValueChange={(value: SortOption) => setSortOption(value)}>
-              <SelectTrigger className="w-[150px]">
+              <SelectTrigger className="w-[150px]" aria-label="Sort posts by">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

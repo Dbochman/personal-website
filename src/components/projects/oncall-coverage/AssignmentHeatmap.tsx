@@ -100,7 +100,7 @@ export function AssignmentHeatmap({ coverage, team }: AssignmentHeatmapProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base">Who's On-Call</CardTitle>
+        <CardTitle as="h2" className="text-base">Who's On-Call</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-1">

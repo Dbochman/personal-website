@@ -52,7 +52,7 @@ export const DAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as c
 
 // Region colors for team list - matches DailyHeatmap
 export const REGION_COLORS: Record<Region, { bg: string; text: string }> = {
-  US: { bg: 'bg-emerald-500', text: 'text-emerald-500' },
+  US: { bg: 'bg-emerald-700', text: 'text-emerald-700' },
   EU: { bg: 'bg-rose-400', text: 'text-rose-400' },
   APAC: { bg: 'bg-violet-400', text: 'text-violet-400' },
   Single: { bg: 'bg-purple-500', text: 'text-purple-500' },

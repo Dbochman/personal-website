@@ -32,7 +32,7 @@ export default function OncallCoverage() {
       <div className="flex flex-col sm:flex-row sm:items-center gap-2">
         <label className="text-sm font-medium shrink-0">Coverage Model:</label>
         <Select value={selectedModelId} onValueChange={setSelectedModelId}>
-          <SelectTrigger className="w-full sm:w-80">
+          <SelectTrigger className="w-full sm:w-80" aria-label="Select coverage model">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

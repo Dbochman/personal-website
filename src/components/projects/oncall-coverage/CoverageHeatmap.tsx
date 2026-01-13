@@ -12,7 +12,7 @@ export function CoverageHeatmap({ coverage }: CoverageHeatmapProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base">Weekly Coverage Heatmap</CardTitle>
+        <CardTitle as="h2" className="text-base">Weekly Coverage Heatmap</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-1">

@@ -8,14 +8,14 @@ interface MultiWeekHeatmapProps {
 
 // Distinct colors for team members
 const MEMBER_COLORS = [
-  { bg: 'bg-blue-500', name: 'blue' },
-  { bg: 'bg-emerald-500', name: 'emerald' },
-  { bg: 'bg-amber-500', name: 'amber' },
-  { bg: 'bg-purple-500', name: 'purple' },
-  { bg: 'bg-rose-500', name: 'rose' },
-  { bg: 'bg-cyan-500', name: 'cyan' },
-  { bg: 'bg-orange-500', name: 'orange' },
-  { bg: 'bg-indigo-500', name: 'indigo' },
+  { bg: 'bg-blue-700', name: 'blue' },
+  { bg: 'bg-emerald-700', name: 'emerald' },
+  { bg: 'bg-amber-600', name: 'amber' },
+  { bg: 'bg-purple-700', name: 'purple' },
+  { bg: 'bg-rose-700', name: 'rose' },
+  { bg: 'bg-cyan-700', name: 'cyan' },
+  { bg: 'bg-orange-700', name: 'orange' },
+  { bg: 'bg-indigo-700', name: 'indigo' },
 ];
 
 export function MultiWeekHeatmap({ team, weeks }: MultiWeekHeatmapProps) {
@@ -43,7 +43,7 @@ export function MultiWeekHeatmap({ team, weeks }: MultiWeekHeatmapProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-base">Rotation Cycle ({weeks} Weeks)</CardTitle>
+        <CardTitle as="h2" className="text-base">Rotation Cycle ({weeks} Weeks)</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">

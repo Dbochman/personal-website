@@ -8,7 +8,7 @@ interface BusinessHoursTimelineProps {
 
 // Colors matching DailyHeatmap
 const COLORS = {
-  et: { bg: 'bg-emerald-500 dark:bg-emerald-600', text: 'text-white' },
+  et: { bg: 'bg-emerald-700 dark:bg-emerald-600', text: 'text-white' },
   pt: { bg: 'bg-sky-500 dark:bg-sky-600', text: 'text-white' },
   rotating: { bg: 'bg-zinc-400 dark:bg-zinc-600', text: 'text-white' },
 };
@@ -80,7 +80,7 @@ export function BusinessHoursTimeline({
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">Daily Coverage Pattern</CardTitle>
+        <CardTitle as="h2" className="text-base">Daily Coverage Pattern</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
