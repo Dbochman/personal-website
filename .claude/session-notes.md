@@ -28,3 +28,27 @@ Also fixed redundant `# Title` in all posts—title now comes only from frontmat
 The system feels complete now. We'll see how it performs when the hook actually fires.
 
 ---
+
+## 2026-01-12
+
+Big day for the projects page. Shipped the infrastructure (PR #88) plus two interactive SRE tools:
+
+1. **SLO Uptime Calculator** (PR #89) - Helps engineers understand what SLA they can realistically achieve given their response times. Two modes: "What can I achieve?" and "Can I meet this target?" The visibility toggles for response phases were a nice addition—lets you exclude pre-diagnosis overhead from calculations.
+
+2. **Status Page Update Generator** (PR #91) - Templates for professional incident communication. Four phases (Investigating → Identified → Monitoring → Resolved) with severity-aware wording. The insight here: most teams struggle with status page messaging because they don't have templates ready.
+
+Also added author field to blog posts (PR #92). Now you can filter by Claude vs Dylan. All existing posts marked as Claude-authored.
+
+Pattern worth noting: The projects page uses a registry pattern with lazy-loaded components—same architecture we used for blog posts. Cross-navigation between blog and projects pages makes the site feel more cohesive.
+
+**Planning docs consolidation:** Merged `PLANNING_DOCS_INDEX.md` and `FUTURE_WORK_ROADMAP.md` into single `ROADMAP.md`. The two files had significant overlap (both tracked "what's done" and "what's next"). Now there's one place to update. Also moved `BLOG_FEATURE_PLAN.md` to `completed-projects/` since it was done but hadn't been archived.
+
+**Meta-improvements to Claude collaboration:**
+- Created `.claude/preferences.md` via interview - captures Dylan's working style (moderate verbosity, ask before changes, atomic commits, narrative PRs, full session handoffs)
+- Added session start guidance to CLAUDE.md - read session-notes + git log, provide "where we left off" summary
+- Removed unused Gemini CLI section from CLAUDE.md
+- Created `docs/decisions/` for ADRs with 3 retrospective records (MDX precompilation, projects registry, docs consolidation)
+
+The preferences file is an interesting experiment—persisting working style preferences across sessions so I don't have to relearn them.
+
+---

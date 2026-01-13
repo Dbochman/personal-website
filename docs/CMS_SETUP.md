@@ -139,7 +139,7 @@ Access at: `http://localhost:5173/editor/`
 
 - [Decap CMS Docs](https://decapcms.org/docs/)
 - [Netlify Identity Docs](https://docs.netlify.com/security/secure-access-to-sites/identity/)
-- [Blog Feature Plan](./BLOG_FEATURE_PLAN.md)
+- [Blog Feature Plan](./completed-projects/BLOG_FEATURE_PLAN.md)
 
 ---
 

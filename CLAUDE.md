@@ -2,27 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Gemini CLI for Large Codebase Analysis
+## Session Start
 
-Use Gemini CLI when analyzing large codebases or needing a second opinion. Use `@` syntax to include files:
+At the beginning of each session:
+1. Read `.claude/session-notes.md` for recent context
+2. Check `git log --oneline -10` for recent work
+3. Provide a brief "here's where we left off" summary
 
-```bash
-gemini -p "@src/App.tsx Explain this file"
-gemini -p "@src/ Summarize the architecture"
-gemini -p "@src/ @tests/ Find all references to 'functionName'"
-cat file.tsx | gemini -p "Review this for edge cases"
-```
+## Preferences
 
-### When Claude Should Suggest Gemini
-
-**Proactively ask the user if we should invoke a Gemini command when you spot these situations:**
-
-1. **Before renaming files/functions** - Find all references first
-2. **After completing a feature** - Second-opinion code review
-3. **Architecture questions** - When holistic view needed
-4. **Verifying complex changes** - Sanity check
-
-When you spot a matching situation, ask: *"Should we run a Gemini command to check for references/verify this/get a second opinion?"*
+See `.claude/preferences.md` for Dylan's working style preferences (verbosity, autonomy, commit frequency, etc.).
 
 ## Repository Overview
 
