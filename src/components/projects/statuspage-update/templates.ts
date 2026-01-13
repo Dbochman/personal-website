@@ -34,7 +34,7 @@ export function generateStatusMessage(
     case 'monitoring':
       return generateMonitoring(serviceName, issueDesc, actionsTaken, cadenceStatement);
     case 'resolved':
-      return generateResolved(serviceName, issueDesc);
+      return generateResolved(serviceName);
     default:
       return '';
   }
@@ -74,7 +74,7 @@ function generateIdentified(
   const lines = [
     `We have identified the cause of the ${adjective} issue affecting ${service}.`,
     '',
-    `Issue: ${description}`,
+    `Users may continue to experience ${description} until the issue is resolved.`,
   ];
   if (actions) {
     lines.push('', `Our team is ${actions}.`);
@@ -95,7 +95,7 @@ function generateFixing(
   const lines = [
     `We are actively working on a fix for the issue affecting ${service}.`,
     '',
-    `Issue: ${description}`,
+    `Users may continue to experience ${description} until the issue is resolved.`,
   ];
   if (actions) {
     lines.push('', `Our team is ${actions}.`);
@@ -126,14 +126,9 @@ function generateMonitoring(
   return lines.join('\n');
 }
 
-function generateResolved(
-  service: string,
-  description: string
-): string {
+function generateResolved(service: string): string {
   const lines = [
     `The issue affecting ${service} has been resolved.`,
-    '',
-    `${description}`,
     '',
     'Service has been restored to normal operation. We apologize for any inconvenience this may have caused.',
     '',
