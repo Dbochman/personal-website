@@ -178,7 +178,7 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">Monthly Coverage (30 Days)</CardTitle>
+        <CardTitle as="h2" className="text-base">Monthly Coverage (30 Days)</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">

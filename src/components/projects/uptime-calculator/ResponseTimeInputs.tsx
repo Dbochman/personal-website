@@ -68,7 +68,7 @@ export function ResponseTimeInputs({
   return (
     <Card>
       <CardHeader className="pb-4">
-        <CardTitle className="text-base">Response Times (per incident)</CardTitle>
+        <CardTitle as="h2" className="text-base">Response Times (per incident)</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         {INPUT_CONFIG.map(({ field, label, description, max }) => {
@@ -103,6 +103,7 @@ export function ResponseTimeInputs({
               </div>
               <Slider
                 id={field}
+                aria-label={label}
                 value={[profile[field]]}
                 onValueChange={([value]) => onChange(field, value)}
                 min={0}

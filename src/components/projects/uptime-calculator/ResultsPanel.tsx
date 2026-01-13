@@ -93,7 +93,7 @@ function AchievableResults({ result }: { result: AchievableSlaResult }) {
       {/* Budget breakdown */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base">Downtime Budget Breakdown</CardTitle>
+          <CardTitle as="h2" className="text-base">Downtime Budget Breakdown</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {result.breakdown.map((phase) => (
@@ -107,7 +107,11 @@ function AchievableResults({ result }: { result: AchievableSlaResult }) {
                   </span>
                 </span>
               </div>
-              <Progress value={phase.percentOfBudget} className="h-2" />
+              <Progress
+                value={phase.percentOfBudget}
+                className="h-2"
+                aria-label={`${phase.label}: ${phase.percentOfBudget.toFixed(1)}% of budget`}
+              />
             </div>
           ))}
         </CardContent>
@@ -210,7 +214,7 @@ function TargetResults({
       {!canMeet && (
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">To meet {formatSla(result.targetSla)}, you could:</CardTitle>
+            <CardTitle as="h2" className="text-base">To meet {formatSla(result.targetSla)}, you could:</CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-sm text-muted-foreground">

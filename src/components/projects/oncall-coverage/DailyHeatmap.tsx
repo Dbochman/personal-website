@@ -15,9 +15,9 @@ const REGION_COLORS: Record<string, { bg: string; text: string }> = {
   'Europe/London': { bg: 'bg-rose-400 dark:bg-rose-600', text: 'text-white' },
   'Europe/Paris': { bg: 'bg-rose-400 dark:bg-rose-600', text: 'text-white' },
   'Europe/Berlin': { bg: 'bg-rose-400 dark:bg-rose-600', text: 'text-white' },
-  'America/New_York': { bg: 'bg-emerald-500 dark:bg-emerald-600', text: 'text-white' },
+  'America/New_York': { bg: 'bg-emerald-700 dark:bg-emerald-600', text: 'text-white' },
   'America/Los_Angeles': { bg: 'bg-sky-500 dark:bg-sky-600', text: 'text-white' },
-  'America/Chicago': { bg: 'bg-emerald-500 dark:bg-emerald-600', text: 'text-white' },
+  'America/Chicago': { bg: 'bg-emerald-700 dark:bg-emerald-600', text: 'text-white' },
 };
 
 const TIMEZONE_LABELS: Record<string, string> = {
@@ -249,7 +249,7 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">Daily Coverage (24 Hours UTC)</CardTitle>
+        <CardTitle as="h2" className="text-base">Daily Coverage (24 Hours UTC)</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">

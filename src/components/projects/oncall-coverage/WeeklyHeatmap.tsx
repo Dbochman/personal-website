@@ -46,7 +46,7 @@ export function WeeklyHeatmap({ coverage, team }: WeeklyHeatmapProps) {
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-base">Weekly Coverage</CardTitle>
+        <CardTitle as="h2" className="text-base">Weekly Coverage</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-7 gap-2">

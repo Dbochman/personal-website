@@ -9,7 +9,7 @@ export function MetricsPanel({ metrics }: MetricsPanelProps) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium">Key Metrics</CardTitle>
+        <CardTitle as="h2" className="text-sm font-medium">Key Metrics</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

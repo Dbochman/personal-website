@@ -27,6 +27,7 @@ export function IncidentInput({ value, onChange }: IncidentInputProps) {
           </div>
           <Slider
             id="incidents"
+            aria-label="Expected incidents per month"
             value={[value]}
             onValueChange={([v]) => onChange(v)}
             min={0}
