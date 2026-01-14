@@ -79,3 +79,25 @@ Also merged the previous oncall-coverage improvements branch which included:
 - US Daytime model rebalancing and dedicated BusinessHoursTimeline component
 
 ---
+
+## 2026-01-13 (continued)
+
+**Analytics Dashboard shipped (PR #96).** Built an unlisted `/analytics` page that visualizes GA4, Search Console, and Lighthouse data from existing collection workflows.
+
+Key features:
+- Overview cards: Sessions (7d), Lighthouse Perf, Impressions, Bounce Rate
+- Three tabs: Traffic (sessions trend, device breakdown, top pages), Performance (Lighthouse scores, Core Web Vitals), Search (clicks/impressions trend)
+- Traffic sources tracking added to GA4 script (will populate on next run)
+- Custom tooltips with Tailwind classes for dark mode support (Recharts inline styles don't resolve CSS variables)
+
+**Codex code reviews captured two good catches:**
+1. Divide-by-zero in session trend calculation when previous period has 0 sessions
+2. Error states unreachable because fetchJson swallowed all failures as "missing data"
+
+Fixed both—now 404s show yellow warnings, actual errors (500s, network) show red error state.
+
+**Nav cleanup:** Removed Experience, Goals, Contact links. Nav now just shows Projects and Blog.
+
+**Footer standardization:** Created reusable `Footer` component and applied to Blog, Projects, and Project detail pages. Kept custom footers for BlogPost (author info) and Runbook (maintainer info).
+
+---
