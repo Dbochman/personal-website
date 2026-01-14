@@ -358,17 +358,13 @@ export const roadmapBoard: KanbanBoard = {
           ],
           createdAt: '2026-01-13',
         },
-        { id: 'skip-nav', title: 'Skip Navigation Links', labels: ['Small', 'Accessibility'], createdAt: '2026-01-13' },
-        { id: 'analytics-dashboard', title: 'Analytics Dashboard', description: 'GA4, Search Console, Lighthouse visualizations', labels: ['PR #96'], createdAt: '2026-01-13' },
-        { id: 'oncall-coverage', title: 'On-Call Coverage Model Explorer', labels: ['PR #94'], createdAt: '2026-01-13' },
-        { id: 'footer-component', title: 'Footer Standardization', labels: ['Cleanup'], createdAt: '2026-01-13' },
-        { id: 'nav-cleanup', title: 'Nav Cleanup', description: 'Removed Experience, Goals, Contact links', labels: ['Cleanup'], createdAt: '2026-01-13' },
       ],
     },
     {
       id: 'changelog',
       title: 'Change Log',
       cards: [
+        { id: 'jan-13', title: 'Jan 13: Analytics & Accessibility', description: 'Analytics Dashboard, On-Call Coverage Explorer, Skip Navigation, Footer/Nav cleanup', labels: ['PR #94', 'PR #96'], createdAt: '2026-01-13' },
         { id: 'jan-12', title: 'Jan 12: Projects Page Launch', description: 'SLO Calculator, Status Page Generator, registry pattern', labels: ['PR #88-92'], createdAt: '2026-01-12' },
         { id: 'jan-11', title: 'Jan 11: MDX Precompilation', description: 'Blog LCP 5.6s → 3.1s (45% faster)', labels: ['PR #84', 'Performance'], createdAt: '2026-01-11' },
         { id: 'jan-8', title: 'Jan 8: Blog Phase 4 & 5', description: 'Comments, syntax highlighting, RSS, structured data', labels: ['Feature'], createdAt: '2026-01-08' },
