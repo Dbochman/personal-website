@@ -1,12 +1,134 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, Info, CheckCircle2, Lightbulb } from 'lucide-react';
 import {
   type AchievableSlaResult,
   type CanMeetSlaResult,
   formatDuration,
   formatSla,
 } from './calculations';
+
+type InsightType = 'info' | 'warning' | 'success' | 'tip';
+
+interface Insight {
+  type: InsightType;
+  title: string;
+  message: string;
+}
+
+function getInsight(result: AchievableSlaResult): Insight {
+  const { responseOverheadPercent, maxAchievableSla, breakdown, mttrMinutes, monthlyDowntimeMinutes } = result;
+
+  // Find the dominant phase (largest contributor)
+  const sortedPhases = [...breakdown].sort((a, b) => b.percentOfBudget - a.percentOfBudget);
+  const dominantPhase = sortedPhases[0];
+  const travelPhase = breakdown.find(p => p.phase === 'travelMin');
+
+  // Zero downtime case
+  if (monthlyDowntimeMinutes === 0 || mttrMinutes === 0) {
+    return {
+      type: 'success',
+      title: 'Perfect availability',
+      message: 'With zero response time or incidents, you can achieve 100% uptime.',
+    };
+  }
+
+  // Excellent SLA (99.9%+)
+  if (maxAchievableSla >= 99.9) {
+    return {
+      type: 'success',
+      title: 'Enterprise-grade reliability',
+      message: `You can achieve ${formatSla(maxAchievableSla)} uptime. That's three nines or better—suitable for mission-critical systems.`,
+    };
+  }
+
+  // Poor SLA (below 99%)
+  if (maxAchievableSla < 99) {
+    return {
+      type: 'warning',
+      title: 'Reliability at risk',
+      message: `Current profile only achieves ${formatSla(maxAchievableSla)}. Consider reducing response times or incident frequency to improve.`,
+    };
+  }
+
+  // High travel time (> 20 min)
+  if (travelPhase && travelPhase.totalMinutes > 0 && breakdown.find(p => p.phase === 'travelMin')?.percentOfBudget! > 20) {
+    return {
+      type: 'warning',
+      title: 'Travel time impact',
+      message: `Getting to a computer accounts for ${travelPhase.percentOfBudget.toFixed(0)}% of your response time. Consider mobile incident tools or reducing after-hours response expectations.`,
+    };
+  }
+
+  // High overhead (> 50%)
+  if (responseOverheadPercent > 50) {
+    return {
+      type: 'warning',
+      title: 'Response overhead',
+      message: `${responseOverheadPercent.toFixed(0)}% of your time is spent on overhead (alerting, acknowledgment, travel, auth) before you even start diagnosing.`,
+    };
+  }
+
+  // Diagnose dominates (> 40%)
+  if (dominantPhase.phase === 'diagnoseMin' && dominantPhase.percentOfBudget > 40) {
+    return {
+      type: 'tip',
+      title: 'Diagnosis bottleneck',
+      message: `Diagnosis takes ${dominantPhase.percentOfBudget.toFixed(0)}% of your response time. Better runbooks, observability dashboards, or AI-assisted triage could help.`,
+    };
+  }
+
+  // Fix dominates (> 40%)
+  if (dominantPhase.phase === 'fixMin' && dominantPhase.percentOfBudget > 40) {
+    return {
+      type: 'tip',
+      title: 'Remediation focus',
+      message: `Fixing takes ${dominantPhase.percentOfBudget.toFixed(0)}% of your response time. Consider automated remediation, feature flags for quick rollbacks, or reducing deployment complexity.`,
+    };
+  }
+
+  // Low overhead (< 30%) - efficient
+  if (responseOverheadPercent < 30) {
+    return {
+      type: 'info',
+      title: 'Efficient response chain',
+      message: `Only ${responseOverheadPercent.toFixed(0)}% overhead before diagnosis begins. Your alerting and access workflows are well-optimized.`,
+    };
+  }
+
+  // Default: moderate overhead
+  return {
+    type: 'info',
+    title: 'Response overhead',
+    message: `${responseOverheadPercent.toFixed(0)}% of your error budget goes to response overhead before you start diagnosing and fixing.`,
+  };
+}
+
+const insightStyles: Record<InsightType, { card: string; icon: string }> = {
+  info: {
+    card: 'bg-blue-500/10 border-blue-500/20',
+    icon: 'text-blue-500',
+  },
+  warning: {
+    card: 'bg-amber-500/10 border-amber-500/20',
+    icon: 'text-amber-500',
+  },
+  success: {
+    card: 'bg-emerald-500/10 border-emerald-500/20',
+    icon: 'text-emerald-500',
+  },
+  tip: {
+    card: 'bg-violet-500/10 border-violet-500/20',
+    icon: 'text-violet-500',
+  },
+};
+
+const insightIcons: Record<InsightType, typeof Info> = {
+  info: Info,
+  warning: AlertTriangle,
+  success: CheckCircle2,
+  tip: Lightbulb,
+};
 
 interface ResultsPanelProps {
   mode: 'achievable' | 'target';
@@ -31,8 +153,6 @@ export function ResultsPanel({
 }
 
 function AchievableResults({ result }: { result: AchievableSlaResult }) {
-  const overheadBeforeFix = result.responseOverheadPercent;
-
   return (
     <div className="space-y-4">
       {/* Summary stats */}
@@ -118,21 +238,26 @@ function AchievableResults({ result }: { result: AchievableSlaResult }) {
       </Card>
 
       {/* Insight */}
-      <Card className="bg-amber-500/10 border-amber-500/20">
-        <CardContent className="pt-6">
-          <div className="flex gap-3">
-            <AlertTriangle className="h-5 w-5 text-amber-500 shrink-0 mt-0.5" />
-            <div>
-              <p className="font-medium text-sm">Response overhead insight</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                {overheadBeforeFix.toFixed(0)}% of your error budget goes to response
-                overhead (alert latency, acknowledge, travel, authenticate) before you even
-                start diagnosing.
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {(() => {
+        const insight = getInsight(result);
+        const styles = insightStyles[insight.type];
+        const Icon = insightIcons[insight.type];
+        return (
+          <Card className={styles.card}>
+            <CardContent className="pt-6">
+              <div className="flex gap-3">
+                <Icon className={`h-5 w-5 ${styles.icon} shrink-0 mt-0.5`} />
+                <div>
+                  <p className="font-medium text-sm">{insight.title}</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {insight.message}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })()}
     </div>
   );
 }
