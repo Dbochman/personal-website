@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Pencil, CheckSquare, FileText, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanCard as KanbanCardType } from '@/types/kanban';
+import { CARD_COLORS } from '@/types/kanban';
 
 const REPO_URL = 'https://github.com/Dbochman/personal-website';
 
@@ -36,12 +37,16 @@ export function KanbanCard({ card, onEdit, isDragOverlay = false }: KanbanCardPr
     transition,
   };
 
+  const colorConfig = card.color ? CARD_COLORS[card.color] : null;
+
   return (
     <Card
       ref={setNodeRef}
       style={style}
       className={cn(
-        'p-3 bg-background border shadow-sm cursor-grab active:cursor-grabbing touch-none group relative',
+        'p-3 border shadow-sm cursor-grab active:cursor-grabbing touch-none group relative',
+        colorConfig ? colorConfig.bg : 'bg-background',
+        colorConfig && colorConfig.border,
         isDragging && 'opacity-50',
         isDragOverlay && 'shadow-lg rotate-3'
       )}
