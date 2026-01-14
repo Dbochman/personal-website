@@ -1,4 +1,5 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, TooltipProps } from 'recharts';
+import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
 interface DeviceData {
   device: string;
@@ -15,6 +16,18 @@ const COLORS = {
   mobile: 'hsl(var(--chart-2))',
   tablet: 'hsl(var(--chart-3))',
 };
+
+function CustomTooltip({ active, payload, total }: TooltipProps<ValueType, NameType> & { total: number }) {
+  if (!active || !payload || !payload.length) return null;
+  const data = payload[0];
+  const value = data.value as number;
+  return (
+    <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md">
+      <p className="font-medium">{data.name}</p>
+      <p>Sessions: {value.toLocaleString()} ({((value / total) * 100).toFixed(1)}%)</p>
+    </div>
+  );
+}
 
 export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
   if (data.length === 0) {
@@ -55,20 +68,7 @@ export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
               />
             ))}
           </Pie>
-          <Tooltip
-            contentStyle={{
-              backgroundColor: 'hsl(var(--background))',
-              border: '1px solid hsl(var(--border))',
-              borderRadius: '8px',
-              fontSize: '12px',
-              color: 'hsl(var(--foreground))',
-            }}
-            labelStyle={{ color: 'hsl(var(--foreground))' }}
-            formatter={(value: number) => [
-              `${value.toLocaleString()} (${((value / total) * 100).toFixed(1)}%)`,
-              'Sessions',
-            ]}
-          />
+          <Tooltip content={<CustomTooltip total={total} />} />
           <Legend
             verticalAlign="bottom"
             height={36}

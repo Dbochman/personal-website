@@ -1,4 +1,5 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine, TooltipProps } from 'recharts';
+import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { LighthousePageScore } from '../types';
 
 interface LighthouseHistoryChartProps {
@@ -10,6 +11,17 @@ function getScoreColor(score: number): string {
   if (score >= 90) return 'hsl(142, 76%, 36%)'; // emerald-600
   if (score >= 70) return 'hsl(45, 93%, 47%)';  // amber-500
   return 'hsl(0, 72%, 51%)';                     // red-500
+}
+
+function CustomTooltip({ active, payload }: TooltipProps<ValueType, NameType>) {
+  if (!active || !payload || !payload.length) return null;
+  const data = payload[0];
+  return (
+    <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md">
+      <p className="font-medium">{data.payload.page}</p>
+      <p>Score: {data.value}</p>
+    </div>
+  );
 }
 
 export function LighthouseHistoryChart({ data }: LighthouseHistoryChartProps) {
@@ -50,17 +62,7 @@ export function LighthouseHistoryChart({ data }: LighthouseHistoryChartProps) {
             width={60}
           />
           <ReferenceLine x={90} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: 'hsl(var(--background))',
-              border: '1px solid hsl(var(--border))',
-              borderRadius: '8px',
-              fontSize: '12px',
-              color: 'hsl(var(--foreground))',
-            }}
-            labelStyle={{ color: 'hsl(var(--foreground))', fontWeight: 'bold' }}
-            formatter={(value: number) => [value, 'Score']}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <Bar dataKey="performance" radius={[0, 4, 4, 0]}>
             {chartData.map((entry) => (
               <Cell key={entry.page} fill={getScoreColor(entry.performance)} />

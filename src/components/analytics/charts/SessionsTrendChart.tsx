@@ -1,5 +1,20 @@
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
+import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { GA4HistoryEntry } from '../types';
+
+function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
+  if (!active || !payload || !payload.length) return null;
+  return (
+    <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md">
+      <p className="font-medium">{label}</p>
+      {payload.map((entry, i) => (
+        <p key={i}>
+          {String(entry.name).charAt(0).toUpperCase() + String(entry.name).slice(1)}: {Number(entry.value).toLocaleString()}
+        </p>
+      ))}
+    </div>
+  );
+}
 
 interface SessionsTrendChartProps {
   data: GA4HistoryEntry[];
@@ -45,20 +60,7 @@ export function SessionsTrendChart({ data }: SessionsTrendChartProps) {
             tickFormatter={(value) => value.toLocaleString()}
             className="text-muted-foreground"
           />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: 'hsl(var(--background))',
-              border: '1px solid hsl(var(--border))',
-              borderRadius: '8px',
-              fontSize: '12px',
-              color: 'hsl(var(--foreground))',
-            }}
-            labelStyle={{ color: 'hsl(var(--foreground))' }}
-            formatter={(value: number, name: string) => [
-              value.toLocaleString(),
-              name.charAt(0).toUpperCase() + name.slice(1),
-            ]}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <Area
             type="monotone"
             dataKey="sessions"
