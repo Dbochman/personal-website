@@ -3,7 +3,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { KanbanCard } from './KanbanCard';
 import { Button } from '@/components/ui/button';
-import { Plus, MoreHorizontal, Trash2, Pencil, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { Plus, MoreHorizontal, Trash2, Pencil, ArrowUpDown, ArrowUp, ArrowDown, History } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanColumn as KanbanColumnType, KanbanCard as KanbanCardType } from '@/types/kanban';
 import { COLUMN_COLORS } from '@/types/kanban';
@@ -15,6 +15,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 type SortDirection = 'none' | 'asc' | 'desc';
+
+const CHANGELOG_MAX_CARDS = 7;
+const REPO_URL = 'https://github.com/Dbochman/personal-website';
 
 // Map size labels to numeric values for sorting
 function getSizeValue(labels?: string[]): number {
@@ -48,14 +51,24 @@ export function KanbanColumn({
   const { setNodeRef, isOver } = useDroppable({ id: column.id });
   const [sortDirection, setSortDirection] = useState<SortDirection>('none');
 
+  const isChangelog = column.id === 'changelog';
+  const hasMoreCards = isChangelog && column.cards.length > CHANGELOG_MAX_CARDS;
+
   const sortedCards = useMemo(() => {
-    if (sortDirection === 'none') return column.cards;
-    return [...column.cards].sort((a, b) => {
+    let cards = column.cards;
+
+    // Limit changelog to max cards
+    if (isChangelog && cards.length > CHANGELOG_MAX_CARDS) {
+      cards = cards.slice(0, CHANGELOG_MAX_CARDS);
+    }
+
+    if (sortDirection === 'none') return cards;
+    return [...cards].sort((a, b) => {
       const aVal = getSizeValue(a.labels);
       const bVal = getSizeValue(b.labels);
       return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
     });
-  }, [column.cards, sortDirection]);
+  }, [column.cards, sortDirection, isChangelog]);
 
   const toggleSort = () => {
     setSortDirection((prev) => {
@@ -138,6 +151,19 @@ export function KanbanColumn({
             ))}
           </div>
         </SortableContext>
+
+        {/* Show link to git history if changelog has more cards */}
+        {hasMoreCards && (
+          <a
+            href={`${REPO_URL}/commits/main`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 mt-3 px-3 py-2 text-xs text-muted-foreground hover:text-foreground bg-background/50 rounded border border-dashed border-border hover:border-primary/50 transition-colors"
+          >
+            <History className="w-3.5 h-3.5" />
+            <span>View full history on GitHub</span>
+          </a>
+        )}
       </div>
 
       {/* Add card button */}
