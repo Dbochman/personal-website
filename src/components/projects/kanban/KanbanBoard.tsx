@@ -24,10 +24,14 @@ import { generateId, roadmapBoard } from '@/types/kanban';
 
 interface KanbanBoardProps {
   initialBoard?: BoardType;
+  boardKey?: string; // URL query param name for isolation between boards
 }
 
-export function KanbanBoard({ initialBoard = roadmapBoard }: KanbanBoardProps) {
-  const { getInitialBoard, saveBoard, clearBoard } = useKanbanPersistence(initialBoard);
+export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }: KanbanBoardProps) {
+  const { getInitialBoard, saveBoard, clearBoard } = useKanbanPersistence({
+    defaultBoard: initialBoard,
+    boardKey,
+  });
   const [board, setBoard] = useState<BoardType>(() => getInitialBoard());
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
 
