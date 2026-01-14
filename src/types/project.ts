@@ -17,6 +17,7 @@ export interface ProjectMeta {
   status: ProjectStatus;
   createdAt: string;
   updatedAt?: string;
+  fullWidth?: boolean; // Break out of max-w-4xl constraint
 }
 
 /**

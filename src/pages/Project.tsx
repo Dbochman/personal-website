@@ -5,6 +5,7 @@ import { ArrowLeft } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { Footer } from '@/components/layout/Footer';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 import { getProject } from '@/data/projects';
 import type { ProjectStatus } from '@/types/project';
 
@@ -86,7 +87,7 @@ export default function Project() {
 
       <PageLayout>
         <div className="container mx-auto px-4 py-12">
-          <div className="max-w-4xl mx-auto">
+          <div className={cn(!project.fullWidth && 'max-w-4xl mx-auto')}>
             {/* Back link */}
             <Link
               to="/projects"
@@ -117,7 +118,10 @@ export default function Project() {
             </header>
 
             {/* Project component */}
-            <div className="bg-card rounded-lg border p-6">
+            <div className={cn(
+              'bg-card rounded-lg border',
+              project.fullWidth ? 'p-4' : 'p-6'
+            )}>
               <Suspense
                 fallback={
                   <div className="text-center py-12 text-muted-foreground">

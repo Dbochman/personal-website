@@ -259,9 +259,9 @@ export function KanbanBoard() {
     : null;
 
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col min-h-[60vh]">
       {/* Toolbar */}
-      <div className="flex items-center justify-between flex-wrap gap-2">
+      <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
         <p className="text-sm text-muted-foreground">
           Drag cards between columns. Your board is saved in the URL.
         </p>
@@ -285,7 +285,7 @@ export function KanbanBoard() {
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-4 overflow-x-auto pb-4">
+        <div className="flex-1 flex gap-3 overflow-x-auto pb-4">
           {board.columns.map((column) => (
             <KanbanColumn
               key={column.id}
@@ -300,7 +300,7 @@ export function KanbanBoard() {
           {/* Add column button */}
           <Button
             variant="outline"
-            className="flex-shrink-0 w-72 h-12 border-dashed"
+            className="flex-shrink-0 w-64 h-12 border-dashed self-start"
             onClick={handleAddColumn}
           >
             <Plus className="w-4 h-4 mr-1" />

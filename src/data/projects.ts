@@ -62,6 +62,7 @@ export const projectRegistry: ProjectDefinition[] = [
     icon: 'Columns',
     status: 'active',
     createdAt: '2026-01-13',
+    fullWidth: true,
     component: Kanban,
   },
 ];
