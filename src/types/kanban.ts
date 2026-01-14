@@ -240,20 +240,6 @@ export const roadmapBoard: KanbanBoard = {
       title: 'To Do',
       cards: [
         {
-          id: 'aria-live',
-          title: 'ARIA Live Regions',
-          description: 'Screen reader announcements for dynamic content: search results, loading/error states, model changes.',
-          labels: ['Small', 'Accessibility'],
-          planFile: 'docs/plans/02-aria-live-regions.md',
-          checklist: [
-            { id: 'al-1', text: 'Add BlogList search results announcement', completed: false },
-            { id: 'al-2', text: 'Add Analytics Dashboard loading/error/warning announcements', completed: false },
-            { id: 'al-3', text: 'Add On-Call model change announcement', completed: false },
-            { id: 'al-4', text: 'Test with VoiceOver screen reader', completed: false },
-          ],
-          createdAt: '2026-01-13',
-        },
-        {
           id: 'deploy-notifications',
           title: 'Deployment Notifications',
           description: 'Email notifications for deploy success/failure via GitHub Actions + dawidd6/action-send-mail.',
@@ -299,7 +285,26 @@ export const roadmapBoard: KanbanBoard = {
     {
       id: 'in-progress',
       title: 'In Progress',
-      cards: [],
+      cards: [
+        {
+          id: 'aria-live',
+          title: 'ARIA Live Regions',
+          description: 'Screen reader announcements for dynamic content: search results, loading/error states, model changes.',
+          labels: ['Small', 'Accessibility'],
+          planFile: 'docs/plans/02-aria-live-regions.md',
+          checklist: [
+            { id: 'al-1', text: 'Add BlogList search results announcement', completed: false },
+            { id: 'al-2', text: 'Add Analytics Dashboard loading/error/warning announcements', completed: false },
+            { id: 'al-3', text: 'Add On-Call model change announcement', completed: false },
+            { id: 'al-4', text: 'Test with VoiceOver screen reader', completed: false },
+          ],
+          history: [
+            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+            { type: 'column', timestamp: '2026-01-14T16:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
+          ],
+          createdAt: '2026-01-13',
+        },
+      ],
     },
     {
       id: 'recently-completed',

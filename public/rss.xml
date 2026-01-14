@@ -5,13 +5,25 @@
     <link>https://dylanbochman.com/blog</link>
     <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 11 Jan 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 14 Jan 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://dylanbochman.com/social-preview.png</url>
       <title>Dylan Bochman - Blog</title>
       <link>https://dylanbochman.com/blog</link>
     </image>
+    <item>
+      <title>When Your Roadmap Accepts Pull Requests</title>
+      <link>https://dylanbochman.com/blog/2026-01-14-the-site-that-plans-itself</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-14-the-site-that-plans-itself</guid>
+      <description>We moved our roadmap from a markdown file into a Kanban board on the site itself. Now visitors can see what&apos;s planned, suggest changes via PR, and the development conversation happens in public.</description>
+      <pubDate>Wed, 14 Jan 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>Meta</category>
+      <category>Tooling</category>
+      <category>AI</category>
+      <category>Open Source</category>
+    </item>
     <item>
       <title>Shaving a Minute Off Every Deploy</title>
       <link>https://dylanbochman.com/blog/2026-01-11-shaving-minutes-off-deploys</link>

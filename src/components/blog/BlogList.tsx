@@ -180,6 +180,11 @@ export function BlogList({ posts }: BlogListProps) {
         </div>
       </div>
 
+      {/* Screen reader announcement for search results */}
+      <div role="status" aria-live="polite" className="sr-only">
+        {filteredPosts.length} {filteredPosts.length === 1 ? 'post' : 'posts'} found
+      </div>
+
       {/* Posts Grid */}
       {filteredPosts.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -188,7 +193,7 @@ export function BlogList({ posts }: BlogListProps) {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
+        <div className="text-center py-12" role="status">
           <p className="text-muted-foreground">
             No posts found matching your criteria.
           </p>

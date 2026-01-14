@@ -16,7 +16,8 @@ export function AnalyticsDashboard() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-6" aria-live="polite" aria-busy="true">
+        <span className="sr-only">Loading analytics data...</span>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
             <Card key={i} className="animate-pulse">
@@ -36,7 +37,7 @@ export function AnalyticsDashboard() {
 
   if (error) {
     return (
-      <Card className="border-destructive">
+      <Card className="border-destructive" role="alert">
         <CardContent className="pt-6">
           <p className="text-destructive">Failed to load analytics data: {error}</p>
         </CardContent>
@@ -65,7 +66,7 @@ export function AnalyticsDashboard() {
     <div className="space-y-6">
       {/* Warning for missing data */}
       {warning && (
-        <Card className="border-yellow-500/50 bg-yellow-500/10">
+        <Card className="border-yellow-500/50 bg-yellow-500/10" role="status">
           <CardContent className="pt-6">
             <p className="text-sm text-yellow-700 dark:text-yellow-400">{warning}</p>
           </CardContent>

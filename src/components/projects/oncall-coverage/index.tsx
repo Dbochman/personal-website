@@ -46,7 +46,7 @@ export default function OncallCoverage() {
       </div>
 
       {/* Model description */}
-      <p className="text-sm text-muted-foreground border-l-2 border-primary/30 pl-3">
+      <p className="text-sm text-muted-foreground border-l-2 border-primary/30 pl-3" aria-live="polite">
         {model.description}
       </p>
 
