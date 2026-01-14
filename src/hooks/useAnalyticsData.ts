@@ -7,20 +7,23 @@ import type {
   AnalyticsData,
 } from '@/components/analytics/types';
 
-interface FetchResult<T> {
-  data: T | null;
-  missing: boolean;
-}
+type FetchResult<T> =
+  | { status: 'success'; data: T }
+  | { status: 'missing' }  // 404 - file not found
+  | { status: 'error'; message: string };  // network/server errors
 
 async function fetchJson<T>(url: string): Promise<FetchResult<T>> {
   try {
     const response = await fetch(url);
-    if (!response.ok) {
-      return { data: null, missing: true };
+    if (response.status === 404) {
+      return { status: 'missing' };
     }
-    return { data: await response.json(), missing: false };
-  } catch {
-    return { data: null, missing: true };
+    if (!response.ok) {
+      return { status: 'error', message: `HTTP ${response.status}: ${response.statusText}` };
+    }
+    return { status: 'success', data: await response.json() };
+  } catch (err) {
+    return { status: 'error', message: err instanceof Error ? err.message : 'Network error' };
   }
 }
 
@@ -37,42 +40,58 @@ export function useAnalyticsData(): AnalyticsData {
 
   useEffect(() => {
     async function loadData() {
-      try {
-        const [latestResult, ga4Result, searchResult, lighthouseResult] = await Promise.all([
-          fetchJson<LatestMetrics>('/metrics/latest.json'),
-          fetchJson<GA4HistoryEntry[]>('/metrics/ga4-history.json'),
-          fetchJson<SearchConsoleHistoryEntry[]>('/metrics/search-console-history.json'),
-          fetchJson<LighthousePageScore[]>('/lighthouse-reports/summary.json'),
-        ]);
+      const [latestResult, ga4Result, searchResult, lighthouseResult] = await Promise.all([
+        fetchJson<LatestMetrics>('/metrics/latest.json'),
+        fetchJson<GA4HistoryEntry[]>('/metrics/ga4-history.json'),
+        fetchJson<SearchConsoleHistoryEntry[]>('/metrics/search-console-history.json'),
+        fetchJson<LighthousePageScore[]>('/lighthouse-reports/summary.json'),
+      ]);
 
-        // Track missing files for warning
-        const missingFiles: string[] = [];
-        if (latestResult.missing) missingFiles.push('latest.json');
-        if (ga4Result.missing) missingFiles.push('ga4-history.json');
-        if (searchResult.missing) missingFiles.push('search-console-history.json');
-        if (lighthouseResult.missing) missingFiles.push('lighthouse summary');
+      // Track missing files (404s) for warning
+      const missingFiles: string[] = [];
+      // Track actual errors (network, 500s) for error state
+      const errors: string[] = [];
 
-        const warning = missingFiles.length > 0
-          ? `Some metrics data unavailable: ${missingFiles.join(', ')}`
-          : null;
+      const results = [
+        { name: 'latest.json', result: latestResult },
+        { name: 'ga4-history.json', result: ga4Result },
+        { name: 'search-console-history.json', result: searchResult },
+        { name: 'lighthouse summary', result: lighthouseResult },
+      ];
 
-        setData({
-          latest: latestResult.data,
-          ga4History: ga4Result.data ?? [],
-          searchHistory: searchResult.data ?? [],
-          lighthouseSummary: lighthouseResult.data ?? [],
-          isLoading: false,
-          error: null,
-          warning,
-        });
-      } catch (err) {
+      for (const { name, result } of results) {
+        if (result.status === 'missing') {
+          missingFiles.push(name);
+        } else if (result.status === 'error') {
+          errors.push(`${name}: ${result.message}`);
+        }
+      }
+
+      // If we have actual errors, show error state
+      if (errors.length > 0) {
         setData((prev) => ({
           ...prev,
           isLoading: false,
-          error: err instanceof Error ? err.message : 'Failed to load analytics data',
+          error: `Failed to load: ${errors.join('; ')}`,
           warning: null,
         }));
+        return;
       }
+
+      // Otherwise show data with optional missing files warning
+      const warning = missingFiles.length > 0
+        ? `Some metrics data unavailable: ${missingFiles.join(', ')}`
+        : null;
+
+      setData({
+        latest: latestResult.status === 'success' ? latestResult.data : null,
+        ga4History: ga4Result.status === 'success' ? ga4Result.data : [],
+        searchHistory: searchResult.status === 'success' ? searchResult.data : [],
+        lighthouseSummary: lighthouseResult.status === 'success' ? lighthouseResult.data : [],
+        isLoading: false,
+        error: null,
+        warning,
+      });
     }
 
     loadData();
