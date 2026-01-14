@@ -81,3 +81,4 @@ export function getAllProjects(): ProjectMeta[] {
 export function getProject(slug: string): ProjectDefinition | undefined {
   return projectRegistry.find((p) => p.slug === slug);
 }
+// Build trigger: 20260114130106
