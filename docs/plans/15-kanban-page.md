@@ -462,9 +462,90 @@ npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities lz-string
 
 **Total**: ~5 hours
 
+## Implemented Beyond Original Scope
+
+These features were added during implementation based on user feedback:
+
+### Card History Tracking
+- Track when cards are created and updated
+- Log column movements with timestamps
+- Track title, description, and label changes
+- Display full history in card editor modal with wrapping
+
+### Column Customization
+- Optional description field for columns
+- Color themes pulled from StatusPage incident phases:
+  - Investigating (yellow), Identified (orange), Fixing (purple)
+  - Monitoring (blue), Resolved (green), Critical (red), Review (pink)
+- Dot-style color picker with tooltips
+
+### Checklist/Subtasks
+- Cards can have checklists for epic-style task breakdown
+- Add/toggle/remove checklist items in editor
+- Progress indicator on cards (e.g., "2/5")
+- `@radix-ui/react-checkbox` dependency added
+
+### Roadmap Integration
+- Renamed `defaultBoard` to `roadmapBoard`
+- Pre-populated with actual site roadmap items
+- Kanban serves as source of truth (not ROADMAP.md)
+- Updates made via chat, board used as visual reference
+
+### Layout & UX Improvements
+- Full-width layout via `fullWidth` project option
+- Cards fully draggable with small edit button (absolute positioned)
+- Long titles/descriptions wrap instead of truncate
+- Sort toggle in column headers (small/large labels)
+
+### Updated Data Structure
+
+```ts
+export interface ChecklistItem {
+  id: string;
+  text: string;
+  completed: boolean;
+}
+
+export interface CardChange {
+  type: 'column' | 'title' | 'description' | 'labels';
+  timestamp: string;
+  columnId?: string;
+  columnTitle?: string;
+  from?: string;
+  to?: string;
+}
+
+export interface KanbanCard {
+  id: string;
+  title: string;
+  description?: string;
+  labels?: string[];
+  checklist?: ChecklistItem[];
+  createdAt: string;
+  updatedAt?: string;
+  history?: CardChange[];
+}
+
+export type ColumnColor = 'default' | 'yellow' | 'orange' | 'purple' | 'blue' | 'green' | 'red' | 'pink';
+
+export interface KanbanColumn {
+  id: string;
+  title: string;
+  description?: string;
+  color?: ColumnColor;
+  cards: KanbanCard[];
+}
+```
+
+### Additional Files Created
+
+```
+src/components/projects/kanban/ColumnEditorModal.tsx
+```
+
 ## Future Enhancements
 
-- Card colors/priorities
+- ~~Card colors/priorities~~ (done via labels)
 - Due date tracking with visual indicators
 - Card assignments
 - Column WIP limits
