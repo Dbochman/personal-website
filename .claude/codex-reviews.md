@@ -68,3 +68,18 @@ Capturing feedback from Codex async code reviews to identify patterns and inform
   1. Tightened 404 ignore logic: only ignore HTML document 404s (SPA fallback), not asset 404s (.js, .css, .json, images, etc.)
   2. Changed regex from `/^PR #(\d+)/` to `/^PR #(\d+)$/` - only links single PRs, not ranges
 - **Category**: edge cases | UX
+
+---
+
+### 2026-01-14 - ARIA Live Regions PR #102
+
+- **What it flagged**:
+  1. (Low) BlogList announcement fires on initial render - creates noise before user interacts
+  2. (Low) On-Call model description with aria-live is verbose - full paragraph announced on every change
+  3. (Low) Analytics loading state wraps large content in aria-live - can cause noisy announcements
+- **Agreed?**: Yes - all valid accessibility UX concerns
+- **Fix applied**:
+  1. Added `hasInteracted` state - only announce after search/filter/author change
+  2. Changed to dedicated sr-only live region with concise "Selected: {model.name}"
+  3. Moved aria-live to dedicated sr-only div with just "Loading analytics data..."
+- **Category**: accessibility | UX

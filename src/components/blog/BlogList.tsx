@@ -25,6 +25,7 @@ export function BlogList({ posts }: BlogListProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedAuthor, setSelectedAuthor] = useState<BlogAuthor | 'all'>('all');
   const [sortOption, setSortOption] = useState<SortOption>('newest');
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   // Sync author filter with URL params (handles back/forward navigation)
   useEffect(() => {
@@ -38,6 +39,7 @@ export function BlogList({ posts }: BlogListProps) {
 
   // Update URL when author filter changes
   const handleAuthorChange = (value: BlogAuthor | 'all') => {
+    setHasInteracted(true);
     setSelectedAuthor(value);
     if (value === 'all') {
       searchParams.delete('author');
@@ -82,6 +84,7 @@ export function BlogList({ posts }: BlogListProps) {
   }, [posts, searchTerm, selectedTags, selectedAuthor, sortOption]);
 
   const handleTagClick = (tag: string) => {
+    setHasInteracted(true);
     setSelectedTags(prev => {
       const isSelected = prev.includes(tag);
       const newTags = isSelected
@@ -116,7 +119,10 @@ export function BlogList({ posts }: BlogListProps) {
           type="search"
           placeholder="Search posts..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+            setHasInteracted(true);
+          }}
           onBlur={handleSearchBlur}
           className="max-w-md"
         />
@@ -180,6 +186,11 @@ export function BlogList({ posts }: BlogListProps) {
         </div>
       </div>
 
+      {/* Screen reader announcement for search results (only after user interaction) */}
+      <div role="status" aria-live="polite" className="sr-only">
+        {hasInteracted && `${filteredPosts.length} ${filteredPosts.length === 1 ? 'post' : 'posts'} found`}
+      </div>
+
       {/* Posts Grid */}
       {filteredPosts.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -188,7 +199,7 @@ export function BlogList({ posts }: BlogListProps) {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
+        <div className="text-center py-12" role="status">
           <p className="text-muted-foreground">
             No posts found matching your criteria.
           </p>

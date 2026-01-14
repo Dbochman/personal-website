@@ -45,6 +45,11 @@ export default function OncallCoverage() {
         </Select>
       </div>
 
+      {/* Screen reader announcement for model change (concise) */}
+      <div role="status" aria-live="polite" className="sr-only">
+        Selected: {model.name}
+      </div>
+
       {/* Model description */}
       <p className="text-sm text-muted-foreground border-l-2 border-primary/30 pl-3">
         {model.description}
