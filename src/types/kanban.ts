@@ -290,7 +290,7 @@ export const roadmapBoard: KanbanBoard = {
           id: 'aria-live',
           title: 'ARIA Live Regions',
           description: 'Screen reader announcements for dynamic content: search results, loading/error states, model changes.',
-          labels: ['Small', 'Accessibility'],
+          labels: ['Small', 'Accessibility', 'PR #102'],
           planFile: 'docs/plans/02-aria-live-regions.md',
           checklist: [
             { id: 'al-1', text: 'Add BlogList search results announcement', completed: false },
