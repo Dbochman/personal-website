@@ -71,19 +71,6 @@ export function AnalyticsDashboard() {
         </Card>
       )}
 
-      {/* Last updated */}
-      {latest?.generated && (
-        <p className="text-sm text-muted-foreground">
-          Last updated: {new Date(latest.generated).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-          })}
-        </p>
-      )}
-
       {/* Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
@@ -227,6 +214,25 @@ export function AnalyticsDashboard() {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Footer */}
+      <footer className="pt-8 border-t border-border/50">
+        <h1 className="text-2xl font-bold mb-2">Analytics</h1>
+        <p className="text-muted-foreground mb-2">
+          Site performance, traffic, and search visibility metrics.
+        </p>
+        {latest?.generated && (
+          <p className="text-sm text-muted-foreground">
+            Last updated: {new Date(latest.generated).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </p>
+        )}
+      </footer>
     </div>
   );
 }

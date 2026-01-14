@@ -17,13 +17,6 @@ export default function Analytics() {
 
       <PageLayout>
         <div className="container mx-auto px-4 py-12">
-          <header className="mb-8">
-            <h1 className="text-4xl font-bold mb-4">Analytics</h1>
-            <p className="text-xl text-muted-foreground">
-              Site performance, traffic, and search visibility metrics.
-            </p>
-          </header>
-
           <AnalyticsDashboard />
         </div>
       </PageLayout>
