@@ -1,6 +1,6 @@
 # Roadmap
 
-**Last Updated:** January 12, 2026
+**Last Updated:** January 13, 2026
 
 Single source of truth for project status, priorities, and completed work.
 
@@ -39,7 +39,7 @@ Single source of truth for project status, priorities, and completed work.
 ### Nice-to-Have (Ideas)
 
 **Analytics & Monitoring:**
-- [ ] Analytics dashboard at `/analytics` (GA4, Search Console, Lighthouse charts)
+- [x] Analytics dashboard at `/analytics` (GA4, Search Console, Lighthouse charts) ✅ PR #96
 - [ ] Visual regression testing (Playwright screenshots)
 - [ ] Real User Monitoring (RUM)
 - [ ] Performance budget enforcement in CI
@@ -70,6 +70,13 @@ Single source of truth for project status, priorities, and completed work.
 ## Recently Completed
 
 ### January 2026
+
+**January 13:**
+- ✅ Analytics Dashboard at `/analytics` (PR #96) - GA4, Search Console, Lighthouse visualizations
+- ✅ Traffic sources tracking added to GA4 data collection
+- ✅ Nav cleanup - removed Experience, Goals, Contact links
+- ✅ Footer standardization - reusable Footer component across main pages
+- ✅ On-Call Coverage Model Explorer (PR #94)
 
 **January 12:**
 - ✅ Projects page with registry pattern (PR #88)
