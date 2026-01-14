@@ -61,7 +61,9 @@ export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
               border: '1px solid hsl(var(--border))',
               borderRadius: '8px',
               fontSize: '12px',
+              color: 'hsl(var(--foreground))',
             }}
+            labelStyle={{ color: 'hsl(var(--foreground))' }}
             formatter={(value: number) => [
               `${value.toLocaleString()} (${((value / total) * 100).toFixed(1)}%)`,
               'Sessions',

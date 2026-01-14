@@ -56,8 +56,10 @@ export function LighthouseHistoryChart({ data }: LighthouseHistoryChartProps) {
               border: '1px solid hsl(var(--border))',
               borderRadius: '8px',
               fontSize: '12px',
+              color: 'hsl(var(--foreground))',
             }}
-            formatter={(value: number) => [`${value}`, 'Performance']}
+            labelStyle={{ color: 'hsl(var(--foreground))', fontWeight: 'bold' }}
+            formatter={(value: number) => [value, 'Score']}
           />
           <Bar dataKey="performance" radius={[0, 4, 4, 0]}>
             {chartData.map((entry) => (
