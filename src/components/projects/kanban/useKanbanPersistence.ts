@@ -4,7 +4,7 @@ import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from
 import type { KanbanBoard } from '@/types/kanban';
 import { roadmapBoard } from '@/types/kanban';
 
-export function useKanbanPersistence() {
+export function useKanbanPersistence(defaultBoard: KanbanBoard = roadmapBoard) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Load board - used as lazy initializer for useState
@@ -20,9 +20,9 @@ export function useKanbanPersistence() {
         console.warn('Failed to parse board from URL:', e);
       }
     }
-    return { ...roadmapBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    return { ...defaultBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  // Note: searchParams intentionally excluded - only read once on mount
+  // Note: searchParams and defaultBoard intentionally excluded - only read once on mount
 
   const saveBoard = useCallback((board: KanbanBoard) => {
     const updatedBoard = { ...board, updatedAt: new Date().toISOString() };
