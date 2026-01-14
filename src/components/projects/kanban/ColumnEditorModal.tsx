@@ -106,15 +106,16 @@ export function ColumnEditorModal({
                     key={colorKey}
                     type="button"
                     onClick={() => setColor(colorKey)}
+                    title={config.label}
                     className={cn(
-                      'flex items-center gap-2 px-3 py-1.5 rounded-full border transition-colors text-sm',
+                      'w-8 h-8 rounded-full border-2 transition-all',
+                      config.dot,
                       isSelected
-                        ? 'border-primary bg-primary/10'
-                        : 'border-border hover:border-muted-foreground/50 bg-background'
+                        ? 'border-primary ring-2 ring-primary ring-offset-2 ring-offset-background'
+                        : 'border-transparent hover:scale-110'
                     )}
                   >
-                    <div className={cn('w-3 h-3 rounded-full', config.dot)} />
-                    <span>{config.label}</span>
+                    <span className="sr-only">{config.label}</span>
                   </button>
                 );
               })}
