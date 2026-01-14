@@ -217,6 +217,32 @@ export const roadmapBoard: KanbanBoard = {
           ],
           createdAt: '2026-01-13',
         },
+        {
+          id: 'card-colors',
+          title: 'Card Colors',
+          description: 'Color customization for individual cards, same pattern as column colors.',
+          labels: ['Small', 'UX'],
+          checklist: [
+            { id: 'cc-1', text: 'Add CardColor type and CARD_COLORS constant', completed: false },
+            { id: 'cc-2', text: 'Add color property to KanbanCard interface', completed: false },
+            { id: 'cc-3', text: 'Apply color styling in KanbanCard component', completed: false },
+            { id: 'cc-4', text: 'Add color picker to CardEditorModal', completed: false },
+          ],
+          createdAt: '2026-01-14',
+        },
+        {
+          id: 'house-projects',
+          title: 'House Projects Board',
+          description: 'New unlisted route /projects/house with blank kanban board in its own directory.',
+          labels: ['Small', 'Content'],
+          checklist: [
+            { id: 'hp-1', text: 'Create src/components/projects/house/ directory', completed: false },
+            { id: 'hp-2', text: 'Add data.ts with houseBoard constant', completed: false },
+            { id: 'hp-3', text: 'Create index.tsx page component', completed: false },
+            { id: 'hp-4', text: 'Add unlisted route to App.tsx', completed: false },
+          ],
+          createdAt: '2026-01-14',
+        },
       ],
     },
     {
