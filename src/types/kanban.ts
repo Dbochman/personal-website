@@ -11,11 +11,18 @@ export interface CardChange {
   to?: string;
 }
 
+export interface ChecklistItem {
+  id: string;
+  text: string;
+  completed: boolean;
+}
+
 export interface KanbanCard {
   id: string;
   title: string;
   description?: string;
   labels?: string[];
+  checklist?: ChecklistItem[];
   createdAt: string;
   updatedAt?: string;
   history?: CardChange[];
@@ -51,7 +58,7 @@ export interface KanbanBoard {
 }
 
 // Pre-populated board based on roadmap
-export const defaultBoard: KanbanBoard = {
+export const roadmapBoard: KanbanBoard = {
   id: 'roadmap',
   title: 'Site Roadmap',
   columns: [

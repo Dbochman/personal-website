@@ -2,7 +2,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Pencil } from 'lucide-react';
+import { Pencil, CheckSquare } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanCard as KanbanCardType } from '@/types/kanban';
 
@@ -68,6 +68,14 @@ export function KanbanCard({ card, onEdit, isDragOverlay = false }: KanbanCardPr
                 {label}
               </Badge>
             ))}
+          </div>
+        )}
+        {card.checklist && card.checklist.length > 0 && (
+          <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
+            <CheckSquare className="w-3 h-3" />
+            <span>
+              {card.checklist.filter((item) => item.completed).length}/{card.checklist.length}
+            </span>
           </div>
         )}
       </div>

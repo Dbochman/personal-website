@@ -20,7 +20,7 @@ import { useKanbanPersistence } from './useKanbanPersistence';
 import { Button } from '@/components/ui/button';
 import { Plus, RotateCcw, Share2 } from 'lucide-react';
 import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType, ColumnColor } from '@/types/kanban';
-import { generateId, defaultBoard } from '@/types/kanban';
+import { generateId, roadmapBoard } from '@/types/kanban';
 
 export function KanbanBoard() {
   const { getInitialBoard, saveBoard, clearBoard } = useKanbanPersistence();
@@ -268,7 +268,7 @@ export function KanbanBoard() {
   };
 
   const handleReset = () => {
-    const newBoard = { ...defaultBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    const newBoard = { ...roadmapBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
     setBoard(newBoard);
     clearBoard();
   };

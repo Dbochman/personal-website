@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useCallback } from 'react';
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 import type { KanbanBoard } from '@/types/kanban';
-import { defaultBoard } from '@/types/kanban';
+import { roadmapBoard } from '@/types/kanban';
 
 export function useKanbanPersistence() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,7 +20,7 @@ export function useKanbanPersistence() {
         console.warn('Failed to parse board from URL:', e);
       }
     }
-    return { ...defaultBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    return { ...roadmapBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   // Note: searchParams intentionally excluded - only read once on mount
 

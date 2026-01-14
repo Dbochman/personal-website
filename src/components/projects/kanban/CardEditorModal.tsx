@@ -11,8 +11,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { X, History } from 'lucide-react';
-import type { KanbanCard, CardChange } from '@/types/kanban';
+import { Checkbox } from '@/components/ui/checkbox';
+import { X, History, Plus } from 'lucide-react';
+import type { KanbanCard, CardChange, ChecklistItem } from '@/types/kanban';
 import { generateId } from '@/types/kanban';
 
 function formatDate(dateStr: string): string {
@@ -61,17 +62,23 @@ export function CardEditorModal({
   const [description, setDescription] = useState('');
   const [labels, setLabels] = useState<string[]>([]);
   const [newLabel, setNewLabel] = useState('');
+  const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
+  const [newChecklistItem, setNewChecklistItem] = useState('');
 
   useEffect(() => {
     if (card) {
       setTitle(card.title);
       setDescription(card.description || '');
       setLabels(card.labels || []);
+      setChecklist(card.checklist || []);
     } else {
       setTitle('');
       setDescription('');
       setLabels([]);
+      setChecklist([]);
     }
+    setNewLabel('');
+    setNewChecklistItem('');
   }, [card]);
 
   const handleSave = () => {
@@ -103,6 +110,7 @@ export function CardEditorModal({
       title: title.trim(),
       description: description.trim() || undefined,
       labels: labels.length > 0 ? labels : undefined,
+      checklist: checklist.length > 0 ? checklist : undefined,
       createdAt: card?.createdAt || now,
       history: newHistory.length > 0 ? newHistory : undefined,
     });
@@ -120,16 +128,42 @@ export function CardEditorModal({
     setLabels(labels.filter((l) => l !== label));
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleLabelKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleAddLabel();
     }
   };
 
+  const handleAddChecklistItem = () => {
+    if (newChecklistItem.trim()) {
+      setChecklist([...checklist, { id: generateId(), text: newChecklistItem.trim(), completed: false }]);
+      setNewChecklistItem('');
+    }
+  };
+
+  const handleToggleChecklistItem = (itemId: string) => {
+    setChecklist(checklist.map((item) =>
+      item.id === itemId ? { ...item, completed: !item.completed } : item
+    ));
+  };
+
+  const handleRemoveChecklistItem = (itemId: string) => {
+    setChecklist(checklist.filter((item) => item.id !== itemId));
+  };
+
+  const handleChecklistKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleAddChecklistItem();
+    }
+  };
+
+  const completedCount = checklist.filter((item) => item.completed).length;
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[475px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{card ? 'Edit Card' : 'New Card'}</DialogTitle>
         </DialogHeader>
@@ -153,7 +187,7 @@ export function CardEditorModal({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Add details..."
-              rows={3}
+              rows={2}
             />
           </div>
 
@@ -164,11 +198,11 @@ export function CardEditorModal({
                 id="labels"
                 value={newLabel}
                 onChange={(e) => setNewLabel(e.target.value)}
-                onKeyDown={handleKeyDown}
+                onKeyDown={handleLabelKeyDown}
                 placeholder="Add a label"
                 className="flex-1"
               />
-              <Button type="button" variant="secondary" onClick={handleAddLabel}>
+              <Button type="button" variant="secondary" size="sm" onClick={handleAddLabel}>
                 Add
               </Button>
             </div>
@@ -185,6 +219,56 @@ export function CardEditorModal({
                       <X className="w-3 h-3" />
                     </button>
                   </Badge>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Checklist / Subtasks */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label>Checklist</Label>
+              {checklist.length > 0 && (
+                <span className="text-xs text-muted-foreground">
+                  {completedCount}/{checklist.length}
+                </span>
+              )}
+            </div>
+            <div className="flex gap-2">
+              <Input
+                value={newChecklistItem}
+                onChange={(e) => setNewChecklistItem(e.target.value)}
+                onKeyDown={handleChecklistKeyDown}
+                placeholder="Add subtask..."
+                className="flex-1"
+              />
+              <Button type="button" variant="secondary" size="sm" onClick={handleAddChecklistItem}>
+                <Plus className="w-4 h-4" />
+              </Button>
+            </div>
+            {checklist.length > 0 && (
+              <div className="space-y-1 mt-2">
+                {checklist.map((item) => (
+                  <div key={item.id} className="flex items-center gap-2 group">
+                    <Checkbox
+                      id={item.id}
+                      checked={item.completed}
+                      onCheckedChange={() => handleToggleChecklistItem(item.id)}
+                    />
+                    <label
+                      htmlFor={item.id}
+                      className={`flex-1 text-sm cursor-pointer ${item.completed ? 'line-through text-muted-foreground' : ''}`}
+                    >
+                      {item.text}
+                    </label>
+                    <button
+                      onClick={() => handleRemoveChecklistItem(item.id)}
+                      className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
+                      aria-label={`Remove ${item.text}`}
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
                 ))}
               </div>
             )}
@@ -208,7 +292,7 @@ export function CardEditorModal({
                     <History className="w-3 h-3" />
                     <span>History</span>
                   </div>
-                  <div className="text-xs text-muted-foreground space-y-2 max-h-40 overflow-y-auto">
+                  <div className="text-xs text-muted-foreground space-y-2 max-h-32 overflow-y-auto">
                     {[...card.history].reverse().map((change, i) => (
                       <div key={i} className="flex flex-col gap-0.5">
                         <span className="break-words">{formatChangeDescription(change)}</span>
