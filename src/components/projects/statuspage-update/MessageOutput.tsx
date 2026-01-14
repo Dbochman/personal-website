@@ -30,7 +30,7 @@ export function MessageOutput({ title, message }: MessageOutputProps) {
   return (
     <Card>
       <CardHeader className="pb-4">
-        <CardTitle className="text-base">Generated Status Update</CardTitle>
+        <CardTitle as="h2" className="text-base">Generated Status Update</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Title */}

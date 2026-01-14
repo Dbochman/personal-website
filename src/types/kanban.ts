@@ -299,12 +299,17 @@ export const roadmapBoard: KanbanBoard = {
     {
       id: 'in-progress',
       title: 'In Progress',
+      cards: [],
+    },
+    {
+      id: 'recently-completed',
+      title: 'Recently Completed',
       cards: [
         {
           id: 'kanban',
           title: 'Kanban Board',
           description: 'Interactive task board with drag-and-drop, URL persistence, card history, checklists, and column customization.',
-          labels: ['Medium', 'Content'],
+          labels: ['Medium', 'Content', 'PR #97'],
           planFile: 'docs/plans/15-kanban-page.md',
           checklist: [
             { id: 'kb-1', text: 'Core drag-and-drop with dnd-kit', completed: true },
@@ -312,16 +317,25 @@ export const roadmapBoard: KanbanBoard = {
             { id: 'kb-3', text: 'Card editor with history tracking', completed: true },
             { id: 'kb-4', text: 'Column customization (description, colors)', completed: true },
             { id: 'kb-5', text: 'Checklist/subtasks feature', completed: true },
-            { id: 'kb-6', text: 'Migrate roadmap plans to backlog cards', completed: false },
+            { id: 'kb-6', text: 'Migrate roadmap plans to backlog cards', completed: true },
           ],
           createdAt: '2026-01-13',
         },
-      ],
-    },
-    {
-      id: 'recently-completed',
-      title: 'Recently Completed',
-      cards: [
+        {
+          id: 'ci-failures',
+          title: 'Fix CI Failures (Lighthouse & Console)',
+          description: 'Fixed Runbook 404, blog sort test timeout, and project page accessibility scores.',
+          labels: ['CI', 'Testing', 'Accessibility'],
+          checklist: [
+            { id: 'ci-1', text: 'Investigate & fix Runbook page 404 error', completed: true },
+            { id: 'ci-2', text: 'Fix blog sort selector test timeout', completed: true },
+            { id: 'ci-3', text: 'Fix uptime-calculator accessibility (93% → 95%)', completed: true },
+            { id: 'ci-4', text: 'Fix statuspage-update accessibility (94% → 95%)', completed: true },
+            { id: 'ci-5', text: 'Fix oncall-coverage accessibility (94% → 95%)', completed: true },
+            { id: 'ci-6', text: 'Verify all CI checks pass', completed: true },
+          ],
+          createdAt: '2026-01-14',
+        },
         { id: 'skip-nav', title: 'Skip Navigation Links', labels: ['Small', 'Accessibility'], createdAt: '2026-01-13' },
         { id: 'analytics-dashboard', title: 'Analytics Dashboard', description: 'GA4, Search Console, Lighthouse visualizations', labels: ['PR #96'], createdAt: '2026-01-13' },
         { id: 'oncall-coverage', title: 'On-Call Coverage Model Explorer', labels: ['PR #94'], createdAt: '2026-01-13' },

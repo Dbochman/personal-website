@@ -12,7 +12,8 @@ test.describe('Blog Functionality', () => {
 
   test('sort selector changes post order', async ({ page }) => {
     // Get initial first post title
-    const getFirstTitle = () => page.locator('a[href^="/blog/2"] h3, a[href^="/blog/2"] [class*="CardTitle"]').first().textContent();
+    // Structure is: h3.CardTitle > a[href="/blog/..."] > "Post Title"
+    const getFirstTitle = () => page.locator('h3 a[href^="/blog/2"], [class*="CardTitle"] a[href^="/blog/2"]').first().textContent();
     const firstPostBefore = await getFirstTitle();
 
     // Click sort trigger to open dropdown

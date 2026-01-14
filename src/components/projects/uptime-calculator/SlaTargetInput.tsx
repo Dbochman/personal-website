@@ -98,6 +98,7 @@ export function SlaTargetInput({ value, onChange }: SlaTargetInputProps) {
                 value={inputValue}
                 onChange={handleInputChange}
                 onBlur={handleInputBlur}
+                aria-label="Target SLA percentage"
                 className="w-24 h-7 text-sm font-mono tabular-nums text-primary text-right pr-1"
               />
               <span className="text-sm text-primary">%</span>
@@ -105,6 +106,7 @@ export function SlaTargetInput({ value, onChange }: SlaTargetInputProps) {
           </div>
           <Slider
             id="sla-slider"
+            aria-label="Fine-tune target SLA percentage"
             value={[value]}
             onValueChange={([v]) => handleSliderChange(v)}
             min={MIN_SLA}

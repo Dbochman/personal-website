@@ -55,7 +55,7 @@ export function TargetSummary({ result, achievableResult }: TargetSummaryProps) 
       {/* Budget visualization */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base">Error Budget Usage</CardTitle>
+          <CardTitle as="h2" className="text-base">Error Budget Usage</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">

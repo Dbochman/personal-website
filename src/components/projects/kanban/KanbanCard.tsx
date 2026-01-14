@@ -2,9 +2,18 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Pencil, CheckSquare, FileText } from 'lucide-react';
+import { Pencil, CheckSquare, FileText, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanCard as KanbanCardType } from '@/types/kanban';
+
+const REPO_URL = 'https://github.com/Dbochman/personal-website';
+
+// Check if label is a single PR reference (not a range) and extract PR number
+function parsePrLabel(label: string): number | null {
+  // Only match single PRs like "PR #123", not ranges like "PR #88-92"
+  const match = label.match(/^PR #(\d+)$/);
+  return match ? parseInt(match[1], 10) : null;
+}
 
 interface KanbanCardProps {
   card: KanbanCardType;
@@ -63,11 +72,32 @@ export function KanbanCard({ card, onEdit, isDragOverlay = false }: KanbanCardPr
         )}
         {card.labels && card.labels.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
-            {card.labels.map((label) => (
-              <Badge key={label} variant="secondary" className="text-xs px-1.5 py-0">
-                {label}
-              </Badge>
-            ))}
+            {card.labels.map((label) => {
+              const prNumber = parsePrLabel(label);
+              if (prNumber) {
+                return (
+                  <a
+                    key={label}
+                    href={`${REPO_URL}/pull/${prNumber}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    className="inline-flex"
+                  >
+                    <Badge variant="secondary" className="text-xs px-1.5 py-0 hover:bg-primary/20 transition-colors cursor-pointer">
+                      {label}
+                      <ExternalLink className="w-2.5 h-2.5 ml-1 opacity-60" />
+                    </Badge>
+                  </a>
+                );
+              }
+              return (
+                <Badge key={label} variant="secondary" className="text-xs px-1.5 py-0">
+                  {label}
+                </Badge>
+              );
+            })}
           </div>
         )}
         {(card.checklist?.length || card.planFile) && (

@@ -7,16 +7,16 @@ interface DailyHeatmapProps {
   dayIndex?: number; // 0=Sun, 1=Mon, etc. Default to Monday
 }
 
-// Colors for regions/timezones
+// Colors for regions/timezones (using darker shades for WCAG AA contrast with white text)
 const REGION_COLORS: Record<string, { bg: string; text: string }> = {
-  'Asia/Tokyo': { bg: 'bg-violet-400 dark:bg-violet-600', text: 'text-white' },
-  'Asia/Singapore': { bg: 'bg-violet-400 dark:bg-violet-600', text: 'text-white' },
-  'Asia/Shanghai': { bg: 'bg-violet-400 dark:bg-violet-600', text: 'text-white' },
-  'Europe/London': { bg: 'bg-rose-400 dark:bg-rose-600', text: 'text-white' },
-  'Europe/Paris': { bg: 'bg-rose-400 dark:bg-rose-600', text: 'text-white' },
-  'Europe/Berlin': { bg: 'bg-rose-400 dark:bg-rose-600', text: 'text-white' },
+  'Asia/Tokyo': { bg: 'bg-violet-600 dark:bg-violet-600', text: 'text-white' },
+  'Asia/Singapore': { bg: 'bg-violet-600 dark:bg-violet-600', text: 'text-white' },
+  'Asia/Shanghai': { bg: 'bg-violet-600 dark:bg-violet-600', text: 'text-white' },
+  'Europe/London': { bg: 'bg-rose-600 dark:bg-rose-600', text: 'text-white' },
+  'Europe/Paris': { bg: 'bg-rose-600 dark:bg-rose-600', text: 'text-white' },
+  'Europe/Berlin': { bg: 'bg-rose-600 dark:bg-rose-600', text: 'text-white' },
   'America/New_York': { bg: 'bg-emerald-700 dark:bg-emerald-600', text: 'text-white' },
-  'America/Los_Angeles': { bg: 'bg-sky-500 dark:bg-sky-600', text: 'text-white' },
+  'America/Los_Angeles': { bg: 'bg-sky-600 dark:bg-sky-600', text: 'text-white' },
   'America/Chicago': { bg: 'bg-emerald-700 dark:bg-emerald-600', text: 'text-white' },
 };
 
@@ -32,10 +32,10 @@ const TIMEZONE_LABELS: Record<string, string> = {
   'America/Chicago': 'US Central (CT)',
 };
 
-// Colors for shift types (single-site models)
+// Colors for shift types (single-site models) - using darker shades for WCAG AA contrast
 const SHIFT_COLORS: Record<string, { bg: string; text: string }> = {
-  'day': { bg: 'bg-amber-400 dark:bg-amber-500', text: 'text-white' },
-  'night': { bg: 'bg-indigo-500 dark:bg-indigo-600', text: 'text-white' },
+  'day': { bg: 'bg-amber-600 dark:bg-amber-600', text: 'text-white' },
+  'night': { bg: 'bg-indigo-600 dark:bg-indigo-600', text: 'text-white' },
 };
 
 // Helper to format hour with padding
@@ -201,7 +201,7 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
 
   const renderTimeline = (blocks: CoverageBlock[], title: string) => (
     <div className="space-y-2">
-      <h4 className="text-sm font-medium text-muted-foreground">{title}</h4>
+      <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
       <div className="relative h-12 bg-zinc-200 dark:bg-zinc-700 rounded-lg overflow-hidden">
         {blocks.map((block, index) => {
           const widthPercent = ((block.endHour - block.startHour) / 24) * 100;
