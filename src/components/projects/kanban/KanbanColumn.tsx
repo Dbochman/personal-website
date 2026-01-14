@@ -49,7 +49,7 @@ export function KanbanColumn({
   return (
     <div
       className={cn(
-        'flex-shrink-0 w-64 bg-muted/50 rounded-lg p-3 flex flex-col h-fit max-h-[70vh]',
+        'flex-shrink-0 w-64 bg-muted/50 rounded-lg p-3 flex flex-col min-h-[200px]',
         isOver && 'ring-2 ring-primary ring-offset-2 ring-offset-background'
       )}
     >

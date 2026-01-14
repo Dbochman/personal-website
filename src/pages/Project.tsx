@@ -86,26 +86,38 @@ export default function Project() {
       </Helmet>
 
       <PageLayout>
-        <div className="container mx-auto px-4 py-12">
-          <div className={cn(!project.fullWidth && 'max-w-4xl mx-auto')}>
+        <div className={cn(
+          'container mx-auto px-4',
+          project.fullWidth ? 'flex flex-col min-h-[calc(100vh-64px)] py-6' : 'py-12'
+        )}>
+          <div className={cn(
+            !project.fullWidth && 'max-w-4xl mx-auto',
+            project.fullWidth && 'flex flex-col flex-1'
+          )}>
             {/* Back link */}
             <Link
               to="/projects"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
+              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4"
             >
               <ArrowLeft className="w-4 h-4" />
               All projects
             </Link>
 
             {/* Project header */}
-            <header className="mb-8">
-              <div className="flex flex-wrap items-center gap-3 mb-4">
-                <h1 className="text-4xl md:text-5xl font-bold">{project.title}</h1>
+            <header className="mb-4">
+              <div className="flex flex-wrap items-center gap-3 mb-2">
+                <h1 className={cn(
+                  'font-bold',
+                  project.fullWidth ? 'text-2xl md:text-3xl' : 'text-4xl md:text-5xl'
+                )}>{project.title}</h1>
                 <Badge variant={statusVariants[project.status]}>
                   {statusLabels[project.status]}
                 </Badge>
               </div>
-              <p className="text-xl text-muted-foreground mb-4">
+              <p className={cn(
+                'text-muted-foreground mb-2',
+                project.fullWidth ? 'text-base' : 'text-xl'
+              )}>
                 {project.description}
               </p>
               <div className="flex flex-wrap gap-2">
@@ -120,7 +132,7 @@ export default function Project() {
             {/* Project component */}
             <div className={cn(
               'bg-card rounded-lg border',
-              project.fullWidth ? 'p-4' : 'p-6'
+              project.fullWidth ? 'p-4 flex-1 flex flex-col' : 'p-6'
             )}>
               <Suspense
                 fallback={
@@ -133,7 +145,7 @@ export default function Project() {
               </Suspense>
             </div>
 
-            <div className="mt-16">
+            <div className={cn(project.fullWidth ? 'mt-4' : 'mt-16')}>
               <Footer />
             </div>
           </div>

@@ -259,9 +259,9 @@ export function KanbanBoard() {
     : null;
 
   return (
-    <div className="flex flex-col min-h-[60vh]">
+    <div className="flex flex-col flex-1 min-h-0">
       {/* Toolbar */}
-      <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+      <div className="flex items-center justify-between flex-wrap gap-2 mb-3 flex-shrink-0">
         <p className="text-sm text-muted-foreground">
           Drag cards between columns. Your board is saved in the URL.
         </p>
@@ -285,7 +285,7 @@ export function KanbanBoard() {
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex-1 flex gap-3 overflow-x-auto pb-4">
+        <div className="flex-1 flex gap-3 overflow-x-auto overflow-y-hidden pb-2 min-h-0">
           {board.columns.map((column) => (
             <KanbanColumn
               key={column.id}
