@@ -2,7 +2,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Pencil, CheckSquare } from 'lucide-react';
+import { Pencil, CheckSquare, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanCard as KanbanCardType } from '@/types/kanban';
 
@@ -70,12 +70,21 @@ export function KanbanCard({ card, onEdit, isDragOverlay = false }: KanbanCardPr
             ))}
           </div>
         )}
-        {card.checklist && card.checklist.length > 0 && (
-          <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
-            <CheckSquare className="w-3 h-3" />
-            <span>
-              {card.checklist.filter((item) => item.completed).length}/{card.checklist.length}
-            </span>
+        {(card.checklist?.length || card.planFile) && (
+          <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+            {card.checklist && card.checklist.length > 0 && (
+              <div className="flex items-center gap-1">
+                <CheckSquare className="w-3 h-3" />
+                <span>
+                  {card.checklist.filter((item) => item.completed).length}/{card.checklist.length}
+                </span>
+              </div>
+            )}
+            {card.planFile && (
+              <div className="flex items-center gap-1" title="Has plan document">
+                <FileText className="w-3 h-3" />
+              </div>
+            )}
           </div>
         )}
       </div>

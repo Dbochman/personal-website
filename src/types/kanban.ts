@@ -23,6 +23,7 @@ export interface KanbanCard {
   description?: string;
   labels?: string[];
   checklist?: ChecklistItem[];
+  planFile?: string; // Path to plan file, e.g., 'docs/plans/11-framer-motion.md'
   createdAt: string;
   updatedAt?: string;
   history?: CardChange[];
@@ -85,6 +86,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Framer Motion Animations',
           description: 'Add polished animations: page transitions, scroll reveals, and micro-interactions. ~30-40KB gzipped.',
           labels: ['Medium', 'Learning'],
+          planFile: 'docs/plans/11-framer-motion-animations.md',
           checklist: [
             { id: 'fm-1', text: 'Install framer-motion and create shared variants', completed: false },
             { id: 'fm-2', text: 'Add page transitions with AnimatePresence', completed: false },
@@ -100,6 +102,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Career Timeline',
           description: 'Interactive vertical timeline showing work history, achievements, and skill development over time.',
           labels: ['Medium', 'Content'],
+          planFile: 'docs/plans/14-career-timeline.md',
           checklist: [
             { id: 'ct-1', text: 'Create career data structure (jobs, education, achievements)', completed: false },
             { id: 'ct-2', text: 'Build CareerTimeline component with vertical layout', completed: false },
@@ -114,6 +117,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Skills Visualization',
           description: 'Interactive filterable skills grid by category (Languages, Frameworks, Infrastructure, etc.) with proficiency levels.',
           labels: ['Small-Medium', 'Content'],
+          planFile: 'docs/plans/13-skills-visualization.md',
           checklist: [
             { id: 'sv-1', text: 'Create skills data structure with categories and proficiency', completed: false },
             { id: 'sv-2', text: 'Build SkillsGrid component with filtering', completed: false },
@@ -128,6 +132,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Contact Form',
           description: 'Contact form using Formspree (50 submissions/month free). Includes validation, spam protection, and accessibility.',
           labels: ['Small-Medium', 'Content'],
+          planFile: 'docs/plans/12-contact-form.md',
           checklist: [
             { id: 'cf-1', text: 'Set up Formspree account and create form', completed: false },
             { id: 'cf-2', text: 'Create Contact page with form UI', completed: false },
@@ -142,6 +147,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Visual Regression Testing',
           description: 'Playwright screenshot tests comparing against baselines. Catches unintended UI changes in CI.',
           labels: ['Medium', 'Analytics'],
+          planFile: 'docs/plans/08-visual-regression-testing.md',
           checklist: [
             { id: 'vr-1', text: 'Create visual.spec.ts with full-page screenshots', completed: false },
             { id: 'vr-2', text: 'Update playwright.config.ts with snapshot settings', completed: false },
@@ -156,6 +162,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Preview Deployments',
           description: 'Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.',
           labels: ['Small-Medium', 'Infrastructure'],
+          planFile: 'docs/plans/10-preview-deployments.md',
           checklist: [
             { id: 'pd-1', text: 'Set up Cloudflare Pages with GitHub repo', completed: false },
             { id: 'pd-2', text: 'Configure preview URL pattern', completed: false },
@@ -170,6 +177,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Real User Monitoring (RUM)',
           description: 'Collect Core Web Vitals from real user sessions via web-vitals library + GA4. Complements synthetic Lighthouse testing.',
           labels: ['Small-Medium', 'Analytics'],
+          planFile: 'docs/plans/09-real-user-monitoring.md',
           checklist: [
             { id: 'rum-1', text: 'Install web-vitals package', completed: false },
             { id: 'rum-2', text: 'Create web-vitals.ts reporting hook to GA4', completed: false },
@@ -185,6 +193,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'View Transitions API',
           description: 'Native page transitions with shared element animations. ~75% browser coverage, progressive enhancement.',
           labels: ['Small-Medium', 'Learning'],
+          planFile: 'docs/plans/05-view-transitions-api.md',
           checklist: [
             { id: 'vt-1', text: 'Create useViewTransitionNavigate hook', completed: false },
             { id: 'vt-2', text: 'Add shared element transitions for blog card → post', completed: false },
@@ -199,6 +208,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Container Queries & :has()',
           description: 'Explore modern CSS: container queries for component-based responsive design, :has() for parent selection.',
           labels: ['Small', 'Learning'],
+          planFile: 'docs/plans/04-container-queries-has.md',
           checklist: [
             { id: 'cq-1', text: 'Set up Tailwind container queries plugin (or use v4 built-in)', completed: false },
             { id: 'cq-2', text: 'Refactor ProjectCard with container queries', completed: false },
@@ -212,6 +222,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'MCP Interactive Testing',
           description: 'Chrome DevTools MCP workflows for real-time browser automation, performance analysis, and accessibility auditing.',
           labels: ['Medium', 'Analytics'],
+          planFile: 'docs/plans/16-mcp-interactive-testing.md',
           checklist: [
             { id: 'mcp-1', text: 'Document full site audit workflow', completed: false },
             { id: 'mcp-2', text: 'Document responsive testing workflow (breakpoints)', completed: false },
@@ -233,6 +244,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'ARIA Live Regions',
           description: 'Screen reader announcements for dynamic content: search results, loading/error states, model changes.',
           labels: ['Small', 'Accessibility'],
+          planFile: 'docs/plans/02-aria-live-regions.md',
           checklist: [
             { id: 'al-1', text: 'Add BlogList search results announcement', completed: false },
             { id: 'al-2', text: 'Add Analytics Dashboard loading/error/warning announcements', completed: false },
@@ -246,6 +258,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Deployment Notifications',
           description: 'Email notifications for deploy success/failure via GitHub Actions + dawidd6/action-send-mail.',
           labels: ['Small', 'Infrastructure'],
+          planFile: 'docs/plans/03-deployment-notifications.md',
           checklist: [
             { id: 'dn-1', text: 'Set up Gmail App Password and repo secrets', completed: false },
             { id: 'dn-2', text: 'Add notification job to deploy.yml', completed: false },
@@ -258,6 +271,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Performance Budget Enforcement',
           description: 'Bundle size limits in CI (200KB JS, 35KB CSS). Stricter Lighthouse thresholds.',
           labels: ['Small', 'Analytics'],
+          planFile: 'docs/plans/06-performance-budget-enforcement.md',
           checklist: [
             { id: 'pb-1', text: 'Add bundle size check script to deploy.yml', completed: false },
             { id: 'pb-2', text: 'Update lighthouse.yml with stricter thresholds', completed: false },
@@ -271,6 +285,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Renovate Automation',
           description: 'Automated dependency updates with grouping (React, Radix, Testing, etc.) and auto-merge for safe patches.',
           labels: ['Small', 'Infrastructure'],
+          planFile: 'docs/plans/07-renovate-automation.md',
           checklist: [
             { id: 'rv-1', text: 'Create renovate.json with base config', completed: false },
             { id: 'rv-2', text: 'Configure package grouping rules', completed: false },
@@ -290,6 +305,7 @@ export const roadmapBoard: KanbanBoard = {
           title: 'Kanban Board',
           description: 'Interactive task board with drag-and-drop, URL persistence, card history, checklists, and column customization.',
           labels: ['Medium', 'Content'],
+          planFile: 'docs/plans/15-kanban-page.md',
           checklist: [
             { id: 'kb-1', text: 'Core drag-and-drop with dnd-kit', completed: true },
             { id: 'kb-2', text: 'URL persistence with lz-string compression', completed: true },

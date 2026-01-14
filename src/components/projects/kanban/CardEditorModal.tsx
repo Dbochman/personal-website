@@ -12,7 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { X, History, Plus } from 'lucide-react';
+import { X, History, Plus, FileText, ExternalLink } from 'lucide-react';
 import type { KanbanCard, CardChange, ChecklistItem } from '@/types/kanban';
 import { generateId } from '@/types/kanban';
 
@@ -273,6 +273,23 @@ export function CardEditorModal({
               </div>
             )}
           </div>
+
+          {/* Plan file link */}
+          {card?.planFile && (
+            <div className="space-y-2">
+              <Label>Plan Document</Label>
+              <a
+                href={`https://github.com/Dbochman/personal-website/blob/main/${card.planFile}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 p-2 rounded-md border bg-muted/50 hover:bg-muted transition-colors text-sm"
+              >
+                <FileText className="w-4 h-4 text-muted-foreground" />
+                <span className="flex-1 truncate">{card.planFile.split('/').pop()}</span>
+                <ExternalLink className="w-3 h-3 text-muted-foreground" />
+              </a>
+            </div>
+          )}
 
           {/* Card metadata & history */}
           {card && (
