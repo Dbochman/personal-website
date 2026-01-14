@@ -208,11 +208,11 @@ export function CardEditorModal({
                     <History className="w-3 h-3" />
                     <span>History</span>
                   </div>
-                  <div className="text-xs text-muted-foreground space-y-1 max-h-32 overflow-y-auto">
+                  <div className="text-xs text-muted-foreground space-y-2 max-h-40 overflow-y-auto">
                     {[...card.history].reverse().map((change, i) => (
-                      <div key={i} className="flex justify-between gap-2">
-                        <span className="truncate">{formatChangeDescription(change)}</span>
-                        <span className="flex-shrink-0">{formatDate(change.timestamp)}</span>
+                      <div key={i} className="flex flex-col gap-0.5">
+                        <span className="break-words">{formatChangeDescription(change)}</span>
+                        <span className="text-muted-foreground/70">{formatDate(change.timestamp)}</span>
                       </div>
                     ))}
                   </div>
