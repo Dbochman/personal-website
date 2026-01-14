@@ -98,9 +98,9 @@ export function KanbanBoard() {
       const updatedCard = {
         ...movedCard,
         updatedAt: now,
-        columnHistory: [
-          ...(movedCard.columnHistory || []),
-          { columnId: overColumn.id, columnTitle: overColumn.title, movedAt: now },
+        history: [
+          ...(movedCard.history || []),
+          { type: 'column' as const, timestamp: now, columnId: overColumn.id, columnTitle: overColumn.title },
         ],
       };
 
@@ -184,8 +184,8 @@ export function KanbanBoard() {
           ...card,
           createdAt: now,
           updatedAt: now,
-          columnHistory: column
-            ? [{ columnId: column.id, columnTitle: column.title, movedAt: now }]
+          history: column
+            ? [{ type: 'column' as const, timestamp: now, columnId: column.id, columnTitle: column.title }]
             : [],
         };
         return {
@@ -197,7 +197,7 @@ export function KanbanBoard() {
           ),
         };
       } else {
-        // Editing existing card - update timestamp
+        // Editing existing card - history changes are tracked in the modal
         const updatedCard: CardType = {
           ...card,
           updatedAt: now,

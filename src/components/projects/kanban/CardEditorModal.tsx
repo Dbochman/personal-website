@@ -12,7 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { X, History } from 'lucide-react';
-import type { KanbanCard } from '@/types/kanban';
+import type { KanbanCard, CardChange } from '@/types/kanban';
 import { generateId } from '@/types/kanban';
 
 function formatDate(dateStr: string): string {
@@ -23,6 +23,23 @@ function formatDate(dateStr: string): string {
     hour: 'numeric',
     minute: '2-digit',
   });
+}
+
+function formatChangeDescription(change: CardChange): string {
+  switch (change.type) {
+    case 'column':
+      return `Moved to ${change.columnTitle}`;
+    case 'title':
+      return `Title: "${change.from}" → "${change.to}"`;
+    case 'description':
+      if (!change.from) return 'Description added';
+      if (!change.to) return 'Description removed';
+      return 'Description updated';
+    case 'labels':
+      return `Labels: ${change.from || '(none)'} → ${change.to || '(none)'}`;
+    default:
+      return 'Updated';
+  }
 }
 
 interface CardEditorModalProps {
@@ -60,14 +77,34 @@ export function CardEditorModal({
   const handleSave = () => {
     if (!title.trim()) return;
 
+    const now = new Date().toISOString();
+    const newHistory: CardChange[] = [...(card?.history || [])];
+
+    // Track changes for existing cards
+    if (card) {
+      const trimmedTitle = title.trim();
+      const trimmedDesc = description.trim();
+      const oldLabels = (card.labels || []).join(', ');
+      const newLabels = labels.join(', ');
+
+      if (trimmedTitle !== card.title) {
+        newHistory.push({ type: 'title', timestamp: now, from: card.title, to: trimmedTitle });
+      }
+      if (trimmedDesc !== (card.description || '')) {
+        newHistory.push({ type: 'description', timestamp: now, from: card.description || '', to: trimmedDesc });
+      }
+      if (newLabels !== oldLabels) {
+        newHistory.push({ type: 'labels', timestamp: now, from: oldLabels, to: newLabels });
+      }
+    }
+
     onSave({
       id: card?.id || generateId(),
       title: title.trim(),
       description: description.trim() || undefined,
       labels: labels.length > 0 ? labels : undefined,
-      createdAt: card?.createdAt || new Date().toISOString(),
-      updatedAt: card?.updatedAt,
-      columnHistory: card?.columnHistory,
+      createdAt: card?.createdAt || now,
+      history: newHistory.length > 0 ? newHistory : undefined,
     });
     onClose();
   };
@@ -165,17 +202,17 @@ export function CardEditorModal({
                   </>
                 )}
               </div>
-              {card.columnHistory && card.columnHistory.length > 0 && (
+              {card.history && card.history.length > 0 && (
                 <div className="space-y-1">
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <History className="w-3 h-3" />
-                    <span>Column History</span>
+                    <span>History</span>
                   </div>
-                  <div className="text-xs text-muted-foreground space-y-0.5 max-h-24 overflow-y-auto">
-                    {card.columnHistory.map((move, i) => (
-                      <div key={i} className="flex justify-between">
-                        <span>{move.columnTitle}</span>
-                        <span>{formatDate(move.movedAt)}</span>
+                  <div className="text-xs text-muted-foreground space-y-1 max-h-32 overflow-y-auto">
+                    {[...card.history].reverse().map((change, i) => (
+                      <div key={i} className="flex justify-between gap-2">
+                        <span className="truncate">{formatChangeDescription(change)}</span>
+                        <span className="flex-shrink-0">{formatDate(change.timestamp)}</span>
                       </div>
                     ))}
                   </div>

@@ -1,7 +1,14 @@
-export interface ColumnMove {
-  columnId: string;
-  columnTitle: string;
-  movedAt: string;
+export type CardChangeType = 'column' | 'title' | 'description' | 'labels';
+
+export interface CardChange {
+  type: CardChangeType;
+  timestamp: string;
+  // For column changes
+  columnId?: string;
+  columnTitle?: string;
+  // For field changes
+  from?: string;
+  to?: string;
 }
 
 export interface KanbanCard {
@@ -11,7 +18,7 @@ export interface KanbanCard {
   labels?: string[];
   createdAt: string;
   updatedAt?: string;
-  columnHistory?: ColumnMove[];
+  history?: CardChange[];
 }
 
 export interface KanbanColumn {
