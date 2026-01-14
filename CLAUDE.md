@@ -107,3 +107,26 @@ PRs serve dual purposes: code review and blog source material.
 ### Why "The Journey" Matters
 
 Capture dead ends, pivots, and surprises while context is fresh—these details evaporate from commit messages but make blog posts interesting.
+
+## MCP Testing Triggers
+
+When Chrome DevTools MCP is available, run interactive tests at these moments:
+
+| Trigger | Action |
+|---------|--------|
+| After implementing UI changes | Quick responsive check (320px, 768px) |
+| After adding a new page/route | Full page audit: console, network, a11y snapshot |
+| After performance-sensitive changes | `performance_start_trace` with reload |
+| Before marking PR ready | Quick smoke test on affected pages |
+| After deploy to production | Post-deploy verification on dylanbochman.com |
+
+**Quick smoke test:**
+```
+1. list_console_messages → no errors
+2. take_snapshot → check accessibility tree
+3. resize_page 320 → no layout breaks
+```
+
+**Proactive testing:** If you notice the user is about to open a PR or has just finished a feature, offer to run MCP tests before they ask.
+
+See `docs/plans/16-mcp-interactive-testing.md` for detailed workflows.

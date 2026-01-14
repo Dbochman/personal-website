@@ -11,6 +11,9 @@ const StatusPageUpdate = lazy(
 const OncallCoverage = lazy(
   () => import('@/components/projects/oncall-coverage')
 );
+const Kanban = lazy(
+  () => import('@/components/projects/kanban')
+);
 
 /**
  * Project registry - single source of truth for all projects
@@ -49,6 +52,18 @@ export const projectRegistry: ProjectDefinition[] = [
     status: 'active',
     createdAt: '2026-01-12',
     component: OncallCoverage,
+  },
+  {
+    slug: 'kanban',
+    title: 'Kanban Board',
+    description:
+      'Interactive task board with drag-and-drop. Create, organize, and share your boards via URL.',
+    tags: ['Productivity', 'React', 'dnd-kit'],
+    icon: 'Columns',
+    status: 'active',
+    createdAt: '2026-01-13',
+    fullWidth: true,
+    component: Kanban,
   },
 ];
 

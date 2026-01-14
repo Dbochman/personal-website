@@ -40,8 +40,8 @@ describe('Index Page', () => {
     expect(screen.getByText('Core Expertise')).toBeInTheDocument();
 
     // Check for other section titles
-    expect(screen.getByText('Experience')).toBeInTheDocument();
+    expect(screen.getByText('Professional Experience')).toBeInTheDocument();
     expect(screen.getByText('Career Goals')).toBeInTheDocument();
-    expect(screen.getByText('Contact')).toBeInTheDocument();
+    expect(screen.getByText("Let's Connect")).toBeInTheDocument();
   });
 });

@@ -30,32 +30,49 @@ Creating detailed plans for all remaining ideas before implementation. Going one
 
 | Idea | Plan Status |
 |------|-------------|
-| Visual regression testing | ⬜ Not started |
-| Real User Monitoring (RUM) | ⬜ Not started |
-| Performance budget enforcement | ⬜ Not started |
+| Visual regression testing | 📋 Planned |
+| Real User Monitoring (RUM) | 📋 Planned |
+| Performance budget enforcement | 📋 Planned |
+| MCP interactive testing workflow | 📋 Planned |
 | Skip navigation links | ✅ Done |
-| ARIA live regions | ⬜ Not started |
-| Contact form | ⬜ Not started |
-| Skills visualization | ⬜ Not started |
-| Career timeline | ⬜ Not started |
-| Preview deployments | ⬜ Not started |
-| Deployment notifications | ⬜ Not started |
-| Renovate automation | ⬜ Not started |
-| View Transitions API | ⬜ Not started |
-| Container queries, :has() | ⬜ Not started |
-| Framer Motion animations | ⬜ Not started |
+| ARIA live regions | 📋 Planned |
+| Contact form | 📋 Planned |
+| Skills visualization | 📋 Planned |
+| Career timeline | 📋 Planned |
+| Preview deployments | 📋 Planned |
+| Deployment notifications | 📋 Planned |
+| Renovate automation | 📋 Planned |
+| View Transitions API | 📋 Planned |
+| Container queries, :has() | 📋 Planned |
+| Framer Motion animations | 📋 Planned |
+| Kanban page | 📋 Planned |
 
 ### Existing Plans (Ready to Implement)
 
-1. **Tailwind CSS v4 Upgrade** - `docs/TAILWIND_V4_UPGRADE_PLAN.md`
-   - Priority: Medium | Effort: Medium
-   - Benefits: 3.5-5x faster builds, modern CSS features
-   - Risk: Medium - requires CSS restructuring
+All plans now in `docs/plans/`:
 
-2. **Test & CI/CD Improvements** - `docs/TEST_AND_CICD_IMPROVEMENT_PLAN.md`
-   - Priority: Medium | Effort: Medium
-   - Fix fragile tests, add missing coverage, optimize CI
-   - Expected: ~40% faster CI, fewer false failures
+**Each plan will be developed on its own feature branch and merged via PR.**
+
+| # | Plan | Effort |
+|---|------|--------|
+| 02 | ARIA live regions | Small |
+| 03 | Deployment notifications | Small |
+| 04 | Container queries, :has() | Small |
+| 05 | View Transitions API | Small-Medium |
+| 06 | Performance budget enforcement | Small |
+| 07 | Renovate automation | Small |
+| 08 | Visual regression testing | Medium |
+| 09 | Real User Monitoring (RUM) | Small-Medium |
+| 10 | Preview deployments | Small-Medium |
+| 11 | Framer Motion animations | Medium |
+| 12 | Contact form | Small-Medium |
+| 13 | Skills visualization | Small-Medium |
+| 14 | Career timeline | Medium |
+| 15 | Kanban page | Medium |
+
+**Also ready:**
+- `docs/TAILWIND_V4_UPGRADE_PLAN.md` - Tailwind v4 (Medium)
+- `docs/TEST_AND_CICD_IMPROVEMENT_PLAN.md` - Test & CI improvements (Medium)
 
 ### Ideas (Reference)
 
@@ -64,6 +81,7 @@ Creating detailed plans for all remaining ideas before implementation. Going one
 - [ ] Visual regression testing (Playwright screenshots)
 - [ ] Real User Monitoring (RUM)
 - [ ] Performance budget enforcement in CI
+- [ ] MCP interactive testing workflow (Chrome DevTools via Claude Code)
 
 **Accessibility:**
 - [x] Skip navigation links ✅
@@ -73,6 +91,7 @@ Creating detailed plans for all remaining ideas before implementation. Going one
 - [ ] Contact form with validation
 - [ ] Skills visualization
 - [ ] Career timeline
+- [ ] Kanban page (interactive task board)
 
 **Infrastructure:**
 - [ ] Preview deployments for PRs
@@ -139,6 +158,22 @@ docs/
 ├── AUTOMATED_SEO_CHECKS.md       [🔍 Automated validation]
 ├── ANALYTICS_INTEGRATIONS.md     [📈 GA4 & Search Console]
 ├── CONSOLE_ERROR_MONITORING.md   [🐛 Error detection]
+├── plans/                        [📋 Implementation plans]
+│   ├── 02-aria-live-regions.md
+│   ├── 03-deployment-notifications.md
+│   ├── 04-container-queries-has.md
+│   ├── 05-view-transitions-api.md
+│   ├── 06-performance-budget-enforcement.md
+│   ├── 07-renovate-automation.md
+│   ├── 08-visual-regression-testing.md
+│   ├── 09-real-user-monitoring.md
+│   ├── 10-preview-deployments.md
+│   ├── 11-framer-motion-animations.md
+│   ├── 12-contact-form.md
+│   ├── 13-skills-visualization.md
+│   ├── 14-career-timeline.md
+│   ├── 15-kanban-page.md
+│   └── 16-mcp-interactive-testing.md
 ├── decisions/                    [🏛️ Architecture Decision Records]
 │   ├── README.md                 [Index and template]
 │   ├── 001-mdx-precompilation.md
