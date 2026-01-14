@@ -255,6 +255,11 @@ export const roadmapBoard: KanbanBoard = {
     {
       id: 'in-progress',
       title: 'In Progress',
+      cards: [],
+    },
+    {
+      id: 'recently-completed',
+      title: 'Recently Completed',
       cards: [
         {
           id: 'perf-budget',
@@ -263,23 +268,18 @@ export const roadmapBoard: KanbanBoard = {
           labels: ['Small', 'Analytics', 'PR #103'],
           planFile: 'docs/plans/06-performance-budget-enforcement.md',
           checklist: [
-            { id: 'pb-1', text: 'Add bundle size check script to deploy.yml', completed: false },
-            { id: 'pb-2', text: 'Update lighthouse.yml with stricter thresholds', completed: false },
+            { id: 'pb-1', text: 'Add bundle size check script to deploy.yml', completed: true },
+            { id: 'pb-2', text: 'Update lighthouse.yml with stricter thresholds', completed: true },
             { id: 'pb-3', text: 'Create bundle tracking script (optional)', completed: false },
             { id: 'pb-4', text: 'Add PR comment with bundle size diff (optional)', completed: false },
           ],
           history: [
             { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
             { type: 'column', timestamp: '2026-01-14T17:30:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
+            { type: 'column', timestamp: '2026-01-14T18:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
           ],
           createdAt: '2026-01-13',
         },
-      ],
-    },
-    {
-      id: 'recently-completed',
-      title: 'Recently Completed',
-      cards: [
         {
           id: 'aria-live',
           title: 'ARIA Live Regions',
