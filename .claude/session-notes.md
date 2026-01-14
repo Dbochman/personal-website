@@ -54,3 +54,28 @@ The preferences file is an interesting experiment—persisting working style pre
 Later moved preferences to `~/.claude/preferences.md` (global) to avoid cluttering repo history with meta-work. Key insight: working style preferences are universal, session notes are project-specific.
 
 ---
+
+## 2026-01-13
+
+**Lighthouse + Accessibility deep dive.** Started by adding project pages to Lighthouse audits—discovered accessibility issues we hadn't noticed before.
+
+Three pages failed thresholds:
+- Blog (94 a11y): Select dropdowns missing aria-labels
+- Uptime Calculator (92 a11y): Sliders and progress bars missing aria-labels, heading order skipped h2
+- On-Call Coverage (89 a11y): Same select issue, plus color contrast failure (emerald-500 with white text = 3.76:1, needs 4.5:1)
+
+**Fixes applied:**
+- Added `aria-label` to all Select, Slider, and Progress components
+- Modified `CardTitle` to accept `as` prop for proper heading hierarchy (h1→h2→h3)
+- Changed `bg-emerald-500` → `bg-emerald-700` across oncall components for WCAG AA contrast compliance
+
+**Pattern worth noting:** The shadcn/ui CardTitle component hardcodes `<h3>`. Adding an `as` prop was a minimal change that enables proper document structure. Same pattern could apply to other heading components.
+
+**Color contrast insight:** Tailwind's -500 shades often don't meet WCAG AA (4.5:1) for white text. The -700 shades generally do. Worth checking anytime white text appears on colored backgrounds.
+
+Also merged the previous oncall-coverage improvements branch which included:
+- Rich tooltips with UTC/local times across all heatmaps
+- Intl API for proper DST handling in timezone conversions
+- US Daytime model rebalancing and dedicated BusinessHoursTimeline component
+
+---
