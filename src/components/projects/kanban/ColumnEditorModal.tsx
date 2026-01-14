@@ -97,7 +97,7 @@ export function ColumnEditorModal({
 
           <div className="space-y-2">
             <Label>Color</Label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="flex flex-wrap gap-2">
               {colorKeys.map((colorKey) => {
                 const config = COLUMN_COLORS[colorKey];
                 const isSelected = color === colorKey;
@@ -107,18 +107,14 @@ export function ColumnEditorModal({
                     type="button"
                     onClick={() => setColor(colorKey)}
                     className={cn(
-                      'flex flex-col items-center gap-1 p-2 rounded-md border-2 transition-colors',
-                      config.bg,
-                      isSelected ? 'border-primary' : 'border-transparent hover:border-muted-foreground/30'
+                      'flex items-center gap-2 px-3 py-1.5 rounded-full border transition-colors text-sm',
+                      isSelected
+                        ? 'border-primary bg-primary/10'
+                        : 'border-border hover:border-muted-foreground/50 bg-background'
                     )}
                   >
-                    <div
-                      className={cn(
-                        'w-4 h-4 rounded-full',
-                        colorKey === 'default' ? 'bg-muted-foreground/30' : config.bg.replace('/10', '')
-                      )}
-                    />
-                    <span className="text-xs">{config.label}</span>
+                    <div className={cn('w-3 h-3 rounded-full', config.dot)} />
+                    <span>{config.label}</span>
                   </button>
                 );
               })}

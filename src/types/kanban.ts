@@ -23,15 +23,15 @@ export interface KanbanCard {
 
 export type ColumnColor = 'default' | 'yellow' | 'orange' | 'purple' | 'blue' | 'green' | 'red' | 'pink';
 
-export const COLUMN_COLORS: Record<ColumnColor, { label: string; bg: string; border: string }> = {
-  default: { label: 'Default', bg: 'bg-muted/50', border: 'border-border' },
-  yellow: { label: 'Investigating', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30' },
-  orange: { label: 'Identified', bg: 'bg-orange-500/10', border: 'border-orange-500/30' },
-  purple: { label: 'Fixing', bg: 'bg-purple-500/10', border: 'border-purple-500/30' },
-  blue: { label: 'Monitoring', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
-  green: { label: 'Resolved', bg: 'bg-green-500/10', border: 'border-green-500/30' },
-  red: { label: 'Critical', bg: 'bg-red-500/10', border: 'border-red-500/30' },
-  pink: { label: 'Review', bg: 'bg-pink-500/10', border: 'border-pink-500/30' },
+export const COLUMN_COLORS: Record<ColumnColor, { label: string; bg: string; border: string; dot: string }> = {
+  default: { label: 'Default', bg: 'bg-muted/50', border: 'border-border', dot: 'bg-gray-400' },
+  yellow: { label: 'Investigating', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', dot: 'bg-yellow-500' },
+  orange: { label: 'Identified', bg: 'bg-orange-500/10', border: 'border-orange-500/30', dot: 'bg-orange-500' },
+  purple: { label: 'Fixing', bg: 'bg-purple-500/10', border: 'border-purple-500/30', dot: 'bg-purple-500' },
+  blue: { label: 'Monitoring', bg: 'bg-blue-500/10', border: 'border-blue-500/30', dot: 'bg-blue-500' },
+  green: { label: 'Resolved', bg: 'bg-green-500/10', border: 'border-green-500/30', dot: 'bg-green-500' },
+  red: { label: 'Critical', bg: 'bg-red-500/10', border: 'border-red-500/30', dot: 'bg-red-500' },
+  pink: { label: 'Review', bg: 'bg-pink-500/10', border: 'border-pink-500/30', dot: 'bg-pink-500' },
 };
 
 export interface KanbanColumn {
