@@ -22,11 +22,6 @@ export const houseBoard: KanbanBoard = {
           createdAt: '2026-01-14',
         },
         {
-          id: 'rugs',
-          title: 'Custom rug runners',
-          createdAt: '2026-01-14',
-        },
-        {
           id: 'kitchen',
           title: 'Rework kitchen',
           createdAt: '2026-01-14',
@@ -71,6 +66,15 @@ export const houseBoard: KanbanBoard = {
           id: 'water-pressure',
           title: 'Improve shower water pressure',
           description: 'Private well system. Pressure gauge replacement, then pressure switch and tank checks as needed.',
+          createdAt: '2026-01-14',
+        },
+        {
+          id: 'rugs',
+          title: 'Custom rug runners',
+          checklist: [
+            { id: 'rugs-1', text: 'Measured', completed: false },
+            { id: 'rugs-2', text: 'Selected fabric', completed: false },
+          ],
           createdAt: '2026-01-14',
         },
       ],
