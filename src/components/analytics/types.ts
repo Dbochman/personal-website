@@ -44,6 +44,19 @@ export interface GA4HistoryEntry {
     sessions: number;
     users: number;
   }>;
+  trafficSources?: {
+    channels: Array<{
+      channel: string;
+      sessions: number;
+      users: number;
+    }>;
+    sources: Array<{
+      source: string;
+      medium: string;
+      sessions: number;
+      users: number;
+    }>;
+  };
 }
 
 export interface SearchConsoleHistoryEntry {

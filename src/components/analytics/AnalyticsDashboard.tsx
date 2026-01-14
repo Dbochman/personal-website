@@ -7,6 +7,7 @@ import { CoreWebVitalsCard } from './CoreWebVitalsCard';
 import { LighthouseScoresTable } from './LighthouseScoresTable';
 import { SessionsTrendChart } from './charts/SessionsTrendChart';
 import { DeviceBreakdownChart } from './charts/DeviceBreakdownChart';
+import { TrafficSourcesChart } from './charts/TrafficSourcesChart';
 import { LighthouseHistoryChart } from './charts/LighthouseHistoryChart';
 import { SearchPerformanceChart } from './charts/SearchPerformanceChart';
 
@@ -126,6 +127,38 @@ export function AnalyticsDashboard() {
                 <DeviceBreakdownChart data={latestGA4?.deviceBreakdown ?? []} />
               </CardContent>
             </Card>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Traffic Sources</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <TrafficSourcesChart data={latestGA4?.trafficSources} />
+              </CardContent>
+            </Card>
+            {latestGA4?.trafficSources?.sources && latestGA4.trafficSources.sources.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Top Referrers</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {latestGA4.trafficSources.sources.slice(0, 6).map((source, i) => (
+                      <div key={i} className="flex justify-between items-center py-1 border-b border-border/50 last:border-0">
+                        <span className="text-sm font-mono truncate max-w-[200px]">
+                          {source.source} / {source.medium}
+                        </span>
+                        <span className="text-sm tabular-nums text-muted-foreground">
+                          {source.sessions.toLocaleString()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </div>
 
           {/* Top Pages Table */}
