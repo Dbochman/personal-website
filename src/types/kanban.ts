@@ -259,8 +259,8 @@ export const roadmapBoard: KanbanBoard = {
         {
           id: 'perf-budget',
           title: 'Performance Budget Enforcement',
-          description: 'Bundle size limits in CI (200KB JS, 35KB CSS). Stricter Lighthouse thresholds.',
-          labels: ['Small', 'Analytics'],
+          description: 'Bundle size limits in CI (2MB JS, 110KB CSS). Stricter Lighthouse thresholds.',
+          labels: ['Small', 'Analytics', 'PR #103'],
           planFile: 'docs/plans/06-performance-budget-enforcement.md',
           checklist: [
             { id: 'pb-1', text: 'Add bundle size check script to deploy.yml', completed: false },
