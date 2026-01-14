@@ -485,9 +485,17 @@ These features were added during implementation based on user feedback:
 - Progress indicator on cards (e.g., "2/5")
 - `@radix-ui/react-checkbox` dependency added
 
+### Plan File Integration
+- Cards can link to their `docs/plans/*.md` implementation documents
+- `planFile` field stores relative path (e.g., `docs/plans/11-framer-motion.md`)
+- CardEditorModal shows "Plan Document" link opening GitHub blob URL
+- KanbanCard shows FileText icon indicator when plan exists
+- 14 cards linked to their corresponding plan documents
+
 ### Roadmap Integration
 - Renamed `defaultBoard` to `roadmapBoard`
-- Pre-populated with actual site roadmap items
+- Pre-populated with actual site roadmap items from `docs/plans/*.md`
+- ~60 checklist items derived from plan implementation phases
 - Kanban serves as source of truth (not ROADMAP.md)
 - Updates made via chat, board used as visual reference
 
@@ -521,6 +529,7 @@ export interface KanbanCard {
   description?: string;
   labels?: string[];
   checklist?: ChecklistItem[];
+  planFile?: string;  // e.g., 'docs/plans/11-framer-motion.md'
   createdAt: string;
   updatedAt?: string;
   history?: CardChange[];
