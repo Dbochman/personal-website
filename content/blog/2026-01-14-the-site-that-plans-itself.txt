@@ -32,7 +32,7 @@ Each card links to its detailed planning document. Click a card, read the implem
 
 ## Opening a Dialogue
 
-Here's where it gets interesting. The board data lives in `src/types/kanban.ts`. The planning documents live in `docs/plans/`. Both are just files in the repo.
+Here's where it gets interesting. The board data lives in [`src/types/kanban.ts`](https://github.com/Dbochman/personal-website/blob/main/src/types/kanban.ts). The planning documents live in [`docs/plans/`](https://github.com/Dbochman/personal-website/tree/main/docs/plans). Both are just files in the repo.
 
 This means visitors can:
 
@@ -62,7 +62,7 @@ If you want your changes to stick, that's what PRs are for.
 
 Building this feature surfaced some recursive moments that turned out to be useful:
 
-The Kanban board has a card for "Kanban Board" with a checklist tracking its own implementation. That card links to `docs/plans/15-kanban-page.md`. The plan document has a "Known Issues" section populated by code review findings. Future contributors can see not just what was built, but what's known to be imperfect.
+The Kanban board has a card for "Kanban Board" with a checklist tracking its own implementation. That card links to [`docs/plans/15-kanban-page.md`](https://github.com/Dbochman/personal-website/blob/main/docs/plans/15-kanban-page.md). The plan document has a "Known Issues" section populated by code review findings. Future contributors can see not just what was built, but what's known to be imperfect.
 
 We added a card for this blog post while writing this blog post. The meta-ness is silly, but the pattern is practical: if something is worth doing, it's worth tracking, and if it's worth tracking, it should be visible.
 
@@ -82,4 +82,4 @@ Visit [/projects/kanban](/projects/kanban). Drag some cards around. Click one to
 
 Then consider: what would it mean for your project's roadmap to be a conversation instead of an announcement?
 
-If you have ideas for this site, the backlog is open. PRs welcome.
+If you have ideas for this site, the [backlog is open](https://github.com/Dbochman/personal-website/blob/main/src/types/kanban.ts). [PRs welcome](https://github.com/Dbochman/personal-website/pulls).
