@@ -131,6 +131,29 @@ npm run build
 # Check dist/ folder size
 ```
 
+### MCP Interactive Testing (Pre-PR)
+
+When working with Claude Code and Chrome DevTools MCP, run these checks before opening a PR:
+
+**Quick Check (all PRs with UI changes):**
+1. Navigate to changed pages in Chrome
+2. `list_console_messages` → no new errors
+3. `take_snapshot` → accessibility tree looks correct
+
+**Full Check (new pages, major features):**
+1. Quick check above, plus:
+2. `performance_start_trace` with reload → LCP < 2.5s, CLS < 0.1
+3. `resize_page` to 320px → no layout breaks
+4. `list_network_requests` → no failed resources
+
+**Post-Deploy Verification:**
+1. Navigate to production (dylanbochman.com)
+2. `list_console_messages` → no errors
+3. `list_network_requests` → no 404s
+4. Spot check responsive at 320px, 768px
+
+See `docs/plans/16-mcp-interactive-testing.md` for detailed workflows.
+
 ---
 
 ## Troubleshooting
