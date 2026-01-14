@@ -22,8 +22,16 @@ import { Plus, RotateCcw, Share2 } from 'lucide-react';
 import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType, ColumnColor } from '@/types/kanban';
 import { generateId, roadmapBoard } from '@/types/kanban';
 
-export function KanbanBoard() {
-  const { getInitialBoard, saveBoard, clearBoard } = useKanbanPersistence();
+interface KanbanBoardProps {
+  initialBoard?: BoardType;
+  boardKey?: string; // URL query param name for isolation between boards
+}
+
+export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }: KanbanBoardProps) {
+  const { getInitialBoard, saveBoard, clearBoard } = useKanbanPersistence({
+    defaultBoard: initialBoard,
+    boardKey,
+  });
   const [board, setBoard] = useState<BoardType>(() => getInitialBoard());
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
 

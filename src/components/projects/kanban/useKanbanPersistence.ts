@@ -4,12 +4,18 @@ import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from
 import type { KanbanBoard } from '@/types/kanban';
 import { roadmapBoard } from '@/types/kanban';
 
-export function useKanbanPersistence() {
+interface PersistenceOptions {
+  defaultBoard?: KanbanBoard;
+  boardKey?: string; // URL query param name (e.g., 'board', 'board-house')
+}
+
+export function useKanbanPersistence(options: PersistenceOptions = {}) {
+  const { defaultBoard = roadmapBoard, boardKey = 'board' } = options;
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Load board - used as lazy initializer for useState
   const getInitialBoard = useCallback((): KanbanBoard => {
-    const encoded = searchParams.get('board');
+    const encoded = searchParams.get(boardKey);
     if (encoded) {
       try {
         const json = decompressFromEncodedURIComponent(encoded);
@@ -20,16 +26,16 @@ export function useKanbanPersistence() {
         console.warn('Failed to parse board from URL:', e);
       }
     }
-    return { ...roadmapBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    return { ...defaultBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-  // Note: searchParams intentionally excluded - only read once on mount
+  // Note: searchParams, defaultBoard, boardKey intentionally excluded - only read once on mount
 
   const saveBoard = useCallback((board: KanbanBoard) => {
     const updatedBoard = { ...board, updatedAt: new Date().toISOString() };
     const json = JSON.stringify(updatedBoard);
     const encoded = compressToEncodedURIComponent(json);
-    setSearchParams({ board: encoded }, { replace: true });
-  }, [setSearchParams]);
+    setSearchParams({ [boardKey]: encoded }, { replace: true });
+  }, [setSearchParams, boardKey]);
 
   const clearBoard = useCallback(() => {
     setSearchParams({}, { replace: true });
