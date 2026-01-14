@@ -21,9 +21,24 @@ export interface KanbanCard {
   history?: CardChange[];
 }
 
+export type ColumnColor = 'default' | 'yellow' | 'orange' | 'purple' | 'blue' | 'green' | 'red' | 'pink';
+
+export const COLUMN_COLORS: Record<ColumnColor, { label: string; bg: string; border: string }> = {
+  default: { label: 'Default', bg: 'bg-muted/50', border: 'border-border' },
+  yellow: { label: 'Investigating', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30' },
+  orange: { label: 'Identified', bg: 'bg-orange-500/10', border: 'border-orange-500/30' },
+  purple: { label: 'Fixing', bg: 'bg-purple-500/10', border: 'border-purple-500/30' },
+  blue: { label: 'Monitoring', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
+  green: { label: 'Resolved', bg: 'bg-green-500/10', border: 'border-green-500/30' },
+  red: { label: 'Critical', bg: 'bg-red-500/10', border: 'border-red-500/30' },
+  pink: { label: 'Review', bg: 'bg-pink-500/10', border: 'border-pink-500/30' },
+};
+
 export interface KanbanColumn {
   id: string;
   title: string;
+  description?: string;
+  color?: ColumnColor;
   cards: KanbanCard[];
 }
 

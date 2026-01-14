@@ -8,35 +8,57 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
+import type { KanbanColumn, ColumnColor } from '@/types/kanban';
+import { COLUMN_COLORS } from '@/types/kanban';
 
 interface ColumnEditorModalProps {
-  columnTitle: string | null;
+  column: KanbanColumn | null;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (title: string) => void;
+  onSave: (data: { title: string; description?: string; color?: ColumnColor }) => void;
+  onDelete?: (columnId: string) => void;
 }
 
+const colorKeys = Object.keys(COLUMN_COLORS) as ColumnColor[];
+
 export function ColumnEditorModal({
-  columnTitle,
+  column,
   isOpen,
   onClose,
   onSave,
+  onDelete,
 }: ColumnEditorModalProps) {
   const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [color, setColor] = useState<ColumnColor>('default');
 
   useEffect(() => {
-    setTitle(columnTitle || '');
-  }, [columnTitle]);
+    if (column) {
+      setTitle(column.title);
+      setDescription(column.description || '');
+      setColor(column.color || 'default');
+    } else {
+      setTitle('');
+      setDescription('');
+      setColor('default');
+    }
+  }, [column]);
 
   const handleSave = () => {
     if (!title.trim()) return;
-    onSave(title.trim());
+    onSave({
+      title: title.trim(),
+      description: description.trim() || undefined,
+      color: color !== 'default' ? color : undefined,
+    });
     onClose();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && e.target instanceof HTMLInputElement) {
       e.preventDefault();
       handleSave();
     }
@@ -44,30 +66,85 @@ export function ColumnEditorModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[350px]">
+      <DialogContent className="sm:max-w-[400px]">
         <DialogHeader>
-          <DialogTitle>{columnTitle ? 'Rename Column' : 'New Column'}</DialogTitle>
+          <DialogTitle>{column ? 'Edit Column' : 'New Column'}</DialogTitle>
         </DialogHeader>
 
-        <div className="py-4">
-          <Label htmlFor="column-title">Column Name</Label>
-          <Input
-            id="column-title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Column name"
-            autoFocus
-            className="mt-2"
-          />
+        <div className="space-y-4 py-4">
+          <div className="space-y-2">
+            <Label htmlFor="column-title">Name</Label>
+            <Input
+              id="column-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Column name"
+              autoFocus
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="column-description">Description (optional)</Label>
+            <Textarea
+              id="column-description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="What belongs in this column?"
+              rows={2}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Color</Label>
+            <div className="grid grid-cols-4 gap-2">
+              {colorKeys.map((colorKey) => {
+                const config = COLUMN_COLORS[colorKey];
+                const isSelected = color === colorKey;
+                return (
+                  <button
+                    key={colorKey}
+                    type="button"
+                    onClick={() => setColor(colorKey)}
+                    className={cn(
+                      'flex flex-col items-center gap-1 p-2 rounded-md border-2 transition-colors',
+                      config.bg,
+                      isSelected ? 'border-primary' : 'border-transparent hover:border-muted-foreground/30'
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        'w-4 h-4 rounded-full',
+                        colorKey === 'default' ? 'bg-muted-foreground/30' : config.bg.replace('/10', '')
+                      )}
+                    />
+                    <span className="text-xs">{config.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="gap-2 sm:gap-0">
+          {column && onDelete && (
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => {
+                onDelete(column.id);
+                onClose();
+              }}
+              className="mr-auto"
+            >
+              Delete
+            </Button>
+          )}
           <Button type="button" variant="outline" onClick={onClose}>
             Cancel
           </Button>
           <Button type="button" onClick={handleSave} disabled={!title.trim()}>
-            {columnTitle ? 'Save' : 'Create'}
+            {column ? 'Save' : 'Create'}
           </Button>
         </DialogFooter>
       </DialogContent>

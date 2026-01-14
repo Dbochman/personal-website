@@ -19,7 +19,7 @@ import { ColumnEditorModal } from './ColumnEditorModal';
 import { useKanbanPersistence } from './useKanbanPersistence';
 import { Button } from '@/components/ui/button';
 import { Plus, RotateCcw, Share2 } from 'lucide-react';
-import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType } from '@/types/kanban';
+import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType, ColumnColor } from '@/types/kanban';
 import { generateId, defaultBoard } from '@/types/kanban';
 
 export function KanbanBoard() {
@@ -236,21 +236,23 @@ export function KanbanBoard() {
     setIsColumnModalOpen(true);
   };
 
-  const handleSaveColumn = (title: string) => {
+  const handleSaveColumn = (data: { title: string; description?: string; color?: ColumnColor }) => {
     updateBoard((prev) => {
       if (isAddingColumn) {
         return {
           ...prev,
           columns: [
             ...prev.columns,
-            { id: generateId(), title, cards: [] },
+            { id: generateId(), title: data.title, description: data.description, color: data.color, cards: [] },
           ],
         };
       } else if (editingColumnId) {
         return {
           ...prev,
           columns: prev.columns.map((col) =>
-            col.id === editingColumnId ? { ...col, title } : col
+            col.id === editingColumnId
+              ? { ...col, title: data.title, description: data.description, color: data.color }
+              : col
           ),
         };
       }
@@ -353,7 +355,7 @@ export function KanbanBoard() {
 
       {/* Column editor modal */}
       <ColumnEditorModal
-        columnTitle={editingColumn?.title || null}
+        column={editingColumn || null}
         isOpen={isColumnModalOpen}
         onClose={() => {
           setIsColumnModalOpen(false);
@@ -361,6 +363,7 @@ export function KanbanBoard() {
           setIsAddingColumn(false);
         }}
         onSave={handleSaveColumn}
+        onDelete={editingColumn ? handleDeleteColumn : undefined}
       />
     </div>
   );

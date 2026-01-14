@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Plus, MoreHorizontal, Trash2, Pencil, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanColumn as KanbanColumnType, KanbanCard as KanbanCardType } from '@/types/kanban';
+import { COLUMN_COLORS } from '@/types/kanban';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -65,19 +66,22 @@ export function KanbanColumn({
   };
 
   const SortIcon = sortDirection === 'asc' ? ArrowUp : sortDirection === 'desc' ? ArrowDown : ArrowUpDown;
+  const colorConfig = COLUMN_COLORS[column.color || 'default'];
 
   return (
     <div
       className={cn(
-        'flex-shrink-0 w-64 bg-muted/50 rounded-lg p-3',
+        'flex-shrink-0 w-64 rounded-lg p-3 border',
+        colorConfig.bg,
+        colorConfig.border,
         isOver && 'ring-2 ring-primary ring-offset-2 ring-offset-background'
       )}
     >
       {/* Column header */}
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
           <h3 className="font-semibold text-sm">{column.title}</h3>
-          <span className="text-muted-foreground text-xs bg-muted px-1.5 py-0.5 rounded">
+          <span className="text-muted-foreground text-xs bg-background/50 px-1.5 py-0.5 rounded">
             {column.cards.length}
           </span>
         </div>
@@ -102,7 +106,7 @@ export function KanbanColumn({
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => onEditColumn(column.id)}>
                 <Pencil className="w-4 h-4 mr-2" />
-                Rename
+                Edit
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => onDeleteColumn(column.id)}
@@ -115,6 +119,12 @@ export function KanbanColumn({
           </DropdownMenu>
         </div>
       </div>
+
+      {/* Column description */}
+      {column.description && (
+        <p className="text-xs text-muted-foreground mb-3">{column.description}</p>
+      )}
+      {!column.description && <div className="mb-2" />}
 
       {/* Cards */}
       <div ref={setNodeRef} className="min-h-[50px]">
