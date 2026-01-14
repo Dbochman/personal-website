@@ -1,5 +1,6 @@
 import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useRef, useState, useEffect } from 'react';
 import { KanbanCard } from './KanbanCard';
 import { Button } from '@/components/ui/button';
 import { Plus, MoreHorizontal, Trash2, Pencil } from 'lucide-react';
@@ -28,11 +29,27 @@ export function KanbanColumn({
   onDeleteColumn,
 }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id: column.id });
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollDown, setCanScrollDown] = useState(false);
+
+  // Check if content is scrollable
+  useEffect(() => {
+    const checkScroll = () => {
+      if (scrollRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+        setCanScrollDown(scrollTop + clientHeight < scrollHeight - 4);
+      }
+    };
+    checkScroll();
+    const el = scrollRef.current;
+    el?.addEventListener('scroll', checkScroll);
+    return () => el?.removeEventListener('scroll', checkScroll);
+  }, [column.cards.length]);
 
   return (
     <div
       className={cn(
-        'flex-shrink-0 w-72 bg-muted/50 rounded-lg p-3 flex flex-col max-h-[calc(100vh-300px)]',
+        'flex-shrink-0 w-72 bg-muted/50 rounded-lg p-3 flex flex-col max-h-[calc(100vh-240px)]',
         isOver && 'ring-2 ring-primary ring-offset-2 ring-offset-background'
       )}
     >
@@ -68,17 +85,29 @@ export function KanbanColumn({
       </div>
 
       {/* Cards */}
-      <div ref={setNodeRef} className="flex-1 overflow-y-auto min-h-[100px]">
-        <SortableContext
-          items={column.cards.map((c) => c.id)}
-          strategy={verticalListSortingStrategy}
+      <div className="relative flex-1 min-h-[100px]">
+        <div
+          ref={(node) => {
+            setNodeRef(node);
+            (scrollRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+          }}
+          className="absolute inset-0 overflow-y-auto scroll-smooth"
         >
-          <div className="space-y-2">
-            {column.cards.map((card) => (
-              <KanbanCard key={card.id} card={card} onEdit={onEditCard} />
-            ))}
-          </div>
-        </SortableContext>
+          <SortableContext
+            items={column.cards.map((c) => c.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            <div className="space-y-2 pr-1">
+              {column.cards.map((card) => (
+                <KanbanCard key={card.id} card={card} onEdit={onEditCard} />
+              ))}
+            </div>
+          </SortableContext>
+        </div>
+        {/* Scroll indicator */}
+        {canScrollDown && (
+          <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-muted/80 to-transparent pointer-events-none rounded-b" />
+        )}
       </div>
 
       {/* Add card button */}
