@@ -552,6 +552,23 @@ export interface KanbanColumn {
 src/components/projects/kanban/ColumnEditorModal.tsx
 ```
 
+## Known Issues (Codex Review)
+
+### Medium Priority
+
+1. **Sort/drag mismatch** - Sorting cards by size is purely a view concern, but drag-and-drop reordering still uses the underlying unsorted array. When sort is active, drop positions can reorder unexpected cards because `SortableContext` uses `sortedCards` while `handleDragEnd` uses indices from `col.cards`.
+   - Files: `KanbanColumn.tsx:51-140`, `KanbanBoard.tsx:130-159`
+   - Decision needed: Should sorting disable drag-and-drop (view-only), or reorder underlying data?
+
+2. **Premature history logging** - Column movement history is recorded on `dragOver`, not on drop. This can log "Moved to X" entries even if the user never drops there (or drags across multiple columns before dropping), leading to inaccurate history.
+   - File: `KanbanBoard.tsx:77-127`
+   - Decision needed: Should history reflect only committed moves (on drop)?
+
+### Low Priority
+
+3. **Shallow spread fragility** - The URL-persisted board uses a shallow spread of `roadmapBoard`, so if any in-place mutations occur later, the shared roadmap seed could be mutated across sessions or resets. Not happening now, but fragile.
+   - File: `useKanbanPersistence.ts:11-24`
+
 ## Future Enhancements
 
 - ~~Card colors/priorities~~ (done via labels)
