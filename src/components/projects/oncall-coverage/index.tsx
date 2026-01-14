@@ -77,7 +77,7 @@ export default function OncallCoverage() {
         )}
 
         {/* Monthly rotation view - 30 days */}
-        {!['follow-the-sun', 'business-hours'].includes(model.id) && (
+        {!['follow-the-sun', 'business-hours', '12-hour-shifts'].includes(model.id) && (
           <MonthlyHeatmap
             team={model.team}
             rotationWeeks={model.rotationWeeks}
