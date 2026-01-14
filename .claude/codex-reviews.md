@@ -55,3 +55,16 @@ Capturing feedback from Codex async code reviews to identify patterns and inform
   - Should sorting disable drag-and-drop (view-only) or reorder underlying data?
   - Should history reflect only committed moves (on drop)?
 - **Category**: architecture | edge cases
+
+---
+
+### 2026-01-14 - CI Failures Fix PR #99
+
+- **What it flagged**:
+  1. (Medium) Console error test ignores ALL 404s from own domain/localhost, masking real regressions (missing assets, broken routes, API calls). Should whitelist only known SPA fallback paths.
+  2. (Low) PR label linking matches `PR #88-92` and links to PR 88, which is misleading for ranges.
+- **Agreed?**: Yes - both valid
+- **Fix applied**:
+  1. Tightened 404 ignore logic: only ignore HTML document 404s (SPA fallback), not asset 404s (.js, .css, .json, images, etc.)
+  2. Changed regex from `/^PR #(\d+)/` to `/^PR #(\d+)$/` - only links single PRs, not ranges
+- **Category**: edge cases | UX

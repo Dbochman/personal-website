@@ -59,12 +59,13 @@ test.describe('Console Error Monitoring', () => {
   for (const page of pagesToTest) {
     test(`@smoke ${page.name} should have no critical console errors`, async ({ page: playwright }) => {
       const consoleMessages: ConsoleMessage[] = [];
-      const failed404Urls = new Set<string>();
+      const failed404Urls = new Map<string, string>(); // url -> content-type
 
-      // Listen for 404 responses to filter Giscus
+      // Listen for 404 responses to filter expected ones
       playwright.on('response', response => {
         if (response.status() === 404) {
-          failed404Urls.add(response.url());
+          const contentType = response.headers()['content-type'] || '';
+          failed404Urls.set(response.url(), contentType);
         }
       });
 
@@ -73,9 +74,23 @@ test.describe('Console Error Monitoring', () => {
         const type = msg.type();
         if (type === 'error' || type === 'warning') {
           const text = msg.text();
-          // Skip if the error is about a Giscus 404 (which we already tracked)
-          if (text.includes('Failed to load resource') && Array.from(failed404Urls).some(url => /giscus\.app/.test(url))) {
-            return; // Ignore Giscus 404s
+          // Skip expected 404s:
+          // - Giscus API 404s (no discussions yet)
+          // - SPA routing 404s (HTML document 404s from GitHub Pages 404.html redirect)
+          // NOTE: We do NOT ignore asset 404s (.js, .css, .json, images) as those indicate real issues
+          if (text.includes('Failed to load resource') && text.includes('404')) {
+            const isGiscus404 = Array.from(failed404Urls.keys()).some(url => /giscus\.app/.test(url));
+            // Only ignore document/HTML 404s from our domain (SPA fallback), not asset 404s
+            const isSpaFallback404 = Array.from(failed404Urls.entries()).some(([url, contentType]) => {
+              const isOwnDomain = url.includes('dylanbochman.com') || url.includes('localhost');
+              const isHtmlDocument = contentType.includes('text/html');
+              // Also check URL doesn't look like an asset
+              const isNotAsset = !/\.(js|css|json|png|jpg|jpeg|gif|svg|webp|woff2?|ttf|ico)(\?|$)/i.test(url);
+              return isOwnDomain && (isHtmlDocument || isNotAsset);
+            });
+            if (isGiscus404 || isSpaFallback404) {
+              return; // Ignore expected 404s
+            }
           }
           if (!shouldIgnoreMessage(text)) {
             consoleMessages.push({

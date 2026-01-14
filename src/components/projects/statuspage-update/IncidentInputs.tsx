@@ -49,7 +49,7 @@ export function IncidentInputs({
   return (
     <Card>
       <CardHeader className="pb-4">
-        <CardTitle className="text-base">Incident Details</CardTitle>
+        <CardTitle as="h2" className="text-base">Incident Details</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Service Preset */}

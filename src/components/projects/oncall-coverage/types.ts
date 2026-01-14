@@ -50,24 +50,24 @@ export interface CoverageModel {
 
 export const DAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const;
 
-// Region colors for team list - matches DailyHeatmap
+// Region colors for team list - using darker shades for WCAG AA contrast
 export const REGION_COLORS: Record<Region, { bg: string; text: string }> = {
   US: { bg: 'bg-emerald-700', text: 'text-emerald-700' },
-  EU: { bg: 'bg-rose-400', text: 'text-rose-400' },
-  APAC: { bg: 'bg-violet-400', text: 'text-violet-400' },
-  Single: { bg: 'bg-purple-500', text: 'text-purple-500' },
+  EU: { bg: 'bg-rose-600', text: 'text-rose-600' },
+  APAC: { bg: 'bg-violet-600', text: 'text-violet-600' },
+  Single: { bg: 'bg-purple-600', text: 'text-purple-600' },
 };
 
-// Member colors for rotation views (index-based, pastel)
+// Member colors for rotation views (index-based, pastel; strips use darker shades for WCAG AA contrast)
 export const MEMBER_COLORS = [
-  { bg: 'bg-emerald-200 dark:bg-emerald-800', strip: 'bg-emerald-400 dark:bg-emerald-600', text: 'text-emerald-800 dark:text-emerald-200' },
-  { bg: 'bg-rose-200 dark:bg-rose-800', strip: 'bg-rose-400 dark:bg-rose-600', text: 'text-rose-800 dark:text-rose-200' },
-  { bg: 'bg-violet-200 dark:bg-violet-800', strip: 'bg-violet-400 dark:bg-violet-600', text: 'text-violet-800 dark:text-violet-200' },
-  { bg: 'bg-amber-200 dark:bg-amber-800', strip: 'bg-amber-400 dark:bg-amber-600', text: 'text-amber-800 dark:text-amber-200' },
-  { bg: 'bg-sky-200 dark:bg-sky-800', strip: 'bg-sky-400 dark:bg-sky-600', text: 'text-sky-800 dark:text-sky-200' },
-  { bg: 'bg-pink-200 dark:bg-pink-800', strip: 'bg-pink-400 dark:bg-pink-600', text: 'text-pink-800 dark:text-pink-200' },
-  { bg: 'bg-teal-200 dark:bg-teal-800', strip: 'bg-teal-400 dark:bg-teal-600', text: 'text-teal-800 dark:text-teal-200' },
-  { bg: 'bg-orange-200 dark:bg-orange-800', strip: 'bg-orange-400 dark:bg-orange-600', text: 'text-orange-800 dark:text-orange-200' },
+  { bg: 'bg-emerald-200 dark:bg-emerald-800', strip: 'bg-emerald-600 dark:bg-emerald-600', text: 'text-emerald-800 dark:text-emerald-200' },
+  { bg: 'bg-rose-200 dark:bg-rose-800', strip: 'bg-rose-600 dark:bg-rose-600', text: 'text-rose-800 dark:text-rose-200' },
+  { bg: 'bg-violet-200 dark:bg-violet-800', strip: 'bg-violet-600 dark:bg-violet-600', text: 'text-violet-800 dark:text-violet-200' },
+  { bg: 'bg-amber-200 dark:bg-amber-800', strip: 'bg-amber-600 dark:bg-amber-600', text: 'text-amber-800 dark:text-amber-200' },
+  { bg: 'bg-sky-200 dark:bg-sky-800', strip: 'bg-sky-600 dark:bg-sky-600', text: 'text-sky-800 dark:text-sky-200' },
+  { bg: 'bg-pink-200 dark:bg-pink-800', strip: 'bg-pink-600 dark:bg-pink-600', text: 'text-pink-800 dark:text-pink-200' },
+  { bg: 'bg-teal-200 dark:bg-teal-800', strip: 'bg-teal-600 dark:bg-teal-600', text: 'text-teal-800 dark:text-teal-200' },
+  { bg: 'bg-orange-200 dark:bg-orange-800', strip: 'bg-orange-600 dark:bg-orange-600', text: 'text-orange-800 dark:text-orange-200' },
 ];
 
 // Timezone to label mapping

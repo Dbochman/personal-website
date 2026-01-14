@@ -159,7 +159,7 @@ function AchievableResults({ result }: { result: AchievableSlaResult }) {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
               Per-incident MTTR
             </CardTitle>
           </CardHeader>
@@ -172,7 +172,7 @@ function AchievableResults({ result }: { result: AchievableSlaResult }) {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
               Monthly downtime
             </CardTitle>
           </CardHeader>
@@ -185,7 +185,7 @@ function AchievableResults({ result }: { result: AchievableSlaResult }) {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
               Yearly downtime
             </CardTitle>
           </CardHeader>
@@ -198,7 +198,7 @@ function AchievableResults({ result }: { result: AchievableSlaResult }) {
 
         <Card className="bg-primary/5 border-primary/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
               Maximum achievable SLA
             </CardTitle>
           </CardHeader>
@@ -277,7 +277,7 @@ function TargetResults({
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
               Monthly budget
             </CardTitle>
           </CardHeader>
@@ -290,7 +290,7 @@ function TargetResults({
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
               Your MTTR
             </CardTitle>
           </CardHeader>
@@ -303,7 +303,7 @@ function TargetResults({
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
               Budget allows
             </CardTitle>
           </CardHeader>
@@ -323,7 +323,7 @@ function TargetResults({
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
               Yearly budget
             </CardTitle>
           </CardHeader>
