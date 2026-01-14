@@ -16,8 +16,11 @@ export function AnalyticsDashboard() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6" aria-live="polite" aria-busy="true">
-        <span className="sr-only">Loading analytics data...</span>
+      <div className="space-y-6">
+        {/* Dedicated live region for concise status announcement */}
+        <div role="status" aria-live="polite" className="sr-only">
+          Loading analytics data...
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
             <Card key={i} className="animate-pulse">
