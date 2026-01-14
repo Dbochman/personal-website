@@ -47,6 +47,21 @@ npm run lint         # ESLint
 - **localStorage**: Use URL params or stateless approaches
 - **Direct commits to main**: Always use feature branches and PRs
 
+## Kanban Board Updates
+
+When updating cards in `src/types/kanban.ts`:
+
+- **Moving cards between columns**: Add a `history` entry with `type: 'column'`, `timestamp`, `columnId`, and `columnTitle`
+- **Updating card fields**: Add a `history` entry with `type: 'title'|'description'|'labels'`, `timestamp`, `from`, and `to`
+- **Adding PR labels**: Use format `PR #123` (single PRs auto-link to GitHub)
+
+Example history entry for column move:
+```typescript
+history: [
+  { type: 'column', timestamp: '2026-01-14T14:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+],
+```
+
 ## Commit Message Style Guide
 
 Commits are blog source material. Write them with future Claude in mind.

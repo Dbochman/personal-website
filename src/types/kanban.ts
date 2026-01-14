@@ -319,13 +319,17 @@ export const roadmapBoard: KanbanBoard = {
             { id: 'kb-5', text: 'Checklist/subtasks feature', completed: true },
             { id: 'kb-6', text: 'Migrate roadmap plans to backlog cards', completed: true },
           ],
+          history: [
+            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
+            { type: 'column', timestamp: '2026-01-14T14:04:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+          ],
           createdAt: '2026-01-13',
         },
         {
           id: 'ci-failures',
           title: 'Fix CI Failures (Lighthouse & Console)',
           description: 'Fixed Runbook 404, blog sort test timeout, and project page accessibility scores.',
-          labels: ['CI', 'Testing', 'Accessibility'],
+          labels: ['CI', 'Testing', 'Accessibility', 'PR #99'],
           checklist: [
             { id: 'ci-1', text: 'Investigate & fix Runbook page 404 error', completed: true },
             { id: 'ci-2', text: 'Fix blog sort selector test timeout', completed: true },
@@ -333,6 +337,10 @@ export const roadmapBoard: KanbanBoard = {
             { id: 'ci-4', text: 'Fix statuspage-update accessibility (94% → 95%)', completed: true },
             { id: 'ci-5', text: 'Fix oncall-coverage accessibility (94% → 95%)', completed: true },
             { id: 'ci-6', text: 'Verify all CI checks pass', completed: true },
+          ],
+          history: [
+            { type: 'column', timestamp: '2026-01-14T13:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+            { type: 'column', timestamp: '2026-01-14T14:04:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
           ],
           createdAt: '2026-01-14',
         },
