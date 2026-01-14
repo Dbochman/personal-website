@@ -11,9 +11,19 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { X } from 'lucide-react';
+import { X, History } from 'lucide-react';
 import type { KanbanCard } from '@/types/kanban';
 import { generateId } from '@/types/kanban';
+
+function formatDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
 
 interface CardEditorModalProps {
   card: KanbanCard | null;
@@ -56,6 +66,8 @@ export function CardEditorModal({
       description: description.trim() || undefined,
       labels: labels.length > 0 ? labels : undefined,
       createdAt: card?.createdAt || new Date().toISOString(),
+      updatedAt: card?.updatedAt,
+      columnHistory: card?.columnHistory,
     });
     onClose();
   };
@@ -140,6 +152,37 @@ export function CardEditorModal({
               </div>
             )}
           </div>
+
+          {/* Card metadata & history */}
+          {card && (
+            <div className="space-y-2 pt-2 border-t">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                <span>Created: {formatDate(card.createdAt)}</span>
+                {card.updatedAt && (
+                  <>
+                    <span>•</span>
+                    <span>Updated: {formatDate(card.updatedAt)}</span>
+                  </>
+                )}
+              </div>
+              {card.columnHistory && card.columnHistory.length > 0 && (
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <History className="w-3 h-3" />
+                    <span>Column History</span>
+                  </div>
+                  <div className="text-xs text-muted-foreground space-y-0.5 max-h-24 overflow-y-auto">
+                    {card.columnHistory.map((move, i) => (
+                      <div key={i} className="flex justify-between">
+                        <span>{move.columnTitle}</span>
+                        <span>{formatDate(move.movedAt)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <DialogFooter className="gap-2 sm:gap-0">

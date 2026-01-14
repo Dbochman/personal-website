@@ -93,12 +93,23 @@ export function KanbanBoard() {
       const activeIndex = activeCards.findIndex((c) => c.id === activeId);
       const [movedCard] = activeCards.splice(activeIndex, 1);
 
+      // Track column movement
+      const now = new Date().toISOString();
+      const updatedCard = {
+        ...movedCard,
+        updatedAt: now,
+        columnHistory: [
+          ...(movedCard.columnHistory || []),
+          { columnId: overColumn.id, columnTitle: overColumn.title, movedAt: now },
+        ],
+      };
+
       // If dropping on a column (not a card), add to end
       const overIndex = overColumn.cards.findIndex((c) => c.id === overId);
       if (overIndex === -1) {
-        overCards.push(movedCard);
+        overCards.push(updatedCard);
       } else {
-        overCards.splice(overIndex, 0, movedCard);
+        overCards.splice(overIndex, 0, updatedCard);
       }
 
       return {
@@ -164,24 +175,38 @@ export function KanbanBoard() {
   };
 
   const handleSaveCard = (card: CardType) => {
+    const now = new Date().toISOString();
     updateBoard((prev) => {
       if (addingToColumn) {
-        // Adding new card
+        // Adding new card - set initial column history
+        const column = prev.columns.find((c) => c.id === addingToColumn);
+        const newCard: CardType = {
+          ...card,
+          createdAt: now,
+          updatedAt: now,
+          columnHistory: column
+            ? [{ columnId: column.id, columnTitle: column.title, movedAt: now }]
+            : [],
+        };
         return {
           ...prev,
           columns: prev.columns.map((col) =>
             col.id === addingToColumn
-              ? { ...col, cards: [...col.cards, card] }
+              ? { ...col, cards: [...col.cards, newCard] }
               : col
           ),
         };
       } else {
-        // Editing existing card
+        // Editing existing card - update timestamp
+        const updatedCard: CardType = {
+          ...card,
+          updatedAt: now,
+        };
         return {
           ...prev,
           columns: prev.columns.map((col) => ({
             ...col,
-            cards: col.cards.map((c) => (c.id === card.id ? card : c)),
+            cards: col.cards.map((c) => (c.id === card.id ? updatedCard : c)),
           })),
         };
       }

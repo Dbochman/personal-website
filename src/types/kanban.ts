@@ -1,9 +1,17 @@
+export interface ColumnMove {
+  columnId: string;
+  columnTitle: string;
+  movedAt: string;
+}
+
 export interface KanbanCard {
   id: string;
   title: string;
   description?: string;
   labels?: string[];
   createdAt: string;
+  updatedAt?: string;
+  columnHistory?: ColumnMove[];
 }
 
 export interface KanbanColumn {
