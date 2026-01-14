@@ -15,6 +15,7 @@ const BlogPost = lazy(() => import("./pages/BlogPost"));
 const Projects = lazy(() => import("./pages/Projects"));
 const Project = lazy(() => import("./pages/Project"));
 const Runbook = lazy(() => import("./pages/Runbook"));
+const Analytics = lazy(() => import("./pages/Analytics"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/projects/:slug" element={<Project />} />
                 <Route path="/runbook" element={<Runbook />} />
+                <Route path="/analytics" element={<Analytics />} />
                 {/* Redirect old runbook.html URL to new clean URL */}
                 <Route path="/runbook.html" element={<Navigate to="/runbook" replace />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
