@@ -1,0 +1,92 @@
+---
+title: "The Site That Plans Itself"
+date: "2026-01-14"
+author: Dylan & Claude
+description: "Moving our roadmap from a markdown file into the site itself. Now the Kanban board is the source of truth, updates happen through conversation, and visitors can see what's coming next."
+tags:
+  - Meta
+  - Tooling
+  - AI
+category: Meta
+draft: true
+---
+
+We just merged a Kanban board into the site. That's not the interesting part—Kanban boards are commodity software. The interesting part is *what* we put on it: the roadmap for the site itself.
+
+The site now contains its own development plans.
+
+## From ROADMAP.md to /projects/kanban
+
+Like most projects, we started with a `ROADMAP.md` file. It listed future features, rough priorities, and vague timelines. It worked fine until it didn't:
+
+- It drifted out of sync with reality
+- Updating it felt like busywork separate from actual development
+- It wasn't visible to visitors
+- Claude (my AI collaborator) couldn't see it during our sessions without explicitly reading it
+
+The Kanban board solves all four problems.
+
+## How It Works
+
+The board lives at [/projects/kanban](/projects/kanban). It's a fully functional drag-and-drop board built with dnd-kit, but it ships pre-populated with the actual site roadmap:
+
+- **Backlog**: Future features with checklists derived from implementation plans
+- **To Do**: Committed near-term work
+- **In Progress**: What's being actively developed
+- **Recently Completed**: Shipped work
+- **Change Log**: Historical record of major changes
+
+Each card links to its detailed planning document in `docs/plans/`. Click the card, see the full implementation approach.
+
+## The Source of Truth Question
+
+We had to decide: is the Kanban board a view of some other canonical source, or is it *the* source?
+
+We chose the latter. The board data lives in `src/types/kanban.ts` as a TypeScript object called `roadmapBoard`. When I want to update the roadmap, I tell Claude what changed, and Claude updates the code directly. No sync problems because there's nothing to sync.
+
+```
+Me: "Move ARIA Live Regions to In Progress"
+Claude: *edits kanban.ts*
+Me: "Add a subtask for testing with VoiceOver"
+Claude: *adds checklist item*
+```
+
+This inverts the usual relationship between documentation and code. Most projects have documentation that describes code. Here, the code *is* the documentation.
+
+## URL Persistence for Visitors
+
+The board state persists in the URL via lz-string compression. This means:
+
+- Visitors can drag cards around to explore "what if" scenarios
+- Their changes don't affect the canonical roadmap (that's in the codebase)
+- Shareable URLs capture specific board states
+- Reset button restores the shipped default
+
+The site's roadmap is read-only for visitors but fully explorable.
+
+## Self-Reference Gets Weird
+
+Building this feature surfaced some recursive moments:
+
+- The Kanban board has a card for "Kanban Board" with a checklist tracking its own implementation
+- That card links to `docs/plans/15-kanban-page.md`, which documents the feature containing the card
+- The plan document has a section "Implemented Beyond Original Scope" that grew as we built it
+- We added a card for this blog post while writing this blog post
+
+At some point, tooling that documents itself stops being clever and starts being useful. We crossed that line somewhere around "add checklist for migrating roadmap plans to backlog cards."
+
+## What We Learned
+
+**Visibility changes behavior.** Making the roadmap public—even on a personal site—creates gentle pressure to keep it honest. No more "Q3 2024" entries sitting in a markdown file no one reads.
+
+**Conversation-driven updates work.** Telling Claude "mark the Kanban card as complete" is faster than editing a markdown file and remembering to commit it. The update happens in context, as part of the work.
+
+**Checklists are underrated.** Each card has subtasks derived from the implementation plan. Checking them off during development creates a visible trail of progress without separate status updates.
+
+**Meta-tooling compounds.** The Kanban board, the plan documents, the blog posts, and the commit history all reference each other. Future Claude sessions can understand what was built, why, and what's next without extensive context-setting.
+
+## Try It
+
+Visit [/projects/kanban](/projects/kanban) and drag some cards around. You'll see what's coming, what's in progress, and what recently shipped. Click a card to see its implementation details.
+
+Then consider: what would it mean for your project's roadmap to be part of the project itself?
