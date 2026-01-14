@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Mail, Linkedin } from "lucide-react";
 import SloGauge from "@/components/icons/SloGauge";
 import UptimeTimeline from "@/components/icons/UptimeTimeline";
+import { Footer } from "@/components/layout/Footer";
 
 const ContactSection = () => {
 
@@ -55,9 +55,7 @@ const ContactSection = () => {
             </Button>
           </a>
         </div>
-        <div className="text-foreground/40 text-sm border-t border-foreground/20 pt-8">
-          <p>© 2025 Dylan Bochman. All rights reserved. | <a href="https://stats.uptimerobot.com/zquZllQfNJ" target="_blank" rel="noopener noreferrer" className="hover:text-foreground/60 transition-colors">Status</a> | <Link to="/runbook" className="hover:text-foreground/60 transition-colors">Runbook</Link></p>
-        </div>
+        <Footer />
       </div>
     </section>
   );

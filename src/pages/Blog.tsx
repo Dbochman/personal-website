@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Rss } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
+import { Footer } from '@/components/layout/Footer';
 import { BlogList } from '@/components/blog/BlogList';
 import { FeaturedHero } from '@/components/blog/FeaturedHero';
 import { getPostsSync } from '@/lib/blog-loader-precompiled';
@@ -93,6 +94,10 @@ export default function Blog() {
           </div>
 
           <BlogList posts={regularPosts} />
+
+          <div className="mt-16">
+            <Footer />
+          </div>
         </div>
       </PageLayout>
     </>

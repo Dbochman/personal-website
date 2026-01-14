@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
+import { Footer } from '@/components/layout/Footer';
 import { Badge } from '@/components/ui/badge';
 import { getProject } from '@/data/projects';
 import type { ProjectStatus } from '@/types/project';
@@ -126,6 +127,10 @@ export default function Project() {
               >
                 <ProjectComponent />
               </Suspense>
+            </div>
+
+            <div className="mt-16">
+              <Footer />
             </div>
           </div>
         </div>

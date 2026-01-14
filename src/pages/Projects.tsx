@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
+import { Footer } from '@/components/layout/Footer';
 import { ProjectGrid } from '@/components/projects/ProjectGrid';
 import { getAllProjects } from '@/data/projects';
 
@@ -53,6 +54,10 @@ export default function Projects() {
           </header>
 
           <ProjectGrid projects={projects} />
+
+          <div className="mt-16">
+            <Footer />
+          </div>
         </div>
       </PageLayout>
     </>
