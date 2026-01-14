@@ -216,12 +216,8 @@ export function AnalyticsDashboard() {
       </Tabs>
 
       {/* Footer */}
-      <footer className="pt-8 border-t border-border/50">
-        <h1 className="text-2xl font-bold mb-2">Analytics</h1>
-        <p className="text-muted-foreground mb-2">
-          Site performance, traffic, and search visibility metrics.
-        </p>
-        {latest?.generated && (
+      {latest?.generated && (
+        <footer className="pt-8 border-t border-border/50">
           <p className="text-sm text-muted-foreground">
             Last updated: {new Date(latest.generated).toLocaleDateString('en-US', {
               month: 'short',
@@ -231,8 +227,8 @@ export function AnalyticsDashboard() {
               minute: '2-digit',
             })}
           </p>
-        )}
-      </footer>
+        </footer>
+      )}
     </div>
   );
 }
