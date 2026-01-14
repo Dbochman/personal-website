@@ -88,12 +88,9 @@ export default function Project() {
       <PageLayout>
         <div className={cn(
           'container mx-auto px-4',
-          project.fullWidth ? 'flex flex-col min-h-[calc(100vh-64px)] py-6' : 'py-12'
+          project.fullWidth ? 'py-6' : 'py-12'
         )}>
-          <div className={cn(
-            !project.fullWidth && 'max-w-4xl mx-auto',
-            project.fullWidth && 'flex flex-col flex-1'
-          )}>
+          <div className={cn(!project.fullWidth && 'max-w-4xl mx-auto')}>
             {/* Back link */}
             <Link
               to="/projects"
@@ -132,7 +129,7 @@ export default function Project() {
             {/* Project component */}
             <div className={cn(
               'bg-card rounded-lg border',
-              project.fullWidth ? 'p-4 flex-1 flex flex-col' : 'p-6'
+              project.fullWidth ? 'p-4' : 'p-6'
             )}>
               <Suspense
                 fallback={
@@ -145,7 +142,7 @@ export default function Project() {
               </Suspense>
             </div>
 
-            <div className={cn(project.fullWidth ? 'mt-4' : 'mt-16')}>
+            <div className={cn(project.fullWidth ? 'mt-6' : 'mt-16')}>
               <Footer />
             </div>
           </div>
