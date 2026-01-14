@@ -13,8 +13,11 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { X, History, Plus, FileText, ExternalLink } from 'lucide-react';
-import type { KanbanCard, CardChange, ChecklistItem } from '@/types/kanban';
-import { generateId } from '@/types/kanban';
+import { cn } from '@/lib/utils';
+import type { KanbanCard, CardChange, ChecklistItem, CardColor } from '@/types/kanban';
+import { generateId, CARD_COLORS } from '@/types/kanban';
+
+const colorKeys = Object.keys(CARD_COLORS) as CardColor[];
 
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
@@ -64,6 +67,7 @@ export function CardEditorModal({
   const [newLabel, setNewLabel] = useState('');
   const [checklist, setChecklist] = useState<ChecklistItem[]>([]);
   const [newChecklistItem, setNewChecklistItem] = useState('');
+  const [color, setColor] = useState<CardColor | undefined>(undefined);
 
   useEffect(() => {
     if (card) {
@@ -71,11 +75,13 @@ export function CardEditorModal({
       setDescription(card.description || '');
       setLabels(card.labels || []);
       setChecklist(card.checklist || []);
+      setColor(card.color);
     } else {
       setTitle('');
       setDescription('');
       setLabels([]);
       setChecklist([]);
+      setColor(undefined);
     }
     setNewLabel('');
     setNewChecklistItem('');
@@ -111,6 +117,7 @@ export function CardEditorModal({
       description: description.trim() || undefined,
       labels: labels.length > 0 ? labels : undefined,
       checklist: checklist.length > 0 ? checklist : undefined,
+      color,
       createdAt: card?.createdAt || now,
       history: newHistory.length > 0 ? newHistory : undefined,
     });
@@ -222,6 +229,48 @@ export function CardEditorModal({
                 ))}
               </div>
             )}
+          </div>
+
+          {/* Color picker */}
+          <div className="space-y-2">
+            <Label>Color (optional)</Label>
+            <div className="flex flex-wrap gap-2">
+              {/* None button */}
+              <button
+                type="button"
+                onClick={() => setColor(undefined)}
+                title="None"
+                className={cn(
+                  'w-8 h-8 rounded-full border-2 transition-all bg-background',
+                  !color
+                    ? 'border-primary ring-2 ring-primary ring-offset-2 ring-offset-background'
+                    : 'border-border hover:scale-110'
+                )}
+              >
+                <span className="sr-only">None</span>
+              </button>
+              {colorKeys.filter(k => k !== 'default').map((colorKey) => {
+                const config = CARD_COLORS[colorKey];
+                const isSelected = color === colorKey;
+                return (
+                  <button
+                    key={colorKey}
+                    type="button"
+                    onClick={() => setColor(colorKey)}
+                    title={config.label}
+                    className={cn(
+                      'w-8 h-8 rounded-full border-2 transition-all',
+                      config.dot,
+                      isSelected
+                        ? 'border-primary ring-2 ring-primary ring-offset-2 ring-offset-background'
+                        : 'border-transparent hover:scale-110'
+                    )}
+                  >
+                    <span className="sr-only">{config.label}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Checklist / Subtasks */}
