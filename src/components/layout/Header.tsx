@@ -1,31 +1,16 @@
 
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { navigationItems } from "@/data/navigation";
 import MobileNav from "@/components/MobileNav";
-import { useNavigation } from '@/context/NavigationContext';
 import { useTheme } from '@/context/ThemeContext';
 import { Sun, Moon } from 'lucide-react'
 
 const Header = () => {
-  const navigation = useNavigation();
   const location = useLocation();
   const { isDark, toggleTheme } = useTheme();
-  const isHomePage = location.pathname === '/';
   const isBlogPage = location.pathname.startsWith('/blog');
   const isProjectsPage = location.pathname.startsWith('/projects');
   const isRunbookPage = location.pathname === '/runbook';
-
-  const handleExperienceClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const targetId = e.currentTarget.href.split('#')[1];
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
-    }
-    // Only call openExperienceAccordion if we're within a NavigationProvider
-    navigation?.openExperienceAccordion();
-  };
 
   // Show simplified nav on blog, projects, and runbook pages
   let navItemsToShow = navigationItems;
@@ -49,35 +34,15 @@ const Header = () => {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex gap-6">
-            {navItemsToShow.map((item) => {
-              const isHashLink = item.href.startsWith('#');
-              const linkClass = "text-foreground/70 hover:text-foreground transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4";
-
-              // If it's a hash link on the homepage, use anchor tag for smooth scrolling
-              if (isHashLink && isHomePage) {
-                return (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    onClick={item.href === '#experience' ? handleExperienceClick : undefined}
-                    className={linkClass}
-                  >
-                    {item.label}
-                  </a>
-                );
-              }
-
-              // For regular routes, use Link
-              return (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  className={linkClass}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+            {navItemsToShow.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                className="text-foreground/70 hover:text-foreground transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4"
+              >
+                {item.label}
+              </Link>
+            ))}
             <button
               onClick={toggleTheme}
               aria-label="Toggle dark mode"

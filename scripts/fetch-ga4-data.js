@@ -55,7 +55,7 @@ async function fetchGA4Data() {
 
     console.log(`📊 Fetching GA4 data for property ${propertyId}...`);
 
-    // Fetch data for last 7 days
+    // Fetch data for last 7 days (pages + devices)
     const [response] = await analyticsDataClient.runReport({
       property: propertyId,
       dateRanges: [
@@ -74,6 +74,26 @@ async function fetchGA4Data() {
         { name: 'screenPageViews' },
         { name: 'averageSessionDuration' },
         { name: 'bounceRate' },
+      ],
+    });
+
+    // Fetch traffic sources separately (different dimension set)
+    const [trafficResponse] = await analyticsDataClient.runReport({
+      property: propertyId,
+      dateRanges: [
+        {
+          startDate: '7daysAgo',
+          endDate: 'today',
+        },
+      ],
+      dimensions: [
+        { name: 'sessionDefaultChannelGroup' },
+        { name: 'sessionSource' },
+        { name: 'sessionMedium' },
+      ],
+      metrics: [
+        { name: 'sessions' },
+        { name: 'totalUsers' },
       ],
     });
 
@@ -127,6 +147,42 @@ async function fetchGA4Data() {
       .sort((a, b) => b.pageViews - a.pageViews)
       .slice(0, 10);
 
+    // Process traffic sources
+    const channelMetrics = {};
+    const sourceMetrics = {};
+
+    trafficResponse.rows?.forEach(row => {
+      const channel = row.dimensionValues[0].value;
+      const source = row.dimensionValues[1].value;
+      const medium = row.dimensionValues[2].value;
+      const sessions = parseInt(row.metricValues[0].value || '0', 10);
+      const users = parseInt(row.metricValues[1].value || '0', 10);
+
+      // Track by channel group
+      if (!channelMetrics[channel]) {
+        channelMetrics[channel] = { sessions: 0, users: 0 };
+      }
+      channelMetrics[channel].sessions += sessions;
+      channelMetrics[channel].users += users;
+
+      // Track by source/medium
+      const sourceKey = `${source} / ${medium}`;
+      if (!sourceMetrics[sourceKey]) {
+        sourceMetrics[sourceKey] = { source, medium, sessions: 0, users: 0 };
+      }
+      sourceMetrics[sourceKey].sessions += sessions;
+      sourceMetrics[sourceKey].users += users;
+    });
+
+    // Get top channels and sources
+    const topChannels = Object.entries(channelMetrics)
+      .map(([channel, metrics]) => ({ channel, ...metrics }))
+      .sort((a, b) => b.sessions - a.sessions);
+
+    const topSources = Object.values(sourceMetrics)
+      .sort((a, b) => b.sessions - a.sessions)
+      .slice(0, 10);
+
     // Create data entry
     const dataEntry = {
       timestamp: new Date().toISOString(),
@@ -146,6 +202,10 @@ async function fetchGA4Data() {
         device,
         ...metrics,
       })),
+      trafficSources: {
+        channels: topChannels,
+        sources: topSources,
+      },
     };
 
     // Read existing history
