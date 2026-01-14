@@ -2,7 +2,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { GripVertical, Pencil } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanCard as KanbanCardType } from '@/types/kanban';
 
@@ -32,27 +32,25 @@ export function KanbanCard({ card, onEdit, isDragOverlay = false }: KanbanCardPr
       ref={setNodeRef}
       style={style}
       className={cn(
-        'p-3 bg-background border shadow-sm group',
+        'p-3 bg-background border shadow-sm cursor-grab active:cursor-grabbing touch-none group',
         isDragging && 'opacity-50',
-        isDragOverlay && 'shadow-lg rotate-3 cursor-grabbing'
+        isDragOverlay && 'shadow-lg rotate-3'
       )}
+      {...attributes}
+      {...listeners}
     >
       <div className="flex items-start gap-2">
-        <button
-          className="touch-none cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground transition-colors mt-0.5"
-          {...attributes}
-          {...listeners}
-          aria-label={`Drag ${card.title}`}
-        >
-          <GripVertical className="w-4 h-4" />
-        </button>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <p className="font-medium text-sm">{card.title}</p>
             {onEdit && (
               <button
-                onClick={() => onEdit(card)}
-                className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground transition-opacity"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit(card);
+                }}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground transition-opacity p-1 -m-1 rounded hover:bg-muted"
                 aria-label={`Edit ${card.title}`}
               >
                 <Pencil className="w-3.5 h-3.5" />
