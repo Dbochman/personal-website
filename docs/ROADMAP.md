@@ -24,7 +24,28 @@ Single source of truth for project status, priorities, and completed work.
 
 ## What's Next
 
-### Planned (Have Detailed Plans)
+### Top Priority: Plan Generation
+
+Creating detailed plans for all remaining ideas before implementation. Going one-by-one for quality.
+
+| Idea | Plan Status |
+|------|-------------|
+| Visual regression testing | ⬜ Not started |
+| Real User Monitoring (RUM) | ⬜ Not started |
+| Performance budget enforcement | ⬜ Not started |
+| Skip navigation links | ⬜ Not started |
+| ARIA live regions | ⬜ Not started |
+| Contact form | ⬜ Not started |
+| Skills visualization | ⬜ Not started |
+| Career timeline | ⬜ Not started |
+| Preview deployments | ⬜ Not started |
+| Deployment notifications | ⬜ Not started |
+| Renovate automation | ⬜ Not started |
+| View Transitions API | ⬜ Not started |
+| Container queries, :has() | ⬜ Not started |
+| Framer Motion animations | ⬜ Not started |
+
+### Existing Plans (Ready to Implement)
 
 1. **Tailwind CSS v4 Upgrade** - `docs/TAILWIND_V4_UPGRADE_PLAN.md`
    - Priority: Medium | Effort: Medium
@@ -36,7 +57,7 @@ Single source of truth for project status, priorities, and completed work.
    - Fix fragile tests, add missing coverage, optimize CI
    - Expected: ~40% faster CI, fewer false failures
 
-### Nice-to-Have (Ideas)
+### Ideas (Reference)
 
 **Analytics & Monitoring:**
 - [x] Analytics dashboard at `/analytics` (GA4, Search Console, Lighthouse charts) ✅ PR #96
