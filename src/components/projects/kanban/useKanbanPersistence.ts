@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 import type { KanbanBoard } from '@/types/kanban';
 import { defaultBoard } from '@/types/kanban';
@@ -7,7 +7,8 @@ import { defaultBoard } from '@/types/kanban';
 export function useKanbanPersistence() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const loadBoard = useMemo((): KanbanBoard => {
+  // Load board - used as lazy initializer for useState
+  const getInitialBoard = useCallback((): KanbanBoard => {
     const encoded = searchParams.get('board');
     if (encoded) {
       try {
@@ -20,7 +21,8 @@ export function useKanbanPersistence() {
       }
     }
     return { ...defaultBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
-  }, [searchParams]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // Note: searchParams intentionally excluded - only read once on mount
 
   const saveBoard = useCallback((board: KanbanBoard) => {
     const updatedBoard = { ...board, updatedAt: new Date().toISOString() };
@@ -33,7 +35,5 @@ export function useKanbanPersistence() {
     setSearchParams({}, { replace: true });
   }, [setSearchParams]);
 
-  const hasPersistedBoard = searchParams.has('board');
-
-  return { loadBoard, saveBoard, clearBoard, hasPersistedBoard };
+  return { getInitialBoard, saveBoard, clearBoard };
 }

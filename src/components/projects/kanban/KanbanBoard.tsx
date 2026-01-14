@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -23,8 +23,8 @@ import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as 
 import { generateId, defaultBoard } from '@/types/kanban';
 
 export function KanbanBoard() {
-  const { loadBoard, saveBoard, clearBoard, hasPersistedBoard } = useKanbanPersistence();
-  const [board, setBoard] = useState<BoardType>(loadBoard);
+  const { getInitialBoard, saveBoard, clearBoard } = useKanbanPersistence();
+  const [board, setBoard] = useState<BoardType>(() => getInitialBoard());
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
 
   // Card editor state
@@ -37,10 +37,15 @@ export function KanbanBoard() {
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [isAddingColumn, setIsAddingColumn] = useState(false);
 
-  // Save to URL when board changes
-  useEffect(() => {
-    saveBoard(board);
-  }, [board, saveBoard]);
+  // Wrapper that updates state and persists to URL
+  const updateBoard = useCallback((updater: (prev: BoardType) => BoardType) => {
+    setBoard((prev) => {
+      const next = updater(prev);
+      // Save asynchronously to avoid blocking
+      setTimeout(() => saveBoard(next), 0);
+      return next;
+    });
+  }, [saveBoard]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -81,7 +86,7 @@ export function KanbanBoard() {
 
     if (!activeColumn || !overColumn || activeColumn.id === overColumn.id) return;
 
-    setBoard((prev) => {
+    updateBoard((prev) => {
       const activeCards = [...activeColumn.cards];
       const overCards = activeColumn.id === overColumn.id ? activeCards : [...overColumn.cards];
 
@@ -128,7 +133,7 @@ export function KanbanBoard() {
     // Same column reordering
     const overCardInSameColumn = activeColumn.cards.find((c) => c.id === overId);
     if (overCardInSameColumn) {
-      setBoard((prev) => ({
+      updateBoard((prev) => ({
         ...prev,
         columns: prev.columns.map((col) => {
           if (col.id !== activeColumn.id) return col;
@@ -159,7 +164,7 @@ export function KanbanBoard() {
   };
 
   const handleSaveCard = (card: CardType) => {
-    setBoard((prev) => {
+    updateBoard((prev) => {
       if (addingToColumn) {
         // Adding new card
         return {
@@ -184,7 +189,7 @@ export function KanbanBoard() {
   };
 
   const handleDeleteCard = (cardId: string) => {
-    setBoard((prev) => ({
+    updateBoard((prev) => ({
       ...prev,
       columns: prev.columns.map((col) => ({
         ...col,
@@ -207,7 +212,7 @@ export function KanbanBoard() {
   };
 
   const handleSaveColumn = (title: string) => {
-    setBoard((prev) => {
+    updateBoard((prev) => {
       if (isAddingColumn) {
         return {
           ...prev,
@@ -229,7 +234,7 @@ export function KanbanBoard() {
   };
 
   const handleDeleteColumn = (columnId: string) => {
-    setBoard((prev) => ({
+    updateBoard((prev) => ({
       ...prev,
       columns: prev.columns.filter((col) => col.id !== columnId),
     }));
@@ -244,7 +249,6 @@ export function KanbanBoard() {
   const handleShare = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      // Could add a toast here
     } catch (e) {
       console.error('Failed to copy URL:', e);
     }
@@ -257,7 +261,7 @@ export function KanbanBoard() {
   return (
     <div className="space-y-4">
       {/* Toolbar */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <p className="text-sm text-muted-foreground">
           Drag cards between columns. Your board is saved in the URL.
         </p>
