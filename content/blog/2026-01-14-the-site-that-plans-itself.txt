@@ -1,92 +1,85 @@
 ---
-title: "The Site That Plans Itself"
+title: "When Your Roadmap Accepts Pull Requests"
 date: "2026-01-14"
 author: Dylan & Claude
-description: "Moving our roadmap from a markdown file into the site itself. Now the Kanban board is the source of truth, updates happen through conversation, and visitors can see what's coming next."
+description: "We moved our roadmap from a markdown file into a Kanban board on the site itself. Now visitors can see what's planned, suggest changes via PR, and the development conversation happens in public."
 tags:
   - Meta
   - Tooling
   - AI
+  - Open Source
 category: Meta
 draft: true
 ---
 
 We just merged a Kanban board into the site. That's not the interesting part—Kanban boards are commodity software. The interesting part is *what* we put on it: the roadmap for the site itself.
 
-The site now contains its own development plans.
+The site now contains its own development plans. And because the site is open source, that roadmap is open to contributions.
 
-## From ROADMAP.md to /projects/kanban
+## From Private Planning to Public Backlog
 
-Like most projects, we started with a `ROADMAP.md` file. It listed future features, rough priorities, and vague timelines. It worked fine until it didn't:
+Like most projects, we started with a `ROADMAP.md` file. It listed future features, rough priorities, and vague timelines. It worked, but it was a monologue—we planned in private, shipped in public, and the gap between "what we're thinking" and "what exists" was invisible to everyone but us.
 
-- It drifted out of sync with reality
-- Updating it felt like busywork separate from actual development
-- It wasn't visible to visitors
-- Claude (my AI collaborator) couldn't see it during our sessions without explicitly reading it
+The Kanban board changes this. Visit [/projects/kanban](/projects/kanban) and you'll see:
 
-The Kanban board solves all four problems.
-
-## How It Works
-
-The board lives at [/projects/kanban](/projects/kanban). It's a fully functional drag-and-drop board built with dnd-kit, but it ships pre-populated with the actual site roadmap:
-
-- **Backlog**: Future features with checklists derived from implementation plans
+- **Backlog**: Future features we're considering
 - **To Do**: Committed near-term work
 - **In Progress**: What's being actively developed
-- **Recently Completed**: Shipped work
+- **Recently Completed**: What just shipped
 - **Change Log**: Historical record of major changes
 
-Each card links to its detailed planning document in `docs/plans/`. Click the card, see the full implementation approach.
+Each card links to its detailed planning document. Click a card, read the implementation approach, see the effort estimate, understand the tradeoffs.
 
-## The Source of Truth Question
+## Opening a Dialogue
 
-We had to decide: is the Kanban board a view of some other canonical source, or is it *the* source?
+Here's where it gets interesting. The board data lives in `src/types/kanban.ts`. The planning documents live in `docs/plans/`. Both are just files in the repo.
 
-We chose the latter. The board data lives in `src/types/kanban.ts` as a TypeScript object called `roadmapBoard`. When I want to update the roadmap, I tell Claude what changed, and Claude updates the code directly. No sync problems because there's nothing to sync.
+This means visitors can:
 
-```
-Me: "Move ARIA Live Regions to In Progress"
-Claude: *edits kanban.ts*
-Me: "Add a subtask for testing with VoiceOver"
-Claude: *adds checklist item*
-```
+**Suggest new features.** See something missing? Open a PR adding a card to the backlog. Include a planning doc if you want to flesh out the approach.
 
-This inverts the usual relationship between documentation and code. Most projects have documentation that describes code. Here, the code *is* the documentation.
+**Comment on priorities.** Disagree with something sitting in the backlog? Open an issue explaining why it should move up (or be removed entirely). The card IDs make it easy to reference specific items.
 
-## URL Persistence for Visitors
+**Propose implementation changes.** Each card links to a plan document with verification steps, effort estimates, and technical approach. If you see a better way, the PR process is the same as any code contribution.
 
-The board state persists in the URL via lz-string compression. This means:
+**Learn from the history.** The Change Log column and card history tracking show what was built and when. Curious why a feature exists? The commit history, card history, and plan documents form a paper trail.
 
-- Visitors can drag cards around to explore "what if" scenarios
-- Their changes don't affect the canonical roadmap (that's in the codebase)
-- Shareable URLs capture specific board states
-- Reset button restores the shipped default
+This isn't hypothetical openness—it's the same workflow we use internally. When I want to update the roadmap, I tell Claude what changed, and Claude edits the TypeScript file. A visitor with a good idea follows the same path, just through GitHub's PR interface instead of conversation.
 
-The site's roadmap is read-only for visitors but fully explorable.
+## The Mechanics
 
-## Self-Reference Gets Weird
+The board is fully functional for exploration. Drag cards around, check off subtasks, see how different arrangements feel. Your changes persist in the URL via lz-string compression, so you can share specific board states.
 
-Building this feature surfaced some recursive moments:
+But visitor changes don't affect the canonical roadmap—that lives in the codebase. The "Reset" button restores the shipped default. This means the board is:
 
-- The Kanban board has a card for "Kanban Board" with a checklist tracking its own implementation
-- That card links to `docs/plans/15-kanban-page.md`, which documents the feature containing the card
-- The plan document has a section "Implemented Beyond Original Scope" that grew as we built it
-- We added a card for this blog post while writing this blog post
+- **Explorable**: Visitors can play "what if" without consequences
+- **Shareable**: URL captures board state for discussion
+- **Canonical**: Source of truth is version-controlled code
 
-At some point, tooling that documents itself stops being clever and starts being useful. We crossed that line somewhere around "add checklist for migrating roadmap plans to backlog cards."
+If you want your changes to stick, that's what PRs are for.
 
-## What We Learned
+## Self-Reference Gets Practical
 
-**Visibility changes behavior.** Making the roadmap public—even on a personal site—creates gentle pressure to keep it honest. No more "Q3 2024" entries sitting in a markdown file no one reads.
+Building this feature surfaced some recursive moments that turned out to be useful:
 
-**Conversation-driven updates work.** Telling Claude "mark the Kanban card as complete" is faster than editing a markdown file and remembering to commit it. The update happens in context, as part of the work.
+The Kanban board has a card for "Kanban Board" with a checklist tracking its own implementation. That card links to `docs/plans/15-kanban-page.md`. The plan document has a "Known Issues" section populated by code review findings. Future contributors can see not just what was built, but what's known to be imperfect.
 
-**Checklists are underrated.** Each card has subtasks derived from the implementation plan. Checking them off during development creates a visible trail of progress without separate status updates.
+We added a card for this blog post while writing this blog post. The meta-ness is silly, but the pattern is practical: if something is worth doing, it's worth tracking, and if it's worth tracking, it should be visible.
 
-**Meta-tooling compounds.** The Kanban board, the plan documents, the blog posts, and the commit history all reference each other. Future Claude sessions can understand what was built, why, and what's next without extensive context-setting.
+## What This Enables
+
+**Transparency without overhead.** The roadmap updates as part of normal development, not as a separate documentation task. When we finish a feature, we drag a card. When we start something new, we add a card. The public view stays current because it *is* the working view.
+
+**Contribution paths beyond code.** Not everyone wants to write code, but many people have opinions about what should be built. A public backlog with clear planning documents lowers the barrier to "here's what I think you should prioritize" contributions.
+
+**Context for future collaborators.** Whether that's a human contributor or an AI assistant in a future session, the combination of board state, card history, plan documents, and commit history provides rich context without requiring synchronous explanation.
+
+**Accountability through visibility.** Making the roadmap public creates gentle pressure to keep it honest. No more "Q3 2024" entries sitting in a private markdown file. If it's on the board, it's a real intention.
 
 ## Try It
 
-Visit [/projects/kanban](/projects/kanban) and drag some cards around. You'll see what's coming, what's in progress, and what recently shipped. Click a card to see its implementation details.
+Visit [/projects/kanban](/projects/kanban). Drag some cards around. Click one to see its implementation plan. Check the Change Log to see what recently shipped.
 
-Then consider: what would it mean for your project's roadmap to be part of the project itself?
+Then consider: what would it mean for your project's roadmap to be a conversation instead of an announcement?
+
+If you have ideas for this site, the backlog is open. PRs welcome.
