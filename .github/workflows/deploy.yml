@@ -53,17 +53,21 @@ jobs:
       - name: Build site
         run: npm run build
 
+      # Bundle size check uses raw (uncompressed) file sizes as a build guard.
+      # This catches accidental bloat from new dependencies or unoptimized code.
+      # Actual transfer sizes are ~70% smaller due to gzip/brotli compression.
       - name: Check bundle size budget
         run: |
           node -e "
           const fs = require('fs');
           const path = require('path');
 
-          // Budgets based on current sizes + 15% headroom to catch regressions
+          // Budgets: raw file sizes with ~15% headroom to catch regressions
+          // Transfer sizes are ~70% smaller due to gzip compression
           const BUDGETS = {
-            totalJS: 2048 * 1024,     // 2MB (current ~1.8MB)
-            totalCSS: 110 * 1024,     // 110KB (current ~94KB)
-            largestChunk: 450 * 1024, // 450KB (current ~400KB)
+            totalJS: 2048 * 1024,     // 2MB raw (current ~1.8MB)
+            totalCSS: 110 * 1024,     // 110KB raw (current ~94KB)
+            largestChunk: 450 * 1024, // 450KB raw (current ~400KB)
           };
 
           const distAssets = path.join('dist', 'assets');
