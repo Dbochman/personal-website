@@ -18,10 +18,9 @@ Enforce strict performance budgets in CI to prevent regressions. Build on existi
 
 | Asset Type | Current | Budget | Action |
 |------------|---------|--------|--------|
-| Total JS | ~180KB | 200KB | Block PR |
-| Total CSS | ~25KB | 35KB | Block PR |
-| Largest chunk | ~90KB | 100KB | Warn |
-| Vendor bundle | ~140KB | 150KB | Warn |
+| Total JS | ~1.8MB | 2MB | Block deploy |
+| Total CSS | ~94KB | 110KB | Block deploy |
+| Largest chunk | ~400KB | 450KB | Warn |
 
 ### Core Web Vitals Budget (Production)
 

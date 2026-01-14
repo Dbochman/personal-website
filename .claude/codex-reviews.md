@@ -83,3 +83,16 @@ Capturing feedback from Codex async code reviews to identify patterns and inform
   2. Changed to dedicated sr-only live region with concise "Selected: {model.name}"
   3. Moved aria-live to dedicated sr-only div with just "Loading analytics data..."
 - **Category**: accessibility | UX
+
+---
+
+### 2026-01-14 - Performance Budget Enforcement PR #103
+
+- **What it flagged**:
+  1. (Medium) Lighthouse thresholds Accessibility ≥100 and Performance ≥70 are brittle for CI - will cause false negatives on content-rich pages
+  2. (Low) Bundle budget uses raw asset sizes (pre-gzip) - should document if intended as build guard vs transfer size
+- **Agreed?**: Yes - both valid
+- **Fix applied**:
+  1. Lowered Accessibility from 100 to 95 (less brittle), added comment about CI vs local performance variance
+  2. Added YAML comments documenting raw sizes as build guard, noting ~70% smaller after gzip
+- **Category**: edge cases | architecture

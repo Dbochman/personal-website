@@ -53,6 +53,63 @@ jobs:
       - name: Build site
         run: npm run build
 
+      # Bundle size check uses raw (uncompressed) file sizes as a build guard.
+      # This catches accidental bloat from new dependencies or unoptimized code.
+      # Actual transfer sizes are ~70% smaller due to gzip/brotli compression.
+      - name: Check bundle size budget
+        run: |
+          node -e "
+          const fs = require('fs');
+          const path = require('path');
+
+          // Budgets: raw file sizes with ~15% headroom to catch regressions
+          // Transfer sizes are ~70% smaller due to gzip compression
+          const BUDGETS = {
+            totalJS: 2048 * 1024,     // 2MB raw (current ~1.8MB)
+            totalCSS: 110 * 1024,     // 110KB raw (current ~94KB)
+            largestChunk: 450 * 1024, // 450KB raw (current ~400KB)
+          };
+
+          const distAssets = path.join('dist', 'assets');
+          const files = fs.readdirSync(distAssets);
+
+          let totalJS = 0, totalCSS = 0, largestChunk = 0;
+
+          files.forEach(file => {
+            const size = fs.statSync(path.join(distAssets, file)).size;
+            if (file.endsWith('.js')) {
+              totalJS += size;
+              largestChunk = Math.max(largestChunk, size);
+            }
+            if (file.endsWith('.css')) totalCSS += size;
+          });
+
+          console.log('📦 Bundle Size Report:');
+          console.log('  JS Total:       ' + (totalJS/1024).toFixed(1) + 'KB / ' + (BUDGETS.totalJS/1024) + 'KB');
+          console.log('  CSS Total:      ' + (totalCSS/1024).toFixed(1) + 'KB / ' + (BUDGETS.totalCSS/1024) + 'KB');
+          console.log('  Largest Chunk:  ' + (largestChunk/1024).toFixed(1) + 'KB / ' + (BUDGETS.largestChunk/1024) + 'KB');
+
+          const failures = [];
+          if (totalJS > BUDGETS.totalJS) failures.push('JS budget exceeded: ' + (totalJS/1024).toFixed(1) + 'KB > ' + (BUDGETS.totalJS/1024) + 'KB');
+          if (totalCSS > BUDGETS.totalCSS) failures.push('CSS budget exceeded: ' + (totalCSS/1024).toFixed(1) + 'KB > ' + (BUDGETS.totalCSS/1024) + 'KB');
+
+          if (failures.length > 0) {
+            console.error('');
+            console.error('❌ Budget exceeded:');
+            failures.forEach(f => console.error('  - ' + f));
+            process.exit(1);
+          }
+
+          // Warnings (don't fail)
+          if (largestChunk > BUDGETS.largestChunk) {
+            console.warn('');
+            console.warn('⚠️  Warning: Largest chunk exceeds soft limit: ' + (largestChunk/1024).toFixed(1) + 'KB > ' + (BUDGETS.largestChunk/1024) + 'KB');
+          }
+
+          console.log('');
+          console.log('✅ All budgets within limits');
+          "
+
       - name: Start preview server
         run: npm run preview &
         env:

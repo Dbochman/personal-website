@@ -121,10 +121,11 @@ jobs:
             console.log(\`│ \${pageName} │ \${perf} │ \${a11y} │ \${seo} │ \${best} │\`);
 
             // Check thresholds per page
-            if (page.performance < 50) failures.push(\`\${page.page}: Performance \${page.performance} < 50\`);
+            // Note: Performance varies in CI (~70) vs local (~90+). Accessibility at 95 allows minor issues.
+            if (page.performance < 70) failures.push(\`\${page.page}: Performance \${page.performance} < 70\`);
             if (page.accessibility < 95) failures.push(\`\${page.page}: Accessibility \${page.accessibility} < 95\`);
-            if (page.seo < 90) failures.push(\`\${page.page}: SEO \${page.seo} < 90\`);
-            if (page.bestPractices < 90) failures.push(\`\${page.page}: Best Practices \${page.bestPractices} < 90\`);
+            if (page.seo < 95) failures.push(\`\${page.page}: SEO \${page.seo} < 95\`);
+            if (page.bestPractices < 95) failures.push(\`\${page.page}: Best Practices \${page.bestPractices} < 95\`);
           });
 
           console.log('└─────────────────┴──────┴──────┴─────┴───────┘\\n');
@@ -132,7 +133,7 @@ jobs:
           if (failures.length > 0) {
             console.error('❌ Lighthouse thresholds not met:\\n');
             failures.forEach(f => console.error(\`   - \${f}\`));
-            console.error('\\n📝 Thresholds: Performance ≥50, Accessibility ≥95, SEO ≥90, Best Practices ≥90');
+            console.error('\\n📝 Thresholds: Performance ≥70, Accessibility ≥95, SEO ≥95, Best Practices ≥95');
             process.exit(1);
           } else {
             console.log('✅ All pages passed Lighthouse thresholds!');
@@ -153,10 +154,10 @@ jobs:
             scoresTable += `|------|-------------|---------------|-----|----------------|\n`;
 
             summary.forEach(page => {
-              const perfStatus = page.performance >= 50 ? '✅' : '❌';
+              const perfStatus = page.performance >= 70 ? '✅' : '❌';
               const a11yStatus = page.accessibility >= 95 ? '✅' : '❌';
-              const seoStatus = page.seo >= 90 ? '✅' : '❌';
-              const bpStatus = page.bestPractices >= 90 ? '✅' : '❌';
+              const seoStatus = page.seo >= 95 ? '✅' : '❌';
+              const bpStatus = page.bestPractices >= 95 ? '✅' : '❌';
 
               scoresTable += `| ${page.page} | ${page.performance} ${perfStatus} | ${page.accessibility} ${a11yStatus} | ${page.seo} ${seoStatus} | ${page.bestPractices} ${bpStatus} |\n`;
             });
@@ -177,9 +178,7 @@ jobs:
             ### Scores by Page
             ${scoresTable}
 
-            **Thresholds:** Performance ≥50 (CI), Accessibility ≥95, SEO ≥90, Best Practices ≥90
-
-            > **Note:** Performance threshold is 50 for CI environment due to high variability. Local tests achieve 70-99 scores depending on page complexity.
+            **Thresholds:** Performance ≥70, Accessibility ≥95, SEO ≥95, Best Practices ≥95
 
             ### Core Web Vitals
             ${vitalsTable}
