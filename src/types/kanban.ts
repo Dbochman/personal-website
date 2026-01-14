@@ -225,19 +225,6 @@ export const roadmapBoard: KanbanBoard = {
           createdAt: '2026-01-13',
         },
         {
-          id: 'card-colors',
-          title: 'Card Colors',
-          description: 'Color customization for individual cards, same pattern as column colors.',
-          labels: ['Small', 'UX'],
-          checklist: [
-            { id: 'cc-1', text: 'Add CardColor type and CARD_COLORS constant', completed: false },
-            { id: 'cc-2', text: 'Add color property to KanbanCard interface', completed: false },
-            { id: 'cc-3', text: 'Apply color styling in KanbanCard component', completed: false },
-            { id: 'cc-4', text: 'Add color picker to CardEditorModal', completed: false },
-          ],
-          createdAt: '2026-01-14',
-        },
-        {
           id: 'house-projects',
           title: 'House Projects Board',
           description: 'New unlisted route /projects/house with blank kanban board in its own directory.',
@@ -294,6 +281,24 @@ export const roadmapBoard: KanbanBoard = {
       id: 'recently-completed',
       title: 'Recently Completed',
       cards: [
+        {
+          id: 'card-colors',
+          title: 'Card Colors',
+          description: 'Color customization for individual cards, same pattern as column colors.',
+          labels: ['Small', 'UX', 'PR #107'],
+          checklist: [
+            { id: 'cc-1', text: 'Add CardColor type and CARD_COLORS constant', completed: true },
+            { id: 'cc-2', text: 'Add color property to KanbanCard interface', completed: true },
+            { id: 'cc-3', text: 'Apply color styling in KanbanCard component', completed: true },
+            { id: 'cc-4', text: 'Add color picker to CardEditorModal', completed: true },
+          ],
+          history: [
+            { type: 'column', timestamp: '2026-01-14T12:00:00.000Z', columnId: 'backlog', columnTitle: 'Backlog' },
+            { type: 'column', timestamp: '2026-01-14T19:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
+            { type: 'column', timestamp: '2026-01-14T19:30:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+          ],
+          createdAt: '2026-01-14',
+        },
         {
           id: 'perf-budget',
           title: 'Performance Budget Enforcement',
