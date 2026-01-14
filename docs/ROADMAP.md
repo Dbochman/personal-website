@@ -46,12 +46,10 @@ Single source of truth for project status, priorities, and completed work.
 
 **Accessibility:**
 - [ ] Skip navigation links
-- [ ] Screen reader testing (NVDA, JAWS)
 - [ ] ARIA live regions for dynamic content
 
 **Content Features:**
 - [ ] Contact form with validation
-- [ ] Downloadable resume (PDF)
 - [ ] Skills visualization
 - [ ] Career timeline
 
