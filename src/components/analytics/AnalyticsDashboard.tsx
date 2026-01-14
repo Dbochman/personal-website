@@ -11,7 +11,7 @@ import { LighthouseHistoryChart } from './charts/LighthouseHistoryChart';
 import { SearchPerformanceChart } from './charts/SearchPerformanceChart';
 
 export function AnalyticsDashboard() {
-  const { latest, ga4History, searchHistory, lighthouseSummary, isLoading, error } = useAnalyticsData();
+  const { latest, ga4History, searchHistory, lighthouseSummary, isLoading, error, warning } = useAnalyticsData();
 
   if (isLoading) {
     return (
@@ -47,8 +47,8 @@ export function AnalyticsDashboard() {
   const latestGA4 = ga4History[ga4History.length - 1];
   const previousGA4 = ga4History[ga4History.length - 2];
 
-  // Calculate session trend
-  const sessionTrend = latestGA4 && previousGA4
+  // Calculate session trend (guard against divide-by-zero)
+  const sessionTrend = latestGA4 && previousGA4 && previousGA4.summary.sessions > 0
     ? ((latestGA4.summary.sessions - previousGA4.summary.sessions) / previousGA4.summary.sessions) * 100
     : undefined;
 
@@ -62,6 +62,15 @@ export function AnalyticsDashboard() {
 
   return (
     <div className="space-y-6">
+      {/* Warning for missing data */}
+      {warning && (
+        <Card className="border-yellow-500/50 bg-yellow-500/10">
+          <CardContent className="pt-6">
+            <p className="text-sm text-yellow-700 dark:text-yellow-400">{warning}</p>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Last updated */}
       {latest?.generated && (
         <p className="text-sm text-muted-foreground">

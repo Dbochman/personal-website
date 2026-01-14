@@ -95,4 +95,5 @@ export interface AnalyticsData {
   lighthouseSummary: LighthousePageScore[];
   isLoading: boolean;
   error: string | null;
+  warning: string | null;
 }
