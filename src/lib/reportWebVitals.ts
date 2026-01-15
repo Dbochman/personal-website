@@ -12,11 +12,12 @@ export function reportWebVitals() {
     return;
   }
 
-  const sendToGoogleAnalytics = ({ name, delta, value, id }: {
+  const sendToGoogleAnalytics = ({ name, delta, value, id, rating }: {
     name: string;
     delta: number;
     value: number;
     id: string;
+    rating: 'good' | 'needs-improvement' | 'poor';
   }) => {
     // Send the metric to Google Analytics as an event
     window.gtag('event', name, {
@@ -28,6 +29,7 @@ export function reportWebVitals() {
       metric_id: id,
       metric_value: value,
       metric_delta: delta,
+      metric_rating: rating,
     });
   };
 
