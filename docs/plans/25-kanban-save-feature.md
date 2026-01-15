@@ -4,7 +4,11 @@
 
 Add a "Save Changes" button to the Kanban board that commits the current board state back to GitHub. Uses a Cloudflare Worker as a secure proxy to trigger a GitHub Action, keeping all sensitive tokens server-side.
 
+**Current Status**: Initial implementation complete (PR #127) using shared secret. Security review recommended GitHub OAuth for proper authentication.
+
 ## Architecture
+
+### Current (Shared Secret) - ⚠️ To Be Replaced
 
 ```
 ┌─────────────┐     ┌────────────────────┐     ┌─────────────────┐     ┌────────────┐
@@ -12,15 +16,32 @@ Add a "Save Changes" button to the Kanban board that commits the current board s
 │ (Save btn)  │     │ (validates secret) │     │ (writes file)   │     │ (to main)  │
 └─────────────┘     └────────────────────┘     └─────────────────┘     └────────────┘
        │                     │                         │
-       │                     │                         │
    SAVE_SECRET          GITHUB_PAT              GITHUB_TOKEN
-   (safe to expose)     (server-side)           (built-in)
+   (client-exposed)     (server-side)           (built-in)
+```
+
+**Issues:**
+- `SAVE_SECRET` is exposed in client-side JavaScript
+- Anyone can extract it and trigger saves
+- Mitigations (boardId whitelist, version check) reduce risk but don't eliminate it
+
+### Target (GitHub OAuth) - ✅ Proper Authentication
+
+```
+┌─────────────┐     ┌────────────────────┐     ┌─────────────────┐     ┌────────────┐
+│   Browser   │────▶│ Cloudflare Worker  │────▶│ GitHub Actions  │────▶│   Commit   │
+│ (OAuth'd)   │     │ (validates token)  │     │ (writes file)   │     │ (to main)  │
+└─────────────┘     └────────────────────┘     └─────────────────┘     └────────────┘
+       │                     │                         │
+   Session cookie     KV session store          GITHUB_TOKEN
+   (httpOnly)         + GitHub API check        (built-in)
 ```
 
 **Security model:**
-- Browser only knows `SAVE_SECRET` (a random string, safe to expose)
-- `GITHUB_PAT` stays in Cloudflare Worker environment (never in browser)
-- GitHub Action uses built-in `GITHUB_TOKEN` for commits
+- User authenticates via GitHub OAuth
+- Session stored in Cloudflare KV (cookie references session ID)
+- Worker verifies user is repo collaborator before allowing save
+- No secrets exposed to browser
 
 ## Implementation Phases
 
@@ -243,6 +264,389 @@ wrangler secret put GITHUB_PAT    # Fine-grained PAT with repo scope
 wrangler secret put SAVE_SECRET   # Same random string as VITE_KANBAN_SAVE_SECRET
 ```
 
+---
+
+## GitHub OAuth Implementation (Phase 6)
+
+This phase replaces the shared secret authentication with proper GitHub OAuth.
+
+### 6.1: Create GitHub OAuth App
+
+1. Go to **GitHub Settings** → **Developer settings** → **OAuth Apps** → **New OAuth App**
+2. Fill in:
+   - **Application name**: `Dylan's Kanban Save`
+   - **Homepage URL**: `https://dylanbochman.com`
+   - **Authorization callback URL**: `https://kanban-save-worker.dbochman.workers.dev/auth/callback`
+3. After creation, note the **Client ID**
+4. Generate a **Client Secret**
+
+### 6.2: Add Cloudflare KV Namespace
+
+```bash
+# Create KV namespace for session storage
+wrangler kv:namespace create "SESSIONS"
+
+# Output will show the binding ID, add to wrangler.toml:
+# [[kv_namespaces]]
+# binding = "SESSIONS"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+```
+
+### 6.3: Add OAuth Secrets to Worker
+
+```bash
+cd kanban-save-worker
+wrangler secret put GITHUB_CLIENT_ID
+wrangler secret put GITHUB_CLIENT_SECRET
+```
+
+### 6.4: Update Worker Code
+
+**Updated `kanban-save-worker/src/index.ts`:**
+
+```typescript
+export interface Env {
+  GITHUB_PAT: string;
+  GITHUB_CLIENT_ID: string;
+  GITHUB_CLIENT_SECRET: string;
+  SESSIONS: KVNamespace;
+}
+
+interface Session {
+  githubUsername: string;
+  accessToken: string;
+  createdAt: number;
+}
+
+const REPO_OWNER = 'Dbochman';
+const REPO_NAME = 'personal-website';
+const SESSION_TTL = 60 * 60 * 24 * 7; // 7 days
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': 'https://dylanbochman.com',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Credentials': 'true',
+};
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url);
+
+    // CORS preflight
+    if (request.method === 'OPTIONS') {
+      return new Response(null, { headers: corsHeaders });
+    }
+
+    // OAuth routes
+    if (url.pathname === '/auth/login') {
+      return handleLogin(env);
+    }
+    if (url.pathname === '/auth/callback') {
+      return handleCallback(request, env);
+    }
+    if (url.pathname === '/auth/status') {
+      return handleStatus(request, env);
+    }
+    if (url.pathname === '/auth/logout') {
+      return handleLogout(request, env);
+    }
+
+    // Save route (requires auth)
+    if (request.method === 'POST' && url.pathname === '/save') {
+      return handleSave(request, env);
+    }
+
+    return new Response('Not found', { status: 404, headers: corsHeaders });
+  },
+};
+
+function handleLogin(env: Env): Response {
+  const state = crypto.randomUUID();
+  const authUrl = new URL('https://github.com/login/oauth/authorize');
+  authUrl.searchParams.set('client_id', env.GITHUB_CLIENT_ID);
+  authUrl.searchParams.set('redirect_uri',
+    'https://kanban-save-worker.dbochman.workers.dev/auth/callback');
+  authUrl.searchParams.set('scope', 'read:user');
+  authUrl.searchParams.set('state', state);
+
+  return new Response(null, {
+    status: 302,
+    headers: {
+      'Location': authUrl.toString(),
+      'Set-Cookie': `oauth_state=${state}; HttpOnly; Secure; SameSite=Lax; Max-Age=600`,
+    },
+  });
+}
+
+async function handleCallback(request: Request, env: Env): Promise<Response> {
+  const url = new URL(request.url);
+  const code = url.searchParams.get('code');
+  const state = url.searchParams.get('state');
+
+  // Verify state matches cookie
+  const cookies = parseCookies(request.headers.get('Cookie') || '');
+  if (state !== cookies.oauth_state) {
+    return redirectWithError('State mismatch');
+  }
+
+  // Exchange code for access token
+  const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      client_id: env.GITHUB_CLIENT_ID,
+      client_secret: env.GITHUB_CLIENT_SECRET,
+      code,
+    }),
+  });
+
+  const tokenData = await tokenResponse.json() as { access_token?: string; error?: string };
+  if (!tokenData.access_token) {
+    return redirectWithError('Token exchange failed');
+  }
+
+  // Get GitHub username
+  const userResponse = await fetch('https://api.github.com/user', {
+    headers: {
+      'Authorization': `Bearer ${tokenData.access_token}`,
+      'User-Agent': 'kanban-save-worker',
+    },
+  });
+  const userData = await userResponse.json() as { login: string };
+
+  // Check if user is a collaborator on the repo
+  const collabResponse = await fetch(
+    `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/collaborators/${userData.login}`,
+    {
+      headers: {
+        'Authorization': `Bearer ${env.GITHUB_PAT}`,
+        'User-Agent': 'kanban-save-worker',
+      },
+    }
+  );
+
+  if (collabResponse.status !== 204) {
+    return redirectWithError('Not a collaborator');
+  }
+
+  // Create session
+  const sessionId = crypto.randomUUID();
+  const session: Session = {
+    githubUsername: userData.login,
+    accessToken: tokenData.access_token,
+    createdAt: Date.now(),
+  };
+
+  await env.SESSIONS.put(sessionId, JSON.stringify(session), {
+    expirationTtl: SESSION_TTL,
+  });
+
+  // Redirect back to kanban with session cookie
+  return new Response(null, {
+    status: 302,
+    headers: {
+      'Location': 'https://dylanbochman.com/roadmap',
+      'Set-Cookie': `session=${sessionId}; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_TTL}; Path=/`,
+    },
+  });
+}
+
+async function handleStatus(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+
+  return new Response(
+    JSON.stringify({
+      authenticated: !!session,
+      username: session?.githubUsername || null,
+    }),
+    {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    }
+  );
+}
+
+async function handleLogout(request: Request, env: Env): Promise<Response> {
+  const cookies = parseCookies(request.headers.get('Cookie') || '');
+  if (cookies.session) {
+    await env.SESSIONS.delete(cookies.session);
+  }
+
+  return new Response(JSON.stringify({ success: true }), {
+    headers: {
+      ...corsHeaders,
+      'Content-Type': 'application/json',
+      'Set-Cookie': 'session=; HttpOnly; Secure; SameSite=Lax; Max-Age=0; Path=/',
+    },
+  });
+}
+
+async function handleSave(request: Request, env: Env): Promise<Response> {
+  const session = await getSession(request, env);
+  if (!session) {
+    return new Response(JSON.stringify({ error: 'Not authenticated' }), {
+      status: 401,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
+  const { board, boardId } = await request.json() as { board: unknown; boardId: string };
+
+  // Trigger GitHub Action
+  const response = await fetch(
+    `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`,
+    {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${env.GITHUB_PAT}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'kanban-save-worker',
+      },
+      body: JSON.stringify({
+        event_type: 'save-kanban',
+        client_payload: { board, boardId, savedBy: session.githubUsername },
+      }),
+    }
+  );
+
+  if (response.ok) {
+    return new Response(JSON.stringify({ success: true }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
+  return new Response(JSON.stringify({ error: 'GitHub API error' }), {
+    status: 502,
+    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+  });
+}
+
+// Helper functions
+async function getSession(request: Request, env: Env): Promise<Session | null> {
+  const cookies = parseCookies(request.headers.get('Cookie') || '');
+  if (!cookies.session) return null;
+
+  const sessionData = await env.SESSIONS.get(cookies.session);
+  if (!sessionData) return null;
+
+  return JSON.parse(sessionData) as Session;
+}
+
+function parseCookies(cookieHeader: string): Record<string, string> {
+  return Object.fromEntries(
+    cookieHeader.split(';').map(c => {
+      const [key, ...val] = c.trim().split('=');
+      return [key, val.join('=')];
+    })
+  );
+}
+
+function redirectWithError(error: string): Response {
+  const url = new URL('https://dylanbochman.com/roadmap');
+  url.searchParams.set('auth_error', error);
+  return new Response(null, { status: 302, headers: { 'Location': url.toString() } });
+}
+```
+
+### 6.5: Update Frontend
+
+**Update `KanbanBoard.tsx`:**
+
+```typescript
+// Remove SAVE_SECRET - no longer needed
+const WORKER_URL = 'https://kanban-save-worker.dbochman.workers.dev';
+
+interface AuthStatus {
+  authenticated: boolean;
+  username: string | null;
+}
+
+// In component:
+const [auth, setAuth] = useState<AuthStatus>({ authenticated: false, username: null });
+
+// Check auth status on mount
+useEffect(() => {
+  fetch(`${WORKER_URL}/auth/status`, { credentials: 'include' })
+    .then(res => res.json())
+    .then(setAuth)
+    .catch(() => setAuth({ authenticated: false, username: null }));
+}, []);
+
+const handleLogin = () => {
+  window.location.href = `${WORKER_URL}/auth/login`;
+};
+
+const handleLogout = async () => {
+  await fetch(`${WORKER_URL}/auth/logout`, {
+    method: 'POST',
+    credentials: 'include'
+  });
+  setAuth({ authenticated: false, username: null });
+};
+
+const handleSaveToGitHub = async () => {
+  if (!auth.authenticated) return;
+
+  setIsSaving(true);
+  try {
+    const response = await fetch(`${WORKER_URL}/save`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        board: { ...board, updatedAt: new Date().toISOString() },
+        boardId,
+      }),
+    });
+
+    if (response.ok) {
+      setIsDirty(false);
+      setSaveSuccess(true);
+    }
+  } finally {
+    setIsSaving(false);
+  }
+};
+
+// In JSX toolbar:
+{auth.authenticated ? (
+  <>
+    <span className="text-sm text-muted-foreground">
+      Logged in as {auth.username}
+    </span>
+    <Button variant="outline" size="sm" onClick={handleLogout}>
+      Logout
+    </Button>
+    <Button
+      variant={isDirty ? 'default' : 'outline'}
+      size="sm"
+      onClick={handleSaveToGitHub}
+      disabled={isSaving || !isDirty}
+    >
+      {isSaving ? <Loader2 className="w-4 h-4 mr-1 animate-spin" /> : <Save className="w-4 h-4 mr-1" />}
+      {isSaving ? 'Saving...' : 'Save'}
+    </Button>
+  </>
+) : (
+  <Button variant="outline" size="sm" onClick={handleLogin}>
+    <Github className="w-4 h-4 mr-1" />
+    Login to Save
+  </Button>
+)}
+```
+
+### 6.6: Cleanup
+
+1. Remove `VITE_KANBAN_SAVE_SECRET` from `.env`
+2. Remove `SAVE_SECRET` from Cloudflare Worker secrets
+3. Remove `X-Save-Secret` header handling from worker
+
+---
+
 ## Checklist
 
 ### Phase 1: JSON Migration
@@ -281,14 +685,44 @@ wrangler secret put SAVE_SECRET   # Same random string as VITE_KANBAN_SAVE_SECRE
 - [ ] Add to `.env.example`
 - [ ] Document in OPERATIONS_MANUAL.md
 
+### Phase 6: GitHub OAuth (Security Enhancement)
+- [ ] Create GitHub OAuth App in Developer Settings
+- [ ] Create Cloudflare KV namespace for sessions
+- [ ] Add `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` to worker
+- [ ] Update worker code with OAuth endpoints (`/auth/login`, `/auth/callback`, `/auth/status`, `/auth/logout`)
+- [ ] Add collaborator check in callback handler
+- [ ] Update KanbanBoard.tsx with auth state and login UI
+- [ ] Remove `VITE_KANBAN_SAVE_SECRET` from `.env`
+- [ ] Remove `SAVE_SECRET` from worker secrets
+- [ ] Test full OAuth flow end-to-end
+- [ ] Verify non-collaborators are rejected
+
 ## Security Considerations
+
+### Current Implementation (Shared Secret)
 
 | Concern | Mitigation |
 |---------|------------|
 | Token exposure | PAT stored only in Cloudflare Worker env |
 | Unauthorized saves | SAVE_SECRET required (can be rotated) |
+| Path traversal | boardId whitelist in GitHub Action |
+| Race conditions | updatedAt timestamp comparison |
 | CORS attacks | Worker only accepts requests from dylanbochman.com |
 | Injection attacks | JSON validated by GitHub Action with `jq` |
+
+**⚠️ Known weakness**: SAVE_SECRET is exposed in client-side JavaScript. Anyone can extract it and trigger saves. Mitigations reduce impact but don't eliminate risk.
+
+### Target Implementation (GitHub OAuth)
+
+| Concern | Mitigation |
+|---------|------------|
+| Token exposure | All tokens server-side (PAT, OAuth secrets, session tokens) |
+| Unauthorized saves | GitHub OAuth + collaborator check |
+| Session hijacking | HttpOnly cookies, Secure flag, SameSite=Lax |
+| CSRF | OAuth state parameter validation |
+| Path traversal | boardId whitelist in GitHub Action |
+| Race conditions | updatedAt timestamp comparison |
+| Session expiry | 7-day TTL in Cloudflare KV |
 
 ## Cost
 

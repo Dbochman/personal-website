@@ -16,7 +16,7 @@
         {
           "id": "kanban-save",
           "title": "Kanban Board Save Feature",
-          "description": "Add \"Save Changes\" button that commits board state to GitHub via Cloudflare Worker proxy and GitHub Actions.",
+          "description": "Add \"Save Changes\" button that commits board state to GitHub via Cloudflare Worker proxy and GitHub Actions. Phase 6 adds GitHub OAuth for proper authentication.",
           "labels": [
             "Medium",
             "Feature"
@@ -51,6 +51,31 @@
             {
               "id": "ks-6",
               "text": "Add unsaved changes warning on page leave",
+              "completed": false
+            },
+            {
+              "id": "ks-7",
+              "text": "Phase 6: Create GitHub OAuth App",
+              "completed": false
+            },
+            {
+              "id": "ks-8",
+              "text": "Phase 6: Add Cloudflare KV namespace for sessions",
+              "completed": false
+            },
+            {
+              "id": "ks-9",
+              "text": "Phase 6: Update worker with OAuth endpoints",
+              "completed": false
+            },
+            {
+              "id": "ks-10",
+              "text": "Phase 6: Update frontend with login UI",
+              "completed": false
+            },
+            {
+              "id": "ks-11",
+              "text": "Phase 6: Remove SAVE_SECRET, test OAuth flow",
               "completed": false
             }
           ],
