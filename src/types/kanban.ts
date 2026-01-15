@@ -231,19 +231,6 @@ export const roadmapBoard: KanbanBoard = {
       title: 'To Do',
       cards: [
         {
-          id: 'deploy-notifications',
-          title: 'Deployment Notifications',
-          description: 'Email notifications for deploy success/failure via GitHub Actions + dawidd6/action-send-mail.',
-          labels: ['Small', 'Infrastructure'],
-          planFile: 'docs/plans/03-deployment-notifications.md',
-          checklist: [
-            { id: 'dn-1', text: 'Set up Gmail App Password and repo secrets', completed: false },
-            { id: 'dn-2', text: 'Add notification job to deploy.yml', completed: false },
-            { id: 'dn-3', text: 'Test success and failure notifications', completed: false },
-          ],
-          createdAt: '2026-01-13',
-        },
-        {
           id: 'renovate',
           title: 'Renovate Automation',
           description: 'Automated dependency updates with grouping (React, Radix, Testing, etc.) and auto-merge for safe patches.',
@@ -268,6 +255,22 @@ export const roadmapBoard: KanbanBoard = {
       id: 'recently-completed',
       title: 'Recently Completed',
       cards: [
+        {
+          id: 'deploy-notifications',
+          title: 'Deployment Notifications',
+          description: 'GitHub built-in workflow notifications (Option B). No custom code needed.',
+          labels: ['Small', 'Infrastructure'],
+          planFile: 'docs/plans/03-deployment-notifications.md',
+          checklist: [
+            { id: 'dn-1', text: 'Enable workflow notifications in repo settings', completed: true },
+            { id: 'dn-2', text: 'Configure personal GitHub notification preferences', completed: true },
+          ],
+          history: [
+            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+            { type: 'column', timestamp: '2026-01-14T22:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+          ],
+          createdAt: '2026-01-13',
+        },
         {
           id: 'card-colors',
           title: 'Card Colors',
