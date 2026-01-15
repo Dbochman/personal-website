@@ -135,21 +135,6 @@ export const roadmapBoard: KanbanBoard = {
           createdAt: '2026-01-13',
         },
         {
-          id: 'skills-viz',
-          title: 'Skills Visualization',
-          description: 'Interactive filterable skills grid by category (Languages, Frameworks, Infrastructure, etc.) with proficiency levels.',
-          labels: ['Small-Medium', 'Content'],
-          planFile: 'docs/plans/13-skills-visualization.md',
-          checklist: [
-            { id: 'sv-1', text: 'Create skills data structure with categories and proficiency', completed: false },
-            { id: 'sv-2', text: 'Build SkillsGrid component with filtering', completed: false },
-            { id: 'sv-3', text: 'Add proficiency indicators (expert/proficient/familiar)', completed: false },
-            { id: 'sv-4', text: 'Create SkillsSection for homepage', completed: false },
-            { id: 'sv-5', text: 'Optional: Add radar chart with Recharts', completed: false },
-          ],
-          createdAt: '2026-01-13',
-        },
-        {
           id: 'contact-form',
           title: 'Contact Form',
           description: 'Contact form using Formspree (50 submissions/month free). Includes validation, spam protection, and accessibility.',
