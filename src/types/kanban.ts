@@ -229,22 +229,7 @@ export const roadmapBoard: KanbanBoard = {
     {
       id: 'todo',
       title: 'To Do',
-      cards: [
-        {
-          id: 'renovate',
-          title: 'Renovate Automation',
-          description: 'Automated dependency updates with grouping (React, Radix, Testing, etc.) and auto-merge for safe patches.',
-          labels: ['Small', 'Infrastructure'],
-          planFile: 'docs/plans/07-renovate-automation.md',
-          checklist: [
-            { id: 'rv-1', text: 'Create renovate.json with base config', completed: false },
-            { id: 'rv-2', text: 'Configure package grouping rules', completed: false },
-            { id: 'rv-3', text: 'Set up auto-merge for patch updates', completed: false },
-            { id: 'rv-4', text: 'Install Renovate GitHub app', completed: false },
-          ],
-          createdAt: '2026-01-13',
-        },
-      ],
+      cards: [],
     },
     {
       id: 'in-progress',
@@ -410,6 +395,7 @@ export const roadmapBoard: KanbanBoard = {
       id: 'changelog',
       title: 'Change Log',
       cards: [
+        { id: 'renovate-wontdo', title: 'Renovate Automation', description: 'Decided against: overhead not justified for actively-maintained personal project. Manual npm update works fine.', labels: ["Won't Do"], createdAt: '2026-01-14' },
         { id: 'jan-13', title: 'Jan 13: Analytics & Accessibility', description: 'Analytics Dashboard, On-Call Coverage Explorer, Skip Navigation, Footer/Nav cleanup', labels: ['PR #94', 'PR #96'], createdAt: '2026-01-13' },
         { id: 'jan-12', title: 'Jan 12: Projects Page Launch', description: 'SLO Calculator, Status Page Generator, registry pattern', labels: ['PR #88-92'], createdAt: '2026-01-12' },
         { id: 'jan-11', title: 'Jan 11: MDX Precompilation', description: 'Blog LCP 5.6s → 3.1s (45% faster)', labels: ['PR #84', 'Performance'], createdAt: '2026-01-11' },

@@ -1,5 +1,15 @@
 # Renovate Automation Plan
 
+> **Status: Won't Do (Jan 2026)**
+>
+> Decided against implementing. The overhead isn't justified for an actively-maintained personal project:
+> - No production users depending on uptime
+> - Active development means issues are noticed quickly
+> - Manual `npm update` works fine for this scale
+> - Adds infrastructure complexity without clear benefit
+>
+> Renovate is better suited for projects that sit idle for months, team projects where no one owns updates, or apps with security-sensitive dependencies.
+
 ## Overview
 
 Set up Renovate for automated dependency updates. Reduces manual maintenance, improves security posture, and keeps dependencies current.
