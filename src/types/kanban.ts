@@ -135,21 +135,6 @@ export const roadmapBoard: KanbanBoard = {
           createdAt: '2026-01-13',
         },
         {
-          id: 'contact-form',
-          title: 'Contact Form',
-          description: 'Contact form using Formspree (50 submissions/month free). Includes validation, spam protection, and accessibility.',
-          labels: ['Small-Medium', 'Content'],
-          planFile: 'docs/plans/12-contact-form.md',
-          checklist: [
-            { id: 'cf-1', text: 'Set up Formspree account and create form', completed: false },
-            { id: 'cf-2', text: 'Create Contact page with form UI', completed: false },
-            { id: 'cf-3', text: 'Add form validation with react-hook-form + zod', completed: false },
-            { id: 'cf-4', text: 'Add honeypot spam protection', completed: false },
-            { id: 'cf-5', text: 'Add accessibility (ARIA live regions, error states)', completed: false },
-          ],
-          createdAt: '2026-01-13',
-        },
-        {
           id: 'visual-regression',
           title: 'Visual Regression Testing',
           description: 'Playwright screenshot tests comparing against baselines. Catches unintended UI changes in CI.',
