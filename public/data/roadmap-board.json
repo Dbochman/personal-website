@@ -266,6 +266,12 @@
       "title": "In Progress"
     },
     {
+      "cards": [],
+      "color": "pink",
+      "id": "in-review",
+      "title": "In Review"
+    },
+    {
       "cards": [
         {
           "createdAt": "2026-01-15",
@@ -276,6 +282,96 @@
               "columnTitle": "In Review",
               "timestamp": "2026-01-15T22:29:58.815Z",
               "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-15T22:47:26.888Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-15T22:47:26.902Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-15T22:47:26.925Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-15T22:47:26.952Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-15T22:47:26.974Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-15T22:47:27.002Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-15T22:47:27.019Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-15T22:47:27.040Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-15T22:47:27.061Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-15T22:47:27.083Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-15T22:47:27.103Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-15T22:47:27.125Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-15T22:47:27.143Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-15T22:47:27.168Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-15T22:47:27.184Z",
+              "type": "column"
             }
           ],
           "id": "pr-127",
@@ -284,15 +380,8 @@
             "Feature"
           ],
           "title": "Kanban Board Save Feature",
-          "updatedAt": "2026-01-15T22:29:58.815Z"
-        }
-      ],
-      "color": "pink",
-      "id": "in-review",
-      "title": "In Review"
-    },
-    {
-      "cards": [
+          "updatedAt": "2026-01-15T22:47:27.184Z"
+        },
         {
           "createdAt": "2026-01-15",
           "description": "Stagger animations for grids, scroll reveals, tab transitions, mobile nav stagger. Respects prefers-reduced-motion.",
@@ -404,8 +493,8 @@
       "title": "Change Log"
     }
   ],
-  "createdAt": "2026-01-15T22:29:46.093Z",
+  "createdAt": "2026-01-15T22:46:48.924Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-15T22:30:02.122Z"
+  "updatedAt": "2026-01-15T22:47:29.229Z"
 }
