@@ -77,7 +77,15 @@ export const roadmapBoard: KanbanBoard = {
       id: 'ideas',
       title: 'Ideas',
       description: 'Concepts without detailed plans yet',
-      cards: [],
+      cards: [
+        {
+          id: 'analytics-dedupe',
+          title: 'Analytics Data Deduplication',
+          description: 'Ensure only one data point per date is rendered in analytics charts. Currently may show duplicate entries for the same day.',
+          labels: ['Small', 'Bug Fix'],
+          createdAt: '2026-01-15',
+        },
+      ],
     },
     {
       id: 'todo',
