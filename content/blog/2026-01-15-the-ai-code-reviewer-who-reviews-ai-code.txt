@@ -1,0 +1,171 @@
+---
+title: "The AI Code Reviewer Who Reviews AI Code"
+date: "2026-01-15"
+author: Dylan
+description: "Using OpenAI's Codex as an automated code reviewer for changes written by Claude. The meta layers are getting deep."
+tags:
+  - AI
+  - Code Review
+  - Development Process
+category: Technical
+draft: false
+---
+
+I've been building this site with Claude Code as my pair programmer. Claude writes most of the code. I review it, test it, and guide the direction. It's been remarkably productive.
+
+But I noticed a gap in the process.
+
+When you're the only human reviewer, and your AI assistant wrote the code, you're reviewing from a position of trust. Claude explained what it did. The explanation sounds reasonable. The code looks right. You move on.
+
+This is how bugs slip through.
+
+## Enter Codex
+
+OpenAI's Codex is a code review agent. You point it at a PR or a set of changes, and it reviews them—looking for bugs, security issues, style problems, and edge cases you might have missed.
+
+I started using it as a second opinion on Claude's work.
+
+The workflow is simple: Claude makes changes, I do an initial review, then I queue a Codex review before merging. If Codex finds something, we fix it. If it doesn't, we merge with more confidence.
+
+What I didn't expect was how often Codex would catch things that both Claude and I missed.
+
+## Real Examples
+
+Here are actual findings from the past few sessions.
+
+### The Modifier Key Bug
+
+Claude implemented a `TransitionLink` component for smooth page transitions using the View Transitions API. The code looked clean:
+
+```typescript
+function handleClick(e: MouseEvent<HTMLAnchorElement>) {
+  e.preventDefault();
+  // ... transition logic
+}
+```
+
+Codex flagged it:
+
+> The click handler calls `preventDefault()` unconditionally. This breaks standard browser behavior for modifier key clicks (Cmd+click to open in new tab, Ctrl+click, middle-click, etc.).
+
+It was right. The fix was to check for modifier keys before preventing default:
+
+```typescript
+function shouldUseDefaultBehavior(e: MouseEvent<HTMLAnchorElement>): boolean {
+  return (
+    e.button !== 0 ||      // Not left click
+    e.metaKey ||           // Cmd+click (Mac)
+    e.ctrlKey ||           // Ctrl+click
+    e.shiftKey ||          // Shift+click
+    e.altKey               // Alt+click
+  );
+}
+```
+
+This is exactly the kind of bug that's easy to write, easy to miss in review, and annoying to discover later when you're trying to open a link in a new tab and nothing happens.
+
+### The Wrong Units
+
+Claude added Real User Monitoring data export from GA4. The code collected Web Vitals metrics and stored them with units:
+
+```javascript
+webVitals[metricName] = {
+  count: eventCount,
+  average: totalValue / eventCount,
+  unit: metricName === 'CLS' ? '' : 's'  // seconds
+};
+```
+
+Codex caught it:
+
+> LCP and FCP values from web-vitals are reported in milliseconds, not seconds. The unit should be 'ms'.
+
+Small error, but it would have made the dashboard display nonsense values. A 329ms LCP would show as "0.33s" instead of "329ms", which is technically correct but inconsistent with how these metrics are typically reported.
+
+### The Stale Data Problem
+
+The GA4 export script updated `latest.json` with web vitals data when available. But what happens when there's no new data?
+
+Codex:
+
+> If no Web Vitals events are found, the script doesn't clear the previous `webVitals` field in `latest.json`. This could show stale data from a previous run.
+
+The fix was a single line:
+
+```javascript
+if (Object.keys(webVitals).length === 0) {
+  delete summary.webVitals;
+}
+```
+
+None of these bugs would have caused the site to crash. They're subtle correctness issues—the kind that accumulate into a vaguely broken user experience that's hard to diagnose.
+
+## Why This Works
+
+There's something philosophically interesting about using one AI to review another AI's code.
+
+Claude has context. It knows what I asked for, what approach we discussed, what tradeoffs we accepted. It writes code that fits the conversation. But that context can also be a blind spot—Claude is unlikely to question assumptions we both agreed on.
+
+Codex has no context. It sees only the code. It doesn't know why we made certain choices. It just asks: "Is this correct? Is this safe? Does this handle edge cases?"
+
+The lack of context is a feature. Fresh eyes catch different problems than informed eyes.
+
+## The Workflow
+
+Here's what the process looks like in practice:
+
+1. **Claude implements a feature.** We discuss the approach, Claude writes the code, I do an initial review.
+
+2. **I queue a Codex review.** Usually with a simple prompt: "Review these changes for bugs, edge cases, and potential issues."
+
+3. **Codex returns findings.** Sometimes nothing. Sometimes a list of concerns ranging from nitpicks to real bugs.
+
+4. **We address the findings.** Claude fixes the issues Codex identified. I verify the fixes make sense.
+
+5. **Merge with confidence.** Two AI perspectives plus my human judgment have looked at this code.
+
+The overhead is minimal—Codex reviews take a minute or two. The catches are worth it.
+
+## What Codex Doesn't Catch
+
+This isn't a silver bullet. Codex has blind spots too.
+
+**Architectural issues.** Codex reviews code as written. It doesn't know if you're building the wrong thing or if there's a simpler approach.
+
+**Context-dependent correctness.** Sometimes "wrong" code is intentionally wrong for reasons Codex can't see. You still need human judgment about whether findings are relevant.
+
+**Integration problems.** Codex sees the diff, not the whole system. It won't catch issues that only appear when components interact.
+
+**Stylistic preferences.** Codex has opinions about code style. Not all of them match your project's conventions. Learn to ignore the noise.
+
+The tool is good at finding local bugs—issues within the code as written. It's less good at finding global problems—issues with how the code fits into the larger system.
+
+## The Meta Question
+
+Is it weird to have AI review AI code while a human supervises?
+
+Maybe. But the alternative is having only one perspective on AI-generated code—either trusting it completely or reviewing it exhaustively yourself.
+
+I don't have the energy to scrutinize every line Claude writes. I also don't want to ship bugs that a five-minute automated review would have caught.
+
+Codex fills that gap. It's not replacing my judgment. It's augmenting it with a different perspective that catches different things.
+
+## The Deeper Pattern
+
+This is really about building review systems that don't depend on a single point of failure.
+
+In traditional development, code review exists because the author is too close to their own work. Fresh eyes catch what familiar eyes miss.
+
+AI-assisted development has the same problem, just shifted. I'm too close to the conversation with Claude. I trust the explanation. I believe the code does what we discussed.
+
+Adding Codex creates distance. It's a reviewer that doesn't care about our conversation, doesn't know what we intended, and just asks: "But is the code actually correct?"
+
+Sometimes the answer is no. And I'm glad something caught it before users did.
+
+## Takeaway
+
+Using one AI to review another AI's code sounds like a punchline. In practice, it's just defense in depth.
+
+Claude writes code with context and intent. Codex reviews code without context or intent. The combination catches more bugs than either alone.
+
+The meta layers are getting deep. But the shipped code is better for it.
