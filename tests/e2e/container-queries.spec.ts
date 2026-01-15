@@ -4,54 +4,63 @@ import { test, expect } from '@playwright/test';
  * Container Queries Visual Test
  *
  * Verifies that components using @container queries adapt to their container size,
- * not the viewport. Tests the IncidentInput component in narrow vs wide contexts.
+ * not the viewport. Uses JavaScript to inject a constrained wrapper to prove
+ * container queries respond to container width, not viewport.
  */
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:8080';
 
 test.describe('Container Queries', () => {
-  test('IncidentInput adapts layout based on container width', async ({ page }) => {
-    // Navigate to uptime calculator which uses IncidentInput
+  test('IncidentInput uses row layout in wide container', async ({ page }) => {
+    // Use wide viewport to ensure container has room
+    await page.setViewportSize({ width: 1200, height: 800 });
+
     await page.goto(`${BASE_URL}/projects/uptime-calculator`);
     await page.waitForLoadState('networkidle');
 
-    // Find the incident input card
-    const incidentCard = page.locator('text=Expected incidents per month').locator('..');
-
-    // Verify the card exists
+    // Find the incident input card (has @container class)
+    const incidentCard = page.locator('text=Expected incidents per month').locator('..').locator('..');
     await expect(incidentCard).toBeVisible();
 
-    // Get the layout container (the flex div)
+    // Get the layout container (the flex div with @sm:flex-row)
     const layoutContainer = incidentCard.locator('div.flex').first();
 
-    // In a wide viewport, the container query should apply row layout
-    // Check that flex-direction is row (from @sm:flex-row)
     const flexDirection = await layoutContainer.evaluate((el) => {
       return window.getComputedStyle(el).flexDirection;
     });
 
-    // On a standard viewport, the card container should be wide enough
-    // for @sm (24rem = 384px) to apply, resulting in row layout
+    // Card container is wide enough for @sm (24rem = 384px), should be row
     expect(flexDirection).toBe('row');
   });
 
-  test('IncidentInput shows column layout in narrow container', async ({ page }) => {
-    // Set a very narrow viewport to force column layout
-    await page.setViewportSize({ width: 320, height: 600 });
+  test('IncidentInput adapts to constrained container (proves container query)', async ({ page }) => {
+    // Keep viewport WIDE - we're testing container width, not viewport
+    await page.setViewportSize({ width: 1200, height: 800 });
 
     await page.goto(`${BASE_URL}/projects/uptime-calculator`);
     await page.waitForLoadState('networkidle');
 
-    const incidentCard = page.locator('text=Expected incidents per month').locator('..');
-    await expect(incidentCard).toBeVisible();
+    // Find the @container card and constrain it via JavaScript
+    // This proves container queries work independent of viewport
+    const flexDirection = await page.evaluate(() => {
+      // Find the card with @container
+      const card = document.querySelector('.\\@container');
+      if (!card) return 'card-not-found';
 
-    const layoutContainer = incidentCard.locator('div.flex').first();
+      // Force the card to be narrow (less than @sm breakpoint of 24rem/384px)
+      (card as HTMLElement).style.width = '300px';
 
-    const flexDirection = await layoutContainer.evaluate((el) => {
-      return window.getComputedStyle(el).flexDirection;
+      // Force reflow
+      void (card as HTMLElement).offsetHeight;
+
+      // Find the flex container inside and check its computed style
+      const flexDiv = card.querySelector('div.flex');
+      if (!flexDiv) return 'flex-not-found';
+
+      return window.getComputedStyle(flexDiv).flexDirection;
     });
 
-    // On narrow viewport, container is too small for @sm, should be column
+    // Despite wide viewport, constrained container should force column layout
     expect(flexDirection).toBe('column');
   });
 });

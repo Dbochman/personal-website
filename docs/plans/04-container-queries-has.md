@@ -207,8 +207,8 @@ src/styles/globals.css     # :has() utilities
 
 1. **Installed `@tailwindcss/container-queries`** - Added to Tailwind config
 2. **Refactored `IncidentInput`** - Changed from `sm:flex-row` to `@sm:flex-row` with `@container` on Card
-3. **Added `:has()` utilities** - Progressive enhancement in `index.css` with `@supports` guard
-4. **Created Playwright test** - `tests/e2e/container-queries.spec.ts` verifies layout adaptation
+3. **Documented `:has()` patterns** - Added example patterns in `index.css` (no active utilities yet - add when there's a real use case)
+4. **Created Playwright test** - `tests/e2e/container-queries.spec.ts` verifies true container-query behavior by constraining container width independent of viewport
 
 ### Components Using Container Queries
 

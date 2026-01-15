@@ -296,26 +296,24 @@
 }
 
 /*
- * :has() Progressive Enhancement Utilities
+ * :has() Progressive Enhancement Pattern
  *
- * These styles enhance UX in browsers that support :has() (Chrome 105+, Safari 15.4+).
- * Firefox has partial support (121+) - these are purely additive enhancements,
- * not critical functionality. Keep selectors scoped to avoid performance issues.
+ * :has() enables parent styling based on child state (Chrome 105+, Safari 15.4+).
+ * Firefox 121+ has support. Use @supports guard for progressive enhancement.
+ *
+ * Example patterns (add when there's a real use case):
+ *
+ * @supports selector(:has(*)) {
+ *   // Highlight card when link inside is focused
+ *   .project-card:has(a:focus-visible) {
+ *     @apply ring-2 ring-primary/50;
+ *   }
+ *
+ *   // Style label when sibling input is invalid
+ *   .input-group:has(input:invalid:not(:placeholder-shown)) label {
+ *     @apply text-destructive;
+ *   }
+ * }
+ *
+ * Keep selectors scoped to specific components to avoid performance issues.
  */
-@supports selector(:has(*)) {
-  /* Card focus enhancement - highlight card when any link inside is focused */
-  .card:has(a:focus-visible) {
-    @apply ring-2 ring-primary/50 ring-offset-2 ring-offset-background;
-  }
-
-  /* Form field validation - style wrapper when input is invalid */
-  .form-field:has(:invalid:not(:placeholder-shown)) {
-    @apply border-destructive/50;
-  }
-
-  /* Interactive card icon scale - scale icon when link is hovered/focused */
-  .card:has(a:hover) .card-icon,
-  .card:has(a:focus-visible) .card-icon {
-    @apply scale-110;
-  }
-}
