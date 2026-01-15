@@ -222,33 +222,32 @@ export const roadmapBoard: KanbanBoard = {
       id: 'in-progress',
       title: 'In Progress',
       color: 'blue',
-      cards: [
-        {
-          id: 'container-queries',
-          title: 'Container Queries & :has()',
-          description: 'Explore modern CSS: container queries for component-based responsive design, :has() for parent selection.',
-          labels: ['Small', 'Learning'],
-          planFile: 'docs/plans/04-container-queries-has.md',
-          checklist: [
-            { id: 'cq-1', text: 'Set up Tailwind container queries plugin (or use v4 built-in)', completed: false },
-            { id: 'cq-2', text: 'Refactor ProjectCard with container queries', completed: false },
-            { id: 'cq-3', text: 'Add :has() utilities for form validation styling', completed: false },
-            { id: 'cq-4', text: 'Document gotchas and best practices', completed: false },
-            { id: 'cq-5', text: 'Add Playwright visual test for container sizing', completed: false },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'backlog', columnTitle: 'Backlog' },
-            { type: 'column', timestamp: '2026-01-14T22:30:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-            { type: 'column', timestamp: '2026-01-14T23:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-          ],
-          createdAt: '2026-01-13',
-        },
-      ],
+      cards: [],
     },
     {
       id: 'recently-completed',
       title: 'Recently Completed',
       cards: [
+        {
+          id: 'container-queries',
+          title: 'Container Queries & :has()',
+          description: 'Modern CSS: container queries for IncidentInput, :has() patterns documented.',
+          labels: ['Small', 'Learning', 'PR #109'],
+          planFile: 'docs/plans/04-container-queries-has.md',
+          checklist: [
+            { id: 'cq-1', text: 'Set up Tailwind container queries plugin', completed: true },
+            { id: 'cq-2', text: 'Refactor IncidentInput with container queries', completed: true },
+            { id: 'cq-3', text: 'Document :has() patterns for future use', completed: true },
+            { id: 'cq-4', text: 'Add Playwright test proving container query behavior', completed: true },
+          ],
+          history: [
+            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'backlog', columnTitle: 'Backlog' },
+            { type: 'column', timestamp: '2026-01-14T22:30:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+            { type: 'column', timestamp: '2026-01-14T23:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
+            { type: 'column', timestamp: '2026-01-15T00:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+          ],
+          createdAt: '2026-01-13',
+        },
         {
           id: 'deploy-notifications',
           title: 'Deployment Notifications',
