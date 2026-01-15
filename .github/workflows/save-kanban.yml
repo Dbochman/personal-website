@@ -26,13 +26,15 @@ jobs:
           FILE="public/data/${{ env.BOARD_ID }}-board.json"
           if [ -f "$FILE" ]; then
             CURRENT_UPDATED=$(jq -r '.updatedAt // "1970-01-01"' "$FILE")
-            PAYLOAD_UPDATED="${{ github.event.client_payload.board.updatedAt }}"
+            # Use baseUpdatedAt (when user loaded the board) for conflict detection
+            # This prevents stale clients from overwriting newer data
+            BASE_UPDATED="${{ github.event.client_payload.baseUpdatedAt }}"
 
-            # Compare dates (newer file = reject to prevent overwrite)
-            if [[ "$CURRENT_UPDATED" > "$PAYLOAD_UPDATED" ]]; then
+            # If file is newer than what user originally loaded, reject
+            if [[ "$CURRENT_UPDATED" > "$BASE_UPDATED" ]]; then
               echo "Error: Board has been updated since you loaded it."
               echo "  File updatedAt: $CURRENT_UPDATED"
-              echo "  Your updatedAt: $PAYLOAD_UPDATED"
+              echo "  Your baseUpdatedAt: $BASE_UPDATED"
               echo "Please reload the page and try again."
               exit 1
             fi

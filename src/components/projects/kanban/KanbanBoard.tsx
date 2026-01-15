@@ -41,6 +41,8 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
     boardKey,
   });
   const [board, setBoard] = useState<BoardType>(() => getInitialBoard());
+  // Track the original updatedAt for conflict detection
+  const [baseUpdatedAt] = useState(() => initialBoard.updatedAt || new Date().toISOString());
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -116,6 +118,7 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
         body: JSON.stringify({
           board: { ...board, updatedAt: new Date().toISOString() },
           boardId,
+          baseUpdatedAt, // Original timestamp for conflict detection
         }),
       });
 
