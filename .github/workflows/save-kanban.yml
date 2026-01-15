@@ -22,6 +22,8 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.DEPLOY_TOKEN }}
 
       - name: Check for conflicts
         run: |
