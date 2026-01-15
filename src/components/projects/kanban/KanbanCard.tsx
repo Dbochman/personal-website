@@ -165,9 +165,17 @@ export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: Ka
               </div>
             )}
             {card.planFile && (
-              <div className="flex items-center gap-1" title="Has plan document">
+              <a
+                href={`${REPO_URL}/blob/main/${card.planFile}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="flex items-center gap-1 hover:text-primary transition-colors"
+                title="View plan document"
+              >
                 <FileText className="w-3 h-3" />
-              </div>
+              </a>
             )}
           </div>
         )}
