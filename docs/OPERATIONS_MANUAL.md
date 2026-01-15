@@ -15,7 +15,7 @@
 | Status page | https://stats.uptimerobot.com/zquZllQfNJ |
 | CMS editor | https://dylanbochman.netlify.app/editor/ |
 | Kanban board | https://dylanbochman.com/projects/kanban |
-| Cloudflare Worker | https://kanban-save-worker.dbochman.workers.dev |
+| Cloudflare Worker | https://api.dylanbochman.com |
 | Analytics | https://analytics.google.com (GA4) |
 | Search Console | https://search.google.com/search-console |
 
@@ -87,7 +87,7 @@ No manual steps needed. Check [Actions tab](https://github.com/Dbochman/personal
 - **Purpose:** DNS, CDN, SSL, Kanban Save Worker
 - **Domain:** dylanbochman.com
 - **DNS records:** CNAME to dbochman.github.io
-- **Worker:** kanban-save-worker.dbochman.workers.dev (OAuth proxy for kanban saves)
+- **Worker:** api.dylanbochman.com (OAuth proxy for kanban saves, custom domain for first-party cookies)
 - **KV Namespace:** SESSIONS (stores OAuth sessions, 7-day TTL)
 
 ### Netlify

@@ -22,7 +22,7 @@ import { Plus, RotateCcw, Share2, Save, Loader2, Check, LogIn, LogOut } from 'lu
 import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType, ColumnColor } from '@/types/kanban';
 import { generateId } from '@/types/kanban';
 
-const WORKER_URL = 'https://kanban-save-worker.dbochman.workers.dev';
+const WORKER_URL = 'https://api.dylanbochman.com';
 
 interface AuthStatus {
   authenticated: boolean;
