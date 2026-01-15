@@ -14,6 +14,9 @@ const OncallCoverage = lazy(
 const Kanban = lazy(
   () => import('@/components/projects/kanban')
 );
+const Analytics = lazy(
+  () => import('@/components/projects/analytics')
+);
 
 /**
  * Project registry - single source of truth for all projects
@@ -64,6 +67,18 @@ export const projectRegistry: ProjectDefinition[] = [
     createdAt: '2026-01-13',
     fullWidth: true,
     component: Kanban,
+  },
+  {
+    slug: 'analytics',
+    title: 'Site Analytics Dashboard',
+    description:
+      'Unified view of site performance: GA4 traffic, Search Console rankings, Lighthouse audits, and Real User Monitoring. Data pipelines via GitHub Actions.',
+    tags: ['Analytics', 'Performance', 'Observability'],
+    icon: 'BarChart3',
+    status: 'active',
+    createdAt: '2026-01-14',
+    fullWidth: true,
+    component: Analytics,
   },
 ];
 
