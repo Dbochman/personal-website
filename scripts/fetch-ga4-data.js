@@ -77,6 +77,32 @@ async function fetchGA4Data() {
       ],
     });
 
+    // Fetch Web Vitals (RUM data)
+    const [vitalsResponse] = await analyticsDataClient.runReport({
+      property: propertyId,
+      dateRanges: [
+        {
+          startDate: '7daysAgo',
+          endDate: 'today',
+        },
+      ],
+      dimensions: [
+        { name: 'eventName' },
+      ],
+      metrics: [
+        { name: 'eventCount' },
+        { name: 'eventValue' },
+      ],
+      dimensionFilter: {
+        filter: {
+          fieldName: 'eventName',
+          inListFilter: {
+            values: ['LCP', 'CLS', 'INP', 'FCP', 'TTFB'],
+          },
+        },
+      },
+    });
+
     // Fetch traffic sources separately (different dimension set)
     const [trafficResponse] = await analyticsDataClient.runReport({
       property: propertyId,
@@ -183,6 +209,26 @@ async function fetchGA4Data() {
       .sort((a, b) => b.sessions - a.sessions)
       .slice(0, 10);
 
+    // Process Web Vitals (RUM) data
+    // Note: web-vitals library reports all timing metrics in milliseconds
+    const webVitals = {};
+    vitalsResponse.rows?.forEach(row => {
+      const metric = row.dimensionValues[0].value;
+      const count = parseInt(row.metricValues[0].value || '0', 10);
+      const totalValue = parseFloat(row.metricValues[1].value || '0');
+
+      // Calculate average (eventValue is cumulative)
+      const avgValue = count > 0 ? totalValue / count : 0;
+
+      webVitals[metric] = {
+        count,
+        // CLS is scaled by 1000 when sent, so divide back to get actual value
+        // All timing metrics (LCP, FCP, INP, TTFB) are in milliseconds
+        average: metric === 'CLS' ? avgValue / 1000 : avgValue,
+        unit: metric === 'CLS' ? '' : 'ms',
+      };
+    });
+
     // Create data entry
     const dataEntry = {
       timestamp: new Date().toISOString(),
@@ -206,6 +252,7 @@ async function fetchGA4Data() {
         channels: topChannels,
         sources: topSources,
       },
+      webVitals: Object.keys(webVitals).length > 0 ? webVitals : null,
     };
 
     // Read existing history
@@ -227,10 +274,13 @@ async function fetchGA4Data() {
 
     console.log('✅ GA4 data saved to history');
     console.log(`📈 Sessions: ${totalSessions}, Users: ${totalUsers}, Page Views: ${totalPageViews}`);
+    if (Object.keys(webVitals).length > 0) {
+      console.log(`⚡ Web Vitals: ${Object.keys(webVitals).join(', ')}`);
+    }
     console.log(`📊 Total historical entries: ${history.length}`);
 
     // Update the metrics summary
-    updateMetricsSummary(dataEntry.summary, topPages);
+    updateMetricsSummary(dataEntry.summary, topPages, webVitals);
 
   } catch (error) {
     console.error('❌ Error fetching GA4 data:', error.message);
@@ -242,7 +292,7 @@ async function fetchGA4Data() {
   }
 }
 
-function updateMetricsSummary(analyticsData, topPages) {
+function updateMetricsSummary(analyticsData, topPages, webVitals) {
   const SUMMARY_FILE = path.join(__dirname, '../docs/metrics/latest.json');
 
   try {
@@ -264,6 +314,18 @@ function updateMetricsSummary(analyticsData, topPages) {
         pageViews: p.pageViews,
       })),
     };
+
+    // Add Web Vitals (RUM) data if available, clear if empty to avoid stale data
+    if (webVitals && Object.keys(webVitals).length > 0) {
+      summary.webVitals = {
+        lastCheck: new Date().toISOString(),
+        source: 'rum',
+        metrics: webVitals,
+      };
+    } else {
+      // Clear stale data when no RUM metrics available
+      delete summary.webVitals;
+    }
 
     summary.generated = new Date().toISOString();
 
