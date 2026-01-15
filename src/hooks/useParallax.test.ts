@@ -47,7 +47,7 @@ describe('useParallax', () => {
     expect(window.removeEventListener).toHaveBeenCalledWith('scroll', expect.any(Function));
   });
 
-  it('should apply parallax effect on scroll when visible', () => {
+  it('should apply parallax effect on scroll when visible', async () => {
     const parallaxElement = document.createElement('div');
     parallaxElement.setAttribute('data-speed', '0.5');
     document.body.appendChild(parallaxElement);
@@ -58,9 +58,11 @@ describe('useParallax', () => {
 
     // Simulate page being visible (default state)
     window.scrollY = 100;
-    
-    act(() => {
+
+    await act(async () => {
       window.dispatchEvent(new Event('scroll'));
+      // Wait for async RAF mock (setTimeout with 0ms delay)
+      await new Promise(resolve => setTimeout(resolve, 10));
     });
 
     expect(parallaxElement.style.transform).toBe('translate3d(0, -50px, 0)');

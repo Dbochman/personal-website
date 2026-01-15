@@ -1,4 +1,5 @@
 import { Menu } from 'lucide-react';
+import { motion } from 'framer-motion';
 import {
   Sheet,
   SheetContent,
@@ -11,6 +12,7 @@ import { navigationItems } from "@/data/navigation";
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { TransitionLink } from '@/hooks/useViewTransition';
+import { staggerContainer, navItem } from '@/lib/motion';
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
@@ -51,9 +53,14 @@ const MobileNav = () => {
           
           {/* Navigation items */}
           <nav className="flex-1 p-6">
-            <ul className="space-y-4">
+            <motion.ul
+              className="space-y-4"
+              variants={staggerContainer}
+              initial="hidden"
+              animate={open ? 'visible' : 'hidden'}
+            >
               {navItemsToShow.map((item) => (
-                <li key={item.href}>
+                <motion.li key={item.href} variants={navItem}>
                   <TransitionLink
                     to={item.href}
                     onClick={() => setOpen(false)}
@@ -61,9 +68,9 @@ const MobileNav = () => {
                   >
                     {item.label}
                   </TransitionLink>
-                </li>
+                </motion.li>
               ))}
-            </ul>
+            </motion.ul>
           </nav>
         </SheetContent>
       </Sheet>

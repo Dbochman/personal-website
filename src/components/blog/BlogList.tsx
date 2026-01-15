@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -12,6 +13,7 @@ import {
 import { BlogCard } from './BlogCard';
 import type { BlogPost, BlogAuthor } from '@/types/blog';
 import { filterPostsBySearch, filterPostsByTags, sortPostsByDate, sortPostsByReadingTime, getAllTags } from '@/lib/blog-utils';
+import { staggerContainer, staggerItem } from '@/lib/motion';
 
 type SortOption = 'newest' | 'oldest' | 'longest' | 'shortest';
 
@@ -193,11 +195,19 @@ export function BlogList({ posts }: BlogListProps) {
 
       {/* Posts Grid */}
       {filteredPosts.length > 0 ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          key={`${searchTerm}-${selectedTags.join(',')}-${selectedAuthor}-${sortOption}`}
+        >
           {filteredPosts.map((post) => (
-            <BlogCard key={post.slug} post={post} />
+            <motion.div key={post.slug} variants={staggerItem}>
+              <BlogCard post={post} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       ) : (
         <div className="text-center py-12" role="status">
           <p className="text-muted-foreground">
