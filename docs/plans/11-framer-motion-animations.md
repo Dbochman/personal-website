@@ -43,6 +43,30 @@ Add polished animations using Framer Motion, focusing on **stagger animations, s
 | GoalsSection | Entrance animation | Visual interest |
 | Search input | Focus glow animation | Input feedback |
 
+## Easing Guide
+
+Use consistent easing functions based on animation context:
+
+```
+Is the element entering or exiting the viewport?
+├─ Yes → ease-out
+└─ No
+   ├─ Is it moving/morphing on screen?
+   │  └─ Yes → ease-in-out
+   ├─ Is it a hover change?
+   │  └─ Yes → ease
+   └─ Is it constant motion?
+      ├─ Yes → linear
+      └─ Default → ease-out
+```
+
+| Animation Type | Easing | Framer Motion | Example Use |
+|----------------|--------|---------------|-------------|
+| Enter/Exit | `ease-out` | `'easeOut'` | Stagger items, scroll reveals, page load |
+| Move/Morph | `ease-in-out` | `'easeInOut'` | Tab content slide, drag animations |
+| Hover | `ease` | `'ease'` | Button scale, link underlines |
+| Loading/Progress | `linear` | `'linear'` | Spinners, progress bars |
+
 ## Implementation
 
 ### Phase 1: Setup & Shared Variants
@@ -85,11 +109,11 @@ export const fadeUp: Variants = {
   },
 };
 
-// Tab content transition
+// Tab content transition (ease-in-out for on-screen morphing)
 export const tabContent: Variants = {
   hidden: { opacity: 0, x: -10 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.2 } },
-  exit: { opacity: 0, x: 10, transition: { duration: 0.15 } },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.2, ease: 'easeInOut' } },
+  exit: { opacity: 0, x: 10, transition: { duration: 0.15, ease: 'easeInOut' } },
 };
 
 // Mobile nav items
@@ -212,12 +236,12 @@ import { tabContent } from '@/lib/motion';
 
 ### Phase 6: Micro-Interactions
 
-**Enhanced button hover:**
+**Enhanced button hover** (use `ease` for hover states):
 ```tsx
 <motion.button
   whileHover={{ scale: 1.02, y: -1 }}
   whileTap={{ scale: 0.98 }}
-  transition={{ duration: 0.15 }}
+  transition={{ duration: 0.15, ease: 'ease' }}
 >
   Click me
 </motion.button>
@@ -227,6 +251,7 @@ import { tabContent } from '@/lib/motion';
 ```tsx
 <motion.button
   whileTap={{ scale: 0.95 }}
+  transition={{ duration: 0.1, ease: 'ease' }}
   onClick={() => toggleTag(tag)}
 >
   <Badge>{tag}</Badge>
