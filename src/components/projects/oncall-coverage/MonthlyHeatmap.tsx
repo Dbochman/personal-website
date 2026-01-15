@@ -46,11 +46,6 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
 
   const getDisplayName = (name: string) => name.replace(/\s*\(.*\)/, '');
 
-  // Helper to pick member by day (matches models.ts logic)
-  const pickByDay = (members: TeamMember[], day: number, offset = 0) => {
-    return members[(day + offset) % members.length];
-  };
-
   // Check if shift model is regional (EU/US split) vs rotating
   const uniqueTimezones = [...new Set(rotationMembers.map((m) => m.timezone))];
   const isRegionalShift = rotationType === 'shift' && uniqueTimezones.length > 1;

@@ -56,7 +56,6 @@ export function WeeklyHeatmap({ coverage, team }: WeeklyHeatmapProps) {
             const secondaryColors = secondary ? memberColorMap.get(secondary) : null;
             const primaryName = primary ? getDisplayName(primary) : null;
             const secondaryName = secondary ? getDisplayName(secondary) : null;
-            const isWeekend = dayIndex === 0 || dayIndex === 6;
             const isPrimaryOnly = hasCoverage && !secondary;
 
             return (

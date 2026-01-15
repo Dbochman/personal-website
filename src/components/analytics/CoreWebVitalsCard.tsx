@@ -86,12 +86,6 @@ export function CoreWebVitalsCard({ data }: CoreWebVitalsCardProps) {
           // Calculate progress percentage (0-100 based on poor threshold)
           const progressValue = Math.min((value / vital.thresholds.poor) * 100, 100);
 
-          const statusColors = {
-            good: 'bg-emerald-500',
-            warning: 'bg-amber-500',
-            critical: 'bg-red-500',
-          };
-
           const statusText = {
             good: 'Good',
             warning: 'Needs Improvement',

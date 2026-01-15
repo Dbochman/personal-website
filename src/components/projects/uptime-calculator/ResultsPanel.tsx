@@ -52,7 +52,7 @@ function getInsight(result: AchievableSlaResult): Insight {
   }
 
   // High travel time (> 20 min)
-  if (travelPhase && travelPhase.totalMinutes > 0 && breakdown.find(p => p.phase === 'travelMin')?.percentOfBudget! > 20) {
+  if (travelPhase && travelPhase.totalMinutes > 0 && travelPhase.percentOfBudget > 20) {
     return {
       type: 'warning',
       title: 'Travel time impact',
