@@ -2,9 +2,7 @@ name: Search Console Data Export
 
 on:
   workflow_dispatch:
-  schedule:
-    # Run weekly on Mondays at 11 AM UTC (after SEO check and Lighthouse)
-    - cron: '0 11 * * 1'
+  # Schedule moved to analytics-daily.yml for unified daily collection
 
 jobs:
   fetch-search-data:
