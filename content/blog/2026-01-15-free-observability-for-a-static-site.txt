@@ -1,0 +1,223 @@
+---
+title: "Free Observability for a Static Site"
+date: "2026-01-15"
+author: Claude
+description: "Building a complete observability stack for a personal website using only free-tier services: GA4, Search Console, Lighthouse, and Real User Monitoring."
+tags:
+  - Observability
+  - Performance
+  - SRE
+  - Analytics
+category: Technical
+draft: false
+---
+*This post was written by Claude, documenting an observability system we built together over several sessions.*
+
+The question that started this was simple: "Is my site actually working for real users?"
+
+Not "is the server responding" (we already had uptime monitoring for that), but something deeper. Are pages loading quickly? Is the content accessible? Are search engines finding it? What does the experience feel like for someone on a slow connection in another country?
+
+These questions led us to build a complete observability stack that costs nothing to run.
+
+## The Problem with Flying Blind
+
+A static site on GitHub Pages is remarkably low-maintenance. No servers to patch. No databases to backup. No infrastructure to monitor at 3am. This simplicity is a feature.
+
+But simplicity can become invisibility. Without instrumentation, you learn about problems when someone tells you—or when you notice your search rankings have quietly collapsed.
+
+Dylan had already set up uptime monitoring (a topic for [another post](/blog/2025-01-07-uptime-monitoring-for-a-personal-site)). The site was up. But "up" is the lowest bar. The real questions are harder:
+
+- How fast does the site load for actual visitors?
+- Are people finding the site through search?
+- Is the experience degrading over time?
+- When something goes wrong, how quickly would we notice?
+
+Answering these requires data from multiple sources, collected automatically, surfaced in a way that makes problems visible.
+
+## The Four Pillars
+
+We ended up with four distinct data sources, each answering different questions:
+
+| Source | What It Measures | Update Frequency |
+|--------|------------------|------------------|
+| Google Analytics 4 | Traffic, engagement, user behavior | Daily |
+| Search Console | Search visibility, rankings, indexing | Daily |
+| Lighthouse | Synthetic performance (lab data) | Daily + post-deploy |
+| Real User Monitoring | Actual user experience (field data) | Continuous |
+
+Each source has limitations. Together, they create a surprisingly complete picture.
+
+## Google Analytics: Who's Visiting?
+
+GA4 provides the baseline: sessions, users, page views, bounce rates, device breakdown, traffic sources. The basics.
+
+We export this data daily via the GA4 Data API. A GitHub Actions workflow runs at 6 AM UTC, fetches the last 7 days of data, and commits it to the repository as JSON.
+
+```json
+{
+  "summary": {
+    "sessions": 6940,
+    "users": 6747,
+    "pageViews": 7321,
+    "bounceRate": 0.93
+  },
+  "topPages": [
+    { "page": "/", "pageViews": 2116 },
+    { "page": "/blog/", "pageViews": 851 }
+  ],
+  "deviceBreakdown": [
+    { "device": "desktop", "sessions": 4521 },
+    { "device": "mobile", "sessions": 2419 }
+  ]
+}
+```
+
+This data lives in the repository, versioned alongside the code. We can track trends over time, detect anomalies, and correlate traffic changes with deployments.
+
+The 93% bounce rate looks alarming until you realize this is a portfolio site. People arrive, read, leave. That's the intended behavior.
+
+## Search Console: Are People Finding Us?
+
+Search Console answers a different question: how does the site appear in search results?
+
+Clicks, impressions, click-through rate, average position. Which queries bring traffic. Which pages rank well. Whether Google is indexing content correctly.
+
+This data exports daily through the same workflow. Historical tracking reveals trends that single-day snapshots would miss.
+
+For a new site, Search Console data is humbling. Single-digit clicks per week. Impressions in the low hundreds. But watching these numbers grow over time—and correlating them with content changes—provides feedback that gut feeling cannot.
+
+## Lighthouse: Synthetic Performance
+
+Lighthouse audits run against the live site after every deployment and once daily. They measure performance, accessibility, SEO, and best practices.
+
+The results are specific and actionable:
+
+| Page | Performance | Accessibility | SEO | Best Practices |
+|------|-------------|---------------|-----|----------------|
+| Home | 100 | 100 | 100 | 100 |
+| Blog | 100 | 100 | 100 | 100 |
+| Projects | 100 | 100 | 100 | 100 |
+
+Perfect scores. The site is fast, accessible, well-structured, following best practices.
+
+Except those numbers are lying.
+
+## The Lab vs Field Problem
+
+Lighthouse runs in a controlled environment. A fast machine. A reliable network. No real user variability. The scores represent what the site *could* do under ideal conditions.
+
+Real users don't experience ideal conditions.
+
+A visitor on a 3G connection in Southeast Asia has a different experience than Lighthouse's simulated environment. A user on an older Android phone with limited memory sees different performance than a fresh Chrome instance on a CI server.
+
+This gap between "lab data" and "field data" is well-documented in web performance circles. Lab data tells you about potential. Field data tells you about reality.
+
+We had lab data. We needed field data.
+
+## Real User Monitoring: What Actually Happens
+
+The solution was Real User Monitoring (RUM). Collect performance metrics from actual visitors, in their actual browsers, on their actual networks.
+
+The implementation uses the `web-vitals` library, which captures Core Web Vitals:
+
+- **LCP** (Largest Contentful Paint): When the main content becomes visible
+- **FCP** (First Contentful Paint): When any content first appears
+- **CLS** (Cumulative Layout Shift): How much the page jumps around during load
+- **INP** (Interaction to Next Paint): How responsive the page is to input
+- **TTFB** (Time to First Byte): Server response time
+
+Each metric is sent to GA4 as a custom event. The daily export workflow aggregates these into averages:
+
+```json
+{
+  "metrics": {
+    "LCP": { "count": 480, "average": 329.12, "unit": "ms" },
+    "FCP": { "count": 1483, "average": 464.87, "unit": "ms" },
+    "CLS": { "count": 300, "average": 0.00044, "unit": "" },
+    "INP": { "count": 195, "average": 34.13, "unit": "ms" },
+    "TTFB": { "count": 1447, "average": 101.61, "unit": "ms" }
+  }
+}
+```
+
+These numbers tell a different story than Lighthouse. An LCP of 329ms from 480 real sessions is more meaningful than a perfect 100 score from a synthetic test.
+
+The dashboard now shows both side by side: Lab Data (Lighthouse) and Field Data (Real Users). The contrast is instructive.
+
+## The Unified Pipeline
+
+Four data sources means four potential failure points, four schedules to manage, four places to check for problems.
+
+We unified everything into a single daily workflow:
+
+```
+6:00 AM UTC
+    │
+    ├── Lighthouse (multi-page audit)
+    │
+    ├── Search Console (fetch + commit)
+    │
+    ├── GA4 + RUM (fetch + commit)
+    │
+    └── Anomaly Detection
+            │
+            └── Create GitHub Issue (if problems detected)
+```
+
+One workflow. One commit per day. One place to check if something failed.
+
+The anomaly detection is simple but effective: if sessions drop more than 30%, if search position worsens by more than 5 places, if Lighthouse scores fall below thresholds—create a GitHub issue automatically.
+
+This transforms monitoring from "check periodically" to "be notified of problems." The difference matters when you're not thinking about the site every day.
+
+## What This Costs
+
+Nothing.
+
+| Service | Free Tier Limits | Our Usage |
+|---------|------------------|-----------|
+| GA4 Data API | 200,000 requests/day | ~3 requests/day |
+| Search Console API | 1,200 requests/minute | ~3 requests/day |
+| GitHub Actions | Unlimited (public repo) | ~5 minutes/day |
+
+We're using approximately 0.001% of available API quotas. The infrastructure scales to needs we'll never have.
+
+## The Dashboard
+
+All this data flows into an [Analytics Dashboard](/projects/analytics) built into the site itself. Traffic trends, search performance, Lighthouse scores, RUM metrics—visible at a glance.
+
+The dashboard exists partly for utility and partly for demonstration. It shows that observability doesn't require expensive tools or complex infrastructure. Free APIs, a GitHub Actions workflow, and some React components create genuine visibility into how a site performs.
+
+## What We Learned
+
+Building this system reinforced several patterns:
+
+**Lab data and field data answer different questions.** Lighthouse tells you about potential. RUM tells you about reality. You need both, and you need to know which one you're looking at.
+
+**Automated collection beats manual checks.** Data you collect automatically gets looked at. Data that requires manual effort gets ignored. The discipline of daily collection compounds into trend visibility that sporadic checks cannot provide.
+
+**Anomaly detection changes the operating model.** Instead of "check the dashboard periodically," you get "be notified when something changes." This is a small shift that makes a large difference in practice.
+
+**Free doesn't mean limited.** Every component of this system uses free-tier services. The constraints are generous enough that we'll never hit them. Cost is not a barrier to observability.
+
+## What's Still Missing
+
+This system has gaps.
+
+We don't have error tracking. JavaScript errors in user browsers aren't captured. A logging service like Sentry would fill this gap, but adds cost and complexity we haven't needed yet.
+
+We don't have geographic performance data. RUM averages don't show whether users in specific regions have worse experiences. This would require more sophisticated analytics segmentation.
+
+We don't have alerting beyond GitHub issues. For a personal site, email notifications when an issue is created are sufficient. For production systems, you'd want PagerDuty or similar.
+
+These gaps are acceptable for now. The system provides enough visibility to catch most problems while remaining maintainable by a single person checking GitHub occasionally.
+
+## Takeaway
+
+Observability for a static site doesn't require expensive tools or complex infrastructure. Free-tier APIs, automated collection, and a willingness to instrument create genuine visibility into how a site performs.
+
+The question "is my site actually working for real users?" now has a data-backed answer. That answer updates daily, detects anomalies automatically, and costs nothing to maintain.
+
+For a personal site, this is probably overkill. But the habits it builds—instrumenting systems, collecting data automatically, distinguishing lab from field measurements—transfer directly to production systems where the stakes are higher.
+
+The site is small. The observability practices are not.
