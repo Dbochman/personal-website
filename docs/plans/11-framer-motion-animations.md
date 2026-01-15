@@ -1,44 +1,83 @@
-# Framer Motion Animations Plan
+# Framer Motion Animations Plan (Updated)
 
 ## Overview
 
-Add polished animations using Framer Motion. Focus on page transitions, scroll reveals, and micro-interactions that enhance UX without being distracting.
+Add polished animations using Framer Motion, focusing on **stagger animations, scroll reveals, and micro-interactions**. Page transitions are already handled by the View Transitions API.
 
-## Why Framer Motion
+## What's Already Done
 
-- **Declarative API**: Animate with props, not CSS
-- **Layout animations**: Smooth list reordering, shared layouts
-- **Gesture support**: Drag, hover, tap animations
-- **Exit animations**: AnimatePresence handles unmounting
-- **Performance**: Hardware-accelerated, respects reduced motion
+- ✅ Page transitions (View Transitions API in `useViewTransition.tsx`)
+- ✅ Directional navigation animations (forward/back/to-home)
+- ✅ Modal/dialog animations (Radix + tailwindcss-animate)
+- ✅ Accordion expand/collapse animations
+- ✅ Sheet slide animations
+- ✅ Basic CSS hover effects (`.hover-lift`)
 
-## Animation Opportunities
+## Remaining Opportunities
 
-| Component | Animation Type | Priority |
-|-----------|---------------|----------|
-| Page transitions | Fade/slide on route change | High |
-| Card reveals | Stagger on scroll | High |
-| Hero section | Entrance animation | Medium |
-| Blog post content | Fade in sections | Medium |
-| Modal/sheet | Spring open/close | Low |
-| Hover states | Scale, shadow lift | Low |
+### High Priority
+
+| Component | Animation | Impact |
+|-----------|-----------|--------|
+| BlogList grid | Stagger cards on load/filter | Professional feel |
+| ProjectGrid | Stagger cards on load | Portfolio polish |
+| MetricCards | Stagger + skeleton fade | Smooth data loading |
+| Kanban columns | Stagger cards within columns | Visual flow |
+
+### Medium Priority
+
+| Component | Animation | Impact |
+|-----------|-----------|--------|
+| MobileNav items | Stagger on menu open | Delightful UX |
+| TabsContent | Fade/slide on tab switch | Smooth transitions |
+| ExperienceSection | Scroll-triggered reveal | Engagement |
+| RelatedPosts | Stagger on scroll into view | Polish |
+| Table rows | Sequential row reveal | Data visualization |
+
+### Low Priority (Nice-to-have)
+
+| Component | Animation | Impact |
+|-----------|-----------|--------|
+| Buttons | Enhanced hover (scale/shadow) | Micro-feedback |
+| Tag badges | Click pulse feedback | Interaction clarity |
+| GoalsSection | Entrance animation | Visual interest |
+| Search input | Focus glow animation | Input feedback |
 
 ## Implementation
 
-### Phase 1: Install and Setup
+### Phase 1: Setup & Shared Variants
 
 ```bash
 npm install framer-motion
 ```
 
-**File:** `src/lib/motion.ts` - Shared animation variants
+**File:** `src/lib/motion.ts`
 
 ```ts
 import { Variants } from 'framer-motion';
 
-// Fade up for page/section entrances
-export const fadeUp: Variants = {
+// Stagger container for grids/lists
+export const staggerContainer: Variants = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+  },
+};
+
+// Individual item in stagger
+export const staggerItem: Variants = {
   hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: 'easeOut' },
+  },
+};
+
+// Fade up for scroll reveals
+export const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
@@ -46,157 +85,158 @@ export const fadeUp: Variants = {
   },
 };
 
-// Stagger children
-export const staggerContainer: Variants = {
+// Tab content transition
+export const tabContent: Variants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.2 } },
+  exit: { opacity: 0, x: 10, transition: { duration: 0.15 } },
+};
+
+// Mobile nav items
+export const navItem: Variants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: { opacity: 1, x: 0 },
+};
+
+// Skeleton to content crossfade
+export const crossfade: Variants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
-
-// Card item
-export const cardVariant: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4 },
-  },
-};
-
-// Page transition
-export const pageTransition: Variants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.3 } },
-  exit: { opacity: 0, transition: { duration: 0.2 } },
+  visible: { opacity: 1, transition: { duration: 0.3 } },
 };
 ```
 
-### Phase 2: Page Transitions
+### Phase 2: Grid Stagger Animations
 
-**File:** `src/App.tsx`
-
-```tsx
-import { AnimatePresence, motion } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
-import { pageTransition } from '@/lib/motion';
-
-function App() {
-  const location = useLocation();
-
-  return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={location.pathname}
-        variants={pageTransition}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-      >
-        <Routes location={location}>
-          {/* routes */}
-        </Routes>
-      </motion.div>
-    </AnimatePresence>
-  );
-}
-```
-
-### Phase 3: Card Grid Animations
-
-**File:** `src/components/blog/BlogList.tsx`
-
+**BlogList.tsx:**
 ```tsx
 import { motion } from 'framer-motion';
-import { staggerContainer, cardVariant } from '@/lib/motion';
+import { staggerContainer, staggerItem } from '@/lib/motion';
 
 <motion.div
-  className="grid grid-cols-1 md:grid-cols-2 gap-6"
+  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
   variants={staggerContainer}
   initial="hidden"
   animate="visible"
+  key={searchTerm + selectedTags.join(',')} // Re-animate on filter
 >
   {filteredPosts.map((post) => (
-    <motion.div key={post.slug} variants={cardVariant}>
+    <motion.div key={post.slug} variants={staggerItem}>
       <BlogCard post={post} />
     </motion.div>
   ))}
 </motion.div>
 ```
 
-### Phase 4: Scroll-Triggered Animations
+**ProjectGrid.tsx:** Same pattern.
 
-**File:** `src/components/sections/HeroSection.tsx`
+**Analytics MetricCards:** Same pattern for the 4-card grid.
 
+### Phase 3: Scroll-Triggered Reveals
+
+**ExperienceSection.tsx:**
 ```tsx
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { fadeUp } from '@/lib/motion';
+import { staggerContainer, staggerItem } from '@/lib/motion';
 
-function HeroSection() {
+function ExperienceSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <motion.section
       ref={ref}
-      variants={fadeUp}
+      variants={staggerContainer}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
     >
-      {/* content */}
+      {experiences.map((exp) => (
+        <motion.div key={exp.id} variants={staggerItem}>
+          {/* experience card */}
+        </motion.div>
+      ))}
     </motion.section>
   );
 }
 ```
 
-### Phase 5: Micro-Interactions
+### Phase 4: Mobile Nav Stagger
 
-**Card hover lift:**
-
+**MobileNav.tsx:**
 ```tsx
-<motion.div
-  whileHover={{ y: -4, boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}
-  transition={{ duration: 0.2 }}
+import { motion, AnimatePresence } from 'framer-motion';
+import { staggerContainer, navItem } from '@/lib/motion';
+
+// Inside Sheet content when open:
+<motion.nav
+  variants={staggerContainer}
+  initial="hidden"
+  animate="visible"
 >
-  <Card>...</Card>
-</motion.div>
+  {navItems.map((item, i) => (
+    <motion.a
+      key={item.href}
+      variants={navItem}
+      custom={i}
+      href={item.href}
+    >
+      {item.label}
+    </motion.a>
+  ))}
+</motion.nav>
 ```
 
-**Button tap feedback:**
+### Phase 5: Tab Content Transitions
 
+**AnalyticsDashboard.tsx:**
+```tsx
+import { motion, AnimatePresence } from 'framer-motion';
+import { tabContent } from '@/lib/motion';
+
+<Tabs value={activeTab} onValueChange={setActiveTab}>
+  <AnimatePresence mode="wait">
+    <motion.div
+      key={activeTab}
+      variants={tabContent}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <TabsContent value={activeTab}>
+        {/* tab content */}
+      </TabsContent>
+    </motion.div>
+  </AnimatePresence>
+</Tabs>
+```
+
+### Phase 6: Micro-Interactions
+
+**Enhanced button hover:**
 ```tsx
 <motion.button
+  whileHover={{ scale: 1.02, y: -1 }}
   whileTap={{ scale: 0.98 }}
-  whileHover={{ scale: 1.02 }}
+  transition={{ duration: 0.15 }}
 >
   Click me
 </motion.button>
 ```
 
-### Phase 6: Reduced Motion Support
-
+**Tag click feedback:**
 ```tsx
-import { motion, useReducedMotion } from 'framer-motion';
-
-function AnimatedComponent() {
-  const shouldReduce = useReducedMotion();
-
-  return (
-    <motion.div
-      initial={shouldReduce ? false : 'hidden'}
-      animate="visible"
-      // Skip animations for reduced motion users
-    />
-  );
-}
+<motion.button
+  whileTap={{ scale: 0.95 }}
+  onClick={() => toggleTag(tag)}
+>
+  <Badge>{tag}</Badge>
+</motion.button>
 ```
 
-Or globally in motion config:
+### Phase 7: Reduced Motion Support
 
+**Global config in App.tsx:**
 ```tsx
-// _app.tsx or main.tsx
 import { MotionConfig } from 'framer-motion';
 
 <MotionConfig reducedMotion="user">
@@ -204,53 +244,57 @@ import { MotionConfig } from 'framer-motion';
 </MotionConfig>
 ```
 
-## Performance Considerations
+This automatically disables animations when `prefers-reduced-motion: reduce` is set.
 
-- Use `layoutId` for shared element transitions
-- Avoid animating layout properties (width, height) - use transform
-- Use `will-change` hints sparingly
-- Test on low-end devices
-- Profile with React DevTools
+## Files to Modify
 
-## Files to Create/Modify
-
-```
-src/lib/motion.ts                    # New: shared variants
-src/App.tsx                          # Page transitions
-src/components/blog/BlogList.tsx     # Card stagger
-src/components/projects/ProjectGrid.tsx
-src/components/sections/HeroSection.tsx
-src/components/ui/card.tsx           # Optional: hover effects
-```
-
-## Verification
-
-1. Navigate between pages - should see smooth transitions
-2. Load blog list - cards should stagger in
-3. Scroll down homepage - sections should reveal
-4. Test with `prefers-reduced-motion: reduce` - no motion
-5. Check performance in DevTools - no layout thrashing
+| File | Changes |
+|------|---------|
+| `src/lib/motion.ts` | New: shared variants |
+| `src/App.tsx` | Add MotionConfig wrapper |
+| `src/components/blog/BlogList.tsx` | Stagger grid |
+| `src/components/projects/ProjectGrid.tsx` | Stagger grid |
+| `src/components/analytics/AnalyticsDashboard.tsx` | Stagger metrics, tab transitions |
+| `src/components/sections/ExperienceSection.tsx` | Scroll reveal |
+| `src/components/blog/RelatedPosts.tsx` | Stagger grid |
+| `src/components/MobileNav.tsx` | Nav item stagger |
+| `src/components/ui/tabs.tsx` | Optional: content transitions |
 
 ## Bundle Impact
 
-Framer Motion adds ~30-40KB gzipped. Consider:
-- Tree shaking unused features
-- Lazy loading for non-critical pages
-- Native CSS animations for simple effects
+- Framer Motion: ~30-40KB gzipped
+- Tree-shakeable: only import what you use
+- Consider: lazy loading for non-critical pages
 
-## Effort
+## Checklist
 
-**Estimate**: Medium
+- [ ] Install framer-motion
+- [ ] Create `src/lib/motion.ts` with shared variants
+- [ ] Add MotionConfig to App.tsx for reduced motion
+- [ ] Add stagger to BlogList grid
+- [ ] Add stagger to ProjectGrid
+- [ ] Add stagger to Analytics MetricCards
+- [ ] Add scroll reveal to ExperienceSection
+- [ ] Add nav item stagger to MobileNav
+- [ ] Add tab content transitions to AnalyticsDashboard
+- [ ] Test with prefers-reduced-motion
+- [ ] Verify no layout shift (CLS)
+- [ ] Check performance on mobile
 
-- Setup and variants: 30 min
-- Page transitions: 30 min
-- Card animations: 45 min
-- Scroll reveals: 45 min
-- Micro-interactions: 30 min
-- Reduced motion: 15 min
-- Testing/polish: 1 hour
+## Effort Estimate
 
-## Dependencies
+Medium (~2-3 hours)
+- Setup + variants: 20 min
+- Grid staggers (3 components): 45 min
+- Scroll reveals: 30 min
+- Mobile nav: 20 min
+- Tab transitions: 30 min
+- Micro-interactions: 20 min
+- Testing: 30 min
 
-- Consider implementing after View Transitions API plan
-- Framer Motion can be fallback where View Transitions unsupported
+## Not Included (Already Done)
+
+- ~~Page transitions~~ → View Transitions API
+- ~~Modal animations~~ → Radix + tailwindcss-animate
+- ~~Accordion animations~~ → tailwindcss-animate
+- ~~Sheet animations~~ → Radix built-in
