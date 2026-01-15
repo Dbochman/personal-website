@@ -7,6 +7,8 @@ on:
 jobs:
   save:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Validate boardId
         run: |
