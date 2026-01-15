@@ -51,6 +51,31 @@ npm run lint         # ESLint
 
 When updating cards in `src/types/kanban.ts`:
 
+### Column Flow
+
+Cards progress through: **Backlog → To Do → In Progress → In Review → Change Log**
+
+- **In Review**: For PRs that are opened but not yet merged (add `prStatus` field)
+- **Change Log**: Summarized entries of completed work (not individual cards)
+
+### PR Status Indicator
+
+Cards in "In Review" should include a `prStatus` field to show CI status:
+
+```typescript
+{
+  id: 'react-perf',
+  title: 'React Performance Optimizations',
+  labels: ['PR #124'],
+  prStatus: 'passing', // Shows green check ✓
+  // prStatus: 'failing', // Shows red X ✗
+  // prStatus: 'pending', // Shows yellow clock ⏳
+  createdAt: '2026-01-15'
+}
+```
+
+### Card Movements
+
 - **Moving cards between columns**: Add a `history` entry with `type: 'column'`, `timestamp`, `columnId`, and `columnTitle`
 - **Updating card fields**: Add a `history` entry with `type: 'title'|'description'|'labels'`, `timestamp`, `from`, and `to`
 - **Adding PR labels**: Use format `PR #123` (single PRs auto-link to GitHub)
@@ -58,9 +83,28 @@ When updating cards in `src/types/kanban.ts`:
 Example history entry for column move:
 ```typescript
 history: [
-  { type: 'column', timestamp: '2026-01-14T14:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+  { type: 'column', timestamp: '2026-01-14T14:00:00.000Z', columnId: 'in-review', columnTitle: 'In Review' },
 ],
 ```
+
+### Change Log Pattern
+
+When work is merged, don't move individual cards to Change Log. Instead, create summary entries grouped by date:
+
+```typescript
+{
+  id: 'jan-15',
+  title: 'Jan 15: React Performance',
+  description: 'Analytics CLS fix, scroll throttling, React.memo for list components',
+  labels: ['Performance', 'PR #120'],
+  createdAt: '2026-01-15'
+}
+```
+
+- **Title**: `Mon DD: Theme` (e.g., "Jan 15: React Performance")
+- **Description**: Brief summary of what was accomplished
+- **Labels**: Include relevant PR numbers and categories
+- **Remove the original card** from In Review once summarized
 
 ## Commit Message Style Guide
 
