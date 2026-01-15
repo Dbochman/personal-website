@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -18,18 +18,16 @@ import { CardEditorModal } from './CardEditorModal';
 import { ColumnEditorModal } from './ColumnEditorModal';
 import { useKanbanPersistence } from './useKanbanPersistence';
 import { Button } from '@/components/ui/button';
-import { Plus, RotateCcw, Share2, Save, Loader2, Check } from 'lucide-react';
+import { Plus, RotateCcw, Share2, Save, Loader2, Check, LogIn, LogOut } from 'lucide-react';
 import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType, ColumnColor } from '@/types/kanban';
 import { generateId } from '@/types/kanban';
 
 const WORKER_URL = 'https://kanban-save-worker.dbochman.workers.dev';
 
-// Note: This secret is exposed in client-side JS. It's not authentication - it only
-// prevents casual/accidental triggers. The real protection is:
-// 1. GitHub Action whitelists valid boardIds (prevents path traversal)
-// 2. GitHub Action checks updatedAt to prevent overwriting newer data
-// 3. Worst case: someone modifies the kanban board (low risk for personal site)
-const SAVE_SECRET = import.meta.env.VITE_KANBAN_SAVE_SECRET;
+interface AuthStatus {
+  authenticated: boolean;
+  username: string | null;
+}
 
 interface KanbanBoardProps {
   initialBoard: BoardType;
@@ -47,6 +45,19 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // Auth state
+  const [auth, setAuth] = useState<AuthStatus>({ authenticated: false, username: null });
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  // Check auth status on mount
+  useEffect(() => {
+    fetch(`${WORKER_URL}/auth/status`, { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data: AuthStatus) => setAuth(data))
+      .catch(() => setAuth({ authenticated: false, username: null }))
+      .finally(() => setIsCheckingAuth(false));
+  }, []);
 
   // Card editor state
   const [editingCard, setEditingCard] = useState<CardType | null>(null);
@@ -71,10 +82,23 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
     setSaveSuccess(false);
   }, [saveBoardToUrl]);
 
-  // Save board to GitHub via Cloudflare Worker
+  // Auth handlers
+  const handleLogin = useCallback(() => {
+    window.location.href = `${WORKER_URL}/auth/login`;
+  }, []);
+
+  const handleLogout = useCallback(async () => {
+    await fetch(`${WORKER_URL}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+    setAuth({ authenticated: false, username: null });
+  }, []);
+
+  // Save board to GitHub via Cloudflare Worker (requires auth)
   const handleSaveToGitHub = useCallback(async () => {
-    if (!SAVE_SECRET) {
-      console.error('Save secret not configured');
+    if (!auth.authenticated) {
+      console.error('Not authenticated');
       return;
     }
 
@@ -82,11 +106,11 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
     setSaveSuccess(false);
 
     try {
-      const response = await fetch(WORKER_URL, {
+      const response = await fetch(`${WORKER_URL}/save`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'X-Save-Secret': SAVE_SECRET,
         },
         body: JSON.stringify({
           board: { ...board, updatedAt: new Date().toISOString() },
@@ -107,7 +131,7 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
     } finally {
       setIsSaving(false);
     }
-  }, [board, boardId]);
+  }, [board, boardId, auth.authenticated]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -353,28 +377,47 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
     <div className="space-y-4">
       {/* Toolbar */}
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <p className="text-sm text-muted-foreground">
-          Drag cards between columns.{' '}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <span>Drag cards between columns.</span>
           {isDirty && <span className="text-yellow-600 dark:text-yellow-400">Unsaved changes</span>}
           {saveSuccess && <span className="text-green-600 dark:text-green-400">Saved!</span>}
-        </p>
+          {auth.authenticated && (
+            <span className="text-muted-foreground">
+              Logged in as <span className="font-medium">{auth.username}</span>
+            </span>
+          )}
+        </div>
         <div className="flex gap-2">
-          {SAVE_SECRET && (
-            <Button
-              variant={isDirty ? 'default' : 'outline'}
-              size="sm"
-              onClick={handleSaveToGitHub}
-              disabled={isSaving || !isDirty}
-            >
-              {isSaving ? (
-                <Loader2 className="w-4 h-4 mr-1 animate-spin" />
-              ) : saveSuccess ? (
-                <Check className="w-4 h-4 mr-1" />
-              ) : (
-                <Save className="w-4 h-4 mr-1" />
-              )}
-              {isSaving ? 'Saving...' : saveSuccess ? 'Saved' : 'Save'}
-            </Button>
+          {/* Auth-gated save controls */}
+          {!isCheckingAuth && (
+            auth.authenticated ? (
+              <>
+                <Button
+                  variant={isDirty ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={handleSaveToGitHub}
+                  disabled={isSaving || !isDirty}
+                >
+                  {isSaving ? (
+                    <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                  ) : saveSuccess ? (
+                    <Check className="w-4 h-4 mr-1" />
+                  ) : (
+                    <Save className="w-4 h-4 mr-1" />
+                  )}
+                  {isSaving ? 'Saving...' : saveSuccess ? 'Saved' : 'Save'}
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleLogout}>
+                  <LogOut className="w-4 h-4 mr-1" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button variant="outline" size="sm" onClick={handleLogin}>
+                <LogIn className="w-4 h-4 mr-1" />
+                Login to Save
+              </Button>
+            )
           )}
           <Button variant="outline" size="sm" onClick={handleShare}>
             <Share2 className="w-4 h-4 mr-1" />
