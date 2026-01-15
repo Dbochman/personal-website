@@ -85,6 +85,22 @@ export const roadmapBoard: KanbanBoard = {
       description: 'Planned tasks ready to start',
       cards: [
         {
+          id: 'kanban-save',
+          title: 'Kanban Board Save Feature',
+          description: 'Add "Save Changes" button that commits board state to GitHub via Cloudflare Worker proxy and GitHub Actions.',
+          labels: ['Medium', 'Feature'],
+          planFile: 'docs/plans/25-kanban-save-feature.md',
+          checklist: [
+            { id: 'ks-1', text: 'Convert board data to JSON (runtime loading)', completed: false },
+            { id: 'ks-2', text: 'Create useKanbanBoard hook with dirty state tracking', completed: false },
+            { id: 'ks-3', text: 'Set up Cloudflare Worker with secrets', completed: false },
+            { id: 'ks-4', text: 'Create GitHub Action for save-kanban dispatch', completed: false },
+            { id: 'ks-5', text: 'Add Save button UI with loading/success states', completed: false },
+            { id: 'ks-6', text: 'Add unsaved changes warning on page leave', completed: false },
+          ],
+          createdAt: '2026-01-15',
+        },
+        {
           id: 'analytics-dedupe',
           title: 'Analytics Data Deduplication',
           description: 'Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection.',
