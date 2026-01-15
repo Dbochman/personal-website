@@ -300,6 +300,11 @@
  *
  * Progressive enhancement for smooth page transitions.
  * Chrome 111+, Safari 18+. Falls back to instant navigation elsewhere.
+ *
+ * Transition types:
+ * - forward/back: Slide for depth navigation (into/out of detail pages)
+ * - to-home: Zoom out when returning home
+ * - blog-to-projects / projects-to-blog: Crossfade for section switches
  */
 
 /* Base transition timing */
@@ -309,20 +314,47 @@
   animation-timing-function: var(--easing-smooth);
 }
 
-/* Direction-aware slide transitions */
-[data-direction="forward"]::view-transition-old(root) {
+/* Forward: Slide left (going deeper) */
+[data-transition="forward"]::view-transition-old(root) {
   animation-name: vt-slide-out-left;
 }
-[data-direction="forward"]::view-transition-new(root) {
+[data-transition="forward"]::view-transition-new(root) {
   animation-name: vt-slide-in-right;
 }
-[data-direction="back"]::view-transition-old(root) {
+
+/* Back: Slide right (going up) */
+[data-transition="back"]::view-transition-old(root) {
   animation-name: vt-slide-out-right;
 }
-[data-direction="back"]::view-transition-new(root) {
+[data-transition="back"]::view-transition-new(root) {
   animation-name: vt-slide-in-left;
 }
 
+/* To home: Zoom out */
+[data-transition="to-home"]::view-transition-old(root) {
+  animation-name: vt-zoom-out;
+}
+[data-transition="to-home"]::view-transition-new(root) {
+  animation-name: vt-fade-in;
+}
+
+/* Blog to Projects: Slide up */
+[data-transition="blog-to-projects"]::view-transition-old(root) {
+  animation-name: vt-slide-out-up;
+}
+[data-transition="blog-to-projects"]::view-transition-new(root) {
+  animation-name: vt-slide-in-up;
+}
+
+/* Projects to Blog: Slide down */
+[data-transition="projects-to-blog"]::view-transition-old(root) {
+  animation-name: vt-slide-out-down;
+}
+[data-transition="projects-to-blog"]::view-transition-new(root) {
+  animation-name: vt-slide-in-down;
+}
+
+/* Keyframes: Horizontal slides */
 @keyframes vt-slide-out-left {
   to { transform: translateX(-5%); opacity: 0; }
 }
@@ -334,6 +366,28 @@
 }
 @keyframes vt-slide-in-left {
   from { transform: translateX(-5%); opacity: 0; }
+}
+
+/* Keyframes: Vertical slides */
+@keyframes vt-slide-out-up {
+  to { transform: translateY(-5%); opacity: 0; }
+}
+@keyframes vt-slide-in-up {
+  from { transform: translateY(5%); opacity: 0; }
+}
+@keyframes vt-slide-out-down {
+  to { transform: translateY(5%); opacity: 0; }
+}
+@keyframes vt-slide-in-down {
+  from { transform: translateY(-5%); opacity: 0; }
+}
+
+/* Keyframes: Zoom and fade */
+@keyframes vt-zoom-out {
+  to { transform: scale(0.95); opacity: 0; }
+}
+@keyframes vt-fade-in {
+  from { opacity: 0; }
 }
 
 /* Disable view transitions for reduced motion */

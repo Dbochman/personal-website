@@ -3,10 +3,46 @@ import { useCallback, useRef, useEffect, forwardRef, type MouseEvent } from 'rea
 
 /**
  * Get the depth of a path (number of segments).
- * Used to determine navigation direction.
  */
 function getPathDepth(path: string): number {
   return path.split('/').filter(Boolean).length;
+}
+
+/**
+ * Get the top-level section of a path.
+ */
+function getSection(path: string): string {
+  const segment = path.split('/').filter(Boolean)[0];
+  return segment || 'home';
+}
+
+/**
+ * Determine the transition type based on navigation pattern.
+ */
+function getTransitionType(from: string, to: string): string {
+  const fromSection = getSection(from);
+  const toSection = getSection(to);
+  const fromDepth = getPathDepth(from);
+  const toDepth = getPathDepth(to);
+
+  // Going home from anywhere
+  if (toSection === 'home') {
+    return 'to-home';
+  }
+
+  // Cross-section navigation (blog ↔ projects)
+  if (fromSection !== toSection && fromSection !== 'home') {
+    return fromSection === 'blog' ? 'blog-to-projects' : 'projects-to-blog';
+  }
+
+  // Depth-based navigation within same section
+  if (toDepth > fromDepth) {
+    return 'forward';
+  } else if (toDepth < fromDepth) {
+    return 'back';
+  }
+
+  return 'forward';
 }
 
 /**
@@ -24,8 +60,8 @@ export function useViewTransitionNavigate() {
 
   return useCallback(
     (to: string) => {
-      const isBack = getPathDepth(to) < getPathDepth(lastPath.current);
-      document.documentElement.dataset.direction = isBack ? 'back' : 'forward';
+      const transitionType = getTransitionType(lastPath.current, to);
+      document.documentElement.dataset.transition = transitionType;
 
       if (!document.startViewTransition) {
         navigate(to);
@@ -51,11 +87,12 @@ export const TransitionLink = forwardRef<
   const transitionNavigate = useViewTransitionNavigate();
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
     onClick?.(e);
-    if (!e.defaultPrevented) {
-      transitionNavigate(to);
+    if (e.defaultPrevented) {
+      return;
     }
+    e.preventDefault();
+    transitionNavigate(to);
   };
 
   return (
