@@ -88,13 +88,13 @@ No manual steps needed. Check [Actions tab](https://github.com/Dbochman/personal
 - **Domain:** dylanbochman.com
 - **DNS records:**
   - CNAME `@` → dbochman.github.io (main site)
-  - AAAA `api` → 100:: (placeholder for worker route)
+  - (api subdomain managed automatically by Worker Custom Domain)
 - **Worker:** `kanban-save-worker`
-  - Custom domain: api.dylanbochman.com
-  - Route: `api.dylanbochman.com/*`
+  - Custom Domain: api.dylanbochman.com (auto-manages DNS)
+  - Do NOT use Routes + manual AAAA records - use Custom Domain instead
   - Handles GitHub OAuth and save requests
 - **KV Namespace:** SESSIONS (stores OAuth sessions, 7-day TTL)
-- **Worker Secrets:** GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
+- **Worker Secrets:** GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_PAT
 
 ### GitHub OAuth App
 - **Name:** Kanban Save
