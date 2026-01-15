@@ -77,18 +77,37 @@ export function useViewTransitionNavigate() {
 }
 
 /**
+ * Check if click should use default browser behavior.
+ * Returns true for modifier keys, non-left clicks, or external targets.
+ */
+function shouldUseDefaultBehavior(
+  e: MouseEvent<HTMLAnchorElement>,
+  target?: string
+): boolean {
+  return (
+    e.button !== 0 || // Non-left click (middle, right)
+    e.metaKey || // Cmd+click (Mac)
+    e.ctrlKey || // Ctrl+click (Windows/Linux)
+    e.shiftKey || // Shift+click (new window)
+    e.altKey || // Alt+click (download)
+    (target !== undefined && target !== '_self')
+  );
+}
+
+/**
  * Drop-in replacement for Link that adds view transitions.
  * Renders as an anchor tag with onClick navigation.
+ * Honors modifier keys and alternate click behaviors.
  */
 export const TransitionLink = forwardRef<
   HTMLAnchorElement,
-  Omit<LinkProps, 'to'> & { to: string }
->(function TransitionLink({ to, onClick, children, ...props }, ref) {
+  Omit<LinkProps, 'to'> & { to: string; target?: string }
+>(function TransitionLink({ to, onClick, target, children, ...props }, ref) {
   const transitionNavigate = useViewTransitionNavigate();
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(e);
-    if (e.defaultPrevented) {
+    if (e.defaultPrevented || shouldUseDefaultBehavior(e, target)) {
       return;
     }
     e.preventDefault();
@@ -96,7 +115,7 @@ export const TransitionLink = forwardRef<
   };
 
   return (
-    <a ref={ref} href={to} onClick={handleClick} {...props}>
+    <a ref={ref} href={to} target={target} onClick={handleClick} {...props}>
       {children}
     </a>
   );
