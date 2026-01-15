@@ -2,7 +2,7 @@ name: Daily Analytics Collection
 
 on:
   workflow_dispatch:
-    # Manual trigger for ad-hoc data collection
+  # Manual trigger for ad-hoc data collection
   schedule:
     # Run daily at 6 AM UTC
     - cron: '0 6 * * *'
