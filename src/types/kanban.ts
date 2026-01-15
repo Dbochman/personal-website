@@ -160,35 +160,13 @@ export const roadmapBoard: KanbanBoard = {
       id: 'in-review',
       title: 'In Review',
       color: 'pink',
-      cards: [
-        {
-          id: 'framer-motion',
-          title: 'Framer Motion Animations',
-          description: 'Add stagger animations, scroll reveals, and micro-interactions. Page transitions already handled by View Transitions API.',
-          labels: ['PR #126', 'Medium', 'Learning'],
-          planFile: 'docs/plans/11-framer-motion-animations.md',
-          checklist: [
-            { id: 'fm-1', text: 'Install framer-motion and create shared variants (src/lib/motion.ts)', completed: true },
-            { id: 'fm-2', text: 'Add MotionConfig to App.tsx for reduced motion support', completed: true },
-            { id: 'fm-3', text: 'Add stagger to BlogList grid', completed: true },
-            { id: 'fm-4', text: 'Add stagger to ProjectGrid', completed: true },
-            { id: 'fm-5', text: 'Add stagger to Analytics MetricCards', completed: true },
-            { id: 'fm-6', text: 'Add scroll reveal to ExperienceSection', completed: true },
-            { id: 'fm-7', text: 'Add nav item stagger to MobileNav', completed: true },
-            { id: 'fm-8', text: 'Add tab content transitions to AnalyticsDashboard', completed: true },
-          ],
-          createdAt: '2026-01-13',
-          history: [
-            { type: 'column', timestamp: '2026-01-15T16:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-            { type: 'column', timestamp: '2026-01-15T19:10:00.000Z', columnId: 'in-review', columnTitle: 'In Review' },
-          ],
-        },
-      ],
+      cards: [],
     },
     {
       id: 'changelog',
       title: 'Change Log',
       cards: [
+        { id: 'pr-126', title: 'Framer Motion Animations', description: 'Stagger animations for grids, scroll reveals, tab transitions, mobile nav stagger. Respects prefers-reduced-motion.', labels: ['PR #126', 'UX'], createdAt: '2026-01-15' },
         { id: 'pr-125', title: 'Dynamic PR Status Indicator', description: 'Live CI status for In Review cards via GitHub API, merged icon for changelog PRs', labels: ['PR #125', 'UX'], createdAt: '2026-01-15' },
         { id: 'pr-124', title: 'React Performance Optimizations', description: 'Analytics CLS 0.71→0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders', labels: ['PR #124', 'Performance'], createdAt: '2026-01-15' },
         { id: 'jan-14-15', title: 'Jan 14-15: Infrastructure & Polish', description: 'View Transitions API, RUM with web-vitals, CI/CD improvements with PR checks, Container Queries, MCP testing workflows', labels: ['PR #109', 'PR #113', 'PR #115-117'], createdAt: '2026-01-15' },
