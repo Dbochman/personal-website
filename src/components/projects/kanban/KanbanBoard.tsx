@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -18,22 +18,68 @@ import { CardEditorModal } from './CardEditorModal';
 import { ColumnEditorModal } from './ColumnEditorModal';
 import { useKanbanPersistence } from './useKanbanPersistence';
 import { Button } from '@/components/ui/button';
-import { Plus, RotateCcw, Share2 } from 'lucide-react';
+import { Plus, RotateCcw, Share2, Save, Loader2, Check, LogIn, LogOut } from 'lucide-react';
 import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType, ColumnColor } from '@/types/kanban';
-import { generateId, roadmapBoard } from '@/types/kanban';
+import { generateId } from '@/types/kanban';
+
+const WORKER_URL = 'https://kanban-save-worker.dbochman.workers.dev';
+
+interface AuthStatus {
+  authenticated: boolean;
+  username: string | null;
+}
 
 interface KanbanBoardProps {
-  initialBoard?: BoardType;
+  initialBoard: BoardType;
+  boardId: string; // ID used for saving (e.g., 'roadmap')
   boardKey?: string; // URL query param name for isolation between boards
 }
 
-export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }: KanbanBoardProps) {
-  const { getInitialBoard, saveBoard, clearBoard } = useKanbanPersistence({
+export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: KanbanBoardProps) {
+  const { getInitialBoard, saveBoard: saveBoardToUrl, clearBoard } = useKanbanPersistence({
     defaultBoard: initialBoard,
     boardKey,
   });
+  // Use a ref to get the initial board once (may include URL overrides)
   const [board, setBoard] = useState<BoardType>(() => getInitialBoard());
+  // Track the updatedAt for conflict detection - use actual loaded board, not initialBoard
+  // This updates after successful saves to allow consecutive saves
+  const [baseUpdatedAt, setBaseUpdatedAt] = useState(() => {
+    const loadedBoard = getInitialBoard();
+    return loadedBoard.updatedAt || new Date().toISOString();
+  });
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
+  const [isDirty, setIsDirty] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // Auth state
+  const [auth, setAuth] = useState<AuthStatus>({ authenticated: false, username: null });
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  // Check auth status on mount
+  useEffect(() => {
+    fetch(`${WORKER_URL}/auth/status`, { credentials: 'include' })
+      .then((res) => res.json())
+      .then((data: AuthStatus) => setAuth(data))
+      .catch(() => setAuth({ authenticated: false, username: null }))
+      .finally(() => setIsCheckingAuth(false));
+  }, []);
+
+  // Warn user before leaving page with unsaved changes
+  useEffect(() => {
+    if (!isDirty) return;
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      // Modern browsers ignore custom messages, but this is still required
+      e.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+      return e.returnValue;
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
 
   // Card editor state
   const [editingCard, setEditingCard] = useState<CardType | null>(null);
@@ -50,11 +96,69 @@ export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }:
   const updateBoard = useCallback((updater: (prev: BoardType) => BoardType) => {
     setBoard((prev) => {
       const next = updater(prev);
-      // Save asynchronously to avoid blocking
-      setTimeout(() => saveBoard(next), 0);
+      // Save to URL asynchronously to avoid blocking
+      setTimeout(() => saveBoardToUrl(next), 0);
       return next;
     });
-  }, [saveBoard]);
+    setIsDirty(true);
+    setSaveSuccess(false);
+  }, [saveBoardToUrl]);
+
+  // Auth handlers
+  const handleLogin = useCallback(() => {
+    const returnTo = encodeURIComponent(window.location.href);
+    window.location.href = `${WORKER_URL}/auth/login?return_to=${returnTo}`;
+  }, []);
+
+  const handleLogout = useCallback(async () => {
+    await fetch(`${WORKER_URL}/auth/logout`, {
+      method: 'POST',
+      credentials: 'include',
+    });
+    setAuth({ authenticated: false, username: null });
+  }, []);
+
+  // Save board to GitHub via Cloudflare Worker (requires auth)
+  const handleSaveToGitHub = useCallback(async () => {
+    if (!auth.authenticated) {
+      console.error('Not authenticated');
+      return;
+    }
+
+    setIsSaving(true);
+    setSaveSuccess(false);
+
+    try {
+      const newUpdatedAt = new Date().toISOString();
+      const response = await fetch(`${WORKER_URL}/save`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          board: { ...board, updatedAt: newUpdatedAt },
+          boardId,
+          baseUpdatedAt, // Original timestamp for conflict detection
+        }),
+      });
+
+      if (response.ok) {
+        setIsDirty(false);
+        setSaveSuccess(true);
+        // Update baseUpdatedAt so consecutive saves work without reload
+        setBaseUpdatedAt(newUpdatedAt);
+        // Clear success indicator after 3 seconds
+        setTimeout(() => setSaveSuccess(false), 3000);
+      } else {
+        console.error('Save failed:', await response.text());
+      }
+    } catch (err) {
+      console.error('Save error:', err);
+    } finally {
+      setIsSaving(false);
+    }
+  }, [board, boardId, auth.authenticated]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -278,9 +382,10 @@ export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }:
   };
 
   const handleReset = () => {
-    const newBoard = { ...roadmapBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    const newBoard = { ...initialBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
     setBoard(newBoard);
     clearBoard();
+    setIsDirty(false);
   };
 
   const handleShare = async () => {
@@ -299,10 +404,48 @@ export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }:
     <div className="space-y-4">
       {/* Toolbar */}
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <p className="text-sm text-muted-foreground">
-          Drag cards between columns. Your board is saved in the URL.
-        </p>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <span>Drag cards between columns.</span>
+          {isDirty && <span className="text-yellow-600 dark:text-yellow-400">Unsaved changes</span>}
+          {saveSuccess && <span className="text-green-600 dark:text-green-400">Saved!</span>}
+          {auth.authenticated && (
+            <span className="text-muted-foreground">
+              Logged in as <span className="font-medium">{auth.username}</span>
+            </span>
+          )}
+        </div>
         <div className="flex gap-2">
+          {/* Auth-gated save controls */}
+          {!isCheckingAuth && (
+            auth.authenticated ? (
+              <>
+                <Button
+                  variant={isDirty ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={handleSaveToGitHub}
+                  disabled={isSaving || !isDirty}
+                >
+                  {isSaving ? (
+                    <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                  ) : saveSuccess ? (
+                    <Check className="w-4 h-4 mr-1" />
+                  ) : (
+                    <Save className="w-4 h-4 mr-1" />
+                  )}
+                  {isSaving ? 'Saving...' : saveSuccess ? 'Saved' : 'Save'}
+                </Button>
+                <Button variant="outline" size="sm" onClick={handleLogout}>
+                  <LogOut className="w-4 h-4 mr-1" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button variant="outline" size="sm" onClick={handleLogin}>
+                <LogIn className="w-4 h-4 mr-1" />
+                Login to Save
+              </Button>
+            )
+          )}
           <Button variant="outline" size="sm" onClick={handleShare}>
             <Share2 className="w-4 h-4 mr-1" />
             Copy Link

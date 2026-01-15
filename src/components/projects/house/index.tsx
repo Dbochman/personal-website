@@ -9,7 +9,7 @@ export default function HouseKanban() {
       <section className="py-12 px-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold mb-8" style={{ viewTransitionName: 'page-title' }}>House Projects</h1>
-          <KanbanBoard initialBoard={houseBoard} boardKey="board-house" />
+          <KanbanBoard initialBoard={houseBoard} boardId="house" boardKey="board-house" />
         </div>
       </section>
     </PageLayout>

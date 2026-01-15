@@ -1,0 +1,60 @@
+name: Save Kanban Board
+
+on:
+  repository_dispatch:
+    types: [save-kanban]
+
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate boardId
+        run: |
+          BOARD_ID="${{ github.event.client_payload.boardId }}"
+          # Whitelist of allowed board IDs (prevent path traversal)
+          if [[ "$BOARD_ID" != "roadmap" && "$BOARD_ID" != "house" ]]; then
+            echo "Error: Invalid boardId '$BOARD_ID'. Must be 'roadmap' or 'house'."
+            exit 1
+          fi
+          echo "BOARD_ID=$BOARD_ID" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for conflicts
+        run: |
+          FILE="public/data/${{ env.BOARD_ID }}-board.json"
+          BASE_UPDATED="${{ github.event.client_payload.baseUpdatedAt }}"
+
+          # Validate baseUpdatedAt is present
+          if [ -z "$BASE_UPDATED" ]; then
+            echo "Error: baseUpdatedAt is required for conflict detection."
+            echo "This may indicate an outdated client. Please reload the page."
+            exit 1
+          fi
+
+          if [ -f "$FILE" ]; then
+            CURRENT_UPDATED=$(jq -r '.updatedAt // "1970-01-01"' "$FILE")
+
+            # If file is newer than what user originally loaded, reject
+            if [[ "$CURRENT_UPDATED" > "$BASE_UPDATED" ]]; then
+              echo "Error: Board has been updated since you loaded it."
+              echo "  File updatedAt: $CURRENT_UPDATED"
+              echo "  Your baseUpdatedAt: $BASE_UPDATED"
+              echo "Please reload the page and try again."
+              exit 1
+            fi
+          fi
+
+      - name: Update board JSON
+        run: |
+          mkdir -p public/data
+          echo '${{ toJson(github.event.client_payload.board) }}' | jq '.' > public/data/${{ env.BOARD_ID }}-board.json
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/*-board.json
+          git diff --staged --quiet || git commit -m "kanban: save board state [skip ci]"
+          git push

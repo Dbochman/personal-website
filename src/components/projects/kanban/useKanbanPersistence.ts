@@ -2,15 +2,14 @@ import { useSearchParams } from 'react-router-dom';
 import { useCallback } from 'react';
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 import type { KanbanBoard } from '@/types/kanban';
-import { roadmapBoard } from '@/types/kanban';
 
 interface PersistenceOptions {
-  defaultBoard?: KanbanBoard;
+  defaultBoard: KanbanBoard;
   boardKey?: string; // URL query param name (e.g., 'board', 'board-house')
 }
 
-export function useKanbanPersistence(options: PersistenceOptions = {}) {
-  const { defaultBoard = roadmapBoard, boardKey = 'board' } = options;
+export function useKanbanPersistence(options: PersistenceOptions) {
+  const { defaultBoard, boardKey = 'board' } = options;
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Load board - used as lazy initializer for useState
