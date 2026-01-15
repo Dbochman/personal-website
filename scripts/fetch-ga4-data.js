@@ -210,6 +210,7 @@ async function fetchGA4Data() {
       .slice(0, 10);
 
     // Process Web Vitals (RUM) data
+    // Note: web-vitals library reports all timing metrics in milliseconds
     const webVitals = {};
     vitalsResponse.rows?.forEach(row => {
       const metric = row.dimensionValues[0].value;
@@ -221,9 +222,10 @@ async function fetchGA4Data() {
 
       webVitals[metric] = {
         count,
-        // CLS is scaled by 1000, so divide back
+        // CLS is scaled by 1000 when sent, so divide back to get actual value
+        // All timing metrics (LCP, FCP, INP, TTFB) are in milliseconds
         average: metric === 'CLS' ? avgValue / 1000 : avgValue,
-        unit: metric === 'CLS' ? '' : metric === 'LCP' || metric === 'FCP' ? 's' : 'ms',
+        unit: metric === 'CLS' ? '' : 'ms',
       };
     });
 
@@ -313,13 +315,16 @@ function updateMetricsSummary(analyticsData, topPages, webVitals) {
       })),
     };
 
-    // Add Web Vitals (RUM) data if available
+    // Add Web Vitals (RUM) data if available, clear if empty to avoid stale data
     if (webVitals && Object.keys(webVitals).length > 0) {
       summary.webVitals = {
         lastCheck: new Date().toISOString(),
         source: 'rum',
         metrics: webVitals,
       };
+    } else {
+      // Clear stale data when no RUM metrics available
+      delete summary.webVitals;
     }
 
     summary.generated = new Date().toISOString();
