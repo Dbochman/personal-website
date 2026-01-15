@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { useAnalyticsData } from '@/hooks/useAnalyticsData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,11 +7,14 @@ import { MetricCard } from './MetricCard';
 import { CoreWebVitalsCard } from './CoreWebVitalsCard';
 import { RumWebVitalsCard } from './RumWebVitalsCard';
 import { LighthouseScoresTable } from './LighthouseScoresTable';
-import { SessionsTrendChart } from './charts/SessionsTrendChart';
-import { DeviceBreakdownChart } from './charts/DeviceBreakdownChart';
-import { TrafficSourcesChart } from './charts/TrafficSourcesChart';
-import { LighthouseHistoryChart } from './charts/LighthouseHistoryChart';
-import { SearchPerformanceChart } from './charts/SearchPerformanceChart';
+import { ChartSkeleton } from '@/components/ui/skeletons';
+
+// Lazy load Recharts-dependent components (heaviest)
+const SessionsTrendChart = lazy(() => import('./charts/SessionsTrendChart').then(m => ({ default: m.SessionsTrendChart })));
+const DeviceBreakdownChart = lazy(() => import('./charts/DeviceBreakdownChart').then(m => ({ default: m.DeviceBreakdownChart })));
+const TrafficSourcesChart = lazy(() => import('./charts/TrafficSourcesChart').then(m => ({ default: m.TrafficSourcesChart })));
+const LighthouseHistoryChart = lazy(() => import('./charts/LighthouseHistoryChart').then(m => ({ default: m.LighthouseHistoryChart })));
+const SearchPerformanceChart = lazy(() => import('./charts/SearchPerformanceChart').then(m => ({ default: m.SearchPerformanceChart })));
 
 export function AnalyticsDashboard() {
   const { latest, ga4History, searchHistory, lighthouseSummary, isLoading, error, warning } = useAnalyticsData();
@@ -169,7 +173,9 @@ export function AnalyticsDashboard() {
                 <CardTitle>Sessions Over Time</CardTitle>
               </CardHeader>
               <CardContent>
-                <SessionsTrendChart data={ga4History} />
+                <Suspense fallback={<div className="h-64 bg-muted rounded animate-pulse" />}>
+                  <SessionsTrendChart data={ga4History} />
+                </Suspense>
               </CardContent>
             </Card>
             <Card>
@@ -177,7 +183,9 @@ export function AnalyticsDashboard() {
                 <CardTitle>Device Breakdown</CardTitle>
               </CardHeader>
               <CardContent>
-                <DeviceBreakdownChart data={latestGA4?.deviceBreakdown ?? []} />
+                <Suspense fallback={<div className="h-64 bg-muted rounded animate-pulse" />}>
+                  <DeviceBreakdownChart data={latestGA4?.deviceBreakdown ?? []} />
+                </Suspense>
               </CardContent>
             </Card>
           </div>
@@ -188,7 +196,9 @@ export function AnalyticsDashboard() {
                 <CardTitle>Traffic Sources</CardTitle>
               </CardHeader>
               <CardContent>
-                <TrafficSourcesChart data={latestGA4?.trafficSources} />
+                <Suspense fallback={<div className="h-64 bg-muted rounded animate-pulse" />}>
+                  <TrafficSourcesChart data={latestGA4?.trafficSources} />
+                </Suspense>
               </CardContent>
             </Card>
             {latestGA4?.trafficSources?.sources && latestGA4.trafficSources.sources.length > 0 && (
@@ -268,7 +278,9 @@ export function AnalyticsDashboard() {
               <CardTitle>Lighthouse Scores by Page</CardTitle>
             </CardHeader>
             <CardContent>
-              <LighthouseHistoryChart data={lighthouseSummary} />
+              <Suspense fallback={<div className="h-64 bg-muted rounded animate-pulse" />}>
+                <LighthouseHistoryChart data={lighthouseSummary} />
+              </Suspense>
             </CardContent>
           </Card>
 
@@ -282,7 +294,9 @@ export function AnalyticsDashboard() {
               <CardTitle>Search Performance</CardTitle>
             </CardHeader>
             <CardContent>
-              <SearchPerformanceChart data={searchHistory} />
+              <Suspense fallback={<div className="h-64 bg-muted rounded animate-pulse" />}>
+                <SearchPerformanceChart data={searchHistory} />
+              </Suspense>
             </CardContent>
           </Card>
 

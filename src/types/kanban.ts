@@ -22,6 +22,8 @@ export type ColumnColor = 'default' | 'yellow' | 'orange' | 'purple' | 'blue' | 
 // Card colors reuse the same palette as columns
 export type CardColor = ColumnColor;
 
+export type PrStatus = 'passing' | 'failing' | 'pending';
+
 export interface KanbanCard {
   id: string;
   title: string;
@@ -30,6 +32,7 @@ export interface KanbanCard {
   checklist?: ChecklistItem[];
   planFile?: string; // Path to plan file, e.g., 'docs/plans/11-framer-motion.md'
   color?: CardColor;
+  prStatus?: PrStatus; // CI status for cards in "In Review" column
   createdAt: string;
   updatedAt?: string;
   history?: CardChange[];
@@ -177,51 +180,34 @@ export const roadmapBoard: KanbanBoard = {
     {
       id: 'todo',
       title: 'To Do',
-      cards: [
-        {
-          id: 'analytics-lazy-tabs',
-          title: 'Lazy Load Analytics Tabs',
-          description: 'Defer loading of chart components until their tab is selected using React.lazy and Suspense.',
-          labels: ['Medium', 'Performance'],
-          planFile: 'docs/plans/19-analytics-lazy-tabs.md',
-          checklist: [
-            { id: 'alt-1', text: 'Create ChartSkeleton fallback component', completed: false },
-            { id: 'alt-2', text: 'Extract chart components to separate files if needed', completed: false },
-            { id: 'alt-3', text: 'Add React.lazy imports for chart components', completed: false },
-            { id: 'alt-4', text: 'Wrap chart components in Suspense with skeleton fallback', completed: false },
-            { id: 'alt-5', text: 'Test tab switching and verify lazy loading', completed: false },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-15T20:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-          ],
-          createdAt: '2026-01-15',
-        },
-        {
-          id: 'skeleton-loaders',
-          title: 'Skeleton Loaders',
-          description: 'Replace generic "Loading..." text with skeleton components for better perceived performance.',
-          labels: ['Small-Medium', 'UX', 'Performance'],
-          planFile: 'docs/plans/20-skeleton-loaders.md',
-          checklist: [
-            { id: 'sl-1', text: 'Create PageSkeleton component', completed: false },
-            { id: 'sl-2', text: 'Create BlogListSkeleton component', completed: false },
-            { id: 'sl-3', text: 'Create ProjectGridSkeleton component', completed: false },
-            { id: 'sl-4', text: 'Create ChartSkeleton component', completed: false },
-            { id: 'sl-5', text: 'Update App.tsx Suspense fallback', completed: false },
-            { id: 'sl-6', text: 'Test with throttled network', completed: false },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-15T20:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-          ],
-          createdAt: '2026-01-15',
-        },
-      ],
+      cards: [],
     },
     {
       id: 'in-progress',
       title: 'In Progress',
       color: 'blue',
-      cards: [],
+      cards: [
+        {
+          id: 'dynamic-pr-status',
+          title: 'Dynamic PR Status Indicator',
+          description: 'Fetch PR check status from GitHub API at runtime so In Review cards show live CI status.',
+          labels: ['Small-Medium', 'UX'],
+          planFile: 'docs/plans/21-dynamic-pr-status.md',
+          checklist: [
+            { id: 'dps-1', text: 'Create usePrStatus hook with GitHub API fetch', completed: true },
+            { id: 'dps-2', text: 'Add in-memory cache with 2-minute TTL', completed: true },
+            { id: 'dps-3', text: 'Update KanbanCard to use hook for PR labels', completed: true },
+            { id: 'dps-4', text: 'Add loading spinner state', completed: true },
+            { id: 'dps-5', text: 'Handle edge cases (404, rate limit, no checks)', completed: true },
+            { id: 'dps-6', text: 'Test with real PR in In Review column', completed: false },
+          ],
+          history: [
+            { type: 'column', timestamp: '2026-01-15T22:30:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+            { type: 'column', timestamp: '2026-01-15T22:35:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
+          ],
+          createdAt: '2026-01-15',
+        },
+      ],
     },
     {
       id: 'in-review',
@@ -231,14 +217,17 @@ export const roadmapBoard: KanbanBoard = {
         {
           id: 'react-perf-optimizations',
           title: 'React Performance Optimizations',
-          description: 'Fixed Analytics CLS (0.71→0.10), added scroll throttling, and React.memo for list components.',
-          labels: ['Small', 'Performance', 'PR #124'],
+          description: 'Fixed Analytics CLS (0.71→0.10), added scroll throttling, React.memo, lazy-loaded chart components, and skeleton loaders.',
+          labels: ['Medium', 'Performance', 'PR #124'],
           checklist: [
             { id: 'rpo-1', text: 'Fix Analytics CLS with proper loading skeleton', completed: true },
             { id: 'rpo-2', text: 'Fix Recharts dimension warnings', completed: true },
             { id: 'rpo-3', text: 'Add throttle utility to utils.ts', completed: true },
             { id: 'rpo-4', text: 'Apply throttle to BackToTop scroll handler', completed: true },
             { id: 'rpo-5', text: 'Add React.memo to BlogCard, ProjectCard, MetricCard', completed: true },
+            { id: 'rpo-6', text: 'Create skeleton loader components (Page, Blog, Project, Chart)', completed: true },
+            { id: 'rpo-7', text: 'Update App.tsx Suspense fallback with PageSkeleton', completed: true },
+            { id: 'rpo-8', text: 'Lazy load Analytics chart components with React.lazy', completed: true },
           ],
           history: [
             { type: 'column', timestamp: '2026-01-15T20:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },

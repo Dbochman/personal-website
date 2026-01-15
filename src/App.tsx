@@ -7,6 +7,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { lazy, Suspense } from "react";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { PageSkeleton } from "@/components/ui/skeletons";
 import Index from "./pages/Index";
 
 // Lazy load pages that aren't on the critical path
@@ -35,7 +36,7 @@ const App = () => (
         >
           <ScrollToTop />
           <ThemeProvider>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<PageSkeleton />}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/blog" element={<Blog />} />
