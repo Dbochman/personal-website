@@ -178,22 +178,6 @@ export const roadmapBoard: KanbanBoard = {
       id: 'todo',
       title: 'To Do',
       cards: [
-        {
-          id: 'rum',
-          title: 'Real User Monitoring (RUM)',
-          description: 'Collect Core Web Vitals from real user sessions via web-vitals library + GA4. Complements synthetic Lighthouse testing.',
-          labels: ['Small-Medium', 'Analytics'],
-          planFile: 'docs/plans/09-real-user-monitoring.md',
-          checklist: [
-            { id: 'rum-1', text: 'Install web-vitals package', completed: false },
-            { id: 'rum-2', text: 'Create web-vitals.ts reporting hook to GA4', completed: false },
-            { id: 'rum-3', text: 'Initialize in main.tsx with requestIdleCallback', completed: false },
-            { id: 'rum-4', text: 'Set up GA4 custom dimensions', completed: false },
-            { id: 'rum-5', text: 'Update GA4 export script to include Web Vitals', completed: false },
-            { id: 'rum-6', text: 'Add RUM data to Analytics Dashboard', completed: false },
-          ],
-          createdAt: '2026-01-13',
-        },
       ],
     },
     {
@@ -206,6 +190,25 @@ export const roadmapBoard: KanbanBoard = {
       id: 'recently-completed',
       title: 'Recently Completed',
       cards: [
+        {
+          id: 'rum',
+          title: 'Real User Monitoring (RUM)',
+          description: 'Collect Core Web Vitals from real user sessions via web-vitals library + GA4. Export RUM data from GA4 Data API.',
+          labels: ['Small-Medium', 'Analytics', 'PR #117'],
+          planFile: 'docs/plans/09-real-user-monitoring.md',
+          checklist: [
+            { id: 'rum-1', text: 'Install web-vitals package', completed: true },
+            { id: 'rum-2', text: 'Create web-vitals.ts reporting hook to GA4', completed: true },
+            { id: 'rum-3', text: 'Initialize in main.tsx with requestIdleCallback', completed: true },
+            { id: 'rum-4', text: 'Update GA4 export script to include Web Vitals', completed: true },
+            { id: 'rum-5', text: 'Add metric_rating to events', completed: true },
+          ],
+          history: [
+            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+            { type: 'column', timestamp: '2026-01-15T03:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+          ],
+          createdAt: '2026-01-13',
+        },
         {
           id: 'view-transitions',
           title: 'View Transitions API',
