@@ -40,9 +40,14 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
     defaultBoard: initialBoard,
     boardKey,
   });
+  // Use a ref to get the initial board once (may include URL overrides)
   const [board, setBoard] = useState<BoardType>(() => getInitialBoard());
-  // Track the original updatedAt for conflict detection
-  const [baseUpdatedAt] = useState(() => initialBoard.updatedAt || new Date().toISOString());
+  // Track the updatedAt for conflict detection - use actual loaded board, not initialBoard
+  // This updates after successful saves to allow consecutive saves
+  const [baseUpdatedAt, setBaseUpdatedAt] = useState(() => {
+    const loadedBoard = getInitialBoard();
+    return loadedBoard.updatedAt || new Date().toISOString();
+  });
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -124,6 +129,7 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
     setSaveSuccess(false);
 
     try {
+      const newUpdatedAt = new Date().toISOString();
       const response = await fetch(`${WORKER_URL}/save`, {
         method: 'POST',
         credentials: 'include',
@@ -131,7 +137,7 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          board: { ...board, updatedAt: new Date().toISOString() },
+          board: { ...board, updatedAt: newUpdatedAt },
           boardId,
           baseUpdatedAt, // Original timestamp for conflict detection
         }),
@@ -140,6 +146,8 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
       if (response.ok) {
         setIsDirty(false);
         setSaveSuccess(true);
+        // Update baseUpdatedAt so consecutive saves work without reload
+        setBaseUpdatedAt(newUpdatedAt);
         // Clear success indicator after 3 seconds
         setTimeout(() => setSaveSuccess(false), 3000);
       } else {
