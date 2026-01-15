@@ -125,5 +125,175 @@
         "users": 4
       }
     ]
+  },
+  {
+    "timestamp": "2026-01-15T02:24:50.251Z",
+    "date": "2026-01-15",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 6940,
+      "users": 6747,
+      "pageViews": 7321,
+      "averageSessionDuration": 22,
+      "bounceRate": 0.93
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 1865,
+        "users": 1812,
+        "pageViews": 2116
+      },
+      {
+        "page": "/blog/",
+        "sessions": 808,
+        "users": 790,
+        "pageViews": 851
+      },
+      {
+        "page": "/runbook",
+        "sessions": 838,
+        "users": 833,
+        "pageViews": 845
+      },
+      {
+        "page": "/blog/adventures-in-ai-assisted-web-development",
+        "sessions": 797,
+        "users": 797,
+        "pageViews": 797
+      },
+      {
+        "page": "/blog",
+        "sessions": 564,
+        "users": 535,
+        "pageViews": 546
+      },
+      {
+        "page": "/blog/2026-01-getting-started-with-sre",
+        "sessions": 291,
+        "users": 288,
+        "pageViews": 288
+      },
+      {
+        "page": "/blog/2026-01-getting-started-with-sre/",
+        "sessions": 163,
+        "users": 161,
+        "pageViews": 167
+      },
+      {
+        "page": "/blog/2025-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 147,
+        "users": 146,
+        "pageViews": 149
+      },
+      {
+        "page": "/blog/2025-01-07-adventures-in-ai-assisted-web-development",
+        "sessions": 133,
+        "users": 125,
+        "pageViews": 138
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 119,
+        "users": 119,
+        "pageViews": 119
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 6184,
+        "users": 6046
+      },
+      {
+        "device": "mobile",
+        "sessions": 750,
+        "users": 697
+      },
+      {
+        "device": "tablet",
+        "sessions": 6,
+        "users": 4
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 6612,
+          "users": 6605
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 33,
+          "users": 6
+        },
+        {
+          "channel": "Referral",
+          "sessions": 27,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 2,
+          "users": 2
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 6612,
+          "users": 6605
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 33,
+          "users": 6
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 27,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 2,
+          "users": 2
+        }
+      ]
+    },
+    "webVitals": {
+      "FCP": {
+        "count": 1483,
+        "average": 464.8658125421443,
+        "unit": "ms"
+      },
+      "TTFB": {
+        "count": 1447,
+        "average": 101.61022805805113,
+        "unit": "ms"
+      },
+      "LCP": {
+        "count": 480,
+        "average": 329.12291666666664,
+        "unit": "ms"
+      },
+      "CLS": {
+        "count": 300,
+        "average": 0.00044,
+        "unit": ""
+      },
+      "INP": {
+        "count": 195,
+        "average": 34.13333333333333,
+        "unit": "ms"
+      }
+    }
   }
 ]
