@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Activity, Search, Gauge, Users } from 'lucide-react';
 import { MetricCard } from './MetricCard';
 import { CoreWebVitalsCard } from './CoreWebVitalsCard';
+import { RumWebVitalsCard } from './RumWebVitalsCard';
 import { LighthouseScoresTable } from './LighthouseScoresTable';
 import { SessionsTrendChart } from './charts/SessionsTrendChart';
 import { DeviceBreakdownChart } from './charts/DeviceBreakdownChart';
@@ -201,17 +202,27 @@ export function AnalyticsDashboard() {
 
         {/* Performance Tab */}
         <TabsContent value="performance" className="space-y-4">
+          {/* Web Vitals Comparison: Lab vs Field */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Lighthouse Scores</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <LighthouseHistoryChart data={lighthouseSummary} />
-              </CardContent>
-            </Card>
-            <CoreWebVitalsCard data={lighthouseSummary} />
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-muted-foreground">Lab Data (Lighthouse)</h3>
+              <CoreWebVitalsCard data={lighthouseSummary} />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium text-muted-foreground">Field Data (Real Users)</h3>
+              <RumWebVitalsCard data={latest?.webVitals} />
+            </div>
           </div>
+
+          {/* Lighthouse Scores Chart */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Lighthouse Scores by Page</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <LighthouseHistoryChart data={lighthouseSummary} />
+            </CardContent>
+          </Card>
 
           <LighthouseScoresTable data={lighthouseSummary} />
         </TabsContent>

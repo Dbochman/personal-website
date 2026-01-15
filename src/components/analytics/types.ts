@@ -1,5 +1,23 @@
 // Types for analytics data from docs/metrics/*.json
 
+export interface WebVitalMetric {
+  count: number;
+  average: number;
+  unit: string;
+}
+
+export interface WebVitalsData {
+  lastCheck: string;
+  source: 'rum';
+  metrics: {
+    LCP?: WebVitalMetric;
+    FCP?: WebVitalMetric;
+    CLS?: WebVitalMetric;
+    INP?: WebVitalMetric;
+    TTFB?: WebVitalMetric;
+  };
+}
+
 export interface LatestMetrics {
   generated: string;
   searchConsole: {
@@ -18,6 +36,7 @@ export interface LatestMetrics {
     bounceRate: number;
     topPages: Array<{ page: string; pageViews: number }>;
   };
+  webVitals?: WebVitalsData;
 }
 
 export interface GA4HistoryEntry {
