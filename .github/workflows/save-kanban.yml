@@ -47,9 +47,11 @@ jobs:
           fi
 
       - name: Update board JSON
+        env:
+          BOARD_JSON: ${{ toJson(github.event.client_payload.board) }}
         run: |
           mkdir -p public/data
-          echo '${{ toJson(github.event.client_payload.board) }}' | jq '.' > public/data/${{ env.BOARD_ID }}-board.json
+          printenv BOARD_JSON | jq '.' > public/data/${{ env.BOARD_ID }}-board.json
 
       - name: Commit and push
         run: |
