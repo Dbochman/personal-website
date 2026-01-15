@@ -11,6 +11,7 @@ import {
 } from '@/lib/blog-loader-precompiled';
 import { Comments } from '@/components/blog/Comments';
 import { RelatedPosts } from '@/components/blog/RelatedPosts';
+import { TransitionLink } from '@/hooks/useViewTransition';
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -107,17 +108,20 @@ export default function BlogPost() {
         <div className="container mx-auto px-4 py-12">
           <div className="max-w-3xl mx-auto">
             {/* Back link */}
-            <Link
+            <TransitionLink
               to="/blog"
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
               View all posts
-            </Link>
+            </TransitionLink>
 
             {/* Post header */}
             <header className="mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              <h1
+                className="text-4xl md:text-5xl font-bold mb-4"
+                style={{ viewTransitionName: `blog-title-${slug}` }}
+              >
                 {post.title}
               </h1>
 
@@ -195,12 +199,12 @@ export default function BlogPost() {
                     {post.author}
                   </Link>
                 </div>
-                <Link
+                <TransitionLink
                   to="/blog"
                   className="text-sm text-primary hover:underline"
                 >
                   View all posts →
-                </Link>
+                </TransitionLink>
               </div>
             </footer>
           </div>

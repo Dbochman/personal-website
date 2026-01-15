@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useParallax } from "@/hooks/useParallax";
+import { useViewTransitionHints } from '@/hooks/useViewTransition';
 import Header from "@/components/layout/Header";
 import ParallaxBackground from "@/components/layout/ParallaxBackground";
 import BackToTop from "@/components/BackToTop";
@@ -11,6 +12,7 @@ interface PageLayoutProps {
 
 const PageLayout = ({ children }: PageLayoutProps) => {
   useParallax();
+  useViewTransitionHints();
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">

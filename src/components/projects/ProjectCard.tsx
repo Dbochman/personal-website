@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   Card,
   CardContent,
@@ -19,6 +18,7 @@ import {
   MessageSquare,
   type LucideIcon,
 } from 'lucide-react';
+import { TransitionLink } from '@/hooks/useViewTransition';
 import type { ProjectMeta } from '@/types/project';
 
 // Icon registry - add icons here as new projects are added
@@ -56,7 +56,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const IconComponent = project.icon ? iconRegistry[project.icon] : null;
 
   return (
-    <Link
+    <TransitionLink
       to={`/projects/${project.slug}`}
       className="block group focus:outline-none"
       onMouseEnter={handleFirstInteraction}
@@ -64,7 +64,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
     >
       <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus:shadow-lg group-focus:border-primary/50 h-full">
         <CardHeader className="pb-3">
-          <CardTitle className="text-xl group-hover:text-primary group-focus:text-primary transition-colors flex items-center gap-2">
+          <CardTitle
+            className="text-xl group-hover:text-primary group-focus:text-primary transition-colors flex items-center gap-2"
+            style={{ viewTransitionName: `project-title-${project.slug}` }}
+          >
             {IconComponent && (
               <IconComponent className="w-5 h-5 text-primary flex-shrink-0" />
             )}
@@ -98,6 +101,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </CardContent>
       </Card>
-    </Link>
+    </TransitionLink>
   );
 }

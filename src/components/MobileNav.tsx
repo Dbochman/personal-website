@@ -1,4 +1,3 @@
-
 import { Menu } from 'lucide-react';
 import {
   Sheet,
@@ -10,7 +9,8 @@ import {
 } from "@/components/ui/sheet";
 import { navigationItems } from "@/data/navigation";
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { TransitionLink } from '@/hooks/useViewTransition';
 
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
@@ -54,13 +54,13 @@ const MobileNav = () => {
             <ul className="space-y-4">
               {navItemsToShow.map((item) => (
                 <li key={item.href}>
-                  <Link
+                  <TransitionLink
                     to={item.href}
                     onClick={() => setOpen(false)}
                     className="block py-4 px-4 text-foreground/70 hover:text-foreground transition-colors font-mono text-lg hover:underline decoration-2 underline-offset-4 hover:bg-foreground/5 rounded-lg min-h-[44px] flex items-center"
                   >
                     {item.label}
-                  </Link>
+                  </TransitionLink>
                 </li>
               ))}
             </ul>

@@ -1,9 +1,9 @@
-
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { navigationItems } from "@/data/navigation";
 import MobileNav from "@/components/MobileNav";
 import { useTheme } from '@/context/ThemeContext';
-import { Sun, Moon } from 'lucide-react'
+import { Sun, Moon } from 'lucide-react';
+import { TransitionLink } from '@/hooks/useViewTransition';
 
 const Header = () => {
   const location = useLocation();
@@ -27,21 +27,25 @@ const Header = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Link to="/" className="text-2xl font-bold text-foreground font-mono tracking-tight hover:no-underline">
+            <TransitionLink
+              to="/"
+              className="text-2xl font-bold text-foreground font-mono tracking-tight hover:no-underline"
+              style={{ viewTransitionName: 'site-title' }}
+            >
               Dylan Bochman
-            </Link>
+            </TransitionLink>
           </div>
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex gap-6">
             {navItemsToShow.map((item) => (
-              <Link
+              <TransitionLink
                 key={item.href}
                 to={item.href}
                 className="text-foreground/70 hover:text-foreground transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4"
               >
                 {item.label}
-              </Link>
+              </TransitionLink>
             ))}
             <button
               onClick={toggleTheme}

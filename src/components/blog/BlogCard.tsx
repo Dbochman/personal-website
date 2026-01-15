@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { TransitionLink } from '@/hooks/useViewTransition';
 import type { BlogPost } from '@/types/blog';
 
 interface BlogCardProps {
@@ -31,14 +32,17 @@ export function BlogCard({ post }: BlogCardProps) {
     >
       <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus-within:shadow-lg group-focus-within:border-primary/50 h-full">
         <CardHeader className="pb-3">
-          <CardTitle className="text-xl group-hover:text-primary group-focus-within:text-primary transition-colors">
+          <CardTitle
+            className="text-xl group-hover:text-primary group-focus-within:text-primary transition-colors"
+            style={{ viewTransitionName: `blog-title-${post.slug}` }}
+          >
             {/* Main card link - covers entire card */}
-            <Link
+            <TransitionLink
               to={`/blog/${post.slug}`}
               className="after:absolute after:inset-0 after:content-[''] focus:outline-none"
             >
               {post.title}
-            </Link>
+            </TransitionLink>
           </CardTitle>
           <CardDescription className="flex items-center gap-2 text-sm">
             {/* Author link - sits above overlay via z-index */}

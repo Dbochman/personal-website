@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { getProject } from '@/data/projects';
+import { TransitionLink } from '@/hooks/useViewTransition';
 import type { ProjectStatus } from '@/types/project';
 
 const statusVariants: Record<ProjectStatus, 'default' | 'secondary' | 'outline'> = {
@@ -92,21 +93,26 @@ export default function Project() {
         )}>
           <div className={cn(!project.fullWidth && 'max-w-4xl mx-auto')}>
             {/* Back link */}
-            <Link
+            <TransitionLink
               to="/projects"
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4"
             >
               <ArrowLeft className="w-4 h-4" />
               All projects
-            </Link>
+            </TransitionLink>
 
             {/* Project header */}
             <header className="mb-4">
               <div className="flex flex-wrap items-center gap-3 mb-2">
-                <h1 className={cn(
-                  'font-bold',
-                  project.fullWidth ? 'text-2xl md:text-3xl' : 'text-4xl md:text-5xl'
-                )}>{project.title}</h1>
+                <h1
+                  className={cn(
+                    'font-bold',
+                    project.fullWidth ? 'text-2xl md:text-3xl' : 'text-4xl md:text-5xl'
+                  )}
+                  style={{ viewTransitionName: `project-title-${slug}` }}
+                >
+                  {project.title}
+                </h1>
                 <Badge variant={statusVariants[project.status]}>
                   {statusLabels[project.status]}
                 </Badge>
