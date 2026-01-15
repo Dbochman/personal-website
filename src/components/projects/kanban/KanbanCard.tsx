@@ -51,9 +51,10 @@ export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: Ka
   } = useSortable({ id: card.id });
 
   const isChangelog = columnId === 'changelog';
+  const isInReview = columnId === 'in-review';
 
-  // Only fetch dynamic status if no hardcoded prStatus and not in changelog
-  const prNumber = card.prStatus || isChangelog ? null : getFirstPrNumber(card.labels);
+  // Only fetch dynamic status for cards in "In Review" column without hardcoded prStatus
+  const prNumber = isInReview && !card.prStatus ? getFirstPrNumber(card.labels) : null;
   const { status: dynamicStatus, loading: statusLoading } = usePrStatus(prNumber);
   const displayStatus = card.prStatus ?? dynamicStatus;
 

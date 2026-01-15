@@ -6,7 +6,7 @@ const REPO_NAME = 'personal-website';
 const CACHE_TTL = 2 * 60 * 1000; // 2 minutes
 
 interface CacheEntry {
-  status: PrStatus;
+  status: PrStatus | null;
   timestamp: number;
 }
 
@@ -42,11 +42,11 @@ function getCachedStatus(prNumber: number): PrStatus | null {
   return entry.status;
 }
 
-function setCachedStatus(prNumber: number, status: PrStatus): void {
+function setCachedStatus(prNumber: number, status: PrStatus | null): void {
   cache.set(prNumber, { status, timestamp: Date.now() });
 }
 
-async function fetchPrStatus(prNumber: number): Promise<PrStatus> {
+async function fetchPrStatus(prNumber: number): Promise<PrStatus | null> {
   try {
     // First, get the PR to find the head SHA
     const prResponse = await fetch(
@@ -60,13 +60,14 @@ async function fetchPrStatus(prNumber: number): Promise<PrStatus> {
 
     if (!prResponse.ok) {
       if (prResponse.status === 404) {
-        return 'failing'; // PR not found
+        // PR not found - hide indicator rather than show misleading status
+        return null;
       }
       if (prResponse.status === 403) {
         console.warn('GitHub API rate limit reached');
-        return 'pending'; // Rate limited, assume pending
       }
-      return 'pending';
+      // Rate limited or other error - hide indicator
+      return null;
     }
 
     const prData: PrResponse = await prResponse.json();
@@ -83,13 +84,15 @@ async function fetchPrStatus(prNumber: number): Promise<PrStatus> {
     );
 
     if (!checksResponse.ok) {
-      return 'pending';
+      // Error fetching checks - hide indicator
+      return null;
     }
 
     const checksData: CheckRunsResponse = await checksResponse.json();
 
     if (checksData.total_count === 0) {
-      return 'pending'; // No checks configured
+      // No checks configured - hide indicator
+      return null;
     }
 
     // Determine overall status
@@ -111,7 +114,8 @@ async function fetchPrStatus(prNumber: number): Promise<PrStatus> {
     return 'passing';
   } catch (error) {
     console.error('Error fetching PR status:', error);
-    return 'pending';
+    // Network error - hide indicator
+    return null;
   }
 }
 
