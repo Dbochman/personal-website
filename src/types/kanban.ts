@@ -77,21 +77,29 @@ export const roadmapBoard: KanbanBoard = {
       id: 'ideas',
       title: 'Ideas',
       description: 'Concepts without detailed plans yet',
-      cards: [
-        {
-          id: 'analytics-dedupe',
-          title: 'Analytics Data Deduplication',
-          description: 'Ensure only one data point per date is rendered in analytics charts. Currently may show duplicate entries for the same day.',
-          labels: ['Small', 'Bug Fix'],
-          createdAt: '2026-01-15',
-        },
-      ],
+      cards: [],
     },
     {
       id: 'todo',
       title: 'To Do',
       description: 'Planned tasks ready to start',
       cards: [
+        {
+          id: 'analytics-dedupe',
+          title: 'Analytics Data Deduplication',
+          description: 'Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection.',
+          labels: ['Small', 'Bug Fix'],
+          planFile: 'docs/plans/24-analytics-data-deduplication.md',
+          checklist: [
+            { id: 'ad-1', text: 'Add deduplicateByDate helper function', completed: false },
+            { id: 'ad-2', text: 'Apply to ga4History and searchHistory data', completed: false },
+            { id: 'ad-3', text: 'Verify charts show one point per date', completed: false },
+          ],
+          createdAt: '2026-01-15',
+          history: [
+            { type: 'column', timestamp: '2026-01-15T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+          ],
+        },
         {
           id: 'sentry-enhancement',
           title: 'Sentry Error Tracking Enhancement',
