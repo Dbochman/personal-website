@@ -1,23 +1,22 @@
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
 import { ChevronUp } from 'lucide-react';
+import { throttle } from '@/lib/utils';
 
 const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
+  const toggleVisibility = useMemo(
+    () => throttle(() => {
+      setIsVisible(window.pageYOffset > 300);
+    }, 100),
+    []
+  );
 
-    window.addEventListener('scroll', toggleVisibility);
+  useEffect(() => {
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
     return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
+  }, [toggleVisibility]);
 
   const scrollToTop = () => {
     window.scrollTo({

@@ -22,6 +22,8 @@ export type ColumnColor = 'default' | 'yellow' | 'orange' | 'purple' | 'blue' | 
 // Card colors reuse the same palette as columns
 export type CardColor = ColumnColor;
 
+export type PrStatus = 'passing' | 'failing' | 'pending';
+
 export interface KanbanCard {
   id: string;
   title: string;
@@ -30,6 +32,7 @@ export interface KanbanCard {
   checklist?: ChecklistItem[];
   planFile?: string; // Path to plan file, e.g., 'docs/plans/11-framer-motion.md'
   color?: CardColor;
+  prStatus?: PrStatus; // CI status for cards in "In Review" column
   createdAt: string;
   updatedAt?: string;
   history?: CardChange[];
@@ -177,244 +180,61 @@ export const roadmapBoard: KanbanBoard = {
     {
       id: 'todo',
       title: 'To Do',
-      cards: [
-      ],
+      cards: [],
     },
     {
       id: 'in-progress',
       title: 'In Progress',
       color: 'blue',
-      cards: [],
-    },
-    {
-      id: 'recently-completed',
-      title: 'Recently Completed',
       cards: [
         {
-          id: 'rum',
-          title: 'Real User Monitoring (RUM)',
-          description: 'Collect Core Web Vitals from real user sessions via web-vitals library + GA4. Export RUM data from GA4 Data API.',
-          labels: ['Small-Medium', 'Analytics', 'PR #117'],
-          planFile: 'docs/plans/09-real-user-monitoring.md',
+          id: 'dynamic-pr-status',
+          title: 'Dynamic PR Status Indicator',
+          description: 'Fetch PR check status from GitHub API at runtime so In Review cards show live CI status.',
+          labels: ['Small-Medium', 'UX'],
+          planFile: 'docs/plans/21-dynamic-pr-status.md',
           checklist: [
-            { id: 'rum-1', text: 'Install web-vitals package', completed: true },
-            { id: 'rum-2', text: 'Create web-vitals.ts reporting hook to GA4', completed: true },
-            { id: 'rum-3', text: 'Initialize in main.tsx with requestIdleCallback', completed: true },
-            { id: 'rum-4', text: 'Update GA4 export script to include Web Vitals', completed: true },
-            { id: 'rum-5', text: 'Add metric_rating to events', completed: true },
+            { id: 'dps-1', text: 'Create usePrStatus hook with GitHub API fetch', completed: true },
+            { id: 'dps-2', text: 'Add in-memory cache with 2-minute TTL', completed: true },
+            { id: 'dps-3', text: 'Update KanbanCard to use hook for PR labels', completed: true },
+            { id: 'dps-4', text: 'Add loading spinner state', completed: true },
+            { id: 'dps-5', text: 'Handle edge cases (404, rate limit, no checks)', completed: true },
+            { id: 'dps-6', text: 'Test with real PR in In Review column', completed: false },
           ],
           history: [
-            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-            { type: 'column', timestamp: '2026-01-15T03:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+            { type: 'column', timestamp: '2026-01-15T22:30:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+            { type: 'column', timestamp: '2026-01-15T22:35:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
           ],
-          createdAt: '2026-01-13',
+          createdAt: '2026-01-15',
         },
+      ],
+    },
+    {
+      id: 'in-review',
+      title: 'In Review',
+      color: 'pink',
+      cards: [
         {
-          id: 'view-transitions',
-          title: 'View Transitions API',
-          description: 'Native page transitions with shared element animations. Context-aware effects for depth, cross-section, and home navigation.',
-          labels: ['Small-Medium', 'Learning', 'PR #113'],
-          planFile: 'docs/plans/05-view-transitions-api.md',
+          id: 'react-perf-optimizations',
+          title: 'React Performance Optimizations',
+          description: 'Fixed Analytics CLS (0.71→0.10), added scroll throttling, React.memo, lazy-loaded chart components, and skeleton loaders.',
+          labels: ['Medium', 'Performance', 'PR #124'],
           checklist: [
-            { id: 'vt-1', text: 'Create useViewTransitionNavigate hook', completed: true },
-            { id: 'vt-2', text: 'Add shared element transitions for blog card → post', completed: true },
-            { id: 'vt-3', text: 'Add custom transition CSS animations', completed: true },
-            { id: 'vt-4', text: 'Add reduced motion support', completed: true },
-            { id: 'vt-5', text: 'Test across Chrome, Safari, Firefox fallback', completed: true },
+            { id: 'rpo-1', text: 'Fix Analytics CLS with proper loading skeleton', completed: true },
+            { id: 'rpo-2', text: 'Fix Recharts dimension warnings', completed: true },
+            { id: 'rpo-3', text: 'Add throttle utility to utils.ts', completed: true },
+            { id: 'rpo-4', text: 'Apply throttle to BackToTop scroll handler', completed: true },
+            { id: 'rpo-5', text: 'Add React.memo to BlogCard, ProjectCard, MetricCard', completed: true },
+            { id: 'rpo-6', text: 'Create skeleton loader components (Page, Blog, Project, Chart)', completed: true },
+            { id: 'rpo-7', text: 'Update App.tsx Suspense fallback with PageSkeleton', completed: true },
+            { id: 'rpo-8', text: 'Lazy load Analytics chart components with React.lazy', completed: true },
           ],
           history: [
-            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-            { type: 'column', timestamp: '2026-01-15T01:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-            { type: 'column', timestamp: '2026-01-15T02:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+            { type: 'column', timestamp: '2026-01-15T20:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+            { type: 'column', timestamp: '2026-01-15T21:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
+            { type: 'column', timestamp: '2026-01-15T21:45:00.000Z', columnId: 'in-review', columnTitle: 'In Review' },
           ],
-          createdAt: '2026-01-13',
-        },
-        {
-          id: 'test-cicd',
-          title: 'Test & CI/CD Improvements',
-          description: 'PR checks workflow with lint, type check, unit tests, smoke tests, build. Branch protection with bypass for admins.',
-          labels: ['Medium', 'Infrastructure', 'PR #115', 'PR #116'],
-          checklist: [
-            { id: 'tc-1', text: 'Create pr-checks.yml workflow', completed: true },
-            { id: 'tc-2', text: 'Add lint, type check, unit tests, build', completed: true },
-            { id: 'tc-3', text: 'Add Playwright smoke tests to PRs', completed: true },
-            { id: 'tc-4', text: 'Enable branch protection with admin bypass', completed: true },
-            { id: 'tc-5', text: 'Fix lint errors caught by new checks', completed: true },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-08T00:00:00.000Z', columnId: 'backlog', columnTitle: 'Backlog' },
-            { type: 'column', timestamp: '2026-01-15T02:30:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
-          ],
-          createdAt: '2026-01-08',
-        },
-        {
-          id: 'container-queries',
-          title: 'Container Queries & :has()',
-          description: 'Modern CSS: container queries for IncidentInput, :has() patterns documented.',
-          labels: ['Small', 'Learning', 'PR #109'],
-          planFile: 'docs/plans/04-container-queries-has.md',
-          checklist: [
-            { id: 'cq-1', text: 'Set up Tailwind container queries plugin', completed: true },
-            { id: 'cq-2', text: 'Refactor IncidentInput with container queries', completed: true },
-            { id: 'cq-3', text: 'Document :has() patterns for future use', completed: true },
-            { id: 'cq-4', text: 'Add Playwright test proving container query behavior', completed: true },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'backlog', columnTitle: 'Backlog' },
-            { type: 'column', timestamp: '2026-01-14T22:30:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-            { type: 'column', timestamp: '2026-01-14T23:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-            { type: 'column', timestamp: '2026-01-15T00:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
-          ],
-          createdAt: '2026-01-13',
-        },
-        {
-          id: 'deploy-notifications',
-          title: 'Deployment Notifications',
-          description: 'GitHub built-in workflow notifications (Option B). No custom code needed.',
-          labels: ['Small', 'Infrastructure'],
-          planFile: 'docs/plans/03-deployment-notifications.md',
-          checklist: [
-            { id: 'dn-1', text: 'Enable workflow notifications in repo settings', completed: true },
-            { id: 'dn-2', text: 'Configure personal GitHub notification preferences', completed: true },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-            { type: 'column', timestamp: '2026-01-14T22:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
-          ],
-          createdAt: '2026-01-13',
-        },
-        {
-          id: 'card-colors',
-          title: 'Card Colors',
-          description: 'Color customization for individual cards, same pattern as column colors.',
-          labels: ['Small', 'UX', 'PR #107'],
-          checklist: [
-            { id: 'cc-1', text: 'Add CardColor type and CARD_COLORS constant', completed: true },
-            { id: 'cc-2', text: 'Add color property to KanbanCard interface', completed: true },
-            { id: 'cc-3', text: 'Apply color styling in KanbanCard component', completed: true },
-            { id: 'cc-4', text: 'Add color picker to CardEditorModal', completed: true },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-14T12:00:00.000Z', columnId: 'backlog', columnTitle: 'Backlog' },
-            { type: 'column', timestamp: '2026-01-14T19:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-            { type: 'column', timestamp: '2026-01-14T19:30:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
-          ],
-          createdAt: '2026-01-14',
-        },
-        {
-          id: 'house-projects',
-          title: 'House Projects Board',
-          description: 'Unlisted route /projects/house with reusable KanbanBoard component and isolated URL persistence.',
-          labels: ['Small', 'Content', 'PR #108'],
-          checklist: [
-            { id: 'hp-1', text: 'Create src/components/projects/house/ directory', completed: true },
-            { id: 'hp-2', text: 'Add data.ts with houseBoard constant', completed: true },
-            { id: 'hp-3', text: 'Create index.tsx page component', completed: true },
-            { id: 'hp-4', text: 'Add unlisted route to App.tsx', completed: true },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-14T12:00:00.000Z', columnId: 'backlog', columnTitle: 'Backlog' },
-            { type: 'column', timestamp: '2026-01-14T20:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-            { type: 'column', timestamp: '2026-01-14T21:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
-          ],
-          createdAt: '2026-01-14',
-        },
-        {
-          id: 'perf-budget',
-          title: 'Performance Budget Enforcement',
-          description: 'Bundle size limits in CI (2MB JS, 110KB CSS). Stricter Lighthouse thresholds.',
-          labels: ['Small', 'Analytics', 'PR #103'],
-          planFile: 'docs/plans/06-performance-budget-enforcement.md',
-          checklist: [
-            { id: 'pb-1', text: 'Add bundle size check script to deploy.yml', completed: true },
-            { id: 'pb-2', text: 'Update lighthouse.yml with stricter thresholds', completed: true },
-            { id: 'pb-3', text: 'Create bundle tracking script (optional)', completed: false },
-            { id: 'pb-4', text: 'Add PR comment with bundle size diff (optional)', completed: false },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-            { type: 'column', timestamp: '2026-01-14T17:30:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-            { type: 'column', timestamp: '2026-01-14T18:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
-          ],
-          createdAt: '2026-01-13',
-        },
-        {
-          id: 'aria-live',
-          title: 'ARIA Live Regions',
-          description: 'Screen reader announcements for dynamic content: search results, loading/error states, model changes.',
-          labels: ['Small', 'Accessibility', 'PR #102'],
-          planFile: 'docs/plans/02-aria-live-regions.md',
-          checklist: [
-            { id: 'al-1', text: 'Add BlogList search results announcement', completed: true },
-            { id: 'al-2', text: 'Add Analytics Dashboard loading/error/warning announcements', completed: true },
-            { id: 'al-3', text: 'Add On-Call model change announcement', completed: true },
-            { id: 'al-4', text: 'Test with VoiceOver screen reader', completed: true },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-            { type: 'column', timestamp: '2026-01-14T16:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-            { type: 'column', timestamp: '2026-01-14T17:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
-          ],
-          createdAt: '2026-01-13',
-        },
-        {
-          id: 'kanban',
-          title: 'Kanban Board',
-          description: 'Interactive task board with drag-and-drop, URL persistence, card history, checklists, and column customization.',
-          labels: ['Medium', 'Content', 'PR #97'],
-          planFile: 'docs/plans/15-kanban-page.md',
-          checklist: [
-            { id: 'kb-1', text: 'Core drag-and-drop with dnd-kit', completed: true },
-            { id: 'kb-2', text: 'URL persistence with lz-string compression', completed: true },
-            { id: 'kb-3', text: 'Card editor with history tracking', completed: true },
-            { id: 'kb-4', text: 'Column customization (description, colors)', completed: true },
-            { id: 'kb-5', text: 'Checklist/subtasks feature', completed: true },
-            { id: 'kb-6', text: 'Migrate roadmap plans to backlog cards', completed: true },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-            { type: 'column', timestamp: '2026-01-14T14:04:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
-          ],
-          createdAt: '2026-01-13',
-        },
-        {
-          id: 'ci-failures',
-          title: 'Fix CI Failures (Lighthouse & Console)',
-          description: 'Fixed Runbook 404, blog sort test timeout, and project page accessibility scores.',
-          labels: ['CI', 'Testing', 'Accessibility', 'PR #99'],
-          checklist: [
-            { id: 'ci-1', text: 'Investigate & fix Runbook page 404 error', completed: true },
-            { id: 'ci-2', text: 'Fix blog sort selector test timeout', completed: true },
-            { id: 'ci-3', text: 'Fix uptime-calculator accessibility (93% → 95%)', completed: true },
-            { id: 'ci-4', text: 'Fix statuspage-update accessibility (94% → 95%)', completed: true },
-            { id: 'ci-5', text: 'Fix oncall-coverage accessibility (94% → 95%)', completed: true },
-            { id: 'ci-6', text: 'Verify all CI checks pass', completed: true },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-14T13:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-            { type: 'column', timestamp: '2026-01-14T14:04:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
-          ],
-          createdAt: '2026-01-14',
-        },
-{
-          id: 'mcp-testing',
-          title: 'MCP Interactive Testing',
-          description: 'Chrome DevTools MCP workflows for real-time browser automation, performance analysis, and accessibility auditing.',
-          labels: ['Medium', 'Analytics'],
-          planFile: 'docs/plans/16-mcp-interactive-testing.md',
-          checklist: [
-            { id: 'mcp-1', text: 'Document full site audit workflow', completed: true },
-            { id: 'mcp-2', text: 'Document responsive testing workflow (breakpoints)', completed: true },
-            { id: 'mcp-3', text: 'Document performance stress testing workflow', completed: true },
-            { id: 'mcp-4', text: 'Document interactive flow testing workflow', completed: true },
-            { id: 'mcp-5', text: 'Create standard test session checklist', completed: true },
-            { id: 'mcp-6', text: 'Add testing triggers to CLAUDE.md', completed: true },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'backlog', columnTitle: 'Backlog' },
-            { type: 'column', timestamp: '2026-01-14T15:30:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
-          ],
-          createdAt: '2026-01-13',
+          createdAt: '2026-01-15',
         },
       ],
     },
@@ -422,6 +242,8 @@ export const roadmapBoard: KanbanBoard = {
       id: 'changelog',
       title: 'Change Log',
       cards: [
+        { id: 'jan-14-15', title: 'Jan 14-15: Infrastructure & Polish', description: 'View Transitions API, RUM with web-vitals, CI/CD improvements with PR checks, Container Queries, MCP testing workflows', labels: ['PR #109', 'PR #113', 'PR #115-117'], createdAt: '2026-01-15' },
+        { id: 'jan-14', title: 'Jan 14: Kanban & UX', description: 'Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications', labels: ['PR #97-108'], createdAt: '2026-01-14' },
         { id: 'renovate-wontdo', title: 'Renovate Automation', description: 'Decided against: overhead not justified for actively-maintained personal project. Manual npm update works fine.', labels: ["Won't Do"], createdAt: '2026-01-14' },
         { id: 'jan-13', title: 'Jan 13: Analytics & Accessibility', description: 'Analytics Dashboard, On-Call Coverage Explorer, Skip Navigation, Footer/Nav cleanup', labels: ['PR #94', 'PR #96'], createdAt: '2026-01-13' },
         { id: 'jan-12', title: 'Jan 12: Projects Page Launch', description: 'SLO Calculator, Status Page Generator, registry pattern', labels: ['PR #88-92'], createdAt: '2026-01-12' },

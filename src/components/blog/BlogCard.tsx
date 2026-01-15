@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,7 +9,7 @@ interface BlogCardProps {
   post: BlogPost;
 }
 
-export function BlogCard({ post }: BlogCardProps) {
+export const BlogCard = memo(function BlogCard({ post }: BlogCardProps) {
   const [hasBeenHovered, setHasBeenHovered] = useState(false);
 
   const handleFirstInteraction = () => {
@@ -84,4 +84,4 @@ export function BlogCard({ post }: BlogCardProps) {
       </Card>
     </article>
   );
-}
+}, (prevProps, nextProps) => prevProps.post.slug === nextProps.post.slug)
