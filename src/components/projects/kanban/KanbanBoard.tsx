@@ -89,7 +89,7 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
           'X-Save-Secret': SAVE_SECRET,
         },
         body: JSON.stringify({
-          board: { ...board, updatedAt: new Date().toISOString().split('T')[0] },
+          board: { ...board, updatedAt: new Date().toISOString() },
           boardId,
         }),
       });
