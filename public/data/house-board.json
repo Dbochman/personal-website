@@ -1,0 +1,124 @@
+{
+  "columns": [
+    {
+      "cards": [
+        {
+          "createdAt": "2026-01-14",
+          "description": "For sliding glass door. 2–3 steps, wood construction, simple railing.",
+          "id": "stairs",
+          "title": "Install outdoor wood stairs"
+        },
+        {
+          "createdAt": "2026-01-14",
+          "description": "Centerset; black or antique brass with traditional styling.",
+          "id": "faucet",
+          "title": "Bathroom faucet replacement"
+        },
+        {
+          "createdAt": "2026-01-14",
+          "id": "kitchen",
+          "title": "Rework kitchen"
+        },
+        {
+          "createdAt": "2026-01-14",
+          "id": "irrigation",
+          "title": "Install drip irrigation system"
+        },
+        {
+          "createdAt": "2026-01-14",
+          "description": "Yard waste only, for general soil improvement.",
+          "id": "compost",
+          "title": "Set up bear-safe compost system"
+        },
+        {
+          "createdAt": "2026-01-14",
+          "id": "laundry-line",
+          "title": "Install laundry line"
+        },
+        {
+          "createdAt": "2026-01-14",
+          "description": "Wood picture-frame panels with hog/goat wire infill. Metal posts with removable wood sleeves.",
+          "id": "fencing",
+          "title": "Partial yard fencing"
+        },
+        {
+          "createdAt": "2026-01-14",
+          "description": "Replace old wiring and socket to safely reuse antique lighting.",
+          "id": "light-fixture",
+          "title": "Antique light fixture rewire"
+        },
+        {
+          "createdAt": "2026-01-15T23:18:22.533Z",
+          "history": [
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-15T23:18:22.533Z",
+              "type": "column"
+            }
+          ],
+          "id": "zt0s8sg",
+          "title": "Re-gravel driveway",
+          "updatedAt": "2026-01-15T23:18:22.533Z"
+        }
+      ],
+      "description": "Planned projects",
+      "id": "todo",
+      "title": "To Do"
+    },
+    {
+      "cards": [
+        {
+          "createdAt": "2026-01-14",
+          "description": "Private well system. Pressure gauge replacement, then pressure switch and tank checks as needed.",
+          "id": "water-pressure",
+          "title": "Improve shower water pressure"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "rugs-1",
+              "text": "Measured"
+            },
+            {
+              "completed": false,
+              "id": "rugs-2",
+              "text": "Selected fabric"
+            }
+          ],
+          "createdAt": "2026-01-14",
+          "id": "rugs",
+          "title": "Custom rug runners"
+        }
+      ],
+      "color": "yellow",
+      "description": "Currently working on",
+      "id": "in-progress",
+      "title": "In Progress"
+    },
+    {
+      "cards": [
+        {
+          "createdAt": "2026-01-14",
+          "id": "floors",
+          "title": "Refinish hardwood floors"
+        },
+        {
+          "createdAt": "2026-01-14",
+          "description": "Painted/refreshed existing grille.",
+          "id": "bathroom-fan",
+          "title": "Bathroom fan refresh"
+        }
+      ],
+      "color": "green",
+      "description": "Completed projects",
+      "id": "done",
+      "title": "Done"
+    }
+  ],
+  "createdAt": "2026-01-15T23:17:50.056Z",
+  "id": "house",
+  "title": "House Projects",
+  "updatedAt": "2026-01-15T23:18:30.252Z"
+}
