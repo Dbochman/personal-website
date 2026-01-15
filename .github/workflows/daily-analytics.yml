@@ -262,20 +262,22 @@ jobs:
               anomalies = ['Unknown anomaly - check workflow logs'];
             }
 
-            const body = `## 📉 Daily Analytics Anomaly Alert
-
-**Date:** ${date}
-
-### Detected Issues
-${anomalies.map(a => `- ${a}`).join('\n')}
-
-### Actions Required
-1. Review the [workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId})
-2. Check individual data artifacts for details
-3. Investigate root causes
-
----
-*This issue was automatically created by the Daily Analytics Collection workflow.*`;
+            const body = [
+              '## 📉 Daily Analytics Anomaly Alert',
+              '',
+              `**Date:** ${date}`,
+              '',
+              '### Detected Issues',
+              ...anomalies.map(a => `- ${a}`),
+              '',
+              '### Actions Required',
+              `1. Review the [workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId})`,
+              '2. Check individual data artifacts for details',
+              '3. Investigate root causes',
+              '',
+              '---',
+              '*This issue was automatically created by the Daily Analytics Collection workflow.*'
+            ].join('\n');
 
             await github.rest.issues.create({
               owner: context.repo.owner,
