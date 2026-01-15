@@ -39,6 +39,7 @@ export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }:
   const [editingCard, setEditingCard] = useState<CardType | null>(null);
   const [addingToColumn, setAddingToColumn] = useState<string | null>(null);
   const [isCardModalOpen, setIsCardModalOpen] = useState(false);
+  const [scrollToSection, setScrollToSection] = useState<string | undefined>(undefined);
 
   // Column editor state
   const [editingColumnId, setEditingColumnId] = useState<string | null>(null);
@@ -176,9 +177,10 @@ export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }:
     setIsCardModalOpen(true);
   };
 
-  const handleEditCard = (card: CardType) => {
+  const handleEditCard = (card: CardType, scrollTo?: string) => {
     setEditingCard(card);
     setAddingToColumn(null);
+    setScrollToSection(scrollTo);
     setIsCardModalOpen(true);
   };
 
@@ -352,10 +354,12 @@ export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }:
       <CardEditorModal
         card={editingCard}
         isOpen={isCardModalOpen}
+        scrollTo={scrollToSection}
         onClose={() => {
           setIsCardModalOpen(false);
           setEditingCard(null);
           setAddingToColumn(null);
+          setScrollToSection(undefined);
         }}
         onSave={handleSaveCard}
         onDelete={editingCard ? handleDeleteCard : undefined}

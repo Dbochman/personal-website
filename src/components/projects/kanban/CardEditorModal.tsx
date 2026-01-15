@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -49,6 +49,7 @@ function formatChangeDescription(change: CardChange): string {
 interface CardEditorModalProps {
   card: KanbanCard | null;
   isOpen: boolean;
+  scrollTo?: string;
   onClose: () => void;
   onSave: (card: KanbanCard) => void;
   onDelete?: (cardId: string) => void;
@@ -57,10 +58,12 @@ interface CardEditorModalProps {
 export function CardEditorModal({
   card,
   isOpen,
+  scrollTo,
   onClose,
   onSave,
   onDelete,
 }: CardEditorModalProps) {
+  const checklistRef = useRef<HTMLDivElement>(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [labels, setLabels] = useState<string[]>([]);
@@ -86,6 +89,16 @@ export function CardEditorModal({
     setNewLabel('');
     setNewChecklistItem('');
   }, [card]);
+
+  // Scroll to section when modal opens
+  useEffect(() => {
+    if (isOpen && scrollTo === 'checklist' && checklistRef.current) {
+      // Small delay to ensure modal content is rendered
+      setTimeout(() => {
+        checklistRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  }, [isOpen, scrollTo]);
 
   const handleSave = () => {
     if (!title.trim()) return;
@@ -274,7 +287,7 @@ export function CardEditorModal({
           </div>
 
           {/* Checklist / Subtasks */}
-          <div className="space-y-2">
+          <div ref={checklistRef} className="space-y-2">
             <div className="flex items-center justify-between">
               <Label>Checklist</Label>
               {checklist.length > 0 && (

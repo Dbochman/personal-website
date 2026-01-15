@@ -36,7 +36,7 @@ function getSizeValue(labels?: string[]): number {
 interface KanbanColumnProps {
   column: KanbanColumnType;
   onAddCard: (columnId: string) => void;
-  onEditCard: (card: KanbanCardType) => void;
+  onEditCard: (card: KanbanCardType, scrollTo?: string) => void;
   onEditColumn: (columnId: string) => void;
   onDeleteColumn: (columnId: string) => void;
 }

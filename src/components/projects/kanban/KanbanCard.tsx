@@ -36,7 +36,7 @@ function hasPrLabel(labels?: string[]): boolean {
 interface KanbanCardProps {
   card: KanbanCardType;
   columnId?: string;
-  onEdit?: (card: KanbanCardType) => void;
+  onEdit?: (card: KanbanCardType, scrollTo?: string) => void;
   isDragOverlay?: boolean;
 }
 
@@ -157,12 +157,20 @@ export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: Ka
               </div>
             )}
             {card.checklist && card.checklist.length > 0 && (
-              <div className="flex items-center gap-1">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit?.(card, 'checklist');
+                }}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="flex items-center gap-1 hover:text-primary transition-colors"
+                title="View checklist"
+              >
                 <CheckSquare className="w-3 h-3" />
                 <span>
                   {card.checklist.filter((item) => item.completed).length}/{card.checklist.length}
                 </span>
-              </div>
+              </button>
             )}
             {card.planFile && (
               <a
