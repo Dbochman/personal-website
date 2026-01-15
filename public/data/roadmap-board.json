@@ -26,27 +26,27 @@
             {
               "id": "ks-1",
               "text": "Convert board data to JSON (runtime loading)",
-              "completed": false
+              "completed": true
             },
             {
               "id": "ks-2",
-              "text": "Create useKanbanBoard hook with dirty state tracking",
-              "completed": false
+              "text": "Add dirty state tracking to KanbanBoard",
+              "completed": true
             },
             {
               "id": "ks-3",
               "text": "Set up Cloudflare Worker with secrets",
-              "completed": false
+              "completed": true
             },
             {
               "id": "ks-4",
               "text": "Create GitHub Action for save-kanban dispatch",
-              "completed": false
+              "completed": true
             },
             {
               "id": "ks-5",
               "text": "Add Save button UI with loading/success states",
-              "completed": false
+              "completed": true
             },
             {
               "id": "ks-6",
@@ -56,22 +56,22 @@
             {
               "id": "ks-7",
               "text": "Phase 6: Create GitHub OAuth App",
-              "completed": false
+              "completed": true
             },
             {
               "id": "ks-8",
               "text": "Phase 6: Add Cloudflare KV namespace for sessions",
-              "completed": false
+              "completed": true
             },
             {
               "id": "ks-9",
               "text": "Phase 6: Update worker with OAuth endpoints",
-              "completed": false
+              "completed": true
             },
             {
               "id": "ks-10",
               "text": "Phase 6: Update frontend with login UI",
-              "completed": false
+              "completed": true
             },
             {
               "id": "ks-11",
