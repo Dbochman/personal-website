@@ -22,6 +22,8 @@ export type ColumnColor = 'default' | 'yellow' | 'orange' | 'purple' | 'blue' | 
 // Card colors reuse the same palette as columns
 export type CardColor = ColumnColor;
 
+export type PrStatus = 'passing' | 'failing' | 'pending';
+
 export interface KanbanCard {
   id: string;
   title: string;
@@ -30,6 +32,7 @@ export interface KanbanCard {
   checklist?: ChecklistItem[];
   planFile?: string; // Path to plan file, e.g., 'docs/plans/11-framer-motion.md'
   color?: CardColor;
+  prStatus?: PrStatus; // CI status for cards in "In Review" column
   createdAt: string;
   updatedAt?: string;
   history?: CardChange[];

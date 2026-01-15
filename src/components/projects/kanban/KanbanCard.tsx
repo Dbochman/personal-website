@@ -2,10 +2,11 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Pencil, CheckSquare, FileText, ExternalLink } from 'lucide-react';
+import { Pencil, CheckSquare, FileText, ExternalLink, CheckCircle, XCircle, Clock, Loader2, GitMerge } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanCard as KanbanCardType } from '@/types/kanban';
 import { CARD_COLORS } from '@/types/kanban';
+import { usePrStatus } from '@/hooks/usePrStatus';
 
 const REPO_URL = 'https://github.com/Dbochman/personal-website';
 
@@ -16,13 +17,30 @@ function parsePrLabel(label: string): number | null {
   return match ? parseInt(match[1], 10) : null;
 }
 
+// Get the first PR number from labels
+function getFirstPrNumber(labels?: string[]): number | null {
+  if (!labels) return null;
+  for (const label of labels) {
+    const prNumber = parsePrLabel(label);
+    if (prNumber) return prNumber;
+  }
+  return null;
+}
+
+// Check if any label contains a PR reference (single or range)
+function hasPrLabel(labels?: string[]): boolean {
+  if (!labels) return false;
+  return labels.some((label) => label.startsWith('PR #'));
+}
+
 interface KanbanCardProps {
   card: KanbanCardType;
+  columnId?: string;
   onEdit?: (card: KanbanCardType) => void;
   isDragOverlay?: boolean;
 }
 
-export function KanbanCard({ card, onEdit, isDragOverlay = false }: KanbanCardProps) {
+export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: KanbanCardProps) {
   const {
     attributes,
     listeners,
@@ -31,6 +49,13 @@ export function KanbanCard({ card, onEdit, isDragOverlay = false }: KanbanCardPr
     transition,
     isDragging,
   } = useSortable({ id: card.id });
+
+  const isChangelog = columnId === 'changelog';
+
+  // Only fetch dynamic status if no hardcoded prStatus and not in changelog
+  const prNumber = card.prStatus || isChangelog ? null : getFirstPrNumber(card.labels);
+  const { status: dynamicStatus, loading: statusLoading } = usePrStatus(prNumber);
+  const displayStatus = card.prStatus ?? dynamicStatus;
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -105,8 +130,31 @@ export function KanbanCard({ card, onEdit, isDragOverlay = false }: KanbanCardPr
             })}
           </div>
         )}
-        {(card.checklist?.length || card.planFile) && (
+        {(card.checklist?.length || card.planFile || displayStatus || statusLoading || (isChangelog && hasPrLabel(card.labels))) && (
           <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+            {isChangelog && hasPrLabel(card.labels) && (
+              <div className="flex items-center gap-1" title="Merged">
+                <GitMerge className="w-3.5 h-3.5 text-purple-500" />
+              </div>
+            )}
+            {!isChangelog && statusLoading && (
+              <div className="flex items-center gap-1" title="Checking CI status...">
+                <Loader2 className="w-3.5 h-3.5 text-muted-foreground animate-spin" />
+              </div>
+            )}
+            {!isChangelog && !statusLoading && displayStatus && (
+              <div className="flex items-center gap-1" title={`CI: ${displayStatus}`}>
+                {displayStatus === 'passing' && (
+                  <CheckCircle className="w-3.5 h-3.5 text-green-500" />
+                )}
+                {displayStatus === 'failing' && (
+                  <XCircle className="w-3.5 h-3.5 text-red-500" />
+                )}
+                {displayStatus === 'pending' && (
+                  <Clock className="w-3.5 h-3.5 text-yellow-500" />
+                )}
+              </div>
+            )}
             {card.checklist && card.checklist.length > 0 && (
               <div className="flex items-center gap-1">
                 <CheckSquare className="w-3 h-3" />

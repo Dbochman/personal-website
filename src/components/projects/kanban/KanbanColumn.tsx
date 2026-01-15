@@ -147,7 +147,7 @@ export function KanbanColumn({
         >
           <div className="space-y-2">
             {sortedCards.map((card) => (
-              <KanbanCard key={card.id} card={card} onEdit={onEditCard} />
+              <KanbanCard key={card.id} card={card} columnId={column.id} onEdit={onEditCard} />
             ))}
           </div>
         </SortableContext>
