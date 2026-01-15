@@ -2,26 +2,26 @@
   {
     "page": "home",
     "url": "https://dylanbochman.com",
-    "performance": 70,
+    "performance": 66,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
     "lcp": "4.2 s",
     "fcp": "2.7 s",
     "cls": "0",
-    "tbt": "450 ms"
+    "tbt": "610 ms"
   },
   {
     "page": "blog",
     "url": "https://dylanbochman.com/blog",
-    "performance": 77,
+    "performance": 75,
     "accessibility": 100,
     "seo": 92,
     "bestPractices": 100,
     "lcp": "3.9 s",
-    "fcp": "2.8 s",
+    "fcp": "2.7 s",
     "cls": "0",
-    "tbt": "290 ms"
+    "tbt": "360 ms"
   },
   {
     "page": "blog-post-404",
@@ -33,7 +33,7 @@
     "lcp": "3.9 s",
     "fcp": "2.8 s",
     "cls": "0",
-    "tbt": "120 ms"
+    "tbt": "90 ms"
   },
   {
     "page": "projects",
@@ -42,28 +42,16 @@
     "accessibility": 98,
     "seo": 92,
     "bestPractices": 96,
-    "lcp": "4.2 s",
+    "lcp": "4.1 s",
     "fcp": "2.5 s",
     "cls": "0",
-    "tbt": "110 ms"
+    "tbt": "100 ms"
   },
   {
     "page": "project-uptime",
     "url": "https://dylanbochman.com/projects/uptime-calculator",
-    "performance": 79,
-    "accessibility": 97,
-    "seo": 92,
-    "bestPractices": 96,
-    "lcp": "4.3 s",
-    "fcp": "3.1 s",
-    "cls": "0",
-    "tbt": "80 ms"
-  },
-  {
-    "page": "project-statuspage",
-    "url": "https://dylanbochman.com/projects/statuspage-update",
     "performance": 82,
-    "accessibility": 96,
+    "accessibility": 97,
     "seo": 92,
     "bestPractices": 96,
     "lcp": "4.2 s",
@@ -72,21 +60,33 @@
     "tbt": "120 ms"
   },
   {
-    "page": "project-oncall",
-    "url": "https://dylanbochman.com/projects/oncall-coverage",
-    "performance": 80,
+    "page": "project-statuspage",
+    "url": "https://dylanbochman.com/projects/statuspage-update",
+    "performance": 81,
     "accessibility": 96,
     "seo": 92,
     "bestPractices": 96,
-    "lcp": "4.4 s",
-    "fcp": "2.6 s",
+    "lcp": "4.2 s",
+    "fcp": "2.5 s",
     "cls": "0",
-    "tbt": "110 ms"
+    "tbt": "130 ms"
+  },
+  {
+    "page": "project-oncall",
+    "url": "https://dylanbochman.com/projects/oncall-coverage",
+    "performance": 82,
+    "accessibility": 96,
+    "seo": 92,
+    "bestPractices": 96,
+    "lcp": "4.2 s",
+    "fcp": "2.5 s",
+    "cls": "0",
+    "tbt": "100 ms"
   },
   {
     "page": "runbook",
     "url": "https://dylanbochman.com/runbook",
-    "performance": 81,
+    "performance": 80,
     "accessibility": 100,
     "seo": 92,
     "bestPractices": 96,
