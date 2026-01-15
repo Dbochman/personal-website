@@ -294,3 +294,28 @@
     transition: stroke-dashoffset 5.5s ease;
   }
 }
+
+/*
+ * :has() Progressive Enhancement Utilities
+ *
+ * These styles enhance UX in browsers that support :has() (Chrome 105+, Safari 15.4+).
+ * Firefox has partial support (121+) - these are purely additive enhancements,
+ * not critical functionality. Keep selectors scoped to avoid performance issues.
+ */
+@supports selector(:has(*)) {
+  /* Card focus enhancement - highlight card when any link inside is focused */
+  .card:has(a:focus-visible) {
+    @apply ring-2 ring-primary/50 ring-offset-2 ring-offset-background;
+  }
+
+  /* Form field validation - style wrapper when input is invalid */
+  .form-field:has(:invalid:not(:placeholder-shown)) {
+    @apply border-destructive/50;
+  }
+
+  /* Interactive card icon scale - scale icon when link is hovered/focused */
+  .card:has(a:hover) .card-icon,
+  .card:has(a:focus-visible) .card-icon {
+    @apply scale-110;
+  }
+}

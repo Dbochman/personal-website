@@ -9,10 +9,10 @@ interface IncidentInputProps {
 
 export function IncidentInput({ value, onChange }: IncidentInputProps) {
   return (
-    <Card>
+    <Card className="@container">
       <CardContent className="pt-6">
         <div className="space-y-2">
-          <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+          <div className="flex flex-col @sm:flex-row @sm:justify-between gap-1">
             <div>
               <Label htmlFor="incidents" className="text-sm font-medium">
                 Expected incidents per month
