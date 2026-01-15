@@ -216,6 +216,13 @@ export const roadmapBoard: KanbanBoard = {
           ],
           createdAt: '2026-01-13',
         },
+      ],
+    },
+    {
+      id: 'in-progress',
+      title: 'In Progress',
+      color: 'blue',
+      cards: [
         {
           id: 'container-queries',
           title: 'Container Queries & :has()',
@@ -227,15 +234,16 @@ export const roadmapBoard: KanbanBoard = {
             { id: 'cq-2', text: 'Refactor ProjectCard with container queries', completed: false },
             { id: 'cq-3', text: 'Add :has() utilities for form validation styling', completed: false },
             { id: 'cq-4', text: 'Document gotchas and best practices', completed: false },
+            { id: 'cq-5', text: 'Add Playwright visual test for container sizing', completed: false },
+          ],
+          history: [
+            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'backlog', columnTitle: 'Backlog' },
+            { type: 'column', timestamp: '2026-01-14T22:30:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+            { type: 'column', timestamp: '2026-01-14T23:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
           ],
           createdAt: '2026-01-13',
         },
       ],
-    },
-    {
-      id: 'in-progress',
-      title: 'In Progress',
-      cards: [],
     },
     {
       id: 'recently-completed',

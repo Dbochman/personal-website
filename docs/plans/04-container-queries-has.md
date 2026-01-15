@@ -162,6 +162,23 @@ src/styles/globals.css     # :has() utilities
 3. No layout shifts when containers resize
 4. Fallback behavior in older browsers (graceful degradation)
 
+## Implementation Notes
+
+**Container queries:**
+- Always set container context (`@container` class or `container-type: inline-size`) on the wrapper element, otherwise `@md:` won't apply
+- Limit to cards and grids — avoid "every component becomes a container" sprawl
+
+**:has() selector:**
+- Firefox support is partial — use progressive enhancement (keep existing JS/state for critical UX, `:has()` as enhancement)
+- Performance: `:has()` can be expensive on large DOMs — keep selectors scoped (e.g., `.card:has(.field:focus-visible)` not global)
+
+**Testing:**
+- Add Playwright visual check showing same card in narrow vs wide container
+
+**Docs:**
+- Document which components are safe for container queries
+- Capture gotchas discovered during implementation
+
 ## Learning Goals
 
 - Understand when container queries are better than viewport queries
