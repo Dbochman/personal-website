@@ -100,46 +100,6 @@ if (Object.keys(webVitals).length === 0) {
 
 None of these bugs would have caused the site to crash. They're subtle correctness issues—the kind that accumulate into a vaguely broken user experience that's hard to diagnose.
 
-## Why This Works
-
-There's something philosophically interesting about using one AI to review another AI's code.
-
-Claude has context. It knows what I asked for, what approach we discussed, what tradeoffs we accepted. It writes code that fits the conversation. But that context can also be a blind spot—Claude is unlikely to question assumptions we both agreed on.
-
-Codex has no context. It sees only the code. It doesn't know why we made certain choices. It just asks: "Is this correct? Is this safe? Does this handle edge cases?"
-
-The lack of context is a feature. Fresh eyes catch different problems than informed eyes.
-
-## The Workflow
-
-Here's what the process looks like in practice:
-
-1. **Claude implements a feature.** We discuss the approach, Claude writes the code, I do an initial review.
-
-2. **I queue a Codex review.** Usually with a simple prompt: "Review these changes for bugs, edge cases, and potential issues."
-
-3. **Codex returns findings.** Sometimes nothing. Sometimes a list of concerns ranging from nitpicks to real bugs.
-
-4. **We address the findings.** Claude fixes the issues Codex identified. I verify the fixes make sense.
-
-5. **Merge with confidence.** Two AI perspectives plus my human judgment have looked at this code.
-
-The overhead is minimal—Codex reviews take a minute or two. The catches are worth it.
-
-## What Codex Doesn't Catch
-
-This isn't a silver bullet. Codex has blind spots too.
-
-**Architectural issues.** Codex reviews code as written. It doesn't know if you're building the wrong thing or if there's a simpler approach.
-
-**Context-dependent correctness.** Sometimes "wrong" code is intentionally wrong for reasons Codex can't see. You still need human judgment about whether findings are relevant.
-
-**Integration problems.** Codex sees the diff, not the whole system. It won't catch issues that only appear when components interact.
-
-**Stylistic preferences.** Codex has opinions about code style. Not all of them match your project's conventions. Learn to ignore the noise.
-
-The tool is good at finding local bugs—issues within the code as written. It's less good at finding global problems—issues with how the code fits into the larger system.
-
 ## The Meta Question
 
 Is it weird to have AI review AI code while a human supervises?
