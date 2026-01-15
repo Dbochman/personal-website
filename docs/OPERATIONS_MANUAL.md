@@ -86,9 +86,22 @@ No manual steps needed. Check [Actions tab](https://github.com/Dbochman/personal
 ### Cloudflare
 - **Purpose:** DNS, CDN, SSL, Kanban Save Worker
 - **Domain:** dylanbochman.com
-- **DNS records:** CNAME to dbochman.github.io
-- **Worker:** api.dylanbochman.com (OAuth proxy for kanban saves, custom domain for first-party cookies)
+- **DNS records:**
+  - CNAME `@` → dbochman.github.io (main site)
+  - AAAA `api` → 100:: (placeholder for worker route)
+- **Worker:** `kanban-save-worker`
+  - Custom domain: api.dylanbochman.com
+  - Route: `api.dylanbochman.com/*`
+  - Handles GitHub OAuth and save requests
 - **KV Namespace:** SESSIONS (stores OAuth sessions, 7-day TTL)
+- **Worker Secrets:** GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
+
+### GitHub OAuth App
+- **Name:** Kanban Save
+- **Location:** https://github.com/settings/developers
+- **Homepage URL:** https://dylanbochman.com
+- **Callback URL:** https://api.dylanbochman.com/auth/callback
+- **Permissions:** Read user profile (to verify collaborator status)
 
 ### Netlify
 - **Purpose:** CMS authentication only (not hosting)
@@ -139,23 +152,72 @@ npm run build
 
 The roadmap board at `/projects/kanban` can save changes directly to GitHub:
 
-1. **Login:** Click "Login to Save" → Authenticate with GitHub
-2. **Edit:** Make changes to cards/columns
-3. **Save:** Click "Save" button → Triggers GitHub Action → Commits to repo
+1. **Login:** Click "Login to Save" → Authenticate with GitHub OAuth
+2. **Edit:** Make changes to cards/columns (changes tracked in URL params)
+3. **Save:** Click "Save" button → Commits to repo via GitHub Action
+4. **Reset:** Click "Reset" to clear URL params and reload from saved JSON
 
 **Requirements:**
 - Must be a collaborator on the repo
-- Uses GitHub OAuth (no secrets in browser)
+- Uses GitHub OAuth (no secrets stored in browser)
 
 **Architecture:**
 ```
-Browser → Cloudflare Worker (OAuth) → GitHub Actions → Commit
+┌─────────────────┐     ┌──────────────────────┐     ┌─────────────────┐
+│   Browser       │     │  Cloudflare Worker   │     │     GitHub      │
+│ dylanbochman.com│     │ api.dylanbochman.com │     │                 │
+└────────┬────────┘     └──────────┬───────────┘     └────────┬────────┘
+         │                         │                          │
+         │  1. Click Login         │                          │
+         │────────────────────────>│                          │
+         │                         │  2. Redirect to OAuth    │
+         │                         │─────────────────────────>│
+         │                         │                          │
+         │                         │  3. User authorizes      │
+         │                         │<─────────────────────────│
+         │                         │                          │
+         │  4. Set session cookie  │                          │
+         │<────────────────────────│                          │
+         │                         │                          │
+         │  5. POST /save (board)  │                          │
+         │────────────────────────>│                          │
+         │                         │  6. repository_dispatch  │
+         │                         │─────────────────────────>│
+         │                         │                          │
+         │                         │     7. GitHub Action     │
+         │                         │     commits board JSON   │
+         │                         │                          │
 ```
+
+**Why custom domain (api.dylanbochman.com)?**
+- Mobile Safari blocks third-party cookies
+- Using a subdomain makes cookies first-party (same site)
+- Worker route: `api.dylanbochman.com/*` → `kanban-save-worker`
+
+**Conflict Detection:**
+- Each save includes `baseUpdatedAt` (timestamp when board was loaded)
+- GitHub Action compares against current file's `updatedAt`
+- If file is newer, save is rejected with "reload and try again"
+
+**URL State vs Saved State:**
+- Edits are stored in URL params (shareable, local to browser)
+- Save button commits current state to `public/data/roadmap-board.json`
+- Reset button clears URL params and reloads from JSON
+- After saving, others see changes when they load the clean URL
 
 **Troubleshooting:**
 - "Not a collaborator" → Check GitHub repo collaborator settings
-- Save fails → Check GitHub Actions tab for errors
+- "Login to Save" still shows after login → Clear cookies, try again
+- Save fails → Check [GitHub Actions](https://github.com/Dbochman/personal-website/actions?query=workflow%3A%22Save+Kanban+Board%22) for errors
+- "Board has been updated" → Someone else saved; reload page and re-apply changes
 - Session expired → Logout and login again
+- Mobile login not working → Ensure `api.dylanbochman.com` DNS is configured
+
+**Related files:**
+- Frontend: `src/components/projects/kanban/KanbanBoard.tsx`
+- Workflow: `.github/workflows/save-kanban.yml`
+- Board data: `public/data/roadmap-board.json`
+- Worker: Separate repo (Cloudflare Worker)
 
 See `docs/completed-projects/25-kanban-save-feature.md` for implementation details.
 
@@ -270,4 +332,4 @@ git push --force
 
 ---
 
-**Last Updated:** January 2026
+**Last Updated:** January 15, 2026
