@@ -213,35 +213,13 @@ export const roadmapBoard: KanbanBoard = {
       id: 'in-review',
       title: 'In Review',
       color: 'pink',
-      cards: [
-        {
-          id: 'react-perf-optimizations',
-          title: 'React Performance Optimizations',
-          description: 'Fixed Analytics CLS (0.71→0.10), added scroll throttling, React.memo, lazy-loaded chart components, and skeleton loaders.',
-          labels: ['Medium', 'Performance', 'PR #124'],
-          checklist: [
-            { id: 'rpo-1', text: 'Fix Analytics CLS with proper loading skeleton', completed: true },
-            { id: 'rpo-2', text: 'Fix Recharts dimension warnings', completed: true },
-            { id: 'rpo-3', text: 'Add throttle utility to utils.ts', completed: true },
-            { id: 'rpo-4', text: 'Apply throttle to BackToTop scroll handler', completed: true },
-            { id: 'rpo-5', text: 'Add React.memo to BlogCard, ProjectCard, MetricCard', completed: true },
-            { id: 'rpo-6', text: 'Create skeleton loader components (Page, Blog, Project, Chart)', completed: true },
-            { id: 'rpo-7', text: 'Update App.tsx Suspense fallback with PageSkeleton', completed: true },
-            { id: 'rpo-8', text: 'Lazy load Analytics chart components with React.lazy', completed: true },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-15T20:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-            { type: 'column', timestamp: '2026-01-15T21:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-            { type: 'column', timestamp: '2026-01-15T21:45:00.000Z', columnId: 'in-review', columnTitle: 'In Review' },
-          ],
-          createdAt: '2026-01-15',
-        },
-      ],
+      cards: [],
     },
     {
       id: 'changelog',
       title: 'Change Log',
       cards: [
+        { id: 'pr-124', title: 'React Performance Optimizations', description: 'Analytics CLS 0.71→0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders', labels: ['PR #124', 'Performance'], createdAt: '2026-01-15' },
         { id: 'jan-14-15', title: 'Jan 14-15: Infrastructure & Polish', description: 'View Transitions API, RUM with web-vitals, CI/CD improvements with PR checks, Container Queries, MCP testing workflows', labels: ['PR #109', 'PR #113', 'PR #115-117'], createdAt: '2026-01-15' },
         { id: 'jan-14', title: 'Jan 14: Kanban & UX', description: 'Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications', labels: ['PR #97-108'], createdAt: '2026-01-14' },
         { id: 'renovate-wontdo', title: 'Renovate Automation', description: 'Decided against: overhead not justified for actively-maintained personal project. Manual npm update works fine.', labels: ["Won't Do"], createdAt: '2026-01-14' },
