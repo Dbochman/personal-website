@@ -23,6 +23,12 @@ import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as 
 import { generateId } from '@/types/kanban';
 
 const WORKER_URL = 'https://kanban-save-worker.dbochman.workers.dev';
+
+// Note: This secret is exposed in client-side JS. It's not authentication - it only
+// prevents casual/accidental triggers. The real protection is:
+// 1. GitHub Action whitelists valid boardIds (prevents path traversal)
+// 2. GitHub Action checks updatedAt to prevent overwriting newer data
+// 3. Worst case: someone modifies the kanban board (low risk for personal site)
 const SAVE_SECRET = import.meta.env.VITE_KANBAN_SAVE_SECRET;
 
 interface KanbanBoardProps {

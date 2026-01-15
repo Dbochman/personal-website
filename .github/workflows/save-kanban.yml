@@ -8,13 +8,40 @@ jobs:
   save:
     runs-on: ubuntu-latest
     steps:
+      - name: Validate boardId
+        run: |
+          BOARD_ID="${{ github.event.client_payload.boardId }}"
+          # Whitelist of allowed board IDs (prevent path traversal)
+          if [[ "$BOARD_ID" != "roadmap" && "$BOARD_ID" != "house" ]]; then
+            echo "Error: Invalid boardId '$BOARD_ID'. Must be 'roadmap' or 'house'."
+            exit 1
+          fi
+          echo "BOARD_ID=$BOARD_ID" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Check for conflicts
+        run: |
+          FILE="public/data/${{ env.BOARD_ID }}-board.json"
+          if [ -f "$FILE" ]; then
+            CURRENT_UPDATED=$(jq -r '.updatedAt // "1970-01-01"' "$FILE")
+            PAYLOAD_UPDATED="${{ github.event.client_payload.board.updatedAt }}"
+
+            # Compare dates (newer file = reject to prevent overwrite)
+            if [[ "$CURRENT_UPDATED" > "$PAYLOAD_UPDATED" ]]; then
+              echo "Error: Board has been updated since you loaded it."
+              echo "  File updatedAt: $CURRENT_UPDATED"
+              echo "  Your updatedAt: $PAYLOAD_UPDATED"
+              echo "Please reload the page and try again."
+              exit 1
+            fi
+          fi
 
       - name: Update board JSON
         run: |
           mkdir -p public/data
-          echo '${{ toJson(github.event.client_payload.board) }}' | jq '.' > public/data/${{ github.event.client_payload.boardId }}-board.json
+          echo '${{ toJson(github.event.client_payload.board) }}' | jq '.' > public/data/${{ env.BOARD_ID }}-board.json
 
       - name: Commit and push
         run: |
