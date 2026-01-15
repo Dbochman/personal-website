@@ -18,15 +18,15 @@ test.describe('Container Queries', () => {
     await page.goto(`${BASE_URL}/projects/uptime-calculator`);
     await page.waitForLoadState('networkidle');
 
-    // Find the incident input card (has @container class)
-    const incidentCard = page.locator('text=Expected incidents per month').locator('..').locator('..');
-    await expect(incidentCard).toBeVisible();
+    // Find the @container card and check flex direction
+    const flexDirection = await page.evaluate(() => {
+      const card = document.querySelector('.\\@container');
+      if (!card) return 'card-not-found';
 
-    // Get the layout container (the flex div with @sm:flex-row)
-    const layoutContainer = incidentCard.locator('div.flex').first();
+      const flexDiv = card.querySelector('div.flex');
+      if (!flexDiv) return 'flex-not-found';
 
-    const flexDirection = await layoutContainer.evaluate((el) => {
-      return window.getComputedStyle(el).flexDirection;
+      return window.getComputedStyle(flexDiv).flexDirection;
     });
 
     // Card container is wide enough for @sm (24rem = 384px), should be row
