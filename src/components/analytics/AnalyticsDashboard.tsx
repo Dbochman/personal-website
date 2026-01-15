@@ -22,6 +22,7 @@ export function AnalyticsDashboard() {
         <div role="status" aria-live="polite" className="sr-only">
           Loading analytics data...
         </div>
+        {/* Metric cards skeleton */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
             <Card key={i} className="animate-pulse">
@@ -34,7 +35,54 @@ export function AnalyticsDashboard() {
             </Card>
           ))}
         </div>
-        <Card className="animate-pulse h-64" />
+        {/* Tabs skeleton - matches Traffic tab layout */}
+        <div className="space-y-4">
+          <div className="h-10 bg-muted rounded w-64 animate-pulse" />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <Card className="lg:col-span-2 animate-pulse">
+              <CardHeader>
+                <div className="h-6 bg-muted rounded w-40" />
+              </CardHeader>
+              <CardContent>
+                <div className="h-64 bg-muted rounded" />
+              </CardContent>
+            </Card>
+            <Card className="animate-pulse">
+              <CardHeader>
+                <div className="h-6 bg-muted rounded w-36" />
+              </CardHeader>
+              <CardContent>
+                <div className="h-64 bg-muted rounded" />
+              </CardContent>
+            </Card>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <Card className="animate-pulse">
+              <CardHeader>
+                <div className="h-6 bg-muted rounded w-32" />
+              </CardHeader>
+              <CardContent>
+                <div className="h-64 bg-muted rounded" />
+              </CardContent>
+            </Card>
+            <Card className="animate-pulse">
+              <CardHeader>
+                <div className="h-6 bg-muted rounded w-28" />
+              </CardHeader>
+              <CardContent>
+                <div className="h-48 bg-muted rounded" />
+              </CardContent>
+            </Card>
+          </div>
+          <Card className="animate-pulse">
+            <CardHeader>
+              <div className="h-6 bg-muted rounded w-32" />
+            </CardHeader>
+            <CardContent>
+              <div className="h-64 bg-muted rounded" />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }

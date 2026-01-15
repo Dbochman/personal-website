@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { LucideIcon, TrendingUp, TrendingDown } from 'lucide-react';
@@ -11,7 +12,7 @@ interface MetricCardProps {
   status?: 'good' | 'warning' | 'critical';
 }
 
-export function MetricCard({ title, value, icon: Icon, subtitle, trend, status }: MetricCardProps) {
+export const MetricCard = memo(function MetricCard({ title, value, icon: Icon, subtitle, trend, status }: MetricCardProps) {
   const statusColors = {
     good: 'text-emerald-500',
     warning: 'text-amber-500',
@@ -51,4 +52,4 @@ export function MetricCard({ title, value, icon: Icon, subtitle, trend, status }
       </CardContent>
     </Card>
   );
-}
+})

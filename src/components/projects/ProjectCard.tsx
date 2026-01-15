@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import {
   Card,
   CardContent,
@@ -37,7 +37,7 @@ interface ProjectCardProps {
   project: ProjectMeta;
 }
 
-export function ProjectCard({ project }: ProjectCardProps) {
+export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardProps) {
   const [hasBeenHovered, setHasBeenHovered] = useState(false);
 
   const handleFirstInteraction = () => {
@@ -103,4 +103,4 @@ export function ProjectCard({ project }: ProjectCardProps) {
       </Card>
     </TransitionLink>
   );
-}
+}, (prevProps, nextProps) => prevProps.project.slug === nextProps.project.slug)

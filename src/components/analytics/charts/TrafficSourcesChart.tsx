@@ -52,8 +52,8 @@ export function TrafficSourcesChart({ data }: TrafficSourcesChartProps) {
   }));
 
   return (
-    <div className="h-64">
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="h-64 w-full">
+      <ResponsiveContainer width="100%" height={256}>
         <BarChart data={chartData} layout="vertical" margin={{ top: 10, right: 10, left: 80, bottom: 0 }}>
           <XAxis type="number" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
           <YAxis
