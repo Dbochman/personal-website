@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion } from "@/components/ui/accordion";
@@ -17,8 +16,8 @@ interface ExperienceSectionProps {
 }
 
 const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  // Animate when accordion is open (value === 'experience')
+  const isOpen = value === 'experience';
 
   return (
     <section id="experience">
@@ -29,11 +28,10 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
           value="experience"
         >
           <motion.div
-            ref={ref}
             className="space-y-8"
             variants={staggerContainer}
             initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
+            animate={isOpen ? 'visible' : 'hidden'}
           >
             {experiences.map((exp, index) => (
               <motion.div key={index} variants={staggerItem}>
