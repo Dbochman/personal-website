@@ -18,22 +18,29 @@ import { CardEditorModal } from './CardEditorModal';
 import { ColumnEditorModal } from './ColumnEditorModal';
 import { useKanbanPersistence } from './useKanbanPersistence';
 import { Button } from '@/components/ui/button';
-import { Plus, RotateCcw, Share2 } from 'lucide-react';
+import { Plus, RotateCcw, Share2, Save, Loader2, Check } from 'lucide-react';
 import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType, ColumnColor } from '@/types/kanban';
-import { generateId, roadmapBoard } from '@/types/kanban';
+import { generateId } from '@/types/kanban';
+
+const WORKER_URL = 'https://kanban-save-worker.dbochman.workers.dev';
+const SAVE_SECRET = import.meta.env.VITE_KANBAN_SAVE_SECRET;
 
 interface KanbanBoardProps {
-  initialBoard?: BoardType;
+  initialBoard: BoardType;
+  boardId: string; // ID used for saving (e.g., 'roadmap')
   boardKey?: string; // URL query param name for isolation between boards
 }
 
-export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }: KanbanBoardProps) {
-  const { getInitialBoard, saveBoard, clearBoard } = useKanbanPersistence({
+export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: KanbanBoardProps) {
+  const { getInitialBoard, saveBoard: saveBoardToUrl, clearBoard } = useKanbanPersistence({
     defaultBoard: initialBoard,
     boardKey,
   });
   const [board, setBoard] = useState<BoardType>(() => getInitialBoard());
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
+  const [isDirty, setIsDirty] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Card editor state
   const [editingCard, setEditingCard] = useState<CardType | null>(null);
@@ -50,11 +57,51 @@ export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }:
   const updateBoard = useCallback((updater: (prev: BoardType) => BoardType) => {
     setBoard((prev) => {
       const next = updater(prev);
-      // Save asynchronously to avoid blocking
-      setTimeout(() => saveBoard(next), 0);
+      // Save to URL asynchronously to avoid blocking
+      setTimeout(() => saveBoardToUrl(next), 0);
       return next;
     });
-  }, [saveBoard]);
+    setIsDirty(true);
+    setSaveSuccess(false);
+  }, [saveBoardToUrl]);
+
+  // Save board to GitHub via Cloudflare Worker
+  const handleSaveToGitHub = useCallback(async () => {
+    if (!SAVE_SECRET) {
+      console.error('Save secret not configured');
+      return;
+    }
+
+    setIsSaving(true);
+    setSaveSuccess(false);
+
+    try {
+      const response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Save-Secret': SAVE_SECRET,
+        },
+        body: JSON.stringify({
+          board: { ...board, updatedAt: new Date().toISOString().split('T')[0] },
+          boardId,
+        }),
+      });
+
+      if (response.ok) {
+        setIsDirty(false);
+        setSaveSuccess(true);
+        // Clear success indicator after 3 seconds
+        setTimeout(() => setSaveSuccess(false), 3000);
+      } else {
+        console.error('Save failed:', await response.text());
+      }
+    } catch (err) {
+      console.error('Save error:', err);
+    } finally {
+      setIsSaving(false);
+    }
+  }, [board, boardId]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -278,9 +325,10 @@ export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }:
   };
 
   const handleReset = () => {
-    const newBoard = { ...roadmapBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    const newBoard = { ...initialBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
     setBoard(newBoard);
     clearBoard();
+    setIsDirty(false);
   };
 
   const handleShare = async () => {
@@ -300,9 +348,28 @@ export function KanbanBoard({ initialBoard = roadmapBoard, boardKey = 'board' }:
       {/* Toolbar */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <p className="text-sm text-muted-foreground">
-          Drag cards between columns. Your board is saved in the URL.
+          Drag cards between columns.{' '}
+          {isDirty && <span className="text-yellow-600 dark:text-yellow-400">Unsaved changes</span>}
+          {saveSuccess && <span className="text-green-600 dark:text-green-400">Saved!</span>}
         </p>
         <div className="flex gap-2">
+          {SAVE_SECRET && (
+            <Button
+              variant={isDirty ? 'default' : 'outline'}
+              size="sm"
+              onClick={handleSaveToGitHub}
+              disabled={isSaving || !isDirty}
+            >
+              {isSaving ? (
+                <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+              ) : saveSuccess ? (
+                <Check className="w-4 h-4 mr-1" />
+              ) : (
+                <Save className="w-4 h-4 mr-1" />
+              )}
+              {isSaving ? 'Saving...' : saveSuccess ? 'Saved' : 'Save'}
+            </Button>
+          )}
           <Button variant="outline" size="sm" onClick={handleShare}>
             <Share2 className="w-4 h-4 mr-1" />
             Copy Link
