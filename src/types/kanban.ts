@@ -85,6 +85,21 @@ export const roadmapBoard: KanbanBoard = {
       description: 'Planned tasks ready to start',
       cards: [
         {
+          id: 'sentry-enhancement',
+          title: 'Sentry Error Tracking Enhancement',
+          description: 'Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.',
+          labels: ['Small-Medium', 'Observability'],
+          planFile: 'docs/plans/23-sentry-error-tracking.md',
+          checklist: [
+            { id: 'se-1', text: 'Install @sentry/cli and add auth token to GitHub secrets', completed: false },
+            { id: 'se-2', text: 'Add source map upload to deploy workflow', completed: false },
+            { id: 'se-3', text: 'Wrap App in Sentry.ErrorBoundary with fallback UI', completed: false },
+            { id: 'se-4', text: 'Add release tracking with commit SHA', completed: false },
+            { id: 'se-5', text: 'Verify source maps appear in Sentry dashboard', completed: false },
+          ],
+          createdAt: '2026-01-15',
+        },
+        {
           id: 'tailwind-v4',
           title: 'Tailwind CSS v4 Upgrade',
           description: 'Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files.',
