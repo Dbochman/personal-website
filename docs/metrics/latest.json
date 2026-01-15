@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-12T12:07:36.712Z",
+  "generated": "2026-01-15T02:24:50.252Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,33 +8,64 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-01-12T12:07:36.712Z",
-    "sessions_7d": 5719,
-    "users_7d": 5628,
-    "pageviews_7d": 6003,
-    "avgSessionDuration": 10,
-    "bounceRate": 0.94,
+    "lastCheck": "2026-01-15T02:24:50.252Z",
+    "sessions_7d": 6940,
+    "users_7d": 6747,
+    "pageviews_7d": 7321,
+    "avgSessionDuration": 22,
+    "bounceRate": 0.93,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 1866
+        "pageViews": 2116
+      },
+      {
+        "page": "/blog/",
+        "pageViews": 851
+      },
+      {
+        "page": "/runbook",
+        "pageViews": 845
       },
       {
         "page": "/blog/adventures-in-ai-assisted-web-development",
         "pageViews": 797
       },
       {
-        "page": "/runbook",
-        "pageViews": 678
-      },
-      {
-        "page": "/blog/",
-        "pageViews": 593
-      },
-      {
         "page": "/blog",
-        "pageViews": 467
+        "pageViews": 546
       }
     ]
+  },
+  "webVitals": {
+    "lastCheck": "2026-01-15T02:24:50.252Z",
+    "source": "rum",
+    "metrics": {
+      "FCP": {
+        "count": 1483,
+        "average": 464.8658125421443,
+        "unit": "ms"
+      },
+      "TTFB": {
+        "count": 1447,
+        "average": 101.61022805805113,
+        "unit": "ms"
+      },
+      "LCP": {
+        "count": 480,
+        "average": 329.12291666666664,
+        "unit": "ms"
+      },
+      "CLS": {
+        "count": 300,
+        "average": 0.00044,
+        "unit": ""
+      },
+      "INP": {
+        "count": 195,
+        "average": 34.13333333333333,
+        "unit": "ms"
+      }
+    }
   }
 }
