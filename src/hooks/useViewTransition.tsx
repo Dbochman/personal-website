@@ -77,6 +77,25 @@ export function useViewTransitionNavigate() {
 }
 
 /**
+ * Keep a best-effort transition hint in sync with route changes.
+ * Useful for back/forward or programmatic navigations that bypass TransitionLink.
+ */
+export function useViewTransitionHints() {
+  const location = useLocation();
+  const lastPath = useRef(location.pathname);
+
+  useEffect(() => {
+    const from = lastPath.current;
+    const to = location.pathname;
+    if (from === to) {
+      return;
+    }
+    document.documentElement.dataset.transition = getTransitionType(from, to);
+    lastPath.current = to;
+  }, [location.pathname]);
+}
+
+/**
  * Check if click should use default browser behavior.
  * Returns true for modifier keys, non-left clicks, or external targets.
  */

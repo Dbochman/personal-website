@@ -58,7 +58,7 @@ export default function Blog() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             <header>
               <div className="flex items-center gap-4 mb-4">
-                <h1 className="text-4xl font-bold">Blog</h1>
+                <h1 className="text-4xl font-bold" style={{ viewTransitionName: 'page-title' }}>Blog</h1>
                 <a
                   href="/rss.xml"
                   target="_blank"

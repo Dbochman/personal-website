@@ -27,7 +27,11 @@ const Header = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <TransitionLink to="/" className="text-2xl font-bold text-foreground font-mono tracking-tight hover:no-underline">
+            <TransitionLink
+              to="/"
+              className="text-2xl font-bold text-foreground font-mono tracking-tight hover:no-underline"
+              style={{ viewTransitionName: 'site-title' }}
+            >
               Dylan Bochman
             </TransitionLink>
           </div>

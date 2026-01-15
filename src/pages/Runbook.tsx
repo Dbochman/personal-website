@@ -294,7 +294,7 @@ export default function Runbook() {
       <PageLayout>
         <div className="container mx-auto px-4 py-12 max-w-4xl">
           <header className="mb-12 text-center">
-            <h1 className="text-6xl font-bold mb-4 font-mono tracking-tight">
+            <h1 className="text-6xl font-bold mb-4 font-mono tracking-tight" style={{ viewTransitionName: 'page-title' }}>
               Operational Runbook
             </h1>
           </header>

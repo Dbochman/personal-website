@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom';
+import { TransitionLink } from '@/hooks/useViewTransition';
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="text-foreground/40 text-sm border-t border-foreground/20 pt-8">
+    <footer
+      className="text-foreground/40 text-sm border-t border-foreground/20 pt-8"
+      style={{ viewTransitionName: 'site-footer' }}
+    >
       <p>
         © {year} Dylan Bochman. All rights reserved. |{' '}
         <a
@@ -16,9 +19,9 @@ export function Footer() {
           Status
         </a>{' '}
         |{' '}
-        <Link to="/runbook" className="hover:text-foreground/60 transition-colors">
+        <TransitionLink to="/runbook" className="hover:text-foreground/60 transition-colors">
           Runbook
-        </Link>
+        </TransitionLink>
       </p>
     </footer>
   );
