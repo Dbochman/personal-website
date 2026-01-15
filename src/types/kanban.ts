@@ -77,21 +77,32 @@ export const roadmapBoard: KanbanBoard = {
       id: 'ideas',
       title: 'Ideas',
       description: 'Concepts without detailed plans yet',
-      cards: [
-        {
-          id: 'tailwind-v4',
-          title: 'Tailwind CSS v4 Upgrade',
-          description: 'Migrate to Tailwind v4 with native CSS, container queries built-in, and improved performance.',
-          labels: ['Medium', 'Infrastructure'],
-          createdAt: '2026-01-08',
-        },
-      ],
+      cards: [],
     },
     {
       id: 'todo',
       title: 'To Do',
       description: 'Planned tasks ready to start',
       cards: [
+        {
+          id: 'tailwind-v4',
+          title: 'Tailwind CSS v4 Upgrade',
+          description: 'Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files.',
+          labels: ['Medium-Large', 'Infrastructure'],
+          planFile: 'docs/plans/22-tailwind-v4-upgrade.md',
+          checklist: [
+            { id: 'tw-1', text: 'Run npx @tailwindcss/upgrade on feature branch', completed: false },
+            { id: 'tw-2', text: 'Update PostCSS config (remove autoprefixer)', completed: false },
+            { id: 'tw-3', text: 'Consider Vite plugin migration', completed: false },
+            { id: 'tw-4', text: 'Fix shadow/blur/rounded utility renames', completed: false },
+            { id: 'tw-5', text: 'Update outline-none → outline-hidden', completed: false },
+            { id: 'tw-6', text: 'Migrate tailwindcss-animate plugin', completed: false },
+            { id: 'tw-7', text: 'Remove @tailwindcss/container-queries (now built-in)', completed: false },
+            { id: 'tw-8', text: 'Test dark mode and animations', completed: false },
+            { id: 'tw-9', text: 'Run Lighthouse audit before/after', completed: false },
+          ],
+          createdAt: '2026-01-08',
+        },
         {
           id: 'framer-motion',
           title: 'Framer Motion Animations',
