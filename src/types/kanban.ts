@@ -186,28 +186,7 @@ export const roadmapBoard: KanbanBoard = {
       id: 'in-progress',
       title: 'In Progress',
       color: 'blue',
-      cards: [
-        {
-          id: 'dynamic-pr-status',
-          title: 'Dynamic PR Status Indicator',
-          description: 'Fetch PR check status from GitHub API at runtime so In Review cards show live CI status.',
-          labels: ['Small-Medium', 'UX'],
-          planFile: 'docs/plans/21-dynamic-pr-status.md',
-          checklist: [
-            { id: 'dps-1', text: 'Create usePrStatus hook with GitHub API fetch', completed: true },
-            { id: 'dps-2', text: 'Add in-memory cache with 2-minute TTL', completed: true },
-            { id: 'dps-3', text: 'Update KanbanCard to use hook for PR labels', completed: true },
-            { id: 'dps-4', text: 'Add loading spinner state', completed: true },
-            { id: 'dps-5', text: 'Handle edge cases (404, rate limit, no checks)', completed: true },
-            { id: 'dps-6', text: 'Test with real PR in In Review column', completed: false },
-          ],
-          history: [
-            { type: 'column', timestamp: '2026-01-15T22:30:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
-            { type: 'column', timestamp: '2026-01-15T22:35:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
-          ],
-          createdAt: '2026-01-15',
-        },
-      ],
+      cards: [],
     },
     {
       id: 'in-review',
@@ -219,6 +198,7 @@ export const roadmapBoard: KanbanBoard = {
       id: 'changelog',
       title: 'Change Log',
       cards: [
+        { id: 'pr-125', title: 'Dynamic PR Status Indicator', description: 'Live CI status for In Review cards via GitHub API, merged icon for changelog PRs', labels: ['PR #125', 'UX'], createdAt: '2026-01-15' },
         { id: 'pr-124', title: 'React Performance Optimizations', description: 'Analytics CLS 0.71→0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders', labels: ['PR #124', 'Performance'], createdAt: '2026-01-15' },
         { id: 'jan-14-15', title: 'Jan 14-15: Infrastructure & Polish', description: 'View Transitions API, RUM with web-vitals, CI/CD improvements with PR checks, Container Queries, MCP testing workflows', labels: ['PR #109', 'PR #113', 'PR #115-117'], createdAt: '2026-01-15' },
         { id: 'jan-14', title: 'Jan 14: Kanban & UX', description: 'Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications', labels: ['PR #97-108'], createdAt: '2026-01-14' },
