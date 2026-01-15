@@ -179,6 +179,12 @@ export const roadmapBoard: KanbanBoard = {
           ],
           createdAt: '2026-01-13',
         },
+      ],
+    },
+    {
+      id: 'todo',
+      title: 'To Do',
+      cards: [
         {
           id: 'rum',
           title: 'Real User Monitoring (RUM)',
@@ -225,11 +231,6 @@ export const roadmapBoard: KanbanBoard = {
           createdAt: '2026-01-13',
         },
       ],
-    },
-    {
-      id: 'todo',
-      title: 'To Do',
-      cards: [],
     },
     {
       id: 'in-progress',
