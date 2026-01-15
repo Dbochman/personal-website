@@ -201,21 +201,6 @@ export const roadmapBoard: KanbanBoard = {
           ],
           createdAt: '2026-01-13',
         },
-        {
-          id: 'view-transitions',
-          title: 'View Transitions API',
-          description: 'Native page transitions with shared element animations. ~75% browser coverage, progressive enhancement.',
-          labels: ['Small-Medium', 'Learning'],
-          planFile: 'docs/plans/05-view-transitions-api.md',
-          checklist: [
-            { id: 'vt-1', text: 'Create useViewTransitionNavigate hook', completed: false },
-            { id: 'vt-2', text: 'Add shared element transitions for blog card → post', completed: false },
-            { id: 'vt-3', text: 'Add custom transition CSS animations', completed: false },
-            { id: 'vt-4', text: 'Add reduced motion support', completed: false },
-            { id: 'vt-5', text: 'Test across Chrome, Safari, Firefox fallback', completed: false },
-          ],
-          createdAt: '2026-01-13',
-        },
       ],
     },
     {
@@ -228,6 +213,41 @@ export const roadmapBoard: KanbanBoard = {
       id: 'recently-completed',
       title: 'Recently Completed',
       cards: [
+        {
+          id: 'view-transitions',
+          title: 'View Transitions API',
+          description: 'Native page transitions with shared element animations. Context-aware effects for depth, cross-section, and home navigation.',
+          labels: ['Small-Medium', 'Learning', 'PR #113'],
+          planFile: 'docs/plans/05-view-transitions-api.md',
+          checklist: [
+            { id: 'vt-1', text: 'Create useViewTransitionNavigate hook', completed: true },
+            { id: 'vt-2', text: 'Add shared element transitions for blog card → post', completed: true },
+            { id: 'vt-3', text: 'Add custom transition CSS animations', completed: true },
+            { id: 'vt-4', text: 'Add reduced motion support', completed: true },
+            { id: 'vt-5', text: 'Test across Chrome, Safari, Firefox fallback', completed: true },
+          ],
+          history: [
+            { type: 'column', timestamp: '2026-01-13T12:00:00.000Z', columnId: 'todo', columnTitle: 'To Do' },
+            { type: 'column', timestamp: '2026-01-15T01:00:00.000Z', columnId: 'in-progress', columnTitle: 'In Progress' },
+            { type: 'column', timestamp: '2026-01-15T02:00:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+          ],
+          createdAt: '2026-01-13',
+        },
+        {
+          id: 'pr-checks',
+          title: 'PR Checks Workflow',
+          description: 'GitHub Actions workflow running lint, type check, unit tests, and build on all PRs. Branch protection enabled.',
+          labels: ['Small', 'Infrastructure', 'PR #115'],
+          checklist: [
+            { id: 'pc-1', text: 'Create pr-checks.yml workflow', completed: true },
+            { id: 'pc-2', text: 'Add lint, type check, test, build steps', completed: true },
+            { id: 'pc-3', text: 'Enable branch protection on main', completed: true },
+          ],
+          history: [
+            { type: 'column', timestamp: '2026-01-15T02:30:00.000Z', columnId: 'recently-completed', columnTitle: 'Recently Completed' },
+          ],
+          createdAt: '2026-01-15',
+        },
         {
           id: 'container-queries',
           title: 'Container Queries & :has()',
