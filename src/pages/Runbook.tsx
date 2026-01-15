@@ -15,7 +15,6 @@ import {
   additionalResources,
   runbookMetadata,
   type Link,
-  type MonitoringTool,
 } from '@/data/runbook';
 
 // Helper component for rendering links
