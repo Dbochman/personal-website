@@ -1,4 +1,5 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAnalyticsData } from '@/hooks/useAnalyticsData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,6 +8,7 @@ import { MetricCard } from './MetricCard';
 import { CoreWebVitalsCard } from './CoreWebVitalsCard';
 import { RumWebVitalsCard } from './RumWebVitalsCard';
 import { LighthouseScoresTable } from './LighthouseScoresTable';
+import { staggerContainer, staggerItem, tabContent } from '@/lib/motion';
 
 // Lazy load Recharts-dependent components (heaviest)
 const SessionsTrendChart = lazy(() => import('./charts/SessionsTrendChart').then(m => ({ default: m.SessionsTrendChart })));
@@ -17,6 +19,7 @@ const SearchPerformanceChart = lazy(() => import('./charts/SearchPerformanceChar
 
 export function AnalyticsDashboard() {
   const { latest, ga4History, searchHistory, lighthouseSummary, isLoading, error, warning } = useAnalyticsData();
+  const [activeTab, setActiveTab] = useState('traffic');
 
   if (isLoading) {
     return (
@@ -129,43 +132,65 @@ export function AnalyticsDashboard() {
       )}
 
       {/* Overview Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard
-          title="Sessions (7d)"
-          value={latestGA4?.summary.sessions.toLocaleString() ?? '—'}
-          icon={Users}
-          trend={sessionTrend}
-        />
-        <MetricCard
-          title="Lighthouse Perf"
-          value={avgPerformance !== null ? `${avgPerformance}` : '—'}
-          icon={Gauge}
-          subtitle="avg across pages"
-          status={avgPerformance !== null ? (avgPerformance >= 90 ? 'good' : avgPerformance >= 70 ? 'warning' : 'critical') : undefined}
-        />
-        <MetricCard
-          title="Impressions (7d)"
-          value={latestSearch?.summary?.totalImpressions?.toLocaleString() ?? '—'}
-          icon={Search}
-        />
-        <MetricCard
-          title="Bounce Rate"
-          value={latestGA4 ? `${(latestGA4.summary.bounceRate * 100).toFixed(0)}%` : '—'}
-          icon={Activity}
-          status={latestGA4 ? (latestGA4.summary.bounceRate <= 0.5 ? 'good' : latestGA4.summary.bounceRate <= 0.7 ? 'warning' : 'critical') : undefined}
-        />
-      </div>
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div variants={staggerItem}>
+          <MetricCard
+            title="Sessions (7d)"
+            value={latestGA4?.summary.sessions.toLocaleString() ?? '—'}
+            icon={Users}
+            trend={sessionTrend}
+          />
+        </motion.div>
+        <motion.div variants={staggerItem}>
+          <MetricCard
+            title="Lighthouse Perf"
+            value={avgPerformance !== null ? `${avgPerformance}` : '—'}
+            icon={Gauge}
+            subtitle="avg across pages"
+            status={avgPerformance !== null ? (avgPerformance >= 90 ? 'good' : avgPerformance >= 70 ? 'warning' : 'critical') : undefined}
+          />
+        </motion.div>
+        <motion.div variants={staggerItem}>
+          <MetricCard
+            title="Impressions (7d)"
+            value={latestSearch?.summary?.totalImpressions?.toLocaleString() ?? '—'}
+            icon={Search}
+          />
+        </motion.div>
+        <motion.div variants={staggerItem}>
+          <MetricCard
+            title="Bounce Rate"
+            value={latestGA4 ? `${(latestGA4.summary.bounceRate * 100).toFixed(0)}%` : '—'}
+            icon={Activity}
+            status={latestGA4 ? (latestGA4.summary.bounceRate <= 0.5 ? 'good' : latestGA4.summary.bounceRate <= 0.7 ? 'warning' : 'critical') : undefined}
+          />
+        </motion.div>
+      </motion.div>
 
       {/* Tabbed Sections */}
-      <Tabs defaultValue="traffic" className="space-y-4">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList>
           <TabsTrigger value="traffic">Traffic</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
           <TabsTrigger value="search">Search</TabsTrigger>
         </TabsList>
 
-        {/* Traffic Tab */}
-        <TabsContent value="traffic" className="space-y-4">
+        <AnimatePresence mode="wait">
+          {/* Traffic Tab */}
+          {activeTab === 'traffic' && (
+            <motion.div
+              key="traffic"
+              variants={tabContent}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <TabsContent value="traffic" className="space-y-4" forceMount>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <Card className="lg:col-span-2">
               <CardHeader>
@@ -255,10 +280,20 @@ export function AnalyticsDashboard() {
               </CardContent>
             </Card>
           )}
-        </TabsContent>
+              </TabsContent>
+            </motion.div>
+          )}
 
-        {/* Performance Tab */}
-        <TabsContent value="performance" className="space-y-4">
+          {/* Performance Tab */}
+          {activeTab === 'performance' && (
+            <motion.div
+              key="performance"
+              variants={tabContent}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <TabsContent value="performance" className="space-y-4" forceMount>
           {/* Web Vitals Comparison: Lab vs Field */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -284,10 +319,20 @@ export function AnalyticsDashboard() {
           </Card>
 
           <LighthouseScoresTable data={lighthouseSummary} />
-        </TabsContent>
+              </TabsContent>
+            </motion.div>
+          )}
 
-        {/* Search Tab */}
-        <TabsContent value="search" className="space-y-4">
+          {/* Search Tab */}
+          {activeTab === 'search' && (
+            <motion.div
+              key="search"
+              variants={tabContent}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <TabsContent value="search" className="space-y-4" forceMount>
           <Card>
             <CardHeader>
               <CardTitle>Search Performance</CardTitle>
@@ -321,7 +366,10 @@ export function AnalyticsDashboard() {
               icon={Gauge}
             />
           </div>
-        </TabsContent>
+              </TabsContent>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Tabs>
 
       {/* Footer */}

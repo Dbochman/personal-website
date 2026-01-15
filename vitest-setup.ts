@@ -9,13 +9,18 @@ global.IntersectionObserver = vi.fn(() => ({
   unobserve: vi.fn(),
 })) as unknown as typeof IntersectionObserver
 
-// Mock requestAnimationFrame for tests
+// Mock requestAnimationFrame for tests using setTimeout to prevent infinite loops
+// with animation libraries like framer-motion
+let rafId = 0
 global.requestAnimationFrame = vi.fn((cb) => {
-  cb(0)
-  return 0
+  const id = ++rafId
+  setTimeout(() => cb(performance.now()), 0)
+  return id
 })
 
-global.cancelAnimationFrame = vi.fn()
+global.cancelAnimationFrame = vi.fn((id) => {
+  clearTimeout(id)
+})
 
 // Extend global window with vi for tests
 Object.defineProperty(globalThis, 'vi', {

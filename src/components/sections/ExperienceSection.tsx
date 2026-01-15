@@ -1,15 +1,14 @@
-
-import React from 'react';
+import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Accordion } from "@/components/ui/accordion";
 import AccordionSection from "@/components/AccordionSection";
 import { experiences } from "@/data/experiences";
+import { staggerContainer, staggerItem } from '@/lib/motion';
 import SpotifyLogo from '@/assets/logos/spotify.svg';
 import HashiCorpLogo from '@/assets/logos/hashicorp.svg';
 import HashiDarkLogo from '@/assets/logos/hashicorp-dark.svg';
 import GroqLogo from '@/assets/logos/groq.svg';
-// import { useTheme } from '@/hooks/useTheme'
 
 interface ExperienceSectionProps {
   value: string;
@@ -17,7 +16,9 @@ interface ExperienceSectionProps {
 }
 
 const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => {
-  // const { isDark } = useTheme()
+  // Animate when accordion is open (value === 'experience')
+  const isOpen = value === 'experience';
+
   return (
     <section id="experience">
       <Accordion type="single" collapsible value={value} onValueChange={onValueChange} className="space-y-4">
@@ -26,9 +27,15 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
           summary="Incident Management @ Groq · SRE @ HashiCorp & Spotify · 7+ years scaling reliability"
           value="experience"
         >
-          <div className="space-y-8">
+          <motion.div
+            className="space-y-8"
+            variants={staggerContainer}
+            initial="hidden"
+            animate={isOpen ? 'visible' : 'hidden'}
+          >
             {experiences.map((exp, index) => (
-              <Card key={index} className="bg-background/60 backdrop-blur-sm border-foreground/20 hover:border-foreground/40 transition-all">
+              <motion.div key={index} variants={staggerItem}>
+                <Card className="bg-background/60 backdrop-blur-sm border-foreground/20 hover:border-foreground/40 transition-all">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
@@ -75,9 +82,10 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
                     ))}
                   </ul>
                 </CardContent>
-              </Card>
+                </Card>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </AccordionSection>
       </Accordion>
     </section>
