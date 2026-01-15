@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
  * Throttle a function to only execute at most once per delay period.
  * Useful for scroll/resize handlers to prevent excessive updates.
  */
-export function throttle<T extends (...args: Parameters<T>) => void>(
+export function throttle<T extends (...args: unknown[]) => void>(
   fn: T,
   delay: number
 ): T {

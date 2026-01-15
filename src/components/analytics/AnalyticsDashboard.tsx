@@ -7,7 +7,6 @@ import { MetricCard } from './MetricCard';
 import { CoreWebVitalsCard } from './CoreWebVitalsCard';
 import { RumWebVitalsCard } from './RumWebVitalsCard';
 import { LighthouseScoresTable } from './LighthouseScoresTable';
-import { ChartSkeleton } from '@/components/ui/skeletons';
 
 // Lazy load Recharts-dependent components (heaviest)
 const SessionsTrendChart = lazy(() => import('./charts/SessionsTrendChart').then(m => ({ default: m.SessionsTrendChart })));
