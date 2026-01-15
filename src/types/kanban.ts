@@ -74,8 +74,9 @@ export const roadmapBoard: KanbanBoard = {
   title: 'Site Roadmap',
   columns: [
     {
-      id: 'backlog',
-      title: 'Backlog',
+      id: 'ideas',
+      title: 'Ideas',
+      description: 'Concepts without detailed plans yet',
       cards: [
         {
           id: 'tailwind-v4',
@@ -84,6 +85,13 @@ export const roadmapBoard: KanbanBoard = {
           labels: ['Medium', 'Infrastructure'],
           createdAt: '2026-01-08',
         },
+      ],
+    },
+    {
+      id: 'todo',
+      title: 'To Do',
+      description: 'Planned tasks ready to start',
+      cards: [
         {
           id: 'framer-motion',
           title: 'Framer Motion Animations',
@@ -149,7 +157,7 @@ export const roadmapBoard: KanbanBoard = {
           id: 'visual-regression',
           title: 'Visual Regression Testing',
           description: 'Playwright screenshot tests comparing against baselines. Catches unintended UI changes in CI.',
-          labels: ['Medium', 'Analytics'],
+          labels: ['Medium', 'Testing'],
           planFile: 'docs/plans/08-visual-regression-testing.md',
           checklist: [
             { id: 'vr-1', text: 'Create visual.spec.ts with full-page screenshots', completed: false },
@@ -176,11 +184,6 @@ export const roadmapBoard: KanbanBoard = {
           createdAt: '2026-01-13',
         },
       ],
-    },
-    {
-      id: 'todo',
-      title: 'To Do',
-      cards: [],
     },
     {
       id: 'in-progress',
