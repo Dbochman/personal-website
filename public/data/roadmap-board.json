@@ -14,74 +14,6 @@
       "description": "Planned tasks ready to start",
       "cards": [
         {
-          "id": "kanban-save",
-          "title": "Kanban Board Save Feature",
-          "description": "Add \"Save Changes\" button that commits board state to GitHub via Cloudflare Worker proxy and GitHub Actions. Phase 6 adds GitHub OAuth for proper authentication.",
-          "labels": [
-            "Medium",
-            "Feature"
-          ],
-          "planFile": "docs/plans/25-kanban-save-feature.md",
-          "checklist": [
-            {
-              "id": "ks-1",
-              "text": "Convert board data to JSON (runtime loading)",
-              "completed": true
-            },
-            {
-              "id": "ks-2",
-              "text": "Add dirty state tracking to KanbanBoard",
-              "completed": true
-            },
-            {
-              "id": "ks-3",
-              "text": "Set up Cloudflare Worker with secrets",
-              "completed": true
-            },
-            {
-              "id": "ks-4",
-              "text": "Create GitHub Action for save-kanban dispatch",
-              "completed": true
-            },
-            {
-              "id": "ks-5",
-              "text": "Add Save button UI with loading/success states",
-              "completed": true
-            },
-            {
-              "id": "ks-6",
-              "text": "Add unsaved changes warning on page leave",
-              "completed": true
-            },
-            {
-              "id": "ks-7",
-              "text": "Phase 6: Create GitHub OAuth App",
-              "completed": true
-            },
-            {
-              "id": "ks-8",
-              "text": "Phase 6: Add Cloudflare KV namespace for sessions",
-              "completed": true
-            },
-            {
-              "id": "ks-9",
-              "text": "Phase 6: Update worker with OAuth endpoints",
-              "completed": true
-            },
-            {
-              "id": "ks-10",
-              "text": "Phase 6: Update frontend with login UI",
-              "completed": true
-            },
-            {
-              "id": "ks-11",
-              "text": "Phase 6: Remove SAVE_SECRET, test OAuth flow",
-              "completed": true
-            }
-          ],
-          "createdAt": "2026-01-15"
-        },
-        {
           "id": "analytics-dedupe",
           "title": "Analytics Data Deduplication",
           "description": "Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection.",
@@ -346,6 +278,16 @@
       "title": "Change Log",
       "cards": [
         {
+          "id": "pr-127",
+          "title": "Kanban Board Save Feature",
+          "description": "GitHub OAuth login, Cloudflare Worker proxy, save to GitHub via Actions. Includes conflict detection, unsaved changes warning.",
+          "labels": [
+            "PR #127",
+            "Feature"
+          ],
+          "createdAt": "2026-01-15"
+        },
+        {
           "id": "pr-126",
           "title": "Framer Motion Animations",
           "description": "Stagger animations for grids, scroll reveals, tab transitions, mobile nav stagger. Respects prefers-reduced-motion.",
@@ -455,5 +397,5 @@
     }
   ],
   "createdAt": "2026-01-13",
-  "updatedAt": "2026-01-15T00:00:00.000Z"
+  "updatedAt": "2026-01-15T21:30:00.000Z"
 }

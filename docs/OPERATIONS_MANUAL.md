@@ -14,6 +14,8 @@
 | Deployment repo | https://github.com/Dbochman/dbochman.github.io |
 | Status page | https://stats.uptimerobot.com/zquZllQfNJ |
 | CMS editor | https://dylanbochman.netlify.app/editor/ |
+| Kanban board | https://dylanbochman.com/projects/kanban |
+| Cloudflare Worker | https://kanban-save-worker.dbochman.workers.dev |
 | Analytics | https://analytics.google.com (GA4) |
 | Search Console | https://search.google.com/search-console |
 
@@ -82,9 +84,11 @@ No manual steps needed. Check [Actions tab](https://github.com/Dbochman/personal
 - **Secret needed:** `DEPLOY_TOKEN` (PAT with repo access)
 
 ### Cloudflare
-- **Purpose:** DNS, CDN, SSL
+- **Purpose:** DNS, CDN, SSL, Kanban Save Worker
 - **Domain:** dylanbochman.com
 - **DNS records:** CNAME to dbochman.github.io
+- **Worker:** kanban-save-worker.dbochman.workers.dev (OAuth proxy for kanban saves)
+- **KV Namespace:** SESSIONS (stores OAuth sessions, 7-day TTL)
 
 ### Netlify
 - **Purpose:** CMS authentication only (not hosting)
@@ -130,6 +134,30 @@ npm run test:e2e      # E2E tests (requires build first)
 npm run build
 # Check dist/ folder size
 ```
+
+### Saving Kanban Board Changes
+
+The roadmap board at `/projects/kanban` can save changes directly to GitHub:
+
+1. **Login:** Click "Login to Save" → Authenticate with GitHub
+2. **Edit:** Make changes to cards/columns
+3. **Save:** Click "Save" button → Triggers GitHub Action → Commits to repo
+
+**Requirements:**
+- Must be a collaborator on the repo
+- Uses GitHub OAuth (no secrets in browser)
+
+**Architecture:**
+```
+Browser → Cloudflare Worker (OAuth) → GitHub Actions → Commit
+```
+
+**Troubleshooting:**
+- "Not a collaborator" → Check GitHub repo collaborator settings
+- Save fails → Check GitHub Actions tab for errors
+- Session expired → Logout and login again
+
+See `docs/completed-projects/25-kanban-save-feature.md` for implementation details.
 
 ### MCP Interactive Testing (Pre-PR)
 
@@ -192,6 +220,7 @@ See `docs/plans/16-mcp-interactive-testing.md` for detailed workflows.
 | Console Errors | Post-deploy | Check for JS errors |
 | SEO Checks | Weekly (Mon) | Validate SEO health |
 | Analytics Export | Weekly (Mon) | Backup GA4 data |
+| Save Kanban | repository_dispatch | Commit kanban board changes |
 
 All workflows are in `.github/workflows/`.
 

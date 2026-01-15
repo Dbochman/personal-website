@@ -650,69 +650,52 @@ const handleSaveToGitHub = async () => {
 ## Checklist
 
 ### Phase 1: JSON Migration
-- [ ] Create `src/data/kanban-board.json` with roadmap data
-- [ ] Create `src/data/house-projects-board.json` (if applicable)
-- [ ] Create `useKanbanBoard` hook with loading/dirty state
-- [ ] Update Kanban page to use hook instead of imported data
-- [ ] Add loading skeleton while fetching
-- [ ] Test board renders correctly from JSON
+- [x] Create `public/data/roadmap-board.json` with roadmap data
+- [x] Update Kanban page to load from JSON at runtime
+- [x] Add dirty state tracking to KanbanBoard
+- [x] Test board renders correctly from JSON
 
 ### Phase 2: Cloudflare Worker
-- [ ] Create Cloudflare account
-- [ ] Create worker project with wrangler
-- [ ] Implement save endpoint with CORS
-- [ ] Add `GITHUB_PAT` secret (fine-grained, repo scope)
-- [ ] Add `SAVE_SECRET` secret
-- [ ] Deploy worker
-- [ ] Test with curl
+- [x] Create Cloudflare account
+- [x] Create worker project with wrangler
+- [x] Implement save endpoint with CORS
+- [x] Add `GITHUB_PAT` secret (fine-grained, repo scope)
+- [x] Deploy worker
 
 ### Phase 3: GitHub Action
-- [ ] Create `.github/workflows/save-kanban.yml`
-- [ ] Test with manual `repository_dispatch` trigger
-- [ ] Verify commit appears in repo
+- [x] Create `.github/workflows/save-kanban.yml`
+- [x] Add boardId whitelist validation
+- [x] Add baseUpdatedAt conflict detection
+- [x] Verify commit appears in repo
 
 ### Phase 4: Frontend Integration
-- [ ] Add `VITE_KANBAN_SAVE_SECRET` to `.env`
-- [ ] Add Save button component
-- [ ] Wire up save handler to worker
-- [ ] Add saving state indicator
-- [ ] Add success/error toast notifications
-- [ ] Only show button when `isDirty`
+- [x] Add Save button component
+- [x] Wire up save handler to worker
+- [x] Add saving state indicator (loading spinner, success checkmark)
+- [x] Only show button when `isDirty`
 
 ### Phase 5: Polish
-- [ ] Add unsaved changes warning on page leave
-- [ ] Handle merge conflicts (board changed while editing)
-- [ ] Add to `.env.example`
-- [ ] Document in OPERATIONS_MANUAL.md
+- [x] Add unsaved changes warning on page leave (beforeunload)
+- [x] Handle merge conflicts (baseUpdatedAt comparison)
+- [x] Update `.env.example`
+- [x] Document in OPERATIONS_MANUAL.md
 
 ### Phase 6: GitHub OAuth (Security Enhancement)
-- [ ] Create GitHub OAuth App in Developer Settings
-- [ ] Create Cloudflare KV namespace for sessions
-- [ ] Add `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` to worker
-- [ ] Update worker code with OAuth endpoints (`/auth/login`, `/auth/callback`, `/auth/status`, `/auth/logout`)
-- [ ] Add collaborator check in callback handler
-- [ ] Update KanbanBoard.tsx with auth state and login UI
-- [ ] Remove `VITE_KANBAN_SAVE_SECRET` from `.env`
-- [ ] Remove `SAVE_SECRET` from worker secrets
-- [ ] Test full OAuth flow end-to-end
-- [ ] Verify non-collaborators are rejected
+- [x] Create GitHub OAuth App in Developer Settings
+- [x] Create Cloudflare KV namespace for sessions
+- [x] Add `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` to worker
+- [x] Update worker code with OAuth endpoints (`/auth/login`, `/auth/callback`, `/auth/status`, `/auth/logout`)
+- [x] Add collaborator check in callback handler
+- [x] Update KanbanBoard.tsx with auth state and login UI
+- [x] Add dynamic `return_to` for localhost testing
+- [x] Remove `SAVE_SECRET` from worker secrets
+- [x] Test full OAuth flow end-to-end
+
+**Status: COMPLETED** - Merged in PR #127 on 2026-01-15
 
 ## Security Considerations
 
-### Current Implementation (Shared Secret)
-
-| Concern | Mitigation |
-|---------|------------|
-| Token exposure | PAT stored only in Cloudflare Worker env |
-| Unauthorized saves | SAVE_SECRET required (can be rotated) |
-| Path traversal | boardId whitelist in GitHub Action |
-| Race conditions | updatedAt timestamp comparison |
-| CORS attacks | Worker only accepts requests from dylanbochman.com |
-| Injection attacks | JSON validated by GitHub Action with `jq` |
-
-**⚠️ Known weakness**: SAVE_SECRET is exposed in client-side JavaScript. Anyone can extract it and trigger saves. Mitigations reduce impact but don't eliminate risk.
-
-### Target Implementation (GitHub OAuth)
+### Current Implementation (GitHub OAuth) ✅
 
 | Concern | Mitigation |
 |---------|------------|
