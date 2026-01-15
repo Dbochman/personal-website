@@ -84,7 +84,8 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
 
   // Auth handlers
   const handleLogin = useCallback(() => {
-    window.location.href = `${WORKER_URL}/auth/login`;
+    const returnTo = encodeURIComponent(window.location.href);
+    window.location.href = `${WORKER_URL}/auth/login?return_to=${returnTo}`;
   }, []);
 
   const handleLogout = useCallback(async () => {
