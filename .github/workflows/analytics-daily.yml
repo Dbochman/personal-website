@@ -1,0 +1,285 @@
+name: Daily Analytics Collection
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run daily at 6 AM UTC
+    - cron: '0 6 * * *'
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Lighthouse on production (multi-page)
+        run: node scripts/lighthouse-multi-page.mjs
+
+      - name: Save Lighthouse reports
+        run: |
+          mkdir -p docs/metrics
+          cp lighthouse-reports/summary.json docs/metrics/latest-multi-page.json
+          echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"commit\": \"${{ github.sha }}\"}" > docs/metrics/last-run.json
+
+      - name: Upload Lighthouse reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: lighthouse-reports/
+          retention-days: 7
+
+    outputs:
+      completed: ${{ job.status == 'success' }}
+
+  search-console:
+    needs: lighthouse
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch Search Console data
+        env:
+          SEARCH_CONSOLE_CREDENTIALS: ${{ secrets.SEARCH_CONSOLE_CREDENTIALS }}
+        run: node scripts/fetch-search-console-data.js
+
+      - name: Upload search data
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-console-data
+          path: docs/metrics/search-console-history.json
+          retention-days: 7
+
+  ga4:
+    needs: search-console
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch GA4 analytics data
+        env:
+          GA4_CREDENTIALS: ${{ secrets.GA4_CREDENTIALS }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: node scripts/fetch-ga4-data.js
+
+      - name: Upload GA4 data
+        uses: actions/upload-artifact@v4
+        with:
+          name: ga4-data
+          path: docs/metrics/ga4-history.json
+          retention-days: 7
+
+  commit-all:
+    needs: [lighthouse, search-console, ga4]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Merge artifacts into docs/metrics
+        run: |
+          mkdir -p docs/metrics
+
+          # Copy Lighthouse data
+          if [ -f artifacts/lighthouse-reports/summary.json ]; then
+            cp artifacts/lighthouse-reports/summary.json docs/metrics/latest-multi-page.json
+            echo "✅ Lighthouse data updated"
+          fi
+
+          # Copy Search Console data
+          if [ -f artifacts/search-console-data/search-console-history.json ]; then
+            cp artifacts/search-console-data/search-console-history.json docs/metrics/
+            echo "✅ Search Console data updated"
+          fi
+
+          # Copy GA4 data
+          if [ -f artifacts/ga4-data/ga4-history.json ]; then
+            cp artifacts/ga4-data/ga4-history.json docs/metrics/
+            echo "✅ GA4 data updated"
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Regenerate latest.json
+        env:
+          GA4_CREDENTIALS: ${{ secrets.GA4_CREDENTIALS }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          SEARCH_CONSOLE_CREDENTIALS: ${{ secrets.SEARCH_CONSOLE_CREDENTIALS }}
+        run: |
+          # Re-run GA4 script to regenerate latest.json with all data
+          node scripts/fetch-ga4-data.js
+
+      - name: Commit all metrics
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add docs/metrics/
+          git diff --staged --quiet || git commit -m "chore: daily analytics update [skip ci]"
+          git push
+
+      - name: Check for anomalies
+        id: anomaly_check
+        run: |
+          node -e "
+          const fs = require('fs');
+          const failures = [];
+
+          // Check GA4 data
+          const ga4File = 'docs/metrics/ga4-history.json';
+          if (fs.existsSync(ga4File)) {
+            const history = JSON.parse(fs.readFileSync(ga4File, 'utf8'));
+            if (history.length >= 2) {
+              const latest = history[history.length - 1];
+              const previous = history[history.length - 2];
+
+              const sessionsChange = ((latest.summary.sessions - previous.summary.sessions) / previous.summary.sessions) * 100;
+              if (sessionsChange < -30) {
+                failures.push(\`GA4: Sessions dropped by \${Math.abs(Math.round(sessionsChange))}%\`);
+              }
+            }
+          }
+
+          // Check Search Console data
+          const scFile = 'docs/metrics/search-console-history.json';
+          if (fs.existsSync(scFile)) {
+            const history = JSON.parse(fs.readFileSync(scFile, 'utf8'));
+            if (history.length >= 2) {
+              const latest = history[history.length - 1];
+              const previous = history[history.length - 2];
+
+              const positionChange = latest.summary.averagePosition - previous.summary.averagePosition;
+              if (positionChange > 5) {
+                failures.push(\`Search Console: Position worsened by \${Math.round(positionChange * 10) / 10}\`);
+              }
+            }
+          }
+
+          // Check Lighthouse data
+          const lhFile = 'docs/metrics/latest-multi-page.json';
+          if (fs.existsSync(lhFile)) {
+            const summary = JSON.parse(fs.readFileSync(lhFile, 'utf8'));
+            summary.forEach(page => {
+              if (page.performance < 50) {
+                failures.push(\`Lighthouse: \${page.page} performance at \${page.performance}\`);
+              }
+              if (page.accessibility < 95) {
+                failures.push(\`Lighthouse: \${page.page} accessibility at \${page.accessibility}\`);
+              }
+            });
+          }
+
+          if (failures.length > 0) {
+            console.log('::set-output name=has_anomalies::true');
+            console.log('Anomalies detected:');
+            failures.forEach(f => console.log(\`  - \${f}\`));
+            // Write failures to file for issue creation
+            fs.writeFileSync('/tmp/anomalies.json', JSON.stringify(failures));
+            process.exit(1);
+          } else {
+            console.log('✅ No anomalies detected');
+          }
+          "
+
+      - name: Create issue for anomalies
+        if: failure() && steps.anomaly_check.conclusion == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const date = new Date().toISOString().split('T')[0];
+
+            let anomalies = [];
+            try {
+              anomalies = JSON.parse(fs.readFileSync('/tmp/anomalies.json', 'utf8'));
+            } catch (e) {
+              anomalies = ['Unknown anomaly - check workflow logs'];
+            }
+
+            const body = `## 📉 Daily Analytics Anomaly Alert
+
+**Date:** ${date}
+
+### Detected Issues
+${anomalies.map(a => `- ${a}`).join('\n')}
+
+### Actions Required
+1. Review the [workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+2. Check individual data artifacts for details
+3. Investigate root causes
+
+---
+*This issue was automatically created by the Daily Analytics Collection workflow.*`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 Analytics Anomaly Detected (${date})`,
+              body: body,
+              labels: ['analytics', 'automated']
+            });

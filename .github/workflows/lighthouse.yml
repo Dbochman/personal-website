@@ -6,9 +6,7 @@ on:
     types:
       - completed
   workflow_dispatch:
-  schedule:
-    # Run weekly on Mondays at 10 AM UTC (after SEO check)
-    - cron: '0 10 * * 1'
+  # Scheduled runs moved to analytics-daily.yml for unified daily collection
 
 jobs:
   lighthouse:
