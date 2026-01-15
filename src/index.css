@@ -296,6 +296,56 @@
 }
 
 /*
+ * View Transitions API
+ *
+ * Progressive enhancement for smooth page transitions.
+ * Chrome 111+, Safari 18+. Falls back to instant navigation elsewhere.
+ */
+
+/* Base transition timing */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--timing-fast);
+  animation-timing-function: var(--easing-smooth);
+}
+
+/* Direction-aware slide transitions */
+[data-direction="forward"]::view-transition-old(root) {
+  animation-name: vt-slide-out-left;
+}
+[data-direction="forward"]::view-transition-new(root) {
+  animation-name: vt-slide-in-right;
+}
+[data-direction="back"]::view-transition-old(root) {
+  animation-name: vt-slide-out-right;
+}
+[data-direction="back"]::view-transition-new(root) {
+  animation-name: vt-slide-in-left;
+}
+
+@keyframes vt-slide-out-left {
+  to { transform: translateX(-5%); opacity: 0; }
+}
+@keyframes vt-slide-in-right {
+  from { transform: translateX(5%); opacity: 0; }
+}
+@keyframes vt-slide-out-right {
+  to { transform: translateX(5%); opacity: 0; }
+}
+@keyframes vt-slide-in-left {
+  from { transform: translateX(-5%); opacity: 0; }
+}
+
+/* Disable view transitions for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/*
  * :has() Progressive Enhancement Pattern
  *
  * :has() enables parent styling based on child state (Chrome 105+, Safari 15.4+).
