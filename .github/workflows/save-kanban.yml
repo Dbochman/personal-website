@@ -24,11 +24,17 @@ jobs:
       - name: Check for conflicts
         run: |
           FILE="public/data/${{ env.BOARD_ID }}-board.json"
+          BASE_UPDATED="${{ github.event.client_payload.baseUpdatedAt }}"
+
+          # Validate baseUpdatedAt is present
+          if [ -z "$BASE_UPDATED" ]; then
+            echo "Error: baseUpdatedAt is required for conflict detection."
+            echo "This may indicate an outdated client. Please reload the page."
+            exit 1
+          fi
+
           if [ -f "$FILE" ]; then
             CURRENT_UPDATED=$(jq -r '.updatedAt // "1970-01-01"' "$FILE")
-            # Use baseUpdatedAt (when user loaded the board) for conflict detection
-            # This prevents stale clients from overwriting newer data
-            BASE_UPDATED="${{ github.event.client_payload.baseUpdatedAt }}"
 
             # If file is newer than what user originally loaded, reject
             if [[ "$CURRENT_UPDATED" > "$BASE_UPDATED" ]]; then
