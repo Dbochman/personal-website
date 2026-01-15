@@ -198,3 +198,33 @@ src/styles/globals.css     # :has() utilities
 
 - Consider doing **Tailwind v4 upgrade** first (container queries built-in)
 - Or install `@tailwindcss/container-queries` plugin for v3
+
+---
+
+## Implementation Summary (Jan 2026)
+
+### What We Did
+
+1. **Installed `@tailwindcss/container-queries`** - Added to Tailwind config
+2. **Refactored `IncidentInput`** - Changed from `sm:flex-row` to `@sm:flex-row` with `@container` on Card
+3. **Documented `:has()` patterns** - Added example patterns in `index.css` (no active utilities yet - add when there's a real use case)
+4. **Created Playwright test** - `tests/e2e/container-queries.spec.ts` verifies true container-query behavior by constraining container width independent of viewport
+
+### Components Using Container Queries
+
+| Component | File | Pattern |
+|-----------|------|---------|
+| IncidentInput | `src/components/projects/uptime-calculator/IncidentInput.tsx` | `@container` on Card, `@sm:flex-row` for layout |
+
+### Gotchas Discovered
+
+1. **Must set container context** - `@container` class or `container-type: inline-size` required on parent
+2. **Not a 1:1 replacement** - Container queries respond to container width, not viewport. Think about where the component might be placed.
+3. **Tailwind plugin naming** - Use `@sm:`, `@md:` (with `@` prefix) for container queries vs `sm:`, `md:` for viewport
+
+### Best Practices
+
+- **Use for reusable components** - Cards, form inputs, widgets that appear in different contexts
+- **Keep viewport queries for layout** - Page-level grids still use viewport breakpoints
+- **Scope `:has()` selectors** - Always scope to specific parent (`.card:has(...)` not just `:has(...)`)
+- **Test both narrow and wide** - Container queries need testing in constrained layouts
