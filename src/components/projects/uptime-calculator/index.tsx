@@ -28,21 +28,27 @@ import {
 const VALID_MODES = ['achievable', 'target', 'burndown'] as const;
 type ValidMode = (typeof VALID_MODES)[number];
 
+// Slider constraints
+const MIN_SLO = 90;
+const MAX_SLO = 99.999;
+const MIN_INCIDENTS = 0;
+const MAX_INCIDENTS = 100;
+
 /**
  * Parse URL params for cross-tool linking
- * Validates all values to prevent invalid state
+ * Clamps values to valid slider ranges
  */
 function parseUrlParams(searchParams: URLSearchParams) {
   const sloParam = searchParams.get('slo');
   const modeParam = searchParams.get('mode');
   const incidentsParam = searchParams.get('incidents');
 
-  // Validate SLO: must be between 90 and 100
+  // Clamp SLO to slider range
   let slo: number | null = null;
   if (sloParam) {
     const parsed = parseFloat(sloParam);
-    if (!isNaN(parsed) && parsed >= 90 && parsed <= 100) {
-      slo = parsed;
+    if (!isNaN(parsed)) {
+      slo = Math.min(MAX_SLO, Math.max(MIN_SLO, parsed));
     }
   }
 
@@ -52,12 +58,12 @@ function parseUrlParams(searchParams: URLSearchParams) {
     mode = modeParam as ValidMode;
   }
 
-  // Validate incidents: must be a positive integer
+  // Clamp incidents to valid range
   let incidents: number | null = null;
   if (incidentsParam) {
     const parsed = parseInt(incidentsParam, 10);
-    if (!isNaN(parsed) && parsed >= 0 && parsed <= 100) {
-      incidents = parsed;
+    if (!isNaN(parsed)) {
+      incidents = Math.min(MAX_INCIDENTS, Math.max(MIN_INCIDENTS, parsed));
     }
   }
 
