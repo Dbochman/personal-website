@@ -5,7 +5,7 @@ export const staggerContainer: Variants = {
   hidden: { opacity: 1 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.12, delayChildren: 0.15 },
   },
 };
 
@@ -15,7 +15,7 @@ export const staggerItem: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: 'easeOut' },
+    transition: { duration: 0.5, ease: 'easeOut' },
   },
 };
 
