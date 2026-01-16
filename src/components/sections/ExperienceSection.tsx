@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,19 +11,59 @@ import HashiCorpLogo from '@/assets/logos/hashicorp.svg';
 import HashiDarkLogo from '@/assets/logos/hashicorp-dark.svg';
 import GroqLogo from '@/assets/logos/groq.svg';
 
+const EXPAND_DELAY = 1000; // 1 second before expanding on hover
+
 interface ExperienceSectionProps {
   value: string;
   onValueChange: (value: string) => void;
 }
 
 const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const expandTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // Animate when accordion is open (value === 'experience')
   const isOpen = value === 'experience';
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (expandTimeoutRef.current) clearTimeout(expandTimeoutRef.current);
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+
+    // If already open, no need to set timeout
+    if (isOpen) return;
+
+    // Schedule expansion after delay
+    expandTimeoutRef.current = setTimeout(() => {
+      onValueChange('experience');
+      expandTimeoutRef.current = null;
+    }, EXPAND_DELAY);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+
+    // Cancel any pending expand
+    if (expandTimeoutRef.current) {
+      clearTimeout(expandTimeoutRef.current);
+      expandTimeoutRef.current = null;
+    }
+  };
+
   return (
     <section id="experience">
-      <Accordion type="single" collapsible value={value} onValueChange={onValueChange} className="space-y-4">
-        <AccordionSection
+      <div
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={`transition-all duration-200 rounded-lg ${isHovered && !isOpen ? 'ring-2 ring-foreground/20' : ''}`}
+      >
+        <Accordion type="single" collapsible value={value} onValueChange={onValueChange} className="space-y-4">
+          <AccordionSection
           title="Professional Experience"
           summary="Incident Management @ Groq · SRE @ HashiCorp & Spotify · 7+ years scaling reliability"
           value="experience"
@@ -86,8 +127,9 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
               </motion.div>
             ))}
           </motion.div>
-        </AccordionSection>
-      </Accordion>
+          </AccordionSection>
+        </Accordion>
+      </div>
     </section>
   );
 };

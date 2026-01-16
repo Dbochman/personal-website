@@ -54,6 +54,19 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
   const handleClick = () => {
     if (isExpanded) {
       onCollapse();
+    } else {
+      // Cancel any pending expand timeout since we're expanding immediately
+      if (expandTimeoutRef.current) {
+        clearTimeout(expandTimeoutRef.current);
+        expandTimeoutRef.current = null;
+      }
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'expertise_card_expand', {
+          event_category: 'engagement',
+          event_label: item.title
+        });
+      }
+      onExpand();
     }
   };
 
@@ -69,8 +82,7 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
     >
       {/* Title - always visible */}
       <div
-        className={`text-xs p-2 border transition-all duration-200
-                    ${isExpanded ? 'cursor-pointer' : 'cursor-default'}
+        className={`text-xs p-2 border transition-all duration-200 cursor-pointer
                     ${isHovered || isExpanded
                       ? 'bg-foreground/15 border-foreground/40 text-foreground scale-[1.02] shadow-sm'
                       : 'bg-foreground/5 border-foreground/20 text-foreground/80'}`}
