@@ -33,7 +33,7 @@
             {
               "completed": false,
               "id": "tw-5",
-              "text": "Update outline-none \u2192 outline-hidden"
+              "text": "Update outline-none → outline-hidden"
             },
             {
               "completed": false,
@@ -110,7 +110,95 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "slo-xp-1",
+              "text": "Create shared sloPresets.ts with target, label, budget description"
+            },
+            {
+              "completed": false,
+              "id": "slo-xp-2",
+              "text": "Update Error Budget Burndown to use shared presets"
+            },
+            {
+              "completed": false,
+              "id": "slo-xp-3",
+              "text": "Update Uptime Calculator to use shared presets"
+            },
+            {
+              "completed": false,
+              "id": "slo-xp-4",
+              "text": "Add 'See impact on Error Budget' link from Uptime Calculator insights"
+            },
+            {
+              "completed": false,
+              "id": "slo-xp-5",
+              "text": "Add 'Improve response times' link from Error Budget Burndown"
+            },
+            {
+              "completed": false,
+              "id": "slo-xp-6",
+              "text": "Pass context via URL params for pre-populated views"
+            }
+          ],
+          "createdAt": "2026-01-16",
+          "description": "Connect SLO tools with shared presets and cross-linking insights. Unified sloPresets.ts for both tools. Add contextual links: 'Diagnosis takes 40% of time' → 'See impact on Error Budget'. 'Projected to exhaust Jan 20' → 'What response improvements help?'",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T19:45:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-16T19:37:16.466Z",
+              "type": "column"
+            },
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T19:37:16.474Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-16T19:37:16.489Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T19:37:16.583Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-16T19:37:16.593Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T19:37:16.606Z",
+              "type": "column"
+            }
+          ],
+          "id": "slo-tools-cross-pollination",
+          "labels": [
+            "Enhancement",
+            "SRE"
+          ],
+          "title": "SLO Tools Cross-Pollination",
+          "updatedAt": "2026-01-16T19:37:16.606Z"
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -863,103 +951,6 @@
           ],
           "title": "Analytics Data Deduplication",
           "updatedAt": "2026-01-16T01:35:00.000Z"
-        },
-        {
-          "createdAt": "2026-01-15",
-          "description": "GitHub OAuth login, Cloudflare Worker proxy, save to GitHub via Actions. Includes conflict detection, unsaved changes warning.",
-          "history": [
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-15T22:29:58.815Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-15T23:03:36.401Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-15T23:03:36.413Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-15T23:03:36.443Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-15T23:03:36.465Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-15T23:03:36.489Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-15T23:03:36.509Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-15T23:03:36.532Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-15T23:03:36.555Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-15T23:03:36.579Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-15T23:03:36.599Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-15T23:03:36.622Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-15T23:03:36.643Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-15T23:03:36.667Z",
-              "type": "column"
-            }
-          ],
-          "id": "pr-127",
-          "labels": [
-            "PR #127",
-            "Feature"
-          ],
-          "title": "Kanban Board Save Feature",
-          "updatedAt": "2026-01-15T23:03:36.667Z"
         }
       ],
       "id": "changelog",

@@ -1,5 +1,5 @@
 {
-  "archivedAt": "2026-01-16T18:49:04Z",
+  "archivedAt": "2026-01-16T19:37:27Z",
   "cards": [
     {
       "createdAt": "2026-01-14",
@@ -106,6 +106,103 @@
         "PR #115-117"
       ],
       "title": "Jan 14-15: Infrastructure & Polish"
+    },
+    {
+      "createdAt": "2026-01-15",
+      "description": "GitHub OAuth login, Cloudflare Worker proxy, save to GitHub via Actions. Includes conflict detection, unsaved changes warning.",
+      "history": [
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-15T22:29:58.815Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-15T23:03:36.401Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-15T23:03:36.413Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-15T23:03:36.443Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-15T23:03:36.465Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-15T23:03:36.489Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-15T23:03:36.509Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-15T23:03:36.532Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-15T23:03:36.555Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-15T23:03:36.579Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-15T23:03:36.599Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-15T23:03:36.622Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-15T23:03:36.643Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-15T23:03:36.667Z",
+          "type": "column"
+        }
+      ],
+      "id": "pr-127",
+      "labels": [
+        "PR #127",
+        "Feature"
+      ],
+      "title": "Kanban Board Save Feature",
+      "updatedAt": "2026-01-15T23:03:36.667Z"
     }
   ]
 }
