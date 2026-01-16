@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 
-interface CommentsProps {
-  slug: string;
+interface CardCommentsProps {
+  cardId: string;
 }
 
-export function Comments({ slug }: CommentsProps) {
+export function CardComments({ cardId }: CardCommentsProps) {
   const commentsRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const { isDark } = useTheme();
-  const currentSlugRef = useRef<string | null>(null);
+  const currentCardIdRef = useRef<string | null>(null);
 
   // Lazy load comments when they come into view
   useEffect(() => {
@@ -22,7 +22,7 @@ export function Comments({ slug }: CommentsProps) {
           observer.disconnect();
         }
       },
-      { rootMargin: '200px' }
+      { rootMargin: '100px' }
     );
 
     observer.observe(commentsRef.current);
@@ -50,7 +50,7 @@ export function Comments({ slug }: CommentsProps) {
     script.setAttribute('data-category', 'General');
     script.setAttribute('data-category-id', 'DIC_kwDOO7-rB84C0ubL');
     script.setAttribute('data-mapping', 'specific');
-    script.setAttribute('data-term', slug);
+    script.setAttribute('data-term', `kanban-${cardId}`);
     script.setAttribute('data-strict', '0');
     script.setAttribute('data-reactions-enabled', '1');
     script.setAttribute('data-emit-metadata', '0');
@@ -67,25 +67,22 @@ export function Comments({ slug }: CommentsProps) {
     if (!isVisible || !commentsRef.current) return;
 
     const giscusTheme = getGiscusTheme();
-    if (currentSlugRef.current !== slug) {
-      currentSlugRef.current = slug;
+    if (currentCardIdRef.current !== cardId) {
+      currentCardIdRef.current = cardId;
       loadGiscus(giscusTheme);
       return;
     }
 
     sendThemeUpdate(giscusTheme);
-  }, [isVisible, slug, isDark]);
+  }, [isVisible, cardId, isDark]);
 
   return (
-    <div className="mt-12 pt-8 border-t border-border">
-      <h2 className="text-2xl font-bold mb-6">Comments</h2>
-      <div ref={commentsRef} className="giscus-container">
-        {!isVisible && (
-          <div className="text-center text-muted-foreground py-8">
-            Comments will load when you scroll down...
-          </div>
-        )}
-      </div>
+    <div ref={commentsRef} className="giscus-container min-h-[200px]">
+      {!isVisible && (
+        <div className="text-center text-muted-foreground py-8 text-sm">
+          Scroll to load comments...
+        </div>
+      )}
     </div>
   );
 }

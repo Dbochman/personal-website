@@ -12,10 +12,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { X, History, Plus, FileText, ExternalLink } from 'lucide-react';
+import { X, History, Plus, FileText, ExternalLink, MessageSquare } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanCard, CardChange, ChecklistItem, CardColor } from '@/types/kanban';
 import { generateId, CARD_COLORS } from '@/types/kanban';
+import { CardComments } from './CardComments';
 
 const colorKeys = Object.keys(CARD_COLORS) as CardColor[];
 
@@ -381,6 +382,17 @@ export function CardEditorModal({
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Comments section */}
+          {card && (
+            <div className="space-y-2 pt-4 border-t">
+              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                <MessageSquare className="w-3 h-3" />
+                <span>Discussion</span>
+              </div>
+              <CardComments cardId={card.id} />
             </div>
           )}
         </div>
