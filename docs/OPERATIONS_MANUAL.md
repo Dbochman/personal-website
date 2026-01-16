@@ -10,6 +10,7 @@
 | What | Where |
 |------|-------|
 | Live site | https://dylanbochman.com |
+| Preview deploys | https://personal-website-adg.pages.dev |
 | Source repo | https://github.com/Dbochman/personal-website |
 | Deployment repo | https://github.com/Dbochman/dbochman.github.io |
 | Status page | https://stats.uptimerobot.com/zquZllQfNJ |
@@ -23,6 +24,7 @@
 
 ## Architecture
 
+### Production
 ```
 GitHub (personal-website repo)
     ↓ push to main
@@ -35,8 +37,18 @@ Cloudflare (DNS + CDN)
 dylanbochman.com
 ```
 
+### Preview Deployments
+```
+GitHub (personal-website repo)
+    ↓ push to any branch / open PR
+Cloudflare Pages (auto-builds)
+    ↓
+<branch-name>.personal-website-adg.pages.dev
+```
+
 **Stack:** React 18, TypeScript, Vite, Tailwind CSS
-**Hosting:** GitHub Pages (free, static)
+**Production Hosting:** GitHub Pages (free, static)
+**Preview Hosting:** Cloudflare Pages (auto-deploys branches)
 **CDN/DNS:** Cloudflare
 **CMS:** Decap CMS via Netlify Identity
 
@@ -84,15 +96,25 @@ No manual steps needed. Check [Actions tab](https://github.com/Dbochman/personal
 - **Secret needed:** `DEPLOY_TOKEN` (PAT with repo access)
 
 ### Cloudflare
-- **Purpose:** DNS, CDN, SSL, Kanban Save Worker
+- **Purpose:** DNS, CDN, SSL, Preview Deployments, Kanban Save Worker
 - **Domain:** dylanbochman.com
 - **DNS records:**
   - CNAME `@` → dbochman.github.io (main site)
   - (api subdomain managed automatically by Worker Custom Domain)
-- **Worker:** `kanban-save-worker`
-  - Custom Domain: api.dylanbochman.com (auto-manages DNS)
-  - Do NOT use Routes + manual AAAA records - use Custom Domain instead
-  - Handles GitHub OAuth and save requests
+
+**Pages Project (Preview Deployments):**
+- **Project name:** personal-website-adg
+- **URL:** https://personal-website-adg.pages.dev
+- **Branch URLs:** `<branch>.personal-website-adg.pages.dev`
+- **Build command:** `npm run build:preview` (skips Playwright prerendering)
+- **Build output:** `dist`
+- **GitHub integration:** Auto-comments on PRs with preview links
+- **Preview banner:** Yellow banner shown on all preview builds (via hostname detection)
+
+**Worker:** `kanban-save-worker`
+- Custom Domain: api.dylanbochman.com (auto-manages DNS)
+- Do NOT use Routes + manual AAAA records - use Custom Domain instead
+- Handles GitHub OAuth and save requests
 - **KV Namespace:** SESSIONS (stores OAuth sessions, 7-day TTL)
 - **Worker Secrets:** GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_PAT
 
@@ -236,11 +258,18 @@ When working with Claude Code and Chrome DevTools MCP, run these checks before o
 3. `resize_page` to 320px → no layout breaks
 4. `list_network_requests` → no failed resources
 
-**Post-Deploy Verification:**
+**Preview Deployment Verification:**
+1. Navigate to preview URL (`<branch>.personal-website-adg.pages.dev`)
+2. Verify yellow preview banner is visible
+3. `list_console_messages` → no errors
+4. `take_snapshot` → check changes look correct
+
+**Post-Deploy Verification (Production):**
 1. Navigate to production (dylanbochman.com)
-2. `list_console_messages` → no errors
-3. `list_network_requests` → no 404s
-4. Spot check responsive at 320px, 768px
+2. Verify NO preview banner is shown
+3. `list_console_messages` → no errors
+4. `list_network_requests` → no 404s
+5. Spot check responsive at 320px, 768px
 
 See `docs/plans/16-mcp-interactive-testing.md` for detailed workflows.
 
@@ -270,6 +299,12 @@ See `docs/plans/16-mcp-interactive-testing.md` for detailed workflows.
 1. Check frontmatter has `draft: false`
 2. Check date is not in future
 3. Wait 2-3 minutes for deploy to complete
+
+### Preview deployment not working
+1. Check Cloudflare Pages dashboard for build status
+2. Verify `npm run build:preview` works locally
+3. Check branch name doesn't have special characters
+4. If build fails with Playwright error, ensure using `build:preview` not `build`
 
 ---
 
@@ -332,4 +367,4 @@ git push --force
 
 ---
 
-**Last Updated:** January 15, 2026
+**Last Updated:** January 16, 2026
