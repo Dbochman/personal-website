@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useTheme } from 'next-themes';
+import { useTheme } from '@/context/ThemeContext';
 
 interface CommentsProps {
   slug: string;
@@ -8,7 +8,7 @@ interface CommentsProps {
 export function Comments({ slug }: CommentsProps) {
   const commentsRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const { theme } = useTheme();
+  const { isDark } = useTheme();
   const currentSlugRef = useRef<string | null>(null);
 
   // Lazy load comments when they come into view
@@ -30,11 +30,7 @@ export function Comments({ slug }: CommentsProps) {
     return () => observer.disconnect();
   }, []);
 
-  const getGiscusTheme = () =>
-    theme === 'dark' ||
-    (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-      ? 'dark'
-      : 'light';
+  const getGiscusTheme = () => (isDark ? 'dark' : 'light');
 
   const sendThemeUpdate = (giscusTheme: string) => {
     const iframe = commentsRef.current?.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
@@ -78,7 +74,7 @@ export function Comments({ slug }: CommentsProps) {
     }
 
     sendThemeUpdate(giscusTheme);
-  }, [isVisible, slug, theme]);
+  }, [isVisible, slug, isDark]);
 
   return (
     <div className="mt-12 pt-8 border-t border-border">
