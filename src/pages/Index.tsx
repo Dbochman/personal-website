@@ -38,7 +38,7 @@ const Index = () => {
             </div>
 
             {/* Sidebar Column */}
-            <div className="lg:col-span-1 order-first lg:order-last">
+            <div className="lg:col-span-1 order-first lg:order-last self-start">
               <div className="lg:sticky lg:top-24">
                 <Sidebar />
               </div>
