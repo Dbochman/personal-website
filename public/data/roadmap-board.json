@@ -9,27 +9,6 @@
     {
       "cards": [
         {
-          "id": "error-budget-burndown",
-          "title": "Error Budget Burndown",
-          "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.",
-          "createdAt": "2026-01-16",
-          "labels": ["SRE", "Calculator"],
-          "planFile": "docs/plans/26-error-budget-burndown.md",
-          "checklist": [
-            { "id": "ebb-1", "text": "Create ErrorBudgetBurndown component", "completed": false },
-            { "id": "ebb-2", "text": "Add to project registry with route", "completed": false },
-            { "id": "ebb-3", "text": "Build SLO configuration inputs", "completed": false },
-            { "id": "ebb-4", "text": "Build incident input form", "completed": false },
-            { "id": "ebb-5", "text": "Implement budget calculations", "completed": false },
-            { "id": "ebb-6", "text": "Create burndown chart with Recharts", "completed": false },
-            { "id": "ebb-7", "text": "Add summary cards with key metrics", "completed": false },
-            { "id": "ebb-8", "text": "Mobile responsive layout", "completed": false }
-          ],
-          "history": [
-            { "type": "column", "timestamp": "2026-01-16T04:30:00.000Z", "columnId": "todo", "columnTitle": "To Do" }
-          ]
-        },
-        {
           "checklist": [
             {
               "completed": false,
@@ -131,7 +110,31 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "id": "error-budget-burndown",
+          "title": "Error Budget Burndown",
+          "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.",
+          "createdAt": "2026-01-16",
+          "labels": ["SRE", "Calculator"],
+          "planFile": "docs/plans/26-error-budget-burndown.md",
+          "checklist": [
+            { "id": "ebb-1", "text": "Create ErrorBudgetBurndown component", "completed": true },
+            { "id": "ebb-2", "text": "Add to project registry with route", "completed": true },
+            { "id": "ebb-3", "text": "Build SLO configuration inputs", "completed": true },
+            { "id": "ebb-4", "text": "Build incident input form", "completed": true },
+            { "id": "ebb-5", "text": "Implement budget calculations", "completed": true },
+            { "id": "ebb-6", "text": "Create burndown chart with Recharts", "completed": true },
+            { "id": "ebb-7", "text": "Add summary cards with key metrics", "completed": true },
+            { "id": "ebb-8", "text": "Mobile responsive layout", "completed": true }
+          ],
+          "history": [
+            { "type": "column", "timestamp": "2026-01-16T04:30:00.000Z", "columnId": "todo", "columnTitle": "To Do" },
+            { "type": "column", "timestamp": "2026-01-16T05:00:00.000Z", "columnId": "in-progress", "columnTitle": "In Progress" }
+          ],
+          "updatedAt": "2026-01-16T05:00:00.000Z"
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"

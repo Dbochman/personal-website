@@ -17,6 +17,9 @@ const Kanban = lazy(
 const Analytics = lazy(
   () => import('@/components/projects/analytics')
 );
+const ErrorBudgetBurndown = lazy(
+  () => import('@/components/projects/error-budget-burndown')
+);
 
 /**
  * Project registry - single source of truth for all projects
@@ -79,6 +82,17 @@ export const projectRegistry: ProjectDefinition[] = [
     createdAt: '2026-01-14',
     fullWidth: true,
     component: Analytics,
+  },
+  {
+    slug: 'error-budget',
+    title: 'Error Budget Burndown',
+    description:
+      "Visualize how quickly you're consuming your error budget. Input SLO target and incident history to see burn rate, projected exhaustion, and whether you're on track.",
+    tags: ['SRE', 'Calculator', 'SLO'],
+    icon: 'TrendingDown',
+    status: 'active',
+    createdAt: '2026-01-16',
+    component: ErrorBudgetBurndown,
   },
 ];
 
