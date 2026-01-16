@@ -18,7 +18,7 @@ export const coreExpertise: ExpertiseItem[] = [
   {
     title: "Incident Command & Coordination",
     description: "Leading cross-functional teams through high-severity production incidents with clear communication and structured mitigation.",
-    companies: ['groq', 'hashicorp'],
+    companies: ['groq', 'hashicorp', 'spotify'],
     skills: ['Incident Command', 'Crisis Communication', 'Runbooks']
   },
   {
