@@ -1,31 +1,7 @@
 {
   "columns": [
     {
-      "cards": [
-        {
-          "id": "slo-calculator-seo",
-          "title": "SLO Calculator SEO",
-          "description": "Improve SEO for the SLO Calculator project page. Currently missing structured data and keyword optimization.\n\nKey improvements:\n- Add JSON-LD WebApplication + BreadcrumbList schema\n- Enhance meta description with keywords\n- Create project-specific Open Graph image (1200x630px)\n- Add expanded keywords to project registry\n\nKeyword opportunities: SLO calculator, error budget calculator, uptime calculator, MTTR calculator, availability calculator",
-          "labels": ["SEO", "Enhancement"],
-          "createdAt": "2026-01-16",
-          "checklist": [
-            {"id": "seo-1", "text": "Add WebApplication JSON-LD schema to Project.tsx", "completed": false},
-            {"id": "seo-2", "text": "Add BreadcrumbList JSON-LD schema", "completed": false},
-            {"id": "seo-3", "text": "Add keywords field to ProjectMeta type", "completed": false},
-            {"id": "seo-4", "text": "Update SLO Calculator description with keywords", "completed": false},
-            {"id": "seo-5", "text": "Create SLO Calculator Open Graph image", "completed": false},
-            {"id": "seo-6", "text": "Test with Google Rich Results Test", "completed": false}
-          ],
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-16T23:30:00.000Z",
-              "columnId": "ideas",
-              "columnTitle": "Ideas"
-            }
-          ]
-        }
-      ],
+      "cards": [],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
@@ -140,7 +116,38 @@
       "title": "In Progress"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "id": "slo-calculator-seo",
+          "title": "SLO Calculator SEO",
+          "description": "Improve SEO for the SLO Calculator project page. Added JSON-LD structured data and keyword optimization.\n\nImplemented:\n- WebApplication JSON-LD schema for active projects\n- BreadcrumbList JSON-LD schema for navigation\n- Keywords field in ProjectMeta type\n- SEO-optimized keywords for SLO Calculator\n\nRemaining:\n- Create project-specific Open Graph image\n- Test with Google Rich Results Test",
+          "labels": ["PR #149", "SEO", "Enhancement"],
+          "createdAt": "2026-01-16",
+          "prStatus": "pending",
+          "checklist": [
+            {"id": "seo-1", "text": "Add WebApplication JSON-LD schema to Project.tsx", "completed": true},
+            {"id": "seo-2", "text": "Add BreadcrumbList JSON-LD schema", "completed": true},
+            {"id": "seo-3", "text": "Add keywords field to ProjectMeta type", "completed": true},
+            {"id": "seo-4", "text": "Update SLO Calculator with keywords", "completed": true},
+            {"id": "seo-5", "text": "Create SLO Calculator Open Graph image", "completed": false},
+            {"id": "seo-6", "text": "Test with Google Rich Results Test", "completed": false}
+          ],
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-16T23:30:00.000Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-17T02:30:00.000Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            }
+          ]
+        }
+      ],
       "color": "pink",
       "id": "in-review",
       "title": "In Review"
