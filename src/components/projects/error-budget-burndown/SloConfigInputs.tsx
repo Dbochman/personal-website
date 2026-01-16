@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -11,21 +13,51 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type SloConfig, type BudgetPeriod, calculateTotalBudget, formatDuration } from './calculations';
 import { SLO_PRESETS } from '@/lib/slo';
 
+const MIN_SLO = 99;
+const MAX_SLO = 99.999;
+
 interface SloConfigInputsProps {
   config: SloConfig;
   onChange: (config: SloConfig) => void;
 }
 
 export function SloConfigInputs({ config, onChange }: SloConfigInputsProps) {
+  const [inputValue, setInputValue] = useState(config.target.toString());
   const totalBudget = calculateTotalBudget(config.target, config.period);
   const currentPreset = SLO_PRESETS.find((p) => p.value === config.target);
 
   const handleTargetChange = (value: number[]) => {
     onChange({ ...config, target: value[0] });
+    setInputValue(value[0].toString());
   };
 
   const handlePresetChange = (value: string) => {
-    onChange({ ...config, target: parseFloat(value) });
+    const newValue = parseFloat(value);
+    onChange({ ...config, target: newValue });
+    setInputValue(newValue.toString());
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    setInputValue(raw);
+
+    const parsed = parseFloat(raw);
+    if (!isNaN(parsed) && parsed >= MIN_SLO && parsed <= MAX_SLO) {
+      onChange({ ...config, target: parsed });
+    }
+  };
+
+  const handleInputBlur = () => {
+    const parsed = parseFloat(inputValue);
+    if (isNaN(parsed) || parsed < MIN_SLO) {
+      setInputValue(MIN_SLO.toString());
+      onChange({ ...config, target: MIN_SLO });
+    } else if (parsed > MAX_SLO) {
+      setInputValue(MAX_SLO.toString());
+      onChange({ ...config, target: MAX_SLO });
+    } else {
+      setInputValue(parsed.toString());
+    }
   };
 
   const handlePeriodChange = (value: BudgetPeriod) => {
@@ -65,17 +97,26 @@ export function SloConfigInputs({ config, onChange }: SloConfigInputsProps) {
           <div className="flex items-center gap-4">
             <Slider
               id="slo-target"
-              min={99}
-              max={99.999}
+              min={MIN_SLO}
+              max={MAX_SLO}
               step={0.001}
               value={[config.target]}
               onValueChange={handleTargetChange}
               className="flex-1"
               aria-label="SLO target percentage"
             />
-            <span className="w-20 text-right font-mono text-sm">
-              {config.target.toFixed(3)}%
-            </span>
+            <div className="flex items-center gap-1">
+              <Input
+                type="text"
+                inputMode="decimal"
+                value={inputValue}
+                onChange={handleInputChange}
+                onBlur={handleInputBlur}
+                aria-label="Target SLO percentage"
+                className="w-24 h-8 text-sm font-mono tabular-nums text-right pr-1"
+              />
+              <span className="text-sm">%</span>
+            </div>
           </div>
         </div>
 
