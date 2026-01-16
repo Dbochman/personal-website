@@ -1,7 +1,26 @@
 {
   "columns": [
     {
-      "cards": [],
+      "cards": [
+        {
+          "createdAt": "2026-01-16T20:15:00.000Z",
+          "description": "Detect when board is updated externally (e.g., by Claude commits). Check on tab focus + every 60s while visible. Show toast with reload button to prevent save conflicts.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T20:15:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "kanban-external-change-detection",
+          "labels": [
+            "UX",
+            "Kanban"
+          ],
+          "title": "Kanban External Change Detection"
+        }
+      ],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
@@ -815,5 +834,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T20:00:00.000Z"
+  "updatedAt": "2026-01-16T20:15:00.000Z"
 }
