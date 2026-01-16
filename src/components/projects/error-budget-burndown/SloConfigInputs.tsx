@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type SloConfig, type BudgetPeriod, calculateTotalBudget, formatDuration } from './calculations';
-import { SLO_PRESETS } from '@/lib/slo';
+import { SLO_PRESETS, snapToPreset } from '@/lib/slo';
 
 // Input allows full range; slider focuses on high-availability targets
 const MIN_INPUT_SLO = 0;
@@ -35,8 +35,9 @@ export function SloConfigInputs({ config, onChange }: SloConfigInputsProps) {
   const currentPreset = SLO_PRESETS.find((p) => p.value === config.target);
 
   const handleTargetChange = (value: number[]) => {
-    onChange({ ...config, target: value[0] });
-    setInputValue(value[0].toString());
+    const snapped = snapToPreset(value[0]);
+    onChange({ ...config, target: snapped });
+    setInputValue(snapped.toString());
   };
 
   const handlePresetChange = (value: string) => {

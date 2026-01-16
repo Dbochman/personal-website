@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { SLO_PRESETS } from '@/lib/slo';
+import { SLO_PRESETS, snapToPreset } from '@/lib/slo';
 
 interface SloTargetInputProps {
   value: number;
@@ -38,8 +38,9 @@ export function SloTargetInput({ value, onChange }: SloTargetInputProps) {
   };
 
   const handleSliderChange = (newValue: number) => {
-    onChange(newValue);
-    setInputValue(newValue.toString());
+    const snapped = snapToPreset(newValue);
+    onChange(snapped);
+    setInputValue(snapped.toString());
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

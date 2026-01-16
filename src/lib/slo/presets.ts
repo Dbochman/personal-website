@@ -67,6 +67,24 @@ export const SLO_PRESETS: SloPreset[] = [
   },
 ];
 
+/** Snap points for slider magnetism */
+const SNAP_POINTS = SLO_PRESETS.map((p) => p.value);
+
+/**
+ * Snap a value to the nearest preset if within threshold
+ * Uses adaptive threshold: tighter for high-precision values (>99.9)
+ */
+export function snapToPreset(value: number): number {
+  for (const snapPoint of SNAP_POINTS) {
+    // Tighter threshold for high-precision values
+    const threshold = snapPoint >= 99.9 ? 0.015 : 0.1;
+    if (Math.abs(value - snapPoint) <= threshold) {
+      return snapPoint;
+    }
+  }
+  return value;
+}
+
 /**
  * Find a preset by its value
  */
