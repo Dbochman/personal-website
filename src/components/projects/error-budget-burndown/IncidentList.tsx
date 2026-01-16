@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Plus, Trash2, AlertTriangle, Sparkles, Pencil } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -98,6 +98,9 @@ export function IncidentList({ incidents, onChange, periodStartDate, periodDays 
     impactPercent: 100,
   });
 
+  // Store manual incidents separately so they're preserved when toggling modes
+  const savedManualIncidents = useRef<Incident[]>([]);
+
   // Generate incidents when auto config changes
   useEffect(() => {
     if (mode === 'auto') {
@@ -108,13 +111,17 @@ export function IncidentList({ incidents, onChange, periodStartDate, periodDays 
 
   const handleModeChange = (checked: boolean) => {
     const newMode = checked ? 'manual' : 'auto';
-    setMode(newMode);
+
     if (newMode === 'auto') {
-      // Regenerate incidents when switching to auto
-      const generated = generateExampleIncidents(autoConfig, periodStartDate, periodDays);
-      onChange(generated);
+      // Save current manual incidents before switching to auto
+      // useEffect will handle the generation
+      savedManualIncidents.current = incidents;
+    } else {
+      // Restore saved manual incidents when switching to manual
+      onChange(savedManualIncidents.current);
     }
-    // When switching to manual, keep existing incidents
+
+    setMode(newMode);
   };
 
   const handleAdd = () => {
