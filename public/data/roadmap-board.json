@@ -1,23 +1,7 @@
 {
   "columns": [
     {
-      "cards": [
-        {
-          "createdAt": "2026-01-16T17:55:00.000Z",
-          "description": "Now that board state persists via GitHub, simplify URL from encoded state to just `?board=roadmap` or `?board=house`. Cleaner URLs, easier sharing, no more URL bloat.",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-16T17:55:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "kanban-url-cleanup",
-          "title": "Kanban URL Simplification",
-          "updatedAt": "2026-01-16T17:55:00.000Z"
-        }
-      ],
+      "cards": [],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
@@ -86,6 +70,69 @@
           "planFile": "docs/plans/28-changelog-explorer-project.md",
           "title": "Change Log Explorer Project",
           "updatedAt": "2026-01-16T17:50:00.000Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "kus-1",
+              "text": "Delete useKanbanPersistence.ts"
+            },
+            {
+              "completed": false,
+              "id": "kus-2",
+              "text": "Remove URL persistence from KanbanBoard.tsx"
+            },
+            {
+              "completed": false,
+              "id": "kus-3",
+              "text": "Add initialCardId prop and auto-open logic"
+            },
+            {
+              "completed": false,
+              "id": "kus-4",
+              "text": "Update index.tsx to read card param"
+            },
+            {
+              "completed": false,
+              "id": "kus-5",
+              "text": "Update Share button to copy clean URL"
+            },
+            {
+              "completed": false,
+              "id": "kus-6",
+              "text": "Add Copy Card Link to card menu"
+            },
+            {
+              "completed": false,
+              "id": "kus-7",
+              "text": "Remove lz-string dependency"
+            }
+          ],
+          "createdAt": "2026-01-16T17:55:00.000Z",
+          "description": "Remove URL state persistence, keep just `?board=roadmap`. Add deep linking with `?card=id` to open specific cards on load.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T17:55:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-16T18:05:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "kanban-url-cleanup",
+          "labels": [
+            "Cleanup",
+            "UX"
+          ],
+          "planFile": "docs/plans/29-kanban-url-simplification.md",
+          "title": "Kanban URL Simplification",
+          "updatedAt": "2026-01-16T18:05:00.000Z"
         },
         {
           "checklist": [
