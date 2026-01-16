@@ -140,7 +140,7 @@ export default function UptimeCalculator() {
           </TabsContent>
           <TabsContent value="burndown" className="mt-0">
             <SloBurndownPanel
-              targetSla={mode === 'target' ? targetSla : achievableResult.maxAchievableSla}
+              targetSla={targetSla}
               incidentsPerMonth={incidentsPerMonth}
               avgDurationMinutes={achievableResult.mttrMinutes}
             />
