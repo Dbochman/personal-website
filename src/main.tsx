@@ -27,6 +27,7 @@ if (typeof window !== 'undefined') {
       Sentry.init({
         dsn: import.meta.env.VITE_SENTRY_DSN,
         environment: import.meta.env.MODE,
+        release: import.meta.env.VITE_COMMIT_SHA,
         tracesSampleRate: 1.0,
         integrations: [
           Sentry.browserTracingIntegration(),

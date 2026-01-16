@@ -48,11 +48,12 @@ export default defineConfig(({ mode }) => ({
   },
   define: {
     global: 'globalThis',
+    'import.meta.env.VITE_COMMIT_SHA': JSON.stringify(process.env.GITHUB_SHA || 'local'),
   },
   build: {
     // Enable build optimizations
     minify: 'esbuild',
-    sourcemap: false,
+    sourcemap: true,
     rollupOptions: {
       output: {
         // Manual chunk splitting for better caching
