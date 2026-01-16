@@ -2,8 +2,8 @@ import { lazy } from 'react';
 import type { ProjectDefinition, ProjectMeta } from '@/types/project';
 
 // Lazy load project components for code splitting
-const UptimeCalculator = lazy(
-  () => import('@/components/projects/uptime-calculator')
+const SloTool = lazy(
+  () => import('@/components/projects/slo-tool')
 );
 const StatusPageUpdate = lazy(
   () => import('@/components/projects/statuspage-update')
@@ -17,14 +17,8 @@ const Kanban = lazy(
 const Analytics = lazy(
   () => import('@/components/projects/analytics')
 );
-const ErrorBudgetBurndown = lazy(
-  () => import('@/components/projects/error-budget-burndown')
-);
 const ChangelogExplorer = lazy(
   () => import('@/components/projects/changelog-explorer')
-);
-const SloTool = lazy(
-  () => import('@/components/projects/slo-tool')
 );
 
 /**
@@ -33,15 +27,15 @@ const SloTool = lazy(
  */
 export const projectRegistry: ProjectDefinition[] = [
   {
-    slug: 'uptime-calculator',
+    slug: 'slo-tool',
     title: 'SLO Calculator',
     description:
-      'Calculate realistic SLOs based on your incident response times. See how much of your error budget goes to response overhead before you even start fixing things.',
+      'Unified SLO calculator and error budget tracker. See what SLO you can achieve, check if you can meet a target, and visualize your budget burndown—all in one place.',
     tags: ['SRE', 'Calculator', 'SLO'],
     icon: 'Calculator',
     status: 'active',
-    createdAt: '2025-01-12',
-    component: UptimeCalculator,
+    createdAt: '2026-01-16',
+    component: SloTool,
   },
   {
     slug: 'statuspage-update',
@@ -90,17 +84,6 @@ export const projectRegistry: ProjectDefinition[] = [
     component: Analytics,
   },
   {
-    slug: 'error-budget',
-    title: 'Error Budget Burndown',
-    description:
-      "Visualize how quickly you're consuming your error budget. Input SLO target and incident history to see burn rate, projected exhaustion, and whether you're on track.",
-    tags: ['SRE', 'Calculator', 'SLO'],
-    icon: 'TrendingDown',
-    status: 'active',
-    createdAt: '2026-01-16',
-    component: ErrorBudgetBurndown,
-  },
-  {
     slug: 'changelog',
     title: 'Change Log Explorer',
     description:
@@ -111,17 +94,6 @@ export const projectRegistry: ProjectDefinition[] = [
     createdAt: '2026-01-16',
     fullWidth: true,
     component: ChangelogExplorer,
-  },
-  {
-    slug: 'slo-tool',
-    title: 'SLO Tool',
-    description:
-      'Unified SLO calculator and error budget tracker. See what SLO you can achieve, check if you can meet a target, and visualize your budget burndown—all in one place.',
-    tags: ['SRE', 'Calculator', 'SLO'],
-    icon: 'Target',
-    status: 'active',
-    createdAt: '2026-01-16',
-    component: SloTool,
   },
 ];
 
