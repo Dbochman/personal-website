@@ -1,5 +1,5 @@
 /**
- * Shared SLO presets used across SLO tools (Uptime Calculator, Error Budget Burndown)
+ * Shared SLO presets used across SLO tools (SLO Calculator, Error Budget Burndown)
  */
 
 export interface SloPreset {
