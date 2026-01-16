@@ -1,6 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { ChevronDown } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { SloConfiguration } from './SloConfiguration';
 import { ResponseTimeInputs, type EnabledPhases } from './ResponseTimeInputs';
 import { IncidentInput } from './IncidentInput';
@@ -14,6 +19,7 @@ import {
   type BudgetPeriod,
   DEFAULT_PROFILE,
   PERIOD_DAYS,
+  PERIOD_LABELS,
   calculateAchievableSlo,
   calculateCanMeetSlo,
   calculateBudget,
@@ -21,6 +27,8 @@ import {
   generateSimulatedIncidents,
   getEffectiveProfile,
   toLocalDateString,
+  calculateTotalBudget,
+  formatDuration,
 } from './calculations';
 
 const VALID_MODES = ['achievable', 'target', 'burndown'] as const;
@@ -105,6 +113,11 @@ export default function SloTool() {
     const params = parseUrlParams(searchParams);
     return params.incidents ?? 4;
   });
+  const [configExpanded, setConfigExpanded] = useState(false);
+
+  // Local input state for compact view
+  const [sloInputValue, setSloInputValue] = useState(config.target.toString());
+  const [incidentsInputValue, setIncidentsInputValue] = useState(incidentsPerPeriod.toString());
 
   // Update state if URL params change (e.g., from cross-tool navigation)
   useEffect(() => {
@@ -123,12 +136,66 @@ export default function SloTool() {
     }
   }, [searchParams]);
 
+  // Sync local input values when props change
+  useEffect(() => {
+    setSloInputValue(config.target.toString());
+  }, [config.target]);
+
+  useEffect(() => {
+    setIncidentsInputValue(incidentsPerPeriod.toString());
+  }, [incidentsPerPeriod]);
+
   const handleProfileChange = (field: keyof ResponseProfile, value: number) => {
     setProfile((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleTogglePhase = (field: keyof ResponseProfile) => {
     setEnabledPhases((prev) => ({ ...prev, [field]: !prev[field] }));
+  };
+
+  // Compact view handlers
+  const handleCompactSloChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    setSloInputValue(raw);
+    const parsed = parseFloat(raw);
+    if (!isNaN(parsed) && parsed >= MIN_SLO && parsed <= MAX_SLO) {
+      setConfig((prev) => ({ ...prev, target: parsed }));
+    }
+  };
+
+  const handleCompactSloBlur = () => {
+    const parsed = parseFloat(sloInputValue);
+    if (isNaN(parsed) || parsed < MIN_SLO) {
+      setSloInputValue(MIN_SLO.toString());
+      setConfig((prev) => ({ ...prev, target: MIN_SLO }));
+    } else if (parsed > MAX_SLO) {
+      setSloInputValue(MAX_SLO.toString());
+      setConfig((prev) => ({ ...prev, target: MAX_SLO }));
+    } else {
+      setSloInputValue(parsed.toString());
+    }
+  };
+
+  const handleCompactIncidentsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    setIncidentsInputValue(raw);
+    const parsed = parseInt(raw, 10);
+    if (!isNaN(parsed) && parsed >= MIN_INCIDENTS && parsed <= MAX_INCIDENTS) {
+      setIncidentsPerPeriod(parsed);
+    }
+  };
+
+  const handleCompactIncidentsBlur = () => {
+    const parsed = parseInt(incidentsInputValue, 10);
+    if (isNaN(parsed) || parsed < MIN_INCIDENTS) {
+      setIncidentsInputValue(MIN_INCIDENTS.toString());
+      setIncidentsPerPeriod(MIN_INCIDENTS);
+    } else if (parsed > MAX_INCIDENTS) {
+      setIncidentsInputValue(MAX_INCIDENTS.toString());
+      setIncidentsPerPeriod(MAX_INCIDENTS);
+    } else {
+      setIncidentsInputValue(parsed.toString());
+    }
   };
 
   // Get effective profile with disabled phases zeroed out
@@ -177,27 +244,91 @@ export default function SloTool() {
         </TabsList>
 
         <div className="mt-6 space-y-6">
-          {/* Shared Configuration */}
-          <div className="grid gap-6 lg:grid-cols-2">
-            <SloConfiguration config={config} onChange={setConfig} />
+          {/* Collapsible Configuration */}
+          <Collapsible open={configExpanded} onOpenChange={setConfigExpanded}>
+            <Card>
+              <CardContent className="pt-6">
+                {/* Compact Summary - Always visible */}
+                <div className="flex flex-col sm:flex-row sm:items-end gap-4">
+                  <div className="flex-1 space-y-1.5">
+                    <Label htmlFor="compact-slo" className="text-sm font-medium">
+                      SLO Target
+                    </Label>
+                    <div className="flex items-center gap-1">
+                      <Input
+                        id="compact-slo"
+                        type="text"
+                        inputMode="decimal"
+                        value={sloInputValue}
+                        onChange={handleCompactSloChange}
+                        onBlur={handleCompactSloBlur}
+                        className="w-24 h-9 font-mono tabular-nums text-right pr-1"
+                      />
+                      <span className="text-sm text-muted-foreground">%</span>
+                    </div>
+                  </div>
 
-            <div className="space-y-6">
-              {/* Response time inputs */}
-              <ResponseTimeInputs
-                profile={profile}
-                enabledPhases={enabledPhases}
-                onChange={handleProfileChange}
-                onToggle={handleTogglePhase}
-              />
+                  <div className="flex-1 space-y-1.5">
+                    <Label htmlFor="compact-incidents" className="text-sm font-medium">
+                      Incidents / {PERIOD_LABELS[config.period].toLowerCase()}
+                    </Label>
+                    <Input
+                      id="compact-incidents"
+                      type="text"
+                      inputMode="numeric"
+                      value={incidentsInputValue}
+                      onChange={handleCompactIncidentsChange}
+                      onBlur={handleCompactIncidentsBlur}
+                      className="w-24 h-9 font-mono tabular-nums text-right"
+                    />
+                  </div>
 
-              {/* Incidents per period */}
-              <IncidentInput
-                value={incidentsPerPeriod}
-                onChange={setIncidentsPerPeriod}
-                period={config.period}
-              />
-            </div>
-          </div>
+                  <div className="flex-1 text-sm text-muted-foreground">
+                    <span className="font-medium text-foreground">{formatDuration(calculateTotalBudget(config.target, config.period))}</span>
+                    {' '}error budget
+                  </div>
+
+                  <CollapsibleTrigger asChild>
+                    <button
+                      className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                      aria-expanded={configExpanded}
+                    >
+                      <span>{configExpanded ? 'Less options' : 'More options'}</span>
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform duration-200 ${
+                          configExpanded ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+                  </CollapsibleTrigger>
+                </div>
+
+                {/* Expanded Configuration */}
+                <CollapsibleContent className="overflow-hidden data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
+                  <div className="pt-6 mt-6 border-t space-y-6">
+                    <div className="grid gap-6 lg:grid-cols-2">
+                      <SloConfiguration config={config} onChange={setConfig} />
+
+                      <div className="space-y-6">
+                        <ResponseTimeInputs
+                          profile={profile}
+                          enabledPhases={enabledPhases}
+                          onChange={handleProfileChange}
+                          onToggle={handleTogglePhase}
+                        />
+
+                        <IncidentInput
+                          value={incidentsPerPeriod}
+                          onChange={setIncidentsPerPeriod}
+                          period={config.period}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </CollapsibleContent>
+              </CardContent>
+            </Card>
+          </Collapsible>
 
           {/* Tab-specific content */}
           <TabsContent value="achievable" className="mt-0 space-y-6">
