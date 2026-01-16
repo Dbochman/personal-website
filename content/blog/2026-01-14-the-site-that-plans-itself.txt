@@ -46,12 +46,12 @@ This isn't hypothetical openness—it's the same workflow we use internally. Whe
 
 ## The Mechanics
 
-The board is fully functional for exploration. Drag cards around, check off subtasks, see how different arrangements feel. Your changes persist in the URL via lz-string compression, so you can share specific board states.
+The board is fully functional for exploration. Drag cards around, check off subtasks, see how different arrangements feel. The "Reset" button restores the shipped default, and visitor changes don't affect the canonical roadmap—that lives in the codebase.
 
-But visitor changes don't affect the canonical roadmap—that lives in the codebase. The "Reset" button restores the shipped default. This means the board is:
+Deep links let you share specific cards: clicking "Copy Card Link" generates a URL like `?card=some-id` that opens that card's detail view on load. This means the board is:
 
 - **Explorable**: Visitors can play "what if" without consequences
-- **Shareable**: URL captures board state for discussion
+- **Shareable**: Deep links point to specific cards for discussion
 - **Canonical**: Source of truth is version-controlled code
 
 If you want your changes to stick, that's what PRs are for.
