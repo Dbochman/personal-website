@@ -35,17 +35,30 @@ export function ExpandedDetails({ entry }: ExpandedDetailsProps) {
       .then((text) => {
         // Extract first few paragraphs as summary (skip frontmatter and title)
         const lines = text.split('\n');
-        let inContent = false;
         let summary = '';
         let paragraphCount = 0;
 
+        // Check if file has frontmatter (starts with ---)
+        const hasFrontmatter = lines[0]?.trim() === '---';
+        let inFrontmatter = hasFrontmatter;
+        let passedFrontmatter = !hasFrontmatter; // If no frontmatter, we're already past it
+
         for (const line of lines) {
-          // Skip frontmatter
-          if (line.startsWith('---')) {
-            inContent = !inContent;
+          // Handle frontmatter
+          if (line.trim() === '---') {
+            if (inFrontmatter) {
+              // Exiting frontmatter
+              inFrontmatter = false;
+              passedFrontmatter = true;
+            }
             continue;
           }
-          if (!inContent) continue;
+
+          // Skip lines inside frontmatter
+          if (inFrontmatter) continue;
+
+          // Skip until we've passed frontmatter
+          if (!passedFrontmatter) continue;
 
           // Skip title line
           if (line.startsWith('# ')) continue;
