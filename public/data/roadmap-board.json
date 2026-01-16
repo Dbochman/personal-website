@@ -167,6 +167,12 @@
       "title": "In Progress"
     },
     {
+      "cards": [],
+      "color": "pink",
+      "id": "in-review",
+      "title": "In Review"
+    },
+    {
       "cards": [
         {
           "checklist": [
@@ -233,6 +239,12 @@
               "columnTitle": "In Review",
               "timestamp": "2026-01-16T19:30:00.000Z",
               "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-16T20:15:00.000Z",
+              "type": "column"
             }
           ],
           "id": "slo-burndown-integration",
@@ -243,15 +255,8 @@
           ],
           "planFile": "docs/plans/27-slo-calculator-burndown-integration.md",
           "title": "SLO Calculator Burndown Integration",
-          "updatedAt": "2026-01-16T19:30:00.000Z"
-        }
-      ],
-      "color": "pink",
-      "id": "in-review",
-      "title": "In Review"
-    },
-    {
-      "cards": [
+          "updatedAt": "2026-01-16T20:15:00.000Z"
+        },
         {
           "checklist": [
             {
@@ -949,5 +954,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T19:45:00.000Z"
+  "updatedAt": "2026-01-16T20:15:00.000Z"
 }
