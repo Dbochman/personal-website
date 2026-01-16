@@ -250,23 +250,26 @@ export default function SloTool() {
               <CardContent className="pt-6">
                 {/* Compact Summary - Always visible */}
                 <div className="flex flex-col sm:flex-row sm:items-end gap-4">
-                  <div className="flex-1 space-y-1.5">
-                    <Label htmlFor="compact-slo" className="text-sm font-medium">
-                      SLO Target
-                    </Label>
-                    <div className="flex items-center gap-1">
-                      <Input
-                        id="compact-slo"
-                        type="text"
-                        inputMode="decimal"
-                        value={sloInputValue}
-                        onChange={handleCompactSloChange}
-                        onBlur={handleCompactSloBlur}
-                        className="w-24 h-9 font-mono tabular-nums text-right pr-1"
-                      />
-                      <span className="text-sm text-muted-foreground">%</span>
+                  {/* SLO Target - hidden on achievable tab */}
+                  {mode !== 'achievable' && (
+                    <div className="flex-1 space-y-1.5">
+                      <Label htmlFor="compact-slo" className="text-sm font-medium">
+                        SLO Target
+                      </Label>
+                      <div className="flex items-center gap-1">
+                        <Input
+                          id="compact-slo"
+                          type="text"
+                          inputMode="decimal"
+                          value={sloInputValue}
+                          onChange={handleCompactSloChange}
+                          onBlur={handleCompactSloBlur}
+                          className="w-24 h-9 font-mono tabular-nums text-right pr-1"
+                        />
+                        <span className="text-sm text-muted-foreground">%</span>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <div className="flex-1 space-y-1.5">
                     <Label htmlFor="compact-incidents" className="text-sm font-medium">
@@ -283,10 +286,13 @@ export default function SloTool() {
                     />
                   </div>
 
-                  <div className="flex-1 text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">{formatDuration(calculateTotalBudget(config.target, config.period))}</span>
-                    {' '}error budget
-                  </div>
+                  {/* Error budget - hidden on achievable tab */}
+                  {mode !== 'achievable' && (
+                    <div className="flex-1 text-sm text-muted-foreground">
+                      <span className="font-medium text-foreground">{formatDuration(calculateTotalBudget(config.target, config.period))}</span>
+                      {' '}error budget
+                    </div>
+                  )}
 
                   <CollapsibleTrigger asChild>
                     <button
@@ -306,8 +312,11 @@ export default function SloTool() {
                 {/* Expanded Configuration */}
                 <CollapsibleContent className="overflow-hidden data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
                   <div className="pt-6 mt-6 border-t space-y-6">
-                    <div className="grid gap-6 lg:grid-cols-2">
-                      <SloConfiguration config={config} onChange={setConfig} />
+                    <div className={`grid gap-6 ${mode !== 'achievable' ? 'lg:grid-cols-2' : ''}`}>
+                      {/* SLO Configuration - hidden on achievable tab */}
+                      {mode !== 'achievable' && (
+                        <SloConfiguration config={config} onChange={setConfig} />
+                      )}
 
                       <div className="space-y-6">
                         <ResponseTimeInputs
