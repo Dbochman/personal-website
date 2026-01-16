@@ -10,6 +10,22 @@ import { getProject } from '@/data/projects';
 import { TransitionLink } from '@/hooks/useViewTransition';
 import type { ProjectStatus } from '@/types/project';
 
+const SITE_URL = 'https://dylanbochman.com';
+const DEFAULT_OG_IMAGE = `${SITE_URL}/social-preview.webp`;
+
+/**
+ * Ensure ogImage is an absolute URL for OG parsers
+ */
+function resolveOgImage(ogImage: string | undefined): string {
+  if (!ogImage) return DEFAULT_OG_IMAGE;
+  // Already absolute URL
+  if (ogImage.startsWith('http://') || ogImage.startsWith('https://')) {
+    return ogImage;
+  }
+  // Relative path - prefix with site URL
+  return `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
+}
+
 const statusVariants: Record<ProjectStatus, 'default' | 'secondary' | 'outline'> = {
   active: 'default',
   experimental: 'secondary',
@@ -63,7 +79,7 @@ export default function Project() {
         <meta property="og:description" content={project.description} />
         <meta
           property="og:image"
-          content={project.ogImage || 'https://dylanbochman.com/social-preview.webp'}
+          content={resolveOgImage(project.ogImage)}
         />
         <meta property="og:site_name" content="Dylan Bochman" />
 
@@ -77,7 +93,7 @@ export default function Project() {
         <meta name="twitter:description" content={project.description} />
         <meta
           name="twitter:image"
-          content={project.ogImage || 'https://dylanbochman.com/social-preview.webp'}
+          content={resolveOgImage(project.ogImage)}
         />
 
         <link
