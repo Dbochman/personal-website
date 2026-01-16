@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Filter, SortDesc, SortAsc } from 'lucide-react';
+import { subDays } from 'date-fns';
+import { Filter, SortDesc, SortAsc, Calendar } from 'lucide-react';
 import { useChangelogData } from '@/hooks/useChangelogData';
 import { ChangelogCard } from './ChangelogCard';
 import { Button } from '@/components/ui/button';
@@ -10,9 +11,22 @@ import {
   DropdownMenuContent,
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from '@/components/ui/dropdown-menu';
 
 type SortOrder = 'newest' | 'oldest';
+type DateRange = 'all' | '7d' | '30d' | '90d' | '365d';
+
+const DATE_RANGE_OPTIONS: { value: DateRange; label: string }[] = [
+  { value: 'all', label: 'All time' },
+  { value: '7d', label: 'Last 7 days' },
+  { value: '30d', label: 'Last 30 days' },
+  { value: '90d', label: 'Last 90 days' },
+  { value: '365d', label: 'Last year' },
+];
 
 // Skeleton loader for cards
 function CardSkeleton() {
@@ -39,6 +53,7 @@ export function ChangelogExplorer() {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [selectedLabels, setSelectedLabels] = useState<Set<string>>(new Set());
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest');
+  const [dateRange, setDateRange] = useState<DateRange>('all');
 
   // Toggle card expansion
   const toggleExpanded = useCallback((id: string) => {
@@ -69,11 +84,38 @@ export function ChangelogExplorer() {
   // Clear all filters
   const clearFilters = useCallback(() => {
     setSelectedLabels(new Set());
+    setDateRange('all');
+  }, []);
+
+  // Check if any filters are active
+  const hasActiveFilters = selectedLabels.size > 0 || dateRange !== 'all';
+
+  // Get the cutoff date for the selected range
+  const getDateCutoff = useCallback((range: DateRange): Date | null => {
+    const now = new Date();
+    switch (range) {
+      case '7d':
+        return subDays(now, 7);
+      case '30d':
+        return subDays(now, 30);
+      case '90d':
+        return subDays(now, 90);
+      case '365d':
+        return subDays(now, 365);
+      default:
+        return null;
+    }
   }, []);
 
   // Filter and sort entries
   const filteredEntries = useMemo(() => {
     let result = entries;
+
+    // Apply date filter
+    const cutoff = getDateCutoff(dateRange);
+    if (cutoff) {
+      result = result.filter((entry) => new Date(entry.completedAt) >= cutoff);
+    }
 
     // Apply label filter
     if (selectedLabels.size > 0) {
@@ -90,7 +132,7 @@ export function ChangelogExplorer() {
     });
 
     return result;
-  }, [entries, selectedLabels, sortOrder]);
+  }, [entries, selectedLabels, sortOrder, dateRange, getDateCutoff]);
 
   if (error) {
     return (
@@ -130,6 +172,27 @@ export function ChangelogExplorer() {
           </DropdownMenuContent>
         </DropdownMenu>
 
+        {/* Date range filter */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-2">
+              <Calendar className="w-4 h-4" />
+              {DATE_RANGE_OPTIONS.find((o) => o.value === dateRange)?.label || 'All time'}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start">
+            <DropdownMenuLabel>Date Range</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup value={dateRange} onValueChange={(v) => setDateRange(v as DateRange)}>
+              {DATE_RANGE_OPTIONS.map((option) => (
+                <DropdownMenuRadioItem key={option.value} value={option.value}>
+                  {option.label}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         {/* Sort toggle */}
         <Button
           variant="outline"
@@ -151,9 +214,18 @@ export function ChangelogExplorer() {
         </Button>
 
         {/* Active filters */}
-        {selectedLabels.size > 0 && (
-          <div className="flex items-center gap-2">
+        {hasActiveFilters && (
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-sm text-muted-foreground">Showing:</span>
+            {dateRange !== 'all' && (
+              <Badge
+                variant="secondary"
+                className="cursor-pointer hover:bg-destructive/20"
+                onClick={() => setDateRange('all')}
+              >
+                {DATE_RANGE_OPTIONS.find((o) => o.value === dateRange)?.label} &times;
+              </Badge>
+            )}
             {Array.from(selectedLabels).map((label) => (
               <Badge
                 key={label}
@@ -185,7 +257,7 @@ export function ChangelogExplorer() {
         </div>
       ) : filteredEntries.length === 0 ? (
         <div className="text-center py-12 text-muted-foreground">
-          {selectedLabels.size > 0
+          {hasActiveFilters
             ? 'No items match the selected filters'
             : 'No changelog entries found'}
         </div>
