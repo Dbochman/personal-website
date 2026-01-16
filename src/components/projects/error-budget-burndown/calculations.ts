@@ -34,8 +34,8 @@ export interface ChartDataPoint {
   day: number;
   date: string;
   ideal: number;
-  actual: number;
-  projected?: number;
+  actual?: number; // Only present for past/current days
+  projected?: number; // Only present for current/future days
 }
 
 export const PERIOD_DAYS: Record<BudgetPeriod, number> = {
@@ -165,17 +165,19 @@ export function generateChartData(
     const idealConsumed = (day / periodDays) * totalBudgetMinutes;
     const idealRemaining = totalBudgetMinutes - idealConsumed;
 
-    // Actual remaining budget
-    const actualRemaining = Math.max(0, totalBudgetMinutes - cumulativeConsumed);
-
     const point: ChartDataPoint = {
       day,
       date: currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
       ideal: Math.round(idealRemaining * 100) / 100,
-      actual: Math.round(actualRemaining * 100) / 100,
     };
 
-    // Add projection line only for future days
+    // Actual line only for past and current day
+    if (day <= calculation.daysElapsed) {
+      const actualRemaining = Math.max(0, totalBudgetMinutes - cumulativeConsumed);
+      point.actual = Math.round(actualRemaining * 100) / 100;
+    }
+
+    // Projection line for current day and beyond
     if (day >= calculation.daysElapsed) {
       const projectedConsumed = calculation.consumedMinutes + burnRate * (day - calculation.daysElapsed);
       point.projected = Math.max(0, Math.round((totalBudgetMinutes - projectedConsumed) * 100) / 100);
