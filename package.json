@@ -9,6 +9,7 @@
     "copy-metrics": "node scripts/copy-metrics-to-public.js",
     "build": "node scripts/copy-metrics-to-public.js && node scripts/generate-feeds.js && node scripts/precompile-mdx.js && vite build && node scripts/prerender.mjs",
     "build:netlify": "node scripts/copy-metrics-to-public.js && node scripts/generate-feeds.js && node scripts/precompile-mdx.js && vite build",
+    "build:preview": "node scripts/copy-metrics-to-public.js && node scripts/generate-feeds.js && node scripts/precompile-mdx.js && vite build",
     "build:dev": "node scripts/generate-feeds.js && node scripts/precompile-mdx.js && vite build --mode development",
     "build:analyze": "ANALYZE=true npm run build",
     "lint": "eslint .",
