@@ -65,6 +65,9 @@ jobs:
           npx sentry-cli releases files ${{ github.sha }} upload-sourcemaps ./dist/assets --url-prefix '~/assets'
           npx sentry-cli releases finalize ${{ github.sha }}
 
+      - name: Remove source maps from build
+        run: find ./dist -name '*.map' -delete
+
       # Bundle size check uses raw (uncompressed) file sizes as a build guard.
       # This catches accidental bloat from new dependencies or unoptimized code.
       # Actual transfer sizes are ~70% smaller due to gzip/brotli compression.

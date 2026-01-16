@@ -53,7 +53,7 @@ export default defineConfig(({ mode }) => ({
   build: {
     // Enable build optimizations
     minify: 'esbuild',
-    sourcemap: true,
+    sourcemap: 'hidden', // Generate maps for Sentry but don't expose via sourceMappingURL
     rollupOptions: {
       output: {
         // Manual chunk splitting for better caching
