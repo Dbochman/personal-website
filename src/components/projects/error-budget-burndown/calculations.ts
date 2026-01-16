@@ -86,7 +86,7 @@ export function calculateBudget(
   const periodDays = PERIOD_DAYS[config.period];
   const totalBudgetMinutes = calculateTotalBudget(config.target, config.period);
 
-  const startDate = new Date(config.startDate);
+  const startDate = parseLocalDate(config.startDate);
   const daysElapsed = Math.max(1, Math.floor((currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)));
   const daysRemaining = Math.max(0, periodDays - daysElapsed);
 
@@ -137,12 +137,12 @@ export function generateChartData(
   calculation: BudgetCalculation
 ): ChartDataPoint[] {
   const { periodDays, totalBudgetMinutes, burnRate } = calculation;
-  const startDate = new Date(config.startDate);
+  const startDate = parseLocalDate(config.startDate);
   const data: ChartDataPoint[] = [];
 
-  // Sort incidents by date
+  // Sort incidents by date (string comparison works for YYYY-MM-DD format)
   const sortedIncidents = [...incidents].sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    (a, b) => a.date.localeCompare(b.date)
   );
 
   let cumulativeConsumed = 0;
@@ -150,7 +150,7 @@ export function generateChartData(
 
   for (let day = 0; day <= periodDays; day++) {
     const currentDate = new Date(startDate.getTime() + day * 24 * 60 * 60 * 1000);
-    const dateStr = currentDate.toISOString().split('T')[0];
+    const dateStr = toLocalDateString(currentDate);
 
     // Add any incidents on this day
     while (
@@ -185,6 +185,25 @@ export function generateChartData(
   }
 
   return data;
+}
+
+/**
+ * Get a date string in YYYY-MM-DD format using local timezone
+ * Avoids UTC/local timezone mismatches that cause off-by-one day errors
+ */
+export function toLocalDateString(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Parse a YYYY-MM-DD date string as local midnight (not UTC)
+ */
+export function parseLocalDate(dateStr: string): Date {
+  const [year, month, day] = dateStr.split('-').map(Number);
+  return new Date(year, month - 1, day);
 }
 
 /**

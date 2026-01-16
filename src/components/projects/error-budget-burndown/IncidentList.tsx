@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { type Incident, generateId, calculateIncidentCost, formatDuration } from './calculations';
+import { type Incident, generateId, calculateIncidentCost, formatDuration, toLocalDateString, parseLocalDate } from './calculations';
 
 interface IncidentListProps {
   incidents: Incident[];
@@ -17,7 +17,7 @@ export function IncidentList({ incidents, onChange, periodStartDate }: IncidentL
   const [isAdding, setIsAdding] = useState(false);
   const [newIncident, setNewIncident] = useState<Omit<Incident, 'id'>>({
     name: '',
-    date: new Date().toISOString().split('T')[0],
+    date: toLocalDateString(new Date()),
     durationMinutes: 30,
     impactPercent: 100,
   });
@@ -34,7 +34,7 @@ export function IncidentList({ incidents, onChange, periodStartDate }: IncidentL
     onChange([...incidents, incident]);
     setNewIncident({
       name: '',
-      date: new Date().toISOString().split('T')[0],
+      date: toLocalDateString(new Date()),
       durationMinutes: 30,
       impactPercent: 100,
     });
@@ -150,7 +150,7 @@ export function IncidentList({ incidents, onChange, periodStartDate }: IncidentL
         ) : (
           <div className="space-y-2">
             {incidents
-              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+              .sort((a, b) => b.date.localeCompare(a.date))
               .map((incident) => (
                 <div
                   key={incident.id}
@@ -159,7 +159,7 @@ export function IncidentList({ incidents, onChange, periodStartDate }: IncidentL
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{incident.name}</p>
                     <p className="text-sm text-muted-foreground">
-                      {new Date(incident.date).toLocaleDateString('en-US', {
+                      {parseLocalDate(incident.date).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}

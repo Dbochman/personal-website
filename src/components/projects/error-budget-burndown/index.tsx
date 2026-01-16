@@ -8,12 +8,13 @@ import {
   type Incident,
   calculateBudget,
   generateChartData,
+  toLocalDateString,
 } from './calculations';
 
 // Get first day of current month as default start date
 function getDefaultStartDate(): string {
   const now = new Date();
-  return new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+  return toLocalDateString(new Date(now.getFullYear(), now.getMonth(), 1));
 }
 
 export default function ErrorBudgetBurndown() {
