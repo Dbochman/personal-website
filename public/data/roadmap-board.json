@@ -293,6 +293,12 @@
       "title": "In Progress"
     },
     {
+      "cards": [],
+      "color": "pink",
+      "id": "in-review",
+      "title": "In Review"
+    },
+    {
       "cards": [
         {
           "checklist": [
@@ -342,6 +348,12 @@
               "columnTitle": "In Review",
               "timestamp": "2026-01-16T19:55:00.000Z",
               "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-16T20:00:00.000Z",
+              "type": "column"
             }
           ],
           "id": "precommit-hooks",
@@ -351,15 +363,8 @@
             "DX"
           ],
           "title": "Pre-commit Hooks (Husky + lint-staged)",
-          "updatedAt": "2026-01-16T19:55:00.000Z"
-        }
-      ],
-      "color": "pink",
-      "id": "in-review",
-      "title": "In Review"
-    },
-    {
-      "cards": [
+          "updatedAt": "2026-01-16T20:00:00.000Z"
+        },
         {
           "checklist": [
             {
@@ -810,5 +815,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T19:55:00.000Z"
+  "updatedAt": "2026-01-16T20:00:00.000Z"
 }
