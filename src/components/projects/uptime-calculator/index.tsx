@@ -90,6 +90,11 @@ export default function UptimeCalculator() {
           <TargetSummary result={targetResult} achievableResult={achievableResult} />
         </TabsContent>
 
+        {/* Burndown mode: SLA input at top */}
+        <TabsContent value="burndown" className="mt-6">
+          <SlaTargetInput value={targetSla} onChange={setTargetSla} />
+        </TabsContent>
+
         <div className="mt-6 space-y-6">
           {/* Preset selector */}
           <div className="flex items-center gap-4">

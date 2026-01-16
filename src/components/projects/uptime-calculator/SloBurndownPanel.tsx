@@ -27,6 +27,7 @@ function getFirstOfMonth(): string {
 
 /**
  * Generate simulated incidents distributed across the month
+ * Places incidents starting from day 2 so drops are visible on the chart
  */
 function generateSimulatedIncidents(
   incidentsPerMonth: number,
@@ -36,26 +37,39 @@ function generateSimulatedIncidents(
   const today = new Date();
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  // Only generate incidents up to current day
-  const daysElapsed = Math.floor(
-    (today.getTime() - startOfMonth.getTime()) / (1000 * 60 * 60 * 24)
+  // Calculate days elapsed (minimum 1 to avoid division issues)
+  const daysElapsed = Math.max(
+    1,
+    Math.floor((today.getTime() - startOfMonth.getTime()) / (1000 * 60 * 60 * 24))
   );
 
-  if (daysElapsed === 0 || incidentsPerMonth === 0) {
+  if (incidentsPerMonth === 0) {
     return incidents;
   }
 
-  // Calculate how many incidents should have occurred by now
+  // Calculate how many incidents should have occurred by now (proportional to time)
+  // Use at least 1 incident if we're past day 3 and have any expected incidents
+  const proportionalIncidents = (daysElapsed / 30) * incidentsPerMonth;
   const expectedIncidentsSoFar = Math.min(
     incidentsPerMonth,
-    Math.ceil((daysElapsed / 30) * incidentsPerMonth)
+    daysElapsed > 3 ? Math.max(1, Math.round(proportionalIncidents)) : Math.floor(proportionalIncidents)
   );
 
-  // Distribute incidents evenly across elapsed days
-  const spacing = Math.max(1, Math.floor(daysElapsed / expectedIncidentsSoFar));
+  if (expectedIncidentsSoFar === 0) {
+    return incidents;
+  }
+
+  // Distribute incidents evenly across days 2 to daysElapsed
+  // Start from day 2 so the chart shows the initial budget, then drops
+  const availableDays = Math.max(1, daysElapsed - 2);
 
   for (let i = 0; i < expectedIncidentsSoFar; i++) {
-    const day = Math.min(daysElapsed - 1, i * spacing);
+    // Spread incidents evenly, starting from day 2
+    const dayOffset = expectedIncidentsSoFar === 1
+      ? Math.floor(availableDays / 2) // Single incident in the middle
+      : Math.floor((i / (expectedIncidentsSoFar - 1)) * availableDays);
+    const day = 2 + dayOffset;
+
     const incidentDate = new Date(
       startOfMonth.getTime() + day * 24 * 60 * 60 * 1000
     );
