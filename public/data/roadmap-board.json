@@ -110,14 +110,32 @@
       "title": "To Do"
     },
     {
+      "cards": [],
+      "color": "blue",
+      "id": "in-progress",
+      "title": "In Progress"
+    },
+    {
       "cards": [
         {
           "id": "unified-slo-tool",
           "title": "Unified SLO Tool",
           "description": "Consolidate SLO Calculator and Error Budget Burndown into one seamless project. Best of both:\n\n- Tab selector: What can I achieve? / Can I meet this SLO? / Budget Burndown\n- Response time inputs with visibility toggles\n- Budget period selector (monthly/quarterly/yearly)\n- Burndown chart with ideal + projected lines on ALL tabs\n- Shared presets with slider magnetism\n\nPrune: Average impact % (assume 100% for simplicity).",
-          "labels": ["Feature", "SRE"],
+          "labels": ["PR #145", "Feature", "SRE"],
           "planFile": "docs/plans/32-unified-slo-tool.md",
           "createdAt": "2026-01-16",
+          "prStatus": "pending",
+          "checklist": [
+            {"id": "ust-1", "text": "Create unified calculations.ts", "completed": true},
+            {"id": "ust-2", "text": "Create SloConfiguration with period selector", "completed": true},
+            {"id": "ust-3", "text": "Create ResponseTimeInputs with toggles", "completed": true},
+            {"id": "ust-4", "text": "Create BudgetChart (compact/full modes)", "completed": true},
+            {"id": "ust-5", "text": "Create AchievableTab", "completed": true},
+            {"id": "ust-6", "text": "Create TargetTab", "completed": true},
+            {"id": "ust-7", "text": "Create BurndownTab", "completed": true},
+            {"id": "ust-8", "text": "Add to project registry", "completed": true},
+            {"id": "ust-9", "text": "Add redirects from old routes", "completed": false}
+          ],
           "history": [
             {
               "type": "column",
@@ -130,17 +148,17 @@
               "timestamp": "2026-01-16T21:00:00.000Z",
               "columnId": "in-progress",
               "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-16T23:45:00.000Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
             }
           ],
-          "updatedAt": "2026-01-16T21:00:00.000Z"
+          "updatedAt": "2026-01-16T23:45:00.000Z"
         }
       ],
-      "color": "blue",
-      "id": "in-progress",
-      "title": "In Progress"
-    },
-    {
-      "cards": [],
       "color": "pink",
       "id": "in-review",
       "title": "In Review"

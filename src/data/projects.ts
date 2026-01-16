@@ -23,6 +23,9 @@ const ErrorBudgetBurndown = lazy(
 const ChangelogExplorer = lazy(
   () => import('@/components/projects/changelog-explorer')
 );
+const SloTool = lazy(
+  () => import('@/components/projects/slo-tool')
+);
 
 /**
  * Project registry - single source of truth for all projects
@@ -108,6 +111,17 @@ export const projectRegistry: ProjectDefinition[] = [
     createdAt: '2026-01-16',
     fullWidth: true,
     component: ChangelogExplorer,
+  },
+  {
+    slug: 'slo-tool',
+    title: 'SLO Tool',
+    description:
+      'Unified SLO calculator and error budget tracker. See what SLO you can achieve, check if you can meet a target, and visualize your budget burndown—all in one place.',
+    tags: ['SRE', 'Calculator', 'SLO'],
+    icon: 'Target',
+    status: 'active',
+    createdAt: '2026-01-16',
+    component: SloTool,
   },
 ];
 
