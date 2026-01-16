@@ -54,7 +54,7 @@ export const coreExpertise: ExpertiseItem[] = [
   {
     title: "Automated Incident Response",
     description: "Building synthetic testing and automated detection systems to identify issues before customers do.",
-    companies: ['groq', 'spotify'],
+    companies: ['groq', 'hashicorp', 'spotify'],
     skills: ['Synthetic Testing', 'Automated Remediation', 'Observability']
   }
 ];
