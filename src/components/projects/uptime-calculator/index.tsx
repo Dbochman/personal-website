@@ -25,21 +25,44 @@ import {
   getEffectiveProfile,
 } from './calculations';
 
+const VALID_MODES = ['achievable', 'target', 'burndown'] as const;
+
 /**
  * Parse URL params on mount for cross-tool linking
+ * Validates all values to prevent invalid state
  */
 function getInitialValuesFromUrl() {
   const params = new URLSearchParams(window.location.search);
 
-  const slo = params.get('slo');
-  const mode = params.get('mode');
-  const incidents = params.get('incidents');
+  const sloParam = params.get('slo');
+  const modeParam = params.get('mode');
+  const incidentsParam = params.get('incidents');
 
-  return {
-    slo: slo ? parseFloat(slo) : null,
-    mode: mode as 'achievable' | 'target' | 'burndown' | null,
-    incidents: incidents ? parseInt(incidents, 10) : null,
-  };
+  // Validate SLO: must be between 90 and 100
+  let slo: number | null = null;
+  if (sloParam) {
+    const parsed = parseFloat(sloParam);
+    if (!isNaN(parsed) && parsed >= 90 && parsed <= 100) {
+      slo = parsed;
+    }
+  }
+
+  // Validate mode: must be one of the valid modes
+  let mode: 'achievable' | 'target' | 'burndown' | null = null;
+  if (modeParam && VALID_MODES.includes(modeParam as typeof VALID_MODES[number])) {
+    mode = modeParam as 'achievable' | 'target' | 'burndown';
+  }
+
+  // Validate incidents: must be a positive integer
+  let incidents: number | null = null;
+  if (incidentsParam) {
+    const parsed = parseInt(incidentsParam, 10);
+    if (!isNaN(parsed) && parsed >= 0 && parsed <= 100) {
+      incidents = parsed;
+    }
+  }
+
+  return { slo, mode, incidents };
 }
 
 export type CalculationMode = 'achievable' | 'target' | 'burndown';
@@ -65,13 +88,13 @@ export default function UptimeCalculator() {
   // Read URL params on mount for cross-tool linking
   useEffect(() => {
     const urlValues = getInitialValuesFromUrl();
-    if (urlValues.slo !== null && !isNaN(urlValues.slo)) {
+    if (urlValues.slo !== null) {
       setTargetSlo(urlValues.slo);
     }
-    if (urlValues.mode) {
+    if (urlValues.mode !== null) {
       setMode(urlValues.mode);
     }
-    if (urlValues.incidents !== null && !isNaN(urlValues.incidents)) {
+    if (urlValues.incidents !== null) {
       setIncidentsPerMonth(urlValues.incidents);
     }
   }, []);
