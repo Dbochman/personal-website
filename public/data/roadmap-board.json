@@ -1,7 +1,23 @@
 {
   "columns": [
     {
-      "cards": [],
+      "cards": [
+        {
+          "createdAt": "2026-01-16T17:55:00.000Z",
+          "description": "Now that board state persists via GitHub, simplify URL from encoded state to just `?board=roadmap` or `?board=house`. Cleaner URLs, easier sharing, no more URL bloat.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T17:55:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "kanban-url-cleanup",
+          "title": "Kanban URL Simplification",
+          "updatedAt": "2026-01-16T17:55:00.000Z"
+        }
+      ],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
