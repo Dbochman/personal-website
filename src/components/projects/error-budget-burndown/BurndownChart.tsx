@@ -63,7 +63,7 @@ export function BurndownChart({ data, daysElapsed, isOnTrack }: BurndownChartPro
       </CardHeader>
       <CardContent>
         <div className="h-64 w-full">
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={0}>
             <LineChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               {/* Danger zone - if projected to exhaust */}
               {!isOnTrack && exhaustionDay && (
