@@ -1,27 +1,7 @@
 {
   "columns": [
     {
-      "cards": [
-        {
-          "createdAt": "2026-01-16T20:15:00.000Z",
-          "description": "Detect when board is updated externally (e.g., by Claude commits). Check on tab focus + every 60s while visible. Show toast with reload button to prevent save conflicts.",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-16T20:15:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "kanban-external-change-detection",
-          "labels": [
-            "UX",
-            "Kanban"
-          ],
-          "planFile": "docs/plans/30-kanban-external-change-detection.md",
-          "title": "Kanban External Change Detection"
-        }
-      ],
+      "cards": [],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
@@ -181,7 +161,66 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "ecd-1",
+              "text": "Add checkForExternalChanges callback"
+            },
+            {
+              "completed": true,
+              "id": "ecd-2",
+              "text": "Add visibility change listener and 60s polling"
+            },
+            {
+              "completed": true,
+              "id": "ecd-3",
+              "text": "Show Sonner toast with reload action"
+            },
+            {
+              "completed": true,
+              "id": "ecd-4",
+              "text": "Use toast ID to prevent duplicates"
+            },
+            {
+              "completed": true,
+              "id": "ecd-5",
+              "text": "Clean up interval and listener on unmount"
+            },
+            {
+              "completed": false,
+              "id": "ecd-6",
+              "text": "Test external change detection"
+            }
+          ],
+          "createdAt": "2026-01-16T20:15:00.000Z",
+          "description": "Detect when board is updated externally (e.g., by Claude commits). Check on tab focus + every 60s while visible. Show toast with reload button to prevent save conflicts.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T20:15:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T18:45:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "kanban-external-change-detection",
+          "labels": [
+            "UX",
+            "Kanban"
+          ],
+          "planFile": "docs/plans/30-kanban-external-change-detection.md",
+          "title": "Kanban External Change Detection",
+          "updatedAt": "2026-01-16T18:45:00.000Z"
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
