@@ -1,14 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
 import { SloConfiguration } from './SloConfiguration';
 import { ResponseTimeInputs, type EnabledPhases } from './ResponseTimeInputs';
 import { IncidentInput } from './IncidentInput';
@@ -21,7 +13,6 @@ import {
   type SloConfig,
   type BudgetPeriod,
   DEFAULT_PROFILE,
-  RESPONSE_PRESETS,
   PERIOD_DAYS,
   calculateAchievableSlo,
   calculateCanMeetSlo,
@@ -114,7 +105,6 @@ export default function SloTool() {
     const params = parseUrlParams(searchParams);
     return params.incidents ?? 4;
   });
-  const [selectedPreset, setSelectedPreset] = useState<string>('');
 
   // Update state if URL params change (e.g., from cross-tool navigation)
   useEffect(() => {
@@ -133,16 +123,8 @@ export default function SloTool() {
     }
   }, [searchParams]);
 
-  const handlePresetChange = (presetKey: string) => {
-    setSelectedPreset(presetKey);
-    if (presetKey && RESPONSE_PRESETS[presetKey]) {
-      setProfile(RESPONSE_PRESETS[presetKey].profile);
-    }
-  };
-
   const handleProfileChange = (field: keyof ResponseProfile, value: number) => {
     setProfile((prev) => ({ ...prev, [field]: value }));
-    setSelectedPreset(''); // Clear preset when manually adjusting
   };
 
   const handleTogglePhase = (field: keyof ResponseProfile) => {
@@ -200,26 +182,6 @@ export default function SloTool() {
             <SloConfiguration config={config} onChange={setConfig} />
 
             <div className="space-y-6">
-              {/* Preset selector */}
-              <div className="flex items-center gap-4">
-                <Label htmlFor="preset" className="whitespace-nowrap">
-                  Response profile:
-                </Label>
-                <Select value={selectedPreset} onValueChange={handlePresetChange}>
-                  <SelectTrigger id="preset" className="w-48">
-                    <SelectValue placeholder="Custom" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="custom">Custom</SelectItem>
-                    {Object.entries(RESPONSE_PRESETS).map(([key, { label }]) => (
-                      <SelectItem key={key} value={key}>
-                        {label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
               {/* Response time inputs */}
               <ResponseTimeInputs
                 profile={profile}
