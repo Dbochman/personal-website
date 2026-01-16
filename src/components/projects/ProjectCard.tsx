@@ -8,14 +8,18 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
+  AlertTriangle,
+  BarChart3,
   Box,
   Calculator,
   Clock,
   Columns,
   FileText,
-  AlertTriangle,
   Gauge,
   MessageSquare,
+  ScrollText,
+  Target,
+  TrendingDown,
   type LucideIcon,
 } from 'lucide-react';
 import { TransitionLink } from '@/hooks/useViewTransition';
@@ -23,14 +27,18 @@ import type { ProjectMeta } from '@/types/project';
 
 // Icon registry - add icons here as new projects are added
 const iconRegistry: Record<string, LucideIcon> = {
+  AlertTriangle,
+  BarChart3,
   Box,
   Calculator,
   Clock,
   Columns,
   FileText,
-  AlertTriangle,
   Gauge,
   MessageSquare,
+  ScrollText,
+  Target,
+  TrendingDown,
 };
 
 interface ProjectCardProps {
