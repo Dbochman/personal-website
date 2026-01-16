@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { SloConfigInputs } from './SloConfigInputs';
 import { IncidentList } from './IncidentList';
@@ -20,31 +20,38 @@ function getDefaultStartDate(): string {
   return toLocalDateString(new Date(now.getFullYear(), now.getMonth(), 1));
 }
 
-/**
- * Parse URL params on mount for cross-tool linking
- */
-function getSloFromUrl(): number | null {
-  const params = new URLSearchParams(window.location.search);
-  const slo = params.get('slo');
-  return slo ? parseFloat(slo) : null;
-}
-
 export default function ErrorBudgetBurndown() {
-  const [config, setConfig] = useState<SloConfig>({
-    target: 99.9,
-    period: 'monthly',
-    startDate: getDefaultStartDate(),
+  const [searchParams] = useSearchParams();
+
+  const [config, setConfig] = useState<SloConfig>(() => {
+    // Initialize from URL params if present
+    const sloParam = searchParams.get('slo');
+    let initialTarget = 99.9;
+    if (sloParam) {
+      const parsed = parseFloat(sloParam);
+      if (!isNaN(parsed) && parsed >= 90 && parsed <= 100) {
+        initialTarget = parsed;
+      }
+    }
+    return {
+      target: initialTarget,
+      period: 'monthly',
+      startDate: getDefaultStartDate(),
+    };
   });
 
   const [incidents, setIncidents] = useState<Incident[]>([]);
 
-  // Read SLO from URL params on mount for cross-tool linking
+  // Update config if URL params change (e.g., from cross-tool navigation)
   useEffect(() => {
-    const urlSlo = getSloFromUrl();
-    if (urlSlo !== null && !isNaN(urlSlo) && urlSlo >= 90 && urlSlo <= 100) {
-      setConfig((prev) => ({ ...prev, target: urlSlo }));
+    const sloParam = searchParams.get('slo');
+    if (sloParam) {
+      const parsed = parseFloat(sloParam);
+      if (!isNaN(parsed) && parsed >= 90 && parsed <= 100) {
+        setConfig((prev) => ({ ...prev, target: parsed }));
+      }
     }
-  }, []);
+  }, [searchParams]);
 
   const calculation = calculateBudget(config, incidents);
   const chartData = generateChartData(config, incidents, calculation);

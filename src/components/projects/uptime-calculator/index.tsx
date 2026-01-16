@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
@@ -26,17 +26,16 @@ import {
 } from './calculations';
 
 const VALID_MODES = ['achievable', 'target', 'burndown'] as const;
+type ValidMode = (typeof VALID_MODES)[number];
 
 /**
- * Parse URL params on mount for cross-tool linking
+ * Parse URL params for cross-tool linking
  * Validates all values to prevent invalid state
  */
-function getInitialValuesFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-
-  const sloParam = params.get('slo');
-  const modeParam = params.get('mode');
-  const incidentsParam = params.get('incidents');
+function parseUrlParams(searchParams: URLSearchParams) {
+  const sloParam = searchParams.get('slo');
+  const modeParam = searchParams.get('mode');
+  const incidentsParam = searchParams.get('incidents');
 
   // Validate SLO: must be between 90 and 100
   let slo: number | null = null;
@@ -48,9 +47,9 @@ function getInitialValuesFromUrl() {
   }
 
   // Validate mode: must be one of the valid modes
-  let mode: 'achievable' | 'target' | 'burndown' | null = null;
-  if (modeParam && VALID_MODES.includes(modeParam as typeof VALID_MODES[number])) {
-    mode = modeParam as 'achievable' | 'target' | 'burndown';
+  let mode: ValidMode | null = null;
+  if (modeParam && VALID_MODES.includes(modeParam as ValidMode)) {
+    mode = modeParam as ValidMode;
   }
 
   // Validate incidents: must be a positive integer
@@ -78,26 +77,38 @@ const DEFAULT_ENABLED: EnabledPhases = {
 };
 
 export default function UptimeCalculator() {
-  const [mode, setMode] = useState<CalculationMode>('achievable');
+  const [searchParams] = useSearchParams();
+
+  // Initialize state from URL params
+  const [mode, setMode] = useState<CalculationMode>(() => {
+    const params = parseUrlParams(searchParams);
+    return params.mode ?? 'achievable';
+  });
   const [profile, setProfile] = useState<ResponseProfile>(DEFAULT_PROFILE);
   const [enabledPhases, setEnabledPhases] = useState<EnabledPhases>(DEFAULT_ENABLED);
-  const [incidentsPerMonth, setIncidentsPerMonth] = useState(4);
-  const [targetSlo, setTargetSlo] = useState(99.9);
+  const [incidentsPerMonth, setIncidentsPerMonth] = useState(() => {
+    const params = parseUrlParams(searchParams);
+    return params.incidents ?? 4;
+  });
+  const [targetSlo, setTargetSlo] = useState(() => {
+    const params = parseUrlParams(searchParams);
+    return params.slo ?? 99.9;
+  });
   const [selectedPreset, setSelectedPreset] = useState<string>('');
 
-  // Read URL params on mount for cross-tool linking
+  // Update state if URL params change (e.g., from cross-tool navigation)
   useEffect(() => {
-    const urlValues = getInitialValuesFromUrl();
-    if (urlValues.slo !== null) {
-      setTargetSlo(urlValues.slo);
+    const params = parseUrlParams(searchParams);
+    if (params.slo !== null) {
+      setTargetSlo(params.slo);
     }
-    if (urlValues.mode !== null) {
-      setMode(urlValues.mode);
+    if (params.mode !== null) {
+      setMode(params.mode);
     }
-    if (urlValues.incidents !== null) {
-      setIncidentsPerMonth(urlValues.incidents);
+    if (params.incidents !== null) {
+      setIncidentsPerMonth(params.incidents);
     }
-  }, []);
+  }, [searchParams]);
 
   const handlePresetChange = (presetKey: string) => {
     setSelectedPreset(presetKey);
