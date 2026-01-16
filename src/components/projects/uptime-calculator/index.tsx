@@ -13,6 +13,7 @@ import { IncidentInput } from './IncidentInput';
 import { SlaTargetInput } from './SlaTargetInput';
 import { ResultsPanel } from './ResultsPanel';
 import { TargetSummary } from './TargetSummary';
+import { SloBurndownPanel } from './SloBurndownPanel';
 import {
   type ResponseProfile,
   DEFAULT_PROFILE,
@@ -22,7 +23,7 @@ import {
   getEffectiveProfile,
 } from './calculations';
 
-export type CalculationMode = 'achievable' | 'target';
+export type CalculationMode = 'achievable' | 'target' | 'burndown';
 export type EnabledPhases = Record<keyof ResponseProfile, boolean>;
 
 const DEFAULT_ENABLED: EnabledPhases = {
@@ -68,14 +69,18 @@ export default function UptimeCalculator() {
   return (
     <div className="space-y-6">
       <Tabs value={mode} onValueChange={(v) => setMode(v as CalculationMode)}>
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="achievable" className="text-xs sm:text-sm">
             <span className="hidden sm:inline">What can I achieve?</span>
-            <span className="sm:hidden">Achievable SLA</span>
+            <span className="sm:hidden">Achievable</span>
           </TabsTrigger>
           <TabsTrigger value="target" className="text-xs sm:text-sm">
             <span className="hidden sm:inline">Can I meet this SLA?</span>
-            <span className="sm:hidden">Meet Target?</span>
+            <span className="sm:hidden">Target</span>
+          </TabsTrigger>
+          <TabsTrigger value="burndown" className="text-xs sm:text-sm">
+            <span className="hidden sm:inline">SLO Burndown</span>
+            <span className="sm:hidden">Burndown</span>
           </TabsTrigger>
         </TabsList>
 
@@ -131,6 +136,13 @@ export default function UptimeCalculator() {
               mode="target"
               result={targetResult}
               achievableResult={achievableResult}
+            />
+          </TabsContent>
+          <TabsContent value="burndown" className="mt-0">
+            <SloBurndownPanel
+              targetSla={mode === 'target' ? targetSla : achievableResult.maxAchievableSla}
+              incidentsPerMonth={incidentsPerMonth}
+              avgDurationMinutes={achievableResult.mttrMinutes}
             />
           </TabsContent>
         </div>
