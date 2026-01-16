@@ -1,0 +1,107 @@
+---
+title: "Using a Kanban Board to Talk to My AI"
+date: "2026-01-16"
+author: Dylan
+description: "A kanban board isn't just for task tracking. It's become my async communication channel with Claude—Ideas trigger plan generation, card positions signal intent, and giscus comments capture code review feedback."
+tags:
+  - AI
+  - Tooling
+  - Workflow
+category: Technical
+draft: false
+---
+
+I've been iterating on how I work with Claude Code for weeks now. We've tried session notes, preference files, structured handoffs. Each helped, but something was still missing.
+
+The friction wasn't the conversation—it was the artifacts. Where do plans live? How do I associate them with tasks? I had a `ROADMAP.md` that kept growing stale, a `PLANNING_DOCS_INDEX.md` that duplicated it, and plan files scattered in `docs/plans/` with no clear link to what was actually in progress. Every few sessions we'd consolidate, reorganize, try a new structure. Nothing stuck.
+
+The solution turned out to be something I'd already built: the kanban board.
+
+## The Evolution
+
+We'd already established some collaboration patterns. Session notes capture "we tried X but realized Y" moments. A preferences file records my working style (moderate verbosity, atomic commits, ask before changes). The CLAUDE.md has guidance for session starts: read session notes, check git log, provide a "here's where we left off" summary.
+
+But these are all text files I have to remember to update. The kanban board is different—it's a visual state machine that persists naturally as part of the work.
+
+## Ideas First, Plans Second
+
+The workflow starts in the **Ideas** column. The description says it plainly: "Concepts without detailed plans yet."
+
+When I have a half-formed thought—"add comments to kanban cards" or "improve Sentry integration"—I create a card. Just a title and maybe a sentence of description. No checklist, no plan doc.
+
+This matters because it separates "things I want to explore" from "things ready to build." The Ideas column is permission to capture thoughts without committing to them.
+
+When I'm ready to actually plan something, Claude generates a plan doc in `docs/plans/`. Once a plan exists, the card moves to **To Do** with a `planFile` field linking to the doc. Now it's "planned and ready to start."
+
+The link is the key. The card and the plan are associated durably. I don't have to maintain a separate index or remember which doc goes with which task.
+
+## Column Positions as Signals
+
+The board has five columns, each with a specific meaning:
+
+| Column | Signal | What I Do | What Claude Does |
+|--------|--------|-----------|------------------|
+| **Ideas** | "Explore this sometime" | Add rough concepts | Generate plans proactively, leave questions if direction/dialog is needed |
+| **To Do** | "Planned, ready to start" | Prioritize by position | Read plan doc for context |
+| **In Progress** | "Work on this now" | Move card here | Pick it up, create branch, implement |
+| **In Review** | "Verify this is done" | Move after PR opens | Check CI, test feature, review against checklist |
+| **Change Log** | "Completed" | Move after merge | Mark checklist complete, add PR label |
+
+The key insight: I can move cards asynchronously. If I decide at midnight that Sentry should be next, I move it to In Progress. When Claude starts the next session, it sees the board state and knows what to pick up without me explaining.
+
+## Giscus Comments for Persistent Feedback
+
+Card positions handle intent. But I also wanted to capture feedback that would otherwise get lost.
+
+I've been running Codex (OpenAI's code review agent) on PRs. It catches things—the Sentry PR had a lazy loading inconsistency and a source map exposure issue. Useful findings, but they'd disappear into PR comments after merge.
+
+So I added giscus discussion threads to kanban cards. Each card now has a comment section powered by GitHub Discussions. When Codex reviews a PR, I post the findings to the card's thread.
+
+The Sentry card's giscus discussion now has:
+
+> Codex Review of PR #130:
+> - High (fixed): Sentry lazy loading inconsistency - ErrorBoundary imported but Sentry.init deferred
+> - Medium (fixed): Source maps publicly served exposing source code
+
+That context lives with the card, not buried in a merged PR.
+
+## The Full Cycle
+
+Here's what a feature looks like now:
+
+1. **Idea captured** → Card created in Ideas column with rough concept
+2. **Plan generated** → Claude writes plan doc, card moves to To Do with `planFile` link
+3. **Work starts** → I move card to In Progress, Claude reads plan and creates feature branch
+4. **PR opened** → Card moves to In Review with `PR #N` label
+5. **Codex reviews** → Findings posted to card's giscus thread
+6. **PR merged** → Card moves to Change Log, checklist marked complete
+
+The kanban card comments feature itself went through this exact flow. The plan doc (`25-kanban-card-comments.md`) has the implementation spec. The card tracked progress. The giscus thread captured Codex's note about manual testing requirements for the iframe theme sync.
+
+## What Makes This Work
+
+A few properties make the pattern effective:
+
+**Structured state over prose.** Session notes require me to write. The board updates as a side effect of doing work. Less friction means more consistent capture.
+
+**Visual prioritization.** Card position in a column implies priority. Top of To Do = next up. No need to explicitly say "do this next."
+
+**Durable associations.** The `planFile` field links card to spec. The `PR #N` label links card to implementation. The giscus thread links card to review feedback. Everything connects.
+
+**GitHub-native persistence.** The board is JSON in the repo. Giscus comments are GitHub Discussions. Everything is version-controlled and searchable.
+
+## The Meta Point
+
+Most AI tooling assumes synchronous conversation. You talk, it responds, you clarify, it acts. That works for quick tasks but breaks down for projects that span multiple sessions.
+
+The kanban board inverts the model. Instead of explaining context each session, I update state asynchronously. Claude reads the state and acts. The board becomes the interface layer between my async thinking and Claude's session-bound memory.
+
+I didn't plan this. The board started as a portfolio demo—"look, I can build drag-and-drop in React." Then I used it to track my own roadmap. Then I noticed Claude could read it. Then I added comments for code review feedback.
+
+Each addition was incremental. The workflow emerged from use.
+
+## Takeaway
+
+If you're collaborating with AI tools across sessions, look for artifacts that persist naturally. Conversation history compresses. Text files require discipline to update. But structured state—boards, configs, specs—survives intact because maintaining it is part of the work, not separate from it.
+
+The kanban board started as a project. Now it's infrastructure.
