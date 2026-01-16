@@ -20,6 +20,18 @@ jobs:
           fi
           echo "BOARD_ID=$BOARD_ID" >> $GITHUB_ENV
 
+      - name: Log incoming board summary
+        env:
+          BOARD_JSON: ${{ toJson(github.event.client_payload.board) }}
+        run: |
+          echo "=== Incoming Board Summary ==="
+          echo "Board: ${{ github.event.client_payload.boardId }}"
+          echo "Base updatedAt: ${{ github.event.client_payload.baseUpdatedAt }}"
+          echo ""
+          echo "Cards by column:"
+          printenv BOARD_JSON | jq -r '.columns[] | "\(.title): \([.cards[].title] | join(", "))"'
+          echo ""
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
