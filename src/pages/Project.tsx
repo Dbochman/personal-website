@@ -54,7 +54,7 @@ export default function Project() {
       <Helmet>
         <title>{project.title} - Dylan Bochman</title>
         <meta name="description" content={project.description} />
-        <meta name="keywords" content={project.tags.join(', ')} />
+        <meta name="keywords" content={(project.keywords || project.tags).join(', ')} />
 
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
@@ -63,7 +63,7 @@ export default function Project() {
         <meta property="og:description" content={project.description} />
         <meta
           property="og:image"
-          content="https://dylanbochman.com/social-preview.webp"
+          content={project.ogImage || 'https://dylanbochman.com/social-preview.webp'}
         />
         <meta property="og:site_name" content="Dylan Bochman" />
 
@@ -77,13 +77,67 @@ export default function Project() {
         <meta name="twitter:description" content={project.description} />
         <meta
           name="twitter:image"
-          content="https://dylanbochman.com/social-preview.webp"
+          content={project.ogImage || 'https://dylanbochman.com/social-preview.webp'}
         />
 
         <link
           rel="canonical"
           href={`https://dylanbochman.com/projects/${project.slug}`}
         />
+
+        {/* JSON-LD Structured Data - WebApplication for active projects */}
+        {project.status === 'active' && (
+          <script type="application/ld+json">
+            {JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebApplication',
+              name: project.title,
+              description: project.description,
+              url: `https://dylanbochman.com/projects/${project.slug}`,
+              applicationCategory: 'UtilityApplication',
+              operatingSystem: 'Any',
+              offers: {
+                '@type': 'Offer',
+                price: '0',
+                priceCurrency: 'USD',
+              },
+              author: {
+                '@type': 'Person',
+                name: 'Dylan Bochman',
+                url: 'https://dylanbochman.com',
+              },
+              ...(project.keywords && { keywords: project.keywords.join(', ') }),
+            })}
+          </script>
+        )}
+
+        {/* JSON-LD Breadcrumb for navigation */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://dylanbochman.com',
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Projects',
+                item: 'https://dylanbochman.com/projects',
+              },
+              {
+                '@type': 'ListItem',
+                position: 3,
+                name: project.title,
+                item: `https://dylanbochman.com/projects/${project.slug}`,
+              },
+            ],
+          })}
+        </script>
       </Helmet>
 
       <PageLayout>
