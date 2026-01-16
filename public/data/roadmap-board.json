@@ -258,7 +258,7 @@
             }
           ],
           "createdAt": "2026-01-15",
-          "description": "Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.\n\nCodex Review of PR 130:\n Findings (most recent commit b715a0c only):\n\n  - Medium: baseUpdatedAt is sourced from initialBoard.updatedAt, not the actual loaded board\n    (which may include URL overrides via getInitialBoard()). That can produce false conflict\n    checks. src/components/projects/kanban/KanbanBoard.tsx:41-45\n  - Low: The workflow now trusts baseUpdatedAt blindly. If it’s empty or missing, the compare can\n    behave unpredictably; consider a fallback/validation. .github/workflows/save-kanban.yml:26-38",
+          "description": "Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.\n\nCodex Review of PR #130:\n\n- High (fixed): Sentry lazy loading inconsistency - ErrorBoundary imported but Sentry.init deferred. Fixed: now initializes synchronously before render.\n- Medium (fixed): Source maps publicly served exposing source code. Fixed: using hidden sourcemaps + delete after Sentry upload.",
           "history": [
             {
               "columnId": "in-progress",
