@@ -1,24 +1,7 @@
 {
   "columns": [
     {
-      "cards": [
-        {
-          "id": "unified-slo-tool",
-          "title": "Unified SLO Tool",
-          "description": "Consolidate SLO Calculator and Error Budget Burndown into one seamless project. Best of both:\n\n- Tab selector: What can I achieve? / Can I meet this SLO? / Budget Burndown\n- Response time inputs with visibility toggles\n- Budget period selector (monthly/quarterly/yearly)\n- Burndown chart with ideal + projected lines on ALL tabs\n- Shared presets with slider magnetism\n\nPrune: Average impact % (assume 100% for simplicity).",
-          "labels": ["Feature", "SRE"],
-          "planFile": "docs/plans/32-unified-slo-tool.md",
-          "createdAt": "2026-01-16",
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-16T20:45:00.000Z",
-              "columnId": "ideas",
-              "columnTitle": "Ideas"
-            }
-          ]
-        }
-      ],
+      "cards": [],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
@@ -129,96 +112,38 @@
     {
       "cards": [
         {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "slo-xp-1",
-              "text": "Create shared sloPresets.ts with target, label, budget description"
-            },
-            {
-              "completed": false,
-              "id": "slo-xp-2",
-              "text": "Update Error Budget Burndown to use shared presets"
-            },
-            {
-              "completed": false,
-              "id": "slo-xp-3",
-              "text": "Update Uptime Calculator to use shared presets"
-            },
-            {
-              "completed": false,
-              "id": "slo-xp-4",
-              "text": "Add 'See impact on Error Budget' link from Uptime Calculator insights"
-            },
-            {
-              "completed": false,
-              "id": "slo-xp-5",
-              "text": "Add 'Improve response times' link from Error Budget Burndown"
-            },
-            {
-              "completed": false,
-              "id": "slo-xp-6",
-              "text": "Pass context via URL params for pre-populated views"
-            }
-          ],
+          "id": "unified-slo-tool",
+          "title": "Unified SLO Tool",
+          "description": "Consolidate SLO Calculator and Error Budget Burndown into one seamless project. Best of both:\n\n- Tab selector: What can I achieve? / Can I meet this SLO? / Budget Burndown\n- Response time inputs with visibility toggles\n- Budget period selector (monthly/quarterly/yearly)\n- Burndown chart with ideal + projected lines on ALL tabs\n- Shared presets with slider magnetism\n\nPrune: Average impact % (assume 100% for simplicity).",
+          "labels": ["Feature", "SRE"],
+          "planFile": "docs/plans/32-unified-slo-tool.md",
           "createdAt": "2026-01-16",
-          "description": "Connect SLO tools with shared presets and cross-linking insights. Unified sloPresets.ts for both tools. Add contextual links: 'Diagnosis takes 40% of time' → 'See impact on Error Budget'. 'Projected to exhaust Jan 20' → 'What response improvements help?'",
           "history": [
             {
+              "type": "column",
+              "timestamp": "2026-01-16T20:45:00.000Z",
               "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-16T19:45:00.000Z",
-              "type": "column"
+              "columnTitle": "Ideas"
             },
             {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-16T19:37:16.466Z",
-              "type": "column"
-            },
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-16T19:37:16.474Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-16T19:37:16.489Z",
-              "type": "column"
-            },
-            {
+              "type": "column",
+              "timestamp": "2026-01-16T21:00:00.000Z",
               "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T19:37:16.583Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-16T19:37:16.593Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T19:37:16.606Z",
-              "type": "column"
+              "columnTitle": "In Progress"
             }
           ],
-          "id": "slo-tools-cross-pollination",
-          "labels": [
-            "Enhancement",
-            "SRE"
-          ],
-          "title": "SLO Tools Cross-Pollination",
-          "updatedAt": "2026-01-16T19:37:16.606Z"
+          "updatedAt": "2026-01-16T21:00:00.000Z"
         }
       ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
+    },
+    {
+      "cards": [],
+      "color": "pink",
+      "id": "in-review",
+      "title": "In Review"
     },
     {
       "cards": [
@@ -256,7 +181,7 @@
             }
           ],
           "createdAt": "2026-01-16",
-          "description": "Connect SLO tools with shared presets and cross-linking insights. Unified sloPresets.ts for both tools. Add contextual links: 'Diagnosis takes 40% of time' → 'See impact on Error Budget'. 'Projected to exhaust Jan 20' → 'What response improvements help?'",
+          "description": "Connected SLO tools with shared presets and cross-linking. Unified sloPresets.ts, slider magnetism, flexible input ranges (0-99.999%), and URL param sync for SLO + incidents.",
           "history": [
             {
               "columnId": "ideas",
@@ -275,25 +200,25 @@
               "columnTitle": "In Review",
               "timestamp": "2026-01-16T22:55:00.000Z",
               "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-16T23:30:00.000Z",
+              "type": "column"
             }
           ],
           "id": "slo-tools-cross-pollination",
           "labels": [
             "PR #143",
+            "PR #144",
             "Enhancement",
             "SRE"
           ],
           "planFile": "docs/plans/31-slo-tools-cross-pollination.md",
           "title": "SLO Tools Cross-Pollination",
-          "updatedAt": "2026-01-16T22:55:00.000Z"
-        }
-      ],
-      "color": "pink",
-      "id": "in-review",
-      "title": "In Review"
-    },
-    {
-      "cards": [
+          "updatedAt": "2026-01-16T23:30:00.000Z"
+        },
         {
           "checklist": [
             {
