@@ -52,6 +52,21 @@ jobs:
 
       - name: Build site
         run: npm run build
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+
+      - name: Upload source maps to Sentry
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        run: |
+          npx sentry-cli releases new ${{ github.sha }}
+          npx sentry-cli releases files ${{ github.sha }} upload-sourcemaps ./dist/assets --url-prefix '~/assets'
+          npx sentry-cli releases finalize ${{ github.sha }}
+
+      - name: Remove source maps from build
+        run: find ./dist -name '*.map' -delete
 
       # Bundle size check uses raw (uncompressed) file sizes as a build guard.
       # This catches accidental bloat from new dependencies or unoptimized code.

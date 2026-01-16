@@ -12,42 +12,6 @@
           "checklist": [
             {
               "completed": false,
-              "id": "ad-1",
-              "text": "Add deduplicateByDate helper function"
-            },
-            {
-              "completed": false,
-              "id": "ad-2",
-              "text": "Apply to ga4History and searchHistory data"
-            },
-            {
-              "completed": false,
-              "id": "ad-3",
-              "text": "Verify charts show one point per date"
-            }
-          ],
-          "createdAt": "2026-01-15",
-          "description": "Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection.",
-          "history": [
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-15T12:00:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "analytics-dedupe",
-          "labels": [
-            "Small",
-            "Bug Fix"
-          ],
-          "planFile": "docs/plans/24-analytics-data-deduplication.md",
-          "title": "Analytics Data Deduplication"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
               "id": "tw-1",
               "text": "Run npx @tailwindcss/upgrade on feature branch"
             },
@@ -101,44 +65,6 @@
           ],
           "planFile": "docs/plans/22-tailwind-v4-upgrade.md",
           "title": "Tailwind CSS v4 Upgrade"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "ct-1",
-              "text": "Create career data structure (jobs, education, achievements)"
-            },
-            {
-              "completed": false,
-              "id": "ct-2",
-              "text": "Build CareerTimeline component with vertical layout"
-            },
-            {
-              "completed": false,
-              "id": "ct-3",
-              "text": "Add type filters (job, education, achievement, project)"
-            },
-            {
-              "completed": false,
-              "id": "ct-4",
-              "text": "Create Experience page with route"
-            },
-            {
-              "completed": false,
-              "id": "ct-5",
-              "text": "Add scroll animations (optional, with Framer Motion)"
-            }
-          ],
-          "createdAt": "2026-01-13",
-          "description": "Interactive vertical timeline showing work history, achievements, and skill development over time.",
-          "id": "career-timeline",
-          "labels": [
-            "Medium",
-            "Content"
-          ],
-          "planFile": "docs/plans/14-career-timeline.md",
-          "title": "Career Timeline"
         },
         {
           "checklist": [
@@ -222,12 +148,6 @@
       "title": "To Do"
     },
     {
-      "cards": [],
-      "color": "blue",
-      "id": "in-progress",
-      "title": "In Progress"
-    },
-    {
       "cards": [
         {
           "checklist": [
@@ -258,25 +178,13 @@
             }
           ],
           "createdAt": "2026-01-15",
-          "description": "Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.\n\nCodex Review of PR #130:\n\n- High (fixed): Sentry lazy loading inconsistency - ErrorBoundary imported but Sentry.init deferred. Fixed: now initializes synchronously before render.\n- Medium (fixed): Source maps publicly served exposing source code. Fixed: using hidden sourcemaps + delete after Sentry upload.",
+          "description": "Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.",
           "history": [
             {
               "columnId": "in-progress",
               "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T01:41:18.328Z",
+              "timestamp": "2026-01-16T01:22:48.676Z",
               "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-16T01:41:18.527Z",
-              "type": "column"
-            },
-            {
-              "from": "Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.",
-              "timestamp": "2026-01-16T01:43:09.244Z",
-              "to": "Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.\n\nCodex Review of PR 130:\n Findings (most recent commit b715a0c only):\n\n  - Medium: baseUpdatedAt is sourced from initialBoard.updatedAt, not the actual loaded board\n    (which may include URL overrides via getInitialBoard()). That can produce false conflict\n    checks. src/components/projects/kanban/KanbanBoard.tsx:41-45\n  - Low: The workflow now trusts baseUpdatedAt blindly. If it’s empty or missing, the compare can\n    behave unpredictably; consider a fallback/validation. .github/workflows/save-kanban.yml:26-38",
-              "type": "description"
             }
           ],
           "id": "sentry-enhancement",
@@ -284,16 +192,77 @@
             "Small-Medium",
             "Observability"
           ],
+          "planFile": "docs/plans/23-sentry-error-tracking.md",
           "title": "Sentry Error Tracking Enhancement",
-          "updatedAt": "2026-01-16T01:43:09.244Z"
+          "updatedAt": "2026-01-16T01:22:48.676Z"
         }
       ],
+      "color": "blue",
+      "id": "in-progress",
+      "title": "In Progress"
+    },
+    {
+      "cards": [],
       "color": "pink",
       "id": "in-review",
       "title": "In Review"
     },
     {
       "cards": [
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "ad-1",
+              "text": "Add deduplicateByDate helper function"
+            },
+            {
+              "completed": true,
+              "id": "ad-2",
+              "text": "Apply to ga4History and searchHistory data"
+            },
+            {
+              "completed": true,
+              "id": "ad-3",
+              "text": "Verify charts show one point per date"
+            }
+          ],
+          "createdAt": "2026-01-15",
+          "description": "Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection.",
+          "history": [
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-15T12:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T01:22:46.568Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-16T01:22:46.910Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-16T01:35:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "analytics-dedupe",
+          "labels": [
+            "Small",
+            "Bug Fix"
+          ],
+          "title": "Analytics Data Deduplication",
+          "updatedAt": "2026-01-16T01:35:00.000Z"
+        },
         {
           "createdAt": "2026-01-15",
           "description": "GitHub OAuth login, Cloudflare Worker proxy, save to GitHub via Actions. Includes conflict detection, unsaved changes warning.",
@@ -502,8 +471,8 @@
       "title": "Change Log"
     }
   ],
-  "createdAt": "2026-01-16T01:41:03.581Z",
+  "createdAt": "2026-01-16T01:21:46.195Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T01:43:11.115Z"
+  "updatedAt": "2026-01-16T01:22:54.434Z"
 }
