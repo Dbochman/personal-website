@@ -162,7 +162,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
       const remoteUpdatedAt = data.updatedAt;
 
       // If remote is newer than our base, external change detected
-      if (remoteUpdatedAt && remoteUpdatedAt !== baseUpdatedAt) {
+      if (remoteUpdatedAt && new Date(remoteUpdatedAt) > new Date(baseUpdatedAt)) {
         setExternalChangeDetected(true);
 
         toast('Board was updated externally', {
