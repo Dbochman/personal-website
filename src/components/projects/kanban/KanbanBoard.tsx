@@ -473,6 +473,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
             <KanbanColumn
               key={column.id}
               column={column}
+              boardId={boardId}
               onAddCard={handleAddCard}
               onEditCard={handleEditCard}
               onEditColumn={handleEditColumn}

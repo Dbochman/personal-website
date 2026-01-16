@@ -61,7 +61,7 @@ function cardToEntry(card: KanbanCard): ChangelogEntry {
   };
 }
 
-export function useChangelogData() {
+export function useChangelogData(boardId: string = 'roadmap') {
   const [entries, setEntries] = useState<ChangelogEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -72,19 +72,21 @@ export function useChangelogData() {
       setError(null);
 
       try {
-        // Fetch both data sources in parallel
-        const [boardRes, archiveRes] = await Promise.all([
-          fetch('/data/roadmap-board.json'),
-          fetch('/data/roadmap-archive.json'),
-        ]);
-
+        // Fetch board data (required)
+        const boardRes = await fetch(`/data/${boardId}-board.json`);
         if (!boardRes.ok) throw new Error('Failed to load board data');
-        if (!archiveRes.ok) throw new Error('Failed to load archive data');
+        const boardData: BoardData = await boardRes.json();
 
-        const [boardData, archiveData]: [BoardData, ArchiveData] = await Promise.all([
-          boardRes.json(),
-          archiveRes.json(),
-        ]);
+        // Fetch archive data (optional - may not exist for all boards)
+        let archiveData: ArchiveData = { archivedAt: '', cards: [] };
+        try {
+          const archiveRes = await fetch(`/data/${boardId}-archive.json`);
+          if (archiveRes.ok) {
+            archiveData = await archiveRes.json();
+          }
+        } catch {
+          // Archive doesn't exist, continue without it
+        }
 
         // Get changelog column cards
         const changelogColumn = boardData.columns.find((col) => col.id === 'changelog');
@@ -121,7 +123,7 @@ export function useChangelogData() {
     }
 
     fetchData();
-  }, []);
+  }, [boardId]);
 
   // Derive unique labels for filtering
   const allLabels = useMemo(() => {

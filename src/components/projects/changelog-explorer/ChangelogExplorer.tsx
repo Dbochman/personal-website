@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { subDays } from 'date-fns';
 import { Filter, SortDesc, SortAsc, Calendar } from 'lucide-react';
@@ -49,7 +49,26 @@ function CardSkeleton() {
 }
 
 export function ChangelogExplorer() {
-  const { entries, isLoading, error, allLabels } = useChangelogData();
+  // Get board ID from URL params (default to 'roadmap')
+  const [boardId, setBoardId] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('board') || 'roadmap';
+    }
+    return 'roadmap';
+  });
+
+  // Update boardId if URL changes (e.g., navigation)
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      setBoardId(params.get('board') || 'roadmap');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const { entries, isLoading, error, allLabels } = useChangelogData(boardId);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [selectedLabels, setSelectedLabels] = useState<Set<string>>(new Set());
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest');
