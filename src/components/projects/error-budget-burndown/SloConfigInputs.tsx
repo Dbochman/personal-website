@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
@@ -23,6 +23,12 @@ interface SloConfigInputsProps {
 
 export function SloConfigInputs({ config, onChange }: SloConfigInputsProps) {
   const [inputValue, setInputValue] = useState(config.target.toString());
+
+  // Sync local input state when prop changes (e.g., from URL params)
+  useEffect(() => {
+    setInputValue(config.target.toString());
+  }, [config.target]);
+
   const totalBudget = calculateTotalBudget(config.target, config.period);
   const currentPreset = SLO_PRESETS.find((p) => p.value === config.target);
 

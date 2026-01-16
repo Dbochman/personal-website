@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,6 +22,11 @@ const MAX_SLO = 99.999;
 
 export function SloTargetInput({ value, onChange }: SloTargetInputProps) {
   const [inputValue, setInputValue] = useState(value.toString());
+
+  // Sync local input state when prop changes (e.g., from URL params)
+  useEffect(() => {
+    setInputValue(value.toString());
+  }, [value]);
 
   const handleQuickSelect = (sloValue: string) => {
     if (sloValue === 'custom') return;
