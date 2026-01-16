@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
-import { Badge } from '@/components/ui/badge';
+import { TagList } from '@/components/blog/TagList';
 import { mdxComponents } from '@/components/blog/MDXComponents';
 import {
   getPostSync,
@@ -165,13 +165,7 @@ export default function BlogPost() {
                 {post.description}
               </p>
 
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
+              <TagList tags={post.tags} variant="secondary" />
             </header>
 
             {/* Post content */}

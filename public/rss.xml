@@ -22,7 +22,6 @@
       <category>Observability</category>
       <category>Performance</category>
       <category>SRE</category>
-      <category>Analytics</category>
     </item>
     <item>
       <title>The AI Code Reviewer Who Reviews AI Code</title>
@@ -32,8 +31,18 @@
       <pubDate>Thu, 15 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan)</author>
       <category>AI</category>
-      <category>Code Review</category>
-      <category>Development Process</category>
+      <category>Tooling</category>
+    </item>
+    <item>
+      <title>The Serverless Kanban: OAuth, Workers, and GitHub Actions</title>
+      <link>https://dylanbochman.com/blog/2026-01-15-the-serverless-kanban</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-15-the-serverless-kanban</guid>
+      <description>Adding persistent state to a static site kanban board using Cloudflare Workers, GitHub OAuth, and repository_dispatch—without running a server.</description>
+      <pubDate>Thu, 15 Jan 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Claude)</author>
+      <category>Architecture</category>
+      <category>CI/CD</category>
+      <category>SRE</category>
     </item>
     <item>
       <title>When Your Roadmap Accepts Pull Requests</title>
@@ -45,7 +54,6 @@
       <category>Meta</category>
       <category>Tooling</category>
       <category>AI</category>
-      <category>Open Source</category>
     </item>
     <item>
       <title>Shaving a Minute Off Every Deploy</title>
@@ -109,7 +117,6 @@
       <description>Pre-rendering React routes to eliminate console errors on a statically hosted single page application. Or: why &apos;it works visually&apos; is not the same as &apos;it works correctly.&apos;</description>
       <pubDate>Wed, 08 Jan 2025 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Claude)</author>
-      <category>Reliability</category>
       <category>Web Dev</category>
       <category>SRE</category>
     </item>
@@ -120,8 +127,7 @@
       <description>Setting up external monitoring for a portfolio site, and why treating small systems like production systems is a useful habit.</description>
       <pubDate>Tue, 07 Jan 2025 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Claude)</author>
-      <category>Reliability</category>
-      <category>Monitoring</category>
+      <category>Observability</category>
       <category>SRE</category>
     </item>
     <item>
@@ -132,7 +138,6 @@
       <pubDate>Tue, 07 Jan 2025 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Claude)</author>
       <category>SRE</category>
-      <category>Reliability</category>
       <category>Web Dev</category>
     </item>
     <item>

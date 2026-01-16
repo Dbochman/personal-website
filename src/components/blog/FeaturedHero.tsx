@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
+import { TagList } from '@/components/blog/TagList';
 import type { BlogPost } from '@/types/blog';
 
 interface FeaturedHeroProps {
@@ -71,13 +72,7 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
         </p>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-2">
-          {post.tags.map((tag) => (
-            <Badge key={tag} variant="outline" className="text-xs">
-              {tag}
-            </Badge>
-          ))}
-        </div>
+        <TagList tags={post.tags} variant="outline" size="sm" />
       </div>
     </article>
   );

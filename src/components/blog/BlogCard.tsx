@@ -1,7 +1,7 @@
 import { useState, memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { TagList } from '@/components/blog/TagList';
 import { TransitionLink } from '@/hooks/useViewTransition';
 import type { BlogPost } from '@/types/blog';
 
@@ -64,12 +64,8 @@ export const BlogCard = memo(function BlogCard({ post }: BlogCardProps) {
             <span>{post.readingTime}</span>
           </CardDescription>
           {/* Tags - always visible */}
-          <div className="flex flex-wrap gap-1.5 pt-2">
-            {post.tags.map((tag) => (
-              <Badge key={tag} variant="outline" className="text-xs">
-                {tag}
-              </Badge>
-            ))}
+          <div className="pt-2">
+            <TagList tags={post.tags} variant="outline" size="sm" />
           </div>
         </CardHeader>
         <CardContent className="pt-0">
