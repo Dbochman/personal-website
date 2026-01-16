@@ -102,6 +102,28 @@ Fixed both—now 404s show yellow warnings, actual errors (500s, network) show r
 
 ---
 
+## 2026-01-16 (SLO Tools Polish)
+
+**Slider magnetism pattern:** When using sliders for values with common presets (like SLO percentages), add snap points that pull the slider toward round numbers. Implementation in `src/lib/slo/presets.ts`:
+
+```typescript
+export function snapToPreset(value: number): number {
+  for (const snapPoint of SNAP_POINTS) {
+    const threshold = snapPoint >= 99.9 ? 0.015 : 0.1;
+    if (Math.abs(value - snapPoint) <= threshold) {
+      return snapPoint;
+    }
+  }
+  return value;
+}
+```
+
+Use adaptive thresholds - tighter for high-precision values where small differences matter. Call it in the slider's `onValueChange` handler.
+
+**Flexible input ranges:** For SLO tools, the text input accepts 0-99.999% while sliders focus on realistic ranges (90-99.999% or 99-99.999%). This lets power users enter any value while keeping the slider UX focused.
+
+---
+
 ## 2026-01-16
 
 **Cloudflare Pages preview deployments.** Set up branch preview infrastructure so PRs get unique preview URLs automatically.

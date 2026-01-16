@@ -26,36 +26,49 @@ export default function ErrorBudgetBurndown() {
   // Input allows full range; slider focuses on high-availability targets
   const MIN_SLO = 0;
   const MAX_SLO = 99.999;
+  const MIN_INCIDENTS = 0;
+  const MAX_INCIDENTS = 20;
 
-  const [config, setConfig] = useState<SloConfig>(() => {
-    // Initialize from URL params if present, clamping to valid range
+  // Parse URL params for cross-tool linking
+  const getInitialParams = () => {
     const sloParam = searchParams.get('slo');
-    let initialTarget = 99.9;
+    const incidentsParam = searchParams.get('incidents');
+
+    let slo = 99.9;
     if (sloParam) {
       const parsed = parseFloat(sloParam);
       if (!isNaN(parsed)) {
-        initialTarget = Math.min(MAX_SLO, Math.max(MIN_SLO, parsed));
+        slo = Math.min(MAX_SLO, Math.max(MIN_SLO, parsed));
       }
     }
-    return {
-      target: initialTarget,
-      period: 'monthly',
-      startDate: getDefaultStartDate(),
-    };
+
+    let incidents = 4;
+    if (incidentsParam) {
+      const parsed = parseInt(incidentsParam, 10);
+      if (!isNaN(parsed)) {
+        incidents = Math.min(MAX_INCIDENTS, Math.max(MIN_INCIDENTS, parsed));
+      }
+    }
+
+    return { slo, incidents };
+  };
+
+  const initialParams = getInitialParams();
+
+  const [config, setConfig] = useState<SloConfig>({
+    target: initialParams.slo,
+    period: 'monthly',
+    startDate: getDefaultStartDate(),
   });
 
   const [incidents, setIncidents] = useState<Incident[]>([]);
+  const [incidentFrequency, setIncidentFrequency] = useState(initialParams.incidents);
 
   // Update config if URL params change (e.g., from cross-tool navigation)
   useEffect(() => {
-    const sloParam = searchParams.get('slo');
-    if (sloParam) {
-      const parsed = parseFloat(sloParam);
-      if (!isNaN(parsed)) {
-        const clamped = Math.min(MAX_SLO, Math.max(MIN_SLO, parsed));
-        setConfig((prev) => ({ ...prev, target: clamped }));
-      }
-    }
+    const params = getInitialParams();
+    setConfig((prev) => ({ ...prev, target: params.slo }));
+    setIncidentFrequency(params.incidents);
   }, [searchParams]);
 
   const calculation = calculateBudget(config, incidents);
@@ -75,6 +88,8 @@ export default function ErrorBudgetBurndown() {
           onChange={setIncidents}
           periodStartDate={config.startDate}
           periodDays={PERIOD_DAYS[config.period]}
+          initialFrequency={incidentFrequency}
+          onFrequencyChange={setIncidentFrequency}
         />
       </div>
 
@@ -89,7 +104,7 @@ export default function ErrorBudgetBurndown() {
       {/* Cross-tool link */}
       <div className="pt-4 border-t">
         <Link
-          to={`/projects/uptime-calculator?slo=${config.target}&mode=target`}
+          to={`/projects/uptime-calculator?slo=${config.target}&mode=target&incidents=${incidentFrequency}`}
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
         >
           Improve your incident response times
