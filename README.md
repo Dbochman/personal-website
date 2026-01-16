@@ -18,7 +18,7 @@ Personal portfolio and blog built with React 18, TypeScript, TailwindCSS, and Vi
 ```bash
 git clone https://github.com/Dbochman/personal-website.git
 cd personal-website
-npm install
+npm install    # Also sets up pre-commit hooks (Husky + lint-staged)
 npm run dev    # http://localhost:8080
 ```
 

@@ -42,6 +42,10 @@ npm run lint         # ESLint
 
 **Exceptions:** Trivial docs changes may go direct.
 
+## Pre-commit Hooks
+
+Husky + lint-staged runs ESLint on staged files before every commit. Commits with lint errors are blocked automatically. This is especially useful for AI-assisted development - failed hooks trigger retries.
+
 ## Patterns to Avoid
 
 - **localStorage**: Use URL params or stateless approaches
