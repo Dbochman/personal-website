@@ -1,21 +1,32 @@
 {
   "columns": [
     {
-      "cards": [
-        {
-          "id": "slo-burndown-integration",
-          "title": "SLO Calculator Burndown Integration",
-          "description": "Add burndown visualization tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input. Title: 'SLO Burndown'.",
-          "createdAt": "2026-01-17",
-          "labels": ["Enhancement", "SRE"]
-        }
-      ],
+      "cards": [],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
     },
     {
       "cards": [
+        {
+          "id": "slo-burndown-integration",
+          "title": "SLO Calculator Burndown Integration",
+          "description": "Add 'SLO Burndown' tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input.",
+          "createdAt": "2026-01-17",
+          "labels": ["Enhancement", "SRE"],
+          "planFile": "docs/plans/27-slo-calculator-burndown-integration.md",
+          "checklist": [
+            { "id": "sbi-1", "text": "Export BurndownChart and calculations from error-budget-burndown", "completed": false },
+            { "id": "sbi-2", "text": "Create SloBurndownPanel component", "completed": false },
+            { "id": "sbi-3", "text": "Add generateSimulatedIncidents helper", "completed": false },
+            { "id": "sbi-4", "text": "Add 'SLO Burndown' tab to UptimeCalculator", "completed": false },
+            { "id": "sbi-5", "text": "Wire up inputs and add burn rate summary", "completed": false },
+            { "id": "sbi-6", "text": "Mobile responsive check", "completed": false }
+          ],
+          "history": [
+            { "type": "column", "timestamp": "2026-01-17T14:10:00.000Z", "columnId": "todo", "columnTitle": "To Do" }
+          ]
+        },
         {
           "checklist": [
             {
@@ -118,13 +129,25 @@
       "title": "To Do"
     },
     {
+      "cards": [],
+      "color": "blue",
+      "id": "in-progress",
+      "title": "In Progress"
+    },
+    {
+      "cards": [],
+      "color": "pink",
+      "id": "in-review",
+      "title": "In Review"
+    },
+    {
       "cards": [
         {
           "id": "error-budget-burndown",
           "title": "Error Budget Burndown",
           "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.",
           "createdAt": "2026-01-16",
-          "labels": ["SRE", "Calculator"],
+          "labels": ["PR #136", "SRE", "Calculator"],
           "planFile": "docs/plans/26-error-budget-burndown.md",
           "checklist": [
             { "id": "ebb-1", "text": "Create ErrorBudgetBurndown component", "completed": true },
@@ -138,23 +161,11 @@
           ],
           "history": [
             { "type": "column", "timestamp": "2026-01-16T04:30:00.000Z", "columnId": "todo", "columnTitle": "To Do" },
-            { "type": "column", "timestamp": "2026-01-16T05:00:00.000Z", "columnId": "in-progress", "columnTitle": "In Progress" }
+            { "type": "column", "timestamp": "2026-01-16T05:00:00.000Z", "columnId": "in-progress", "columnTitle": "In Progress" },
+            { "type": "column", "timestamp": "2026-01-17T14:00:00.000Z", "columnId": "changelog", "columnTitle": "Change Log" }
           ],
-          "updatedAt": "2026-01-16T05:00:00.000Z"
-        }
-      ],
-      "color": "blue",
-      "id": "in-progress",
-      "title": "In Progress"
-    },
-    {
-      "cards": [],
-      "color": "pink",
-      "id": "in-review",
-      "title": "In Review"
-    },
-    {
-      "cards": [
+          "updatedAt": "2026-01-17T14:00:00.000Z"
+        },
         {
           "checklist": [
             {
