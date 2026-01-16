@@ -21,7 +21,7 @@ const Index = () => {
     <NavigationContext.Provider value={{ openExperienceAccordion }}>
       <Seo
         title="Technical Incident Manager"
-        description="Specializing in Reliability, Resilience, and Incident Management, with experience spanning SRE and Product Management at Groq, HashiCorp, and Spotify."
+        description="Started in SRE, moved to building reliability tooling, now leading incident response. Nine years across Spotify, HashiCorp, Groq, and Nvidia learning what actually works when systems fail."
         keywords={coreExpertise.map(item => item.title)}
       />
       <PageLayout>
