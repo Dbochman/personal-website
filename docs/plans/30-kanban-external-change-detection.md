@@ -16,7 +16,7 @@ Detect when the kanban board is updated externally (e.g., by Claude commits) and
 ### Detection Strategy
 
 1. **On tab focus**: Check when user returns to the tab (visibility change)
-2. **Periodic polling**: Every 60 seconds while tab is visible
+2. **Periodic polling**: Every 15 seconds while tab is visible
 3. **Pause when hidden**: Don't poll when tab is not visible (save bandwidth)
 
 ### Check Logic
@@ -106,12 +106,12 @@ const checkForExternalChanges = useCallback(async () => {
 
 // Set up polling and visibility detection
 useEffect(() => {
-  // Poll every 60 seconds while visible
+  // Poll every 15 seconds while visible
   let intervalId: ReturnType<typeof setInterval> | null = null;
 
   const startPolling = () => {
     if (!intervalId) {
-      intervalId = setInterval(checkForExternalChanges, 60000);
+      intervalId = setInterval(checkForExternalChanges, 15000);
     }
   };
 
@@ -167,7 +167,7 @@ useEffect(() => {
 - [ ] Use toast ID to prevent duplicates
 - [ ] Clean up interval and listener on unmount
 - [ ] Test: Make external change, verify toast appears on tab focus
-- [ ] Test: Verify polling works every 60s
+- [ ] Test: Verify polling works every 15s
 - [ ] Test: Verify no toast when board unchanged
 
 ## Verification
@@ -175,6 +175,6 @@ useEffect(() => {
 1. Open kanban board in browser
 2. Manually edit `public/data/roadmap-board.json` and change `updatedAt`
 3. Switch to another tab, then back - toast should appear
-4. Wait 60s without switching tabs - toast should appear
+4. Wait 15s without switching tabs - toast should appear
 5. Click "Reload" - board should refresh with new data
 6. Verify no duplicate toasts appear

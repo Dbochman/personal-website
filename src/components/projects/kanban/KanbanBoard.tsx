@@ -190,7 +190,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
 
     const startPolling = () => {
       if (!intervalId) {
-        intervalId = setInterval(checkForExternalChanges, 60000);
+        intervalId = setInterval(checkForExternalChanges, 15000);
       }
     };
 
