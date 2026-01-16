@@ -1,7 +1,23 @@
 {
   "columns": [
     {
-      "cards": [],
+      "cards": [
+        {
+          "createdAt": "2026-01-16T14:45:36.426Z",
+          "description": "We recently created a json archive for completed work, we should create a project to visualize the contents in a rich way, I am thinking bigger cards like we do for the blog/project pages with easy to click links to the plans and prs that expand on click and provide even more context.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T14:45:36.426Z",
+              "type": "column"
+            }
+          ],
+          "id": "gr9qef9",
+          "title": "Change Log Explorer Project",
+          "updatedAt": "2026-01-16T14:45:36.426Z"
+        }
+      ],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
@@ -9,55 +25,55 @@
     {
       "cards": [
         {
-          "id": "slo-burndown-integration",
-          "title": "SLO Calculator Burndown Integration",
-          "description": "Add 'SLO Burndown' tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input.",
+          "checklist": [
+            {
+              "completed": false,
+              "id": "sbi-1",
+              "text": "Export BurndownChart and calculations from error-budget-burndown"
+            },
+            {
+              "completed": false,
+              "id": "sbi-2",
+              "text": "Create SloBurndownPanel component"
+            },
+            {
+              "completed": false,
+              "id": "sbi-3",
+              "text": "Add generateSimulatedIncidents helper"
+            },
+            {
+              "completed": false,
+              "id": "sbi-4",
+              "text": "Add 'SLO Burndown' tab to UptimeCalculator"
+            },
+            {
+              "completed": false,
+              "id": "sbi-5",
+              "text": "Wire up inputs and add burn rate summary"
+            },
+            {
+              "completed": false,
+              "id": "sbi-6",
+              "text": "Mobile responsive check"
+            }
+          ],
           "createdAt": "2026-01-17",
+          "description": "Add 'SLO Burndown' tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input.",
+          "history": [
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-17T14:10:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "slo-burndown-integration",
           "labels": [
             "Enhancement",
             "SRE"
           ],
           "planFile": "docs/plans/27-slo-calculator-burndown-integration.md",
-          "checklist": [
-            {
-              "id": "sbi-1",
-              "text": "Export BurndownChart and calculations from error-budget-burndown",
-              "completed": false
-            },
-            {
-              "id": "sbi-2",
-              "text": "Create SloBurndownPanel component",
-              "completed": false
-            },
-            {
-              "id": "sbi-3",
-              "text": "Add generateSimulatedIncidents helper",
-              "completed": false
-            },
-            {
-              "id": "sbi-4",
-              "text": "Add 'SLO Burndown' tab to UptimeCalculator",
-              "completed": false
-            },
-            {
-              "id": "sbi-5",
-              "text": "Wire up inputs and add burn rate summary",
-              "completed": false
-            },
-            {
-              "id": "sbi-6",
-              "text": "Mobile responsive check",
-              "completed": false
-            }
-          ],
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-17T14:10:00.000Z",
-              "columnId": "todo",
-              "columnTitle": "To Do"
-            }
-          ]
+          "title": "SLO Calculator Burndown Integration"
         },
         {
           "checklist": [
@@ -175,78 +191,78 @@
     {
       "cards": [
         {
-          "id": "error-budget-burndown",
-          "title": "Error Budget Burndown",
-          "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.",
+          "checklist": [
+            {
+              "completed": true,
+              "id": "ebb-1",
+              "text": "Create ErrorBudgetBurndown component"
+            },
+            {
+              "completed": true,
+              "id": "ebb-2",
+              "text": "Add to project registry with route"
+            },
+            {
+              "completed": true,
+              "id": "ebb-3",
+              "text": "Build SLO configuration inputs"
+            },
+            {
+              "completed": true,
+              "id": "ebb-4",
+              "text": "Build incident input form"
+            },
+            {
+              "completed": true,
+              "id": "ebb-5",
+              "text": "Implement budget calculations"
+            },
+            {
+              "completed": true,
+              "id": "ebb-6",
+              "text": "Create burndown chart with Recharts"
+            },
+            {
+              "completed": true,
+              "id": "ebb-7",
+              "text": "Add summary cards with key metrics"
+            },
+            {
+              "completed": true,
+              "id": "ebb-8",
+              "text": "Mobile responsive layout"
+            }
+          ],
           "createdAt": "2026-01-16",
+          "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.",
+          "history": [
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-16T04:30:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T05:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-17T14:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "error-budget-burndown",
           "labels": [
             "PR #136",
             "SRE",
             "Calculator"
           ],
           "planFile": "docs/plans/26-error-budget-burndown.md",
-          "checklist": [
-            {
-              "id": "ebb-1",
-              "text": "Create ErrorBudgetBurndown component",
-              "completed": true
-            },
-            {
-              "id": "ebb-2",
-              "text": "Add to project registry with route",
-              "completed": true
-            },
-            {
-              "id": "ebb-3",
-              "text": "Build SLO configuration inputs",
-              "completed": true
-            },
-            {
-              "id": "ebb-4",
-              "text": "Build incident input form",
-              "completed": true
-            },
-            {
-              "id": "ebb-5",
-              "text": "Implement budget calculations",
-              "completed": true
-            },
-            {
-              "id": "ebb-6",
-              "text": "Create burndown chart with Recharts",
-              "completed": true
-            },
-            {
-              "id": "ebb-7",
-              "text": "Add summary cards with key metrics",
-              "completed": true
-            },
-            {
-              "id": "ebb-8",
-              "text": "Mobile responsive layout",
-              "completed": true
-            }
-          ],
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-16T04:30:00.000Z",
-              "columnId": "todo",
-              "columnTitle": "To Do"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-16T05:00:00.000Z",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-17T14:00:00.000Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            }
-          ],
+          "title": "Error Budget Burndown",
           "updatedAt": "2026-01-17T14:00:00.000Z"
         },
         {
@@ -621,8 +637,8 @@
       "title": "Change Log"
     }
   ],
-  "createdAt": "2026-01-16T03:09:00.318Z",
+  "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T04:15:00.000Z"
+  "updatedAt": "2026-01-16T14:45:40.897Z"
 }
