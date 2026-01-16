@@ -62,7 +62,8 @@ export const quickReferences: QuickReference[] = [
   {
     label: "Deploy",
     links: [
-      { text: "Dbochman/dbochman.github.io", url: "https://github.com/Dbochman/dbochman.github.io" },
+      { text: "Production (GitHub Pages)", url: "https://github.com/Dbochman/dbochman.github.io" },
+      { text: "Preview (Cloudflare Pages)", url: "https://personal-website-adg.pages.dev" },
     ],
   },
   {
@@ -75,6 +76,7 @@ export const quickReferences: QuickReference[] = [
     label: "Dependencies",
     links: [
       { text: "GitHub", url: "https://githubstatus.com" },
+      { text: "Cloudflare", url: "https://cloudflarestatus.com" },
       { text: "Fastly", url: "https://status.fastly.com" },
       { text: "NPM", url: "https://status.npmjs.org" },
       { text: "Google", url: "https://status.cloud.google.com" },
@@ -85,20 +87,25 @@ export const quickReferences: QuickReference[] = [
 
 export const architectureOverview = {
   stack: [
-    { item: "Hosting", value: "GitHub Pages with CDN (Fastly)" },
+    { item: "Production Hosting", value: "GitHub Pages with CDN (Fastly)" },
+    { item: "Preview Hosting", value: "Cloudflare Pages (auto-deploys PR branches)" },
     { item: "Domain", value: "dylanbochman.com (custom domain via CNAME)" },
     { item: "Tech Stack", value: "React 18 + TypeScript + Vite 7 + Tailwind CSS 3" },
     { item: "Runtime", value: "Node.js 24 LTS (npm 11.x)" },
     { item: "Deployment", value: "GitHub Actions CI/CD pipeline" },
     { item: "Content Management", value: "Decap CMS (GitHub OAuth, /editor route)" },
-    { item: "Monitoring", value: "UptimeRobot + Automated SEO Checks + Console Error Detection + Core Web Vitals + Google Analytics" },
+    { item: "API Layer", value: "Cloudflare Workers (kanban-save-worker at api.dylanbochman.com)" },
+    { item: "Error Tracking", value: "Sentry with source maps and release tracking" },
+    { item: "Monitoring", value: "UptimeRobot + Lighthouse CI + Core Web Vitals + Google Analytics" },
   ],
 };
 
 export const infrastructureComponents: InfrastructureItem[] = [
-  { component: "Origin", description: "GitHub Pages (static hosting)" },
-  { component: "CDN", description: "Fastly (via GitHub Pages)" },
-  { component: "DNS", description: "Domain registrar DNS (points to GitHub Pages)" },
+  { component: "Origin", description: "GitHub Pages (static hosting for production)" },
+  { component: "Preview", description: "Cloudflare Pages (personal-website-adg.pages.dev)" },
+  { component: "CDN", description: "Fastly (via GitHub Pages) + Cloudflare (for previews)" },
+  { component: "DNS", description: "Cloudflare DNS (dylanbochman.com)" },
+  { component: "API", description: "Cloudflare Workers (api.dylanbochman.com/save-board)" },
   { component: "CI/CD", description: "GitHub Actions (.github/workflows/deploy.yml)" },
   { component: "Dependencies", description: "NPM packages (managed by Dependabot)" },
 ];
@@ -173,6 +180,18 @@ export const troubleshootingScenarios: TroubleshootingScenario[] = [
     check: "GitHub Actions logs → npm test output → npm audit results → package-lock.json integrity",
   },
   {
+    title: "Preview Deployment Issues",
+    investigate: "Check Cloudflare Pages dashboard → Verify build:preview script works locally → Check branch name sanitization",
+    causes: "Cloudflare build timeout | Missing environment variables | Playwright prerender (use build:preview) | Branch name with special characters",
+    fixes: "Retry deployment in CF dashboard → Check build logs → Verify npm run build:preview works locally",
+  },
+  {
+    title: "Kanban Save Not Working",
+    investigate: "Check api.dylanbochman.com/save-board → Verify GitHub OAuth token → Check Cloudflare Workers logs",
+    causes: "Worker deployment failed | GitHub token expired | CORS misconfiguration | Rate limiting",
+    fixes: "Redeploy worker via wrangler → Re-authenticate GitHub OAuth → Check worker secrets in CF dashboard",
+  },
+  {
     title: "CMS Editor Issues",
     investigate: "Check /editor/index.html loads → Verify GitHub OAuth is working → Check browser console for errors",
     causes: "GitHub API rate limits | OAuth app misconfiguration | CORS issues | Decap CMS CDN down",
@@ -218,7 +237,7 @@ export const escalationContacts: EscalationContact[] = [
 
 export const externalDependencies: Link[] = [
   { text: "GitHub Support", url: "https://githubstatus.com" },
-  { text: "Domain Registrar", url: "#" },
+  { text: "Cloudflare Support", url: "https://cloudflarestatus.com" },
   { text: "Google Support", url: "https://status.cloud.google.com" },
   { text: "Fastly CDN", url: "https://status.fastly.com" },
   { text: "Sentry Support", url: "https://status.sentry.io" },
@@ -248,5 +267,5 @@ export const additionalResources: ResourceCategory[] = [
 export const runbookMetadata = {
   maintainer: "Dylan Bochman",
   email: "dylanbochman@gmail.com",
-  lastUpdated: "2026-01-09",
+  lastUpdated: "2026-01-16",
 };
