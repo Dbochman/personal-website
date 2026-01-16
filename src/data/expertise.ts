@@ -42,7 +42,7 @@ export const coreExpertise: ExpertiseItem[] = [
   {
     title: "Cross-functional Stakeholder Communication",
     description: "Partnering with Legal, Comms, Product, and Engineering to align on incident response and customer messaging.",
-    companies: ['groq', 'hashicorp'],
+    companies: ['groq', 'hashicorp', 'spotify'],
     skills: ['Executive Updates', 'Customer Communication', 'Status Pages']
   },
   {
