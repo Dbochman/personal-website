@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from "@/components/ui/card";
 import { coreExpertise } from "@/data/expertise";
@@ -7,7 +7,19 @@ import { ExpertiseCard } from "./ExpertiseCard";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 
 const Sidebar = () => {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [expandedIndices, setExpandedIndices] = useState<Set<number>>(new Set());
+
+  const handleExpand = useCallback((index: number) => {
+    setExpandedIndices(prev => new Set(prev).add(index));
+  }, []);
+
+  const handleCollapse = useCallback((index: number) => {
+    setExpandedIndices(prev => {
+      const next = new Set(prev);
+      next.delete(index);
+      return next;
+    });
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -26,9 +38,9 @@ const Sidebar = () => {
               <motion.div key={index} variants={staggerItem}>
                 <ExpertiseCard
                   item={item}
-                  isExpanded={expandedIndex === index}
-                  onExpand={() => setExpandedIndex(index)}
-                  onCollapse={() => setExpandedIndex(null)}
+                  isExpanded={expandedIndices.has(index)}
+                  onExpand={() => handleExpand(index)}
+                  onCollapse={() => handleCollapse(index)}
                 />
               </motion.div>
             ))}
