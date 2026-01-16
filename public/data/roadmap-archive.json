@@ -1,0 +1,70 @@
+{
+  "archivedAt": "2026-01-16T14:32:46Z",
+  "cards": [
+    {
+      "createdAt": "2026-01-14",
+      "description": "Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications",
+      "id": "jan-14",
+      "labels": [
+        "PR #97-108"
+      ],
+      "title": "Jan 14: Kanban & UX"
+    },
+    {
+      "createdAt": "2026-01-14",
+      "description": "Decided against: overhead not justified for actively-maintained personal project. Manual npm update works fine.",
+      "id": "renovate-wontdo",
+      "labels": [
+        "Won't Do"
+      ],
+      "title": "Renovate Automation"
+    },
+    {
+      "createdAt": "2026-01-13",
+      "description": "Analytics Dashboard, On-Call Coverage Explorer, Skip Navigation, Footer/Nav cleanup",
+      "id": "jan-13",
+      "labels": [
+        "PR #94",
+        "PR #96"
+      ],
+      "title": "Jan 13: Analytics & Accessibility"
+    },
+    {
+      "createdAt": "2026-01-12",
+      "description": "SLO Calculator, Status Page Generator, registry pattern",
+      "id": "jan-12",
+      "labels": [
+        "PR #88-92"
+      ],
+      "title": "Jan 12: Projects Page Launch"
+    },
+    {
+      "createdAt": "2026-01-11",
+      "description": "Blog LCP 5.6s → 3.1s (45% faster)",
+      "id": "jan-11",
+      "labels": [
+        "PR #84",
+        "Performance"
+      ],
+      "title": "Jan 11: MDX Precompilation"
+    },
+    {
+      "createdAt": "2026-01-08",
+      "description": "Comments, syntax highlighting, RSS, structured data",
+      "id": "jan-8",
+      "labels": [
+        "Feature"
+      ],
+      "title": "Jan 8: Blog Phase 4 & 5"
+    },
+    {
+      "createdAt": "2026-01-07",
+      "description": "55 → 98 Lighthouse, system fonts, Radix cleanup",
+      "id": "jan-6-7",
+      "labels": [
+        "Performance"
+      ],
+      "title": "Jan 6-7: Node.js v24 + Perf"
+    }
+  ]
+}

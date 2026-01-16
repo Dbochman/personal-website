@@ -13,18 +13,50 @@
           "title": "SLO Calculator Burndown Integration",
           "description": "Add 'SLO Burndown' tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input.",
           "createdAt": "2026-01-17",
-          "labels": ["Enhancement", "SRE"],
+          "labels": [
+            "Enhancement",
+            "SRE"
+          ],
           "planFile": "docs/plans/27-slo-calculator-burndown-integration.md",
           "checklist": [
-            { "id": "sbi-1", "text": "Export BurndownChart and calculations from error-budget-burndown", "completed": false },
-            { "id": "sbi-2", "text": "Create SloBurndownPanel component", "completed": false },
-            { "id": "sbi-3", "text": "Add generateSimulatedIncidents helper", "completed": false },
-            { "id": "sbi-4", "text": "Add 'SLO Burndown' tab to UptimeCalculator", "completed": false },
-            { "id": "sbi-5", "text": "Wire up inputs and add burn rate summary", "completed": false },
-            { "id": "sbi-6", "text": "Mobile responsive check", "completed": false }
+            {
+              "id": "sbi-1",
+              "text": "Export BurndownChart and calculations from error-budget-burndown",
+              "completed": false
+            },
+            {
+              "id": "sbi-2",
+              "text": "Create SloBurndownPanel component",
+              "completed": false
+            },
+            {
+              "id": "sbi-3",
+              "text": "Add generateSimulatedIncidents helper",
+              "completed": false
+            },
+            {
+              "id": "sbi-4",
+              "text": "Add 'SLO Burndown' tab to UptimeCalculator",
+              "completed": false
+            },
+            {
+              "id": "sbi-5",
+              "text": "Wire up inputs and add burn rate summary",
+              "completed": false
+            },
+            {
+              "id": "sbi-6",
+              "text": "Mobile responsive check",
+              "completed": false
+            }
           ],
           "history": [
-            { "type": "column", "timestamp": "2026-01-17T14:10:00.000Z", "columnId": "todo", "columnTitle": "To Do" }
+            {
+              "type": "column",
+              "timestamp": "2026-01-17T14:10:00.000Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            }
           ]
         },
         {
@@ -147,22 +179,73 @@
           "title": "Error Budget Burndown",
           "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.",
           "createdAt": "2026-01-16",
-          "labels": ["PR #136", "SRE", "Calculator"],
+          "labels": [
+            "PR #136",
+            "SRE",
+            "Calculator"
+          ],
           "planFile": "docs/plans/26-error-budget-burndown.md",
           "checklist": [
-            { "id": "ebb-1", "text": "Create ErrorBudgetBurndown component", "completed": true },
-            { "id": "ebb-2", "text": "Add to project registry with route", "completed": true },
-            { "id": "ebb-3", "text": "Build SLO configuration inputs", "completed": true },
-            { "id": "ebb-4", "text": "Build incident input form", "completed": true },
-            { "id": "ebb-5", "text": "Implement budget calculations", "completed": true },
-            { "id": "ebb-6", "text": "Create burndown chart with Recharts", "completed": true },
-            { "id": "ebb-7", "text": "Add summary cards with key metrics", "completed": true },
-            { "id": "ebb-8", "text": "Mobile responsive layout", "completed": true }
+            {
+              "id": "ebb-1",
+              "text": "Create ErrorBudgetBurndown component",
+              "completed": true
+            },
+            {
+              "id": "ebb-2",
+              "text": "Add to project registry with route",
+              "completed": true
+            },
+            {
+              "id": "ebb-3",
+              "text": "Build SLO configuration inputs",
+              "completed": true
+            },
+            {
+              "id": "ebb-4",
+              "text": "Build incident input form",
+              "completed": true
+            },
+            {
+              "id": "ebb-5",
+              "text": "Implement budget calculations",
+              "completed": true
+            },
+            {
+              "id": "ebb-6",
+              "text": "Create burndown chart with Recharts",
+              "completed": true
+            },
+            {
+              "id": "ebb-7",
+              "text": "Add summary cards with key metrics",
+              "completed": true
+            },
+            {
+              "id": "ebb-8",
+              "text": "Mobile responsive layout",
+              "completed": true
+            }
           ],
           "history": [
-            { "type": "column", "timestamp": "2026-01-16T04:30:00.000Z", "columnId": "todo", "columnTitle": "To Do" },
-            { "type": "column", "timestamp": "2026-01-16T05:00:00.000Z", "columnId": "in-progress", "columnTitle": "In Progress" },
-            { "type": "column", "timestamp": "2026-01-17T14:00:00.000Z", "columnId": "changelog", "columnTitle": "Change Log" }
+            {
+              "type": "column",
+              "timestamp": "2026-01-16T04:30:00.000Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-16T05:00:00.000Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-17T14:00:00.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
           ],
           "updatedAt": "2026-01-17T14:00:00.000Z"
         },
@@ -532,71 +615,6 @@
             "PR #115-117"
           ],
           "title": "Jan 14-15: Infrastructure & Polish"
-        },
-        {
-          "createdAt": "2026-01-14",
-          "description": "Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications",
-          "id": "jan-14",
-          "labels": [
-            "PR #97-108"
-          ],
-          "title": "Jan 14: Kanban & UX"
-        },
-        {
-          "createdAt": "2026-01-14",
-          "description": "Decided against: overhead not justified for actively-maintained personal project. Manual npm update works fine.",
-          "id": "renovate-wontdo",
-          "labels": [
-            "Won't Do"
-          ],
-          "title": "Renovate Automation"
-        },
-        {
-          "createdAt": "2026-01-13",
-          "description": "Analytics Dashboard, On-Call Coverage Explorer, Skip Navigation, Footer/Nav cleanup",
-          "id": "jan-13",
-          "labels": [
-            "PR #94",
-            "PR #96"
-          ],
-          "title": "Jan 13: Analytics & Accessibility"
-        },
-        {
-          "createdAt": "2026-01-12",
-          "description": "SLO Calculator, Status Page Generator, registry pattern",
-          "id": "jan-12",
-          "labels": [
-            "PR #88-92"
-          ],
-          "title": "Jan 12: Projects Page Launch"
-        },
-        {
-          "createdAt": "2026-01-11",
-          "description": "Blog LCP 5.6s → 3.1s (45% faster)",
-          "id": "jan-11",
-          "labels": [
-            "PR #84",
-            "Performance"
-          ],
-          "title": "Jan 11: MDX Precompilation"
-        },
-        {
-          "createdAt": "2026-01-08",
-          "description": "Comments, syntax highlighting, RSS, structured data",
-          "id": "jan-8",
-          "labels": [
-            "Feature"
-          ],
-          "title": "Jan 8: Blog Phase 4 & 5"
-        },
-        {
-          "createdAt": "2026-01-07",
-          "description": "55 → 98 Lighthouse, system fonts, Radix cleanup",
-          "id": "jan-6-7",
-          "labels": [
-            "Performance"
-          ],
-          "title": "Jan 6-7: Node.js v24 + Perf"
         }
       ],
       "id": "changelog",
