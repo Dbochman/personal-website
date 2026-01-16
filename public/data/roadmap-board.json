@@ -116,6 +116,12 @@
       "title": "In Progress"
     },
     {
+      "cards": [],
+      "color": "pink",
+      "id": "in-review",
+      "title": "In Review"
+    },
+    {
       "cards": [
         {
           "checklist": [
@@ -159,23 +165,22 @@
               "columnTitle": "In Review",
               "timestamp": "2026-01-16T03:22:00.000Z",
               "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-16T03:35:00.000Z",
+              "type": "column"
             }
           ],
           "id": "preview-deploys",
           "labels": [
-            "Small-Medium",
             "Infrastructure"
           ],
+          "planFile": "docs/plans/10-preview-deployments.md",
           "title": "Preview Deployments",
-          "updatedAt": "2026-01-16T03:22:00.000Z"
-        }
-      ],
-      "color": "pink",
-      "id": "in-review",
-      "title": "In Review"
-    },
-    {
-      "cards": [
+          "updatedAt": "2026-01-16T03:35:00.000Z"
+        },
         {
           "checklist": [
             {
