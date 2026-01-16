@@ -101,3 +101,29 @@ Fixed both—now 404s show yellow warnings, actual errors (500s, network) show r
 **Footer standardization:** Created reusable `Footer` component and applied to Blog, Projects, and Project detail pages. Kept custom footers for BlogPost (author info) and Runbook (maintainer info).
 
 ---
+
+## 2026-01-16
+
+**Cloudflare Pages preview deployments.** Set up branch preview infrastructure so PRs get unique preview URLs automatically.
+
+Key details:
+- **Project:** `personal-website-adg.pages.dev`
+- **Branch URLs:** `<branch>.personal-website-adg.pages.dev`
+- **Build command:** `npm run build:preview` (new script that skips Playwright prerendering—CF environment doesn't have browsers installed)
+- **Preview banner:** Yellow sticky banner appears on all preview builds via hostname detection (`*.pages.dev`)
+
+Architecture decision: Dual hosting—GitHub Pages for production, Cloudflare Pages for previews. CF Pages has built-in GitHub PR comments, so we removed a redundant custom workflow.
+
+**Environment detection pattern** (`src/lib/env.ts`):
+```typescript
+export const isPreview = window.location.hostname.endsWith('.pages.dev');
+export const showPreviewBanner = isPreview;
+```
+
+**Documentation updates:** Updated both `src/data/runbook.ts` and `docs/OPERATIONS_MANUAL.md` with the new CF Pages infrastructure, troubleshooting for preview deployment issues, and MCP testing workflows for previews.
+
+**New project idea:** Added "Error Budget Burndown" to kanban Ideas column—visualize error budget consumption over time. Complements existing SLO Calculator.
+
+**Cleanup:** Disconnected kanban-save-worker from GitHub integration in Cloudflare—it was triggering failed builds on every commit since the worker code isn't in this repo.
+
+---
