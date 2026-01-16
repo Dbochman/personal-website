@@ -21,21 +21,21 @@ export interface PhaseBreakdown {
 }
 
 /**
- * Result of SLA calculation in "What can I achieve?" mode
+ * Result of SLO calculation in "What can I achieve?" mode
  */
-export interface AchievableSlaResult {
+export interface AchievableSloResult {
   mttrMinutes: number;
   monthlyDowntimeMinutes: number;
-  maxAchievableSla: number;
+  maxAchievableSlo: number;
   breakdown: PhaseBreakdown[];
   responseOverheadPercent: number;
 }
 
 /**
- * Result of SLA calculation in "Can I meet this?" mode
+ * Result of SLO calculation in "Can I meet this?" mode
  */
-export interface CanMeetSlaResult {
-  targetSla: number;
+export interface CanMeetSloResult {
+  targetSlo: number;
   monthlyBudgetMinutes: number;
   mttrMinutes: number;
   allowedIncidents: number;
@@ -85,34 +85,34 @@ export function getMonthlyDowntimeMinutes(
 }
 
 /**
- * Calculate max achievable SLA given profile and incident count
+ * Calculate max achievable SLO given profile and incident count
  */
-export function calculateMaxSla(
+export function calculateMaxSlo(
   profile: ResponseProfile,
   incidentsPerMonth: number
 ): number {
   const downtimeMinutes = getMonthlyDowntimeMinutes(profile, incidentsPerMonth);
   const uptimeMinutes = MINUTES_PER_MONTH - downtimeMinutes;
-  const sla = (uptimeMinutes / MINUTES_PER_MONTH) * 100;
-  return Math.max(0, Math.min(100, sla));
+  const slo = (uptimeMinutes / MINUTES_PER_MONTH) * 100;
+  return Math.max(0, Math.min(100, slo));
 }
 
 /**
- * Calculate downtime budget in minutes for a given SLA percentage
+ * Calculate downtime budget in minutes for a given SLO percentage
  */
-export function getDowntimeBudgetMinutes(slaPercent: number): number {
-  const downtimePercent = 100 - slaPercent;
+export function getDowntimeBudgetMinutes(sloPercent: number): number {
+  const downtimePercent = 100 - sloPercent;
   return (downtimePercent / 100) * MINUTES_PER_MONTH;
 }
 
 /**
- * Calculate how many incidents are allowed given target SLA and profile
+ * Calculate how many incidents are allowed given target SLO and profile
  */
 export function calculateAllowedIncidents(
   profile: ResponseProfile,
-  targetSla: number
+  targetSlo: number
 ): number {
-  const budgetMinutes = getDowntimeBudgetMinutes(targetSla);
+  const budgetMinutes = getDowntimeBudgetMinutes(targetSlo);
   const mttr = getMttrMinutes(profile);
   if (mttr === 0) return Infinity;
   return budgetMinutes / mttr;
@@ -160,37 +160,37 @@ export function getResponseOverheadPercent(profile: ResponseProfile): number {
 }
 
 /**
- * Full calculation for "What SLA can I achieve?" mode
+ * Full calculation for "What SLO can I achieve?" mode
  */
-export function calculateAchievableSla(
+export function calculateAchievableSlo(
   profile: ResponseProfile,
   incidentsPerMonth: number
-): AchievableSlaResult {
+): AchievableSloResult {
   return {
     mttrMinutes: getMttrMinutes(profile),
     monthlyDowntimeMinutes: getMonthlyDowntimeMinutes(profile, incidentsPerMonth),
-    maxAchievableSla: calculateMaxSla(profile, incidentsPerMonth),
+    maxAchievableSlo: calculateMaxSlo(profile, incidentsPerMonth),
     breakdown: getBudgetBreakdown(profile, incidentsPerMonth),
     responseOverheadPercent: getResponseOverheadPercent(profile),
   };
 }
 
 /**
- * Full calculation for "Can I meet this SLA?" mode
+ * Full calculation for "Can I meet this SLO?" mode
  */
-export function calculateCanMeetSla(
+export function calculateCanMeetSlo(
   profile: ResponseProfile,
-  targetSla: number,
+  targetSlo: number,
   expectedIncidents: number
-): CanMeetSlaResult {
+): CanMeetSloResult {
   const mttr = getMttrMinutes(profile);
-  const budgetMinutes = getDowntimeBudgetMinutes(targetSla);
-  const allowedIncidents = calculateAllowedIncidents(profile, targetSla);
+  const budgetMinutes = getDowntimeBudgetMinutes(targetSlo);
+  const allowedIncidents = calculateAllowedIncidents(profile, targetSlo);
   const expectedDowntime = mttr * expectedIncidents;
   const canMeet = expectedDowntime <= budgetMinutes;
 
   return {
-    targetSla,
+    targetSlo,
     monthlyBudgetMinutes: budgetMinutes,
     mttrMinutes: mttr,
     allowedIncidents,
@@ -222,16 +222,16 @@ export function formatDuration(minutes: number): string {
 }
 
 /**
- * Format SLA percentage with appropriate precision
+ * Format SLO percentage with appropriate precision
  */
-export function formatSla(sla: number): string {
-  if (sla >= 99.99) {
-    return sla.toFixed(3) + '%';
+export function formatSlo(slo: number): string {
+  if (slo >= 99.99) {
+    return slo.toFixed(3) + '%';
   }
-  if (sla >= 99) {
-    return sla.toFixed(2) + '%';
+  if (slo >= 99) {
+    return slo.toFixed(2) + '%';
   }
-  return sla.toFixed(1) + '%';
+  return slo.toFixed(1) + '%';
 }
 
 /**
@@ -286,9 +286,9 @@ export const PRESETS: Record<string, { label: string; profile: ResponseProfile }
 };
 
 /**
- * Common SLA targets for quick selection
+ * Common SLO targets for quick selection
  */
-export const COMMON_SLA_TARGETS = [
+export const COMMON_SLO_TARGETS = [
   { value: 99, label: '99% (two nines)' },
   { value: 99.5, label: '99.5%' },
   { value: 99.9, label: '99.9% (three nines)' },

@@ -10,7 +10,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { ResponseTimeInputs } from './ResponseTimeInputs';
 import { IncidentInput } from './IncidentInput';
-import { SlaTargetInput } from './SlaTargetInput';
+import { SloTargetInput } from './SloTargetInput';
 import { ResultsPanel } from './ResultsPanel';
 import { TargetSummary } from './TargetSummary';
 import { SloBurndownPanel } from './SloBurndownPanel';
@@ -18,8 +18,8 @@ import {
   type ResponseProfile,
   DEFAULT_PROFILE,
   PRESETS,
-  calculateAchievableSla,
-  calculateCanMeetSla,
+  calculateAchievableSlo,
+  calculateCanMeetSlo,
   getEffectiveProfile,
 } from './calculations';
 
@@ -40,7 +40,7 @@ export default function UptimeCalculator() {
   const [profile, setProfile] = useState<ResponseProfile>(DEFAULT_PROFILE);
   const [enabledPhases, setEnabledPhases] = useState<EnabledPhases>(DEFAULT_ENABLED);
   const [incidentsPerMonth, setIncidentsPerMonth] = useState(4);
-  const [targetSla, setTargetSla] = useState(99.9);
+  const [targetSlo, setTargetSlo] = useState(99.9);
   const [selectedPreset, setSelectedPreset] = useState<string>('');
 
   const handlePresetChange = (presetKey: string) => {
@@ -63,8 +63,8 @@ export default function UptimeCalculator() {
   const effectiveProfile = getEffectiveProfile(profile, enabledPhases);
 
   // Calculate results based on mode
-  const achievableResult = calculateAchievableSla(effectiveProfile, incidentsPerMonth);
-  const targetResult = calculateCanMeetSla(effectiveProfile, targetSla, incidentsPerMonth);
+  const achievableResult = calculateAchievableSlo(effectiveProfile, incidentsPerMonth);
+  const targetResult = calculateCanMeetSlo(effectiveProfile, targetSlo, incidentsPerMonth);
 
   return (
     <div className="space-y-6">
@@ -75,7 +75,7 @@ export default function UptimeCalculator() {
             <span className="sm:hidden">Achievable</span>
           </TabsTrigger>
           <TabsTrigger value="target" className="text-xs sm:text-sm">
-            <span className="hidden sm:inline">Can I meet this SLA?</span>
+            <span className="hidden sm:inline">Can I meet this SLO?</span>
             <span className="sm:hidden">Target</span>
           </TabsTrigger>
           <TabsTrigger value="burndown" className="text-xs sm:text-sm">
@@ -84,15 +84,15 @@ export default function UptimeCalculator() {
           </TabsTrigger>
         </TabsList>
 
-        {/* Target mode: SLA input and summary at top */}
+        {/* Target mode: SLO input and summary at top */}
         <TabsContent value="target" className="mt-6 space-y-6">
-          <SlaTargetInput value={targetSla} onChange={setTargetSla} />
+          <SloTargetInput value={targetSlo} onChange={setTargetSlo} />
           <TargetSummary result={targetResult} achievableResult={achievableResult} />
         </TabsContent>
 
-        {/* Burndown mode: SLA input at top */}
+        {/* Burndown mode: SLO input at top */}
         <TabsContent value="burndown" className="mt-6">
-          <SlaTargetInput value={targetSla} onChange={setTargetSla} />
+          <SloTargetInput value={targetSlo} onChange={setTargetSlo} />
         </TabsContent>
 
         <div className="mt-6 space-y-6">
@@ -145,7 +145,7 @@ export default function UptimeCalculator() {
           </TabsContent>
           <TabsContent value="burndown" className="mt-0">
             <SloBurndownPanel
-              targetSla={targetSla}
+              targetSlo={targetSlo}
               incidentsPerMonth={incidentsPerMonth}
               avgDurationMinutes={achievableResult.mttrMinutes}
             />

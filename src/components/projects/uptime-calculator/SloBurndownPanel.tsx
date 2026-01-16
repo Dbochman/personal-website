@@ -12,7 +12,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { TrendingUp, TrendingDown, Clock, AlertTriangle } from 'lucide-react';
 
 interface SloBurndownPanelProps {
-  targetSla: number;
+  targetSlo: number;
   incidentsPerMonth: number;
   avgDurationMinutes: number;
 }
@@ -87,13 +87,13 @@ function generateSimulatedIncidents(
 }
 
 export function SloBurndownPanel({
-  targetSla,
+  targetSlo,
   incidentsPerMonth,
   avgDurationMinutes,
 }: SloBurndownPanelProps) {
   const { incidents, calculation, chartData } = useMemo(() => {
     const cfg: SloConfig = {
-      target: targetSla,
+      target: targetSlo,
       period: 'monthly',
       startDate: getFirstOfMonth(),
     };
@@ -103,7 +103,7 @@ export function SloBurndownPanel({
     const data = generateChartData(cfg, inc, calc);
 
     return { config: cfg, incidents: inc, calculation: calc, chartData: data };
-  }, [targetSla, incidentsPerMonth, avgDurationMinutes]);
+  }, [targetSlo, incidentsPerMonth, avgDurationMinutes]);
 
   const burnRateStatus = calculation.isOnTrack ? 'on-track' : 'at-risk';
 
