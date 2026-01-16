@@ -110,6 +110,12 @@
       "title": "To Do"
     },
     {
+      "cards": [],
+      "color": "blue",
+      "id": "in-progress",
+      "title": "In Progress"
+    },
+    {
       "cards": [
         {
           "checklist": [
@@ -158,24 +164,25 @@
               "columnTitle": "In Progress",
               "timestamp": "2026-01-16T22:45:00.000Z",
               "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-16T22:55:00.000Z",
+              "type": "column"
             }
           ],
           "id": "slo-tools-cross-pollination",
           "labels": [
+            "PR #143",
             "Enhancement",
             "SRE"
           ],
           "planFile": "docs/plans/31-slo-tools-cross-pollination.md",
           "title": "SLO Tools Cross-Pollination",
-          "updatedAt": "2026-01-16T22:45:00.000Z"
+          "updatedAt": "2026-01-16T22:55:00.000Z"
         }
       ],
-      "color": "blue",
-      "id": "in-progress",
-      "title": "In Progress"
-    },
-    {
-      "cards": [],
       "color": "pink",
       "id": "in-review",
       "title": "In Review"
@@ -962,5 +969,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T22:45:00.000Z"
+  "updatedAt": "2026-01-16T22:55:00.000Z"
 }
