@@ -33,7 +33,7 @@
             {
               "completed": false,
               "id": "tw-5",
-              "text": "Update outline-none → outline-hidden"
+              "text": "Update outline-none \u2192 outline-hidden"
             },
             {
               "completed": false,
@@ -110,36 +110,42 @@
       "title": "To Do"
     },
     {
+      "cards": [],
+      "color": "blue",
+      "id": "in-progress",
+      "title": "In Progress"
+    },
+    {
       "cards": [
         {
           "checklist": [
             {
-              "completed": false,
+              "completed": true,
               "id": "sbi-1",
               "text": "Export BurndownChart and calculations from error-budget-burndown"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "sbi-2",
               "text": "Create SloBurndownPanel component"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "sbi-3",
               "text": "Add generateSimulatedIncidents helper"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "sbi-4",
               "text": "Add 'SLO Burndown' tab to UptimeCalculator"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "sbi-5",
               "text": "Wire up inputs and add burn rate summary"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "sbi-6",
               "text": "Mobile responsive check"
             }
@@ -170,24 +176,25 @@
               "columnTitle": "In Progress",
               "timestamp": "2026-01-16T18:48:53.187Z",
               "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-16T19:30:00.000Z",
+              "type": "column"
             }
           ],
           "id": "slo-burndown-integration",
           "labels": [
+            "PR #142",
             "Enhancement",
             "SRE"
           ],
           "planFile": "docs/plans/27-slo-calculator-burndown-integration.md",
           "title": "SLO Calculator Burndown Integration",
-          "updatedAt": "2026-01-16T18:48:53.187Z"
+          "updatedAt": "2026-01-16T19:30:00.000Z"
         }
       ],
-      "color": "blue",
-      "id": "in-progress",
-      "title": "In Progress"
-    },
-    {
-      "cards": [],
       "color": "pink",
       "id": "in-review",
       "title": "In Review"
@@ -891,5 +898,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T18:48:58.362Z"
+  "updatedAt": "2026-01-16T19:30:00.000Z"
 }
