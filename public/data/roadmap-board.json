@@ -1,7 +1,26 @@
 {
   "columns": [
     {
-      "cards": [],
+      "cards": [
+        {
+          "createdAt": "2026-01-16T19:30:00.000Z",
+          "description": "Add Husky + lint-staged for pre-commit hooks. Automatically run lint/tests before every commit, catching issues before CI. AI agents benefit since they don't get frustrated by repetition - failed hooks just trigger retries.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T19:30:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "precommit-hooks",
+          "labels": [
+            "Infrastructure",
+            "DX"
+          ],
+          "title": "Pre-commit Hooks (Husky + lint-staged)"
+        }
+      ],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
@@ -750,5 +769,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T14:45:40.897Z"
+  "updatedAt": "2026-01-16T19:30:00.000Z"
 }
