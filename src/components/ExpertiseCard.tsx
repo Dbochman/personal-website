@@ -1,5 +1,8 @@
+import { useRef, useEffect } from 'react';
 import type { ExpertiseItem } from '@/data/expertise';
 import { CompanyLogo } from './CompanyLogo';
+
+const MIN_EXPAND_DURATION = 5000; // 5 seconds
 
 interface ExpertiseCardProps {
   item: ExpertiseItem;
@@ -9,7 +12,32 @@ interface ExpertiseCardProps {
 }
 
 export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: ExpertiseCardProps) {
+  const expandedAtRef = useRef<number | null>(null);
+  const collapseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Track when card was expanded
+  useEffect(() => {
+    if (isExpanded) {
+      expandedAtRef.current = Date.now();
+    }
+  }, [isExpanded]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (collapseTimeoutRef.current) {
+        clearTimeout(collapseTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const handleExpand = () => {
+    // Cancel any pending collapse
+    if (collapseTimeoutRef.current) {
+      clearTimeout(collapseTimeoutRef.current);
+      collapseTimeoutRef.current = null;
+    }
+
     if (!isExpanded && typeof gtag !== 'undefined') {
       gtag('event', 'expertise_card_expand', {
         event_category: 'engagement',
@@ -19,13 +47,33 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
     onExpand();
   };
 
+  const handleCollapse = () => {
+    if (!expandedAtRef.current) {
+      onCollapse();
+      return;
+    }
+
+    const elapsed = Date.now() - expandedAtRef.current;
+    const remaining = MIN_EXPAND_DURATION - elapsed;
+
+    if (remaining <= 0) {
+      onCollapse();
+    } else {
+      // Schedule collapse after minimum duration
+      collapseTimeoutRef.current = setTimeout(() => {
+        onCollapse();
+        collapseTimeoutRef.current = null;
+      }, remaining);
+    }
+  };
+
   return (
     <div
       className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-1 rounded-sm"
       onMouseEnter={handleExpand}
-      onMouseLeave={onCollapse}
+      onMouseLeave={handleCollapse}
       onFocus={handleExpand}
-      onBlur={onCollapse}
+      onBlur={handleCollapse}
       tabIndex={0}
     >
       {/* Title - always visible */}
