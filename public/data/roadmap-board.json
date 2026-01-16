@@ -1,58 +1,7 @@
 {
   "columns": [
     {
-      "cards": [
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "slo-xp-1",
-              "text": "Create shared sloPresets.ts with target, label, budget description"
-            },
-            {
-              "completed": false,
-              "id": "slo-xp-2",
-              "text": "Update Error Budget Burndown to use shared presets"
-            },
-            {
-              "completed": false,
-              "id": "slo-xp-3",
-              "text": "Update Uptime Calculator to use shared presets"
-            },
-            {
-              "completed": false,
-              "id": "slo-xp-4",
-              "text": "Add 'See impact on Error Budget' link from Uptime Calculator insights"
-            },
-            {
-              "completed": false,
-              "id": "slo-xp-5",
-              "text": "Add 'Improve response times' link from Error Budget Burndown"
-            },
-            {
-              "completed": false,
-              "id": "slo-xp-6",
-              "text": "Pass context via URL params for pre-populated views"
-            }
-          ],
-          "createdAt": "2026-01-16",
-          "description": "Connect SLO tools with shared presets and cross-linking insights. Unified sloPresets.ts for both tools. Add contextual links: 'Diagnosis takes 40% of time' → 'See impact on Error Budget'. 'Projected to exhaust Jan 20' → 'What response improvements help?'",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-16T19:45:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "slo-tools-cross-pollination",
-          "labels": [
-            "Enhancement",
-            "SRE"
-          ],
-          "title": "SLO Tools Cross-Pollination"
-        }
-      ],
+      "cards": [],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
@@ -161,7 +110,66 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "slo-xp-1",
+              "text": "Create shared sloPresets.ts with target, label, budget description"
+            },
+            {
+              "completed": true,
+              "id": "slo-xp-2",
+              "text": "Update Error Budget Burndown to use shared presets"
+            },
+            {
+              "completed": true,
+              "id": "slo-xp-3",
+              "text": "Update Uptime Calculator to use shared presets"
+            },
+            {
+              "completed": true,
+              "id": "slo-xp-4",
+              "text": "Add 'See impact on Error Budget' link from Uptime Calculator insights"
+            },
+            {
+              "completed": true,
+              "id": "slo-xp-5",
+              "text": "Add 'Improve response times' link from Error Budget Burndown"
+            },
+            {
+              "completed": true,
+              "id": "slo-xp-6",
+              "text": "Pass context via URL params for pre-populated views"
+            }
+          ],
+          "createdAt": "2026-01-16",
+          "description": "Connect SLO tools with shared presets and cross-linking insights. Unified sloPresets.ts for both tools. Add contextual links: 'Diagnosis takes 40% of time' → 'See impact on Error Budget'. 'Projected to exhaust Jan 20' → 'What response improvements help?'",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T19:45:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T22:45:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "slo-tools-cross-pollination",
+          "labels": [
+            "Enhancement",
+            "SRE"
+          ],
+          "planFile": "docs/plans/31-slo-tools-cross-pollination.md",
+          "title": "SLO Tools Cross-Pollination",
+          "updatedAt": "2026-01-16T22:45:00.000Z"
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -954,5 +962,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T20:15:00.000Z"
+  "updatedAt": "2026-01-16T22:45:00.000Z"
 }

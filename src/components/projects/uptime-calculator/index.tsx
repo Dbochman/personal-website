@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
@@ -8,6 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import { ArrowRight } from 'lucide-react';
 import { ResponseTimeInputs } from './ResponseTimeInputs';
 import { IncidentInput } from './IncidentInput';
 import { SloTargetInput } from './SloTargetInput';
@@ -22,6 +24,23 @@ import {
   calculateCanMeetSlo,
   getEffectiveProfile,
 } from './calculations';
+
+/**
+ * Parse URL params on mount for cross-tool linking
+ */
+function getInitialValuesFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+
+  const slo = params.get('slo');
+  const mode = params.get('mode');
+  const incidents = params.get('incidents');
+
+  return {
+    slo: slo ? parseFloat(slo) : null,
+    mode: mode as 'achievable' | 'target' | 'burndown' | null,
+    incidents: incidents ? parseInt(incidents, 10) : null,
+  };
+}
 
 export type CalculationMode = 'achievable' | 'target' | 'burndown';
 export type EnabledPhases = Record<keyof ResponseProfile, boolean>;
@@ -42,6 +61,20 @@ export default function UptimeCalculator() {
   const [incidentsPerMonth, setIncidentsPerMonth] = useState(4);
   const [targetSlo, setTargetSlo] = useState(99.9);
   const [selectedPreset, setSelectedPreset] = useState<string>('');
+
+  // Read URL params on mount for cross-tool linking
+  useEffect(() => {
+    const urlValues = getInitialValuesFromUrl();
+    if (urlValues.slo !== null && !isNaN(urlValues.slo)) {
+      setTargetSlo(urlValues.slo);
+    }
+    if (urlValues.mode) {
+      setMode(urlValues.mode);
+    }
+    if (urlValues.incidents !== null && !isNaN(urlValues.incidents)) {
+      setIncidentsPerMonth(urlValues.incidents);
+    }
+  }, []);
 
   const handlePresetChange = (presetKey: string) => {
     setSelectedPreset(presetKey);
@@ -150,6 +183,17 @@ export default function UptimeCalculator() {
               avgDurationMinutes={achievableResult.mttrMinutes}
             />
           </TabsContent>
+        </div>
+
+        {/* Cross-tool link */}
+        <div className="mt-6 pt-4 border-t">
+          <Link
+            to={`/projects/error-budget-burndown?slo=${mode === 'achievable' ? achievableResult.maxAchievableSlo.toFixed(2) : targetSlo}`}
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            See how incidents impact your error budget
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </Tabs>
     </div>

@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { COMMON_SLO_TARGETS } from './calculations';
+import { SLO_PRESETS } from '@/lib/slo';
 
 interface SloTargetInputProps {
   value: number;
@@ -59,7 +59,7 @@ export function SloTargetInput({ value, onChange }: SloTargetInputProps) {
   };
 
   // Check if current value matches a common target
-  const matchingTarget = COMMON_SLO_TARGETS.find((t) => t.value === value);
+  const matchingTarget = SLO_PRESETS.find((t) => t.value === value);
 
   return (
     <Card>
@@ -76,7 +76,7 @@ export function SloTargetInput({ value, onChange }: SloTargetInputProps) {
               <SelectValue placeholder="Select SLO" />
             </SelectTrigger>
             <SelectContent>
-              {COMMON_SLO_TARGETS.map(({ value: v, label }) => (
+              {SLO_PRESETS.map(({ value: v, label }) => (
                 <SelectItem key={v} value={v.toString()}>
                   {label}
                 </SelectItem>

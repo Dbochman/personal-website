@@ -286,17 +286,6 @@ export const PRESETS: Record<string, { label: string; profile: ResponseProfile }
 };
 
 /**
- * Common SLO targets for quick selection
- */
-export const COMMON_SLO_TARGETS = [
-  { value: 99, label: '99% (two nines)' },
-  { value: 99.5, label: '99.5%' },
-  { value: 99.9, label: '99.9% (three nines)' },
-  { value: 99.95, label: '99.95%' },
-  { value: 99.99, label: '99.99% (four nines)' },
-];
-
-/**
  * Get effective profile with disabled phases zeroed out
  */
 export function getEffectiveProfile(

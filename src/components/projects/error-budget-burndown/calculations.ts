@@ -44,14 +44,6 @@ export const PERIOD_DAYS: Record<BudgetPeriod, number> = {
   yearly: 365,
 };
 
-export const SLO_PRESETS = [
-  { value: 99, label: '99% (Two nines)', budgetDesc: '7.2h/mo' },
-  { value: 99.9, label: '99.9% (Three nines)', budgetDesc: '43.2min/mo' },
-  { value: 99.95, label: '99.95%', budgetDesc: '21.6min/mo' },
-  { value: 99.99, label: '99.99% (Four nines)', budgetDesc: '4.3min/mo' },
-  { value: 99.999, label: '99.999% (Five nines)', budgetDesc: '26s/mo' },
-];
-
 /**
  * Calculate total error budget in minutes for the period
  */

@@ -8,7 +8,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { type SloConfig, type BudgetPeriod, SLO_PRESETS, calculateTotalBudget, formatDuration } from './calculations';
+import { type SloConfig, type BudgetPeriod, calculateTotalBudget, formatDuration } from './calculations';
+import { SLO_PRESETS } from '@/lib/slo';
 
 interface SloConfigInputsProps {
   config: SloConfig;
