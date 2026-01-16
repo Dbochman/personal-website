@@ -186,6 +186,12 @@
       "title": "In Progress"
     },
     {
+      "cards": [],
+      "color": "pink",
+      "id": "in-review",
+      "title": "In Review"
+    },
+    {
       "cards": [
         {
           "checklist": [
@@ -247,10 +253,16 @@
               "type": "column"
             },
             {
-              "type": "column",
-              "timestamp": "2026-01-16T18:14:27.000Z",
               "columnId": "in-review",
-              "columnTitle": "In Review"
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-16T18:14:27.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-16T18:35:00.000Z",
+              "type": "column"
             }
           ],
           "id": "gr9qef9",
@@ -261,15 +273,8 @@
           ],
           "planFile": "docs/plans/28-changelog-explorer-project.md",
           "title": "Change Log Explorer Project",
-          "updatedAt": "2026-01-16T18:14:27.000Z"
-        }
-      ],
-      "color": "pink",
-      "id": "in-review",
-      "title": "In Review"
-    },
-    {
-      "cards": [
+          "updatedAt": "2026-01-16T18:35:00.000Z"
+        },
         {
           "checklist": [
             {
@@ -861,5 +866,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T18:14:27.000Z"
+  "updatedAt": "2026-01-16T18:35:00.000Z"
 }
