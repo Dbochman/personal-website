@@ -1,7 +1,15 @@
 {
   "columns": [
     {
-      "cards": [],
+      "cards": [
+        {
+          "id": "error-budget-burndown",
+          "title": "Error Budget Burndown",
+          "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date. Complements existing SLO Calculator.",
+          "createdAt": "2026-01-16",
+          "labels": ["SRE", "Calculator"]
+        }
+      ],
       "description": "Concepts without detailed plans yet",
       "id": "ideas",
       "title": "Ideas"
@@ -563,5 +571,5 @@
   "createdAt": "2026-01-16T03:09:00.318Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T03:09:15.858Z"
+  "updatedAt": "2026-01-16T04:15:00.000Z"
 }
