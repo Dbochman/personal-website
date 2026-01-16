@@ -7,19 +7,23 @@ import { ExpertiseCard } from "./ExpertiseCard";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 
 const Sidebar = () => {
-  const [expandedIndices, setExpandedIndices] = useState<Set<number>>(new Set());
+  // Track expansion order - last item is most recently expanded
+  const [expandOrder, setExpandOrder] = useState<number[]>([]);
 
   const handleExpand = useCallback((index: number) => {
-    setExpandedIndices(prev => new Set(prev).add(index));
+    setExpandOrder(prev => {
+      // If already expanded, move to end (most recent)
+      const filtered = prev.filter(i => i !== index);
+      return [...filtered, index];
+    });
   }, []);
 
   const handleCollapse = useCallback((index: number) => {
-    setExpandedIndices(prev => {
-      const next = new Set(prev);
-      next.delete(index);
-      return next;
-    });
+    setExpandOrder(prev => prev.filter(i => i !== index));
   }, []);
+
+  // Only the most recently expanded card can collapse
+  const newestIndex = expandOrder.length > 0 ? expandOrder[expandOrder.length - 1] : null;
 
   return (
     <div className="lg:sticky lg:top-24 space-y-6">
@@ -38,7 +42,8 @@ const Sidebar = () => {
               <motion.div key={index} variants={staggerItem}>
                 <ExpertiseCard
                   item={item}
-                  isExpanded={expandedIndices.has(index)}
+                  isExpanded={expandOrder.includes(index)}
+                  canCollapse={newestIndex === index}
                   onExpand={() => handleExpand(index)}
                   onCollapse={() => handleCollapse(index)}
                 />

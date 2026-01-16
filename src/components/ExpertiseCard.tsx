@@ -8,12 +8,14 @@ const MIN_EXPAND_DURATION = 5000; // 5 seconds minimum open
 interface ExpertiseCardProps {
   item: ExpertiseItem;
   isExpanded: boolean;
+  canCollapse: boolean;
   onExpand: () => void;
   onCollapse: () => void;
 }
 
-export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: ExpertiseCardProps) {
+export function ExpertiseCard({ item, isExpanded, canCollapse, onExpand, onCollapse }: ExpertiseCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [wantsToCollapse, setWantsToCollapse] = useState(false);
   const expandedAtRef = useRef<number | null>(null);
   const expandTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const collapseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -22,8 +24,17 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
   useEffect(() => {
     if (isExpanded) {
       expandedAtRef.current = Date.now();
+      setWantsToCollapse(false);
     }
   }, [isExpanded]);
+
+  // When canCollapse becomes true and we want to collapse, do it
+  useEffect(() => {
+    if (canCollapse && wantsToCollapse && !isHovered) {
+      onCollapse();
+      setWantsToCollapse(false);
+    }
+  }, [canCollapse, wantsToCollapse, isHovered, onCollapse]);
 
   // Cleanup timeouts on unmount
   useEffect(() => {
@@ -35,6 +46,7 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
 
   const handleMouseEnter = () => {
     setIsHovered(true);
+    setWantsToCollapse(false);
 
     // Cancel any pending collapse
     if (collapseTimeoutRef.current) {
@@ -67,20 +79,27 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
       expandTimeoutRef.current = null;
     }
 
-    // Handle collapse with minimum duration
+    // If not expanded, nothing to collapse
     if (!expandedAtRef.current) {
-      onCollapse();
       return;
     }
 
     const elapsed = Date.now() - expandedAtRef.current;
     const remaining = MIN_EXPAND_DURATION - elapsed;
 
+    const triggerCollapse = () => {
+      if (canCollapse) {
+        onCollapse();
+      } else {
+        setWantsToCollapse(true);
+      }
+    };
+
     if (remaining <= 0) {
-      onCollapse();
+      triggerCollapse();
     } else {
       collapseTimeoutRef.current = setTimeout(() => {
-        onCollapse();
+        triggerCollapse();
         collapseTimeoutRef.current = null;
       }, remaining);
     }
