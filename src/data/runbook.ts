@@ -64,6 +64,7 @@ export const quickReferences: QuickReference[] = [
     links: [
       { text: "Production (GitHub Pages)", url: "https://github.com/Dbochman/dbochman.github.io" },
       { text: "Preview (Cloudflare Pages)", url: "https://personal-website-adg.pages.dev" },
+      { text: "Cloudflare Pages Settings", url: "https://dash.cloudflare.com/324caf800a82364b608b3e82d9a1debd/pages/view/personal-website/settings/production" },
     ],
   },
   {
