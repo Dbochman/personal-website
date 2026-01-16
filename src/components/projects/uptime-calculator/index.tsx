@@ -28,8 +28,8 @@ import {
 const VALID_MODES = ['achievable', 'target', 'burndown'] as const;
 type ValidMode = (typeof VALID_MODES)[number];
 
-// Slider constraints
-const MIN_SLO = 90;
+// Input allows full range; slider focuses on high-availability targets
+const MIN_SLO = 0;
 const MAX_SLO = 99.999;
 const MIN_INCIDENTS = 0;
 const MAX_INCIDENTS = 100;
