@@ -10,37 +10,22 @@ Deploy pull requests to unique preview URLs for testing before merge. Enables vi
 - No preview environment exists
 - PRs can only be tested locally
 
-## Options
-
-### Option A: Cloudflare Pages (Recommended)
-
+## Cloudflare Pages 
 Free, automatic PR previews, good performance.
 
-### Option B: Netlify
-
-Similar features, already using for CMS subdomain.
-
-### Option C: GitHub Pages + Custom Workflow
-
-Manual setup, more complex but keeps everything on GitHub.
-
-### Option D: Surge.sh
-
-Lightweight, free for public projects.
-
-## Implementation (Option A: Cloudflare Pages)
+## Implementation 
 
 ### Phase 1: Cloudflare Pages Setup
 
-1. Go to Cloudflare Dashboard → Pages
-2. Connect GitHub repository
-3. Configure build settings:
-   - Build command: `npm run build`
-   - Output directory: `dist`
-   - Node version: 24
+1. Go to Cloudflare Dashboard → Pages (Done)
+2. Connect GitHub repository (Done)
+3. Configure build settings: (Done)
+   - Build command: `npm run build` (Done)
+   - Output directory: `dist` (Done)
+   - Node version: 24 (Didnt see this setting)
 
-4. Set production branch: `main`
-5. Enable branch deployments for all branches
+4. Set production branch: `main` (Done)
+5. Enable branch deployments for all branches (Done)
 
 ### Phase 2: Preview URL Pattern
 
