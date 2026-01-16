@@ -2,10 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AlertTriangle, Info, CheckCircle2, Lightbulb } from 'lucide-react';
 import {
-  type AchievableSlaResult,
-  type CanMeetSlaResult,
+  type AchievableSloResult,
+  type CanMeetSloResult,
   formatDuration,
-  formatSla,
+  formatSlo,
 } from './calculations';
 
 type InsightType = 'info' | 'warning' | 'success' | 'tip';
@@ -16,8 +16,8 @@ interface Insight {
   message: string;
 }
 
-function getInsight(result: AchievableSlaResult): Insight {
-  const { responseOverheadPercent, maxAchievableSla, breakdown, mttrMinutes, monthlyDowntimeMinutes } = result;
+function getInsight(result: AchievableSloResult): Insight {
+  const { responseOverheadPercent, maxAchievableSlo, breakdown, mttrMinutes, monthlyDowntimeMinutes } = result;
 
   // Find the dominant phase (largest contributor)
   const sortedPhases = [...breakdown].sort((a, b) => b.percentOfBudget - a.percentOfBudget);
@@ -33,21 +33,21 @@ function getInsight(result: AchievableSlaResult): Insight {
     };
   }
 
-  // Excellent SLA (99.9%+)
-  if (maxAchievableSla >= 99.9) {
+  // Excellent SLO (99.9%+)
+  if (maxAchievableSlo >= 99.9) {
     return {
       type: 'success',
       title: 'Enterprise-grade reliability',
-      message: `You can achieve ${formatSla(maxAchievableSla)} uptime. That's three nines or better—suitable for mission-critical systems.`,
+      message: `You can achieve ${formatSlo(maxAchievableSlo)} uptime. That's three nines or better—suitable for mission-critical systems.`,
     };
   }
 
-  // Poor SLA (below 99%)
-  if (maxAchievableSla < 99) {
+  // Poor SLO (below 99%)
+  if (maxAchievableSlo < 99) {
     return {
       type: 'warning',
       title: 'Reliability at risk',
-      message: `Current profile only achieves ${formatSla(maxAchievableSla)}. Consider reducing response times or incident frequency to improve.`,
+      message: `Current profile only achieves ${formatSlo(maxAchievableSlo)}. Consider reducing response times or incident frequency to improve.`,
     };
   }
 
@@ -132,8 +132,8 @@ const insightIcons: Record<InsightType, typeof Info> = {
 
 interface ResultsPanelProps {
   mode: 'achievable' | 'target';
-  result: AchievableSlaResult | CanMeetSlaResult;
-  achievableResult?: AchievableSlaResult;
+  result: AchievableSloResult | CanMeetSloResult;
+  achievableResult?: AchievableSloResult;
 }
 
 export function ResultsPanel({
@@ -142,17 +142,17 @@ export function ResultsPanel({
   achievableResult,
 }: ResultsPanelProps) {
   if (mode === 'achievable') {
-    return <AchievableResults result={result as AchievableSlaResult} />;
+    return <AchievableResults result={result as AchievableSloResult} />;
   }
   return (
     <TargetResults
-      result={result as CanMeetSlaResult}
+      result={result as CanMeetSloResult}
       achievableResult={achievableResult!}
     />
   );
 }
 
-function AchievableResults({ result }: { result: AchievableSlaResult }) {
+function AchievableResults({ result }: { result: AchievableSloResult }) {
   return (
     <div className="space-y-4">
       {/* Summary stats */}
@@ -199,12 +199,12 @@ function AchievableResults({ result }: { result: AchievableSlaResult }) {
         <Card className="bg-primary/5 border-primary/20">
           <CardHeader className="pb-2">
             <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
-              Maximum achievable SLA
+              Maximum achievable SLO
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-xl font-bold text-primary">
-              {formatSla(result.maxAchievableSla)}
+              {formatSlo(result.maxAchievableSlo)}
             </div>
           </CardContent>
         </Card>
@@ -266,8 +266,8 @@ function TargetResults({
   result,
   achievableResult,
 }: {
-  result: CanMeetSlaResult;
-  achievableResult: AchievableSlaResult;
+  result: CanMeetSloResult;
+  achievableResult: AchievableSloResult;
 }) {
   const canMeet = result.canMeet;
 
@@ -339,7 +339,7 @@ function TargetResults({
       {!canMeet && (
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle as="h2" className="text-base">To meet {formatSla(result.targetSla)}, you could:</CardTitle>
+            <CardTitle as="h2" className="text-base">To meet {formatSlo(result.targetSlo)}, you could:</CardTitle>
           </CardHeader>
           <CardContent>
             <ul className="space-y-2 text-sm text-muted-foreground">
@@ -370,9 +370,9 @@ function TargetResults({
                 <span>
                   Target{' '}
                   <strong className="text-foreground">
-                    {formatSla(achievableResult.maxAchievableSla)}
+                    {formatSlo(achievableResult.maxAchievableSlo)}
                   </strong>{' '}
-                  SLA instead (achievable with current profile)
+                  SLO instead (achievable with current profile)
                 </span>
               </li>
             </ul>

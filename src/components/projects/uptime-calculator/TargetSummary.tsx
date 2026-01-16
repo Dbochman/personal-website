@@ -2,15 +2,15 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import {
-  type AchievableSlaResult,
-  type CanMeetSlaResult,
+  type AchievableSloResult,
+  type CanMeetSloResult,
   formatDuration,
-  formatSla,
+  formatSlo,
 } from './calculations';
 
 interface TargetSummaryProps {
-  result: CanMeetSlaResult;
-  achievableResult: AchievableSlaResult;
+  result: CanMeetSloResult;
+  achievableResult: AchievableSloResult;
 }
 
 export function TargetSummary({ result, achievableResult }: TargetSummaryProps) {
@@ -39,7 +39,7 @@ export function TargetSummary({ result, achievableResult }: TargetSummaryProps) 
                   {canMeet ? 'LIKELY TO MEET' : 'UNLIKELY TO MEET'}
                 </span>
                 <Badge variant={canMeet ? 'default' : 'destructive'}>
-                  {formatSla(result.targetSla)}
+                  {formatSlo(result.targetSlo)}
                 </Badge>
               </div>
               <p className="text-sm text-muted-foreground mt-1">
