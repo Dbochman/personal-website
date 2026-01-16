@@ -11,6 +11,7 @@ import { ThemeProvider } from "@/context/ThemeContext";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { PageSkeleton } from "@/components/ui/skeletons";
 import { ErrorFallback } from "@/components/ErrorFallback";
+import { PreviewBanner } from "@/components/PreviewBanner";
 import Index from "./pages/Index";
 
 // Lazy load pages that aren't on the critical path
@@ -41,6 +42,7 @@ const App = () => (
             >
               <ScrollToTop />
               <ThemeProvider>
+                <PreviewBanner />
                 <Suspense fallback={<PageSkeleton />}>
                   <Routes>
                     <Route path="/" element={<Index />} />
