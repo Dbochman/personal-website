@@ -8,9 +8,10 @@ interface ExpertiseCardProps {
   item: ExpertiseItem;
   isExpanded: boolean;
   onExpand: () => void;
+  onCollapse: () => void;
 }
 
-export function ExpertiseCard({ item, isExpanded, onExpand }: ExpertiseCardProps) {
+export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: ExpertiseCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const expandTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -50,6 +51,12 @@ export function ExpertiseCard({ item, isExpanded, onExpand }: ExpertiseCardProps
     }
   };
 
+  const handleClick = () => {
+    if (isExpanded) {
+      onCollapse();
+    }
+  };
+
   return (
     <div
       className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-1 rounded-sm"
@@ -57,11 +64,13 @@ export function ExpertiseCard({ item, isExpanded, onExpand }: ExpertiseCardProps
       onMouseLeave={handleMouseLeave}
       onFocus={handleMouseEnter}
       onBlur={handleMouseLeave}
+      onClick={handleClick}
       tabIndex={0}
     >
       {/* Title - always visible */}
       <div
-        className={`text-xs p-2 border transition-all duration-200 cursor-default
+        className={`text-xs p-2 border transition-all duration-200
+                    ${isExpanded ? 'cursor-pointer' : 'cursor-default'}
                     ${isHovered || isExpanded
                       ? 'bg-foreground/15 border-foreground/40 text-foreground scale-[1.02] shadow-sm'
                       : 'bg-foreground/5 border-foreground/20 text-foreground/80'}`}

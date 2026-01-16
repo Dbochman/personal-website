@@ -13,6 +13,14 @@ const Sidebar = () => {
     setExpandedIndices(prev => new Set(prev).add(index));
   }, []);
 
+  const handleCollapse = useCallback((index: number) => {
+    setExpandedIndices(prev => {
+      const next = new Set(prev);
+      next.delete(index);
+      return next;
+    });
+  }, []);
+
   return (
     <div className="lg:sticky lg:top-24 space-y-6">
       {/* Core Expertise Card */}
@@ -32,6 +40,7 @@ const Sidebar = () => {
                   item={item}
                   isExpanded={expandedIndices.has(index)}
                   onExpand={() => handleExpand(index)}
+                  onCollapse={() => handleCollapse(index)}
                 />
               </motion.div>
             ))}
