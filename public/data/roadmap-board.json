@@ -114,7 +114,7 @@
         {
           "checklist": [
             {
-              "completed": false,
+              "completed": true,
               "id": "pd-1",
               "text": "Set up Cloudflare Pages with GitHub repo"
             },
@@ -154,9 +154,8 @@
             "Small-Medium",
             "Infrastructure"
           ],
-          "planFile": "docs/plans/10-preview-deployments.md",
           "title": "Preview Deployments",
-          "updatedAt": "2026-01-16T02:58:32.294Z"
+          "updatedAt": "2026-01-16T03:09:10.098Z"
         }
       ],
       "color": "blue",
@@ -550,8 +549,8 @@
       "title": "Change Log"
     }
   ],
-  "createdAt": "2026-01-16T02:58:24.818Z",
+  "createdAt": "2026-01-16T03:09:00.318Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T02:58:35.146Z"
+  "updatedAt": "2026-01-16T03:09:15.858Z"
 }
