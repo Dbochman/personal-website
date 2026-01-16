@@ -53,7 +53,7 @@ export const slowStaggerContainer: Variants = {
   hidden: { opacity: 1 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 1.2, delayChildren: 0.3 },
+    transition: { staggerChildren: 1.2 },
   },
 };
 
