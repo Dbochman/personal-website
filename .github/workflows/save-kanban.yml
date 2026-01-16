@@ -57,10 +57,51 @@ jobs:
           mkdir -p public/data
           printenv BOARD_JSON | jq '.' > public/data/${{ env.BOARD_ID }}-board.json
 
+      - name: Archive old changelog entries (roadmap only)
+        if: env.BOARD_ID == 'roadmap'
+        run: |
+          BOARD_FILE="public/data/roadmap-board.json"
+          ARCHIVE_FILE="public/data/roadmap-archive.json"
+          MAX_CHANGELOG=10
+
+          # Get changelog column (last column)
+          CHANGELOG_COUNT=$(jq '.columns[-1].cards | length' "$BOARD_FILE")
+          echo "Changelog has $CHANGELOG_COUNT cards"
+
+          if [ "$CHANGELOG_COUNT" -gt "$MAX_CHANGELOG" ]; then
+            echo "Archiving $(($CHANGELOG_COUNT - $MAX_CHANGELOG)) cards..."
+
+            # Extract cards to archive (beyond first 10)
+            CARDS_TO_ARCHIVE=$(jq '.columns[-1].cards['"$MAX_CHANGELOG"':]' "$BOARD_FILE")
+
+            # Create or update archive file
+            if [ -f "$ARCHIVE_FILE" ]; then
+              # Append to existing archive
+              jq --argjson newCards "$CARDS_TO_ARCHIVE" '
+                .archivedAt = (now | strftime("%Y-%m-%dT%H:%M:%SZ")) |
+                .cards = (.cards + $newCards)
+              ' "$ARCHIVE_FILE" > "${ARCHIVE_FILE}.tmp" && mv "${ARCHIVE_FILE}.tmp" "$ARCHIVE_FILE"
+            else
+              # Create new archive
+              echo "$CARDS_TO_ARCHIVE" | jq '{
+                archivedAt: (now | strftime("%Y-%m-%dT%H:%M:%SZ")),
+                cards: .
+              }' > "$ARCHIVE_FILE"
+            fi
+
+            # Trim changelog to MAX_CHANGELOG items
+            jq '.columns[-1].cards = .columns[-1].cards[:'"$MAX_CHANGELOG"']' "$BOARD_FILE" > "${BOARD_FILE}.tmp" \
+              && mv "${BOARD_FILE}.tmp" "$BOARD_FILE"
+
+            echo "Archived cards. Changelog now has $MAX_CHANGELOG cards."
+          else
+            echo "No archiving needed."
+          fi
+
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/data/*-board.json
+          git add public/data/*-board.json public/data/roadmap-archive.json 2>/dev/null || true
           git diff --staged --quiet || git commit -m "kanban: save board state"
           git push
