@@ -110,6 +110,12 @@
       "title": "To Do"
     },
     {
+      "cards": [],
+      "color": "blue",
+      "id": "in-progress",
+      "title": "In Progress"
+    },
+    {
       "cards": [
         {
           "checklist": [
@@ -119,33 +125,39 @@
               "text": "Set up Cloudflare Pages with GitHub repo"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "pd-2",
               "text": "Configure preview URL pattern"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "pd-3",
               "text": "Create PR comment workflow with preview link"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "pd-4",
               "text": "Configure environment variables (disable analytics in preview)"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "pd-5",
               "text": "Add PreviewBanner component for visual indicator"
             }
           ],
           "createdAt": "2026-01-13",
-          "description": "Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.",
+          "description": "Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.\n\nPreview URL: https://personal-website-adg.pages.dev\nBranch pattern: <branch>.personal-website-adg.pages.dev",
           "history": [
             {
               "columnId": "in-progress",
               "columnTitle": "In Progress",
               "timestamp": "2026-01-16T02:58:32.294Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-16T03:22:00.000Z",
               "type": "column"
             }
           ],
@@ -155,15 +167,9 @@
             "Infrastructure"
           ],
           "title": "Preview Deployments",
-          "updatedAt": "2026-01-16T03:09:10.098Z"
+          "updatedAt": "2026-01-16T03:22:00.000Z"
         }
       ],
-      "color": "blue",
-      "id": "in-progress",
-      "title": "In Progress"
-    },
-    {
-      "cards": [],
       "color": "pink",
       "id": "in-review",
       "title": "In Review"
