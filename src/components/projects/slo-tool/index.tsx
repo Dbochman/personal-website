@@ -244,14 +244,28 @@ export default function SloTool() {
         </TabsList>
 
         <div className="mt-6 space-y-6">
-          {/* Collapsible Configuration */}
-          <Collapsible open={configExpanded} onOpenChange={setConfigExpanded}>
-            <Card>
-              <CardContent className="pt-6">
-                {/* Compact Summary - Always visible */}
-                <div className="flex flex-col sm:flex-row sm:items-end gap-4">
-                  {/* SLO Target - hidden on achievable tab */}
-                  {mode !== 'achievable' && (
+          {/* Achievable tab: show inputs directly without collapsible */}
+          {mode === 'achievable' ? (
+            <div className="space-y-6">
+              <ResponseTimeInputs
+                profile={profile}
+                enabledPhases={enabledPhases}
+                onChange={handleProfileChange}
+                onToggle={handleTogglePhase}
+              />
+              <IncidentInput
+                value={incidentsPerPeriod}
+                onChange={setIncidentsPerPeriod}
+                period={config.period}
+              />
+            </div>
+          ) : (
+            /* Target/Burndown tabs: collapsible configuration */
+            <Collapsible open={configExpanded} onOpenChange={setConfigExpanded}>
+              <Card>
+                <CardContent className="pt-6">
+                  {/* Compact Summary */}
+                  <div className="flex flex-col sm:flex-row sm:items-end gap-4">
                     <div className="flex-1 space-y-1.5">
                       <Label htmlFor="compact-slo" className="text-sm font-medium">
                         SLO Target
@@ -269,75 +283,71 @@ export default function SloTool() {
                         <span className="text-sm text-muted-foreground">%</span>
                       </div>
                     </div>
-                  )}
 
-                  <div className="flex-1 space-y-1.5">
-                    <Label htmlFor="compact-incidents" className="text-sm font-medium">
-                      Incidents / {PERIOD_LABELS[config.period].toLowerCase()}
-                    </Label>
-                    <Input
-                      id="compact-incidents"
-                      type="text"
-                      inputMode="numeric"
-                      value={incidentsInputValue}
-                      onChange={handleCompactIncidentsChange}
-                      onBlur={handleCompactIncidentsBlur}
-                      className="w-24 h-9 font-mono tabular-nums text-right"
-                    />
-                  </div>
+                    <div className="flex-1 space-y-1.5">
+                      <Label htmlFor="compact-incidents" className="text-sm font-medium">
+                        Incidents / {PERIOD_LABELS[config.period].toLowerCase()}
+                      </Label>
+                      <Input
+                        id="compact-incidents"
+                        type="text"
+                        inputMode="numeric"
+                        value={incidentsInputValue}
+                        onChange={handleCompactIncidentsChange}
+                        onBlur={handleCompactIncidentsBlur}
+                        className="w-24 h-9 font-mono tabular-nums text-right"
+                      />
+                    </div>
 
-                  {/* Error budget - hidden on achievable tab */}
-                  {mode !== 'achievable' && (
                     <div className="flex-1 text-sm text-muted-foreground">
-                      <span className="font-medium text-foreground">{formatDuration(calculateTotalBudget(config.target, config.period))}</span>
+                      <span className="font-medium text-foreground">
+                        {formatDuration(calculateTotalBudget(config.target, config.period))}
+                      </span>
                       {' '}error budget
                     </div>
-                  )}
 
-                  <CollapsibleTrigger asChild>
-                    <button
-                      className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
-                      aria-expanded={configExpanded}
-                    >
-                      <span>{configExpanded ? 'Less options' : 'More options'}</span>
-                      <ChevronDown
-                        className={`h-4 w-4 transition-transform duration-200 ${
-                          configExpanded ? 'rotate-180' : ''
-                        }`}
-                      />
-                    </button>
-                  </CollapsibleTrigger>
-                </div>
+                    <CollapsibleTrigger asChild>
+                      <button
+                        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
+                        aria-expanded={configExpanded}
+                      >
+                        <span>{configExpanded ? 'Less options' : 'More options'}</span>
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform duration-200 ${
+                            configExpanded ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+                    </CollapsibleTrigger>
+                  </div>
 
-                {/* Expanded Configuration */}
-                <CollapsibleContent className="overflow-hidden data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
-                  <div className="pt-6 mt-6 border-t space-y-6">
-                    <div className={`grid gap-6 ${mode !== 'achievable' ? 'lg:grid-cols-2' : ''}`}>
-                      {/* SLO Configuration - hidden on achievable tab */}
-                      {mode !== 'achievable' && (
+                  {/* Expanded Configuration */}
+                  <CollapsibleContent className="overflow-hidden data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
+                    <div className="pt-6 mt-6 border-t space-y-6">
+                      <div className="grid gap-6 lg:grid-cols-2">
                         <SloConfiguration config={config} onChange={setConfig} />
-                      )}
 
-                      <div className="space-y-6">
-                        <ResponseTimeInputs
-                          profile={profile}
-                          enabledPhases={enabledPhases}
-                          onChange={handleProfileChange}
-                          onToggle={handleTogglePhase}
-                        />
+                        <div className="space-y-6">
+                          <ResponseTimeInputs
+                            profile={profile}
+                            enabledPhases={enabledPhases}
+                            onChange={handleProfileChange}
+                            onToggle={handleTogglePhase}
+                          />
 
-                        <IncidentInput
-                          value={incidentsPerPeriod}
-                          onChange={setIncidentsPerPeriod}
-                          period={config.period}
-                        />
+                          <IncidentInput
+                            value={incidentsPerPeriod}
+                            onChange={setIncidentsPerPeriod}
+                            period={config.period}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CollapsibleContent>
-              </CardContent>
-            </Card>
-          </Collapsible>
+                  </CollapsibleContent>
+                </CardContent>
+              </Card>
+            </Collapsible>
+          )}
 
           {/* Tab-specific content */}
           <TabsContent value="achievable" className="mt-0 space-y-6">
