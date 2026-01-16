@@ -31,132 +31,6 @@
           "checklist": [
             {
               "completed": false,
-              "id": "cle-1",
-              "text": "Create useChangelogData hook to fetch and merge data"
-            },
-            {
-              "completed": false,
-              "id": "cle-2",
-              "text": "Create ChangelogExplorer main component"
-            },
-            {
-              "completed": false,
-              "id": "cle-3",
-              "text": "Create ChangelogCard with expand/collapse animation"
-            },
-            {
-              "completed": false,
-              "id": "cle-4",
-              "text": "Create ExpandedDetails with plan rendering"
-            },
-            {
-              "completed": false,
-              "id": "cle-5",
-              "text": "Add filter controls and PR link badges"
-            },
-            {
-              "completed": false,
-              "id": "cle-6",
-              "text": "Add to project registry with route"
-            },
-            {
-              "completed": false,
-              "id": "cle-7",
-              "text": "Mobile responsive layout and loading skeletons"
-            }
-          ],
-          "createdAt": "2026-01-16T14:45:36.426Z",
-          "description": "Visualize completed work from kanban changelog and archive. Rich expandable cards with PR links, plan file content, and completion history.",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-16T14:45:36.426Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-16T17:50:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "gr9qef9",
-          "labels": [
-            "Feature",
-            "Meta"
-          ],
-          "planFile": "docs/plans/28-changelog-explorer-project.md",
-          "title": "Change Log Explorer Project",
-          "updatedAt": "2026-01-16T17:50:00.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "kus-1",
-              "text": "Delete useKanbanPersistence.ts"
-            },
-            {
-              "completed": false,
-              "id": "kus-2",
-              "text": "Remove URL persistence from KanbanBoard.tsx"
-            },
-            {
-              "completed": false,
-              "id": "kus-3",
-              "text": "Add initialCardId prop and auto-open logic"
-            },
-            {
-              "completed": false,
-              "id": "kus-4",
-              "text": "Update index.tsx to read card param"
-            },
-            {
-              "completed": false,
-              "id": "kus-5",
-              "text": "Update Share button to copy clean URL"
-            },
-            {
-              "completed": false,
-              "id": "kus-6",
-              "text": "Add Copy Card Link to card menu"
-            },
-            {
-              "completed": false,
-              "id": "kus-7",
-              "text": "Remove lz-string dependency"
-            }
-          ],
-          "createdAt": "2026-01-16T17:55:00.000Z",
-          "description": "Remove URL state persistence, keep just `?board=roadmap`. Add deep linking with `?card=id` to open specific cards on load.",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-16T17:55:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-16T18:05:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "kanban-url-cleanup",
-          "labels": [
-            "Cleanup",
-            "UX"
-          ],
-          "planFile": "docs/plans/29-kanban-url-simplification.md",
-          "title": "Kanban URL Simplification",
-          "updatedAt": "2026-01-16T18:05:00.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
               "id": "sbi-1",
               "text": "Export BurndownChart and calculations from error-budget-burndown"
             },
@@ -306,7 +180,146 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "cle-1",
+              "text": "Create useChangelogData hook to fetch and merge data"
+            },
+            {
+              "completed": false,
+              "id": "cle-2",
+              "text": "Create ChangelogExplorer main component"
+            },
+            {
+              "completed": false,
+              "id": "cle-3",
+              "text": "Create ChangelogCard with expand/collapse animation"
+            },
+            {
+              "completed": false,
+              "id": "cle-4",
+              "text": "Create ExpandedDetails with plan rendering"
+            },
+            {
+              "completed": false,
+              "id": "cle-5",
+              "text": "Add filter controls and PR link badges"
+            },
+            {
+              "completed": false,
+              "id": "cle-6",
+              "text": "Add to project registry with route"
+            },
+            {
+              "completed": false,
+              "id": "cle-7",
+              "text": "Mobile responsive layout and loading skeletons"
+            }
+          ],
+          "createdAt": "2026-01-16T14:45:36.426Z",
+          "description": "Visualize completed work from kanban changelog and archive. Rich expandable cards with PR links, plan file content, and completion history.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T14:45:36.426Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-16T17:50:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T21:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "gr9qef9",
+          "labels": [
+            "Feature",
+            "Meta"
+          ],
+          "planFile": "docs/plans/28-changelog-explorer-project.md",
+          "title": "Change Log Explorer Project",
+          "updatedAt": "2026-01-16T21:00:00.000Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "kus-1",
+              "text": "Delete useKanbanPersistence.ts"
+            },
+            {
+              "completed": false,
+              "id": "kus-2",
+              "text": "Remove URL persistence from KanbanBoard.tsx"
+            },
+            {
+              "completed": false,
+              "id": "kus-3",
+              "text": "Add initialCardId prop and auto-open logic"
+            },
+            {
+              "completed": false,
+              "id": "kus-4",
+              "text": "Update index.tsx to read card param"
+            },
+            {
+              "completed": false,
+              "id": "kus-5",
+              "text": "Update Share button to copy clean URL"
+            },
+            {
+              "completed": false,
+              "id": "kus-6",
+              "text": "Add Copy Card Link to card menu"
+            },
+            {
+              "completed": false,
+              "id": "kus-7",
+              "text": "Remove lz-string dependency"
+            }
+          ],
+          "createdAt": "2026-01-16T17:55:00.000Z",
+          "description": "Remove URL state persistence, keep just `?board=roadmap`. Add deep linking with `?card=id` to open specific cards on load.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T17:55:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-16T18:05:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T21:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "kanban-url-cleanup",
+          "labels": [
+            "Cleanup",
+            "UX"
+          ],
+          "planFile": "docs/plans/29-kanban-url-simplification.md",
+          "title": "Kanban URL Simplification",
+          "updatedAt": "2026-01-16T21:00:00.000Z"
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -834,5 +847,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T20:15:00.000Z"
+  "updatedAt": "2026-01-16T21:00:00.000Z"
 }
