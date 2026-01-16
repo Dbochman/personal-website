@@ -23,13 +23,17 @@ function getDefaultStartDate(): string {
 export default function ErrorBudgetBurndown() {
   const [searchParams] = useSearchParams();
 
+  // Slider range: 99-99.999
+  const MIN_SLO = 99;
+  const MAX_SLO = 99.999;
+
   const [config, setConfig] = useState<SloConfig>(() => {
     // Initialize from URL params if present
     const sloParam = searchParams.get('slo');
     let initialTarget = 99.9;
     if (sloParam) {
       const parsed = parseFloat(sloParam);
-      if (!isNaN(parsed) && parsed >= 90 && parsed <= 100) {
+      if (!isNaN(parsed) && parsed >= MIN_SLO && parsed <= MAX_SLO) {
         initialTarget = parsed;
       }
     }
@@ -47,7 +51,7 @@ export default function ErrorBudgetBurndown() {
     const sloParam = searchParams.get('slo');
     if (sloParam) {
       const parsed = parseFloat(sloParam);
-      if (!isNaN(parsed) && parsed >= 90 && parsed <= 100) {
+      if (!isNaN(parsed) && parsed >= MIN_SLO && parsed <= MAX_SLO) {
         setConfig((prev) => ({ ...prev, target: parsed }));
       }
     }
