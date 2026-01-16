@@ -2,7 +2,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Pencil, CheckSquare, FileText, ExternalLink, CheckCircle, XCircle, Clock, Loader2, GitMerge } from 'lucide-react';
+import { Pencil, CheckSquare, FileText, ExternalLink, CheckCircle, XCircle, Clock, Loader2, GitMerge, Link2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanCard as KanbanCardType } from '@/types/kanban';
 import { CARD_COLORS } from '@/types/kanban';
@@ -79,20 +79,37 @@ export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: Ka
       {...attributes}
       {...listeners}
     >
-      {/* Edit button - always accessible in top right */}
-      {onEdit && (
+      {/* Action buttons - top right */}
+      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex gap-1">
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onEdit(card);
+            const url = new URL(window.location.href);
+            const boardId = url.searchParams.get('board') || 'roadmap';
+            url.search = `?board=${boardId}&card=${card.id}`;
+            navigator.clipboard.writeText(url.toString());
           }}
           onPointerDown={(e) => e.stopPropagation()}
-          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground transition-opacity p-1 rounded hover:bg-muted z-10"
-          aria-label={`Edit ${card.title}`}
+          className="text-muted-foreground hover:text-foreground p-1 rounded hover:bg-muted"
+          aria-label={`Copy link to ${card.title}`}
+          title="Copy card link"
         >
-          <Pencil className="w-3.5 h-3.5" />
+          <Link2 className="w-3.5 h-3.5" />
         </button>
-      )}
+        {onEdit && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(card);
+            }}
+            onPointerDown={(e) => e.stopPropagation()}
+            className="text-muted-foreground hover:text-foreground p-1 rounded hover:bg-muted"
+            aria-label={`Edit ${card.title}`}
+          >
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </div>
 
       <div className="pr-6">
         <p className="font-medium text-sm break-words">{card.title}</p>

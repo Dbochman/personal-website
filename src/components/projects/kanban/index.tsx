@@ -21,6 +21,9 @@ export default function Kanban() {
     return 'roadmap';
   }, [searchParams]);
 
+  // Get card ID from URL for deep linking
+  const cardId = searchParams.get('card');
+
   useEffect(() => {
     setBoard(null);
     setError(null);
@@ -41,5 +44,5 @@ export default function Kanban() {
     return <div className="animate-pulse h-96 bg-muted rounded-lg" />;
   }
 
-  return <KanbanBoard initialBoard={board} boardId={boardId} />;
+  return <KanbanBoard initialBoard={board} boardId={boardId} initialCardId={cardId || undefined} />;
 }
