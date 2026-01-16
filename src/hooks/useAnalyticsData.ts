@@ -12,6 +12,29 @@ type FetchResult<T> =
   | { status: 'missing' }  // 404 - file not found
   | { status: 'error'; message: string };  // network/server errors
 
+/**
+ * Deduplicate time-series data by date, keeping the latest entry per date.
+ * Handles data where automated collection may create multiple entries per day.
+ */
+function deduplicateByDate<T extends { date: string; timestamp?: string }>(
+  entries: T[]
+): T[] {
+  const byDate = new Map<string, T>();
+
+  for (const entry of entries) {
+    const existing = byDate.get(entry.date);
+    // Keep entry if no existing, or if this one is newer (by timestamp if available)
+    if (!existing) {
+      byDate.set(entry.date, entry);
+    } else if (entry.timestamp && existing.timestamp && entry.timestamp > existing.timestamp) {
+      byDate.set(entry.date, entry);
+    }
+  }
+
+  // Return sorted by date ascending
+  return Array.from(byDate.values()).sort((a, b) => a.date.localeCompare(b.date));
+}
+
 async function fetchJson<T>(url: string): Promise<FetchResult<T>> {
   try {
     const response = await fetch(url);
@@ -85,8 +108,8 @@ export function useAnalyticsData(): AnalyticsData {
 
       setData({
         latest: latestResult.status === 'success' ? latestResult.data : null,
-        ga4History: ga4Result.status === 'success' ? ga4Result.data : [],
-        searchHistory: searchResult.status === 'success' ? searchResult.data : [],
+        ga4History: ga4Result.status === 'success' ? deduplicateByDate(ga4Result.data) : [],
+        searchHistory: searchResult.status === 'success' ? deduplicateByDate(searchResult.data) : [],
         lighthouseSummary: lighthouseResult.status === 'success' ? lighthouseResult.data : [],
         isLoading: false,
         error: null,
