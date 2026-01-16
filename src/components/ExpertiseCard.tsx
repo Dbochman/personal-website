@@ -35,7 +35,7 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
 
       {/* Expanded content - desktop only, controlled by parent */}
       <div
-        className={`hidden md:block overflow-hidden transition-all duration-500 ease-out motion-reduce:transition-none
+        className={`hidden md:block overflow-hidden transition-all duration-[4500ms] ease-out motion-reduce:transition-none
                     ${isExpanded ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}
       >
         <div className="p-2 pt-0 border-x border-b border-foreground/20 bg-foreground/5 space-y-2">
