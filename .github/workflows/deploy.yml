@@ -62,7 +62,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         run: |
           npx sentry-cli releases new ${{ github.sha }}
-          npx sentry-cli releases files ${{ github.sha }} upload-sourcemaps ./dist/assets --url-prefix '~/assets'
+          npx sentry-cli sourcemaps upload ./dist/assets --release=${{ github.sha }} --url-prefix '~/assets'
           npx sentry-cli releases finalize ${{ github.sha }}
 
       - name: Remove source maps from build
