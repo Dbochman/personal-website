@@ -46,7 +46,8 @@ export function ChangelogCard({ entry, expanded, onToggle }: ChangelogCardProps)
         className="cursor-pointer hover:bg-muted/50 transition-colors"
         onClick={onToggle}
       >
-        <div className="flex justify-between items-start gap-4">
+        {/* Mobile: stack vertically, Desktop: side by side */}
+        <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-start sm:gap-4">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               {hasMergedPr && (
@@ -60,7 +61,7 @@ export function ChangelogCard({ entry, expanded, onToggle }: ChangelogCardProps)
               </CardDescription>
             )}
           </div>
-          <div className="flex items-center gap-2 flex-shrink-0">
+          <div className="flex items-center justify-between sm:justify-end gap-2 flex-shrink-0">
             <span className="text-sm text-muted-foreground whitespace-nowrap">
               {format(new Date(entry.completedAt), 'MMM d, yyyy')}
             </span>
