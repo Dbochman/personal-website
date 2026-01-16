@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Accordion } from "@/components/ui/accordion";
 import AccordionSection from "@/components/AccordionSection";
 import { experiences } from "@/data/experiences";
-import { staggerContainer, staggerItem } from '@/lib/motion';
+import { slowStaggerContainer, slowStaggerItem } from '@/lib/motion';
 import SpotifyLogo from '@/assets/logos/spotify.svg';
 import HashiCorpLogo from '@/assets/logos/hashicorp.svg';
 import HashiDarkLogo from '@/assets/logos/hashicorp-dark.svg';
@@ -70,12 +70,12 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
         >
           <motion.div
             className="space-y-8"
-            variants={staggerContainer}
+            variants={slowStaggerContainer}
             initial="hidden"
             animate={isOpen ? 'visible' : 'hidden'}
           >
             {experiences.map((exp, index) => (
-              <motion.div key={index} variants={staggerItem}>
+              <motion.div key={index} variants={slowStaggerItem}>
                 <Card className="bg-background/60 backdrop-blur-sm border-foreground/20 hover:border-foreground/40 transition-all">
                 <CardHeader>
                   <div className="flex justify-between items-start">
