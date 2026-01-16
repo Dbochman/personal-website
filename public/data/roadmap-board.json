@@ -1,7 +1,23 @@
 {
   "columns": [
     {
-      "cards": [],
+      "cards": [
+        {
+          "id": "unified-slo-tool",
+          "title": "Unified SLO Tool",
+          "description": "Consolidate SLO Calculator and Error Budget Burndown into one seamless project. Best of both:\n\n- Response time inputs with visibility toggles\n- Budget period selector (monthly/quarterly/yearly)\n- Burndown chart with projections\n- Shared presets with slider magnetism\n\nPrune: Average impact % (assume 100% for simplicity).",
+          "labels": ["Feature", "SRE"],
+          "createdAt": "2026-01-16",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-16T20:45:00.000Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            }
+          ]
+        }
+      ],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
