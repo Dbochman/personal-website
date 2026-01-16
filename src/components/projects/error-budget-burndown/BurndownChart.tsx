@@ -77,10 +77,10 @@ export function BurndownChart({ data, daysElapsed, isOnTrack }: BurndownChartPro
 
               <XAxis
                 dataKey="date"
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 11 }}
                 tickLine={false}
                 axisLine={false}
-                interval="preserveStartEnd"
+                interval={Math.max(0, Math.floor(data.length / 6) - 1)}
                 className="text-muted-foreground"
               />
               <YAxis

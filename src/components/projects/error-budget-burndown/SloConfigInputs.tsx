@@ -43,13 +43,13 @@ export function SloConfigInputs({ config, onChange }: SloConfigInputsProps) {
       <CardContent className="space-y-6">
         {/* SLO Target */}
         <div className="space-y-3">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <Label htmlFor="slo-target">Availability Target</Label>
             <Select
               value={currentPreset ? config.target.toString() : ''}
               onValueChange={handlePresetChange}
             >
-              <SelectTrigger className="w-48" aria-label="SLO preset">
+              <SelectTrigger className="w-full sm:w-48" aria-label="SLO preset">
                 <SelectValue placeholder="Custom" />
               </SelectTrigger>
               <SelectContent>
@@ -101,7 +101,7 @@ export function SloConfigInputs({ config, onChange }: SloConfigInputsProps) {
             type="date"
             value={config.startDate}
             onChange={handleStartDateChange}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:[color-scheme:dark]"
           />
         </div>
 
