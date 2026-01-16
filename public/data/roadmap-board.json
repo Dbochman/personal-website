@@ -116,15 +116,20 @@
       "title": "In Progress"
     },
     {
+      "cards": [],
+      "color": "pink",
+      "id": "in-review",
+      "title": "In Review"
+    },
+    {
       "cards": [
         {
           "id": "unified-slo-tool",
-          "title": "Unified SLO Tool",
-          "description": "Consolidate SLO Calculator and Error Budget Burndown into one seamless project. Best of both:\n\n- Tab selector: What can I achieve? / Can I meet this SLO? / Budget Burndown\n- Response time inputs with visibility toggles\n- Budget period selector (monthly/quarterly/yearly)\n- Burndown chart with ideal + projected lines on ALL tabs\n- Shared presets with slider magnetism\n\nPrune: Average impact % (assume 100% for simplicity).",
-          "labels": ["PR #145", "Feature", "SRE"],
+          "title": "Unified SLO Calculator",
+          "description": "Consolidated SLO Calculator and Error Budget Burndown into one project with three tabs:\n\n- What can I achieve? (response time inputs directly visible)\n- Can I meet this SLO? (collapsible config)\n- Budget Burndown (full chart view)\n\nRemoved 2,700+ lines of redundant code. Collapsible configuration for target/burndown tabs, direct inputs for achievable tab.",
+          "labels": ["PR #145", "PR #146", "Feature", "SRE"],
           "planFile": "docs/plans/32-unified-slo-tool.md",
           "createdAt": "2026-01-16",
-          "prStatus": "pending",
           "checklist": [
             {"id": "ust-1", "text": "Create unified calculations.ts", "completed": true},
             {"id": "ust-2", "text": "Create SloConfiguration with period selector", "completed": true},
@@ -134,7 +139,7 @@
             {"id": "ust-6", "text": "Create TargetTab", "completed": true},
             {"id": "ust-7", "text": "Create BurndownTab", "completed": true},
             {"id": "ust-8", "text": "Add to project registry", "completed": true},
-            {"id": "ust-9", "text": "Add redirects from old routes", "completed": false}
+            {"id": "ust-9", "text": "Remove old SLO Calculator and Error Budget Burndown", "completed": true}
           ],
           "history": [
             {
@@ -154,17 +159,16 @@
               "timestamp": "2026-01-16T23:45:00.000Z",
               "columnId": "in-review",
               "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-16T23:00:00.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
             }
           ],
-          "updatedAt": "2026-01-16T23:45:00.000Z"
-        }
-      ],
-      "color": "pink",
-      "id": "in-review",
-      "title": "In Review"
-    },
-    {
-      "cards": [
+          "updatedAt": "2026-01-16T23:00:00.000Z"
+        },
         {
           "checklist": [
             {
