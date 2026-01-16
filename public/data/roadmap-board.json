@@ -3,23 +3,23 @@
     {
       "cards": [
         {
-          "id": "slo-calculator-seo",
-          "title": "SLO Calculator SEO",
-          "description": "Improve SEO for the SLO Calculator project page. Currently missing structured data and keyword optimization.\n\nKey improvements:\n- Add JSON-LD WebApplication + BreadcrumbList schema\n- Enhance meta description with keywords\n- Create project-specific Open Graph image (1200x630px)\n- Add expanded keywords to project registry\n\nKeyword opportunities: SLO calculator, error budget calculator, uptime calculator, MTTR calculator, availability calculator",
-          "labels": ["SEO", "Enhancement"],
-          "createdAt": "2026-01-16",
+          "id": "programmatic-og-images",
+          "title": "Programmatic OG Image Generation",
+          "description": "Generate Open Graph images dynamically for project pages using @vercel/og or satori.\n\nBenefits:\n- Consistent branding across all projects\n- Auto-generated from project metadata (title, description, icon)\n- No manual design work per project\n\nApproach options:\n1. Build-time generation (static images in dist/)\n2. Edge function (Vercel/Cloudflare Worker)\n3. GitHub Action that generates on content change\n\nConsiderations:\n- GitHub Pages is static-only, so edge functions won't work\n- Build-time or CI generation are the viable paths",
+          "labels": ["Enhancement", "Infrastructure"],
+          "createdAt": "2026-01-17",
           "checklist": [
-            {"id": "seo-1", "text": "Add WebApplication JSON-LD schema to Project.tsx", "completed": false},
-            {"id": "seo-2", "text": "Add BreadcrumbList JSON-LD schema", "completed": false},
-            {"id": "seo-3", "text": "Add keywords field to ProjectMeta type", "completed": false},
-            {"id": "seo-4", "text": "Update SLO Calculator description with keywords", "completed": false},
-            {"id": "seo-5", "text": "Create SLO Calculator Open Graph image", "completed": false},
-            {"id": "seo-6", "text": "Test with Google Rich Results Test", "completed": false}
+            {"id": "og-1", "text": "Research @vercel/og vs satori for static generation", "completed": false},
+            {"id": "og-2", "text": "Design OG image template (layout, colors, typography)", "completed": false},
+            {"id": "og-3", "text": "Create generateOgImages.ts script", "completed": false},
+            {"id": "og-4", "text": "Add to build pipeline", "completed": false},
+            {"id": "og-5", "text": "Update Project.tsx to use generated images", "completed": false},
+            {"id": "og-6", "text": "Generate images for all active projects", "completed": false}
           ],
           "history": [
             {
               "type": "column",
-              "timestamp": "2026-01-16T23:30:00.000Z",
+              "timestamp": "2026-01-17T02:45:00.000Z",
               "columnId": "ideas",
               "columnTitle": "Ideas"
             }
@@ -140,7 +140,38 @@
       "title": "In Progress"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "id": "slo-calculator-seo",
+          "title": "SLO Calculator SEO",
+          "description": "Improve SEO for the SLO Calculator project page. Added JSON-LD structured data and keyword optimization.\n\nImplemented:\n- WebApplication JSON-LD schema for active projects\n- BreadcrumbList JSON-LD schema for navigation\n- Keywords field in ProjectMeta type\n- SEO-optimized keywords for SLO Calculator\n\nRemaining:\n- Create project-specific Open Graph image\n- Test with Google Rich Results Test",
+          "labels": ["PR #149", "SEO", "Enhancement"],
+          "createdAt": "2026-01-16",
+          "prStatus": "pending",
+          "checklist": [
+            {"id": "seo-1", "text": "Add WebApplication JSON-LD schema to Project.tsx", "completed": true},
+            {"id": "seo-2", "text": "Add BreadcrumbList JSON-LD schema", "completed": true},
+            {"id": "seo-3", "text": "Add keywords field to ProjectMeta type", "completed": true},
+            {"id": "seo-4", "text": "Update SLO Calculator with keywords", "completed": true},
+            {"id": "seo-5", "text": "Create SLO Calculator Open Graph image", "completed": false},
+            {"id": "seo-6", "text": "Test with Google Rich Results Test", "completed": false}
+          ],
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-16T23:30:00.000Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-17T02:30:00.000Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            }
+          ]
+        }
+      ],
       "color": "pink",
       "id": "in-review",
       "title": "In Review"

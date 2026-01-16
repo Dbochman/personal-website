@@ -18,6 +18,8 @@ export interface ProjectMeta {
   createdAt: string;
   updatedAt?: string;
   fullWidth?: boolean; // Break out of max-w-4xl constraint
+  keywords?: string[]; // SEO keywords for meta tags and JSON-LD
+  ogImage?: string; // Custom Open Graph image path
 }
 
 /**
