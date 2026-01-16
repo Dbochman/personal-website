@@ -19,6 +19,8 @@ interface IncidentListProps {
   onChange: (incidents: Incident[]) => void;
   periodStartDate: string;
   periodDays: number;
+  initialFrequency?: number;
+  onFrequencyChange?: (frequency: number) => void;
 }
 
 const INCIDENT_NAMES = [
@@ -83,13 +85,20 @@ function generateExampleIncidents(
   return incidents;
 }
 
-export function IncidentList({ incidents, onChange, periodStartDate, periodDays }: IncidentListProps) {
+export function IncidentList({
+  incidents,
+  onChange,
+  periodStartDate,
+  periodDays,
+  initialFrequency = 4,
+  onFrequencyChange,
+}: IncidentListProps) {
   const [mode, setMode] = useState<'auto' | 'manual'>('auto');
   const [isAdding, setIsAdding] = useState(false);
   const [autoConfig, setAutoConfig] = useState<AutoGenerateConfig>({
     avgDuration: 20,
     avgImpact: 20,
-    frequency: 4,
+    frequency: initialFrequency,
   });
   const [newIncident, setNewIncident] = useState<Omit<Incident, 'id'>>({
     name: '',
@@ -101,13 +110,19 @@ export function IncidentList({ incidents, onChange, periodStartDate, periodDays 
   // Store manual incidents separately so they're preserved when toggling modes
   const savedManualIncidents = useRef<Incident[]>([]);
 
+  // Sync frequency when initialFrequency prop changes (e.g., from URL params)
+  useEffect(() => {
+    setAutoConfig((prev) => ({ ...prev, frequency: initialFrequency }));
+  }, [initialFrequency]);
+
   // Generate incidents when auto config changes
   useEffect(() => {
     if (mode === 'auto') {
       const generated = generateExampleIncidents(autoConfig, periodStartDate, periodDays);
       onChange(generated);
+      onFrequencyChange?.(autoConfig.frequency);
     }
-  }, [mode, autoConfig, periodStartDate, periodDays, onChange]);
+  }, [mode, autoConfig, periodStartDate, periodDays, onChange, onFrequencyChange]);
 
   const handleModeChange = (checked: boolean) => {
     const newMode = checked ? 'manual' : 'auto';
