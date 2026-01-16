@@ -87,8 +87,8 @@ export function IncidentList({ incidents, onChange, periodStartDate, periodDays 
   const [mode, setMode] = useState<'auto' | 'manual'>('auto');
   const [isAdding, setIsAdding] = useState(false);
   const [autoConfig, setAutoConfig] = useState<AutoGenerateConfig>({
-    avgDuration: 30,
-    avgImpact: 100,
+    avgDuration: 20,
+    avgImpact: 20,
     frequency: 4,
   });
   const [newIncident, setNewIncident] = useState<Omit<Incident, 'id'>>({
