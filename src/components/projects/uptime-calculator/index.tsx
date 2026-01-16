@@ -211,7 +211,7 @@ export default function UptimeCalculator() {
         {/* Cross-tool link */}
         <div className="mt-6 pt-4 border-t">
           <Link
-            to={`/projects/error-budget-burndown?slo=${mode === 'achievable' ? achievableResult.maxAchievableSlo.toFixed(2) : targetSlo}`}
+            to={`/projects/error-budget?slo=${mode === 'achievable' ? achievableResult.maxAchievableSlo.toFixed(2) : targetSlo}`}
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
           >
             See how incidents impact your error budget
