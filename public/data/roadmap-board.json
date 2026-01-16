@@ -103,7 +103,14 @@
           ],
           "planFile": "docs/plans/08-visual-regression-testing.md",
           "title": "Visual Regression Testing"
-        },
+        }
+      ],
+      "description": "Planned tasks ready to start",
+      "id": "todo",
+      "title": "To Do"
+    },
+    {
+      "cards": [
         {
           "checklist": [
             {
@@ -134,21 +141,24 @@
           ],
           "createdAt": "2026-01-13",
           "description": "Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T02:58:32.294Z",
+              "type": "column"
+            }
+          ],
           "id": "preview-deploys",
           "labels": [
             "Small-Medium",
             "Infrastructure"
           ],
           "planFile": "docs/plans/10-preview-deployments.md",
-          "title": "Preview Deployments"
+          "title": "Preview Deployments",
+          "updatedAt": "2026-01-16T02:58:32.294Z"
         }
       ],
-      "description": "Planned tasks ready to start",
-      "id": "todo",
-      "title": "To Do"
-    },
-    {
-      "cards": [],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -540,8 +550,8 @@
       "title": "Change Log"
     }
   ],
-  "createdAt": "2026-01-16T01:21:46.195Z",
+  "createdAt": "2026-01-16T02:58:24.818Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T01:22:54.434Z"
+  "updatedAt": "2026-01-16T02:58:35.146Z"
 }
