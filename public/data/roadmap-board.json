@@ -1,7 +1,15 @@
 {
   "columns": [
     {
-      "cards": [],
+      "cards": [
+        {
+          "id": "slo-burndown-integration",
+          "title": "SLO Calculator Burndown Integration",
+          "description": "Add burndown visualization tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input. Title: 'SLO Burndown'.",
+          "createdAt": "2026-01-17",
+          "labels": ["Enhancement", "SRE"]
+        }
+      ],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
