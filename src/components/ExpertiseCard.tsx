@@ -1,8 +1,9 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import type { ExpertiseItem } from '@/data/expertise';
 import { CompanyLogo } from './CompanyLogo';
 
-const MIN_EXPAND_DURATION = 5000; // 5 seconds
+const EXPAND_DELAY = 1000; // 1 second before expanding
+const MIN_EXPAND_DURATION = 5000; // 5 seconds minimum open
 
 interface ExpertiseCardProps {
   item: ExpertiseItem;
@@ -12,7 +13,9 @@ interface ExpertiseCardProps {
 }
 
 export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: ExpertiseCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
   const expandedAtRef = useRef<number | null>(null);
+  const expandTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const collapseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Track when card was expanded
@@ -22,32 +25,49 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
     }
   }, [isExpanded]);
 
-  // Cleanup timeout on unmount
+  // Cleanup timeouts on unmount
   useEffect(() => {
     return () => {
-      if (collapseTimeoutRef.current) {
-        clearTimeout(collapseTimeoutRef.current);
-      }
+      if (expandTimeoutRef.current) clearTimeout(expandTimeoutRef.current);
+      if (collapseTimeoutRef.current) clearTimeout(collapseTimeoutRef.current);
     };
   }, []);
 
-  const handleExpand = () => {
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+
     // Cancel any pending collapse
     if (collapseTimeoutRef.current) {
       clearTimeout(collapseTimeoutRef.current);
       collapseTimeoutRef.current = null;
     }
 
-    if (!isExpanded && typeof gtag !== 'undefined') {
-      gtag('event', 'expertise_card_expand', {
-        event_category: 'engagement',
-        event_label: item.title
-      });
-    }
-    onExpand();
+    // If already expanded, no need to set another expand timeout
+    if (isExpanded) return;
+
+    // Schedule expansion after delay
+    expandTimeoutRef.current = setTimeout(() => {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'expertise_card_expand', {
+          event_category: 'engagement',
+          event_label: item.title
+        });
+      }
+      onExpand();
+      expandTimeoutRef.current = null;
+    }, EXPAND_DELAY);
   };
 
-  const handleCollapse = () => {
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+
+    // Cancel any pending expand
+    if (expandTimeoutRef.current) {
+      clearTimeout(expandTimeoutRef.current);
+      expandTimeoutRef.current = null;
+    }
+
+    // Handle collapse with minimum duration
     if (!expandedAtRef.current) {
       onCollapse();
       return;
@@ -59,7 +79,6 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
     if (remaining <= 0) {
       onCollapse();
     } else {
-      // Schedule collapse after minimum duration
       collapseTimeoutRef.current = setTimeout(() => {
         onCollapse();
         collapseTimeoutRef.current = null;
@@ -70,14 +89,19 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
   return (
     <div
       className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-1 rounded-sm"
-      onMouseEnter={handleExpand}
-      onMouseLeave={handleCollapse}
-      onFocus={handleExpand}
-      onBlur={handleCollapse}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
+      onBlur={handleMouseLeave}
       tabIndex={0}
     >
       {/* Title - always visible */}
-      <div className="text-xs text-foreground/80 p-2 border border-foreground/20 bg-foreground/5 hover:bg-foreground/10 transition-colors cursor-default">
+      <div
+        className={`text-xs p-2 border transition-all duration-200 cursor-default
+                    ${isHovered || isExpanded
+                      ? 'bg-foreground/15 border-foreground/40 text-foreground scale-[1.02] shadow-sm'
+                      : 'bg-foreground/5 border-foreground/20 text-foreground/80'}`}
+      >
         {item.title}
       </div>
 
