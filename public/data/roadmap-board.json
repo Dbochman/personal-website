@@ -180,41 +180,47 @@
       "title": "To Do"
     },
     {
+      "cards": [],
+      "color": "blue",
+      "id": "in-progress",
+      "title": "In Progress"
+    },
+    {
       "cards": [
         {
           "checklist": [
             {
-              "completed": false,
+              "completed": true,
               "id": "cle-1",
               "text": "Create useChangelogData hook to fetch and merge data"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "cle-2",
               "text": "Create ChangelogExplorer main component"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "cle-3",
               "text": "Create ChangelogCard with expand/collapse animation"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "cle-4",
               "text": "Create ExpandedDetails with plan rendering"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "cle-5",
               "text": "Add filter controls and PR link badges"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "cle-6",
               "text": "Add to project registry with route"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "cle-7",
               "text": "Mobile responsive layout and loading skeletons"
             }
@@ -239,51 +245,65 @@
               "columnTitle": "In Progress",
               "timestamp": "2026-01-16T21:00:00.000Z",
               "type": "column"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-16T18:14:27.000Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
             }
           ],
           "id": "gr9qef9",
           "labels": [
+            "PR #140",
             "Feature",
             "Meta"
           ],
           "planFile": "docs/plans/28-changelog-explorer-project.md",
           "title": "Change Log Explorer Project",
-          "updatedAt": "2026-01-16T21:00:00.000Z"
-        },
+          "updatedAt": "2026-01-16T18:14:27.000Z"
+        }
+      ],
+      "color": "pink",
+      "id": "in-review",
+      "title": "In Review"
+    },
+    {
+      "cards": [
         {
           "checklist": [
             {
-              "completed": false,
+              "completed": true,
               "id": "kus-1",
               "text": "Delete useKanbanPersistence.ts"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "kus-2",
               "text": "Remove URL persistence from KanbanBoard.tsx"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "kus-3",
               "text": "Add initialCardId prop and auto-open logic"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "kus-4",
               "text": "Update index.tsx to read card param"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "kus-5",
               "text": "Update Share button to copy clean URL"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "kus-6",
               "text": "Add Copy Card Link to card menu"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "kus-7",
               "text": "Remove lz-string dependency"
             }
@@ -308,30 +328,24 @@
               "columnTitle": "In Progress",
               "timestamp": "2026-01-16T21:00:00.000Z",
               "type": "column"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-16T18:14:27.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
             }
           ],
           "id": "kanban-url-cleanup",
           "labels": [
+            "PR #139",
             "Cleanup",
             "UX"
           ],
           "planFile": "docs/plans/29-kanban-url-simplification.md",
           "title": "Kanban URL Simplification",
-          "updatedAt": "2026-01-16T21:00:00.000Z"
-        }
-      ],
-      "color": "blue",
-      "id": "in-progress",
-      "title": "In Progress"
-    },
-    {
-      "cards": [],
-      "color": "pink",
-      "id": "in-review",
-      "title": "In Review"
-    },
-    {
-      "cards": [
+          "updatedAt": "2026-01-16T18:14:27.000Z"
+        },
         {
           "checklist": [
             {
@@ -847,5 +861,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T21:00:00.000Z"
+  "updatedAt": "2026-01-16T18:14:27.000Z"
 }
