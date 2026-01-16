@@ -16,7 +16,6 @@ import { KanbanColumn } from './KanbanColumn';
 import { KanbanCard } from './KanbanCard';
 import { CardEditorModal } from './CardEditorModal';
 import { ColumnEditorModal } from './ColumnEditorModal';
-import { useKanbanPersistence } from './useKanbanPersistence';
 import { Button } from '@/components/ui/button';
 import { Plus, RotateCcw, Share2, Save, Loader2, Check, LogIn, LogOut } from 'lucide-react';
 import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType, ColumnColor } from '@/types/kanban';
@@ -32,22 +31,15 @@ interface AuthStatus {
 interface KanbanBoardProps {
   initialBoard: BoardType;
   boardId: string; // ID used for saving (e.g., 'roadmap')
-  boardKey?: string; // URL query param name for isolation between boards
+  initialCardId?: string; // Card ID to open on mount (for deep linking)
 }
 
-export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: KanbanBoardProps) {
-  const { getInitialBoard, saveBoard: saveBoardToUrl, clearBoard } = useKanbanPersistence({
-    defaultBoard: initialBoard,
-    boardKey,
-  });
-  // Use a ref to get the initial board once (may include URL overrides)
-  const [board, setBoard] = useState<BoardType>(() => getInitialBoard());
-  // Track the updatedAt for conflict detection - use actual loaded board, not initialBoard
-  // This updates after successful saves to allow consecutive saves
-  const [baseUpdatedAt, setBaseUpdatedAt] = useState(() => {
-    const loadedBoard = getInitialBoard();
-    return loadedBoard.updatedAt || new Date().toISOString();
-  });
+export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoardProps) {
+  const [board, setBoard] = useState<BoardType>(initialBoard);
+  // Track the updatedAt for conflict detection
+  const [baseUpdatedAt, setBaseUpdatedAt] = useState(
+    initialBoard.updatedAt || new Date().toISOString()
+  );
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -87,22 +79,33 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
   const [isCardModalOpen, setIsCardModalOpen] = useState(false);
   const [scrollToSection, setScrollToSection] = useState<string | undefined>(undefined);
 
+  // Deep linking: open card from URL param on mount
+  useEffect(() => {
+    if (initialCardId) {
+      // Find card across all columns
+      for (const column of board.columns) {
+        const card = column.cards.find((c) => c.id === initialCardId);
+        if (card) {
+          setEditingCard(card);
+          setIsCardModalOpen(true);
+          break;
+        }
+      }
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // Note: only run on mount - initialCardId won't change
+
   // Column editor state
   const [editingColumnId, setEditingColumnId] = useState<string | null>(null);
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
   const [isAddingColumn, setIsAddingColumn] = useState(false);
 
-  // Wrapper that updates state and persists to URL
+  // Wrapper that updates board state
   const updateBoard = useCallback((updater: (prev: BoardType) => BoardType) => {
-    setBoard((prev) => {
-      const next = updater(prev);
-      // Save to URL asynchronously to avoid blocking
-      setTimeout(() => saveBoardToUrl(next), 0);
-      return next;
-    });
+    setBoard((prev) => updater(prev));
     setIsDirty(true);
     setSaveSuccess(false);
-  }, [saveBoardToUrl]);
+  }, []);
 
   // Auth handlers
   const handleLogin = useCallback(() => {
@@ -382,15 +385,15 @@ export function KanbanBoard({ initialBoard, boardId, boardKey = 'board' }: Kanba
   };
 
   const handleReset = () => {
-    const newBoard = { ...initialBoard, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
-    setBoard(newBoard);
-    clearBoard();
+    setBoard(initialBoard);
     setIsDirty(false);
   };
 
   const handleShare = async () => {
     try {
-      await navigator.clipboard.writeText(window.location.href);
+      const url = new URL(window.location.href);
+      url.search = `?board=${boardId}`;
+      await navigator.clipboard.writeText(url.toString());
     } catch (e) {
       console.error('Failed to copy URL:', e);
     }
