@@ -1,5 +1,5 @@
 {
-  "archivedAt": "2026-01-16T14:32:46Z",
+  "archivedAt": "2026-01-16T18:49:04Z",
   "cards": [
     {
       "createdAt": "2026-01-14",
@@ -65,6 +65,47 @@
         "Performance"
       ],
       "title": "Jan 6-7: Node.js v24 + Perf"
+    },
+    {
+      "createdAt": "2026-01-15",
+      "description": "Stagger animations for grids, scroll reveals, tab transitions, mobile nav stagger. Respects prefers-reduced-motion.",
+      "id": "pr-126",
+      "labels": [
+        "PR #126",
+        "UX"
+      ],
+      "title": "Framer Motion Animations"
+    },
+    {
+      "createdAt": "2026-01-15",
+      "description": "Live CI status for In Review cards via GitHub API, merged icon for changelog PRs",
+      "id": "pr-125",
+      "labels": [
+        "PR #125",
+        "UX"
+      ],
+      "title": "Dynamic PR Status Indicator"
+    },
+    {
+      "createdAt": "2026-01-15",
+      "description": "Analytics CLS 0.71→0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders",
+      "id": "pr-124",
+      "labels": [
+        "PR #124",
+        "Performance"
+      ],
+      "title": "React Performance Optimizations"
+    },
+    {
+      "createdAt": "2026-01-15",
+      "description": "View Transitions API, RUM with web-vitals, CI/CD improvements with PR checks, Container Queries, MCP testing workflows",
+      "id": "jan-14-15",
+      "labels": [
+        "PR #109",
+        "PR #113",
+        "PR #115-117"
+      ],
+      "title": "Jan 14-15: Infrastructure & Polish"
     }
   ]
 }

@@ -12,57 +12,6 @@
           "checklist": [
             {
               "completed": false,
-              "id": "sbi-1",
-              "text": "Export BurndownChart and calculations from error-budget-burndown"
-            },
-            {
-              "completed": false,
-              "id": "sbi-2",
-              "text": "Create SloBurndownPanel component"
-            },
-            {
-              "completed": false,
-              "id": "sbi-3",
-              "text": "Add generateSimulatedIncidents helper"
-            },
-            {
-              "completed": false,
-              "id": "sbi-4",
-              "text": "Add 'SLO Burndown' tab to UptimeCalculator"
-            },
-            {
-              "completed": false,
-              "id": "sbi-5",
-              "text": "Wire up inputs and add burn rate summary"
-            },
-            {
-              "completed": false,
-              "id": "sbi-6",
-              "text": "Mobile responsive check"
-            }
-          ],
-          "createdAt": "2026-01-17",
-          "description": "Add 'SLO Burndown' tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input.",
-          "history": [
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-17T14:10:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "slo-burndown-integration",
-          "labels": [
-            "Enhancement",
-            "SRE"
-          ],
-          "planFile": "docs/plans/27-slo-calculator-burndown-integration.md",
-          "title": "SLO Calculator Burndown Integration"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
               "id": "tw-1",
               "text": "Run npx @tailwindcss/upgrade on feature branch"
             },
@@ -161,7 +110,78 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "sbi-1",
+              "text": "Export BurndownChart and calculations from error-budget-burndown"
+            },
+            {
+              "completed": false,
+              "id": "sbi-2",
+              "text": "Create SloBurndownPanel component"
+            },
+            {
+              "completed": false,
+              "id": "sbi-3",
+              "text": "Add generateSimulatedIncidents helper"
+            },
+            {
+              "completed": false,
+              "id": "sbi-4",
+              "text": "Add 'SLO Burndown' tab to UptimeCalculator"
+            },
+            {
+              "completed": false,
+              "id": "sbi-5",
+              "text": "Wire up inputs and add burn rate summary"
+            },
+            {
+              "completed": false,
+              "id": "sbi-6",
+              "text": "Mobile responsive check"
+            }
+          ],
+          "createdAt": "2026-01-17",
+          "description": "Add 'SLO Burndown' tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input.",
+          "history": [
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-17T14:10:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T18:48:53.156Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-16T18:48:53.165Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T18:48:53.187Z",
+              "type": "column"
+            }
+          ],
+          "id": "slo-burndown-integration",
+          "labels": [
+            "Enhancement",
+            "SRE"
+          ],
+          "planFile": "docs/plans/27-slo-calculator-burndown-integration.md",
+          "title": "SLO Calculator Burndown Integration",
+          "updatedAt": "2026-01-16T18:48:53.187Z"
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -381,10 +401,10 @@
               "type": "column"
             },
             {
-              "type": "column",
-              "timestamp": "2026-01-16T18:14:27.000Z",
               "columnId": "changelog",
-              "columnTitle": "Change Log"
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-16T18:14:27.000Z",
+              "type": "column"
             }
           ],
           "id": "kanban-url-cleanup",
@@ -862,47 +882,6 @@
           ],
           "title": "Kanban Board Save Feature",
           "updatedAt": "2026-01-15T23:03:36.667Z"
-        },
-        {
-          "createdAt": "2026-01-15",
-          "description": "Stagger animations for grids, scroll reveals, tab transitions, mobile nav stagger. Respects prefers-reduced-motion.",
-          "id": "pr-126",
-          "labels": [
-            "PR #126",
-            "UX"
-          ],
-          "title": "Framer Motion Animations"
-        },
-        {
-          "createdAt": "2026-01-15",
-          "description": "Live CI status for In Review cards via GitHub API, merged icon for changelog PRs",
-          "id": "pr-125",
-          "labels": [
-            "PR #125",
-            "UX"
-          ],
-          "title": "Dynamic PR Status Indicator"
-        },
-        {
-          "createdAt": "2026-01-15",
-          "description": "Analytics CLS 0.71→0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders",
-          "id": "pr-124",
-          "labels": [
-            "PR #124",
-            "Performance"
-          ],
-          "title": "React Performance Optimizations"
-        },
-        {
-          "createdAt": "2026-01-15",
-          "description": "View Transitions API, RUM with web-vitals, CI/CD improvements with PR checks, Container Queries, MCP testing workflows",
-          "id": "jan-14-15",
-          "labels": [
-            "PR #109",
-            "PR #113",
-            "PR #115-117"
-          ],
-          "title": "Jan 14-15: Infrastructure & Polish"
         }
       ],
       "id": "changelog",
@@ -912,5 +891,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T18:35:00.000Z"
+  "updatedAt": "2026-01-16T18:48:58.362Z"
 }
