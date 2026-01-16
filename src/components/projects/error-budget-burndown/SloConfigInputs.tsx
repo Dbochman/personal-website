@@ -13,7 +13,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type SloConfig, type BudgetPeriod, calculateTotalBudget, formatDuration } from './calculations';
 import { SLO_PRESETS } from '@/lib/slo';
 
-const MIN_SLO = 99;
+// Input allows full range; slider focuses on high-availability targets
+const MIN_INPUT_SLO = 0;
+const MIN_SLIDER_SLO = 99;
 const MAX_SLO = 99.999;
 
 interface SloConfigInputsProps {
@@ -48,16 +50,16 @@ export function SloConfigInputs({ config, onChange }: SloConfigInputsProps) {
     setInputValue(raw);
 
     const parsed = parseFloat(raw);
-    if (!isNaN(parsed) && parsed >= MIN_SLO && parsed <= MAX_SLO) {
+    if (!isNaN(parsed) && parsed >= MIN_INPUT_SLO && parsed <= MAX_SLO) {
       onChange({ ...config, target: parsed });
     }
   };
 
   const handleInputBlur = () => {
     const parsed = parseFloat(inputValue);
-    if (isNaN(parsed) || parsed < MIN_SLO) {
-      setInputValue(MIN_SLO.toString());
-      onChange({ ...config, target: MIN_SLO });
+    if (isNaN(parsed) || parsed < MIN_INPUT_SLO) {
+      setInputValue(MIN_INPUT_SLO.toString());
+      onChange({ ...config, target: MIN_INPUT_SLO });
     } else if (parsed > MAX_SLO) {
       setInputValue(MAX_SLO.toString());
       onChange({ ...config, target: MAX_SLO });
@@ -103,10 +105,10 @@ export function SloConfigInputs({ config, onChange }: SloConfigInputsProps) {
           <div className="flex items-center gap-4">
             <Slider
               id="slo-target"
-              min={MIN_SLO}
+              min={MIN_SLIDER_SLO}
               max={MAX_SLO}
               step={0.001}
-              value={[config.target]}
+              value={[Math.max(MIN_SLIDER_SLO, config.target)]}
               onValueChange={handleTargetChange}
               className="flex-1"
               aria-label="SLO target percentage"

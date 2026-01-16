@@ -23,8 +23,8 @@ function getDefaultStartDate(): string {
 export default function ErrorBudgetBurndown() {
   const [searchParams] = useSearchParams();
 
-  // Slider range
-  const MIN_SLO = 99;
+  // Input allows full range; slider focuses on high-availability targets
+  const MIN_SLO = 0;
   const MAX_SLO = 99.999;
 
   const [config, setConfig] = useState<SloConfig>(() => {
