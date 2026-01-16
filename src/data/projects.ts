@@ -20,6 +20,9 @@ const Analytics = lazy(
 const ErrorBudgetBurndown = lazy(
   () => import('@/components/projects/error-budget-burndown')
 );
+const ChangelogExplorer = lazy(
+  () => import('@/components/projects/changelog-explorer')
+);
 
 /**
  * Project registry - single source of truth for all projects
@@ -93,6 +96,18 @@ export const projectRegistry: ProjectDefinition[] = [
     status: 'active',
     createdAt: '2026-01-16',
     component: ErrorBudgetBurndown,
+  },
+  {
+    slug: 'changelog',
+    title: 'Change Log Explorer',
+    description:
+      'Browse the history of completed work on this site. Expandable cards with PR links, plan files, checklists, and timeline of each item\'s journey.',
+    tags: ['Meta', 'History', 'Documentation'],
+    icon: 'ScrollText',
+    status: 'active',
+    createdAt: '2026-01-16',
+    fullWidth: true,
+    component: ChangelogExplorer,
   },
 ];
 

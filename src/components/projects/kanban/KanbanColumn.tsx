@@ -3,7 +3,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { KanbanCard } from './KanbanCard';
 import { Button } from '@/components/ui/button';
-import { Plus, MoreHorizontal, Trash2, Pencil, ArrowUpDown, ArrowUp, ArrowDown, History } from 'lucide-react';
+import { Plus, MoreHorizontal, Trash2, Pencil, ArrowUpDown, ArrowUp, ArrowDown, ScrollText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KanbanColumn as KanbanColumnType, KanbanCard as KanbanCardType } from '@/types/kanban';
 import { COLUMN_COLORS } from '@/types/kanban';
@@ -17,7 +17,6 @@ import {
 type SortDirection = 'none' | 'asc' | 'desc';
 
 const CHANGELOG_MAX_CARDS = 7;
-const REPO_URL = 'https://github.com/Dbochman/personal-website';
 
 // Map size labels to numeric values for sorting
 function getSizeValue(labels?: string[]): number {
@@ -35,6 +34,7 @@ function getSizeValue(labels?: string[]): number {
 
 interface KanbanColumnProps {
   column: KanbanColumnType;
+  boardId: string;
   onAddCard: (columnId: string) => void;
   onEditCard: (card: KanbanCardType, scrollTo?: string) => void;
   onEditColumn: (columnId: string) => void;
@@ -43,6 +43,7 @@ interface KanbanColumnProps {
 
 export function KanbanColumn({
   column,
+  boardId,
   onAddCard,
   onEditCard,
   onEditColumn,
@@ -152,16 +153,14 @@ export function KanbanColumn({
           </div>
         </SortableContext>
 
-        {/* Show link to git history if changelog has more cards */}
+        {/* Show link to Change Log Explorer if changelog has more cards */}
         {hasMoreCards && (
           <a
-            href={`${REPO_URL}/commits/main`}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`/projects/changelog?board=${boardId}`}
             className="flex items-center gap-2 mt-3 px-3 py-2 text-xs text-muted-foreground hover:text-foreground bg-background/50 rounded border border-dashed border-border hover:border-primary/50 transition-colors"
           >
-            <History className="w-3.5 h-3.5" />
-            <span>View full history on GitHub</span>
+            <ScrollText className="w-3.5 h-3.5" />
+            <span>View full Change Log</span>
           </a>
         )}
       </div>
