@@ -22,7 +22,7 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="lg:sticky lg:top-24 space-y-6">
       {/* Core Expertise Card */}
       <Card className="bg-background/60 backdrop-blur-sm border-transparent">
         <CardContent className="p-6">

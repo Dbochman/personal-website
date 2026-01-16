@@ -15,7 +15,7 @@ const PageLayout = ({ children }: PageLayoutProps) => {
   useViewTransitionHints();
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground relative">
       {/* Skip Navigation Link */}
       <a
         href="#main-content"
