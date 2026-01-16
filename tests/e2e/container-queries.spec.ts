@@ -15,7 +15,7 @@ test.describe('Container Queries', () => {
     // Use wide viewport to ensure container has room
     await page.setViewportSize({ width: 1200, height: 800 });
 
-    await page.goto(`${BASE_URL}/projects/uptime-calculator`);
+    await page.goto(`${BASE_URL}/projects/slo-tool`);
     await page.waitForLoadState('networkidle');
 
     // Find the @container card and check flex direction
@@ -37,7 +37,7 @@ test.describe('Container Queries', () => {
     // Keep viewport WIDE - we're testing container width, not viewport
     await page.setViewportSize({ width: 1200, height: 800 });
 
-    await page.goto(`${BASE_URL}/projects/uptime-calculator`);
+    await page.goto(`${BASE_URL}/projects/slo-tool`);
     await page.waitForLoadState('networkidle');
 
     // Find the @container card and constrain it via JavaScript

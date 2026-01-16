@@ -15,7 +15,7 @@ draft: true
 
 Three nines means 43.2 minutes of downtime per month. If your mean time to resolve (MTTR) is 50 minutes per incident, you cannot achieve 99.9% with more than zero incidents. Not "might have trouble" achieving it—*mathematically cannot*.
 
-This is the gap the [SLO Uptime Calculator](/projects/uptime-calculator) exists to close: the gap between the SLA you want to promise and the SLA your incident response can actually deliver.
+This is the gap the [SLO Calculator](/projects/slo-tool) exists to close: the gap between the SLA you want to promise and the SLA your incident response can actually deliver.
 
 ## The Problem: Promises Disconnected from Reality
 
@@ -124,6 +124,6 @@ The calculator includes toggles to enable/disable each phase. This lets you mode
 
 ## Try It
 
-The [SLO Uptime Calculator](/projects/uptime-calculator) is available now.
+The [SLO Calculator](/projects/slo-tool) is available now.
 
 Before your next SLA discussion, input your team's actual response profile. The gap between "what we want to promise" and "what we can sustain" might be larger—or smaller—than you expect.

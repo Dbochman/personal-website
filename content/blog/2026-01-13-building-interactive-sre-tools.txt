@@ -14,7 +14,7 @@ draft: true
 We built three interactive SRE tools recently:
 
 - An [On-Call Coverage Model Explorer](/projects/oncall-coverage) for comparing rotation structures
-- An [SLO Uptime Calculator](/projects/uptime-calculator) for reality-checking availability promises
+- An [SLO Calculator](/projects/slo-tool) for reality-checking availability promises
 - A [Status Page Update Generator](/projects/statuspage-update) for drafting incident communication
 
 They solve different problems but share a design philosophy worth articulating: make tradeoffs visible rather than prescribe outcomes.
@@ -124,7 +124,7 @@ The best documentation for "what should our status update say?" isn't a style gu
 ## Try Them
 
 - [On-Call Coverage Model Explorer](/projects/oncall-coverage)
-- [SLO Uptime Calculator](/projects/uptime-calculator)
+- [SLO Calculator](/projects/slo-tool)
 - [Status Page Update Generator](/projects/statuspage-update)
 
 All three are built with React, TypeScript, and Tailwind. Source is available on GitHub.
