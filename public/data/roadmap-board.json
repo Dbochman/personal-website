@@ -275,6 +275,24 @@
       "cards": [
         {
           "createdAt": "2026-01-15",
+          "description": "Expertise cards: 1s hover delay, click to expand/collapse, sticky sidebar. Experience accordion: hover to expand, slow 3.5s card reveal. Fixed header z-index overlap.",
+          "history": [
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-16T00:30:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "jan-15-ux",
+          "labels": [
+            "UX",
+            "Animation"
+          ],
+          "title": "Jan 15: Expertise & Experience UX"
+        },
+        {
+          "createdAt": "2026-01-15",
           "description": "GitHub OAuth login, Cloudflare Worker proxy, save to GitHub via Actions. Includes conflict detection, unsaved changes warning.",
           "history": [
             {
