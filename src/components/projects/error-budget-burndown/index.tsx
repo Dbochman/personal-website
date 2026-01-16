@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { SloConfigInputs } from './SloConfigInputs';
 import { IncidentList } from './IncidentList';
 import { BurndownChart } from './BurndownChart';
@@ -19,13 +21,42 @@ function getDefaultStartDate(): string {
 }
 
 export default function ErrorBudgetBurndown() {
-  const [config, setConfig] = useState<SloConfig>({
-    target: 99.9,
-    period: 'monthly',
-    startDate: getDefaultStartDate(),
+  const [searchParams] = useSearchParams();
+
+  // Input allows full range; slider focuses on high-availability targets
+  const MIN_SLO = 0;
+  const MAX_SLO = 99.999;
+
+  const [config, setConfig] = useState<SloConfig>(() => {
+    // Initialize from URL params if present, clamping to valid range
+    const sloParam = searchParams.get('slo');
+    let initialTarget = 99.9;
+    if (sloParam) {
+      const parsed = parseFloat(sloParam);
+      if (!isNaN(parsed)) {
+        initialTarget = Math.min(MAX_SLO, Math.max(MIN_SLO, parsed));
+      }
+    }
+    return {
+      target: initialTarget,
+      period: 'monthly',
+      startDate: getDefaultStartDate(),
+    };
   });
 
   const [incidents, setIncidents] = useState<Incident[]>([]);
+
+  // Update config if URL params change (e.g., from cross-tool navigation)
+  useEffect(() => {
+    const sloParam = searchParams.get('slo');
+    if (sloParam) {
+      const parsed = parseFloat(sloParam);
+      if (!isNaN(parsed)) {
+        const clamped = Math.min(MAX_SLO, Math.max(MIN_SLO, parsed));
+        setConfig((prev) => ({ ...prev, target: clamped }));
+      }
+    }
+  }, [searchParams]);
 
   const calculation = calculateBudget(config, incidents);
   const chartData = generateChartData(config, incidents, calculation);
@@ -54,6 +85,17 @@ export default function ErrorBudgetBurndown() {
         daysElapsed={calculation.daysElapsed}
         isOnTrack={calculation.isOnTrack}
       />
+
+      {/* Cross-tool link */}
+      <div className="pt-4 border-t">
+        <Link
+          to={`/projects/uptime-calculator?slo=${config.target}&mode=target`}
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+        >
+          Improve your incident response times
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
     </div>
   );
 }

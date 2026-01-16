@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
@@ -8,6 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import { ArrowRight } from 'lucide-react';
 import { ResponseTimeInputs } from './ResponseTimeInputs';
 import { IncidentInput } from './IncidentInput';
 import { SloTargetInput } from './SloTargetInput';
@@ -23,6 +25,51 @@ import {
   getEffectiveProfile,
 } from './calculations';
 
+const VALID_MODES = ['achievable', 'target', 'burndown'] as const;
+type ValidMode = (typeof VALID_MODES)[number];
+
+// Input allows full range; slider focuses on high-availability targets
+const MIN_SLO = 0;
+const MAX_SLO = 99.999;
+const MIN_INCIDENTS = 0;
+const MAX_INCIDENTS = 100;
+
+/**
+ * Parse URL params for cross-tool linking
+ * Clamps values to valid slider ranges
+ */
+function parseUrlParams(searchParams: URLSearchParams) {
+  const sloParam = searchParams.get('slo');
+  const modeParam = searchParams.get('mode');
+  const incidentsParam = searchParams.get('incidents');
+
+  // Clamp SLO to slider range
+  let slo: number | null = null;
+  if (sloParam) {
+    const parsed = parseFloat(sloParam);
+    if (!isNaN(parsed)) {
+      slo = Math.min(MAX_SLO, Math.max(MIN_SLO, parsed));
+    }
+  }
+
+  // Validate mode: must be one of the valid modes
+  let mode: ValidMode | null = null;
+  if (modeParam && VALID_MODES.includes(modeParam as ValidMode)) {
+    mode = modeParam as ValidMode;
+  }
+
+  // Clamp incidents to valid range
+  let incidents: number | null = null;
+  if (incidentsParam) {
+    const parsed = parseInt(incidentsParam, 10);
+    if (!isNaN(parsed)) {
+      incidents = Math.min(MAX_INCIDENTS, Math.max(MIN_INCIDENTS, parsed));
+    }
+  }
+
+  return { slo, mode, incidents };
+}
+
 export type CalculationMode = 'achievable' | 'target' | 'burndown';
 export type EnabledPhases = Record<keyof ResponseProfile, boolean>;
 
@@ -36,12 +83,38 @@ const DEFAULT_ENABLED: EnabledPhases = {
 };
 
 export default function UptimeCalculator() {
-  const [mode, setMode] = useState<CalculationMode>('achievable');
+  const [searchParams] = useSearchParams();
+
+  // Initialize state from URL params
+  const [mode, setMode] = useState<CalculationMode>(() => {
+    const params = parseUrlParams(searchParams);
+    return params.mode ?? 'achievable';
+  });
   const [profile, setProfile] = useState<ResponseProfile>(DEFAULT_PROFILE);
   const [enabledPhases, setEnabledPhases] = useState<EnabledPhases>(DEFAULT_ENABLED);
-  const [incidentsPerMonth, setIncidentsPerMonth] = useState(4);
-  const [targetSlo, setTargetSlo] = useState(99.9);
+  const [incidentsPerMonth, setIncidentsPerMonth] = useState(() => {
+    const params = parseUrlParams(searchParams);
+    return params.incidents ?? 4;
+  });
+  const [targetSlo, setTargetSlo] = useState(() => {
+    const params = parseUrlParams(searchParams);
+    return params.slo ?? 99.9;
+  });
   const [selectedPreset, setSelectedPreset] = useState<string>('');
+
+  // Update state if URL params change (e.g., from cross-tool navigation)
+  useEffect(() => {
+    const params = parseUrlParams(searchParams);
+    if (params.slo !== null) {
+      setTargetSlo(params.slo);
+    }
+    if (params.mode !== null) {
+      setMode(params.mode);
+    }
+    if (params.incidents !== null) {
+      setIncidentsPerMonth(params.incidents);
+    }
+  }, [searchParams]);
 
   const handlePresetChange = (presetKey: string) => {
     setSelectedPreset(presetKey);
@@ -150,6 +223,17 @@ export default function UptimeCalculator() {
               avgDurationMinutes={achievableResult.mttrMinutes}
             />
           </TabsContent>
+        </div>
+
+        {/* Cross-tool link */}
+        <div className="mt-6 pt-4 border-t">
+          <Link
+            to={`/projects/error-budget?slo=${mode === 'achievable' ? achievableResult.maxAchievableSlo.toFixed(2) : targetSlo}`}
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+          >
+            See how incidents impact your error budget
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </Tabs>
     </div>

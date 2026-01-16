@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Slider } from '@/components/ui/slider';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,18 +10,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { COMMON_SLO_TARGETS } from './calculations';
+import { SLO_PRESETS, snapToPreset } from '@/lib/slo';
 
 interface SloTargetInputProps {
   value: number;
   onChange: (value: number) => void;
 }
 
-const MIN_SLO = 90;
+// Input allows full range; slider focuses on high-availability targets
+const MIN_INPUT_SLO = 0;
+const MIN_SLIDER_SLO = 90;
 const MAX_SLO = 99.999;
 
 export function SloTargetInput({ value, onChange }: SloTargetInputProps) {
   const [inputValue, setInputValue] = useState(value.toString());
+
+  // Sync local input state when prop changes (e.g., from URL params)
+  useEffect(() => {
+    setInputValue(value.toString());
+  }, [value]);
 
   const handleQuickSelect = (sloValue: string) => {
     if (sloValue === 'custom') return;
@@ -31,8 +38,9 @@ export function SloTargetInput({ value, onChange }: SloTargetInputProps) {
   };
 
   const handleSliderChange = (newValue: number) => {
-    onChange(newValue);
-    setInputValue(newValue.toString());
+    const snapped = snapToPreset(newValue);
+    onChange(snapped);
+    setInputValue(snapped.toString());
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,16 +48,16 @@ export function SloTargetInput({ value, onChange }: SloTargetInputProps) {
     setInputValue(raw);
 
     const parsed = parseFloat(raw);
-    if (!isNaN(parsed) && parsed >= MIN_SLO && parsed <= MAX_SLO) {
+    if (!isNaN(parsed) && parsed >= MIN_INPUT_SLO && parsed <= MAX_SLO) {
       onChange(parsed);
     }
   };
 
   const handleInputBlur = () => {
     const parsed = parseFloat(inputValue);
-    if (isNaN(parsed) || parsed < MIN_SLO) {
-      setInputValue(MIN_SLO.toString());
-      onChange(MIN_SLO);
+    if (isNaN(parsed) || parsed < MIN_INPUT_SLO) {
+      setInputValue(MIN_INPUT_SLO.toString());
+      onChange(MIN_INPUT_SLO);
     } else if (parsed > MAX_SLO) {
       setInputValue(MAX_SLO.toString());
       onChange(MAX_SLO);
@@ -59,7 +67,7 @@ export function SloTargetInput({ value, onChange }: SloTargetInputProps) {
   };
 
   // Check if current value matches a common target
-  const matchingTarget = COMMON_SLO_TARGETS.find((t) => t.value === value);
+  const matchingTarget = SLO_PRESETS.find((t) => t.value === value);
 
   return (
     <Card>
@@ -76,7 +84,7 @@ export function SloTargetInput({ value, onChange }: SloTargetInputProps) {
               <SelectValue placeholder="Select SLO" />
             </SelectTrigger>
             <SelectContent>
-              {COMMON_SLO_TARGETS.map(({ value: v, label }) => (
+              {SLO_PRESETS.map(({ value: v, label }) => (
                 <SelectItem key={v} value={v.toString()}>
                   {label}
                 </SelectItem>
@@ -107,15 +115,15 @@ export function SloTargetInput({ value, onChange }: SloTargetInputProps) {
           <Slider
             id="slo-slider"
             aria-label="Fine-tune target SLO percentage"
-            value={[value]}
+            value={[Math.max(MIN_SLIDER_SLO, value)]}
             onValueChange={([v]) => handleSliderChange(v)}
-            min={MIN_SLO}
+            min={MIN_SLIDER_SLO}
             max={MAX_SLO}
             step={0.001}
             className="w-full"
           />
           <p className="text-xs text-muted-foreground">
-            Slide or type to adjust between {MIN_SLO}% and {MAX_SLO}%
+            Slider: {MIN_SLIDER_SLO}%-{MAX_SLO}% · Input: {MIN_INPUT_SLO}%-{MAX_SLO}%
           </p>
         </div>
       </CardContent>

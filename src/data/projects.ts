@@ -31,10 +31,10 @@ const ChangelogExplorer = lazy(
 export const projectRegistry: ProjectDefinition[] = [
   {
     slug: 'uptime-calculator',
-    title: 'SLO Uptime Calculator',
+    title: 'SLO Calculator',
     description:
       'Calculate realistic SLOs based on your incident response times. See how much of your error budget goes to response overhead before you even start fixing things.',
-    tags: ['SRE', 'Calculator', 'SLA'],
+    tags: ['SRE', 'Calculator', 'SLO'],
     icon: 'Calculator',
     status: 'active',
     createdAt: '2025-01-12',
