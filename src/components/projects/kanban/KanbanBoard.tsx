@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -18,6 +18,7 @@ import { CardEditorModal } from './CardEditorModal';
 import { ColumnEditorModal } from './ColumnEditorModal';
 import { Button } from '@/components/ui/button';
 import { Plus, RotateCcw, Share2, Save, Loader2, Check, LogIn, LogOut } from 'lucide-react';
+import { toast } from '@/components/ui/sonner';
 import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType, ColumnColor } from '@/types/kanban';
 import { generateId } from '@/types/kanban';
 
@@ -48,6 +49,15 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
   // Auth state
   const [auth, setAuth] = useState<AuthStatus>({ authenticated: false, username: null });
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  // External change detection state
+  const [externalChangeDetected, setExternalChangeDetected] = useState(false);
+  const externalChangeDetectedRef = useRef(false);
+
+  // Keep ref in sync with state (for use in callbacks without stale closures)
+  useEffect(() => {
+    externalChangeDetectedRef.current = externalChangeDetected;
+  }, [externalChangeDetected]);
 
   // Check auth status on mount
   useEffect(() => {
@@ -120,6 +130,99 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
     });
     setAuth({ authenticated: false, username: null });
   }, []);
+
+  // Soft reload - fetch new data and update state in place
+  const handleSoftReload = useCallback(async () => {
+    try {
+      const res = await fetch(`/data/${boardId}-board.json`);
+      if (!res.ok) throw new Error('Failed to fetch');
+      const data = await res.json();
+
+      setBoard(data);
+      setBaseUpdatedAt(data.updatedAt || new Date().toISOString());
+      setIsDirty(false);
+      setExternalChangeDetected(false);
+
+      toast.success('Board reloaded');
+    } catch {
+      toast.error('Failed to reload board');
+    }
+  }, [boardId]);
+
+  // Check for external changes
+  const checkForExternalChanges = useCallback(async () => {
+    // Don't check if we've already detected a change
+    if (externalChangeDetectedRef.current) return;
+
+    try {
+      const res = await fetch(`/data/${boardId}-board.json`);
+      if (!res.ok) return;
+
+      const data = await res.json();
+      const remoteUpdatedAt = data.updatedAt;
+
+      // If remote is newer than our base, external change detected
+      if (remoteUpdatedAt && new Date(remoteUpdatedAt) > new Date(baseUpdatedAt)) {
+        setExternalChangeDetected(true);
+
+        toast('Board was updated externally', {
+          id: 'external-change', // Prevent duplicate toasts
+          description: isDirty
+            ? 'You have unsaved changes that will be discarded.'
+            : 'Click reload to get the latest version.',
+          action: {
+            label: 'Reload',
+            onClick: handleSoftReload,
+          },
+          duration: Infinity, // Don't auto-dismiss
+        });
+      }
+    } catch {
+      // Silently fail - don't disrupt user
+      console.debug('External change check failed');
+    }
+  }, [boardId, baseUpdatedAt, isDirty, handleSoftReload]);
+
+  // Set up polling and visibility detection for external changes
+  useEffect(() => {
+    // Poll every 60 seconds while visible
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+
+    const startPolling = () => {
+      if (!intervalId) {
+        intervalId = setInterval(checkForExternalChanges, 15000);
+      }
+    };
+
+    const stopPolling = () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+
+    // Handle visibility change
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        checkForExternalChanges(); // Check immediately on focus
+        startPolling();
+      } else {
+        stopPolling();
+      }
+    };
+
+    // Start polling if visible
+    if (document.visibilityState === 'visible') {
+      startPolling();
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      stopPolling();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [checkForExternalChanges]);
 
   // Save board to GitHub via Cloudflare Worker (requires auth)
   const handleSaveToGitHub = useCallback(async () => {
