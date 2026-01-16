@@ -9,6 +9,7 @@ import {
   calculateBudget,
   generateChartData,
   toLocalDateString,
+  PERIOD_DAYS,
 } from './calculations';
 
 // Get first day of current month as default start date
@@ -42,6 +43,7 @@ export default function ErrorBudgetBurndown() {
           incidents={incidents}
           onChange={setIncidents}
           periodStartDate={config.startDate}
+          periodDays={PERIOD_DAYS[config.period]}
         />
       </div>
 
