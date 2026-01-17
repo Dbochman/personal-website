@@ -18,6 +18,7 @@ import {
 import { TransitionLink } from '@/hooks/useViewTransition';
 import type { ProjectMeta } from '@/types/project';
 import { cn } from '@/lib/utils';
+import { preloadProject } from '@/App';
 
 // Icon registry - add icons here as new projects are added
 const iconRegistry: Record<string, LucideIcon> = {
@@ -44,6 +45,8 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
 
   const handleFirstInteraction = () => {
     if (!hasBeenHovered) {
+      // Preload the Project page chunk for smooth view transitions
+      preloadProject();
       if (typeof gtag !== 'undefined') {
         gtag('event', 'project_card_expand', {
           event_category: 'engagement',
