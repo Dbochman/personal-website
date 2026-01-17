@@ -74,7 +74,10 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
           {IconComponent && (
             <div className="relative">
               <div className="absolute inset-0 blur-xl opacity-50 bg-foreground/20" />
-              <div className="relative p-4 rounded-xl border shadow-sm bg-foreground/10 border-foreground/20">
+              <div
+                className="relative p-4 rounded-xl border shadow-sm bg-foreground/10 border-foreground/20"
+                style={{ viewTransitionName: `project-icon-${project.slug}` }}
+              >
                 <IconComponent className="w-8 h-8 text-foreground/80" />
               </div>
             </div>

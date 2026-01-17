@@ -390,6 +390,43 @@
   from { opacity: 0; }
 }
 
+/* Project card → page element morphing */
+/* Icon morph: grows and repositions smoothly */
+::view-transition-group(project-icon-*) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Title morph: smooth reposition and scale */
+::view-transition-group(project-title-*) {
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Prevent icon from fading during morph - just transform */
+::view-transition-old(project-icon-*),
+::view-transition-new(project-icon-*) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Crossfade the title text during transform */
+::view-transition-old(project-title-*) {
+  animation: vt-morph-fade-out 0.3s ease-out forwards;
+}
+::view-transition-new(project-title-*) {
+  animation: vt-morph-fade-in 0.3s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+@keyframes vt-morph-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-morph-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* Disable view transitions for reduced motion */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
