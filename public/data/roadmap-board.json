@@ -1,31 +1,7 @@
 {
   "columns": [
     {
-      "cards": [
-        {
-          "id": "programmatic-og-images",
-          "title": "Programmatic OG Image Generation",
-          "description": "Generate Open Graph images dynamically for project pages using @vercel/og or satori.\n\nBenefits:\n- Consistent branding across all projects\n- Auto-generated from project metadata (title, description, icon)\n- No manual design work per project\n\nApproach options:\n1. Build-time generation (static images in dist/)\n2. Edge function (Vercel/Cloudflare Worker)\n3. GitHub Action that generates on content change\n\nConsiderations:\n- GitHub Pages is static-only, so edge functions won't work\n- Build-time or CI generation are the viable paths",
-          "labels": ["Enhancement", "Infrastructure"],
-          "createdAt": "2026-01-17",
-          "checklist": [
-            {"id": "og-1", "text": "Research @vercel/og vs satori for static generation", "completed": false},
-            {"id": "og-2", "text": "Design OG image template (layout, colors, typography)", "completed": false},
-            {"id": "og-3", "text": "Create generateOgImages.ts script", "completed": false},
-            {"id": "og-4", "text": "Add to build pipeline", "completed": false},
-            {"id": "og-5", "text": "Update Project.tsx to use generated images", "completed": false},
-            {"id": "og-6", "text": "Generate images for all active projects", "completed": false}
-          ],
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-17T02:45:00.000Z",
-              "columnId": "ideas",
-              "columnTitle": "Ideas"
-            }
-          ]
-        }
-      ],
+      "cards": [],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
@@ -134,7 +110,39 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "id": "programmatic-og-images",
+          "title": "Programmatic OG Image Generation",
+          "description": "Generate Open Graph images at build time for project pages using satori + @resvg/resvg-js.\n\nImplemented:\n- Build-time generation via scripts/generate-og-images.mjs\n- Dark theme template with icon, title, description, tags\n- Inter font (regular + bold) for typography\n- Added to build pipeline in package.json\n- Extracted project metadata to projects-meta.json\n- Simplified projects.ts by removing inline metadata",
+          "labels": ["Enhancement", "Infrastructure"],
+          "planFile": "docs/plans/33-programmatic-og-images.md",
+          "createdAt": "2026-01-17",
+          "checklist": [
+            {"id": "og-1", "text": "Research @vercel/og vs satori for static generation", "completed": true},
+            {"id": "og-2", "text": "Design OG image template (layout, colors, typography)", "completed": true},
+            {"id": "og-3", "text": "Create generateOgImages.mjs script", "completed": true},
+            {"id": "og-4", "text": "Add to build pipeline", "completed": true},
+            {"id": "og-5", "text": "Update Project.tsx to use generated images", "completed": true},
+            {"id": "og-6", "text": "Generate images for all active projects", "completed": true}
+          ],
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-17T02:45:00.000Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-17T02:49:00.000Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            }
+          ],
+          "updatedAt": "2026-01-17T02:49:00.000Z"
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
