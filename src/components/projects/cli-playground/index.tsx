@@ -1,15 +1,17 @@
-import { useState, useCallback, useEffect, useTransition } from 'react';
+import { useState, useCallback, useEffect, useTransition, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ToolSelector } from './ToolSelector';
-import { PresetSelector } from './PresetSelector';
-import { InputEditor } from './InputEditor';
-import { CommandEditor } from './CommandEditor';
-import { OutputPanel } from './OutputPanel';
+import { TopBar } from './TopBar';
+import { CommandRow } from './CommandRow';
+import { Workspace } from './Workspace';
+import { ExplainDrawer } from './ExplainDrawer';
+import { LearnHeader } from './LearnHeader';
 import { executeCommand } from './engines';
-import type { Tool, ToolPreset, ToolState } from './types';
+import { explainCommand } from './explainer';
+import type { Tool, Mode, ToolPreset, ToolState, PersistedToolState } from './types';
 import { TOOL_CONFIGS, DEFAULT_STATE } from './types';
-import { Button } from '@/components/ui/button';
-import { Play, RotateCcw } from 'lucide-react';
+
+// Store per-tool state when switching tools
+const toolStateCache = new Map<Tool, PersistedToolState>();
 
 export default function CliPlayground() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -29,11 +31,30 @@ export default function CliPlayground() {
     };
   });
 
+  const [mode, setMode] = useState<Mode>(() => {
+    return (searchParams.get('mode') as Mode) || 'learn';
+  });
+
+  const [currentPresetIndex, setCurrentPresetIndex] = useState(0);
+  const [explainOpen, setExplainOpen] = useState(true);
+
+  // Current preset for Learn mode hints
+  const currentPreset = useMemo(() => {
+    return TOOL_CONFIGS[state.tool].presets[currentPresetIndex] || null;
+  }, [state.tool, currentPresetIndex]);
+
+  // Generate explanation for current command
+  const explanation = useMemo(() => {
+    if (!state.command.trim()) return null;
+    return explainCommand(state.tool, state.command);
+  }, [state.tool, state.command]);
+
   // Sync state to URL params (debounced)
   useEffect(() => {
     const timeout = setTimeout(() => {
       const params = new URLSearchParams();
       params.set('tool', state.tool);
+      params.set('mode', mode);
       if (state.input !== TOOL_CONFIGS[state.tool].presets[0].input) {
         params.set('input', state.input);
       }
@@ -44,21 +65,66 @@ export default function CliPlayground() {
     }, 500);
 
     return () => clearTimeout(timeout);
-  }, [state.tool, state.input, state.command, setSearchParams]);
+  }, [state.tool, state.input, state.command, mode, setSearchParams]);
+
+  // Global keyboard shortcut for Cmd/Ctrl+Enter
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        handleRun();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleRun]);
 
   const handleToolChange = useCallback((tool: Tool) => {
-    const preset = TOOL_CONFIGS[tool].presets[0];
-    setState({
-      tool,
-      input: preset.input,
-      command: preset.command,
-      output: '',
-      error: undefined,
-      isLoading: false,
+    // Save current tool state
+    toolStateCache.set(state.tool, {
+      input: state.input,
+      command: state.command,
+      presetIndex: currentPresetIndex,
     });
+
+    // Restore cached state or use first preset
+    const cached = toolStateCache.get(tool);
+    if (cached) {
+      setState({
+        tool,
+        input: cached.input,
+        command: cached.command,
+        output: '',
+        error: undefined,
+        isLoading: false,
+      });
+      setCurrentPresetIndex(cached.presetIndex);
+    } else {
+      const preset = TOOL_CONFIGS[tool].presets[0];
+      setState({
+        tool,
+        input: preset.input,
+        command: preset.command,
+        output: '',
+        error: undefined,
+        isLoading: false,
+      });
+      setCurrentPresetIndex(0);
+    }
+  }, [state.tool, state.input, state.command, currentPresetIndex]);
+
+  const handleModeChange = useCallback((newMode: Mode) => {
+    setMode(newMode);
+    // Auto-expand explain in learn mode
+    if (newMode === 'learn') {
+      setExplainOpen(true);
+    }
   }, []);
 
   const handlePresetSelect = useCallback((preset: ToolPreset) => {
+    const index = TOOL_CONFIGS[state.tool].presets.findIndex(p => p.name === preset.name);
+    setCurrentPresetIndex(index >= 0 ? index : 0);
     setState((prev) => ({
       ...prev,
       input: preset.input,
@@ -66,7 +132,7 @@ export default function CliPlayground() {
       output: '',
       error: undefined,
     }));
-  }, []);
+  }, [state.tool]);
 
   const handleInputChange = useCallback((input: string) => {
     setState((prev) => ({ ...prev, input }));
@@ -101,10 +167,6 @@ export default function CliPlayground() {
     }
   }, [state.tool, state.input, state.command]);
 
-  const handleClear = useCallback(() => {
-    setState((prev) => ({ ...prev, output: '', error: undefined }));
-  }, []);
-
   const handleReset = useCallback(() => {
     const preset = TOOL_CONFIGS[state.tool].presets[0];
     setState({
@@ -115,66 +177,55 @@ export default function CliPlayground() {
       error: undefined,
       isLoading: false,
     });
+    setCurrentPresetIndex(0);
   }, [state.tool]);
 
-  // Run on Enter key in command input
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        handleRun();
-      }
-    },
-    [handleRun]
-  );
+  const handleTryCommand = useCallback((command: string) => {
+    setState((prev) => ({ ...prev, command }));
+  }, []);
 
   return (
-    <div className="space-y-6" onKeyDown={handleKeyDown}>
-      {/* Tool selector and presets */}
-      <div className="flex flex-col sm:flex-row sm:items-end gap-4">
-        <div className="flex-1">
-          <ToolSelector value={state.tool} onChange={handleToolChange} />
-        </div>
-        <div className="flex gap-2">
-          <PresetSelector tool={state.tool} onSelect={handlePresetSelect} />
-          <Button variant="outline" size="sm" onClick={handleReset}>
-            <RotateCcw className="h-4 w-4 mr-1" />
-            Reset
-          </Button>
-        </div>
-      </div>
+    <div className="space-y-4">
+      {/* Top bar: tool tabs, examples, mode toggle, actions */}
+      <TopBar
+        tool={state.tool}
+        mode={mode}
+        onToolChange={handleToolChange}
+        onModeChange={handleModeChange}
+        onPresetSelect={handlePresetSelect}
+        onReset={handleReset}
+      />
 
-      {/* Input and command editors */}
-      <div className="grid gap-4 lg:grid-cols-2">
-        <InputEditor
-          value={state.input}
-          onChange={handleInputChange}
-          tool={state.tool}
-        />
-        <div className="space-y-4">
-          <CommandEditor
-            tool={state.tool}
-            value={state.command}
-            onChange={handleCommandChange}
-          />
-          <Button
-            onClick={handleRun}
-            disabled={state.isLoading || isPending}
-            className="w-full sm:w-auto"
-          >
-            <Play className="h-4 w-4 mr-1" />
-            Run
-          </Button>
-        </div>
-      </div>
+      {/* Learn mode: Goal and Hint */}
+      {mode === 'learn' && <LearnHeader preset={currentPreset} />}
 
-      {/* Output */}
-      <OutputPanel
+      {/* Command row */}
+      <CommandRow
+        tool={state.tool}
+        command={state.command}
+        isLoading={state.isLoading || isPending}
+        onCommandChange={handleCommandChange}
+        onRun={handleRun}
+      />
+
+      {/* Workspace: Input | Output side-by-side */}
+      <Workspace
+        input={state.input}
         output={state.output}
         error={state.error}
         isLoading={state.isLoading || isPending}
-        onClear={handleClear}
+        onInputChange={handleInputChange}
       />
+
+      {/* Explain drawer (Learn mode only) */}
+      {mode === 'learn' && (
+        <ExplainDrawer
+          explanation={explanation}
+          isOpen={explainOpen}
+          onOpenChange={setExplainOpen}
+          onTryCommand={handleTryCommand}
+        />
+      )}
     </div>
   );
 }

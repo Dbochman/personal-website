@@ -1,4 +1,5 @@
 export type Tool = 'jq' | 'grep' | 'sed' | 'awk';
+export type Mode = 'learn' | 'playground';
 
 export interface ToolState {
   tool: Tool;
@@ -7,6 +8,18 @@ export interface ToolState {
   output: string;
   error?: string;
   isLoading: boolean;
+}
+
+export interface PersistedToolState {
+  input: string;
+  command: string;
+  presetIndex: number;
+}
+
+export interface CommandExplanation {
+  summary: string;
+  flags: { flag: string; meaning: string }[];
+  tryNext: { label: string; command: string }[];
 }
 
 export interface ToolPreset {
