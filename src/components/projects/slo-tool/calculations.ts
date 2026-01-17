@@ -108,10 +108,10 @@ export const PHASE_LABELS: Record<keyof ResponseProfile, string> = {
 export const DEFAULT_PROFILE: ResponseProfile = {
   alertLatencyMin: 5,
   acknowledgeMin: 5,
-  travelMin: 2,
-  authMin: 3,
-  diagnoseMin: 15,
-  fixMin: 20,
+  travelMin: 0,
+  authMin: 1,
+  diagnoseMin: 5,
+  fixMin: 10,
 };
 
 export const RESPONSE_PRESETS: Record<string, { label: string; profile: ResponseProfile }> = {
@@ -419,9 +419,14 @@ export function calculateBudget(
 export function generateChartData(
   config: SloConfig,
   incidents: Incident[],
-  calculation: BudgetCalculation
+  calculation: BudgetCalculation,
+  simulatedBurnMultiplier?: number
 ): ChartDataPoint[] {
-  const { periodDays, totalBudgetMinutes, burnRate } = calculation;
+  const { periodDays, totalBudgetMinutes, sustainableRate } = calculation;
+  // Use simulated burn rate if provided, otherwise use actual
+  const effectiveBurnRate = simulatedBurnMultiplier !== undefined
+    ? sustainableRate * simulatedBurnMultiplier
+    : calculation.burnRate;
   const startDate = parseLocalDate(config.startDate);
   const data: ChartDataPoint[] = [];
 
@@ -463,7 +468,7 @@ export function generateChartData(
     // Projection line for current day and beyond
     if (day >= calculation.daysElapsed) {
       const projectedConsumed =
-        calculation.consumedMinutes + burnRate * (day - calculation.daysElapsed);
+        calculation.consumedMinutes + effectiveBurnRate * (day - calculation.daysElapsed);
       point.projected = Math.max(
         0,
         Math.round((totalBudgetMinutes - projectedConsumed) * 100) / 100
@@ -474,6 +479,44 @@ export function generateChartData(
   }
 
   return data;
+}
+
+/**
+ * Calculate projection stats for a given burn rate multiplier
+ */
+export function calculateBurnRateProjection(
+  calculation: BudgetCalculation,
+  burnMultiplier: number
+): {
+  daysUntilExhaustion: number | null;
+  exhaustionDate: Date | null;
+  isOnTrack: boolean;
+  percentConsumedAtEnd: number;
+} {
+  const { sustainableRate, totalBudgetMinutes, remainingMinutes, daysRemaining } = calculation;
+  const simulatedBurnRate = sustainableRate * burnMultiplier;
+
+  // Project total consumption at this rate
+  const projectedRemainingConsumption = simulatedBurnRate * daysRemaining;
+  const projectedTotalConsumption = calculation.consumedMinutes + projectedRemainingConsumption;
+  const percentConsumedAtEnd = (projectedTotalConsumption / totalBudgetMinutes) * 100;
+
+  const isOnTrack = projectedTotalConsumption <= totalBudgetMinutes;
+
+  let daysUntilExhaustion: number | null = null;
+  let exhaustionDate: Date | null = null;
+
+  if (!isOnTrack && simulatedBurnRate > 0) {
+    daysUntilExhaustion = remainingMinutes / simulatedBurnRate;
+    exhaustionDate = new Date(Date.now() + daysUntilExhaustion * 24 * 60 * 60 * 1000);
+  }
+
+  return {
+    daysUntilExhaustion,
+    exhaustionDate,
+    isOnTrack,
+    percentConsumedAtEnd: Math.min(percentConsumedAtEnd, 100),
+  };
 }
 
 // ============================================================================

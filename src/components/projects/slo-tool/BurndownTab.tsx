@@ -1,20 +1,43 @@
+import { useState, useMemo, useEffect } from 'react';
 import { Clock, TrendingUp, TrendingDown, AlertTriangle, CheckCircle2, Calendar } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+import { Slider } from '@/components/ui/slider';
+import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { BudgetChart } from './BudgetChart';
 import {
   type BudgetCalculation,
-  type ChartDataPoint,
+  type SloConfig,
+  type Incident,
   formatDuration,
+  generateChartData,
+  calculateBurnRateProjection,
 } from './calculations';
 
 interface BurndownTabProps {
   calculation: BudgetCalculation;
-  chartData: ChartDataPoint[];
+  config: SloConfig;
+  incidents: Incident[];
 }
 
-export function BurndownTab({ calculation, chartData }: BurndownTabProps) {
+const SLIDER_MIN = 0.1;
+const SLIDER_MAX = 5;
+
+function clampToSliderRange(value: number): number {
+  return Math.min(SLIDER_MAX, Math.max(SLIDER_MIN, value));
+}
+
+export function BurndownTab({ calculation, config, incidents }: BurndownTabProps) {
+  const [simulatedMultiplier, setSimulatedMultiplier] = useState(() =>
+    clampToSliderRange(calculation.burnMultiplier)
+  );
+
+  // Resync slider when the actual burn rate changes (e.g., user changes inputs)
+  useEffect(() => {
+    setSimulatedMultiplier(clampToSliderRange(calculation.burnMultiplier));
+  }, [calculation.burnMultiplier]);
+
   const {
     totalBudgetMinutes,
     consumedMinutes,
@@ -27,25 +50,43 @@ export function BurndownTab({ calculation, chartData }: BurndownTabProps) {
     daysRemaining,
   } = calculation;
 
-  const burnRateText =
-    burnMultiplier < 0.5
+  // Calculate projection for simulated burn rate
+  const simulatedProjection = useMemo(
+    () => calculateBurnRateProjection(calculation, simulatedMultiplier),
+    [calculation, simulatedMultiplier]
+  );
+
+  // Generate chart data with simulated burn rate
+  const simulatedChartData = useMemo(
+    () => generateChartData(config, incidents, calculation, simulatedMultiplier),
+    [config, incidents, calculation, simulatedMultiplier]
+  );
+
+  const getBurnRateText = (multiplier: number) =>
+    multiplier < 0.5
       ? 'Very Low'
-      : burnMultiplier < 0.9
+      : multiplier < 0.9
         ? 'Low'
-        : burnMultiplier < 1.1
+        : multiplier < 1.1
           ? 'On Track'
-          : burnMultiplier < 2
+          : multiplier < 2
             ? 'High'
             : 'Critical';
 
-  const burnRateColor =
-    burnMultiplier < 0.9
+  const getBurnRateColor = (multiplier: number) =>
+    multiplier < 0.9
       ? 'text-green-600 dark:text-green-400'
-      : burnMultiplier < 1.1
+      : multiplier < 1.1
         ? 'text-primary'
-        : burnMultiplier < 2
+        : multiplier < 2
           ? 'text-yellow-600 dark:text-yellow-400'
           : 'text-destructive';
+
+  const burnRateText = getBurnRateText(burnMultiplier);
+  const burnRateColor = getBurnRateColor(burnMultiplier);
+
+  const simulatedBurnRateText = getBurnRateText(simulatedMultiplier);
+  const simulatedBurnRateColor = getBurnRateColor(simulatedMultiplier);
 
   return (
     <div className="space-y-6">
@@ -102,7 +143,7 @@ export function BurndownTab({ calculation, chartData }: BurndownTabProps) {
           <CardContent className="pt-6">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm text-muted-foreground">Burn Rate</p>
+                <p className="text-sm text-muted-foreground">Current Burn Rate</p>
                 <p className={cn('text-2xl font-bold', burnRateColor)}>{burnMultiplier.toFixed(1)}x</p>
                 <p className="text-sm text-muted-foreground">
                   {burnRateText}
@@ -181,12 +222,106 @@ export function BurndownTab({ calculation, chartData }: BurndownTabProps) {
 
       {/* Full Burndown Chart */}
       <BudgetChart
-        data={chartData}
+        data={simulatedChartData}
         daysElapsed={daysElapsed}
-        isOnTrack={isOnTrack}
+        isOnTrack={simulatedProjection.isOnTrack}
         compact={false}
         title="Budget Burndown"
       />
+
+      {/* Burn Rate Simulator */}
+      <Card>
+        <CardHeader className="pb-4">
+          <CardTitle as="h2" className="text-base">Burn Rate Simulator</CardTitle>
+          <p className="text-xs text-muted-foreground mt-1">
+            Drag to explore different burn rates. 1x tracks the ideal line (budget reaches 0 at period end).
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <Label htmlFor="burn-rate-slider" className="text-sm font-medium">
+                Multiplier
+              </Label>
+            </div>
+            <div className="text-right">
+              <p className={cn('text-2xl font-bold tabular-nums', simulatedBurnRateColor)}>
+                {simulatedMultiplier.toFixed(1)}x
+              </p>
+              <p className={cn('text-xs', simulatedBurnRateColor)}>{simulatedBurnRateText}</p>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Slider
+              id="burn-rate-slider"
+              value={[simulatedMultiplier]}
+              onValueChange={([v]) => setSimulatedMultiplier(v)}
+              min={SLIDER_MIN}
+              max={SLIDER_MAX}
+              step={0.1}
+              className="w-full"
+            />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>{SLIDER_MIN}x</span>
+              <span>{(SLIDER_MIN + SLIDER_MAX) / 2}x</span>
+              <span>{SLIDER_MAX}x</span>
+            </div>
+          </div>
+
+          {/* Simulated Projection Result */}
+          <div
+            className={cn(
+              'rounded-lg p-4 mt-4',
+              simulatedProjection.isOnTrack ? 'bg-green-500/10' : 'bg-destructive/10'
+            )}
+          >
+            <div className="flex items-center gap-3">
+              {simulatedProjection.isOnTrack ? (
+                <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400 shrink-0" />
+              ) : (
+                <AlertTriangle className="h-5 w-5 text-destructive shrink-0" />
+              )}
+              <div>
+                <p
+                  className={cn(
+                    'font-medium',
+                    simulatedProjection.isOnTrack
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-destructive'
+                  )}
+                >
+                  {simulatedProjection.isOnTrack ? 'On Track' : 'Budget Exhausted'}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  {simulatedProjection.isOnTrack ? (
+                    <>
+                      At {simulatedMultiplier.toFixed(1)}x, you'll use{' '}
+                      <span className="font-medium text-foreground">
+                        {simulatedProjection.percentConsumedAtEnd.toFixed(0)}%
+                      </span>{' '}
+                      of budget by end of period
+                    </>
+                  ) : simulatedProjection.exhaustionDate ? (
+                    <>
+                      At {simulatedMultiplier.toFixed(1)}x, budget exhausted in{' '}
+                      <span className="font-medium text-foreground">
+                        {Math.ceil(simulatedProjection.daysUntilExhaustion!)} days
+                      </span>{' '}
+                      ({simulatedProjection.exhaustionDate.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                      })})
+                    </>
+                  ) : (
+                    'Budget already exhausted'
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
