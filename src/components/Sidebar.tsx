@@ -38,6 +38,7 @@ const Sidebar = () => {
               <motion.div key={index} variants={staggerItem}>
                 <ExpertiseCard
                   item={item}
+                  index={index}
                   isExpanded={expandedIndices.has(index)}
                   onExpand={() => handleExpand(index)}
                   onCollapse={() => handleCollapse(index)}

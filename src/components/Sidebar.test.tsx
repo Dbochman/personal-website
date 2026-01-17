@@ -110,9 +110,12 @@ describe('Sidebar', () => {
   it('should render the correct number of expertise items', () => {
     render(<Sidebar />)
 
-    // Each expertise item has a title element - count those
-    const expertiseCards = screen.getByText('Core Expertise').parentElement?.querySelectorAll('[tabindex="0"]')
-    expect(expertiseCards?.length).toBe(5)
+    // Count the expertise items by their unique panel IDs
+    const expertiseButtons = screen.getAllByRole('button')
+    const expertiseCardButtons = expertiseButtons.filter(btn =>
+      btn.getAttribute('aria-controls')?.startsWith('expertise-panel-')
+    )
+    expect(expertiseCardButtons.length).toBe(5)
   })
 
   it('should have unique keys for expertise items', () => {

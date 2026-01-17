@@ -6,18 +6,19 @@ const EXPAND_DELAY = 1000; // 1 second before expanding
 
 interface ExpertiseCardProps {
   item: ExpertiseItem;
+  index: number;
   isExpanded: boolean;
   onExpand: () => void;
   onCollapse: () => void;
 }
 
-export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: ExpertiseCardProps) {
+export function ExpertiseCard({ item, index, isExpanded, onExpand, onCollapse }: ExpertiseCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const expandTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Generate stable ID for aria-controls
-  const panelId = `panel-${item.title.toLowerCase().replace(/\s+/g, '-')}`;
+  // Generate stable ID for aria-controls using index (avoids collisions from duplicate titles)
+  const panelId = `expertise-panel-${index}`;
 
   // Cleanup timeout on unmount
   useEffect(() => {
