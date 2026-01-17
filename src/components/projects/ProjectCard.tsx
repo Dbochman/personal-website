@@ -12,7 +12,6 @@ import {
   ScrollText,
   Target,
   TrendingDown,
-  Zap,
   type LucideIcon,
 } from 'lucide-react';
 import { TransitionLink } from '@/hooks/useViewTransition';
@@ -98,15 +97,12 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
 
         {/* Content */}
         <div className="p-4">
-          <div className="flex items-center justify-between mb-2">
-            <h3
-              className="font-semibold text-foreground"
-              style={{ viewTransitionName: `project-title-${project.slug}` }}
-            >
-              {project.title}
-            </h3>
-            <Zap className="w-4 h-4 text-foreground/30 group-hover:text-foreground group-focus-within:text-foreground transition-colors" />
-          </div>
+          <h3
+            className="font-semibold text-foreground mb-2"
+            style={{ viewTransitionName: `project-title-${project.slug}` }}
+          >
+            {project.title}
+          </h3>
 
           <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
             {project.description}
