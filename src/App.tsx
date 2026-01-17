@@ -13,12 +13,13 @@ import { PageSkeleton } from "@/components/ui/skeletons";
 import { ErrorFallback } from "@/components/ErrorFallback";
 import { PreviewBanner } from "@/components/PreviewBanner";
 import Index from "./pages/Index";
+// Eagerly load Project for smooth view transitions from Projects page
+import Project from "./pages/Project";
 
 // Lazy load pages that aren't on the critical path
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const Projects = lazy(() => import("./pages/Projects"));
-const Project = lazy(() => import("./pages/Project"));
 const Runbook = lazy(() => import("./pages/Runbook"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const NotFound = lazy(() => import("./pages/NotFound"));
