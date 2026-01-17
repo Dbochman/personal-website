@@ -1,13 +1,17 @@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Button } from '@/components/ui/button';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { RotateCcw, Share2, BookOpen, Terminal } from 'lucide-react';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { RotateCcw, Share2, BookOpen, Terminal, ChevronDown } from 'lucide-react';
 import type { Tool, Mode, ToolPreset } from './types';
 import { TOOL_CONFIGS } from './types';
 import { toast } from 'sonner';
@@ -15,6 +19,7 @@ import { toast } from 'sonner';
 interface TopBarProps {
   tool: Tool;
   mode: Mode;
+  currentPreset: ToolPreset | null;
   onToolChange: (tool: Tool) => void;
   onModeChange: (mode: Mode) => void;
   onPresetSelect: (preset: ToolPreset) => void;
@@ -26,6 +31,7 @@ const TOOLS: Tool[] = ['jq', 'grep', 'sed', 'awk'];
 export function TopBar({
   tool,
   mode,
+  currentPreset,
   onToolChange,
   onModeChange,
   onPresetSelect,
@@ -40,7 +46,7 @@ export function TopBar({
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      {/* Left: Tool tabs + Examples */}
+      {/* Left: Tool tabs + Lesson selector */}
       <div className="flex items-center gap-3 flex-wrap">
         <ToggleGroup
           type="single"
@@ -60,23 +66,29 @@ export function TopBar({
           ))}
         </ToggleGroup>
 
-        <Select
-          onValueChange={(value) => {
-            const preset = config.presets.find((p) => p.name === value);
-            if (preset) onPresetSelect(preset);
-          }}
-        >
-          <SelectTrigger className="w-[160px] h-8 text-sm">
-            <SelectValue placeholder="Examples..." />
-          </SelectTrigger>
-          <SelectContent>
+        {/* Lesson dropdown - shows current lesson name */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="h-8 gap-1.5 text-sm font-normal">
+              <span className="max-w-[140px] truncate">
+                {currentPreset?.name || 'Select lesson'}
+              </span>
+              <ChevronDown className="h-3.5 w-3.5 opacity-50" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-56">
             {config.presets.map((preset) => (
-              <SelectItem key={preset.name} value={preset.name} className="text-sm">
-                {preset.name}
-              </SelectItem>
+              <DropdownMenuItem
+                key={preset.name}
+                onClick={() => onPresetSelect(preset)}
+                className="flex flex-col items-start gap-0.5 py-2"
+              >
+                <span className="font-medium">{preset.name}</span>
+                <span className="text-xs text-muted-foreground">{preset.description}</span>
+              </DropdownMenuItem>
             ))}
-          </SelectContent>
-        </Select>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* Right: Mode toggle + actions */}
@@ -105,15 +117,26 @@ export function TopBar({
           </ToggleGroupItem>
         </ToggleGroup>
 
-        <div className="flex items-center gap-1 border-l pl-2 ml-1">
-          <Button variant="ghost" size="sm" onClick={onReset} className="h-8 px-2">
-            <RotateCcw className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:ml-1">Reset</span>
-          </Button>
-          <Button variant="ghost" size="sm" onClick={handleShare} className="h-8 px-2">
-            <Share2 className="h-3.5 w-3.5" />
-            <span className="sr-only sm:not-sr-only sm:ml-1">Share</span>
-          </Button>
+        {/* Icon-only actions with tooltips */}
+        <div className="flex items-center gap-0.5 border-l pl-2 ml-1">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" onClick={onReset} className="h-8 w-8">
+                <RotateCcw className="h-4 w-4" />
+                <span className="sr-only">Reset</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Reset to default</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" onClick={handleShare} className="h-8 w-8">
+                <Share2 className="h-4 w-4" />
+                <span className="sr-only">Share</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Copy link</TooltipContent>
+          </Tooltip>
         </div>
       </div>
     </div>

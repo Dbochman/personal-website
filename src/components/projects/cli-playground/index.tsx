@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom';
 import { TopBar } from './TopBar';
 import { CommandRow } from './CommandRow';
 import { Workspace } from './Workspace';
-import { ExplainDrawer } from './ExplainDrawer';
 import { LearnHeader } from './LearnHeader';
 import { executeCommand } from './engines';
 import { explainCommand } from './explainer';
@@ -36,7 +35,6 @@ export default function CliPlayground() {
   });
 
   const [currentPresetIndex, setCurrentPresetIndex] = useState(0);
-  const [explainOpen, setExplainOpen] = useState(true);
 
   // Current preset for Learn mode hints
   const currentPreset = useMemo(() => {
@@ -141,10 +139,6 @@ export default function CliPlayground() {
 
   const handleModeChange = useCallback((newMode: Mode) => {
     setMode(newMode);
-    // Auto-expand explain in learn mode
-    if (newMode === 'learn') {
-      setExplainOpen(true);
-    }
   }, []);
 
   const handlePresetSelect = useCallback((preset: ToolPreset) => {
@@ -186,18 +180,25 @@ export default function CliPlayground() {
 
   return (
     <div className="space-y-4">
-      {/* Top bar: tool tabs, examples, mode toggle, actions */}
+      {/* Top bar: tool tabs, lesson selector, mode toggle, actions */}
       <TopBar
         tool={state.tool}
         mode={mode}
+        currentPreset={currentPreset}
         onToolChange={handleToolChange}
         onModeChange={handleModeChange}
         onPresetSelect={handlePresetSelect}
         onReset={handleReset}
       />
 
-      {/* Learn mode: Goal and Hint */}
-      {mode === 'learn' && <LearnHeader preset={currentPreset} />}
+      {/* Learn mode: Goal and command chips */}
+      {mode === 'learn' && (
+        <LearnHeader
+          tool={state.tool}
+          preset={currentPreset}
+          onTryCommand={handleTryCommand}
+        />
+      )}
 
       {/* Command row */}
       <CommandRow
@@ -208,24 +209,17 @@ export default function CliPlayground() {
         onRun={handleRun}
       />
 
-      {/* Workspace: Input | Output side-by-side */}
+      {/* Workspace: Input | Output (with Explain tab in Learn mode) */}
       <Workspace
         input={state.input}
         output={state.output}
         error={state.error}
         isLoading={state.isLoading || isPending}
+        mode={mode}
+        explanation={explanation}
         onInputChange={handleInputChange}
+        onTryCommand={handleTryCommand}
       />
-
-      {/* Explain drawer (Learn mode only) */}
-      {mode === 'learn' && (
-        <ExplainDrawer
-          explanation={explanation}
-          isOpen={explainOpen}
-          onOpenChange={setExplainOpen}
-          onTryCommand={handleTryCommand}
-        />
-      )}
     </div>
   );
 }
