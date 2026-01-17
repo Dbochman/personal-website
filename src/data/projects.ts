@@ -10,6 +10,7 @@ const componentMap: Record<string, React.LazyExoticComponent<React.ComponentType
   'kanban': lazy(() => import('@/components/projects/kanban')),
   'analytics': lazy(() => import('@/components/projects/analytics')),
   'changelog': lazy(() => import('@/components/projects/changelog-explorer')),
+  'cli-playground': lazy(() => import('@/components/projects/cli-playground')),
 };
 
 /**
