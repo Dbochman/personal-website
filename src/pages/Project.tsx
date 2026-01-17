@@ -192,91 +192,81 @@ export default function Project() {
       </Helmet>
 
       <PageLayout>
-        {/* Hero section for view transition */}
-        {!project.fullWidth && (
-          <div className="relative h-48 md:h-56 flex items-center justify-center bg-gradient-to-b from-foreground/5 via-foreground/[0.02] to-transparent mb-6">
-            {/* Icon - matches card for view transition */}
-            {project.icon && iconRegistry[project.icon] && (
-              <div className="relative">
-                <div className="absolute inset-0 blur-2xl opacity-40 bg-foreground/20 scale-150" />
-                <div
-                  className="relative p-6 rounded-2xl border shadow-lg bg-foreground/10 border-foreground/20"
-                  style={{ viewTransitionName: `project-icon-${slug}` }}
-                >
-                  {(() => {
-                    const IconComponent = iconRegistry[project.icon!];
-                    return <IconComponent className="w-12 h-12 text-foreground/80" />;
-                  })()}
-                </div>
-              </div>
-            )}
+        {/* Hero section with background - all projects get this */}
+        <div className="relative bg-gradient-to-b from-foreground/5 via-foreground/[0.02] to-transparent pb-8">
+          {/* Grid pattern overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
+              backgroundSize: '20px 20px'
+            }}
+          />
 
-            {/* Grid pattern overlay */}
-            <div
-              className="absolute inset-0 opacity-[0.03]"
-              style={{
-                backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
-                backgroundSize: '20px 20px'
-              }}
-            />
-
-            {/* Back link - positioned in hero */}
-            <TransitionLink
-              to="/projects"
-              className="absolute top-4 left-4 md:top-6 md:left-6 inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-background/80 backdrop-blur-sm border border-border text-muted-foreground hover:text-foreground hover:bg-background transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm">All projects</span>
-            </TransitionLink>
-          </div>
-        )}
-
-        <div className={cn(
-          'container mx-auto px-4',
-          project.fullWidth ? 'py-6' : 'pb-12'
-        )}>
-          <div className={cn(!project.fullWidth && 'max-w-4xl mx-auto')}>
-            {/* Back link for fullWidth projects (no hero) */}
-            {project.fullWidth && (
+          <div className="relative container mx-auto px-4 pt-6">
+            <div className={cn(!project.fullWidth && 'max-w-4xl mx-auto')}>
+              {/* Back link */}
               <TransitionLink
                 to="/projects"
-                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4"
+                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-6"
               >
                 <ArrowLeft className="w-4 h-4" />
                 All projects
               </TransitionLink>
-            )}
 
-            {/* Project header */}
-            <header className="mb-4">
-              <div className="flex flex-wrap items-center gap-3 mb-2">
-                <h1
-                  className={cn(
-                    'font-bold',
-                    project.fullWidth ? 'text-2xl md:text-3xl' : 'text-3xl md:text-4xl'
+              {/* Project header */}
+              <header className="mb-6">
+                <div className="flex items-start gap-4 mb-3">
+                  {/* Icon - inline with title for view transition */}
+                  {project.icon && iconRegistry[project.icon] && (
+                    <div
+                      className="shrink-0 p-3 rounded-xl border shadow-sm bg-foreground/10 border-foreground/20"
+                      style={{ viewTransitionName: `project-icon-${slug}` }}
+                    >
+                      {(() => {
+                        const IconComponent = iconRegistry[project.icon!];
+                        return <IconComponent className="w-8 h-8 text-foreground/80" />;
+                      })()}
+                    </div>
                   )}
-                  style={{ viewTransitionName: `project-title-${slug}` }}
-                >
-                  {project.title}
-                </h1>
-                <Badge variant={statusVariants[project.status]}>
-                  {statusLabels[project.status]}
-                </Badge>
-              </div>
-              <p className={cn(
-                'text-muted-foreground mb-3',
-                project.fullWidth ? 'text-base' : 'text-lg'
-              )}>
-                {project.description}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <Badge key={tag} variant="outline">
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </header>
+                  <div className="flex flex-wrap items-center gap-3 pt-1">
+                    <h1
+                      className={cn(
+                        'font-bold',
+                        project.fullWidth ? 'text-2xl md:text-3xl' : 'text-3xl md:text-4xl'
+                      )}
+                      style={{ viewTransitionName: `project-title-${slug}` }}
+                    >
+                      {project.title}
+                    </h1>
+                    <Badge variant={statusVariants[project.status]}>
+                      {statusLabels[project.status]}
+                    </Badge>
+                  </div>
+                </div>
+                <p className={cn(
+                  'text-muted-foreground mb-3',
+                  project.fullWidth ? 'text-base' : 'text-lg'
+                )}>
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <Badge key={tag} variant="outline">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </header>
+            </div>
+          </div>
+        </div>
+
+        <div className={cn(
+          'container mx-auto px-4',
+          project.fullWidth ? 'pb-6' : 'pb-12'
+        )}>
+          <div className={cn(!project.fullWidth && 'max-w-4xl mx-auto')}>
 
             {/* Project component */}
             <div className={cn(
