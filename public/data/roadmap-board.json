@@ -135,24 +135,7 @@
           ],
           "createdAt": "2026-01-17"
         },
-        {
-          "id": "cli-tool-playground",
-          "title": "CLI Tool Playground",
-          "description": "Interactive in-browser demos for jq/grep/sed/awk. WASM execution, syntax highlighting, command explanation panel.",
-          "labels": ["Medium", "Learning", "Tool"],
-          "planFile": "docs/plans/47-cli-tool-playground.md",
-          "checklist": [
-            {"id": "ctp-1", "text": "Create tool selector (jq, grep, sed, awk)", "completed": false},
-            {"id": "ctp-2", "text": "Build input editor with sample data presets", "completed": false},
-            {"id": "ctp-3", "text": "Build command editor with syntax highlighting", "completed": false},
-            {"id": "ctp-4", "text": "Integrate WASM execution (jq-web or similar)", "completed": false},
-            {"id": "ctp-5", "text": "Create output panel with copy and clear", "completed": false},
-            {"id": "ctp-6", "text": "Add explanation panel for command breakdown", "completed": false},
-            {"id": "ctp-7", "text": "Implement shareable URL state (input + command)", "completed": false}
-          ],
-          "createdAt": "2026-01-17"
-        },
-        {
+                {
           "id": "react-component-xray",
           "title": "React Component X-ray",
           "description": "Analyze React code to visualize component trees. Flag render anti-patterns (inline functions, missing keys, unstable deps).",
@@ -278,7 +261,29 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "id": "cli-tool-playground",
+          "title": "CLI Tool Playground",
+          "description": "Interactive in-browser demos for jq/grep/sed/awk. WASM execution, syntax highlighting, command explanation panel.",
+          "labels": ["Medium", "Learning", "Tool"],
+          "planFile": "docs/plans/47-cli-tool-playground.md",
+          "checklist": [
+            {"id": "ctp-1", "text": "Create tool selector (jq, grep, sed, awk)", "completed": false},
+            {"id": "ctp-2", "text": "Build input editor with sample data presets", "completed": false},
+            {"id": "ctp-3", "text": "Build command editor with syntax highlighting", "completed": false},
+            {"id": "ctp-4", "text": "Integrate WASM execution (jq-web or similar)", "completed": false},
+            {"id": "ctp-5", "text": "Create output panel with copy and clear", "completed": false},
+            {"id": "ctp-6", "text": "Add explanation panel for command breakdown", "completed": false},
+            {"id": "ctp-7", "text": "Implement shareable URL state (input + command)", "completed": false}
+          ],
+          "createdAt": "2026-01-17",
+          "history": [
+            {"type": "column", "timestamp": "2026-01-17T21:30:00.000Z", "columnId": "in-progress", "columnTitle": "In Progress"}
+          ],
+          "updatedAt": "2026-01-17T21:30:00.000Z"
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
