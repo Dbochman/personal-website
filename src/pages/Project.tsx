@@ -1,7 +1,22 @@
 import { Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft } from 'lucide-react';
+import {
+  AlertTriangle,
+  ArrowLeft,
+  BarChart3,
+  Box,
+  Calculator,
+  Clock,
+  Columns,
+  FileText,
+  Gauge,
+  MessageSquare,
+  ScrollText,
+  Target,
+  TrendingDown,
+  type LucideIcon,
+} from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
 import { Footer } from '@/components/layout/Footer';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +24,22 @@ import { cn } from '@/lib/utils';
 import { getProject } from '@/data/projects';
 import { TransitionLink } from '@/hooks/useViewTransition';
 import type { ProjectStatus } from '@/types/project';
+
+// Icon registry - matches ProjectCard.tsx
+const iconRegistry: Record<string, LucideIcon> = {
+  AlertTriangle,
+  BarChart3,
+  Box,
+  Calculator,
+  Clock,
+  Columns,
+  FileText,
+  Gauge,
+  MessageSquare,
+  ScrollText,
+  Target,
+  TrendingDown,
+};
 
 const SITE_URL = 'https://dylanbochman.com';
 
@@ -161,19 +192,60 @@ export default function Project() {
       </Helmet>
 
       <PageLayout>
-        <div className={cn(
-          'container mx-auto px-4',
-          project.fullWidth ? 'py-6' : 'py-12'
-        )}>
-          <div className={cn(!project.fullWidth && 'max-w-4xl mx-auto')}>
-            {/* Back link */}
+        {/* Hero section for view transition */}
+        {!project.fullWidth && (
+          <div className="relative h-48 md:h-56 flex items-center justify-center bg-gradient-to-b from-foreground/5 via-foreground/[0.02] to-transparent mb-6">
+            {/* Icon - matches card for view transition */}
+            {project.icon && iconRegistry[project.icon] && (
+              <div className="relative">
+                <div className="absolute inset-0 blur-2xl opacity-40 bg-foreground/20 scale-150" />
+                <div
+                  className="relative p-6 rounded-2xl border shadow-lg bg-foreground/10 border-foreground/20"
+                  style={{ viewTransitionName: `project-icon-${slug}` }}
+                >
+                  {(() => {
+                    const IconComponent = iconRegistry[project.icon!];
+                    return <IconComponent className="w-12 h-12 text-foreground/80" />;
+                  })()}
+                </div>
+              </div>
+            )}
+
+            {/* Grid pattern overlay */}
+            <div
+              className="absolute inset-0 opacity-[0.03]"
+              style={{
+                backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
+                backgroundSize: '20px 20px'
+              }}
+            />
+
+            {/* Back link - positioned in hero */}
             <TransitionLink
               to="/projects"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4"
+              className="absolute top-4 left-4 md:top-6 md:left-6 inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-background/80 backdrop-blur-sm border border-border text-muted-foreground hover:text-foreground hover:bg-background transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
-              All projects
+              <span className="text-sm">All projects</span>
             </TransitionLink>
+          </div>
+        )}
+
+        <div className={cn(
+          'container mx-auto px-4',
+          project.fullWidth ? 'py-6' : 'pb-12'
+        )}>
+          <div className={cn(!project.fullWidth && 'max-w-4xl mx-auto')}>
+            {/* Back link for fullWidth projects (no hero) */}
+            {project.fullWidth && (
+              <TransitionLink
+                to="/projects"
+                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-4"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                All projects
+              </TransitionLink>
+            )}
 
             {/* Project header */}
             <header className="mb-4">
@@ -181,7 +253,7 @@ export default function Project() {
                 <h1
                   className={cn(
                     'font-bold',
-                    project.fullWidth ? 'text-2xl md:text-3xl' : 'text-4xl md:text-5xl'
+                    project.fullWidth ? 'text-2xl md:text-3xl' : 'text-3xl md:text-4xl'
                   )}
                   style={{ viewTransitionName: `project-title-${slug}` }}
                 >
@@ -192,8 +264,8 @@ export default function Project() {
                 </Badge>
               </div>
               <p className={cn(
-                'text-muted-foreground mb-2',
-                project.fullWidth ? 'text-base' : 'text-xl'
+                'text-muted-foreground mb-3',
+                project.fullWidth ? 'text-base' : 'text-lg'
               )}>
                 {project.description}
               </p>

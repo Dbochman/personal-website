@@ -1,13 +1,5 @@
 import { useState, memo } from 'react';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import {
   AlertTriangle,
   BarChart3,
   Box,
@@ -24,6 +16,8 @@ import {
 } from 'lucide-react';
 import { TransitionLink } from '@/hooks/useViewTransition';
 import type { ProjectMeta } from '@/types/project';
+import { cn } from '@/lib/utils';
+import { preloadProject } from '@/App';
 
 // Icon registry - add icons here as new projects are added
 const iconRegistry: Record<string, LucideIcon> = {
@@ -50,6 +44,8 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
 
   const handleFirstInteraction = () => {
     if (!hasBeenHovered) {
+      // Preload the Project page chunk for smooth view transitions
+      preloadProject();
       if (typeof gtag !== 'undefined') {
         gtag('event', 'project_card_expand', {
           event_category: 'engagement',
@@ -70,45 +66,64 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
       onMouseEnter={handleFirstInteraction}
       onFocus={handleFirstInteraction}
     >
-      <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus:shadow-lg group-focus:border-primary/50 h-full">
-        <CardHeader className="pb-3">
-          <CardTitle
-            className="text-xl group-hover:text-primary group-focus:text-primary transition-colors flex items-center gap-2"
+      <div className="h-full rounded-xl overflow-hidden border border-border bg-card hover:border-foreground/30 focus-within:border-foreground/30 transition-all duration-300 hover:shadow-lg focus-within:shadow-lg">
+        {/* Preview area - monochrome icon display */}
+        <div className={cn(
+          "relative h-32 flex items-center justify-center",
+          "bg-gradient-to-br from-foreground/5 via-foreground/[0.02] to-transparent"
+        )}>
+          {/* Tool visualization */}
+          {IconComponent && (
+            <div className="relative">
+              <div className="absolute inset-0 blur-xl opacity-50 bg-foreground/20" />
+              <div
+                className="relative p-4 rounded-xl border shadow-sm bg-foreground/10 border-foreground/20"
+                style={{ viewTransitionName: `project-icon-${project.slug}` }}
+              >
+                <IconComponent className="w-8 h-8 text-foreground/80" />
+              </div>
+            </div>
+          )}
+
+          {/* Grid pattern overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.03]"
+            style={{
+              backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
+              backgroundSize: '20px 20px'
+            }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="p-4">
+          <h3
+            className="font-semibold text-foreground mb-2"
             style={{ viewTransitionName: `project-title-${project.slug}` }}
           >
-            {IconComponent && (
-              <IconComponent className="w-5 h-5 text-primary flex-shrink-0" />
-            )}
             {project.title}
-          </CardTitle>
-          <CardDescription className="text-sm">
-            Created{' '}
-            {new Date(project.createdAt).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'short',
-            })}
-          </CardDescription>
-          {/* Tags - always visible */}
-          <div className="flex flex-wrap gap-1.5 pt-2">
-            {project.tags.map((tag) => (
-              <Badge key={tag} variant="outline" className="text-xs">
+          </h3>
+
+          <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+            {project.description}
+          </p>
+
+          {/* Tags */}
+          <div className="flex flex-wrap gap-1.5">
+            {project.tags.slice(0, 3).map((tag) => (
+              <span
+                key={tag}
+                className="text-xs px-2 py-0.5 rounded bg-foreground/5 text-foreground/60"
+              >
                 {tag}
-              </Badge>
+              </span>
             ))}
+            {project.tags.length > 3 && (
+              <span className="text-xs text-foreground/40">+{project.tags.length - 3}</span>
+            )}
           </div>
-        </CardHeader>
-        <CardContent className="pt-0">
-          {/* Description - expands on first hover/focus and stays expanded */}
-          <div
-            className={`overflow-hidden transition-all duration-300 ease-out motion-reduce:transition-none
-                        ${hasBeenHovered ? 'max-h-24 opacity-100' : 'max-h-24 opacity-100 [@media(hover:hover)]:max-h-0 [@media(hover:hover)]:opacity-0'}`}
-          >
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {project.description}
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </TransitionLink>
   );
-}, (prevProps, nextProps) => prevProps.project.slug === nextProps.project.slug)
+}, (prevProps, nextProps) => prevProps.project.slug === nextProps.project.slug);

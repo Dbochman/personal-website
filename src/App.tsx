@@ -15,10 +15,15 @@ import { PreviewBanner } from "@/components/PreviewBanner";
 import Index from "./pages/Index";
 
 // Lazy load pages that aren't on the critical path
+// Project uses a preload pattern for smooth view transitions (see ProjectCard)
+const projectImport = () => import("./pages/Project");
+const Project = lazy(projectImport);
+export const preloadProject = () => { projectImport(); };
+
+// Other lazy-loaded pages
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const Projects = lazy(() => import("./pages/Projects"));
-const Project = lazy(() => import("./pages/Project"));
 const Runbook = lazy(() => import("./pages/Runbook"));
 const Analytics = lazy(() => import("./pages/Analytics"));
 const NotFound = lazy(() => import("./pages/NotFound"));
