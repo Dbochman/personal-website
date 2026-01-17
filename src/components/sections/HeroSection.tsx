@@ -54,18 +54,18 @@ const HeroSection = () => {
           </div>
           
           <div className="flex justify-center gap-4 mb-8">
-            <a href="mailto:dylanbochman@gmail.com">
-              <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium">
+            <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium" asChild>
+              <a href="mailto:dylanbochman@gmail.com">
                 <Mail className="w-4 h-4 mr-2" />
                 Get In Touch
-              </Button>
-            </a>
-            <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium">
+              </a>
+            </Button>
+            <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium" asChild>
+              <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer">
                 <Linkedin className="w-4 h-4 mr-2" />
                 LinkedIn
-              </Button>
-            </a>
+              </a>
+            </Button>
           </div>
           
           <div className="flex justify-center gap-6 text-foreground/60 text-sm">

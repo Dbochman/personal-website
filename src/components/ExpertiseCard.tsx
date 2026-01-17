@@ -13,7 +13,11 @@ interface ExpertiseCardProps {
 
 export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: ExpertiseCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const expandTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Generate stable ID for aria-controls
+  const panelId = `panel-${item.title.toLowerCase().replace(/\s+/g, '-')}`;
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -22,9 +26,7 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
     };
   }, []);
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-
+  const scheduleExpand = () => {
     // If already expanded, no need to set another expand timeout
     if (isExpanded) return;
 
@@ -41,14 +43,31 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
     }, EXPAND_DELAY);
   };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-
-    // Cancel any pending expand
+  const cancelExpand = () => {
     if (expandTimeoutRef.current) {
       clearTimeout(expandTimeoutRef.current);
       expandTimeoutRef.current = null;
     }
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    scheduleExpand();
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    cancelExpand();
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
+    scheduleExpand();
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    cancelExpand();
   };
 
   const handleClick = () => {
@@ -71,19 +90,21 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
   };
 
   return (
-    <div
-      className="group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-1 rounded-sm"
+    <button
+      type="button"
+      className="group w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-1 rounded-sm"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onFocus={handleMouseEnter}
-      onBlur={handleMouseLeave}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       onClick={handleClick}
-      tabIndex={0}
+      aria-expanded={isExpanded}
+      aria-controls={panelId}
     >
       {/* Title - always visible */}
       <div
-        className={`text-xs p-2 border transition-all duration-200 cursor-pointer
-                    ${isHovered || isExpanded
+        className={`text-xs p-2 border transition-[background-color,border-color,color,transform,box-shadow] duration-200 cursor-pointer
+                    ${isHovered || isFocused || isExpanded
                       ? 'bg-foreground/15 border-foreground/40 text-foreground scale-[1.02] shadow-sm'
                       : 'bg-foreground/5 border-foreground/20 text-foreground/80'}`}
       >
@@ -92,7 +113,8 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
 
       {/* Expanded content - desktop only, controlled by parent */}
       <div
-        className={`hidden md:block overflow-hidden transition-all duration-500 ease-out motion-reduce:transition-none
+        id={panelId}
+        className={`hidden md:block overflow-hidden transition-[max-height,opacity] duration-500 ease-out motion-reduce:transition-none
                     ${isExpanded ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}
       >
         <div className="p-2 pt-0 border-x border-b border-foreground/20 bg-foreground/5 space-y-2">
@@ -118,6 +140,6 @@ export function ExpertiseCard({ item, isExpanded, onExpand, onCollapse }: Expert
           </div>
         </div>
       </div>
-    </div>
+    </button>
   );
 }

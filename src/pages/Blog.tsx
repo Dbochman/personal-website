@@ -58,31 +58,31 @@ export default function Blog() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             <header>
               <div className="flex items-center gap-4 mb-4">
-                <h1 className="text-4xl font-bold" style={{ viewTransitionName: 'page-title' }}>Blog</h1>
+                <h1 className="text-4xl font-bold text-balance" style={{ viewTransitionName: 'page-title' }}>Blog</h1>
                 <a
                   href="/rss.xml"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-orange-500 transition-colors"
+                  className="text-muted-foreground hover:text-orange-500 focus-visible:text-orange-500 transition-colors"
                   title="Subscribe via RSS"
                   aria-label="RSS Feed"
                 >
-                  <Rss className="w-6 h-6" />
+                  <Rss className="w-6 h-6" aria-hidden="true" />
                 </a>
               </div>
-              <p className="text-xl text-muted-foreground mb-4">
+              <p className="text-xl text-muted-foreground text-pretty mb-4">
                 A collaboration between Dylan and{' '}
                 <a
                   href="https://claude.ai/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-foreground hover:underline"
+                  className="text-foreground hover:underline focus-visible:underline"
                 >
                   Claude
                 </a>
                 .
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-pretty">
                 We write about practical SRE themes—reliability, resilience, and observability—along
                 with the systems we build together and the lessons we learn along the way. Some posts
                 are written by Claude, some by me. The authorship varies, but the collaboration is constant.

@@ -28,32 +28,32 @@ const ContactSection = () => {
           Interested in discussing on-call tooling, challenging incidents, or potential opportunities?
         </p>
         <div className="flex justify-center gap-4 mb-12 flex-wrap">
-          <a href="mailto:dylanbochman@gmail.com" onClick={() => {
-            if (typeof gtag !== 'undefined') {
-              gtag('event', 'resume_request', {
-                event_category: 'engagement',
-                event_label: 'email_contact'
-              });
-            }
-          }}>
-            <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium">
+          <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium" asChild>
+            <a href="mailto:dylanbochman@gmail.com" onClick={() => {
+              if (typeof gtag !== 'undefined') {
+                gtag('event', 'resume_request', {
+                  event_category: 'engagement',
+                  event_label: 'email_contact'
+                });
+              }
+            }}>
               <Mail className="w-4 h-4 mr-2" />
               Request Resume
-            </Button>
-          </a>
-          <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer" onClick={() => {
-            if (typeof gtag !== 'undefined') {
-              gtag('event', 'linkedin_click', {
-                event_category: 'engagement',
-                event_label: 'external_link'
-              });
-            }
-          }}>
-            <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium">
+            </a>
+          </Button>
+          <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium" asChild>
+            <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer" onClick={() => {
+              if (typeof gtag !== 'undefined') {
+                gtag('event', 'linkedin_click', {
+                  event_category: 'engagement',
+                  event_label: 'external_link'
+                });
+              }
+            }}>
               <Linkedin className="w-4 h-4 mr-2" />
               LinkedIn
-            </Button>
-          </a>
+            </a>
+          </Button>
         </div>
         <Footer />
       </div>

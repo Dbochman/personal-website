@@ -48,6 +48,7 @@ const Header = () => {
               </TransitionLink>
             ))}
             <button
+              type="button"
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
               aria-pressed={isDark}
@@ -60,6 +61,7 @@ const Header = () => {
           {/* Mobile Navigation */}
           <div className="flex items-center gap-4 md:hidden">
             <button
+              type="button"
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
               aria-pressed={isDark}
