@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { SloConfiguration } from './SloConfiguration';
 import { ResponseTimeInputs, type EnabledPhases } from './ResponseTimeInputs';
 import { IncidentInput } from './IncidentInput';
-import { BudgetChart } from './BudgetChart';
 import { AchievableTab } from './AchievableTab';
 import { TargetTab } from './TargetTab';
 import { BurndownTab } from './BurndownTab';
@@ -23,7 +22,6 @@ import {
   calculateAchievableSlo,
   calculateCanMeetSlo,
   calculateBudget,
-  generateChartData,
   generateSimulatedIncidents,
   getEffectiveProfile,
   toLocalDateString,
@@ -83,7 +81,7 @@ function parseUrlParams(searchParams: URLSearchParams) {
 const DEFAULT_ENABLED: EnabledPhases = {
   alertLatencyMin: true,
   acknowledgeMin: true,
-  travelMin: true,
+  travelMin: false,
   authMin: true,
   diagnoseMin: true,
   fixMin: true,
@@ -111,7 +109,7 @@ export default function SloTool() {
   const [enabledPhases, setEnabledPhases] = useState<EnabledPhases>(DEFAULT_ENABLED);
   const [incidentsPerPeriod, setIncidentsPerPeriod] = useState(() => {
     const params = parseUrlParams(searchParams);
-    return params.incidents ?? 4;
+    return params.incidents ?? 1;
   });
   const [configExpanded, setConfigExpanded] = useState(false);
 
@@ -223,7 +221,6 @@ export default function SloTool() {
   );
 
   const budgetCalculation = calculateBudget(config, simulatedIncidents);
-  const chartData = generateChartData(config, simulatedIncidents, budgetCalculation);
 
   return (
     <div className="space-y-6">
@@ -352,13 +349,6 @@ export default function SloTool() {
           {/* Tab-specific content */}
           <TabsContent value="achievable" className="mt-0 space-y-6">
             <AchievableTab result={achievableResult} period={config.period} />
-            <BudgetChart
-              data={chartData}
-              daysElapsed={budgetCalculation.daysElapsed}
-              isOnTrack={budgetCalculation.isOnTrack}
-              compact
-              title="Projected Budget Burndown"
-            />
           </TabsContent>
 
           <TabsContent value="target" className="mt-0 space-y-6">
@@ -367,17 +357,14 @@ export default function SloTool() {
               achievableResult={achievableResult}
               period={config.period}
             />
-            <BudgetChart
-              data={chartData}
-              daysElapsed={budgetCalculation.daysElapsed}
-              isOnTrack={budgetCalculation.isOnTrack}
-              compact
-              title="Projected Budget Burndown"
-            />
           </TabsContent>
 
           <TabsContent value="burndown" className="mt-0">
-            <BurndownTab calculation={budgetCalculation} chartData={chartData} />
+            <BurndownTab
+              calculation={budgetCalculation}
+              config={config}
+              incidents={simulatedIncidents}
+            />
           </TabsContent>
         </div>
       </Tabs>

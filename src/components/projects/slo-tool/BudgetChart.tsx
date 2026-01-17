@@ -174,21 +174,27 @@ export function BudgetChart({
 
         {/* Legend - only show on full version */}
         {!compact && (
-          <div className="flex flex-wrap gap-4 justify-center mt-4 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-0.5 border-t-2 border-dashed border-muted-foreground" />
-              <span className="text-muted-foreground">Ideal</span>
+          <div className="mt-4 space-y-2">
+            <div className="flex flex-wrap gap-4 justify-center text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-0.5 border-t-2 border-dashed border-muted-foreground" />
+                <span className="text-muted-foreground">Ideal</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-0.5 bg-primary" />
+                <span className="text-muted-foreground">Actual</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div
+                  className={`w-4 h-0.5 border-t-2 border-dashed ${isOnTrack ? 'border-green-500' : 'border-destructive'}`}
+                />
+                <span className="text-muted-foreground">Projected</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-0.5 bg-primary" />
-              <span className="text-muted-foreground">Actual</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div
-                className={`w-4 h-0.5 border-t-2 border-dashed ${isOnTrack ? 'border-green-500' : 'border-destructive'}`}
-              />
-              <span className="text-muted-foreground">Projected</span>
-            </div>
+            <p className="text-xs text-muted-foreground text-center">
+              The "ideal" line represents a linear burn rate—it assumes you'll burn through your
+              entire error budget evenly over the period, reaching exactly 0 at the end.
+            </p>
           </div>
         )}
       </CardContent>
