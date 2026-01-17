@@ -647,5 +647,369 @@
         "unit": "ms"
       }
     }
+  },
+  {
+    "timestamp": "2026-01-17T06:14:42.012Z",
+    "date": "2026-01-17",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 8972,
+      "users": 8674,
+      "pageViews": 9814,
+      "averageSessionDuration": 29,
+      "bounceRate": 0.92
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 2624,
+        "users": 2543,
+        "pageViews": 3101
+      },
+      {
+        "page": "/blog/",
+        "sessions": 1398,
+        "users": 1384,
+        "pageViews": 1407
+      },
+      {
+        "page": "/runbook",
+        "sessions": 1124,
+        "users": 1117,
+        "pageViews": 1128
+      },
+      {
+        "page": "/blog",
+        "sessions": 720,
+        "users": 688,
+        "pageViews": 616
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 375,
+        "users": 375,
+        "pageViews": 375
+      },
+      {
+        "page": "/projects/kanban",
+        "sessions": 47,
+        "users": 6,
+        "pageViews": 369
+      },
+      {
+        "page": "/projects/uptime-calculator",
+        "sessions": 274,
+        "users": 267,
+        "pageViews": 300
+      },
+      {
+        "page": "/projects",
+        "sessions": 193,
+        "users": 117,
+        "pageViews": 197
+      },
+      {
+        "page": "/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai",
+        "sessions": 186,
+        "users": 186,
+        "pageViews": 188
+      },
+      {
+        "page": "/blog/2025-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 175,
+        "users": 175,
+        "pageViews": 175
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 7745,
+        "users": 7508
+      },
+      {
+        "device": "mobile",
+        "sessions": 1226,
+        "users": 1165
+      },
+      {
+        "device": "tablet",
+        "sessions": 1,
+        "users": 1
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 8415,
+          "users": 8437
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 35,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 22,
+          "users": 2
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 4,
+          "users": 3
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 8415,
+          "users": 8437
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 34,
+          "users": 6
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 13,
+          "users": 1
+        },
+        {
+          "source": "dashboard.uptimerobot.com",
+          "medium": "referral",
+          "sessions": 9,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 4,
+          "users": 3
+        },
+        {
+          "source": "bing",
+          "medium": "organic",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "FCP": {
+        "count": 1749,
+        "average": 520.1509433962265,
+        "unit": "ms"
+      },
+      "TTFB": {
+        "count": 1652,
+        "average": 115.13438256658596,
+        "unit": "ms"
+      },
+      "LCP": {
+        "count": 793,
+        "average": 325.22698612862547,
+        "unit": "ms"
+      },
+      "CLS": {
+        "count": 426,
+        "average": 0.007126760563380282,
+        "unit": ""
+      },
+      "INP": {
+        "count": 225,
+        "average": 40.39111111111111,
+        "unit": "ms"
+      }
+    }
+  },
+  {
+    "timestamp": "2026-01-17T06:15:08.148Z",
+    "date": "2026-01-17",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 8972,
+      "users": 8674,
+      "pageViews": 9814,
+      "averageSessionDuration": 29,
+      "bounceRate": 0.92
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 2624,
+        "users": 2543,
+        "pageViews": 3101
+      },
+      {
+        "page": "/blog/",
+        "sessions": 1398,
+        "users": 1384,
+        "pageViews": 1407
+      },
+      {
+        "page": "/runbook",
+        "sessions": 1124,
+        "users": 1117,
+        "pageViews": 1128
+      },
+      {
+        "page": "/blog",
+        "sessions": 720,
+        "users": 688,
+        "pageViews": 616
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 375,
+        "users": 375,
+        "pageViews": 375
+      },
+      {
+        "page": "/projects/kanban",
+        "sessions": 47,
+        "users": 6,
+        "pageViews": 369
+      },
+      {
+        "page": "/projects/uptime-calculator",
+        "sessions": 274,
+        "users": 267,
+        "pageViews": 300
+      },
+      {
+        "page": "/projects",
+        "sessions": 193,
+        "users": 117,
+        "pageViews": 197
+      },
+      {
+        "page": "/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai",
+        "sessions": 186,
+        "users": 186,
+        "pageViews": 188
+      },
+      {
+        "page": "/blog/2025-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 175,
+        "users": 175,
+        "pageViews": 175
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 7745,
+        "users": 7508
+      },
+      {
+        "device": "mobile",
+        "sessions": 1226,
+        "users": 1165
+      },
+      {
+        "device": "tablet",
+        "sessions": 1,
+        "users": 1
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 8415,
+          "users": 8437
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 35,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 22,
+          "users": 2
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 4,
+          "users": 3
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 8415,
+          "users": 8437
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 34,
+          "users": 6
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 13,
+          "users": 1
+        },
+        {
+          "source": "dashboard.uptimerobot.com",
+          "medium": "referral",
+          "sessions": 9,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 4,
+          "users": 3
+        },
+        {
+          "source": "bing",
+          "medium": "organic",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "FCP": {
+        "count": 1749,
+        "average": 520.1509433962265,
+        "unit": "ms"
+      },
+      "TTFB": {
+        "count": 1652,
+        "average": 115.13438256658596,
+        "unit": "ms"
+      },
+      "LCP": {
+        "count": 793,
+        "average": 325.22698612862547,
+        "unit": "ms"
+      },
+      "CLS": {
+        "count": 426,
+        "average": 0.007126760563380282,
+        "unit": ""
+      },
+      "INP": {
+        "count": 225,
+        "average": 40.39111111111111,
+        "unit": "ms"
+      }
+    }
   }
 ]
