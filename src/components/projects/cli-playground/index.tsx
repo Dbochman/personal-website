@@ -67,6 +67,31 @@ export default function CliPlayground() {
     return () => clearTimeout(timeout);
   }, [state.tool, state.input, state.command, mode, setSearchParams]);
 
+  const handleRun = useCallback(async () => {
+    setState((prev) => ({ ...prev, isLoading: true, error: undefined }));
+
+    try {
+      const result = await executeCommand(state.tool, state.input, state.command);
+      startTransition(() => {
+        setState((prev) => ({
+          ...prev,
+          output: result,
+          error: undefined,
+          isLoading: false,
+        }));
+      });
+    } catch (err) {
+      startTransition(() => {
+        setState((prev) => ({
+          ...prev,
+          output: '',
+          error: err instanceof Error ? err.message : 'Unknown error',
+          isLoading: false,
+        }));
+      });
+    }
+  }, [state.tool, state.input, state.command]);
+
   // Global keyboard shortcut for Cmd/Ctrl+Enter
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -141,31 +166,6 @@ export default function CliPlayground() {
   const handleCommandChange = useCallback((command: string) => {
     setState((prev) => ({ ...prev, command }));
   }, []);
-
-  const handleRun = useCallback(async () => {
-    setState((prev) => ({ ...prev, isLoading: true, error: undefined }));
-
-    try {
-      const result = await executeCommand(state.tool, state.input, state.command);
-      startTransition(() => {
-        setState((prev) => ({
-          ...prev,
-          output: result,
-          error: undefined,
-          isLoading: false,
-        }));
-      });
-    } catch (err) {
-      startTransition(() => {
-        setState((prev) => ({
-          ...prev,
-          output: '',
-          error: err instanceof Error ? err.message : 'Unknown error',
-          isLoading: false,
-        }));
-      });
-    }
-  }, [state.tool, state.input, state.command]);
 
   const handleReset = useCallback(() => {
     const preset = TOOL_CONFIGS[state.tool].presets[0];
