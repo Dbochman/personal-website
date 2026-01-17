@@ -18,10 +18,19 @@ const componentMap: Record<string, React.LazyExoticComponent<React.ComponentType
  * Components are lazy-loaded for code splitting
  */
 export const projectRegistry: ProjectDefinition[] = (projectsMeta as ProjectMeta[]).map(
-  (meta) => ({
-    ...meta,
-    component: componentMap[meta.slug],
-  })
+  (meta) => {
+    const component = componentMap[meta.slug];
+    if (!component) {
+      throw new Error(
+        `Project "${meta.slug}" in projects-meta.json has no matching component in componentMap. ` +
+          `Add it to componentMap or remove from projects-meta.json.`
+      );
+    }
+    return {
+      ...meta,
+      component,
+    };
+  }
 );
 
 /**

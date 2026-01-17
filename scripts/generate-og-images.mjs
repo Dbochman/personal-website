@@ -227,16 +227,26 @@ async function generateOgImage(project) {
 async function main() {
   console.log('Generating OG images for projects...');
 
+  const failures = [];
+
   for (const project of projectsMeta) {
     try {
       const outputPath = await generateOgImage(project);
       console.log(`  ✓ ${project.slug}.png`);
     } catch (error) {
       console.error(`  ✗ ${project.slug}: ${error.message}`);
+      failures.push({ slug: project.slug, error: error.message });
     }
   }
 
-  console.log(`\nGenerated ${projectsMeta.length} OG images to ${outputDir}`);
+  const successCount = projectsMeta.length - failures.length;
+  console.log(`\nGenerated ${successCount}/${projectsMeta.length} OG images to ${outputDir}`);
+
+  if (failures.length > 0) {
+    console.error(`\n${failures.length} image(s) failed to generate:`);
+    failures.forEach(({ slug, error }) => console.error(`  - ${slug}: ${error}`));
+    process.exit(1);
+  }
 }
 
 main().catch((error) => {
