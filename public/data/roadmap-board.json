@@ -1,7 +1,88 @@
 {
   "columns": [
     {
-      "cards": [],
+      "cards": [
+        {
+          "id": "logql-builder",
+          "title": "LogQL / CloudWatch Insights Builder",
+          "description": "Visual query builder for LogQL and CloudWatch Insights. Language toggle, stream selectors, pipeline stages, and presets for common queries.",
+          "labels": ["Medium", "SRE", "Tool"],
+          "planFile": "docs/plans/39-logql-builder.md",
+          "createdAt": "2026-01-17"
+        },
+        {
+          "id": "regex-log-parser",
+          "title": "Regex Log Parser",
+          "description": "Build regex parsing rules interactively. Highlight fields, live matching preview, export to grok/Logstash/Fluent Bit/Vector formats.",
+          "labels": ["Medium", "SRE", "Tool"],
+          "planFile": "docs/plans/40-regex-log-parser.md",
+          "createdAt": "2026-01-17"
+        },
+        {
+          "id": "grafana-dashboard-builder",
+          "title": "Grafana Dashboard JSON Builder",
+          "description": "Visual editor for Grafana dashboards. Drag-and-drop panel layout, panel type picker, export schema v38+ JSON.",
+          "labels": ["Large", "SRE", "Tool"],
+          "planFile": "docs/plans/41-grafana-dashboard-builder.md",
+          "createdAt": "2026-01-17"
+        },
+        {
+          "id": "recording-rules-generator",
+          "title": "Prometheus Recording Rules Generator",
+          "description": "Generate recording rules from PromQL queries. Naming conventions, analysis hints, YAML export with presets for HTTP/K8s rules.",
+          "labels": ["Medium", "SRE", "Tool"],
+          "planFile": "docs/plans/42-recording-rules-generator.md",
+          "createdAt": "2026-01-17"
+        },
+        {
+          "id": "retention-cost-estimator",
+          "title": "Retention Cost Estimator",
+          "description": "Estimate observability costs across providers (Datadog, Grafana Cloud, New Relic). Side-by-side comparison, retention tradeoffs.",
+          "labels": ["Medium", "SRE", "Calculator"],
+          "planFile": "docs/plans/43-retention-cost-estimator.md",
+          "createdAt": "2026-01-17"
+        },
+        {
+          "id": "k8s-resource-rightsizer",
+          "title": "K8s Resource Right-Sizer",
+          "description": "Recommend CPU/memory requests/limits from utilization percentiles. Goal slider for efficiency vs safety, YAML snippet output.",
+          "labels": ["Medium", "SRE", "Calculator"],
+          "planFile": "docs/plans/44-k8s-resource-rightsizer.md",
+          "createdAt": "2026-01-17"
+        },
+        {
+          "id": "log-pattern-extractor",
+          "title": "Log Pattern Extractor",
+          "description": "Detect recurring log patterns from raw lines. Auto-group by template, field type inference, export to regex/grok/logstash format.",
+          "labels": ["Medium", "SRE", "Tool"],
+          "planFile": "docs/plans/45-log-pattern-extractor.md",
+          "createdAt": "2026-01-17"
+        },
+        {
+          "id": "metric-naming-linter",
+          "title": "Metric Naming Linter",
+          "description": "Lint metric names against Prometheus/OTel conventions. Severity-coded issues, auto-fix suggestions, bulk apply and export.",
+          "labels": ["Small", "SRE", "Tool"],
+          "planFile": "docs/plans/46-metric-naming-linter.md",
+          "createdAt": "2026-01-17"
+        },
+        {
+          "id": "cli-tool-playground",
+          "title": "CLI Tool Playground",
+          "description": "Interactive in-browser demos for jq/grep/sed/awk. WASM execution, syntax highlighting, command explanation panel.",
+          "labels": ["Medium", "Learning", "Tool"],
+          "planFile": "docs/plans/47-cli-tool-playground.md",
+          "createdAt": "2026-01-17"
+        },
+        {
+          "id": "react-component-xray",
+          "title": "React Component X-ray",
+          "description": "Analyze React code to visualize component trees. Flag render anti-patterns (inline functions, missing keys, unstable deps).",
+          "labels": ["Medium", "Learning", "Tool"],
+          "planFile": "docs/plans/48-react-component-xray.md",
+          "createdAt": "2026-01-17"
+        }
+      ],
       "description": "Draft plans and attach them, then move to To Do",
       "id": "ideas",
       "title": "Ideas"
