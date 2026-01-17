@@ -47,8 +47,8 @@ export default function Projects() {
       <PageLayout>
         <div className="container mx-auto px-4 py-12">
           <header className="mb-12">
-            <h1 className="text-4xl font-bold mb-4" style={{ viewTransitionName: 'page-title' }}>Projects</h1>
-            <p className="text-xl text-muted-foreground">
+            <h1 className="text-4xl font-bold text-balance mb-4" style={{ viewTransitionName: 'page-title' }}>Projects</h1>
+            <p className="text-xl text-muted-foreground text-pretty">
               Interactive tools and utilities for site reliability engineering.
             </p>
           </header>

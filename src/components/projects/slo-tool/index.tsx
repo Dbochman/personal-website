@@ -305,6 +305,7 @@ export default function SloTool() {
 
                     <CollapsibleTrigger asChild>
                       <button
+                        type="button"
                         className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors shrink-0"
                         aria-expanded={configExpanded}
                       >

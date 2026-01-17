@@ -22,18 +22,18 @@ describe('ExpertiseCard', () => {
   });
 
   it('renders the title', () => {
-    render(<ExpertiseCard item={mockItem} isExpanded={false} onExpand={noop} onCollapse={noop} />);
+    render(<ExpertiseCard item={mockItem} index={0} isExpanded={false} onExpand={noop} onCollapse={noop} />);
     expect(screen.getByText('Incident Management')).toBeInTheDocument();
   });
 
   it('shows description when expanded', () => {
-    render(<ExpertiseCard item={mockItem} isExpanded={true} onExpand={noop} onCollapse={noop} />);
+    render(<ExpertiseCard item={mockItem} index={0} isExpanded={true} onExpand={noop} onCollapse={noop} />);
     expect(screen.getByText(mockItem.description)).toBeInTheDocument();
   });
 
   it('calls onExpand after delay on mouse enter', () => {
     const onExpand = vi.fn();
-    render(<ExpertiseCard item={mockItem} isExpanded={false} onExpand={onExpand} onCollapse={noop} />);
+    render(<ExpertiseCard item={mockItem} index={0} isExpanded={false} onExpand={onExpand} onCollapse={noop} />);
 
     const card = screen.getByText('Incident Management').closest('div[tabindex]');
     if (card) {
@@ -58,7 +58,7 @@ describe('ExpertiseCard', () => {
 
     it('fires expertise_card_expand event after hover delay when not expanded', () => {
       const onExpand = vi.fn();
-      render(<ExpertiseCard item={mockItem} isExpanded={false} onExpand={onExpand} onCollapse={noop} />);
+      render(<ExpertiseCard item={mockItem} index={0} isExpanded={false} onExpand={onExpand} onCollapse={noop} />);
 
       const card = screen.getByText('Incident Management').closest('div[tabindex]');
       if (card) {
@@ -78,7 +78,7 @@ describe('ExpertiseCard', () => {
 
     it('does not fire event when already expanded', () => {
       const onExpand = vi.fn();
-      render(<ExpertiseCard item={mockItem} isExpanded={true} onExpand={onExpand} onCollapse={noop} />);
+      render(<ExpertiseCard item={mockItem} index={0} isExpanded={true} onExpand={onExpand} onCollapse={noop} />);
 
       const card = screen.getByText('Incident Management').closest('div[tabindex]');
       if (card) {
@@ -94,7 +94,7 @@ describe('ExpertiseCard', () => {
 
     it('fires expertise_card_expand event on click', () => {
       const onExpand = vi.fn();
-      render(<ExpertiseCard item={mockItem} isExpanded={false} onExpand={onExpand} onCollapse={noop} />);
+      render(<ExpertiseCard item={mockItem} index={0} isExpanded={false} onExpand={onExpand} onCollapse={noop} />);
 
       const card = screen.getByText('Incident Management').closest('div[tabindex]');
       if (card) {
