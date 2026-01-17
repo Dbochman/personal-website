@@ -8,6 +8,15 @@
           "description": "Visual query builder for LogQL and CloudWatch Insights. Language toggle, stream selectors, pipeline stages, and presets for common queries.",
           "labels": ["Medium", "SRE", "Tool"],
           "planFile": "docs/plans/39-logql-builder.md",
+          "checklist": [
+            {"id": "lql-1", "text": "Create language toggle (LogQL vs CloudWatch Insights)", "completed": false},
+            {"id": "lql-2", "text": "Build LogQL stream selector with label matchers", "completed": false},
+            {"id": "lql-3", "text": "Build pipeline stage builder (filters, parsers, formatters)", "completed": false},
+            {"id": "lql-4", "text": "Build CloudWatch command builder (fields, filter, stats, sort)", "completed": false},
+            {"id": "lql-5", "text": "Add query preview with syntax highlighting and copy", "completed": false},
+            {"id": "lql-6", "text": "Add presets for common queries", "completed": false},
+            {"id": "lql-7", "text": "Implement debounced async generation with cancellation", "completed": false}
+          ],
           "createdAt": "2026-01-17"
         },
         {
@@ -16,6 +25,14 @@
           "description": "Build regex parsing rules interactively. Highlight fields, live matching preview, export to grok/Logstash/Fluent Bit/Vector formats.",
           "labels": ["Medium", "SRE", "Tool"],
           "planFile": "docs/plans/40-regex-log-parser.md",
+          "checklist": [
+            {"id": "rlp-1", "text": "Create sample log input area (1-20 lines)", "completed": false},
+            {"id": "rlp-2", "text": "Build field highlight and naming UI", "completed": false},
+            {"id": "rlp-3", "text": "Add pattern templates (timestamp, IP, UUID, etc.)", "completed": false},
+            {"id": "rlp-4", "text": "Implement live match preview with Web Worker", "completed": false},
+            {"id": "rlp-5", "text": "Add export to regex, grok, Logstash, Fluent Bit, Vector", "completed": false},
+            {"id": "rlp-6", "text": "Show non-matching lines indicator", "completed": false}
+          ],
           "createdAt": "2026-01-17"
         },
         {
@@ -24,6 +41,15 @@
           "description": "Visual editor for Grafana dashboards. Drag-and-drop panel layout, panel type picker, export schema v38+ JSON.",
           "labels": ["Large", "SRE", "Tool"],
           "planFile": "docs/plans/41-grafana-dashboard-builder.md",
+          "checklist": [
+            {"id": "gdb-1", "text": "Create dashboard settings form (title, tags, time range)", "completed": false},
+            {"id": "gdb-2", "text": "Build panel type picker (timeseries, stat, gauge, table, text)", "completed": false},
+            {"id": "gdb-3", "text": "Implement grid layout with dnd-kit drag-and-drop", "completed": false},
+            {"id": "gdb-4", "text": "Build panel editor (queries, legends, units, thresholds)", "completed": false},
+            {"id": "gdb-5", "text": "Add JSON export with Grafana schema v38+", "completed": false},
+            {"id": "gdb-6", "text": "Add preset dashboards for common use cases", "completed": false},
+            {"id": "gdb-7", "text": "Implement Web Worker validation for layout constraints", "completed": false}
+          ],
           "createdAt": "2026-01-17"
         },
         {
@@ -32,6 +58,15 @@
           "description": "Generate recording rules from PromQL queries. Naming conventions, analysis hints, YAML export with presets for HTTP/K8s rules.",
           "labels": ["Medium", "SRE", "Tool"],
           "planFile": "docs/plans/42-recording-rules-generator.md",
+          "checklist": [
+            {"id": "rrg-1", "text": "Create PromQL input with syntax highlighting", "completed": false},
+            {"id": "rrg-2", "text": "Implement query analysis (rate, aggregation, grouping hints)", "completed": false},
+            {"id": "rrg-3", "text": "Build naming config (level:metric:operations format)", "completed": false},
+            {"id": "rrg-4", "text": "Add evaluation interval and extra labels config", "completed": false},
+            {"id": "rrg-5", "text": "Export YAML for rule groups", "completed": false},
+            {"id": "rrg-6", "text": "Add presets for HTTP and Kubernetes rules", "completed": false},
+            {"id": "rrg-7", "text": "Add bulk entry mode for multiple queries", "completed": false}
+          ],
           "createdAt": "2026-01-17"
         },
         {
@@ -40,6 +75,14 @@
           "description": "Estimate observability costs across providers (Datadog, Grafana Cloud, New Relic). Side-by-side comparison, retention tradeoffs.",
           "labels": ["Medium", "SRE", "Calculator"],
           "planFile": "docs/plans/43-retention-cost-estimator.md",
+          "checklist": [
+            {"id": "rce-1", "text": "Create provider selector (Datadog, Grafana Cloud, New Relic, Self-hosted)", "completed": false},
+            {"id": "rce-2", "text": "Build inputs for metrics, logs, traces, and infra", "completed": false},
+            {"id": "rce-3", "text": "Implement pricing models JSON with async loading", "completed": false},
+            {"id": "rce-4", "text": "Create monthly cost breakdown chart by category", "completed": false},
+            {"id": "rce-5", "text": "Build side-by-side provider comparison view", "completed": false},
+            {"id": "rce-6", "text": "Add preset usage profiles and optimization tips", "completed": false}
+          ],
           "createdAt": "2026-01-17"
         },
         {
@@ -48,6 +91,15 @@
           "description": "Recommend CPU/memory requests/limits from utilization percentiles. Goal slider for efficiency vs safety, YAML snippet output.",
           "labels": ["Medium", "SRE", "Calculator"],
           "planFile": "docs/plans/44-k8s-resource-rightsizer.md",
+          "checklist": [
+            {"id": "krr-1", "text": "Build inputs for current requests/limits and replicas", "completed": false},
+            {"id": "krr-2", "text": "Build utilization percentile inputs (P50/P95/P99/Max)", "completed": false},
+            {"id": "krr-3", "text": "Create goal slider (efficiency ↔ safety)", "completed": false},
+            {"id": "krr-4", "text": "Implement recommendation engine with reasoning", "completed": false},
+            {"id": "krr-5", "text": "Add savings/impact calculation and risk indicators", "completed": false},
+            {"id": "krr-6", "text": "Create YAML snippet output with copy", "completed": false},
+            {"id": "krr-7", "text": "Add preset profiles (web server, worker, db)", "completed": false}
+          ],
           "createdAt": "2026-01-17"
         },
         {
@@ -56,6 +108,15 @@
           "description": "Detect recurring log patterns from raw lines. Auto-group by template, field type inference, export to regex/grok/logstash format.",
           "labels": ["Medium", "SRE", "Tool"],
           "planFile": "docs/plans/45-log-pattern-extractor.md",
+          "checklist": [
+            {"id": "lpe-1", "text": "Create log input area (10-100 lines)", "completed": false},
+            {"id": "lpe-2", "text": "Implement pattern detection in Web Worker", "completed": false},
+            {"id": "lpe-3", "text": "Build pattern cards with match counts and percentages", "completed": false},
+            {"id": "lpe-4", "text": "Add field type inference (timestamp, IP, number, UUID)", "completed": false},
+            {"id": "lpe-5", "text": "Allow manual edits to templates and field names", "completed": false},
+            {"id": "lpe-6", "text": "Export to regex/grok/logstash format", "completed": false},
+            {"id": "lpe-7", "text": "Show unmatched lines section with guidance", "completed": false}
+          ],
           "createdAt": "2026-01-17"
         },
         {
@@ -64,6 +125,14 @@
           "description": "Lint metric names against Prometheus/OTel conventions. Severity-coded issues, auto-fix suggestions, bulk apply and export.",
           "labels": ["Small", "SRE", "Tool"],
           "planFile": "docs/plans/46-metric-naming-linter.md",
+          "checklist": [
+            {"id": "mnl-1", "text": "Create metric name input (one per line, optional type hints)", "completed": false},
+            {"id": "mnl-2", "text": "Build standard selector (Prometheus, OTel, custom)", "completed": false},
+            {"id": "mnl-3", "text": "Implement lint rules with severity levels", "completed": false},
+            {"id": "mnl-4", "text": "Show before/after diff for auto-fix suggestions", "completed": false},
+            {"id": "mnl-5", "text": "Add bulk apply for auto-fixable rules", "completed": false},
+            {"id": "mnl-6", "text": "Export results as text/JSON report", "completed": false}
+          ],
           "createdAt": "2026-01-17"
         },
         {
@@ -72,6 +141,15 @@
           "description": "Interactive in-browser demos for jq/grep/sed/awk. WASM execution, syntax highlighting, command explanation panel.",
           "labels": ["Medium", "Learning", "Tool"],
           "planFile": "docs/plans/47-cli-tool-playground.md",
+          "checklist": [
+            {"id": "ctp-1", "text": "Create tool selector (jq, grep, sed, awk)", "completed": false},
+            {"id": "ctp-2", "text": "Build input editor with sample data presets", "completed": false},
+            {"id": "ctp-3", "text": "Build command editor with syntax highlighting", "completed": false},
+            {"id": "ctp-4", "text": "Integrate WASM execution (jq-web or similar)", "completed": false},
+            {"id": "ctp-5", "text": "Create output panel with copy and clear", "completed": false},
+            {"id": "ctp-6", "text": "Add explanation panel for command breakdown", "completed": false},
+            {"id": "ctp-7", "text": "Implement shareable URL state (input + command)", "completed": false}
+          ],
           "createdAt": "2026-01-17"
         },
         {
@@ -80,6 +158,15 @@
           "description": "Analyze React code to visualize component trees. Flag render anti-patterns (inline functions, missing keys, unstable deps).",
           "labels": ["Medium", "Learning", "Tool"],
           "planFile": "docs/plans/48-react-component-xray.md",
+          "checklist": [
+            {"id": "rcx-1", "text": "Create code editor for React/TSX input", "completed": false},
+            {"id": "rcx-2", "text": "Implement AST parsing in Web Worker (Babel/TS)", "completed": false},
+            {"id": "rcx-3", "text": "Derive component tree from AST", "completed": false},
+            {"id": "rcx-4", "text": "Visualize tree with props and render hints", "completed": false},
+            {"id": "rcx-5", "text": "Detect issues (inline functions, missing keys, unstable deps)", "completed": false},
+            {"id": "rcx-6", "text": "Build issue list with line refs and severity", "completed": false},
+            {"id": "rcx-7", "text": "Add suggested fix panel with copyable snippets", "completed": false}
+          ],
           "createdAt": "2026-01-17"
         }
       ],
