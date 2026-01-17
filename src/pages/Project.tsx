@@ -11,19 +11,23 @@ import { TransitionLink } from '@/hooks/useViewTransition';
 import type { ProjectStatus } from '@/types/project';
 
 const SITE_URL = 'https://dylanbochman.com';
-const DEFAULT_OG_IMAGE = `${SITE_URL}/social-preview.webp`;
 
 /**
- * Ensure ogImage is an absolute URL for OG parsers
+ * Resolve OG image URL for a project
+ * - Custom ogImage provided: use it (resolve relative paths)
+ * - No custom image: use generated OG image at /og-images/{slug}.png
  */
-function resolveOgImage(ogImage: string | undefined): string {
-  if (!ogImage) return DEFAULT_OG_IMAGE;
-  // Already absolute URL
-  if (ogImage.startsWith('http://') || ogImage.startsWith('https://')) {
-    return ogImage;
+function resolveOgImage(slug: string, ogImage: string | undefined): string {
+  if (ogImage) {
+    // Custom image provided
+    if (ogImage.startsWith('http://') || ogImage.startsWith('https://')) {
+      return ogImage;
+    }
+    // Relative path - prefix with site URL
+    return `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
   }
-  // Relative path - prefix with site URL
-  return `${SITE_URL}${ogImage.startsWith('/') ? '' : '/'}${ogImage}`;
+  // Default to generated OG image
+  return `${SITE_URL}/og-images/${slug}.png`;
 }
 
 const statusVariants: Record<ProjectStatus, 'default' | 'secondary' | 'outline'> = {
@@ -79,7 +83,7 @@ export default function Project() {
         <meta property="og:description" content={project.description} />
         <meta
           property="og:image"
-          content={resolveOgImage(project.ogImage)}
+          content={resolveOgImage(project.slug, project.ogImage)}
         />
         <meta property="og:site_name" content="Dylan Bochman" />
 
@@ -93,7 +97,7 @@ export default function Project() {
         <meta name="twitter:description" content={project.description} />
         <meta
           name="twitter:image"
-          content={resolveOgImage(project.ogImage)}
+          content={resolveOgImage(project.slug, project.ogImage)}
         />
 
         <link
