@@ -555,13 +555,16 @@ function executeAwk(input: string, command: string): string {
       processed = processed.replace(new RegExp(`\\b${key}\\b`, 'g'), String(val));
     }
 
-    // Safe comparison evaluator - only handles simple numeric comparisons
+    // Check if expression contains comparison operators
+    const hasComparisonOp = /[<>=!]{1,2}/.test(processed);
+
+    // Safe comparison evaluator - handles numeric comparisons
     // Matches patterns like "85 > 80", "NR == 1", etc.
-    const comparisonMatch = processed.match(/^\s*(-?\d+(?:\.\d+)?)\s*([<>=!]+)\s*(-?\d+(?:\.\d+)?)\s*$/);
-    if (comparisonMatch) {
-      const left = parseFloat(comparisonMatch[1]);
-      const op = comparisonMatch[2];
-      const right = parseFloat(comparisonMatch[3]);
+    const numericComparisonMatch = processed.match(/^\s*(-?\d+(?:\.\d+)?)\s*([<>=!]+)\s*(-?\d+(?:\.\d+)?)\s*$/);
+    if (numericComparisonMatch) {
+      const left = parseFloat(numericComparisonMatch[1]);
+      const op = numericComparisonMatch[2];
+      const right = parseFloat(numericComparisonMatch[3]);
 
       switch (op) {
         case '>': return left > right;
@@ -572,6 +575,26 @@ function executeAwk(input: string, command: string): string {
         case '!=': return left !== right;
         default: return false;
       }
+    }
+
+    // String equality comparisons: "alice" == "alice" or alice == "alice"
+    const stringComparisonMatch = processed.match(/^\s*"?([^"]*)"?\s*(==|!=)\s*"([^"]*)"\s*$/);
+    if (stringComparisonMatch) {
+      const left = stringComparisonMatch[1];
+      const op = stringComparisonMatch[2];
+      const right = stringComparisonMatch[3];
+
+      switch (op) {
+        case '==': return left === right;
+        case '!=': return left !== right;
+        default: return false;
+      }
+    }
+
+    // If expression looks like a comparison but didn't match supported patterns, return false
+    // This prevents non-numeric comparisons like "$1 > 80" (where $1 is "alice") from being truthy
+    if (hasComparisonOp) {
+      return false;
     }
 
     // Safe arithmetic evaluator - only handles simple numeric operations
@@ -590,7 +613,7 @@ function executeAwk(input: string, command: string): string {
       }
     }
 
-    // Return as-is for non-expression strings
+    // Return as-is for non-expression strings (used for print statements, etc.)
     return processed;
   };
 

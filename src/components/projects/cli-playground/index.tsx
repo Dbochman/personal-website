@@ -132,6 +132,9 @@ export default function CliPlayground() {
   }, [handleRun]);
 
   const handleToolChange = useCallback((tool: Tool) => {
+    // Invalidate any in-flight requests
+    runIdRef.current++;
+
     // Save current tool state
     toolStateCache.set(state.tool, {
       input: state.input,
@@ -170,6 +173,9 @@ export default function CliPlayground() {
   }, []);
 
   const handlePresetSelect = useCallback((preset: ToolPreset) => {
+    // Invalidate any in-flight requests
+    runIdRef.current++;
+
     const index = TOOL_CONFIGS[state.tool].presets.findIndex(p => p.name === preset.name);
     setCurrentPresetIndex(index >= 0 ? index : 0);
     setState((prev) => ({
