@@ -109,6 +109,13 @@ export default function StatusPageUpdate() {
 
   return (
     <div className="space-y-6">
+      {/* Intro text for SEO and user context */}
+      <p className="text-sm text-muted-foreground">
+        Generate clear, professional incident updates for your status page.
+        Choose the incident phase, fill in the details, and copy the message to
+        Statuspage, PagerDuty, Instatus, or any status page provider.
+      </p>
+
       {/* Phase selector at top */}
       <PhaseSelector value={phase} onChange={setPhase} />
 
