@@ -22,6 +22,7 @@ const validSlugs = [
   'kanban',
   'analytics',
   'changelog',
+  'cli-playground',
 ];
 
 console.log('Validating project configuration...');

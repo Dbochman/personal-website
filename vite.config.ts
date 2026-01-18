@@ -21,6 +21,10 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  optimizeDeps: {
+    exclude: ['jq-web'], // Don't pre-bundle jq-web, let it load WASM at runtime
+  },
+  assetsInclude: ['**/*.wasm'], // Treat WASM files as assets
   plugins: [
     mdx({
       remarkPlugins: [remarkGfm, remarkFrontmatter],
