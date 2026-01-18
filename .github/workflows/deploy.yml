@@ -79,10 +79,11 @@ jobs:
 
           // Budgets: raw file sizes with ~15% headroom to catch regressions
           // Transfer sizes are ~70% smaller due to gzip compression
+          // Note: Mermaid adds ~2MB for diagram support (flowchart, sequence, etc.)
           const BUDGETS = {
-            totalJS: 2048 * 1024,     // 2MB raw (current ~1.8MB)
-            totalCSS: 110 * 1024,     // 110KB raw (current ~94KB)
-            largestChunk: 450 * 1024, // 450KB raw (current ~400KB)
+            totalJS: 4500 * 1024,     // 4.5MB raw (current ~4.3MB with Mermaid)
+            totalCSS: 110 * 1024,     // 110KB raw (current ~100KB)
+            largestChunk: 500 * 1024, // 500KB raw (current ~480KB)
           };
 
           const distAssets = path.join('dist', 'assets');
