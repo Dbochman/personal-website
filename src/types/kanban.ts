@@ -27,6 +27,7 @@ export type PrStatus = 'passing' | 'failing' | 'pending';
 export interface KanbanCard {
   id: string;
   title: string;
+  summary?: string; // Short one-liner for Change Log cards
   description?: string;
   labels?: string[];
   checklist?: ChecklistItem[];

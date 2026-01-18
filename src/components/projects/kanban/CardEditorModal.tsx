@@ -66,6 +66,7 @@ export function CardEditorModal({
 }: CardEditorModalProps) {
   const checklistRef = useRef<HTMLDivElement>(null);
   const [title, setTitle] = useState('');
+  const [summary, setSummary] = useState('');
   const [description, setDescription] = useState('');
   const [labels, setLabels] = useState<string[]>([]);
   const [newLabel, setNewLabel] = useState('');
@@ -76,12 +77,14 @@ export function CardEditorModal({
   useEffect(() => {
     if (card) {
       setTitle(card.title);
+      setSummary(card.summary || '');
       setDescription(card.description || '');
       setLabels(card.labels || []);
       setChecklist(card.checklist || []);
       setColor(card.color);
     } else {
       setTitle('');
+      setSummary('');
       setDescription('');
       setLabels([]);
       setChecklist([]);
@@ -128,6 +131,7 @@ export function CardEditorModal({
     onSave({
       id: card?.id || generateId(),
       title: title.trim(),
+      summary: summary.trim() || undefined,
       description: description.trim() || undefined,
       labels: labels.length > 0 ? labels : undefined,
       checklist: checklist.length > 0 ? checklist : undefined,
@@ -202,12 +206,22 @@ export function CardEditorModal({
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="summary">Summary</Label>
+            <Input
+              id="summary"
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+              placeholder="Short one-liner for card preview"
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Add details..."
+              placeholder="Full details (shown when editing)"
               rows={2}
             />
           </div>

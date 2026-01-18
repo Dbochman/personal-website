@@ -113,9 +113,9 @@ export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: Ka
 
       <div className="pr-6">
         <p className="font-medium text-sm break-words">{card.title}</p>
-        {card.description && (
+        {(card.summary || card.description) && (
           <p className="text-xs text-muted-foreground mt-1 break-words">
-            {card.description}
+            {card.summary || card.description}
           </p>
         )}
         {card.labels && card.labels.length > 0 && (

@@ -277,6 +277,7 @@
         {
           "id": "cli-tool-playground",
           "title": "CLI Tool Playground",
+          "summary": "In-browser kubectl/jq/grep/sed/awk with Learn and Play modes",
           "description": "Interactive in-browser demos for CLI tools. Pure JS implementations (no WASM).\n\nFeatures:\n- Tool selector: kubectl, jq, grep, sed, awk\n- Learn mode with goals, hints, and command chips\n- Playground mode for freeform experimentation\n- Command explainer with flag breakdowns and 'Try next' suggestions\n- Shareable URL state (tool, mode, input, command)\n- 5 presets per tool covering common use cases\n\nkubectl simulator:\n- 5 triage scenarios (CrashLoopBackOff, ImagePullBackOff, Service Mismatch, Rollout Regression, Node Pressure)\n- Full K8s resource schema (pods, deployments, services, nodes, events)\n- Supports: get, describe, logs, rollout, top, events\n- Session state mutation for rollback commands\n\nSecurity fixes:\n- Replaced Function() with safe regex parser (XSS)\n- URL param validation with fallbacks\n- Race condition guards for async results",
           "labels": ["PR #156", "Feature", "Learning", "Tool"],
           "planFile": "docs/plans/47-cli-tool-playground.md",
@@ -302,6 +303,7 @@
         {
           "id": "slo-tool-ux-improvements",
           "title": "SLO Tool UX Improvements",
+          "summary": "Better defaults, collapsible sections, burn rate simulator",
           "description": "Polished the SLO Calculator with better defaults and new burn rate simulator.\n\nChanges:\n- Realistic default response times (26m MTTR)\n- Collapsible Response Times section (shows Alert latency by default)\n- Removed redundant burndown charts from Achievable/Target tabs\n- Added interactive Burn Rate Simulator slider (0.1x-5x)\n- Explanatory text for the 'ideal' line concept\n- Fixed slider resync when inputs change (Codex finding)\n- Fixed edge case when zero incidents (Codex finding)",
           "labels": ["PR #151", "Enhancement", "SRE"],
           "createdAt": "2026-01-17",
@@ -318,6 +320,7 @@
         {
           "id": "programmatic-og-images",
           "title": "Programmatic OG Image Generation",
+          "summary": "Build-time OG images via satori + resvg for project pages",
           "description": "Generate Open Graph images at build time for project pages using satori + @resvg/resvg-js.\n\nImplemented:\n- Build-time generation via scripts/generate-og-images.mjs\n- Build-time validation via scripts/validate-projects.mjs\n- Dark theme template with icon, title, description, tags\n- Inter font (regular + bold) for typography\n- Added to build pipeline in package.json\n- Extracted project metadata to projects-meta.json\n- Simplified projects.ts by removing inline metadata\n- Fail-fast guards for CI (exits 1 on generation or validation failures)",
           "labels": ["PR #150", "Enhancement", "Infrastructure"],
           "planFile": "docs/plans/33-programmatic-og-images.md",
@@ -390,6 +393,7 @@
         {
           "id": "unified-slo-tool",
           "title": "Unified SLO Calculator",
+          "summary": "Merged SLO Calculator + Error Budget into 3-tab interface",
           "description": "Consolidated SLO Calculator and Error Budget Burndown into one project with three tabs:\n\n- What can I achieve? (response time inputs directly visible)\n- Can I meet this SLO? (collapsible config)\n- Budget Burndown (full chart view)\n\nRemoved 2,700+ lines of redundant code. Collapsible configuration for target/burndown tabs, direct inputs for achievable tab.",
           "labels": ["PR #145", "PR #146", "Feature", "SRE"],
           "planFile": "docs/plans/32-unified-slo-tool.md",
@@ -650,6 +654,7 @@
             "Kanban"
           ],
           "planFile": "docs/plans/30-kanban-external-change-detection.md",
+          "summary": "Toast notification when board is updated externally",
           "title": "Kanban External Change Detection",
           "updatedAt": "2026-01-16T18:50:00.000Z"
         },
