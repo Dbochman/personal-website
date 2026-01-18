@@ -5,6 +5,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { explainCommand } from './explainer';
 import type { Tool, ToolPreset } from './types';
 
 interface LearnHeaderProps {
@@ -18,14 +19,14 @@ const COMMAND_HINTS: Record<Tool, { label: string; command: string }[]> = {
   jq: [
     { label: 'Get field', command: '.name' },
     { label: 'List keys', command: 'keys' },
-    { label: 'Iterate array', command: '.[]' },
-    { label: 'Filter items', command: '.[] | select(.age > 25)' },
+    { label: 'Get age', command: '.age' },
+    { label: 'Get city', command: '.city' },
   ],
   grep: [
-    { label: 'Match text', command: 'error' },
-    { label: 'Ignore case', command: '-i error' },
-    { label: 'Invert match', command: '-v error' },
-    { label: 'Line numbers', command: '-n error' },
+    { label: 'Match text', command: 'apple' },
+    { label: 'Ignore case', command: '-i apple' },
+    { label: 'Line numbers', command: '-n apple' },
+    { label: 'Extended regex', command: '-E "(apple|banana)"' },
   ],
   sed: [
     { label: 'Replace first', command: 's/old/new/' },
@@ -48,17 +49,21 @@ const COMMAND_HINTS: Record<Tool, { label: string; command: string }[]> = {
 export function LearnHeader({ tool, preset, onTryCommand }: LearnHeaderProps) {
   if (!preset) return null;
 
+  const derivedHints = explainCommand(tool, preset.command).tryNext;
   const baseHints = COMMAND_HINTS[tool];
+  const hintsSource = derivedHints.length > 0 ? derivedHints : baseHints;
+  const maxHints = derivedHints.length > 0 ? 3 : 4;
 
-  // For kubectl, add namespace to commands
-  const hints = tool === 'kubectl' && preset.namespace
+  // For kubectl, add namespace to fallback hints only
+  const hints = tool === 'kubectl' && preset.namespace && hintsSource === baseHints
     ? baseHints.map(hint => ({
         ...hint,
         command: hint.command.includes('-n ')
           ? hint.command
           : `${hint.command} -n ${preset.namespace}`,
       }))
-    : baseHints;
+    : hintsSource;
+  const cappedHints = hints.slice(0, maxHints);
 
   // Use objective for kubectl, description for others
   const goalText = (tool === 'kubectl' && preset.objective) || preset.description;
@@ -74,7 +79,7 @@ export function LearnHeader({ tool, preset, onTryCommand }: LearnHeaderProps) {
       {/* Command chips with tooltips showing exact command */}
       <div className="flex items-center gap-1.5 flex-wrap">
         <span className="text-xs text-muted-foreground mr-1">Try:</span>
-        {hints.map((hint) => (
+        {cappedHints.map((hint) => (
           <Tooltip key={hint.label}>
             <TooltipTrigger asChild>
               <Button
