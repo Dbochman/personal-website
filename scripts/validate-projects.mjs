@@ -23,6 +23,7 @@ const validSlugs = [
   'analytics',
   'changelog',
   'cli-playground',
+  'incident-command-diagrams',
 ];
 
 console.log('Validating project configuration...');

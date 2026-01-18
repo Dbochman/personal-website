@@ -11,6 +11,7 @@ const componentMap: Record<string, React.LazyExoticComponent<React.ComponentType
   'analytics': lazy(() => import('@/components/projects/analytics')),
   'changelog': lazy(() => import('@/components/projects/changelog-explorer')),
   'cli-playground': lazy(() => import('@/components/projects/cli-playground')),
+  'incident-command-diagrams': lazy(() => import('@/components/projects/incident-command-diagrams')),
 };
 
 /**
