@@ -275,6 +275,19 @@
     {
       "cards": [
         {
+          "id": "animated-mermaid-diagrams",
+          "title": "Animated Mermaid Diagrams",
+          "summary": "Interactive step-by-step walkthrough for incident command flowcharts",
+          "description": "Added animated walkthrough mode to incident-command-diagrams with:\n\n- Step-by-step animation with play/pause/skip/back controls\n- Decision nodes that pause for user to choose a path (branching logic)\n- Link nodes for cross-diagram navigation and external tool links\n- Side-by-side layout with sticky context panel\n- Auto-scroll to center active node in viewport\n- Progress bar and step counter\n- Lazy-loaded Mermaid rendering with theme support",
+          "labels": ["PR #162", "Feature", "SRE"],
+          "createdAt": "2026-01-18",
+          "history": [
+            {"type": "column", "timestamp": "2026-01-18T16:49:00.000Z", "columnId": "in-progress", "columnTitle": "In Progress"},
+            {"type": "column", "timestamp": "2026-01-18T19:30:00.000Z", "columnId": "changelog", "columnTitle": "Change Log"}
+          ],
+          "updatedAt": "2026-01-18T19:30:00.000Z"
+        },
+        {
           "id": "cli-tool-playground",
           "title": "CLI Tool Playground",
           "summary": "In-browser kubectl/jq/grep/sed/awk with Learn and Play modes",
