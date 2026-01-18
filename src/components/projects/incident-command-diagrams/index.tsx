@@ -77,7 +77,7 @@ flowchart TD
   K -->|Yes| L[Resolve StatusPage Incident]
   K -->|No| M[Continue mitigation]
   M --> F
-  L --> N[Resolve Internal Incident]
+  L --> N[Incident Resolution]
   click D "#service-owner-paging" "Open Service Owner Paging Path"
   class D jump;
 `,
@@ -106,10 +106,8 @@ flowchart TD
       { id: 'K', label: 'Confirm stability', type: 'decision', branches: [['Stable', 11], ['Not Stable', 5]], description: 'Are we confident the fix is holding?' },
       // 11
       { id: 'L', label: 'Resolve StatusPage Incident', description: 'Mark the external incident as resolved.' },
-      // 12
-      { id: 'M', label: 'Continue mitigation', description: 'Issue resurfaced - return to investigation.' },
-      // 13
-      { id: 'N', label: 'Resolve Internal Incident', description: 'Close out the internal incident ticket.' },
+      // 12 (M is a loop-back node only reachable via "Not Stable" branch to F, not part of main flow)
+      { id: 'N', label: 'Incident Resolution', description: 'Close out the internal incident ticket.' },
     ],
   },
   {

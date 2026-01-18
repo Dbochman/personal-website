@@ -454,12 +454,17 @@ export function AnimatedMermaidDiagram({
                       Pause
                     </Button>
                   )}
-                  <Button variant="outline" size="sm" onClick={skipToNext} disabled={isComplete}>
-                    <SkipForward className="h-4 w-4" />
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={reset}>
-                    <RotateCcw className="h-4 w-4" />
-                  </Button>
+                  {/* Hide skip and reset on final node - only show back and replay */}
+                  {!isComplete && (
+                    <>
+                      <Button variant="outline" size="sm" onClick={skipToNext}>
+                        <SkipForward className="h-4 w-4" />
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={reset}>
+                        <RotateCcw className="h-4 w-4" />
+                      </Button>
+                    </>
+                  )}
                 </div>
               )}
             </div>
