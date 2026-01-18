@@ -1,5 +1,10 @@
 import { Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import type { Tool, ToolPreset } from './types';
 
 interface LearnHeaderProps {
@@ -9,34 +14,34 @@ interface LearnHeaderProps {
 }
 
 // Command hints for each tool - concepts to explore
-const COMMAND_HINTS: Record<Tool, { label: string; command: string; tip: string }[]> = {
+const COMMAND_HINTS: Record<Tool, { label: string; command: string }[]> = {
   jq: [
-    { label: '.field', command: '.name', tip: 'Access a field' },
-    { label: 'keys', command: 'keys', tip: 'Get object keys' },
-    { label: '.[]', command: '.[]', tip: 'Iterate array' },
-    { label: 'select()', command: '.[] | select(.age > 25)', tip: 'Filter items' },
+    { label: 'Get field', command: '.name' },
+    { label: 'List keys', command: 'keys' },
+    { label: 'Iterate array', command: '.[]' },
+    { label: 'Filter items', command: '.[] | select(.age > 25)' },
   ],
   grep: [
-    { label: 'pattern', command: 'error', tip: 'Match text' },
-    { label: '-i', command: '-i error', tip: 'Case insensitive' },
-    { label: '-v', command: '-v error', tip: 'Invert match' },
-    { label: '-n', command: '-n error', tip: 'Line numbers' },
+    { label: 'Match text', command: 'error' },
+    { label: 'Ignore case', command: '-i error' },
+    { label: 'Invert match', command: '-v error' },
+    { label: 'Line numbers', command: '-n error' },
   ],
   sed: [
-    { label: 's/a/b/', command: 's/old/new/', tip: 'Replace first' },
-    { label: 's/a/b/g', command: 's/old/new/g', tip: 'Replace all' },
-    { label: '/p/d', command: '/^#/d', tip: 'Delete lines' },
+    { label: 'Replace first', command: 's/old/new/' },
+    { label: 'Replace all', command: 's/old/new/g' },
+    { label: 'Delete lines', command: '/^#/d' },
   ],
   awk: [
-    { label: '$1', command: '{print $1}', tip: 'First column' },
-    { label: '$1,$2', command: '{print $1, $2}', tip: 'Multiple columns' },
-    { label: 'sum', command: '{sum += $2} END {print sum}', tip: 'Sum values' },
+    { label: 'First column', command: '{print $1}' },
+    { label: 'Multiple cols', command: '{print $1, $2}' },
+    { label: 'Sum values', command: '{sum += $2} END {print sum}' },
   ],
   kubectl: [
-    { label: 'pods', command: 'get pods', tip: 'List pods and status' },
-    { label: 'describe', command: 'describe pod', tip: 'Full pod details' },
-    { label: 'logs', command: 'logs', tip: 'Container output' },
-    { label: 'events', command: 'get events', tip: 'Recent cluster events' },
+    { label: 'Get pods', command: 'get pods' },
+    { label: 'Describe pod', command: 'describe pod' },
+    { label: 'Tail logs', command: 'logs' },
+    { label: 'Get events', command: 'get events' },
   ],
 };
 
@@ -45,7 +50,7 @@ export function LearnHeader({ tool, preset, onTryCommand }: LearnHeaderProps) {
 
   const baseHints = COMMAND_HINTS[tool];
 
-  // For kubectl, add namespace to commands and customize hints per lesson
+  // For kubectl, add namespace to commands
   const hints = tool === 'kubectl' && preset.namespace
     ? baseHints.map(hint => ({
         ...hint,
@@ -63,28 +68,28 @@ export function LearnHeader({ tool, preset, onTryCommand }: LearnHeaderProps) {
       {/* Goal */}
       <div className="flex items-center gap-2 flex-1 min-w-0">
         <Target className="h-4 w-4 text-blue-500 shrink-0" />
-        <span className="text-sm truncate">{goalText}</span>
-        {tool === 'kubectl' && preset.namespace && (
-          <code className="text-xs bg-muted px-1.5 py-0.5 rounded font-mono text-muted-foreground shrink-0">
-            ns: {preset.namespace}
-          </code>
-        )}
+        <span className="text-sm">{goalText}</span>
       </div>
 
-      {/* Command chips */}
+      {/* Command chips with tooltips showing exact command */}
       <div className="flex items-center gap-1.5 flex-wrap">
         <span className="text-xs text-muted-foreground mr-1">Try:</span>
         {hints.map((hint) => (
-          <Button
-            key={hint.label}
-            variant="outline"
-            size="sm"
-            className="h-6 px-2 text-xs font-mono"
-            onClick={() => onTryCommand(hint.command)}
-            title={hint.tip}
-          >
-            {hint.label}
-          </Button>
+          <Tooltip key={hint.label}>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-6 px-2 text-xs"
+                onClick={() => onTryCommand(hint.command)}
+              >
+                {hint.label}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <code className="font-mono text-xs">{hint.command}</code>
+            </TooltipContent>
+          </Tooltip>
         ))}
       </div>
     </div>

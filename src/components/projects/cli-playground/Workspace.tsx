@@ -11,6 +11,7 @@ interface WorkspaceProps {
   mode: Mode;
   explanation: CommandExplanation | null;
   hideStdin?: boolean;
+  emptyStatePrompt?: string; // Lesson-aware prompt for empty output
   onInputChange: (value: string) => void;
   onTryCommand: (command: string) => void;
 }
@@ -35,6 +36,7 @@ export function Workspace({
   mode,
   explanation,
   hideStdin,
+  emptyStatePrompt,
   onInputChange,
   onTryCommand,
 }: WorkspaceProps) {
@@ -103,7 +105,7 @@ export function Workspace({
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                {error ? 'stderr' : 'stdout'}
+                {error ? 'Error' : 'Output'}
               </button>
               <button
                 onClick={() => setActiveTab('explain')}
@@ -118,7 +120,7 @@ export function Workspace({
             </div>
           ) : (
             <span className="text-xs font-medium text-muted-foreground">
-              {error ? 'stderr' : 'stdout'}
+              {error ? 'Error' : 'Output'}
             </span>
           )}
           {effectiveTab === 'output' && (
@@ -155,7 +157,9 @@ export function Workspace({
               ) : output ? (
                 output
               ) : (
-                <span className="text-muted-foreground/50">Output will appear here...</span>
+                <span className="text-muted-foreground/50">
+                  {emptyStatePrompt || 'Output will appear here...'}
+                </span>
               )}
             </pre>
           </div>

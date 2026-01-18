@@ -203,7 +203,7 @@ export const TOOL_CONFIGS: Record<Tool, ToolConfig> = {
         command: 'get pods -n payments',
         fixture: 'crashloop',
         namespace: 'payments',
-        objective: 'Identify failing pods and determine root cause',
+        objective: 'Find the CrashLooping pod and confirm why it keeps restarting',
       },
       {
         name: 'ImagePullBackOff',
@@ -212,7 +212,7 @@ export const TOOL_CONFIGS: Record<Tool, ToolConfig> = {
         command: 'get pods -n frontend',
         fixture: 'imagepull',
         namespace: 'frontend',
-        objective: 'Diagnose image pull errors and authentication issues',
+        objective: 'Find the pod stuck pulling its image and identify the exact error',
       },
       {
         name: 'Service Mismatch',
@@ -221,7 +221,7 @@ export const TOOL_CONFIGS: Record<Tool, ToolConfig> = {
         command: 'get svc,endpoints -n api',
         fixture: 'service-mismatch',
         namespace: 'api',
-        objective: 'Find why traffic is not reaching pods',
+        objective: 'Find why the service has no endpoints and fix the selector mismatch',
       },
       {
         name: 'Rollout Regression',
@@ -230,7 +230,7 @@ export const TOOL_CONFIGS: Record<Tool, ToolConfig> = {
         command: 'rollout status deployment/web -n production',
         fixture: 'rollout-regression',
         namespace: 'production',
-        objective: 'Identify regression and perform rollback',
+        objective: 'Identify the failing deployment and roll back to the previous version',
       },
       {
         name: 'Node Pressure',
@@ -239,7 +239,7 @@ export const TOOL_CONFIGS: Record<Tool, ToolConfig> = {
         command: 'get nodes',
         fixture: 'node-pressure',
         namespace: 'default',
-        objective: 'Identify node issues causing pod evictions',
+        objective: 'Find the node under pressure and identify which pods are being evicted',
       },
     ],
   },

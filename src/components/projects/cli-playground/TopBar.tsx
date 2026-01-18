@@ -52,7 +52,7 @@ export function TopBar({
           type="single"
           value={tool}
           onValueChange={(v) => v && onToolChange(v as Tool)}
-          className="bg-muted/50 p-1 rounded-lg"
+          className="bg-zinc-200 dark:bg-zinc-800 p-1 rounded-lg"
         >
           {TOOLS.map((t) => (
             <ToggleGroupItem
@@ -97,7 +97,7 @@ export function TopBar({
           type="single"
           value={mode}
           onValueChange={(v) => v && onModeChange(v as Mode)}
-          className="bg-muted/50 p-1 rounded-lg"
+          className="bg-zinc-200 dark:bg-zinc-800 p-1 rounded-lg"
         >
           <ToggleGroupItem
             value="learn"
