@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useTransition, useMemo } from 'react';
+import { useState, useCallback, useEffect, useTransition, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { TopBar } from './TopBar';
 import { CommandRow } from './CommandRow';
@@ -9,16 +9,30 @@ import { explainCommand } from './explainer';
 import type { Tool, Mode, ToolPreset, ToolState, PersistedToolState } from './types';
 import { TOOL_CONFIGS, DEFAULT_STATE } from './types';
 
+// Valid tool and mode values for URL param validation
+const VALID_TOOLS = Object.keys(TOOL_CONFIGS) as Tool[];
+const VALID_MODES: Mode[] = ['learn', 'playground'];
+
+function isValidTool(value: string | null): value is Tool {
+  return value !== null && VALID_TOOLS.includes(value as Tool);
+}
+
+function isValidMode(value: string | null): value is Mode {
+  return value !== null && VALID_MODES.includes(value as Mode);
+}
+
 // Store per-tool state when switching tools
 const toolStateCache = new Map<Tool, PersistedToolState>();
 
 export default function CliPlayground() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isPending, startTransition] = useTransition();
+  const runIdRef = useRef(0); // Track run ID to prevent stale results
 
-  // Initialize state from URL params or defaults
+  // Initialize state from URL params or defaults (with validation)
   const [state, setState] = useState<ToolState>(() => {
-    const tool = (searchParams.get('tool') as Tool) || DEFAULT_STATE.tool;
+    const toolParam = searchParams.get('tool');
+    const tool = isValidTool(toolParam) ? toolParam : DEFAULT_STATE.tool;
     const input = searchParams.get('input') || TOOL_CONFIGS[tool].presets[0].input;
     const command = searchParams.get('cmd') || TOOL_CONFIGS[tool].presets[0].command;
 
@@ -31,7 +45,8 @@ export default function CliPlayground() {
   });
 
   const [mode, setMode] = useState<Mode>(() => {
-    return (searchParams.get('mode') as Mode) || 'learn';
+    const modeParam = searchParams.get('mode');
+    return isValidMode(modeParam) ? modeParam : 'learn';
   });
 
   const [currentPresetIndex, setCurrentPresetIndex] = useState(0);
@@ -66,6 +81,9 @@ export default function CliPlayground() {
   }, [state.tool, state.input, state.command, mode, setSearchParams]);
 
   const handleRun = useCallback(async () => {
+    // Increment run ID to track this specific execution
+    const currentRunId = ++runIdRef.current;
+
     setState((prev) => ({ ...prev, isLoading: true, error: undefined }));
 
     try {
@@ -73,6 +91,10 @@ export default function CliPlayground() {
         fixture: currentPreset?.fixture,
         namespace: currentPreset?.namespace,
       });
+
+      // Ignore stale results if user switched tools/commands while running
+      if (runIdRef.current !== currentRunId) return;
+
       startTransition(() => {
         setState((prev) => ({
           ...prev,
@@ -82,6 +104,9 @@ export default function CliPlayground() {
         }));
       });
     } catch (err) {
+      // Ignore stale errors if user switched tools/commands while running
+      if (runIdRef.current !== currentRunId) return;
+
       startTransition(() => {
         setState((prev) => ({
           ...prev,

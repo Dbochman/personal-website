@@ -542,7 +542,7 @@ function executeAwk(input: string, command: string): string {
   const output: string[] = [];
   const variables: Record<string, number | string> = { NR: 0, NF: 0 };
 
-  // Simple expression evaluator for awk
+  // Safe expression evaluator for awk (no Function/eval)
   const evalExpr = (expr: string, fields: string[]): string | number | boolean => {
     // Replace field references $1, $2, etc
     let processed = expr.replace(/\$(\d+)/g, (_, n) => {
@@ -555,16 +555,43 @@ function executeAwk(input: string, command: string): string {
       processed = processed.replace(new RegExp(`\\b${key}\\b`, 'g'), String(val));
     }
 
-    // Handle string concatenation and comparisons
-    try {
-      // Check for comparison operators
-      if (/[<>=!]+/.test(processed) && !/["']/.test(processed)) {
-        return Function(`"use strict"; return (${processed})`)();
+    // Safe comparison evaluator - only handles simple numeric comparisons
+    // Matches patterns like "85 > 80", "NR == 1", etc.
+    const comparisonMatch = processed.match(/^\s*(-?\d+(?:\.\d+)?)\s*([<>=!]+)\s*(-?\d+(?:\.\d+)?)\s*$/);
+    if (comparisonMatch) {
+      const left = parseFloat(comparisonMatch[1]);
+      const op = comparisonMatch[2];
+      const right = parseFloat(comparisonMatch[3]);
+
+      switch (op) {
+        case '>': return left > right;
+        case '<': return left < right;
+        case '>=': return left >= right;
+        case '<=': return left <= right;
+        case '==': return left === right;
+        case '!=': return left !== right;
+        default: return false;
       }
-      return processed;
-    } catch {
-      return processed;
     }
+
+    // Safe arithmetic evaluator - only handles simple numeric operations
+    const arithmeticMatch = processed.match(/^\s*(-?\d+(?:\.\d+)?)\s*([+\-*/])\s*(-?\d+(?:\.\d+)?)\s*$/);
+    if (arithmeticMatch) {
+      const left = parseFloat(arithmeticMatch[1]);
+      const op = arithmeticMatch[2];
+      const right = parseFloat(arithmeticMatch[3]);
+
+      switch (op) {
+        case '+': return left + right;
+        case '-': return left - right;
+        case '*': return left * right;
+        case '/': return right !== 0 ? left / right : 0;
+        default: return processed;
+      }
+    }
+
+    // Return as-is for non-expression strings
+    return processed;
   };
 
   // Execute main program for each line
