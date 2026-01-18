@@ -11,6 +11,7 @@ import {
   MessageSquare,
   ScrollText,
   Target,
+  Terminal,
   TrendingDown,
   type LucideIcon,
 } from 'lucide-react';
@@ -32,6 +33,7 @@ const iconRegistry: Record<string, LucideIcon> = {
   MessageSquare,
   ScrollText,
   Target,
+  Terminal,
   TrendingDown,
 };
 
