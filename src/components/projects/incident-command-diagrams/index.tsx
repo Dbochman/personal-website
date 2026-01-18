@@ -100,8 +100,8 @@ flowchart TD
       { id: 'G', label: 'Monitor progress and share updates', description: 'Keep stakeholders informed with regular updates.' },
       // 7: branches to I(8) or J(9)
       { id: 'H', label: 'Customer impact?', type: 'decision', branches: [['Yes', 8], ['No', 9]], description: 'Are customers affected by this incident?' },
-      // 8
-      { id: 'I', label: 'Post updates to status page', description: 'Communicate externally via status page.' },
+      // 8: link to statuspage-update tool
+      { id: 'I', label: 'Post updates to status page', type: 'link', linkTo: '/projects/statuspage-update', description: 'Communicate externally via status page.' },
       // 9
       { id: 'J', label: 'Issue Mitigated', description: 'The immediate problem has been addressed.' },
       // 10: branches to L(11) or M(12)
@@ -218,6 +218,16 @@ export default function IncidentCommandDiagrams() {
     }
   };
 
+  const handleLinkClick = (linkTo: string) => {
+    // External links start with /
+    if (linkTo.startsWith('/')) {
+      window.location.href = linkTo;
+    } else {
+      // Internal tab links
+      handleTabChange(linkTo);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <p className="text-sm text-muted-foreground">
@@ -243,7 +253,7 @@ export default function IncidentCommandDiagrams() {
               description={diagram.description}
               code={diagram.code}
               nodes={diagram.nodes}
-              onLinkClick={handleTabChange}
+              onLinkClick={handleLinkClick}
             />
           </TabsContent>
         ))}
