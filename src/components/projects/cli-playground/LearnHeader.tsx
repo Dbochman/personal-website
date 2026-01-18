@@ -19,12 +19,12 @@ const COMMAND_HINTS: Record<Tool, { label: string; command: string }[]> = {
     { label: 'Get field', command: '.name' },
     { label: 'List keys', command: 'keys' },
     { label: 'Iterate array', command: '.[]' },
-    { label: 'Filter items', command: '.[] | select(.age > 25)' },
+    { label: 'Filter items', command: '.[] | select(.level == "error")' },
   ],
   grep: [
     { label: 'Match text', command: 'error' },
     { label: 'Ignore case', command: '-i error' },
-    { label: 'Invert match', command: '-v error' },
+    { label: 'Extended regex', command: '-E "(ERROR|FATAL)"' },
     { label: 'Line numbers', command: '-n error' },
   ],
   sed: [
