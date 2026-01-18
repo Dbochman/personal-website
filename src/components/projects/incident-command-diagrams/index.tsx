@@ -102,8 +102,8 @@ flowchart TD
       { id: 'I', label: 'Post updates to status page', type: 'link', linkTo: '/projects/statuspage-update', description: 'Communicate externally via status page.' },
       // 9
       { id: 'J', label: 'Issue Mitigated', description: 'The immediate problem has been addressed.' },
-      // 10: branches to L(11) or M(12)
-      { id: 'K', label: 'Confirm stability', type: 'decision', branches: [['Stable', 11], ['Not Stable', 12]], description: 'Are we confident the fix is holding?' },
+      // 10: branches to L(11) or back to F(5) for retry
+      { id: 'K', label: 'Confirm stability', type: 'decision', branches: [['Stable', 11], ['Not Stable', 5]], description: 'Are we confident the fix is holding?' },
       // 11
       { id: 'L', label: 'Resolve StatusPage Incident', description: 'Mark the external incident as resolved.' },
       // 12
