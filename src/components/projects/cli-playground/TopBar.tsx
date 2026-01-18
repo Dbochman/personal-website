@@ -26,7 +26,7 @@ interface TopBarProps {
   onReset: () => void;
 }
 
-const TOOLS: Tool[] = ['jq', 'grep', 'sed', 'awk'];
+const TOOLS: Tool[] = ['kubectl', 'jq', 'grep', 'sed', 'awk'];
 
 export function TopBar({
   tool,

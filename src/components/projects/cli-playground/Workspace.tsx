@@ -10,6 +10,7 @@ interface WorkspaceProps {
   isLoading: boolean;
   mode: Mode;
   explanation: CommandExplanation | null;
+  hideStdin?: boolean;
   onInputChange: (value: string) => void;
   onTryCommand: (command: string) => void;
 }
@@ -33,6 +34,7 @@ export function Workspace({
   isLoading,
   mode,
   explanation,
+  hideStdin,
   onInputChange,
   onTryCommand,
 }: WorkspaceProps) {
@@ -56,8 +58,9 @@ export function Workspace({
   const effectiveTab = showTabs ? activeTab : 'output';
 
   return (
-    <div className="grid gap-3 lg:grid-cols-2 min-h-[200px]">
-      {/* Input (stdin) Panel */}
+    <div className={`grid gap-3 ${hideStdin ? '' : 'lg:grid-cols-2'} min-h-[200px]`}>
+      {/* Input (stdin) Panel - hidden for kubectl */}
+      {!hideStdin && (
       <div className="flex flex-col border rounded-lg overflow-hidden bg-muted/20">
         <div className="flex items-center justify-between px-3 py-1.5 bg-muted/50 border-b">
           <span className="text-xs font-medium text-muted-foreground">stdin</span>
@@ -85,6 +88,7 @@ export function Workspace({
           />
         </div>
       </div>
+      )}
 
       {/* Output Panel with tabs in Learn mode */}
       <div className="flex flex-col border rounded-lg overflow-hidden bg-muted/20">

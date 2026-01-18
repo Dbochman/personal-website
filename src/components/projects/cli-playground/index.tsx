@@ -69,7 +69,10 @@ export default function CliPlayground() {
     setState((prev) => ({ ...prev, isLoading: true, error: undefined }));
 
     try {
-      const result = await executeCommand(state.tool, state.input, state.command);
+      const result = await executeCommand(state.tool, state.input, state.command, {
+        fixture: currentPreset?.fixture,
+        namespace: currentPreset?.namespace,
+      });
       startTransition(() => {
         setState((prev) => ({
           ...prev,
@@ -88,7 +91,7 @@ export default function CliPlayground() {
         }));
       });
     }
-  }, [state.tool, state.input, state.command]);
+  }, [state.tool, state.input, state.command, currentPreset?.fixture, currentPreset?.namespace]);
 
   // Global keyboard shortcut for Cmd/Ctrl+Enter
   useEffect(() => {
@@ -217,6 +220,7 @@ export default function CliPlayground() {
         isLoading={state.isLoading || isPending}
         mode={mode}
         explanation={explanation}
+        hideStdin={TOOL_CONFIGS[state.tool].hideStdin}
         onInputChange={handleInputChange}
         onTryCommand={handleTryCommand}
       />

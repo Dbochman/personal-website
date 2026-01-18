@@ -1,4 +1,208 @@
 import type { Tool } from './types';
+import { executeKubectl, type ExecutorOptions } from './engines/kubectl';
+
+// ============================================================================
+// HELP TEXT - Playground-specific capabilities and limitations
+// ============================================================================
+
+const HELP_TEXTS: Record<Tool, string> = {
+  jq: `jq - Command-line JSON Processor (Playground)
+
+This is a simplified jq implementation for learning JSON manipulation.
+Not all jq features are supported.
+
+Usage:
+  <filter>              Apply filter to JSON input
+
+Supported Filters:
+  .                     Identity - output input unchanged
+  .field                Access object field
+  .field.subfield       Access nested fields
+  .[0]                  Access array element by index
+  .[]                   Iterate over array/object values
+  keys                  Get object keys as array
+  values                Get object values as array
+  length                Get length of array/string/object
+  type                  Get type of value
+
+Filtering & Transformation:
+  .[] | .field          Extract field from each array element
+  .[] | select(.x > N)  Filter elements by condition
+  [.[] | {...}]         Map array to new objects
+
+Examples:
+  .name                 Extract "name" field
+  .users[0].email       Get first user's email
+  keys                  List all keys
+  .[] | select(.age > 25)   Filter array by age
+  [.[] | {n: .name}]    Transform array elements
+
+Supported Operators in select():
+  >  <  >=  <=  ==  !=
+
+Limitations:
+  • No pipe chains beyond simple .[] | .field | select()
+  • No arithmetic operations (+, -, *, /)
+  • No string interpolation
+  • No recursive descent (..)
+  • No @base64, @uri, @csv formatters
+  • No --raw-output, --slurp flags
+  • No define functions or variables`,
+
+  grep: `grep - Search Text Using Patterns (Playground)
+
+Search for lines matching a pattern in the input text.
+
+Usage:
+  <pattern>             Search for pattern
+  -flags <pattern>      Search with flags
+
+Supported Flags:
+  -i                    Case-insensitive matching
+  -v                    Invert match (show non-matching lines)
+  -n                    Show line numbers
+  -E                    Extended regex (enables +, ?, |, (), etc.)
+
+Flags can be combined: -inv, -En, etc.
+
+Examples:
+  error                 Find lines containing "error"
+  -i error              Case-insensitive search
+  -v error              Lines NOT containing "error"
+  -n error              Show line numbers with matches
+  -E "err|warn"         Match "err" OR "warn"
+  -E "[0-9]+"           Match one or more digits
+  -inv TODO             Case-insensitive, inverted, with line numbers
+
+Regex Support:
+  .                     Any character
+  *                     Zero or more of previous
+  +                     One or more (with -E)
+  ?                     Zero or one (with -E)
+  [abc]                 Character class
+  [^abc]                Negated character class
+  ^                     Start of line
+  $                     End of line
+  |                     Alternation (with -E)
+  ()                    Grouping (with -E)
+
+Output:
+  • Matching lines (or non-matching with -v)
+  • "(no matches)" if nothing found
+  • Line numbers prefixed with -n
+
+Limitations:
+  • No -c (count only)
+  • No -l (filenames only)
+  • No -A/-B/-C (context lines)
+  • No -r (recursive)
+  • No -w (word match)
+  • No -o (only matching part)
+  • No PCRE features (lookahead, lookbehind)`,
+
+  sed: `sed - Stream Editor for Text Transformation (Playground)
+
+Transform text using substitution and deletion commands.
+
+Usage:
+  s/pattern/replacement/[flags]    Substitute text
+  /pattern/d                       Delete matching lines
+
+Substitution Flags:
+  g                     Global - replace all occurrences per line
+  i                     Case-insensitive matching
+
+Multiple Commands:
+  Separate with semicolons: s/a/b/; s/c/d/
+
+Examples:
+  s/old/new/            Replace first "old" with "new" per line
+  s/old/new/g           Replace ALL "old" with "new"
+  s/error/ERROR/gi      Replace case-insensitive, globally
+  /^#/d                 Delete lines starting with #
+  /^$/d                 Delete empty lines
+  s/  */ /g             Collapse multiple spaces to one
+  s/^/prefix: /         Add prefix to each line
+  s/$/ suffix/          Add suffix to each line
+
+Capture Groups:
+  Use \\( \\) to capture and \\1, \\2 to reference:
+  s/\\([a-z]*\\)/[\\1]/    Wrap lowercase words in brackets
+
+Chained Commands:
+  s/^[ ]*//; s/[ ]*$//    Trim leading and trailing spaces
+
+Limitations:
+  • No address ranges (1,5s/.../)
+  • No line number addressing
+  • No hold space (h, H, g, G, x)
+  • No branching (b, t, T)
+  • No append/insert/change (a, i, c)
+  • No read/write files (r, w)
+  • No print (p) - all output is automatic
+  • No -n flag (suppress auto-print)
+  • No -i flag (in-place editing)`,
+
+  awk: `awk - Pattern Scanning and Processing (Playground)
+
+Process structured text data with pattern-action rules.
+
+Usage:
+  {action}                    Apply action to all lines
+  condition {action}          Apply action when condition is true
+  -F<sep> 'program'          Set field separator
+
+Field Variables:
+  $0                    Entire line
+  $1, $2, ...           Individual fields (space-separated)
+  NR                    Current line number
+  NF                    Number of fields in current line
+
+Examples:
+  {print $1}                  Print first column
+  {print $1, $3}              Print columns 1 and 3
+  {print $NF}                 Print last column
+  $2 > 80 {print $1}          Print col 1 where col 2 > 80
+  {sum += $2} END {print sum} Sum column 2
+  {count++} END {print count} Count lines
+  -F, '{print $2}'            Use comma as separator
+
+END Block:
+  Code after END runs once after all input:
+  {sum += $1} END {print "Total:", sum}
+
+Counting Patterns:
+  {count[$1]++} END {for (k in count) print k, count[k]}
+  Count occurrences of each unique value in column 1
+
+CSV Processing:
+  -F, 'NR>1 {print $1, $3}'   Skip header, print cols 1 & 3
+
+Conditions:
+  $2 > 100                    Numeric comparison
+  $1 == "error"               String equality
+  NR > 1                      Skip first line
+
+Limitations:
+  • No regular expression matching (/pattern/)
+  • No printf formatting
+  • No multiple -F separators
+  • No getline
+  • No arrays beyond counting pattern
+  • No user-defined functions
+  • No BEGIN block (only END)
+  • No next, exit commands
+  • No FILENAME, FNR variables
+  • Limited string functions (no substr, split, gsub)`,
+
+  kubectl: '', // kubectl help is in engines/kubectl.ts
+};
+
+function isHelpCommand(command: string): boolean {
+  const trimmed = command.trim();
+  return trimmed === '--help' || trimmed === '-h' || trimmed === 'help' ||
+         trimmed.endsWith(' --help') || trimmed.endsWith(' -h');
+}
 
 /**
  * Simple jq-like JSON processor implemented in pure JS
@@ -160,6 +364,11 @@ function executeJqLite(data: unknown, filter: string): unknown {
  * Execute jq command using pure JS implementation
  */
 async function executeJq(input: string, command: string): Promise<string> {
+  // Handle --help
+  if (isHelpCommand(command)) {
+    return HELP_TEXTS.jq;
+  }
+
   // Parse input as JSON
   let parsedInput: unknown;
   try {
@@ -182,6 +391,11 @@ async function executeJq(input: string, command: string): Promise<string> {
  * Execute grep command (JS implementation)
  */
 function executeGrep(input: string, command: string): string {
+  // Handle --help
+  if (isHelpCommand(command)) {
+    return HELP_TEXTS.grep;
+  }
+
   const lines = input.split('\n');
 
   // Parse flags and pattern
@@ -239,6 +453,11 @@ function executeGrep(input: string, command: string): string {
  * Execute sed command (JS implementation)
  */
 function executeSed(input: string, command: string): string {
+  // Handle --help
+  if (isHelpCommand(command)) {
+    return HELP_TEXTS.sed;
+  }
+
   const lines = input.split('\n');
 
   // Parse sed commands (supports s/pattern/replacement/flags and /pattern/d)
@@ -287,6 +506,11 @@ function executeSed(input: string, command: string): string {
  * Execute awk command (JS implementation)
  */
 function executeAwk(input: string, command: string): string {
+  // Handle --help
+  if (isHelpCommand(command)) {
+    return HELP_TEXTS.awk;
+  }
+
   const lines = input.split('\n').filter(line => line.trim());
 
   // Parse field separator
@@ -458,14 +682,24 @@ function executeAwk(input: string, command: string): string {
 }
 
 /**
+ * Options for kubectl command execution
+ */
+export interface KubectlOptions {
+  fixture?: string;
+  namespace?: string;
+}
+
+/**
  * Execute a command with the specified tool
  */
 export async function executeCommand(
   tool: Tool,
   input: string,
-  command: string
+  command: string,
+  kubectlOptions?: KubectlOptions
 ): Promise<string> {
-  if (!input.trim()) {
+  // kubectl doesn't require input (uses fixtures instead)
+  if (tool !== 'kubectl' && !input.trim()) {
     throw new Error('Input is empty');
   }
   if (!command.trim()) {
@@ -481,6 +715,17 @@ export async function executeCommand(
       return executeSed(input, command);
     case 'awk':
       return executeAwk(input, command);
+    case 'kubectl': {
+      const options: ExecutorOptions = {
+        fixtureId: kubectlOptions?.fixture || 'crashloop',
+        defaultNamespace: kubectlOptions?.namespace || 'default',
+      };
+      const result = executeKubectl(command, options);
+      if (result.exitCode !== 0) {
+        throw new Error(result.stderr || 'Command failed');
+      }
+      return result.stdout;
+    }
     default:
       throw new Error(`Unknown tool: ${tool}`);
   }

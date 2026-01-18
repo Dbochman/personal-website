@@ -1,4 +1,4 @@
-export type Tool = 'jq' | 'grep' | 'sed' | 'awk';
+export type Tool = 'jq' | 'grep' | 'sed' | 'awk' | 'kubectl';
 export type Mode = 'learn' | 'playground';
 
 export interface ToolState {
@@ -27,6 +27,10 @@ export interface ToolPreset {
   description: string;
   input: string;
   command: string;
+  // kubectl-specific fields
+  fixture?: string; // Which cluster fixture to use
+  namespace?: string; // Default namespace for the lesson
+  objective?: string; // Learning objective (shown in Learn mode)
 }
 
 export interface ToolConfig {
@@ -34,6 +38,7 @@ export interface ToolConfig {
   description: string;
   placeholder: string;
   presets: ToolPreset[];
+  hideStdin?: boolean; // For kubectl, we don't use stdin
 }
 
 export const TOOL_CONFIGS: Record<Tool, ToolConfig> = {
@@ -185,12 +190,65 @@ export const TOOL_CONFIGS: Record<Tool, ToolConfig> = {
       },
     ],
   },
+  kubectl: {
+    name: 'kubectl',
+    description: 'Kubernetes cluster management',
+    placeholder: 'get pods',
+    hideStdin: true,
+    presets: [
+      {
+        name: 'CrashLoopBackOff',
+        description: 'Triage: CrashLoopBackOff after deploy',
+        input: '',
+        command: 'get pods -n payments',
+        fixture: 'crashloop',
+        namespace: 'payments',
+        objective: 'Identify failing pods and determine root cause',
+      },
+      {
+        name: 'ImagePullBackOff',
+        description: 'Triage: Image pull failures',
+        input: '',
+        command: 'get pods -n frontend',
+        fixture: 'imagepull',
+        namespace: 'frontend',
+        objective: 'Diagnose image pull errors and authentication issues',
+      },
+      {
+        name: 'Service Mismatch',
+        description: 'Triage: Service with no endpoints',
+        input: '',
+        command: 'get svc,endpoints -n api',
+        fixture: 'service-mismatch',
+        namespace: 'api',
+        objective: 'Find why traffic is not reaching pods',
+      },
+      {
+        name: 'Rollout Regression',
+        description: 'Triage: Bad deploy, needs rollback',
+        input: '',
+        command: 'rollout status deployment/web -n production',
+        fixture: 'rollout-regression',
+        namespace: 'production',
+        objective: 'Identify regression and perform rollback',
+      },
+      {
+        name: 'Node Pressure',
+        description: 'Triage: Node under resource pressure',
+        input: '',
+        command: 'get nodes',
+        fixture: 'node-pressure',
+        namespace: 'default',
+        objective: 'Identify node issues causing pod evictions',
+      },
+    ],
+  },
 };
 
 export const DEFAULT_STATE: ToolState = {
-  tool: 'jq',
-  input: TOOL_CONFIGS.jq.presets[0].input,
-  command: TOOL_CONFIGS.jq.presets[0].command,
+  tool: 'kubectl',
+  input: TOOL_CONFIGS.kubectl.presets[0].input,
+  command: TOOL_CONFIGS.kubectl.presets[0].command,
   output: '',
   isLoading: false,
 };
