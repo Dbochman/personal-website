@@ -94,8 +94,8 @@ flowchart TD
       { id: 'D', label: 'Page Additional On-Call', type: 'link', linkTo: 'service-owner-paging', description: 'Bring in service owners or specialists who can help.' },
       // 4
       { id: 'E', label: 'Proceed with current responders', description: 'Continue with the current team.' },
-      // 5: link to service-owner-paging diagram
-      { id: 'F', label: 'Investigate and Mitigate Issues', type: 'link', linkTo: 'service-owner-paging', description: 'Dig into root cause while working on mitigation.' },
+      // 5
+      { id: 'F', label: 'Investigate and Mitigate Issues', description: 'Dig into root cause while working on mitigation.' },
       // 6
       { id: 'G', label: 'Monitor progress and share updates', description: 'Keep stakeholders informed with regular updates.' },
       // 7: branches to I(8) or J(9)
@@ -219,9 +219,9 @@ export default function IncidentCommandDiagrams() {
   };
 
   const handleLinkClick = (linkTo: string) => {
-    // External links start with /
+    // External links start with / - open in new tab
     if (linkTo.startsWith('/')) {
-      window.location.href = linkTo;
+      window.open(linkTo, '_blank');
     } else {
       // Internal tab links
       handleTabChange(linkTo);
