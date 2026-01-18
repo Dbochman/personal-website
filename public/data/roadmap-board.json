@@ -261,29 +261,7 @@
       "title": "To Do"
     },
     {
-      "cards": [
-        {
-          "id": "cli-tool-playground",
-          "title": "CLI Tool Playground",
-          "description": "Interactive in-browser demos for jq/grep/sed/awk. WASM execution, syntax highlighting, command explanation panel.",
-          "labels": ["Medium", "Learning", "Tool"],
-          "planFile": "docs/plans/47-cli-tool-playground.md",
-          "checklist": [
-            {"id": "ctp-1", "text": "Create tool selector (jq, grep, sed, awk)", "completed": false},
-            {"id": "ctp-2", "text": "Build input editor with sample data presets", "completed": false},
-            {"id": "ctp-3", "text": "Build command editor with syntax highlighting", "completed": false},
-            {"id": "ctp-4", "text": "Integrate WASM execution (jq-web or similar)", "completed": false},
-            {"id": "ctp-5", "text": "Create output panel with copy and clear", "completed": false},
-            {"id": "ctp-6", "text": "Add explanation panel for command breakdown", "completed": false},
-            {"id": "ctp-7", "text": "Implement shareable URL state (input + command)", "completed": false}
-          ],
-          "createdAt": "2026-01-17",
-          "history": [
-            {"type": "column", "timestamp": "2026-01-17T21:30:00.000Z", "columnId": "in-progress", "columnTitle": "In Progress"}
-          ],
-          "updatedAt": "2026-01-17T21:30:00.000Z"
-        }
-      ],
+      "cards": [],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -296,6 +274,31 @@
     },
     {
       "cards": [
+        {
+          "id": "cli-tool-playground",
+          "title": "CLI Tool Playground",
+          "description": "Interactive in-browser demos for CLI tools. Pure JS implementations (no WASM).\n\nFeatures:\n- Tool selector: kubectl, jq, grep, sed, awk\n- Learn mode with goals, hints, and command chips\n- Playground mode for freeform experimentation\n- Command explainer with flag breakdowns and 'Try next' suggestions\n- Shareable URL state (tool, mode, input, command)\n- 5 presets per tool covering common use cases\n\nkubectl simulator:\n- 5 triage scenarios (CrashLoopBackOff, ImagePullBackOff, Service Mismatch, Rollout Regression, Node Pressure)\n- Full K8s resource schema (pods, deployments, services, nodes, events)\n- Supports: get, describe, logs, rollout, top, events\n- Session state mutation for rollback commands\n\nSecurity fixes:\n- Replaced Function() with safe regex parser (XSS)\n- URL param validation with fallbacks\n- Race condition guards for async results",
+          "labels": ["PR #156", "Feature", "Learning", "Tool"],
+          "planFile": "docs/plans/47-cli-tool-playground.md",
+          "checklist": [
+            {"id": "ctp-1", "text": "Create tool selector (kubectl, jq, grep, sed, awk)", "completed": true},
+            {"id": "ctp-2", "text": "Build input editor with sample data presets", "completed": true},
+            {"id": "ctp-3", "text": "Build command editor with syntax highlighting", "completed": true},
+            {"id": "ctp-4", "text": "Implement pure JS execution engines", "completed": true},
+            {"id": "ctp-5", "text": "Create output panel with copy and clear", "completed": true},
+            {"id": "ctp-6", "text": "Add explanation panel for command breakdown", "completed": true},
+            {"id": "ctp-7", "text": "Implement shareable URL state (input + command)", "completed": true},
+            {"id": "ctp-8", "text": "Add kubectl simulator with 5 triage scenarios", "completed": true},
+            {"id": "ctp-9", "text": "Add --help for all tools", "completed": true},
+            {"id": "ctp-10", "text": "Security fixes (XSS, URL validation, race conditions)", "completed": true}
+          ],
+          "createdAt": "2026-01-17",
+          "history": [
+            {"type": "column", "timestamp": "2026-01-17T21:30:00.000Z", "columnId": "in-progress", "columnTitle": "In Progress"},
+            {"type": "column", "timestamp": "2026-01-18T01:15:00.000Z", "columnId": "changelog", "columnTitle": "Change Log"}
+          ],
+          "updatedAt": "2026-01-18T01:15:00.000Z"
+        },
         {
           "id": "slo-tool-ux-improvements",
           "title": "SLO Tool UX Improvements",
@@ -1185,5 +1188,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-16T22:55:00.000Z"
+  "updatedAt": "2026-01-18T01:15:00.000Z"
 }
