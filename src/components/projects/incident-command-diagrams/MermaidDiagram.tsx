@@ -1,7 +1,9 @@
 import { useEffect, useId, useState } from 'react';
-import mermaid from 'mermaid';
+import type { Mermaid } from 'mermaid';
 
-let mermaidInitialized = false;
+// Lazy-load mermaid only when needed (saves ~2MB from initial bundle)
+let mermaidInstance: Mermaid | null = null;
+let mermaidPromise: Promise<Mermaid> | null = null;
 let lastThemeKey = '';
 
 function readHslVar(name: string, fallback: string) {
@@ -10,7 +12,21 @@ function readHslVar(name: string, fallback: string) {
   return value ? `hsl(${value})` : fallback;
 }
 
-function ensureMermaidInitialized() {
+async function getMermaid(): Promise<Mermaid> {
+  if (mermaidInstance) return mermaidInstance;
+  if (mermaidPromise) return mermaidPromise;
+
+  mermaidPromise = import('mermaid').then((mod) => {
+    mermaidInstance = mod.default;
+    return mermaidInstance;
+  });
+
+  return mermaidPromise;
+}
+
+async function ensureMermaidInitialized(): Promise<Mermaid> {
+  const mermaid = await getMermaid();
+
   const themeKey = [
     readHslVar('--background', '#0b0f19'),
     readHslVar('--card', '#111827'),
@@ -20,28 +36,28 @@ function ensureMermaidInitialized() {
     readHslVar('--border', '#1f2937'),
   ].join('|');
 
-  if (mermaidInitialized && themeKey === lastThemeKey) return;
+  if (lastThemeKey !== themeKey) {
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: 'base',
+      themeVariables: {
+        background: 'transparent',
+        primaryColor: readHslVar('--muted', '#111827'),
+        primaryTextColor: readHslVar('--foreground', '#f9fafb'),
+        primaryBorderColor: readHslVar('--border', '#1f2937'),
+        secondaryColor: readHslVar('--card', '#111827'),
+        secondaryTextColor: readHslVar('--foreground', '#f9fafb'),
+        tertiaryColor: readHslVar('--background', '#0b0f19'),
+        lineColor: readHslVar('--muted-foreground', '#9ca3af'),
+        edgeLabelBackground: readHslVar('--background', '#0b0f19'),
+        fontFamily: 'inherit',
+      },
+    });
+    lastThemeKey = themeKey;
+  }
 
-  mermaid.initialize({
-    startOnLoad: false,
-    securityLevel: 'strict',
-    theme: 'base',
-    themeVariables: {
-      background: 'transparent',
-      primaryColor: readHslVar('--muted', '#111827'),
-      primaryTextColor: readHslVar('--foreground', '#f9fafb'),
-      primaryBorderColor: readHslVar('--border', '#1f2937'),
-      secondaryColor: readHslVar('--card', '#111827'),
-      secondaryTextColor: readHslVar('--foreground', '#f9fafb'),
-      tertiaryColor: readHslVar('--background', '#0b0f19'),
-      lineColor: readHslVar('--muted-foreground', '#9ca3af'),
-      edgeLabelBackground: readHslVar('--background', '#0b0f19'),
-      fontFamily: 'inherit',
-    },
-  });
-
-  mermaidInitialized = true;
-  lastThemeKey = themeKey;
+  return mermaid;
 }
 
 interface MermaidDiagramProps {
@@ -59,7 +75,8 @@ export function MermaidDiagram({ code }: MermaidDiagramProps) {
 
     const renderDiagram = async () => {
       try {
-        ensureMermaidInitialized();
+        const mermaid = await ensureMermaidInitialized();
+        if (!isActive) return;
         const { svg: renderedSvg } = await mermaid.render(diagramId, code);
         if (!isActive) return;
         setSvg(renderedSvg);
