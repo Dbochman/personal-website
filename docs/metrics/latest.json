@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-17T06:15:08.149Z",
+  "generated": "2026-01-18T06:15:59.158Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,62 +8,62 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-01-17T06:15:08.149Z",
-    "sessions_7d": 8972,
-    "users_7d": 8674,
-    "pageviews_7d": 9814,
-    "avgSessionDuration": 29,
-    "bounceRate": 0.92,
+    "lastCheck": "2026-01-18T06:15:59.158Z",
+    "sessions_7d": 7854,
+    "users_7d": 7544,
+    "pageviews_7d": 8684,
+    "avgSessionDuration": 36,
+    "bounceRate": 0.93,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 3101
+        "pageViews": 2469
       },
       {
         "page": "/blog/",
-        "pageViews": 1407
+        "pageViews": 1288
       },
       {
         "page": "/runbook",
-        "pageViews": 1128
+        "pageViews": 965
       },
       {
         "page": "/blog",
-        "pageViews": 616
+        "pageViews": 526
       },
       {
-        "page": "/this-page-does-not-exist",
-        "pageViews": 375
+        "page": "/projects/kanban",
+        "pageViews": 376
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-01-17T06:15:08.149Z",
+    "lastCheck": "2026-01-18T06:15:59.158Z",
     "source": "rum",
     "metrics": {
       "FCP": {
-        "count": 1749,
-        "average": 520.1509433962265,
+        "count": 1599,
+        "average": 533.447779862414,
         "unit": "ms"
       },
       "TTFB": {
-        "count": 1652,
-        "average": 115.13438256658596,
+        "count": 1514,
+        "average": 121.71598414795244,
         "unit": "ms"
       },
       "LCP": {
-        "count": 793,
-        "average": 325.22698612862547,
+        "count": 715,
+        "average": 333.87552447552446,
         "unit": "ms"
       },
       "CLS": {
-        "count": 426,
-        "average": 0.007126760563380282,
+        "count": 331,
+        "average": 0.009172205438066464,
         "unit": ""
       },
       "INP": {
-        "count": 225,
-        "average": 40.39111111111111,
+        "count": 232,
+        "average": 39.86206896551724,
         "unit": "ms"
       }
     }
