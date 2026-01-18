@@ -234,18 +234,33 @@ export function AnimatedMermaidDiagram({
 
   const skipToNext = useCallback(() => {
     if (currentIndex < nodes.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-      setAwaitingDecision(false);
+      const targetIndex = currentIndex + 1;
+      const targetNode = nodes[targetIndex];
+      setCurrentIndex(targetIndex);
+      // Check if target is a decision/link node - show its buttons
+      if (targetNode?.type === 'link' || targetNode?.type === 'decision') {
+        setAwaitingDecision(true);
+        setIsPlaying(false);
+      } else {
+        setAwaitingDecision(false);
+      }
     }
-  }, [currentIndex, nodes.length]);
+  }, [currentIndex, nodes]);
 
   const goBack = useCallback(() => {
     if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
-      setAwaitingDecision(false);
+      const targetIndex = currentIndex - 1;
+      const targetNode = nodes[targetIndex];
+      setCurrentIndex(targetIndex);
       setIsPlaying(false);
+      // Check if target is a decision/link node - show its buttons
+      if (targetNode?.type === 'link' || targetNode?.type === 'decision') {
+        setAwaitingDecision(true);
+      } else {
+        setAwaitingDecision(false);
+      }
     }
-  }, [currentIndex]);
+  }, [currentIndex, nodes]);
 
   const continueFromDecision = useCallback((targetIndex: number) => {
     setCurrentIndex(targetIndex);
