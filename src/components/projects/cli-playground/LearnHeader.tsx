@@ -18,14 +18,14 @@ const COMMAND_HINTS: Record<Tool, { label: string; command: string }[]> = {
   jq: [
     { label: 'Get field', command: '.name' },
     { label: 'List keys', command: 'keys' },
-    { label: 'Iterate array', command: '.[]' },
-    { label: 'Filter items', command: '.[] | select(.level == "error")' },
+    { label: 'Get age', command: '.age' },
+    { label: 'Get city', command: '.city' },
   ],
   grep: [
-    { label: 'Match text', command: 'error' },
-    { label: 'Ignore case', command: '-i error' },
-    { label: 'Extended regex', command: '-E "(ERROR|FATAL)"' },
-    { label: 'Line numbers', command: '-n error' },
+    { label: 'Match text', command: 'apple' },
+    { label: 'Ignore case', command: '-i apple' },
+    { label: 'Line numbers', command: '-n apple' },
+    { label: 'Extended regex', command: '-E "(apple|banana)"' },
   ],
   sed: [
     { label: 'Replace first', command: 's/old/new/' },

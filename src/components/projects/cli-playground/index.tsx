@@ -49,6 +49,8 @@ export default function CliPlayground() {
     return isValidMode(modeParam) ? modeParam : 'learn';
   });
 
+  const isRunning = state.isLoading || isPending;
+
   const [currentPresetIndex, setCurrentPresetIndex] = useState(0);
 
   // Current preset for Learn mode hints
@@ -75,6 +77,37 @@ export default function CliPlayground() {
     // For other tools, use the preset description
     return `Press ⌘+Enter to run the command`;
   }, [mode, currentPreset, state.tool, state.command]);
+
+  const goalStatus = useMemo(() => {
+    if (mode !== 'learn' || !currentPreset) return undefined;
+    const expectedIncludes = currentPreset.expectedOutputIncludes;
+    const expectedRegex = currentPreset.expectedOutputRegex;
+    if (!expectedIncludes && !expectedRegex) return undefined;
+
+    if (state.isLoading || isRunning) {
+      return { status: 'pending' as const, label: 'Checking...' };
+    }
+    if (!state.output && !state.error) {
+      return { status: 'pending' as const, label: 'Run to check' };
+    }
+    if (state.error) {
+      return { status: 'fail' as const, label: 'Goal not met' };
+    }
+
+    let pass = true;
+    if (expectedIncludes) {
+      pass = pass && state.output.includes(expectedIncludes);
+    }
+    if (expectedRegex) {
+      try {
+        pass = pass && new RegExp(expectedRegex).test(state.output);
+      } catch {
+        pass = false;
+      }
+    }
+
+    return { status: pass ? 'pass' as const : 'fail' as const, label: pass ? 'Goal met' : 'Goal not met' };
+  }, [mode, currentPreset, state.output, state.error, state.isLoading, isRunning]);
 
   // Sync state to URL params (debounced)
   useEffect(() => {
@@ -278,6 +311,9 @@ export default function CliPlayground() {
         error={state.error}
         isLoading={state.isLoading || isPending}
         mode={mode}
+        tool={state.tool}
+        command={state.command}
+        goalStatus={goalStatus}
         explanation={explanation}
         hideStdin={TOOL_CONFIGS[state.tool].hideStdin}
         emptyStatePrompt={emptyStatePrompt}
