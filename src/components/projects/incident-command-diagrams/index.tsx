@@ -66,7 +66,7 @@ flowchart TD
   B --> C{Need additional responders?}
   C -->|Yes| D[Page Additional On-Call 🔗]
   C -->|No| E[Proceed with current responders]
-  D --> F[Investigate and Mitigate Issues 🔗]
+  D --> F[Investigate and Mitigate Issues]
   E --> F
   F --> G[Monitor progress and share updates]
   G --> H{Customer impact?}
@@ -79,9 +79,7 @@ flowchart TD
   M --> F
   L --> N[Resolve Internal Incident]
   click D "#service-owner-paging" "Open Service Owner Paging Path"
-  click F "#service-owner-paging" "Open Service Owner Paging Path"
   class D jump;
-  class F jump;
 `,
     nodes: [
       // 0
