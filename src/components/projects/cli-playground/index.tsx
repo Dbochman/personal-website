@@ -62,6 +62,20 @@ export default function CliPlayground() {
     return explainCommand(state.tool, state.command);
   }, [state.tool, state.command]);
 
+  // Generate lesson-aware empty state prompt
+  const emptyStatePrompt = useMemo(() => {
+    if (mode !== 'learn' || !currentPreset) return undefined;
+
+    // For kubectl, create a specific prompt based on the lesson
+    if (state.tool === 'kubectl' && currentPreset.namespace) {
+      const action = state.command.split(' ')[0] || 'get';
+      return `Press ⌘+Enter to ${action} resources in ${currentPreset.namespace}`;
+    }
+
+    // For other tools, use the preset description
+    return `Press ⌘+Enter to run the command`;
+  }, [mode, currentPreset, state.tool, state.command]);
+
   // Sync state to URL params (debounced)
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -117,6 +131,20 @@ export default function CliPlayground() {
       });
     }
   }, [state.tool, state.input, state.command, currentPreset?.fixture, currentPreset?.namespace]);
+
+  // Auto-run command in Learn mode when lesson loads
+  const hasAutoRun = useRef(false);
+  useEffect(() => {
+    if (mode === 'learn' && !hasAutoRun.current && !state.output && !state.isLoading) {
+      hasAutoRun.current = true;
+      handleRun();
+    }
+  }, [mode, state.output, state.isLoading, handleRun]);
+
+  // Reset auto-run flag when preset changes
+  useEffect(() => {
+    hasAutoRun.current = false;
+  }, [currentPresetIndex, state.tool]);
 
   // Global keyboard shortcut for Cmd/Ctrl+Enter
   useEffect(() => {
@@ -252,6 +280,7 @@ export default function CliPlayground() {
         mode={mode}
         explanation={explanation}
         hideStdin={TOOL_CONFIGS[state.tool].hideStdin}
+        emptyStatePrompt={emptyStatePrompt}
         onInputChange={handleInputChange}
         onTryCommand={handleTryCommand}
       />
