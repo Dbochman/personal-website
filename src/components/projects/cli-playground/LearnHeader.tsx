@@ -52,6 +52,7 @@ export function LearnHeader({ tool, preset, onTryCommand }: LearnHeaderProps) {
   const derivedHints = explainCommand(tool, preset.command).tryNext;
   const baseHints = COMMAND_HINTS[tool];
   const hintsSource = derivedHints.length > 0 ? derivedHints : baseHints;
+  const maxHints = derivedHints.length > 0 ? 3 : 4;
 
   // For kubectl, add namespace to fallback hints only
   const hints = tool === 'kubectl' && preset.namespace && hintsSource === baseHints
@@ -62,6 +63,7 @@ export function LearnHeader({ tool, preset, onTryCommand }: LearnHeaderProps) {
           : `${hint.command} -n ${preset.namespace}`,
       }))
     : hintsSource;
+  const cappedHints = hints.slice(0, maxHints);
 
   // Use objective for kubectl, description for others
   const goalText = (tool === 'kubectl' && preset.objective) || preset.description;
@@ -77,7 +79,7 @@ export function LearnHeader({ tool, preset, onTryCommand }: LearnHeaderProps) {
       {/* Command chips with tooltips showing exact command */}
       <div className="flex items-center gap-1.5 flex-wrap">
         <span className="text-xs text-muted-foreground mr-1">Try:</span>
-        {hints.map((hint) => (
+        {cappedHints.map((hint) => (
           <Tooltip key={hint.label}>
             <TooltipTrigger asChild>
               <Button
