@@ -18,11 +18,11 @@ Not "is the server responding" (we already had uptime monitoring for that), but 
 
 These questions led us to build a complete observability stack that costs nothing to run.
 
-## The Problem with Flying Blind
+## The problem with flying blind
 
 A static site on GitHub Pages is remarkably low-maintenance. No servers to patch. No databases to backup. No infrastructure to monitor at 3am. This simplicity is a feature.
 
-But simplicity can become invisibility. Without instrumentation, you learn about problems when someone tells you—or when you notice your search rankings have quietly collapsed.
+But simplicity can become invisibility. Without instrumentation, you learn about problems when someone tells you, or when you notice your search rankings have quietly collapsed.
 
 Dylan had already set up uptime monitoring (a topic for [another post](/blog/2025-01-07-uptime-monitoring-for-a-personal-site)). The site was up. But "up" is the lowest bar. The real questions are harder:
 
@@ -33,7 +33,7 @@ Dylan had already set up uptime monitoring (a topic for [another post](/blog/202
 
 Answering these requires data from multiple sources, collected automatically, surfaced in a way that makes problems visible.
 
-## The Four Pillars
+## The four pillars
 
 We ended up with four distinct data sources, each answering different questions:
 
@@ -46,7 +46,7 @@ We ended up with four distinct data sources, each answering different questions:
 
 Each source has limitations. Together, they create a surprisingly complete picture.
 
-## Google Analytics: Who's Visiting?
+## Google Analytics: who's visiting?
 
 GA4 provides the baseline: sessions, users, page views, bounce rates, device breakdown, traffic sources. The basics.
 
@@ -75,7 +75,7 @@ This data lives in the repository, versioned alongside the code. We can track tr
 
 The 93% bounce rate looks alarming until you realize this is a portfolio site. People arrive, read, leave. That's the intended behavior.
 
-## Search Console: Are People Finding Us?
+## Search Console: are people finding us?
 
 Search Console answers a different question: how does the site appear in search results?
 
@@ -83,9 +83,9 @@ Clicks, impressions, click-through rate, average position. Which queries bring t
 
 This data exports daily through the same workflow. Historical tracking reveals trends that single-day snapshots would miss.
 
-For a new site, Search Console data is humbling. Single-digit clicks per week. Impressions in the low hundreds. But watching these numbers grow over time—and correlating them with content changes—provides feedback that gut feeling cannot.
+For a new site, Search Console data is humbling. Single-digit clicks per week. Impressions in the low hundreds. But watching these numbers grow over time, and correlating them with content changes, provides feedback that gut feeling cannot.
 
-## Lighthouse: Synthetic Performance
+## Lighthouse: synthetic performance
 
 Lighthouse audits run against the live site after every deployment and once daily. They measure performance, accessibility, SEO, and best practices.
 
@@ -101,7 +101,7 @@ Perfect scores. The site is fast, accessible, well-structured, following best pr
 
 Except those numbers are lying.
 
-## The Lab vs Field Problem
+## The lab vs field problem
 
 Lighthouse runs in a controlled environment. A fast machine. A reliable network. No real user variability. The scores represent what the site *could* do under ideal conditions.
 
@@ -113,7 +113,7 @@ This gap between "lab data" and "field data" is well-documented in web performan
 
 We had lab data. We needed field data.
 
-## Real User Monitoring: What Actually Happens
+## Real user monitoring: what actually happens
 
 The solution was Real User Monitoring (RUM). Collect performance metrics from actual visitors, in their actual browsers, on their actual networks.
 
@@ -143,7 +143,7 @@ These numbers tell a different story than Lighthouse. An LCP of 329ms from 480 r
 
 The dashboard now shows both side by side: Lab Data (Lighthouse) and Field Data (Real Users). The contrast is instructive.
 
-## The Unified Pipeline
+## The unified pipeline
 
 Four data sources means four potential failure points, four schedules to manage, four places to check for problems.
 
@@ -165,11 +165,11 @@ We unified everything into a single daily workflow:
 
 One workflow. One commit per day. One place to check if something failed.
 
-The anomaly detection is simple but effective: if sessions drop more than 30%, if search position worsens by more than 5 places, if Lighthouse scores fall below thresholds—create a GitHub issue automatically.
+The anomaly detection is simple but effective: if sessions drop more than 30%, if search position worsens by more than 5 places, if Lighthouse scores fall below thresholds, create a GitHub issue automatically.
 
 This transforms monitoring from "check periodically" to "be notified of problems." The difference matters when you're not thinking about the site every day.
 
-## What This Costs
+## What this costs
 
 Nothing.
 
@@ -181,25 +181,23 @@ Nothing.
 
 We're using approximately 0.001% of available API quotas. The infrastructure scales to needs we'll never have.
 
-## The Dashboard
+## The dashboard
 
-All this data flows into an [Analytics Dashboard](/projects/analytics) built into the site itself. Traffic trends, search performance, Lighthouse scores, RUM metrics—visible at a glance.
+All this data flows into an [Analytics Dashboard](/projects/analytics) built into the site itself. Traffic trends, search performance, Lighthouse scores, RUM metrics, all visible at a glance.
 
 The dashboard exists partly for utility and partly for demonstration. It shows that observability doesn't require expensive tools or complex infrastructure. Free APIs, a GitHub Actions workflow, and some React components create genuine visibility into how a site performs.
 
-## What We Learned
+## What we learned
 
-Building this system reinforced several patterns:
+Building this system reinforced several patterns. Lab data and field data answer different questions. Lighthouse tells you about potential. RUM tells you about reality. You need both, and you need to know which one you're looking at.
 
-**Lab data and field data answer different questions.** Lighthouse tells you about potential. RUM tells you about reality. You need both, and you need to know which one you're looking at.
+Automated collection beats manual checks. Data you collect automatically gets looked at. Data that requires manual effort gets ignored. The discipline of daily collection compounds into trend visibility that sporadic checks cannot provide.
 
-**Automated collection beats manual checks.** Data you collect automatically gets looked at. Data that requires manual effort gets ignored. The discipline of daily collection compounds into trend visibility that sporadic checks cannot provide.
+Anomaly detection changes the operating model. Instead of "check the dashboard periodically," you get "be notified when something changes." This is a small shift that makes a large difference in practice.
 
-**Anomaly detection changes the operating model.** Instead of "check the dashboard periodically," you get "be notified when something changes." This is a small shift that makes a large difference in practice.
+Free doesn't mean limited. Every component of this system uses free-tier services. The constraints are generous enough that we'll never hit them. Cost is not a barrier to observability.
 
-**Free doesn't mean limited.** Every component of this system uses free-tier services. The constraints are generous enough that we'll never hit them. Cost is not a barrier to observability.
-
-## What's Still Missing
+## What's still missing
 
 This system has gaps.
 
@@ -217,6 +215,6 @@ Observability for a static site doesn't require expensive tools or complex infra
 
 The question "is my site actually working for real users?" now has a data-backed answer. That answer updates daily, detects anomalies automatically, and costs nothing to maintain.
 
-For a personal site, this is probably overkill. But the habits it builds—instrumenting systems, collecting data automatically, distinguishing lab from field measurements—transfer directly to production systems where the stakes are higher.
+For a personal site, this is probably overkill. But the habits it builds, like instrumenting systems, collecting data automatically, and distinguishing lab from field measurements, transfer directly to production systems where the stakes are higher.
 
 The site is small. The observability practices are not.

@@ -19,53 +19,45 @@ We built three interactive SRE tools recently:
 
 They solve different problems but share a design philosophy worth articulating: make tradeoffs visible rather than prescribe outcomes.
 
-## The Limits of Static Documentation
+## The limits of static documentation
 
 Traditional documentation answers "how does X work?" That's valuable but incomplete.
 
 For operational decisions, the more useful question is "how does X work *for me*?" A document explaining follow-the-sun rotations can't tell you whether your four-person team can sustain one. A table of SLA downtime budgets can't tell you whether your response profile fits within them. A status page template can't adapt to whether you're investigating or monitoring.
 
-The gap is context. Documentation is context-free by design—it has to work for every reader. But operational decisions are context-dependent by nature.
+The gap is context. Documentation is context-free by design. It has to work for every reader. But operational decisions are context-dependent by nature.
 
 Interactive tools close this gap by accepting your context as input.
 
-## When to Build a Tool Instead of Write a Document
+## When to build a tool instead of write a document
 
-Not every topic benefits from interactivity. A tool is worth building when:
-
-**Inputs vary significantly across users.** Team sizes, timezone distributions, incident frequencies, response times, and service names are different for everyone.
-
-**Outputs have multiple dimensions.** An on-call model affects coverage, burden distribution, handoff complexity, and sustainability. A single "score" would hide important tradeoffs.
-
-**The relationship between inputs and outputs isn't intuitive.** Knowing that 99.9% SLA means 43 minutes per month is memorizable. Knowing whether your response profile fits in 43 minutes requires calculation.
-
-**Time pressure makes templates valuable.** During an incident, drafting clear customer communication competes for the same cognitive resources as fixing the problem. Pre-built templates that adapt to phase and severity remove friction when it matters most.
+Not every topic benefits from interactivity. A tool is worth building when inputs vary significantly across users, when outputs have multiple dimensions, when the input-output relationship is not intuitive, and when time pressure makes templates valuable. Team sizes, timezone distributions, incident frequencies, response times, and service names are different for everyone. An on-call model affects coverage, burden distribution, handoff complexity, and sustainability. A single "score" would hide important tradeoffs. Knowing that 99.9% SLA means 43 minutes per month is memorizable. Knowing whether your response profile fits in 43 minutes requires calculation. During an incident, drafting clear customer communication competes for the same cognitive resources as fixing the problem. Pre-built templates that adapt to phase and severity remove friction when it matters most.
 
 If a topic doesn't meet these criteria, a well-written document is better. Don't build interactivity for its own sake.
 
-## Three Tools, Three Problem Shapes
+## Three tools, three problem shapes
 
 Each tool addresses a different type of decision:
 
-### On-Call Coverage: Comparing Alternatives
+### On-call coverage: comparing alternatives
 
 The on-call explorer helps with "which model should we use?" decisions. Six coverage models, each with visualizations showing coverage patterns, burden distribution, and explicit tradeoff lists.
 
 The key insight: the same data needs different views. A daily heatmap shows within-day patterns. A weekly view shows cross-day patterns. A monthly view shows rotation patterns. Users care about different aspects at different times; the tool surfaces all of them.
 
-### SLO Calculator: Reality-Checking Promises
+### SLO calculator: reality-checking promises
 
-The uptime calculator helps with "can we actually achieve this?" decisions. Input your response profile—alert latency, acknowledge time, travel time, diagnosis, fix—and see whether the math works for your target SLA.
+The uptime calculator helps with "can we actually achieve this?" decisions. Input your response profile (alert latency, acknowledge time, travel time, diagnosis, fix) and see whether the math works for your target SLA.
 
 The key insight: work backward from constraints, not forward from desires. Instead of asking "what SLA should we promise?" the tool asks "what SLA can our response capability sustain?" This inverts the typical (dysfunctional) conversation where business requirements drive promises that operations can't keep.
 
-### Status Page Generator: Reducing Friction Under Pressure
+### Status page generator: reducing friction under pressure
 
 The status page tool helps with "what should I write right now?" decisions. Select the incident phase, severity, and service; get templated output with appropriate language.
 
 The key insight: templates encode opinions so you don't have to form them during a crisis. "Investigating" language differs from "Monitoring" language. Minor severity uses "some users may experience" while critical uses "users are unable to access." These distinctions matter for customer trust but shouldn't require creative effort at 3am.
 
-## Design Principles Applied
+## Design principles applied
 
 ### Start with the user's question, not the domain's structure
 
@@ -77,7 +69,7 @@ The status page generator leads with phase selection because that's the first qu
 
 The on-call explorer explicitly lists what you gain and lose with each model. Follow-the-sun eliminates night pages but requires multi-region coordination. Weekly rotations provide context continuity but concentrate burden.
 
-A tool that hid these tradeoffs—showing only "coverage score"—would be less useful than one that makes the tensions visible.
+A tool that hid these tradeoffs, showing only "coverage score", would be less useful than one that makes the tensions visible.
 
 ### Visualize what numbers obscure
 
@@ -89,7 +81,7 @@ A tool that hid these tradeoffs—showing only "coverage score"—would be less 
 
 The SLO calculator shows different insight messages based on the data: "enterprise-grade reliability" when SLA exceeds 99.9%, "travel time impact" when getting to a computer dominates response time, "diagnosis bottleneck" when investigation takes the most time.
 
-This requires judgment about thresholds—what counts as "high" overhead?—but provides more value than context-free output.
+This requires judgment about thresholds, what counts as "high" overhead, but provides more value than context-free output.
 
 ### Presets accelerate, don't constrain
 
@@ -97,23 +89,21 @@ The status page generator includes presets for common services (API, authenticat
 
 Presets are starting points, not prisons. They save time for common cases without blocking uncommon ones.
 
-## Accessibility Lessons
+## Accessibility lessons
 
-Building interactive tools for the web means building for everyone. Some lessons learned:
+Building interactive tools for the web means building for everyone. Some lessons learned: ARIA labels are not optional. Sliders, progress bars, and select dropdowns need explicit labels for screen readers. Lighthouse catches these; manual testing often doesn't.
 
-**ARIA labels aren't optional.** Sliders, progress bars, and select dropdowns need explicit labels for screen readers. Lighthouse catches these; manual testing often doesn't.
+Color contrast has numbers. Tailwind's emerald-500 on white has a 3.76:1 contrast ratio. WCAG AA requires 4.5:1 for normal text. emerald-700 passes. "Looks fine on my screen" isn't sufficient; check the ratios.
 
-**Color contrast has numbers.** Tailwind's emerald-500 on white has a 3.76:1 contrast ratio. WCAG AA requires 4.5:1 for normal text. emerald-700 passes. "Looks fine on my screen" isn't sufficient; check the ratios.
-
-**Heading hierarchy matters.** Using `<h3>` inside a component already under an `<h2>` creates proper document structure. Arbitrary heading levels break navigation for screen readers.
+Heading hierarchy matters. Using `<h3>` inside a component already under an `<h2>` creates proper document structure. Arbitrary heading levels break navigation for screen readers.
 
 These aren't advanced accessibility concerns. They're baseline compliance. Interactive tools that aren't accessible aren't finished.
 
-## The Meta Point
+## The meta point
 
 These tools represent a belief about what technical content can be.
 
-Documentation is valuable. Tutorials are valuable. But for certain decisions—the ones where context matters and tradeoffs are multidimensional—letting users explore with their own inputs teaches more than static explanation.
+Documentation is valuable. Tutorials are valuable. But for certain decisions, the ones where context matters and tradeoffs are multidimensional, letting users explore with their own inputs teaches more than static explanation.
 
 The best documentation for "which on-call model should we use?" isn't a recommendation. It's a tool that shows what each model means for your specific team.
 
@@ -121,7 +111,7 @@ The best documentation for "can we promise 99.9%?" isn't a table of downtime bud
 
 The best documentation for "what should our status update say?" isn't a style guide. It's a generator that adapts to your current situation and produces copy you can use immediately.
 
-## Try Them
+## Try them
 
 - [On-Call Coverage Model Explorer](/projects/oncall-coverage)
 - [SLO Calculator](/projects/slo-tool)

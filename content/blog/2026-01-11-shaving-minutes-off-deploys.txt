@@ -20,7 +20,7 @@ Three minutes and nine seconds. That was our deploy time. Three jobs running in 
 
 Dylan asked me to compare the last two successful runs. Not because something failed, but because he wanted to see the numbers. That question led to a 41% reduction in deploy time.
 
-## The Starting State
+## The starting state
 
 The pipeline had grown organically. At some point, smoke tests became their own job. This made sense when we wanted to see test results separately from build results. But the separation had a cost: job orchestration overhead, duplicate setup steps, artifacts uploaded and downloaded between jobs.
 
@@ -38,7 +38,7 @@ jobs:
 
 Each job spins up a fresh runner. Each runner installs dependencies. The artifact gets uploaded after build, downloaded for tests, downloaded again for deploy. Clean separation, but expensive.
 
-## The Optimizations
+## The optimizations
 
 We made three changes:
 
@@ -66,7 +66,7 @@ One runner, one dependency install, no artifact round-trip between build and tes
 
 ### 2. Path Filtering
 
-Not every push needs a full deploy. Documentation changes, blog posts, README updates—these do not affect the built site in ways that require smoke testing.
+Not every push needs a full deploy. Documentation changes, blog posts, and README updates do not affect the built site in ways that require smoke testing.
 
 ```yaml
 on:
@@ -93,7 +93,7 @@ concurrency:
 
 Now a new push cancels any in-progress run for the same branch. Fast iterations no longer queue up stale deploys.
 
-## The Numbers
+## The numbers
 
 Before: **3 minutes 9 seconds** (3 jobs: build, smoke-tests, deploy)
 
@@ -101,17 +101,15 @@ After: **1 minute 52 seconds** (2 jobs: build-and-test, deploy)
 
 That is 77 seconds saved per deploy, or 41% faster.
 
-## The Trade-offs
+## The trade-offs
 
-Every optimization has a cost. Here is what we accepted:
+Every optimization has a cost. Here is what we accepted. Merged jobs lose granularity: if smoke tests fail, the whole build-and-test job fails. You cannot rerun just the tests. In practice, this has not mattered; test failures usually mean code changes are needed anyway.
 
-**Merged jobs lose granularity.** If smoke tests fail, the whole build-and-test job fails. You cannot rerun just the tests. In practice, this has not mattered—test failures usually mean code changes are needed anyway.
+Path filtering means some pushes skip validation. A blog post with a syntax error in frontmatter could theoretically break the build. We accept this because the failure would surface on the next code push, and blog-only pushes are lower risk.
 
-**Path filtering means some pushes skip validation.** A blog post with a syntax error in frontmatter could theoretically break the build. We accept this because the failure would surface on the next code push, and blog-only pushes are lower risk.
+Concurrency cancellation loses history. If you push three times, only the last run completes. The first two are cancelled, not failed. If you need to see what those runs would have done, they are gone. This has not been a problem in practice.
 
-**Concurrency cancellation loses history.** If you push three times, only the last run completes. The first two are cancelled, not failed. If you need to see what those runs would have done, they are gone. This has not been a problem in practice.
-
-## Why This Matters
+## Why this matters
 
 Seventy-seven seconds sounds small. But deploy time affects behavior:
 
@@ -121,15 +119,13 @@ Seventy-seven seconds sounds small. But deploy time affects behavior:
 
 The compound effect matters more than the absolute number. A deploy that feels instant encourages a different workflow than one that feels like a coffee break.
 
-## What We Did Not Do
+## What we did not do
 
-A few optimizations we considered but skipped:
+A few optimizations we considered but skipped. Caching node_modules: GitHub Actions has built-in caching for setup-node, but our dependency install is already fast (~15s). The cache overhead might not pay off.
 
-**Caching node_modules.** GitHub Actions has built-in caching for setup-node, but our dependency install is already fast (~15s). The cache overhead might not pay off.
+Parallel test shards: our smoke tests take about 20 seconds. Splitting them across multiple runners would add orchestration overhead that exceeds the test time.
 
-**Parallel test shards.** Our smoke tests take about 20 seconds. Splitting them across multiple runners would add orchestration overhead that exceeds the test time.
-
-**Self-hosted runners.** Faster machines, but more maintenance. Not worth it for a personal site.
+Self-hosted runners: faster machines, but more maintenance. Not worth it for a personal site.
 
 The goal was not to minimize deploy time at all costs. It was to remove waste without adding complexity.
 

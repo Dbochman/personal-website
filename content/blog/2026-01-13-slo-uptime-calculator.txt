@@ -13,11 +13,11 @@ draft: true
 
 99.9% uptime sounds impressive until you do the math.
 
-Three nines means 43.2 minutes of downtime per month. If your mean time to resolve (MTTR) is 50 minutes per incident, you cannot achieve 99.9% with more than zero incidents. Not "might have trouble" achieving it—*mathematically cannot*.
+Three nines means 43.2 minutes of downtime per month. If your mean time to resolve (MTTR) is 50 minutes per incident, you cannot achieve 99.9% with more than zero incidents. Not "might have trouble" achieving it, *mathematically cannot*.
 
 This is the gap the [SLO Calculator](/projects/slo-tool) exists to close: the gap between the SLA you want to promise and the SLA your incident response can actually deliver.
 
-## The Problem: Promises Disconnected from Reality
+## The problem: promises disconnected from reality
 
 Most SLA discussions start from the wrong direction.
 
@@ -25,7 +25,7 @@ A product manager asks: "Can we promise 99.9%?" An engineer says: "Sure, I guess
 
 The calculator inverts this. Instead of asking "what SLA should we promise?" it asks "what SLA can our response profile actually sustain?"
 
-## Breaking Down Response Time
+## Breaking down response time
 
 Incident resolution isn't one thing. It's a sequence of phases, each with its own duration:
 
@@ -44,7 +44,7 @@ Alert latency is an infrastructure problem. Acknowledge time is about alerting c
 
 Knowing which phase dominates your MTTR tells you where to invest improvement effort.
 
-## Two Modes, Two Questions
+## Two modes, two questions
 
 The calculator answers two related questions:
 
@@ -70,9 +70,9 @@ Input a target SLA (like 99.9%) along with your profile. The calculator shows:
 
 This mode is for planning. Given a business requirement, what operational changes would it take to meet it?
 
-## The Response Overhead Insight
+## The response overhead insight
 
-The calculator surfaces "response overhead"—the percentage of MTTR spent before you even start diagnosing the problem.
+The calculator surfaces "response overhead", the percentage of MTTR spent before you even start diagnosing the problem.
 
 Alert latency + acknowledge + travel + authentication = overhead.
 
@@ -89,20 +89,15 @@ High overhead suggests different investments than high diagnosis time. If overhe
 
 If diagnosis is the problem, invest in observability. If fix time is the problem, invest in deployment automation or feature flags.
 
-## Dynamic Insights
+## Dynamic insights
 
 The calculator provides context-aware feedback based on your inputs:
 
-- **Enterprise-grade reliability**: SLA ≥ 99.9% (three nines or better)
-- **Reliability at risk**: SLA < 99% signals a problem
-- **Travel time impact**: High travel time as percentage of response
-- **Diagnosis bottleneck**: Diagnosis dominates MTTR
-- **Remediation focus**: Fix time dominates MTTR
-- **Efficient response chain**: Low overhead is worth noting
+The insights include enterprise-grade reliability (SLA ≥ 99.9%), reliability at risk (SLA < 99%), travel time impact when travel time dominates response, diagnosis bottleneck when diagnosis dominates MTTR, remediation focus when fix time dominates MTTR, and an efficient response chain when overhead stays low.
 
 These insights adapt as you adjust inputs. Change travel time from 2 minutes to 30 minutes and the insight changes from "efficient response chain" to "travel time impact."
 
-## The Phase Toggles
+## The phase toggles
 
 Not every phase applies to every calculation.
 
@@ -114,16 +109,16 @@ The calculator includes toggles to enable/disable each phase. This lets you mode
 - Automated remediation vs. manual fix (adjust fix time)
 - Detection-only vs. full resolution (disable fix phase)
 
-## What We Learned Building It
+## What we learned building it
 
-**Sliders communicate ranges better than inputs.** For response times measured in minutes, seeing the slider position gives immediate context about whether your value is typical, fast, or slow.
+Sliders communicate ranges better than inputs. For response times measured in minutes, seeing the slider position gives immediate context about whether your value is typical, fast, or slow.
 
-**Dynamic feedback requires threshold design.** The insight system has nine states with four style types (info, warning, success, tip). Determining the thresholds—when does overhead become "high"? what SLA counts as "enterprise-grade"?—required judgment calls. We erred toward useful over precise.
+Dynamic feedback requires threshold design. The insight system has nine states with four style types (info, warning, success, tip). Determining the thresholds, when overhead becomes "high" and what SLA counts as "enterprise-grade", required judgment calls. We erred toward useful over precise.
 
-**Accessible visualizations aren't automatic.** The progress bars showing budget breakdown needed explicit ARIA labels. Lighthouse caught this; manual testing wouldn't have.
+Accessible visualizations aren't automatic. The progress bars showing budget breakdown needed explicit ARIA labels. Lighthouse caught this; manual testing wouldn't have.
 
-## Try It
+## Try it
 
 The [SLO Calculator](/projects/slo-tool) is available now.
 
-Before your next SLA discussion, input your team's actual response profile. The gap between "what we want to promise" and "what we can sustain" might be larger—or smaller—than you expect.
+Before your next SLA discussion, input your team's actual response profile. The gap between "what we want to promise" and "what we can sustain" might be larger or smaller than you expect.
