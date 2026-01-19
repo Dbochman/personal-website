@@ -17,9 +17,9 @@ That's not an accident or a temporary state. It's a deliberate architectural cho
 
 I took the deal.
 
-## What Free Actually Means
+## What free actually means
 
-GitHub Pages is genuinely free for public repositories. No bandwidth charges. No compute costs. No surprise bills when a post gets popular. The only costs are the domain name (optional—you can use `username.github.io` for free) and the time spent working around the static-only constraint.
+GitHub Pages is genuinely free for public repositories. No bandwidth charges. No compute costs. No surprise bills when a post gets popular. The only costs are the domain name (optional; you can use `username.github.io` for free) and the time spent working around the static-only constraint.
 
 For a personal portfolio and blog, this math works out. The site serves HTML, CSS, JavaScript, and images. There's no database. There are no API endpoints. There's no server to scale, patch, or pay for.
 
@@ -31,7 +31,7 @@ Compare this to alternatives:
 
 GitHub Pages removes an entire category of concerns. The site can't go down because I forgot to pay a bill. It can't get slow because I under-provisioned a server. It can't get hacked through a server-side vulnerability because there is no server.
 
-## The Constraints I Accepted
+## The constraints I accepted
 
 Static hosting means no server-side code. This sounds limiting until you realize how much you can do without it.
 
@@ -45,23 +45,23 @@ Static hosting means no server-side code. This sounds limiting until you realize
 
 The second column is longer than it might seem. Modern JavaScript frameworks make client-side applications powerful enough that the server-side constraint rarely matters for content sites.
 
-## How the Architecture Compensates
+## How the architecture compensates
 
 Every quirk in this site's architecture exists because of the static constraint.
 
-### Build-Time MDX Precompilation
+### Build-time MDX precompilation
 
 I compile MDX to JavaScript at build time using `@mdx-js/mdx`. A precompilation script runs before each build, converting markdown content into optimized React components.
 
-I originally used runtime compilation—compiling MDX in the browser. It worked, but Lighthouse scores told the real story: blog posts had a 5.6 second Largest Contentful Paint. The browser was doing too much work.
+I originally used runtime compilation, compiling MDX in the browser. It worked, but Lighthouse scores told the real story: blog posts had a 5.6 second Largest Contentful Paint. The browser was doing too much work.
 
-Switching to build-time precompilation dropped LCP to 3.1 seconds—a 45% improvement. The compiled components load synchronously, which also means pre-rendered HTML contains actual content instead of loading spinners. Better for SEO, better for readers.
+Switching to build-time precompilation dropped LCP to 3.1 seconds, a 45% improvement. The compiled components load synchronously, which also means pre-rendered HTML contains actual content instead of loading spinners. Better for SEO, better for readers.
 
 The tradeoff is that adding a post through Decap CMS requires a rebuild. Since GitHub Pages rebuilds on every push anyway, this isn't a meaningful constraint.
 
-### Blog Posts Are txt Files
+### Blog posts are txt files
 
-My blog posts live in `content/blog/*.txt`. Not `.md`, not `.mdx`—`.txt`.
+My blog posts live in `content/blog/*.txt`. Not `.md`, not `.mdx`, just `.txt`.
 
 This is a workaround for Vite's module resolution. MDX files trigger special handling that conflicts with my custom precompilation pipeline. Renaming them to `.txt` makes Vite treat them as plain text, which I then process with my own build script.
 
@@ -73,13 +73,13 @@ I can't run a comments backend. So I use Giscus, which stores comments as GitHub
 
 This has unexpected benefits: comments are backed up in GitHub, spam is handled by GitHub's moderation, and readers with GitHub accounts can comment without creating another login. The constraint pushed me toward a solution that's arguably better than a traditional comments database.
 
-### CMS via Netlify, Hosting via GitHub
+### CMS via Netlify, hosting via GitHub
 
 Decap CMS needs an authentication backend. GitHub Pages can't provide one. So I host the CMS on Netlify (free tier) while the actual site stays on GitHub Pages.
 
 This means the CMS lives at `dylanbochman.netlify.app/editor` rather than on the main domain. A minor inconvenience for a clean separation of concerns: Netlify handles auth, GitHub handles hosting, neither knows about the other.
 
-## Why Not Just Pay for Hosting?
+## Why not just pay for hosting?
 
 I could. A $5/month VPS would eliminate these constraints. But it would add others.
 
@@ -91,15 +91,15 @@ I could. A $5/month VPS would eliminate these constraints. But it would add othe
 | Another system to monitor | Version control built in |
 | Vendor lock-in or migration hassle | Portability (it's just static files) |
 
-For a portfolio site that I want to maintain indefinitely with minimal ongoing effort, the static approach wins. The architectural constraints are real but finite—I solved them once and moved on.
+For a portfolio site that I want to maintain indefinitely with minimal ongoing effort, the static approach wins. The architectural constraints are real but finite. I solved them once and moved on.
 
-## The Deeper Point
+## The deeper point
 
 Constraints aren't always obstacles. Sometimes they're design pressure that produces better solutions.
 
 The static-only constraint forced me to think carefully about what actually requires a server. It turns out: not much. Comments can be external. Search can be client-side. Content management can happen through git commits.
 
-Each workaround I implemented—build-time MDX precompilation, txt files, Giscus comments, split CMS hosting—is a small compromise. Together they add up to a site that costs nothing, requires no maintenance, and will keep working as long as GitHub exists.
+Each workaround I implemented (build-time MDX precompilation, txt files, Giscus comments, split CMS hosting) is a small compromise. Together they add up to a site that costs nothing, requires no maintenance, and will keep working as long as GitHub exists.
 
 That's a reasonable trade.
 

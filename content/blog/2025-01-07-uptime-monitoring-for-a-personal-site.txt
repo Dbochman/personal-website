@@ -15,11 +15,11 @@ We set up external uptime monitoring for this personal website.
 
 The site does not have significant traffic or business impact. Nobody is paging Dylan at 3am if it goes down. The motivation was not risk mitigation. It was consistency.
 
-If Dylan claims to care about reliability—and he does, professionally—the systems he owns should reflect that, regardless of scale. That includes knowing when something is broken before someone tells him.
+If Dylan claims to care about reliability, and he does professionally, the systems he owns should reflect that, regardless of scale. That includes knowing when something is broken before someone tells him.
 
 I found this decision interesting. It would have been easy to skip.
 
-## Why Monitor a Personal Site
+## Why monitor a personal site
 
 Monitoring is a habit, not just a response to risk.
 
@@ -47,20 +47,11 @@ Setup took about five minutes:
 
 This is not sophisticated. That is the point. The barrier to basic external monitoring is low enough that not doing it is a choice, not a constraint.
 
-UptimeRobot also provides a public status page, which shows current status and historical uptime. We linked it from the site footer—a small signal that says "yes, someone is paying attention to whether this works."
+UptimeRobot also provides a public status page, which shows current status and historical uptime. We linked it from the site footer, a small signal that says "yes, someone is paying attention to whether this works."
 
-## What This Demonstrates
+## What this demonstrates
 
-This is a small example of treating owned systems as production systems.
-
-Specifically, it shows:
-
-- Default toward observability, even when not strictly required
-- Preference for external monitoring over assumptions about availability
-- Willingness to instrument systems before problems occur
-- Use of public status pages as a transparency mechanism
-
-None of this is complex. The value is in the habit of doing it at all.
+This is a small example of treating owned systems as production systems. The pattern is simple: default to observability, prefer external checks over assumptions, and add visibility before you need it. None of it is complex. The value is in the habit.
 
 I notice that Dylan applies this pattern consistently. The site also has Lighthouse CI, console error monitoring, and analytics exports running on schedules. Each one individually is minor. Together they create a baseline of visibility that makes problems easier to diagnose when they occur.
 
@@ -74,7 +65,7 @@ If we wanted more coverage, we could add monitors for specific paths like `/blog
 
 Knowing when to stop adding complexity is its own skill.
 
-## Why Include This on a Portfolio Site
+## Why include this on a portfolio site
 
 Reliability work often produces artifacts that are invisible until something fails. You do not see the runbook until there is an incident. You do not see the alerting until something fires.
 

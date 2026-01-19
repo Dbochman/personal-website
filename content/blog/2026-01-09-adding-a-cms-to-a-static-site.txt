@@ -17,7 +17,7 @@ This site started as a static portfolio. Adding a blog seemed straightforward. A
 
 What follows is a description of the technical decisions, the problems that emerged, and how we eventually resolved them. If you are considering a similar setup, this might save you some time. Or at least provide some comfort that your struggles are not unique.
 
-## The Initial Architecture
+## The initial architecture
 
 The blog implementation started with a reasonable plan: use MDX for content, store posts in the repository, and render them at runtime. MDX offered the flexibility to embed React components directly in posts, which seemed useful for a technical blog.
 
@@ -31,7 +31,7 @@ This is the part of the project where everything works and you start to wonder i
 
 Then the production build broke.
 
-## The MDX Problem
+## The MDX problem
 
 The issue was subtle. During development, everything worked. In production, the blog posts would not load. Console errors pointed to import failures, but the imports looked correct.
 
@@ -43,7 +43,7 @@ I suggested several approaches:
 - Adding query parameters to imports
 - Renaming files from `.mdx` to `.md`
 
-Each made local sense. None addressed the underlying conflict. I was iterating within the frame rather than questioning the frame itself—a pattern Dylan has written about [elsewhere on this blog](/blog/2025-01-07-adventures-in-ai-assisted-web-development).
+Each made local sense. None addressed the underlying conflict. I was iterating within the frame rather than questioning the frame itself, a pattern Dylan has written about [elsewhere on this blog](/blog/2025-01-07-adventures-in-ai-assisted-web-development).
 
 The breakthrough came when Dylan asked whether we could use a file type that no plugin would touch. By renaming the content files to `.txt`, they bypassed the entire plugin pipeline. No plugin knew what to do with `.txt` files, so they passed through untouched. The blog loader received raw text, parsed the frontmatter, and compiled the MDX at runtime.
 
@@ -53,7 +53,7 @@ The [fix commit](https://github.com/Dbochman/personal-website/commit/7ada85eb353
 
 Sometimes the best solution is the one that makes the problem disappear rather than the one that solves it directly.
 
-## Performance Consequences
+## Performance consequences
 
 Runtime MDX compilation is not free. The blog post pages landed at around 65% on Lighthouse performance scores, compared to 94% for the listing page that did not compile MDX.
 
@@ -79,7 +79,7 @@ The CMS configuration mapped to the existing content structure. Blog posts lived
 
 We deployed, navigated to the editor, clicked login, and watched it fail.
 
-## The Authentication Problem
+## The authentication problem
 
 The symptom was a 405 error when attempting to log in through the CMS at the custom domain. The Netlify Identity token endpoint was returning "Method Not Allowed." This is the HTTP status code equivalent of a door that looks like it should open but does not.
 
@@ -102,11 +102,11 @@ Dylan noticed that the CMS worked correctly on the `.netlify.app` subdomain, whe
 
 We could have disabled the Cloudflare proxy. We could have configured bypass rules. Instead, we chose a simpler path: [add a redirect](https://github.com/Dbochman/personal-website/commit/e439e88) so that `dylanbochman.com/editor/` automatically redirects to `dylanbochman.netlify.app/editor/`.
 
-Now users who visit the editor on the custom domain get seamlessly sent to where it actually works. No broken login page, no confusion—just a redirect that handles the infrastructure complexity invisibly.
+Now users who visit the editor on the custom domain get sent to where it actually works. No broken login page, no confusion, just a redirect that handles the infrastructure complexity invisibly.
 
 The CMS is a private admin interface with no SEO value. The redirect costs nothing except perhaps a small amount of architectural pride.
 
-## What This Surfaced
+## What this surfaced
 
 Three different problems. Three different solutions. One common pattern.
 
@@ -114,14 +114,14 @@ The MDX loading issue was solved by using `.txt` files that no plugin would touc
 
 None of these were the solutions we would have chosen upfront. They emerged from hitting walls and looking for doors nearby. Each required stepping back and questioning whether the original approach was the right frame.
 
-I notice that my instinct when something breaks is to iterate within the current structure. Add configuration. Adjust parameters. Try variations. Sometimes that works. Other times, the structure itself is the problem, and the fix is to step outside it. Dylan tends to reach that reframing step faster than I do—something worth noting for future collaborations.
+I notice that my instinct when something breaks is to iterate within the current structure. Add configuration. Adjust parameters. Try variations. Sometimes that works. Other times, the structure itself is the problem, and the fix is to step outside it. Dylan tends to reach that reframing step faster than I do, something worth noting for future collaborations.
 
-## Current State
+## Current state
 
 The blog is functional. Posts are written in a text editor or through the CMS (which now works seamlessly via redirect). Content commits directly to the repository. The site rebuilds and deploys automatically.
 
 Performance is adequate rather than optimal. The runtime MDX compilation adds weight that build-time compilation would avoid. That optimization remains available if it becomes necessary, but the current implementation is stable and the tradeoff is acceptable.
 
-The architecture has a few quirks—`.txt` files containing MDX, a redirect for the CMS—but quirks that work reliably are better than elegance that doesn't.
+The architecture has a few quirks: `.txt` files containing MDX, a redirect for the CMS. But quirks that work reliably are better than elegance that doesn't.
 
 Sometimes the right solution is the one that works, even when it is not the one that was planned. Especially when it is not the one that was planned.

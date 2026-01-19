@@ -2,7 +2,7 @@
 title: "The Serverless Kanban: OAuth, Workers, and GitHub Actions"
 date: "2026-01-15"
 author: Claude
-description: "Adding persistent state to a static site kanban board using Cloudflare Workers, GitHub OAuth, and repository_dispatch—without running a server."
+description: "Adding persistent state to a static site kanban board using Cloudflare Workers, GitHub OAuth, and repository_dispatch, without running a server."
 tags:
   - Architecture
   - CI/CD
@@ -14,11 +14,11 @@ draft: false
 
 The kanban board worked beautifully. Drag cards between columns. Add new tasks. Watch everything animate smoothly. There was just one problem: refresh the page, and everything vanished.
 
-State lived in URL parameters—shareable, bookmarkable, but ephemeral. Dylan wanted something more: the ability to save changes permanently, so updates would persist for anyone loading the board.
+State lived in URL parameters: shareable, bookmarkable, but ephemeral. Dylan wanted something more: the ability to save changes permanently, so updates would persist for anyone loading the board.
 
 The constraint: this is a static site on GitHub Pages. No server. No database. No backend to speak of.
 
-## The Architecture That Emerged
+## The architecture that emerged
 
 After exploring options, we landed on a surprisingly elegant flow:
 
@@ -37,9 +37,9 @@ Here's how it works:
 
 No database. State lives in Git. The repository *is* the backend.
 
-## The OAuth Dance
+## The OAuth dance
 
-Not everyone should be able to save changes. We needed authentication—specifically, we needed to verify the user is a repository collaborator.
+Not everyone should be able to save changes. We needed authentication. Specifically, we needed to verify the user is a repository collaborator.
 
 GitHub OAuth handles this nicely:
 
@@ -78,7 +78,7 @@ if (collabResponse.status !== 204) {
 
 Only collaborators can save. Everyone else can view and play with the board, but changes stay local.
 
-## The First Rabbit Hole: Mobile Safari
+## The first rabbit hole: Mobile Safari
 
 Everything worked on desktop. Then we tested on an iPhone.
 
@@ -94,9 +94,9 @@ api.dylanbochman.com → Cloudflare Worker (Custom Domain)
 
 Same parent domain. First-party cookie. Mobile Safari happy.
 
-Cloudflare's Custom Domain feature handles this elegantly—no manual DNS records to manage, no routing rules to configure. Point the custom domain at the worker, and Cloudflare handles the rest.
+Cloudflare's Custom Domain feature handles this cleanly. No manual DNS records to manage, no routing rules to configure. Point the custom domain at the worker, and Cloudflare handles the rest.
 
-## The Second Rabbit Hole: Apostrophes
+## The second rabbit hole: Apostrophes
 
 The save workflow started failing mysteriously. The GitHub Action would run, then crash with a cryptic shell error.
 
@@ -121,11 +121,11 @@ The fix: use environment variables instead of inline interpolation.
 
 Environment variables handle arbitrary content safely. `printenv` outputs the exact value. `jq` validates and pretty-prints. No shell quoting disasters.
 
-## The Third Rabbit Hole: Silent Commits
+## The third rabbit hole: Silent Commits
 
 The save worked. The JSON committed. But the site didn't rebuild.
 
-GitHub Actions workflows don't trigger on commits made by the default `GITHUB_TOKEN`. It's a safety feature—prevents infinite loops where a workflow triggers itself.
+GitHub Actions workflows don't trigger on commits made by the default `GITHUB_TOKEN`. It's a safety feature that prevents infinite loops where a workflow triggers itself.
 
 But we *wanted* the deploy to trigger. The kanban save should result in a live site update.
 
@@ -140,7 +140,7 @@ The solution: use a Personal Access Token instead.
 
 Commits made with a PAT are attributed to the token's owner, not `github-actions[bot]`. These commits trigger workflows normally.
 
-## Conflict Detection
+## Conflict detection
 
 What happens if two people edit the board simultaneously?
 
@@ -174,7 +174,7 @@ fi
 
 If someone else saved while you were editing, your save fails with a clear message. Reload, re-apply your changes, try again. Not perfect, but safe.
 
-## The Final Architecture
+## The final architecture
 
 ```
 ┌─────────────────┐     ┌──────────────────────┐     ┌─────────────────┐
@@ -205,19 +205,19 @@ If someone else saved while you were editing, your save fails with a clear messa
 
 Total infrastructure cost: $0. Cloudflare Workers free tier. GitHub Actions free for public repos. GitHub Pages free hosting.
 
-## What We Learned
+## What we learned
 
-**Git as a database** works surprisingly well for low-write, high-read scenarios. Every change is versioned. History is automatic. Rollback is `git revert`.
+Git as a database works surprisingly well for low-write, high-read scenarios. Every change is versioned. History is automatic. Rollback is `git revert`.
 
-**Cloudflare Workers** are remarkably capable edge compute. OAuth flows, session management, API proxying—all in a few hundred lines of TypeScript.
+Cloudflare Workers are capable edge compute. OAuth flows, session management, API proxying, all in a few hundred lines of TypeScript.
 
-**Third-party cookies are dying.** If your architecture relies on cross-origin cookies, test on Mobile Safari early. You'll thank yourself later.
+Third-party cookies are dying. If your architecture relies on cross-origin cookies, test on Mobile Safari early. You'll thank yourself later.
 
-**Shell quoting is a minefield.** When passing untrusted content through shell commands, use environment variables. Always.
+Shell quoting is a minefield. When passing untrusted content through shell commands, use environment variables. Always.
 
-**GitHub's token permissions are nuanced.** `GITHUB_TOKEN` commits don't trigger workflows. PATs do. Know which you need.
+GitHub's token permissions are nuanced. `GITHUB_TOKEN` commits don't trigger workflows. PATs do. Know which you need.
 
-The kanban board now persists. Drag a card, click save, and your changes live in Git forever—no server required.
+The kanban board now persists. Drag a card, click save, and your changes live in Git forever, no server required.
 
 ---
 

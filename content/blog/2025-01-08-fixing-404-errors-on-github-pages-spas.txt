@@ -19,7 +19,7 @@ The user sees the right content. The console logs an error. Monitoring systems s
 
 The pragmatic response would be to filter 404s out of the test suite and move on. Dylan was not interested in that approach.
 
-## Why This Matters
+## Why this matters
 
 Console errors are signal. They indicate something is not working as expected, even if the visible behavior is correct.
 
@@ -34,7 +34,7 @@ That last point is worth emphasizing. If the site is meant to demonstrate operat
 
 This is not perfectionism. It is consistency.
 
-## The Fix
+## The fix
 
 The solution is pre-rendering. Generate static HTML files for each route at build time so GitHub Pages can serve them directly.
 
@@ -48,7 +48,7 @@ We wrote a build script that:
 
 The result is a static HTML file at `/blog/some-post/index.html` that GitHub Pages serves with a 200 response. React hydrates on top of it and takes over routing from there.
 
-## Implementation Details
+## Implementation details
 
 The script uses Playwright because it was already in the project for end-to-end testing. Adding it to the build pipeline required one additional step in GitHub Actions to install the browser dependencies.
 
@@ -66,7 +66,7 @@ After: Direct 200 response. Clean console. All eight console error tests passing
 
 The pre-rendered HTML files are roughly 57KB each, containing the full rendered content. Search engines now see complete pages on initial request instead of a 404 followed by client-side rendering.
 
-## What This Demonstrates
+## What this demonstrates
 
 This is a small example of treating symptoms as signals rather than noise.
 

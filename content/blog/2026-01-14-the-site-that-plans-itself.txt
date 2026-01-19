@@ -10,53 +10,35 @@ tags:
 category: Meta
 ---
 
-We just merged a Kanban board into the site. That's not the interesting part—Kanban boards are commodity software. The interesting part is *what* we put on it: the roadmap for the site itself.
+We just merged a Kanban board into the site. That's not the interesting part. Kanban boards are commodity software. The interesting part is *what* we put on it: the roadmap for the site itself.
 
 The site now contains its own development plans. And because the site is open source, that roadmap is open to contributions.
 
-## From Private Planning to Public Backlog
+## From private planning to public backlog
 
-Like most projects, we started with a `ROADMAP.md` file. It listed future features, rough priorities, and vague timelines. It worked, but it was a monologue—we planned in private, shipped in public, and the gap between "what we're thinking" and "what exists" was invisible to everyone but us.
+Like most projects, we started with a `ROADMAP.md` file. It listed future features, rough priorities, and vague timelines. It worked, but it was a monologue. We planned in private, shipped in public, and the gap between "what we're thinking" and "what exists" was invisible to everyone but us.
 
-The Kanban board changes this. Visit [/projects/kanban](/projects/kanban) and you'll see:
-
-- **Backlog**: Future features we're considering
-- **To Do**: Committed near-term work
-- **In Progress**: What's being actively developed
-- **Recently Completed**: What just shipped
-- **Change Log**: Historical record of major changes
+The Kanban board changes this. Visit [/projects/kanban](/projects/kanban) and you'll see the backlog (future features we're considering), to do (committed near-term work), in progress (what's being actively developed), recently completed (what just shipped), and the change log (historical record of major changes).
 
 Each card links to its detailed planning document. Click a card, read the implementation approach, see the effort estimate, understand the tradeoffs.
 
-## Opening a Dialogue
+## Opening a dialogue
 
 Here's where it gets interesting. The board data lives in [`src/types/kanban.ts`](https://github.com/Dbochman/personal-website/blob/main/src/types/kanban.ts). The planning documents live in [`docs/plans/`](https://github.com/Dbochman/personal-website/tree/main/docs/plans). Both are just files in the repo.
 
-This means visitors can:
+This means visitors can suggest new features (open a PR adding a card to the backlog), comment on priorities (open an issue referencing a card ID), propose implementation changes (edit the plan document), and learn from the history (use the change log, card history, and commits as a paper trail).
 
-**Suggest new features.** See something missing? Open a PR adding a card to the backlog. Include a planning doc if you want to flesh out the approach.
+This isn't hypothetical openness. It's the same workflow we use internally. When I want to update the roadmap, I tell Claude what changed, and Claude edits the TypeScript file. A visitor with a good idea follows the same path, just through GitHub's PR interface instead of conversation.
 
-**Comment on priorities.** Disagree with something sitting in the backlog? Open an issue explaining why it should move up (or be removed entirely). The card IDs make it easy to reference specific items.
+## The mechanics
 
-**Propose implementation changes.** Each card links to a plan document with verification steps, effort estimates, and technical approach. If you see a better way, the PR process is the same as any code contribution.
+The board is fully functional for exploration. Drag cards around, check off subtasks, see how different arrangements feel. The "Reset" button restores the shipped default, and visitor changes don't affect the canonical roadmap. That lives in the codebase.
 
-**Learn from the history.** The Change Log column and card history tracking show what was built and when. Curious why a feature exists? The commit history, card history, and plan documents form a paper trail.
-
-This isn't hypothetical openness—it's the same workflow we use internally. When I want to update the roadmap, I tell Claude what changed, and Claude edits the TypeScript file. A visitor with a good idea follows the same path, just through GitHub's PR interface instead of conversation.
-
-## The Mechanics
-
-The board is fully functional for exploration. Drag cards around, check off subtasks, see how different arrangements feel. The "Reset" button restores the shipped default, and visitor changes don't affect the canonical roadmap—that lives in the codebase.
-
-Deep links let you share specific cards: clicking "Copy Card Link" generates a URL like `?card=some-id` that opens that card's detail view on load. This means the board is:
-
-- **Explorable**: Visitors can play "what if" without consequences
-- **Shareable**: Deep links point to specific cards for discussion
-- **Canonical**: Source of truth is version-controlled code
+Deep links let you share specific cards: clicking "Copy Card Link" generates a URL like `?card=some-id` that opens that card's detail view on load. This makes the board explorable (visitors can play "what if" without consequences), shareable (deep links point to specific cards for discussion), and canonical (source of truth is version-controlled code).
 
 If you want your changes to stick, that's what PRs are for.
 
-## Self-Reference Gets Practical
+## Self-reference gets practical
 
 Building this feature surfaced some recursive moments that turned out to be useful:
 
@@ -64,17 +46,17 @@ The Kanban board has a card for "Kanban Board" with a checklist tracking its own
 
 We added a card for this blog post while writing this blog post. The meta-ness is silly, but the pattern is practical: if something is worth doing, it's worth tracking, and if it's worth tracking, it should be visible.
 
-## What This Enables
+## What this enables
 
-**Transparency without overhead.** The roadmap updates as part of normal development, not as a separate documentation task. When we finish a feature, we drag a card. When we start something new, we add a card. The public view stays current because it *is* the working view.
+Transparency without overhead. The roadmap updates as part of normal development, not as a separate documentation task. When we finish a feature, we drag a card. When we start something new, we add a card. The public view stays current because it *is* the working view.
 
-**Contribution paths beyond code.** Not everyone wants to write code, but many people have opinions about what should be built. A public backlog with clear planning documents lowers the barrier to "here's what I think you should prioritize" contributions.
+Contribution paths beyond code. Not everyone wants to write code, but many people have opinions about what should be built. A public backlog with clear planning documents lowers the barrier to "here's what I think you should prioritize" contributions.
 
-**Context for future collaborators.** Whether that's a human contributor or an AI assistant in a future session, the combination of board state, card history, plan documents, and commit history provides rich context without requiring synchronous explanation.
+Context for future collaborators. Whether that's a human contributor or an AI assistant in a future session, the combination of board state, card history, plan documents, and commit history provides rich context without requiring synchronous explanation.
 
-**Accountability through visibility.** Making the roadmap public creates gentle pressure to keep it honest. No more "Q3 2024" entries sitting in a private markdown file. If it's on the board, it's a real intention.
+Accountability through visibility. Making the roadmap public creates gentle pressure to keep it honest. No more "Q3 2024" entries sitting in a private markdown file. If it's on the board, it's a real intention.
 
-## Try It
+## Try it
 
 Visit [/projects/kanban](/projects/kanban). Drag some cards around. Click one to see its implementation plan. Check the Change Log to see what recently shipped.
 
