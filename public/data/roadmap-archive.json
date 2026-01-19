@@ -203,6 +203,51 @@
       ],
       "title": "Kanban Board Save Feature",
       "updatedAt": "2026-01-15T23:03:36.667Z"
+    },
+    {
+      "id": "grafana-dashboard-builder",
+      "title": "Grafana Dashboard JSON Builder",
+      "description": "Visual editor for Grafana dashboards. Drag-and-drop panel layout, panel type picker, export schema v38+ JSON.",
+      "labels": [
+        "Deferred",
+        "Large",
+        "SRE",
+        "Tool"
+      ],
+      "planFile": "docs/plans/41-grafana-dashboard-builder.md",
+      "createdAt": "2026-01-17",
+      "archivedAt": "2026-01-19",
+      "archiveReason": "Too large for current priorities. Consider revisiting when smaller SRE tools are complete."
+    },
+    {
+      "id": "log-pattern-extractor",
+      "title": "Log Pattern Extractor",
+      "description": "Detect recurring log patterns from raw lines. Auto-group by template, field type inference, export to regex/grok/logstash format.",
+      "labels": [
+        "Deferred",
+        "Medium",
+        "SRE",
+        "Tool"
+      ],
+      "planFile": "docs/plans/45-log-pattern-extractor.md",
+      "createdAt": "2026-01-17",
+      "archivedAt": "2026-01-19",
+      "archiveReason": "Overlaps significantly with regex-log-parser. Build that first, then evaluate if this adds enough value."
+    },
+    {
+      "id": "retention-cost-estimator",
+      "title": "Retention Cost Estimator",
+      "description": "Estimate observability costs across providers (Datadog, Grafana Cloud, New Relic). Side-by-side comparison, retention tradeoffs.",
+      "labels": [
+        "Deferred",
+        "Medium",
+        "SRE",
+        "Calculator"
+      ],
+      "planFile": "docs/plans/43-retention-cost-estimator.md",
+      "createdAt": "2026-01-17",
+      "archivedAt": "2026-01-19",
+      "archiveReason": "Pricing models change frequently. Maintenance burden outweighs value for a personal site."
     }
   ]
 }
