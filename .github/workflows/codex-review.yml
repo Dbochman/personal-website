@@ -36,6 +36,11 @@ jobs:
       - name: Install Codex CLI
         run: npm install -g @openai/codex
 
+      - name: Authenticate Codex
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: echo "$OPENAI_API_KEY" | codex login --with-api-key
+
       - name: Check for code changes
         id: check
         run: |
@@ -52,8 +57,6 @@ jobs:
       - name: Run Codex review
         if: steps.check.outputs.has_code == 'true'
         id: review
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           # Use codex review with base branch comparison
           codex review \
