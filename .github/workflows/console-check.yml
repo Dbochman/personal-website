@@ -53,7 +53,8 @@ jobs:
       - name: Run console error checks on production
         env:
           BASE_URL: https://dylanbochman.com
-        run: npx playwright test
+        # Skip 404 test in production - it pollutes GA4 analytics with /this-page-does-not-exist hits
+        run: npx playwright test --grep-invert="404"
 
       - name: Upload test results
         if: always()

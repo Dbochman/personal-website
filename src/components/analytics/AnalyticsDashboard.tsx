@@ -8,6 +8,7 @@ import { MetricCard } from './MetricCard';
 import { CoreWebVitalsCard } from './CoreWebVitalsCard';
 import { RumWebVitalsCard } from './RumWebVitalsCard';
 import { LighthouseScoresTable } from './LighthouseScoresTable';
+import { TrafficQualityCard } from './TrafficQualityCard';
 import { staggerContainer, staggerItem, tabContent } from '@/lib/motion';
 
 // Lazy load Recharts-dependent components (heaviest)
@@ -214,7 +215,7 @@ export function AnalyticsDashboard() {
             </Card>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <Card>
               <CardHeader>
                 <CardTitle>Traffic Sources</CardTitle>
@@ -245,6 +246,9 @@ export function AnalyticsDashboard() {
                   </div>
                 </CardContent>
               </Card>
+            )}
+            {latestGA4?.topPages && latestGA4.topPages.length > 0 && (
+              <TrafficQualityCard topPages={latestGA4.topPages} />
             )}
           </div>
 

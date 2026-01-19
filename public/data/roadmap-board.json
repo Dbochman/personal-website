@@ -3,6 +3,48 @@
     {
       "cards": [
         {
+          "id": "analytics-event-tracking",
+          "title": "Analytics Event Tracking",
+          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions. Answer: 'Are people getting value from the tools?'",
+          "labels": ["Small", "Analytics"],
+          "checklist": [
+            {"id": "aet-1", "text": "Define event schema (tool_interaction, action, tool_name)", "completed": false},
+            {"id": "aet-2", "text": "Add events to SLO Calculator (tab switch, calculate, copy)", "completed": false},
+            {"id": "aet-3", "text": "Add events to CLI Playground (run command, preset select)", "completed": false},
+            {"id": "aet-4", "text": "Add events to On-Call Coverage (timezone add, model switch)", "completed": false},
+            {"id": "aet-5", "text": "Update analytics dashboard to show tool engagement", "completed": false}
+          ],
+          "createdAt": "2026-01-19"
+        },
+        {
+          "id": "analytics-bot-ci-tagging",
+          "title": "Analytics Bot & CI Traffic Tagging",
+          "description": "Tag suspicious traffic with custom dimension instead of filtering. Enables analysis of bot patterns while keeping data.\n\nIndicators to tag:\n- Known bot user agents (Googlebot, Bingbot, HeadlessChrome, etc.)\n- CI/automation user agents (GitHub Actions runners)\n- Zero scroll/interaction events within session\n- Datacenter IP ranges (if detectable client-side)\n- Known probe paths (wp-admin, .env, xmlrpc.php, etc.)",
+          "labels": ["Small", "Analytics"],
+          "checklist": [
+            {"id": "abt-1", "text": "Create traffic classification utility (bot, ci, human)", "completed": false},
+            {"id": "abt-2", "text": "Detect CI via user agent (HeadlessChrome, Playwright)", "completed": false},
+            {"id": "abt-3", "text": "Add custom dimension to GA4 config", "completed": false},
+            {"id": "abt-4", "text": "Tag sessions on first pageview", "completed": false},
+            {"id": "abt-5", "text": "Add traffic type filter to analytics dashboard", "completed": false},
+            {"id": "abt-6", "text": "Document patterns discovered for future reference", "completed": false}
+          ],
+          "createdAt": "2026-01-19"
+        },
+        {
+          "id": "remove-lab-lighthouse",
+          "title": "Remove Lab Lighthouse Reports",
+          "description": "Field CWV data from real users is more valuable than synthetic lab tests. Remove lighthouse-reports/ workflow and rely on GA4 web vitals.\n\nKeep: Field data (FCP, LCP, CLS, INP, TTFB) from GA4\nRemove: Lab Lighthouse reports and associated CI workflow",
+          "labels": ["Small", "Cleanup"],
+          "checklist": [
+            {"id": "rll-1", "text": "Verify field CWV data is reliable in GA4", "completed": false},
+            {"id": "rll-2", "text": "Remove lighthouse-reports/ directory", "completed": false},
+            {"id": "rll-3", "text": "Remove Lighthouse CI workflow", "completed": false},
+            {"id": "rll-4", "text": "Update CLAUDE.md if it references Lighthouse thresholds", "completed": false}
+          ],
+          "createdAt": "2026-01-19"
+        },
+        {
           "id": "logql-builder",
           "title": "LogQL / CloudWatch Insights Builder",
           "description": "Visual query builder for LogQL and CloudWatch Insights. Language toggle, stream selectors, pipeline stages, and presets for common queries.",
