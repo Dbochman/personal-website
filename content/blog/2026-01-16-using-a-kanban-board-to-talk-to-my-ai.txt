@@ -11,7 +11,7 @@ category: Technical
 draft: false
 ---
 
-I've been iterating on how I work with Claude Code for weeks now. We've tried session notes, preference files, structured handoffs. Each helped, but something was still missing.
+I've been iterating on how I work with Claude Code for weeks now. We've tried session notes, preference files, structured handoffs. Each helped, but something still felt missing.
 
 The friction wasn't the conversation. It was the artifacts. Where do plans live? How do I associate them with tasks? I had a `ROADMAP.md` that kept growing stale, a `PLANNING_DOCS_INDEX.md` that duplicated it, and plan files scattered in `docs/plans/` with no clear link to what was actually in progress. Every few sessions we'd consolidate, reorganize, try a new structure. Nothing stuck.
 
@@ -21,7 +21,7 @@ The solution turned out to be something I'd already built: the kanban board.
 
 We'd already established some collaboration patterns. Session notes capture "we tried X but realized Y" moments. A preferences file records my working style (moderate verbosity, atomic commits, ask before changes). The CLAUDE.md has guidance for session starts: read session notes, check git log, provide a "here's where we left off" summary.
 
-But these are all text files I have to remember to update. The kanban board is different. It's a visual state machine that updates as part of the work.
+But these are all text files I have to remember to update. The kanban board is different. It's a visual state machine that persists naturally as part of the work.
 
 ## Ideas first, plans second
 
@@ -47,7 +47,7 @@ The board has five columns, each with a specific meaning:
 | **In Review** | "Verify this is done" | Move after PR opens | Check CI, test feature, review against checklist |
 | **Change Log** | "Completed" | Move after merge | Mark checklist complete, add PR label |
 
-What made this click: I can move cards asynchronously. If I decide at midnight that Sentry should be next, I move it to In Progress. When Claude starts the next session, it sees the board state and knows what to pick up without me explaining.
+The key insight is that I can move cards asynchronously. If I decide at midnight that Sentry should be next, I move it to In Progress. When Claude starts the next session, it sees the board state and knows what to pick up without me explaining.
 
 ## Giscus comments for persistent feedback
 
