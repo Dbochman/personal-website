@@ -22,3 +22,31 @@ export function throttle<T extends (...args: unknown[]) => void>(
     }
   }) as T;
 }
+
+/**
+ * Debounce a function to only execute after the delay has passed
+ * since the last invocation. Useful for search inputs, form validation.
+ */
+export function debounce<T extends (...args: unknown[]) => void>(
+  fn: T,
+  delay: number
+): T & { cancel: () => void } {
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+  const debounced = ((...args: Parameters<T>) => {
+    if (timeoutId) clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      fn(...args);
+      timeoutId = null;
+    }, delay);
+  }) as T & { cancel: () => void };
+
+  debounced.cancel = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+  };
+
+  return debounced;
+}
