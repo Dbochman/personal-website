@@ -21,7 +21,7 @@ describe('Index Page', () => {
     // Check for Hero Section content
     const main = screen.getByRole('main');
     expect(within(main).getAllByText('Dylan Bochman')[0]).toBeInTheDocument();
-    expect(within(main).getAllByText('Technical Incident Manager')[0]).toBeInTheDocument();
+    expect(within(main).getAllByText('Site Reliability Engineer & Incident Manager')[0]).toBeInTheDocument();
     expect(screen.getByText((content, node) => {
       if (!node) return false;
       const hasText = (n) => /Specializing in.*Reliability, Resilience, and Incident Management/.test(n.textContent || '');
