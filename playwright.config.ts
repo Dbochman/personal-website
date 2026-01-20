@@ -28,20 +28,6 @@ export default defineConfig({
     ['list']
   ],
 
-  // Visual comparison settings
-  expect: {
-    toHaveScreenshot: {
-      // Allow small differences for anti-aliasing and font rendering
-      maxDiffPixelRatio: 0.01,
-      // Threshold for color difference (0-1)
-      threshold: 0.2,
-    },
-  },
-
-  // Snapshot output directory
-  snapshotDir: './tests/e2e/snapshots',
-  snapshotPathTemplate: '{snapshotDir}/{testFileName}/{arg}{ext}',
-
   use: {
     // Base URL for tests
     baseURL: process.env.BASE_URL || 'http://localhost:8080',
@@ -52,7 +38,7 @@ export default defineConfig({
     // Screenshot on failure
     screenshot: 'only-on-failure',
 
-    // Consistent viewport for visual tests
+    // Consistent viewport for tests
     viewport: { width: 1280, height: 720 },
   },
 
@@ -61,15 +47,6 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-      testIgnore: /visual\.spec\.ts/,
-    },
-    {
-      name: 'visual-desktop',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1280, height: 720 },
-      },
-      testMatch: /visual\.spec\.ts/,
     },
   ],
 
