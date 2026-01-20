@@ -84,7 +84,7 @@ jobs:
 
           # If no findings extracted, check if there were no issues
           if [ ! -s findings.txt ]; then
-            if grep -q "no issues" review_output.txt 2>/dev/null; then
+            if grep -iq "no issues" review_output.txt 2>/dev/null; then
               echo "No issues found." > findings.txt
             else
               echo "Review completed - see workflow logs for details." > findings.txt
