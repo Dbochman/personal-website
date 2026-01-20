@@ -55,6 +55,9 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
+          # Authenticate with API key
+          echo "$OPENAI_API_KEY" | codex login --with-api-key
+
           # Use codex review with base branch comparison
           # Note: --base and --commit are mutually exclusive; use --base for PR diffs
           codex review \
