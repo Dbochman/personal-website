@@ -3,400 +3,497 @@
     {
       "cards": [
         {
-          "id": "analytics-event-tracking",
-          "title": "Analytics Event Tracking",
-          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions. Answer: 'Are people getting value from the tools?'",
-          "labels": [
-            "Small",
-            "Analytics"
-          ],
           "checklist": [
             {
+              "completed": false,
               "id": "aet-1",
-              "text": "Define event schema (tool_interaction, action, tool_name)",
-              "completed": false
+              "text": "Define event schema (tool_interaction, action, tool_name)"
             },
             {
+              "completed": false,
               "id": "aet-2",
-              "text": "Add events to SLO Calculator (tab switch, calculate, copy)",
-              "completed": false
+              "text": "Add events to SLO Calculator (tab switch, calculate, copy)"
             },
             {
+              "completed": false,
               "id": "aet-3",
-              "text": "Add events to CLI Playground (run command, preset select)",
-              "completed": false
+              "text": "Add events to CLI Playground (run command, preset select)"
             },
             {
+              "completed": false,
               "id": "aet-4",
-              "text": "Add events to On-Call Coverage (timezone add, model switch)",
-              "completed": false
+              "text": "Add events to On-Call Coverage (timezone add, model switch)"
             },
             {
+              "completed": false,
               "id": "aet-5",
-              "text": "Update analytics dashboard to show tool engagement",
-              "completed": false
+              "text": "Update analytics dashboard to show tool engagement"
             }
           ],
-          "createdAt": "2026-01-19"
-        },
-        {
-          "id": "analytics-bot-ci-tagging",
-          "title": "Analytics Bot & CI Traffic Tagging",
-          "description": "Tag suspicious traffic with custom dimension instead of filtering. Enables analysis of bot patterns while keeping data.\n\nIndicators to tag:\n- Known bot user agents (Googlebot, Bingbot, HeadlessChrome, etc.)\n- CI/automation user agents (GitHub Actions runners)\n- Zero scroll/interaction events within session\n- Datacenter IP ranges (if detectable client-side)\n- Known probe paths (wp-admin, .env, xmlrpc.php, etc.)",
+          "createdAt": "2026-01-19",
+          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions. Answer: 'Are people getting value from the tools?'",
+          "id": "analytics-event-tracking",
           "labels": [
             "Small",
             "Analytics"
           ],
-          "checklist": [
-            {
-              "id": "abt-1",
-              "text": "Create traffic classification utility (bot, ci, human)",
-              "completed": false
-            },
-            {
-              "id": "abt-2",
-              "text": "Detect CI via user agent (HeadlessChrome, Playwright)",
-              "completed": false
-            },
-            {
-              "id": "abt-3",
-              "text": "Add custom dimension to GA4 config",
-              "completed": false
-            },
-            {
-              "id": "abt-4",
-              "text": "Tag sessions on first pageview",
-              "completed": false
-            },
-            {
-              "id": "abt-5",
-              "text": "Add traffic type filter to analytics dashboard",
-              "completed": false
-            },
-            {
-              "id": "abt-6",
-              "text": "Document patterns discovered for future reference",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-19"
+          "title": "Analytics Event Tracking"
         },
         {
-          "id": "metric-naming-linter",
-          "title": "Metric Naming Linter",
+          "checklist": [
+            {
+              "completed": false,
+              "id": "abt-1",
+              "text": "Create traffic classification utility (bot, ci, human)"
+            },
+            {
+              "completed": false,
+              "id": "abt-2",
+              "text": "Detect CI via user agent (HeadlessChrome, Playwright)"
+            },
+            {
+              "completed": false,
+              "id": "abt-3",
+              "text": "Add custom dimension to GA4 config"
+            },
+            {
+              "completed": false,
+              "id": "abt-4",
+              "text": "Tag sessions on first pageview"
+            },
+            {
+              "completed": false,
+              "id": "abt-5",
+              "text": "Add traffic type filter to analytics dashboard"
+            },
+            {
+              "completed": false,
+              "id": "abt-6",
+              "text": "Document patterns discovered for future reference"
+            }
+          ],
+          "createdAt": "2026-01-19",
+          "description": "Tag suspicious traffic with custom dimension instead of filtering. Enables analysis of bot patterns while keeping data.\n\nIndicators to tag:\n- Known bot user agents (Googlebot, Bingbot, HeadlessChrome, etc.)\n- CI/automation user agents (GitHub Actions runners)\n- Zero scroll/interaction events within session\n- Datacenter IP ranges (if detectable client-side)\n- Known probe paths (wp-admin, .env, xmlrpc.php, etc.)",
+          "id": "analytics-bot-ci-tagging",
+          "labels": [
+            "Small",
+            "Analytics"
+          ],
+          "title": "Analytics Bot & CI Traffic Tagging"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "mnl-1",
+              "text": "Create metric name input (one per line, optional type hints)"
+            },
+            {
+              "completed": false,
+              "id": "mnl-2",
+              "text": "Build standard selector (Prometheus, OTel, custom)"
+            },
+            {
+              "completed": false,
+              "id": "mnl-3",
+              "text": "Implement lint rules with severity levels"
+            },
+            {
+              "completed": false,
+              "id": "mnl-4",
+              "text": "Show before/after diff for auto-fix suggestions"
+            },
+            {
+              "completed": false,
+              "id": "mnl-5",
+              "text": "Add bulk apply for auto-fixable rules"
+            },
+            {
+              "completed": false,
+              "id": "mnl-6",
+              "text": "Export results as text/JSON report"
+            }
+          ],
+          "createdAt": "2026-01-17",
           "description": "Lint metric names against Prometheus/OTel conventions. Severity-coded issues, auto-fix suggestions, bulk apply and export.",
+          "id": "metric-naming-linter",
           "labels": [
             "Small",
             "SRE",
             "Tool"
           ],
           "planFile": "docs/plans/46-metric-naming-linter.md",
-          "checklist": [
-            {
-              "id": "mnl-1",
-              "text": "Create metric name input (one per line, optional type hints)",
-              "completed": false
-            },
-            {
-              "id": "mnl-2",
-              "text": "Build standard selector (Prometheus, OTel, custom)",
-              "completed": false
-            },
-            {
-              "id": "mnl-3",
-              "text": "Implement lint rules with severity levels",
-              "completed": false
-            },
-            {
-              "id": "mnl-4",
-              "text": "Show before/after diff for auto-fix suggestions",
-              "completed": false
-            },
-            {
-              "id": "mnl-5",
-              "text": "Add bulk apply for auto-fixable rules",
-              "completed": false
-            },
-            {
-              "id": "mnl-6",
-              "text": "Export results as text/JSON report",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-17"
+          "title": "Metric Naming Linter"
         },
         {
-          "id": "logql-builder",
-          "title": "LogQL / CloudWatch Insights Builder",
+          "checklist": [
+            {
+              "completed": false,
+              "id": "lql-1",
+              "text": "Create language toggle (LogQL vs CloudWatch Insights)"
+            },
+            {
+              "completed": false,
+              "id": "lql-2",
+              "text": "Build LogQL stream selector with label matchers"
+            },
+            {
+              "completed": false,
+              "id": "lql-3",
+              "text": "Build pipeline stage builder (filters, parsers, formatters)"
+            },
+            {
+              "completed": false,
+              "id": "lql-4",
+              "text": "Build CloudWatch command builder (fields, filter, stats, sort)"
+            },
+            {
+              "completed": false,
+              "id": "lql-5",
+              "text": "Add query preview with syntax highlighting and copy"
+            },
+            {
+              "completed": false,
+              "id": "lql-6",
+              "text": "Add presets for common queries"
+            },
+            {
+              "completed": false,
+              "id": "lql-7",
+              "text": "Implement debounced async generation with cancellation"
+            }
+          ],
+          "createdAt": "2026-01-17",
           "description": "Visual query builder for LogQL and CloudWatch Insights. Language toggle, stream selectors, pipeline stages, and presets for common queries.",
+          "id": "logql-builder",
           "labels": [
             "Medium",
             "SRE",
             "Tool"
           ],
           "planFile": "docs/plans/39-logql-builder.md",
-          "checklist": [
-            {
-              "id": "lql-1",
-              "text": "Create language toggle (LogQL vs CloudWatch Insights)",
-              "completed": false
-            },
-            {
-              "id": "lql-2",
-              "text": "Build LogQL stream selector with label matchers",
-              "completed": false
-            },
-            {
-              "id": "lql-3",
-              "text": "Build pipeline stage builder (filters, parsers, formatters)",
-              "completed": false
-            },
-            {
-              "id": "lql-4",
-              "text": "Build CloudWatch command builder (fields, filter, stats, sort)",
-              "completed": false
-            },
-            {
-              "id": "lql-5",
-              "text": "Add query preview with syntax highlighting and copy",
-              "completed": false
-            },
-            {
-              "id": "lql-6",
-              "text": "Add presets for common queries",
-              "completed": false
-            },
-            {
-              "id": "lql-7",
-              "text": "Implement debounced async generation with cancellation",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-17"
+          "title": "LogQL / CloudWatch Insights Builder"
         },
         {
-          "id": "regex-log-parser",
-          "title": "Regex Log Parser",
+          "checklist": [
+            {
+              "completed": false,
+              "id": "rlp-1",
+              "text": "Create sample log input area (1-20 lines)"
+            },
+            {
+              "completed": false,
+              "id": "rlp-2",
+              "text": "Build field highlight and naming UI"
+            },
+            {
+              "completed": false,
+              "id": "rlp-3",
+              "text": "Add pattern templates (timestamp, IP, UUID, etc.)"
+            },
+            {
+              "completed": false,
+              "id": "rlp-4",
+              "text": "Implement live match preview with Web Worker"
+            },
+            {
+              "completed": false,
+              "id": "rlp-5",
+              "text": "Add export to regex, grok, Logstash, Fluent Bit, Vector"
+            },
+            {
+              "completed": false,
+              "id": "rlp-6",
+              "text": "Show non-matching lines indicator"
+            }
+          ],
+          "createdAt": "2026-01-17",
           "description": "Build regex parsing rules interactively. Highlight fields, live matching preview, export to grok/Logstash/Fluent Bit/Vector formats.",
+          "id": "regex-log-parser",
           "labels": [
             "Medium",
             "SRE",
             "Tool"
           ],
           "planFile": "docs/plans/40-regex-log-parser.md",
-          "checklist": [
-            {
-              "id": "rlp-1",
-              "text": "Create sample log input area (1-20 lines)",
-              "completed": false
-            },
-            {
-              "id": "rlp-2",
-              "text": "Build field highlight and naming UI",
-              "completed": false
-            },
-            {
-              "id": "rlp-3",
-              "text": "Add pattern templates (timestamp, IP, UUID, etc.)",
-              "completed": false
-            },
-            {
-              "id": "rlp-4",
-              "text": "Implement live match preview with Web Worker",
-              "completed": false
-            },
-            {
-              "id": "rlp-5",
-              "text": "Add export to regex, grok, Logstash, Fluent Bit, Vector",
-              "completed": false
-            },
-            {
-              "id": "rlp-6",
-              "text": "Show non-matching lines indicator",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-17"
+          "title": "Regex Log Parser"
         },
         {
-          "id": "recording-rules-generator",
-          "title": "Prometheus Recording Rules Generator",
+          "checklist": [
+            {
+              "completed": false,
+              "id": "seo-faq-1",
+              "text": "Draft 5-7 FAQ questions and answers"
+            },
+            {
+              "completed": false,
+              "id": "seo-faq-2",
+              "text": "Create FAQ component with collapsible answers"
+            },
+            {
+              "completed": false,
+              "id": "seo-faq-3",
+              "text": "Add FAQPage JSON-LD schema"
+            },
+            {
+              "completed": false,
+              "id": "seo-faq-4",
+              "text": "Validate with Rich Results Test"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Add FAQ section answering common questions (e.g., 'What does an SRE do?') with FAQPage schema markup. Can capture featured snippets and voice search queries.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-20T19:34:42.011Z",
+              "type": "column"
+            }
+          ],
+          "id": "seo-faq-schema",
+          "labels": [
+            "Low",
+            "SEO"
+          ],
+          "planFile": "docs/plans/55-seo-faq-section.md",
+          "title": "Add FAQ Section with Schema",
+          "updatedAt": "2026-01-20T19:34:42.011Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "rrg-1",
+              "text": "Create PromQL input with syntax highlighting"
+            },
+            {
+              "completed": false,
+              "id": "rrg-2",
+              "text": "Implement query analysis (rate, aggregation, grouping hints)"
+            },
+            {
+              "completed": false,
+              "id": "rrg-3",
+              "text": "Build naming config (level:metric:operations format)"
+            },
+            {
+              "completed": false,
+              "id": "rrg-4",
+              "text": "Add evaluation interval and extra labels config"
+            },
+            {
+              "completed": false,
+              "id": "rrg-5",
+              "text": "Export YAML for rule groups"
+            },
+            {
+              "completed": false,
+              "id": "rrg-6",
+              "text": "Add presets for HTTP and Kubernetes rules"
+            },
+            {
+              "completed": false,
+              "id": "rrg-7",
+              "text": "Add bulk entry mode for multiple queries"
+            }
+          ],
+          "createdAt": "2026-01-17",
           "description": "Generate recording rules from PromQL queries. Naming conventions, analysis hints, YAML export with presets for HTTP/K8s rules.",
+          "id": "recording-rules-generator",
           "labels": [
             "Medium",
             "SRE",
             "Tool"
           ],
           "planFile": "docs/plans/42-recording-rules-generator.md",
-          "checklist": [
-            {
-              "id": "rrg-1",
-              "text": "Create PromQL input with syntax highlighting",
-              "completed": false
-            },
-            {
-              "id": "rrg-2",
-              "text": "Implement query analysis (rate, aggregation, grouping hints)",
-              "completed": false
-            },
-            {
-              "id": "rrg-3",
-              "text": "Build naming config (level:metric:operations format)",
-              "completed": false
-            },
-            {
-              "id": "rrg-4",
-              "text": "Add evaluation interval and extra labels config",
-              "completed": false
-            },
-            {
-              "id": "rrg-5",
-              "text": "Export YAML for rule groups",
-              "completed": false
-            },
-            {
-              "id": "rrg-6",
-              "text": "Add presets for HTTP and Kubernetes rules",
-              "completed": false
-            },
-            {
-              "id": "rrg-7",
-              "text": "Add bulk entry mode for multiple queries",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-17"
+          "title": "Prometheus Recording Rules Generator"
         },
         {
-          "id": "k8s-resource-rightsizer",
-          "title": "K8s Resource Right-Sizer",
+          "checklist": [
+            {
+              "completed": false,
+              "id": "krr-1",
+              "text": "Build inputs for current requests/limits and replicas"
+            },
+            {
+              "completed": false,
+              "id": "krr-2",
+              "text": "Build utilization percentile inputs (P50/P95/P99/Max)"
+            },
+            {
+              "completed": false,
+              "id": "krr-3",
+              "text": "Create goal slider (efficiency ↔ safety)"
+            },
+            {
+              "completed": false,
+              "id": "krr-4",
+              "text": "Implement recommendation engine with reasoning"
+            },
+            {
+              "completed": false,
+              "id": "krr-5",
+              "text": "Add savings/impact calculation and risk indicators"
+            },
+            {
+              "completed": false,
+              "id": "krr-6",
+              "text": "Create YAML snippet output with copy"
+            },
+            {
+              "completed": false,
+              "id": "krr-7",
+              "text": "Add preset profiles (web server, worker, db)"
+            }
+          ],
+          "createdAt": "2026-01-17",
           "description": "Recommend CPU/memory requests/limits from utilization percentiles. Goal slider for efficiency vs safety, YAML snippet output.",
+          "id": "k8s-resource-rightsizer",
           "labels": [
             "Medium",
             "SRE",
             "Calculator"
           ],
           "planFile": "docs/plans/44-k8s-resource-rightsizer.md",
-          "checklist": [
-            {
-              "id": "krr-1",
-              "text": "Build inputs for current requests/limits and replicas",
-              "completed": false
-            },
-            {
-              "id": "krr-2",
-              "text": "Build utilization percentile inputs (P50/P95/P99/Max)",
-              "completed": false
-            },
-            {
-              "id": "krr-3",
-              "text": "Create goal slider (efficiency \u2194 safety)",
-              "completed": false
-            },
-            {
-              "id": "krr-4",
-              "text": "Implement recommendation engine with reasoning",
-              "completed": false
-            },
-            {
-              "id": "krr-5",
-              "text": "Add savings/impact calculation and risk indicators",
-              "completed": false
-            },
-            {
-              "id": "krr-6",
-              "text": "Create YAML snippet output with copy",
-              "completed": false
-            },
-            {
-              "id": "krr-7",
-              "text": "Add preset profiles (web server, worker, db)",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-17"
+          "title": "K8s Resource Right-Sizer"
         },
         {
-          "id": "react-component-xray",
-          "title": "React Component X-ray",
+          "checklist": [
+            {
+              "completed": false,
+              "id": "rcx-1",
+              "text": "Create code editor for React/TSX input"
+            },
+            {
+              "completed": false,
+              "id": "rcx-2",
+              "text": "Implement AST parsing in Web Worker (Babel/TS)"
+            },
+            {
+              "completed": false,
+              "id": "rcx-3",
+              "text": "Derive component tree from AST"
+            },
+            {
+              "completed": false,
+              "id": "rcx-4",
+              "text": "Visualize tree with props and render hints"
+            },
+            {
+              "completed": false,
+              "id": "rcx-5",
+              "text": "Detect issues (inline functions, missing keys, unstable deps)"
+            },
+            {
+              "completed": false,
+              "id": "rcx-6",
+              "text": "Build issue list with line refs and severity"
+            },
+            {
+              "completed": false,
+              "id": "rcx-7",
+              "text": "Add suggested fix panel with copyable snippets"
+            }
+          ],
+          "createdAt": "2026-01-17",
           "description": "Analyze React code to visualize component trees. Flag render anti-patterns (inline functions, missing keys, unstable deps).",
+          "id": "react-component-xray",
           "labels": [
             "Medium",
             "Learning",
             "Tool"
           ],
           "planFile": "docs/plans/48-react-component-xray.md",
-          "checklist": [
-            {
-              "id": "rcx-1",
-              "text": "Create code editor for React/TSX input",
-              "completed": false
-            },
-            {
-              "id": "rcx-2",
-              "text": "Implement AST parsing in Web Worker (Babel/TS)",
-              "completed": false
-            },
-            {
-              "id": "rcx-3",
-              "text": "Derive component tree from AST",
-              "completed": false
-            },
-            {
-              "id": "rcx-4",
-              "text": "Visualize tree with props and render hints",
-              "completed": false
-            },
-            {
-              "id": "rcx-5",
-              "text": "Detect issues (inline functions, missing keys, unstable deps)",
-              "completed": false
-            },
-            {
-              "id": "rcx-6",
-              "text": "Build issue list with line refs and severity",
-              "completed": false
-            },
-            {
-              "id": "rcx-7",
-              "text": "Add suggested fix panel with copyable snippets",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-17"
+          "title": "React Component X-ray"
         },
         {
-          "id": "lighthouse-a11y-seo-focus",
-          "title": "Lighthouse: A11y & SEO Focus",
+          "checklist": [
+            {
+              "completed": false,
+              "id": "seo-about-1",
+              "text": "Create About page route"
+            },
+            {
+              "completed": false,
+              "id": "seo-about-2",
+              "text": "Write detailed bio with SRE/incident management focus"
+            },
+            {
+              "completed": false,
+              "id": "seo-about-3",
+              "text": "Add navigation link to About page"
+            },
+            {
+              "completed": false,
+              "id": "seo-about-4",
+              "text": "Add JSON-LD Person schema to About page"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Add a full About page with detailed bio including SRE terminology, career history, and expertise areas. Provides more crawlable content targeting 'SRE portfolio' queries.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-20T19:34:31.827Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-20T19:34:31.834Z",
+              "type": "column"
+            },
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-20T19:34:31.846Z",
+              "type": "column"
+            }
+          ],
+          "id": "seo-about-page",
+          "labels": [
+            "Low",
+            "SEO",
+            "Content"
+          ],
+          "planFile": "docs/plans/54-seo-about-page.md",
+          "title": "Create Dedicated About Page",
+          "updatedAt": "2026-01-20T19:34:31.846Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "las-1",
+              "text": "Review current Lighthouse workflow frequency and categories"
+            },
+            {
+              "completed": false,
+              "id": "las-2",
+              "text": "Configure Lighthouse to focus on a11y and SEO categories"
+            },
+            {
+              "completed": false,
+              "id": "las-3",
+              "text": "Reduce run frequency (weekly or on significant changes)"
+            },
+            {
+              "completed": false,
+              "id": "las-4",
+              "text": "Add a11y score to analytics dashboard"
+            }
+          ],
+          "createdAt": "2026-01-19",
           "description": "Lab Lighthouse provides unique value for accessibility audits and SEO checks that field CWV data can't capture. Reframe the workflow to focus on these strengths.\n\nField data (GA4): Performance metrics (FCP, LCP, CLS, INP, TTFB)\nLab data (Lighthouse): Accessibility score, SEO score, best practices\n\nConsider: Run Lighthouse less frequently (weekly instead of per-commit) with focus on a11y/SEO categories only.",
+          "id": "lighthouse-a11y-seo-focus",
           "labels": [
             "Small",
             "Analytics",
             "Accessibility"
           ],
-          "checklist": [
-            {
-              "id": "las-1",
-              "text": "Review current Lighthouse workflow frequency and categories",
-              "completed": false
-            },
-            {
-              "id": "las-2",
-              "text": "Configure Lighthouse to focus on a11y and SEO categories",
-              "completed": false
-            },
-            {
-              "id": "las-3",
-              "text": "Reduce run frequency (weekly or on significant changes)",
-              "completed": false
-            },
-            {
-              "id": "las-4",
-              "text": "Add a11y score to analytics dashboard",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-19"
+          "title": "Lighthouse: A11y & SEO Focus"
         }
       ],
       "description": "Draft plans and attach them, then move to To Do",
@@ -468,7 +565,7 @@
             {
               "completed": false,
               "id": "tw-5",
-              "text": "Update outline-none \u2192 outline-hidden"
+              "text": "Update outline-none → outline-hidden"
             },
             {
               "completed": false,
@@ -502,98 +599,33 @@
           "title": "Tailwind CSS v4 Upgrade"
         },
         {
-          "id": "seo-sre-keywords",
-          "title": "Add SRE Keywords to Title/Meta/H1",
-          "description": "The site lacks explicit 'Site Reliability Engineer' keywords in visible content. Add SRE alongside 'Technical Incident Manager' in title tags, meta descriptions, and H1 headings to improve discoverability for hiring managers searching SRE-related queries.",
-          "labels": ["High", "SEO"],
-          "planFile": "docs/plans/49-seo-sre-keywords.md",
           "checklist": [
-            {"id": "seo-kw-1", "text": "Update index.html title to include 'SRE'", "completed": false},
-            {"id": "seo-kw-2", "text": "Update meta description with SRE terminology", "completed": false},
-            {"id": "seo-kw-3", "text": "Update HeroSection h2 to mention SRE", "completed": false},
-            {"id": "seo-kw-4", "text": "Update Seo.tsx default keywords", "completed": false}
+            {
+              "completed": false,
+              "id": "seo-blog-1",
+              "text": "Write post on incident response best practices"
+            },
+            {
+              "completed": false,
+              "id": "seo-blog-2",
+              "text": "Write post on SLO implementation lessons"
+            },
+            {
+              "completed": false,
+              "id": "seo-blog-3",
+              "text": "Write post on postmortem culture"
+            }
           ],
-          "createdAt": "2026-01-20"
-        },
-        {
-          "id": "seo-sre-blog-posts",
-          "title": "Write SRE-Focused Blog Posts",
+          "createdAt": "2026-01-20",
           "description": "Current blog posts focus on dev tooling/AI, not reliability topics. Write 2-3 posts on incident management, SLOs, or postmortems to rank for SRE-related searches and demonstrate domain expertise.",
-          "labels": ["High", "SEO", "Content"],
+          "id": "seo-sre-blog-posts",
+          "labels": [
+            "High",
+            "SEO",
+            "Content"
+          ],
           "planFile": "docs/plans/50-seo-sre-blog-posts.md",
-          "checklist": [
-            {"id": "seo-blog-1", "text": "Write post on incident response best practices", "completed": false},
-            {"id": "seo-blog-2", "text": "Write post on SLO implementation lessons", "completed": false},
-            {"id": "seo-blog-3", "text": "Write post on postmortem culture", "completed": false}
-          ],
-          "createdAt": "2026-01-20"
-        },
-        {
-          "id": "seo-skills-text",
-          "title": "Add Crawlable Skills Section",
-          "description": "Skills are currently shown as icons without crawlable text. Add an explicit skills list in text form (Prometheus, Grafana, Kubernetes, Terraform, etc.) so search engines can index them.",
-          "labels": ["Medium", "SEO"],
-          "planFile": "docs/plans/51-seo-skills-section.md",
-          "checklist": [
-            {"id": "seo-skills-1", "text": "Create skills data file with categories", "completed": false},
-            {"id": "seo-skills-2", "text": "Add skills section to Index page or Sidebar", "completed": false},
-            {"id": "seo-skills-3", "text": "Ensure text is visible (not just icons)", "completed": false}
-          ],
-          "createdAt": "2026-01-20"
-        },
-        {
-          "id": "seo-jsonld-sameas",
-          "title": "Expand JSON-LD sameAs Links",
-          "description": "Person schema currently only links to LinkedIn. Add GitHub and Twitter to sameAs array for better identity signals to search engines.",
-          "labels": ["Medium", "SEO"],
-          "planFile": "docs/plans/52-seo-jsonld-sameas.md",
-          "checklist": [
-            {"id": "seo-sameas-1", "text": "Add GitHub profile URL to sameAs", "completed": false},
-            {"id": "seo-sameas-2", "text": "Add Twitter profile URL to sameAs", "completed": false},
-            {"id": "seo-sameas-3", "text": "Validate with Google Rich Results Test", "completed": false}
-          ],
-          "createdAt": "2026-01-20"
-        },
-        {
-          "id": "seo-aria-labels",
-          "title": "Add aria-labels to Icon Links",
-          "description": "Social links (LinkedIn, email) use icons without descriptive text. Add aria-labels for accessibility and to help search crawlers understand link purposes.",
-          "labels": ["Medium", "SEO", "Accessibility"],
-          "planFile": "docs/plans/53-seo-aria-labels.md",
-          "checklist": [
-            {"id": "seo-aria-1", "text": "Add aria-label to LinkedIn button in HeroSection", "completed": false},
-            {"id": "seo-aria-2", "text": "Add aria-label to email button in HeroSection", "completed": false},
-            {"id": "seo-aria-3", "text": "Audit other icon-only links across site", "completed": false}
-          ],
-          "createdAt": "2026-01-20"
-        },
-        {
-          "id": "seo-about-page",
-          "title": "Create Dedicated About Page",
-          "description": "Add a full About page with detailed bio including SRE terminology, career history, and expertise areas. Provides more crawlable content targeting 'SRE portfolio' queries.",
-          "labels": ["Low", "SEO", "Content"],
-          "planFile": "docs/plans/54-seo-about-page.md",
-          "checklist": [
-            {"id": "seo-about-1", "text": "Create About page route", "completed": false},
-            {"id": "seo-about-2", "text": "Write detailed bio with SRE/incident management focus", "completed": false},
-            {"id": "seo-about-3", "text": "Add navigation link to About page", "completed": false},
-            {"id": "seo-about-4", "text": "Add JSON-LD Person schema to About page", "completed": false}
-          ],
-          "createdAt": "2026-01-20"
-        },
-        {
-          "id": "seo-faq-schema",
-          "title": "Add FAQ Section with Schema",
-          "description": "Add FAQ section answering common questions (e.g., 'What does an SRE do?') with FAQPage schema markup. Can capture featured snippets and voice search queries.",
-          "labels": ["Low", "SEO"],
-          "planFile": "docs/plans/55-seo-faq-section.md",
-          "checklist": [
-            {"id": "seo-faq-1", "text": "Draft 5-7 FAQ questions and answers", "completed": false},
-            {"id": "seo-faq-2", "text": "Create FAQ component with collapsible answers", "completed": false},
-            {"id": "seo-faq-3", "text": "Add FAQPage JSON-LD schema", "completed": false},
-            {"id": "seo-faq-4", "text": "Validate with Rich Results Test", "completed": false}
-          ],
-          "createdAt": "2026-01-20"
+          "title": "Write SRE-Focused Blog Posts"
         }
       ],
       "description": "Planned tasks ready to start",
@@ -601,7 +633,162 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "seo-kw-1",
+              "text": "Update index.html title to include 'SRE'"
+            },
+            {
+              "completed": false,
+              "id": "seo-kw-2",
+              "text": "Update meta description with SRE terminology"
+            },
+            {
+              "completed": false,
+              "id": "seo-kw-3",
+              "text": "Update HeroSection h2 to mention SRE"
+            },
+            {
+              "completed": false,
+              "id": "seo-kw-4",
+              "text": "Update Seo.tsx default keywords"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "The site lacks explicit 'Site Reliability Engineer' keywords in visible content. Add SRE alongside 'Technical Incident Manager' in title tags, meta descriptions, and H1 headings to improve discoverability for hiring managers searching SRE-related queries.",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-20T19:34:18.554Z",
+              "type": "column"
+            }
+          ],
+          "id": "seo-sre-keywords",
+          "labels": [
+            "High",
+            "SEO"
+          ],
+          "planFile": "docs/plans/49-seo-sre-keywords.md",
+          "title": "Add SRE Keywords to Title/Meta/H1",
+          "updatedAt": "2026-01-20T19:34:18.554Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "seo-sameas-1",
+              "text": "Add GitHub profile URL to sameAs"
+            },
+            {
+              "completed": false,
+              "id": "seo-sameas-2",
+              "text": "Add Twitter profile URL to sameAs"
+            },
+            {
+              "completed": false,
+              "id": "seo-sameas-3",
+              "text": "Validate with Google Rich Results Test"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Person schema currently only links to LinkedIn. Add GitHub and Twitter to sameAs array for better identity signals to search engines.",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-20T19:34:25.623Z",
+              "type": "column"
+            }
+          ],
+          "id": "seo-jsonld-sameas",
+          "labels": [
+            "Medium",
+            "SEO"
+          ],
+          "planFile": "docs/plans/52-seo-jsonld-sameas.md",
+          "title": "Expand JSON-LD sameAs Links",
+          "updatedAt": "2026-01-20T19:34:25.623Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "seo-skills-1",
+              "text": "Create skills data file with categories"
+            },
+            {
+              "completed": false,
+              "id": "seo-skills-2",
+              "text": "Add skills section to Index page or Sidebar"
+            },
+            {
+              "completed": false,
+              "id": "seo-skills-3",
+              "text": "Ensure text is visible (not just icons)"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Skills are currently shown as icons without crawlable text. Add an explicit skills list in text form (Prometheus, Grafana, Kubernetes, Terraform, etc.) so search engines can index them.",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-20T19:34:45.528Z",
+              "type": "column"
+            }
+          ],
+          "id": "seo-skills-text",
+          "labels": [
+            "Medium",
+            "SEO"
+          ],
+          "planFile": "docs/plans/51-seo-skills-section.md",
+          "title": "Add Crawlable Skills Section",
+          "updatedAt": "2026-01-20T19:34:45.528Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "seo-aria-1",
+              "text": "Add aria-label to LinkedIn button in HeroSection"
+            },
+            {
+              "completed": false,
+              "id": "seo-aria-2",
+              "text": "Add aria-label to email button in HeroSection"
+            },
+            {
+              "completed": false,
+              "id": "seo-aria-3",
+              "text": "Audit other icon-only links across site"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Social links (LinkedIn, email) use icons without descriptive text. Add aria-labels for accessibility and to help search crawlers understand link purposes.",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-20T19:34:28.886Z",
+              "type": "column"
+            }
+          ],
+          "id": "seo-aria-labels",
+          "labels": [
+            "Medium",
+            "SEO",
+            "Accessibility"
+          ],
+          "planFile": "docs/plans/53-seo-aria-labels.md",
+          "title": "Add aria-labels to Icon Links",
+          "updatedAt": "2026-01-20T19:34:28.886Z"
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -615,80 +802,145 @@
     {
       "cards": [
         {
-          "id": "react-hook-form-update",
-          "title": "react-hook-form & @hookform/resolvers Update",
-          "summary": "Dependency updates to unblock form validation library",
+          "checklist": [
+            {
+              "completed": true,
+              "id": "rhf-1",
+              "text": "Update react-hook-form to latest 7.x"
+            },
+            {
+              "completed": true,
+              "id": "rhf-2",
+              "text": "Run tests to verify form functionality"
+            },
+            {
+              "completed": true,
+              "id": "rhf-3",
+              "text": "Merge @hookform/resolvers PR #165"
+            }
+          ],
+          "createdAt": "2026-01-19",
           "description": "Updated react-hook-form from 7.53.0 to 7.71.1 and @hookform/resolvers from 3.10.0 to 5.2.2. The resolvers package had a peer dependency requiring react-hook-form >=7.55.0.",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-19T20:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-19T20:40:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "react-hook-form-update",
           "labels": [
             "PR #165",
             "Infrastructure"
           ],
-          "checklist": [
-            {
-              "id": "rhf-1",
-              "text": "Update react-hook-form to latest 7.x",
-              "completed": true
-            },
-            {
-              "id": "rhf-2",
-              "text": "Run tests to verify form functionality",
-              "completed": true
-            },
-            {
-              "id": "rhf-3",
-              "text": "Merge @hookform/resolvers PR #165",
-              "completed": true
-            }
-          ],
-          "createdAt": "2026-01-19",
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-19T20:00:00.000Z",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-19T20:40:00.000Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            }
-          ],
+          "summary": "Dependency updates to unblock form validation library",
+          "title": "react-hook-form & @hookform/resolvers Update",
           "updatedAt": "2026-01-19T20:40:00.000Z"
         },
         {
-          "id": "animated-mermaid-diagrams",
-          "title": "Animated Mermaid Diagrams",
-          "summary": "Interactive step-by-step walkthrough for incident command flowcharts",
+          "createdAt": "2026-01-18",
           "description": "Added animated walkthrough mode to incident-command-diagrams with:\n\n- Step-by-step animation with play/pause/skip/back controls\n- Decision nodes that pause for user to choose a path (branching logic)\n- Link nodes for cross-diagram navigation and external tool links\n- Side-by-side layout with sticky context panel\n- Auto-scroll to center active node in viewport\n- Progress bar and step counter\n- Lazy-loaded Mermaid rendering with theme support",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-18T16:49:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-18T19:30:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "animated-mermaid-diagrams",
           "labels": [
             "PR #162",
             "Feature",
             "SRE"
           ],
-          "createdAt": "2026-01-18",
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-18T16:49:00.000Z",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-18T19:30:00.000Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            }
-          ],
+          "summary": "Interactive step-by-step walkthrough for incident command flowcharts",
+          "title": "Animated Mermaid Diagrams",
           "updatedAt": "2026-01-18T19:30:00.000Z"
         },
         {
-          "id": "cli-tool-playground",
-          "title": "CLI Tool Playground",
-          "summary": "In-browser kubectl/jq/grep/sed/awk with Learn and Play modes",
+          "checklist": [
+            {
+              "completed": true,
+              "id": "ctp-1",
+              "text": "Create tool selector (kubectl, jq, grep, sed, awk)"
+            },
+            {
+              "completed": true,
+              "id": "ctp-2",
+              "text": "Build input editor with sample data presets"
+            },
+            {
+              "completed": true,
+              "id": "ctp-3",
+              "text": "Build command editor with syntax highlighting"
+            },
+            {
+              "completed": true,
+              "id": "ctp-4",
+              "text": "Implement pure JS execution engines"
+            },
+            {
+              "completed": true,
+              "id": "ctp-5",
+              "text": "Create output panel with copy and clear"
+            },
+            {
+              "completed": true,
+              "id": "ctp-6",
+              "text": "Add explanation panel for command breakdown"
+            },
+            {
+              "completed": true,
+              "id": "ctp-7",
+              "text": "Implement shareable URL state (input + command)"
+            },
+            {
+              "completed": true,
+              "id": "ctp-8",
+              "text": "Add kubectl simulator with 5 triage scenarios"
+            },
+            {
+              "completed": true,
+              "id": "ctp-9",
+              "text": "Add --help for all tools"
+            },
+            {
+              "completed": true,
+              "id": "ctp-10",
+              "text": "Security fixes (XSS, URL validation, race conditions)"
+            }
+          ],
+          "createdAt": "2026-01-17",
           "description": "Interactive in-browser demos for CLI tools. Pure JS implementations (no WASM).\n\nFeatures:\n- Tool selector: kubectl, jq, grep, sed, awk\n- Learn mode with goals, hints, and command chips\n- Playground mode for freeform experimentation\n- Command explainer with flag breakdowns and 'Try next' suggestions\n- Shareable URL state (tool, mode, input, command)\n- 5 presets per tool covering common use cases\n\nkubectl simulator:\n- 5 triage scenarios (CrashLoopBackOff, ImagePullBackOff, Service Mismatch, Rollout Regression, Node Pressure)\n- Full K8s resource schema (pods, deployments, services, nodes, events)\n- Supports: get, describe, logs, rollout, top, events\n- Session state mutation for rollback commands\n\nSecurity fixes:\n- Replaced Function() with safe regex parser (XSS)\n- URL param validation with fallbacks\n- Race condition guards for async results",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-17T21:30:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-18T01:15:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "cli-tool-playground",
           "labels": [
             "PR #156",
             "Feature",
@@ -696,226 +948,233 @@
             "Tool"
           ],
           "planFile": "docs/plans/47-cli-tool-playground.md",
-          "checklist": [
-            {
-              "id": "ctp-1",
-              "text": "Create tool selector (kubectl, jq, grep, sed, awk)",
-              "completed": true
-            },
-            {
-              "id": "ctp-2",
-              "text": "Build input editor with sample data presets",
-              "completed": true
-            },
-            {
-              "id": "ctp-3",
-              "text": "Build command editor with syntax highlighting",
-              "completed": true
-            },
-            {
-              "id": "ctp-4",
-              "text": "Implement pure JS execution engines",
-              "completed": true
-            },
-            {
-              "id": "ctp-5",
-              "text": "Create output panel with copy and clear",
-              "completed": true
-            },
-            {
-              "id": "ctp-6",
-              "text": "Add explanation panel for command breakdown",
-              "completed": true
-            },
-            {
-              "id": "ctp-7",
-              "text": "Implement shareable URL state (input + command)",
-              "completed": true
-            },
-            {
-              "id": "ctp-8",
-              "text": "Add kubectl simulator with 5 triage scenarios",
-              "completed": true
-            },
-            {
-              "id": "ctp-9",
-              "text": "Add --help for all tools",
-              "completed": true
-            },
-            {
-              "id": "ctp-10",
-              "text": "Security fixes (XSS, URL validation, race conditions)",
-              "completed": true
-            }
-          ],
-          "createdAt": "2026-01-17",
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-17T21:30:00.000Z",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-18T01:15:00.000Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            }
-          ],
+          "summary": "In-browser kubectl/jq/grep/sed/awk with Learn and Play modes",
+          "title": "CLI Tool Playground",
           "updatedAt": "2026-01-18T01:15:00.000Z"
         },
         {
-          "id": "slo-tool-ux-improvements",
-          "title": "SLO Tool UX Improvements",
-          "summary": "Better defaults, collapsible sections, burn rate simulator",
+          "createdAt": "2026-01-17",
           "description": "Polished the SLO Calculator with better defaults and new burn rate simulator.\n\nChanges:\n- Realistic default response times (26m MTTR)\n- Collapsible Response Times section (shows Alert latency by default)\n- Removed redundant burndown charts from Achievable/Target tabs\n- Added interactive Burn Rate Simulator slider (0.1x-5x)\n- Explanatory text for the 'ideal' line concept\n- Fixed slider resync when inputs change (Codex finding)\n- Fixed edge case when zero incidents (Codex finding)",
+          "history": [
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-17T01:37:34.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "slo-tool-ux-improvements",
           "labels": [
             "PR #151",
             "Enhancement",
             "SRE"
           ],
-          "createdAt": "2026-01-17",
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-17T01:37:34.000Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            }
-          ],
+          "summary": "Better defaults, collapsible sections, burn rate simulator",
+          "title": "SLO Tool UX Improvements",
           "updatedAt": "2026-01-17T01:37:34.000Z"
         },
         {
-          "id": "programmatic-og-images",
-          "title": "Programmatic OG Image Generation",
-          "summary": "Build-time OG images via satori + resvg for project pages",
+          "checklist": [
+            {
+              "completed": true,
+              "id": "og-1",
+              "text": "Research @vercel/og vs satori for static generation"
+            },
+            {
+              "completed": true,
+              "id": "og-2",
+              "text": "Design OG image template (layout, colors, typography)"
+            },
+            {
+              "completed": true,
+              "id": "og-3",
+              "text": "Create generateOgImages.mjs script"
+            },
+            {
+              "completed": true,
+              "id": "og-4",
+              "text": "Add to build pipeline"
+            },
+            {
+              "completed": true,
+              "id": "og-5",
+              "text": "Update Project.tsx to use generated images"
+            },
+            {
+              "completed": true,
+              "id": "og-6",
+              "text": "Generate images for all active projects"
+            }
+          ],
+          "createdAt": "2026-01-17",
           "description": "Generate Open Graph images at build time for project pages using satori + @resvg/resvg-js.\n\nImplemented:\n- Build-time generation via scripts/generate-og-images.mjs\n- Build-time validation via scripts/validate-projects.mjs\n- Dark theme template with icon, title, description, tags\n- Inter font (regular + bold) for typography\n- Added to build pipeline in package.json\n- Extracted project metadata to projects-meta.json\n- Simplified projects.ts by removing inline metadata\n- Fail-fast guards for CI (exits 1 on generation or validation failures)",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-17T02:45:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-17T02:49:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-17T03:15:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "programmatic-og-images",
           "labels": [
             "PR #150",
             "Enhancement",
             "Infrastructure"
           ],
           "planFile": "docs/plans/33-programmatic-og-images.md",
-          "createdAt": "2026-01-17",
-          "checklist": [
-            {
-              "id": "og-1",
-              "text": "Research @vercel/og vs satori for static generation",
-              "completed": true
-            },
-            {
-              "id": "og-2",
-              "text": "Design OG image template (layout, colors, typography)",
-              "completed": true
-            },
-            {
-              "id": "og-3",
-              "text": "Create generateOgImages.mjs script",
-              "completed": true
-            },
-            {
-              "id": "og-4",
-              "text": "Add to build pipeline",
-              "completed": true
-            },
-            {
-              "id": "og-5",
-              "text": "Update Project.tsx to use generated images",
-              "completed": true
-            },
-            {
-              "id": "og-6",
-              "text": "Generate images for all active projects",
-              "completed": true
-            }
-          ],
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-17T02:45:00.000Z",
-              "columnId": "ideas",
-              "columnTitle": "Ideas"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-17T02:49:00.000Z",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-17T03:15:00.000Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            }
-          ],
+          "summary": "Build-time OG images via satori + resvg for project pages",
+          "title": "Programmatic OG Image Generation",
           "updatedAt": "2026-01-17T03:15:00.000Z"
         },
         {
-          "id": "slo-calculator-seo",
-          "title": "SLO Calculator SEO",
+          "checklist": [
+            {
+              "completed": true,
+              "id": "seo-1",
+              "text": "Add WebApplication JSON-LD schema to Project.tsx"
+            },
+            {
+              "completed": true,
+              "id": "seo-2",
+              "text": "Add BreadcrumbList JSON-LD schema"
+            },
+            {
+              "completed": true,
+              "id": "seo-3",
+              "text": "Add keywords field to ProjectMeta type"
+            },
+            {
+              "completed": true,
+              "id": "seo-4",
+              "text": "Update SLO Calculator with keywords"
+            },
+            {
+              "completed": true,
+              "id": "seo-5",
+              "text": "Fix ogImage to use absolute URLs"
+            }
+          ],
+          "createdAt": "2026-01-16",
           "description": "Added JSON-LD structured data and keyword optimization for SLO Calculator project page.\n\nImplemented:\n- WebApplication JSON-LD schema for active projects\n- BreadcrumbList JSON-LD schema for navigation\n- Keywords and ogImage fields in ProjectMeta type\n- SEO-optimized keywords for SLO Calculator\n- resolveOgImage helper for absolute URL handling\n\nOG image generation moved to separate task (Programmatic OG Image Generation).",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T23:30:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-17T02:30:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-17T03:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "slo-calculator-seo",
           "labels": [
             "PR #149",
             "SEO",
             "Enhancement"
           ],
-          "createdAt": "2026-01-16",
-          "checklist": [
-            {
-              "id": "seo-1",
-              "text": "Add WebApplication JSON-LD schema to Project.tsx",
-              "completed": true
-            },
-            {
-              "id": "seo-2",
-              "text": "Add BreadcrumbList JSON-LD schema",
-              "completed": true
-            },
-            {
-              "id": "seo-3",
-              "text": "Add keywords field to ProjectMeta type",
-              "completed": true
-            },
-            {
-              "id": "seo-4",
-              "text": "Update SLO Calculator with keywords",
-              "completed": true
-            },
-            {
-              "id": "seo-5",
-              "text": "Fix ogImage to use absolute URLs",
-              "completed": true
-            }
-          ],
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-16T23:30:00.000Z",
-              "columnId": "ideas",
-              "columnTitle": "Ideas"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-17T02:30:00.000Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-17T03:00:00.000Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            }
-          ],
+          "title": "SLO Calculator SEO",
           "updatedAt": "2026-01-17T03:00:00.000Z"
         },
         {
-          "id": "unified-slo-tool",
-          "title": "Unified SLO Calculator",
-          "summary": "Merged SLO Calculator + Error Budget into 3-tab interface",
+          "checklist": [
+            {
+              "completed": true,
+              "id": "ust-1",
+              "text": "Create unified calculations.ts"
+            },
+            {
+              "completed": true,
+              "id": "ust-2",
+              "text": "Create SloConfiguration with period selector"
+            },
+            {
+              "completed": true,
+              "id": "ust-3",
+              "text": "Create ResponseTimeInputs with toggles"
+            },
+            {
+              "completed": true,
+              "id": "ust-4",
+              "text": "Create BudgetChart (compact/full modes)"
+            },
+            {
+              "completed": true,
+              "id": "ust-5",
+              "text": "Create AchievableTab"
+            },
+            {
+              "completed": true,
+              "id": "ust-6",
+              "text": "Create TargetTab"
+            },
+            {
+              "completed": true,
+              "id": "ust-7",
+              "text": "Create BurndownTab"
+            },
+            {
+              "completed": true,
+              "id": "ust-8",
+              "text": "Add to project registry"
+            },
+            {
+              "completed": true,
+              "id": "ust-9",
+              "text": "Remove old SLO Calculator and Error Budget Burndown"
+            }
+          ],
+          "createdAt": "2026-01-16",
           "description": "Consolidated SLO Calculator and Error Budget Burndown into one project with three tabs:\n\n- What can I achieve? (response time inputs directly visible)\n- Can I meet this SLO? (collapsible config)\n- Budget Burndown (full chart view)\n\nRemoved 2,700+ lines of redundant code. Collapsible configuration for target/burndown tabs, direct inputs for achievable tab.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-16T20:45:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-16T21:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-review",
+              "columnTitle": "In Review",
+              "timestamp": "2026-01-16T23:45:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-16T23:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "unified-slo-tool",
           "labels": [
             "PR #145",
             "PR #146",
@@ -923,80 +1182,8 @@
             "SRE"
           ],
           "planFile": "docs/plans/32-unified-slo-tool.md",
-          "createdAt": "2026-01-16",
-          "checklist": [
-            {
-              "id": "ust-1",
-              "text": "Create unified calculations.ts",
-              "completed": true
-            },
-            {
-              "id": "ust-2",
-              "text": "Create SloConfiguration with period selector",
-              "completed": true
-            },
-            {
-              "id": "ust-3",
-              "text": "Create ResponseTimeInputs with toggles",
-              "completed": true
-            },
-            {
-              "id": "ust-4",
-              "text": "Create BudgetChart (compact/full modes)",
-              "completed": true
-            },
-            {
-              "id": "ust-5",
-              "text": "Create AchievableTab",
-              "completed": true
-            },
-            {
-              "id": "ust-6",
-              "text": "Create TargetTab",
-              "completed": true
-            },
-            {
-              "id": "ust-7",
-              "text": "Create BurndownTab",
-              "completed": true
-            },
-            {
-              "id": "ust-8",
-              "text": "Add to project registry",
-              "completed": true
-            },
-            {
-              "id": "ust-9",
-              "text": "Remove old SLO Calculator and Error Budget Burndown",
-              "completed": true
-            }
-          ],
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-16T20:45:00.000Z",
-              "columnId": "ideas",
-              "columnTitle": "Ideas"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-16T21:00:00.000Z",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-16T23:45:00.000Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-16T23:00:00.000Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            }
-          ],
+          "summary": "Merged SLO Calculator + Error Budget into 3-tab interface",
+          "title": "Unified SLO Calculator",
           "updatedAt": "2026-01-16T23:00:00.000Z"
         },
         {
@@ -1219,533 +1406,6 @@
           "summary": "Toast notification when board is updated externally",
           "title": "Kanban External Change Detection",
           "updatedAt": "2026-01-16T18:50:00.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": true,
-              "id": "cle-1",
-              "text": "Create useChangelogData hook to fetch and merge data"
-            },
-            {
-              "completed": true,
-              "id": "cle-2",
-              "text": "Create ChangelogExplorer main component"
-            },
-            {
-              "completed": true,
-              "id": "cle-3",
-              "text": "Create ChangelogCard with expand/collapse animation"
-            },
-            {
-              "completed": true,
-              "id": "cle-4",
-              "text": "Create ExpandedDetails with plan rendering"
-            },
-            {
-              "completed": true,
-              "id": "cle-5",
-              "text": "Add filter controls and PR link badges"
-            },
-            {
-              "completed": true,
-              "id": "cle-6",
-              "text": "Add to project registry with route"
-            },
-            {
-              "completed": true,
-              "id": "cle-7",
-              "text": "Mobile responsive layout and loading skeletons"
-            }
-          ],
-          "createdAt": "2026-01-16T14:45:36.426Z",
-          "description": "Visualize completed work from kanban changelog and archive. Rich expandable cards with PR links, plan file content, and completion history.",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-16T14:45:36.426Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-16T17:50:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T21:00:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-16T18:14:27.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-16T18:35:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "gr9qef9",
-          "labels": [
-            "PR #140",
-            "Feature",
-            "Meta"
-          ],
-          "planFile": "docs/plans/28-changelog-explorer-project.md",
-          "title": "Change Log Explorer Project",
-          "updatedAt": "2026-01-16T18:35:00.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": true,
-              "id": "kus-1",
-              "text": "Delete useKanbanPersistence.ts"
-            },
-            {
-              "completed": true,
-              "id": "kus-2",
-              "text": "Remove URL persistence from KanbanBoard.tsx"
-            },
-            {
-              "completed": true,
-              "id": "kus-3",
-              "text": "Add initialCardId prop and auto-open logic"
-            },
-            {
-              "completed": true,
-              "id": "kus-4",
-              "text": "Update index.tsx to read card param"
-            },
-            {
-              "completed": true,
-              "id": "kus-5",
-              "text": "Update Share button to copy clean URL"
-            },
-            {
-              "completed": true,
-              "id": "kus-6",
-              "text": "Add Copy Card Link to card menu"
-            },
-            {
-              "completed": true,
-              "id": "kus-7",
-              "text": "Remove lz-string dependency"
-            }
-          ],
-          "createdAt": "2026-01-16T17:55:00.000Z",
-          "description": "Remove URL state persistence, keep just `?board=roadmap`. Add deep linking with `?card=id` to open specific cards on load.",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-16T17:55:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-16T18:05:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T21:00:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-16T18:14:27.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "kanban-url-cleanup",
-          "labels": [
-            "PR #139",
-            "Cleanup",
-            "UX"
-          ],
-          "planFile": "docs/plans/29-kanban-url-simplification.md",
-          "title": "Kanban URL Simplification",
-          "updatedAt": "2026-01-16T18:14:27.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": true,
-              "id": "pch-1",
-              "text": "Install husky and lint-staged"
-            },
-            {
-              "completed": true,
-              "id": "pch-2",
-              "text": "Initialize husky and create pre-commit hook"
-            },
-            {
-              "completed": true,
-              "id": "pch-3",
-              "text": "Add lint-staged config to package.json"
-            },
-            {
-              "completed": true,
-              "id": "pch-4",
-              "text": "Test with intentional lint error"
-            },
-            {
-              "completed": true,
-              "id": "pch-5",
-              "text": "Verify normal commits work"
-            }
-          ],
-          "createdAt": "2026-01-16T19:30:00.000Z",
-          "description": "Add Husky + lint-staged for pre-commit hooks. Runs ESLint with auto-fix on staged TS/JS files before every commit.",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-16T19:30:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T19:45:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-16T19:55:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-16T20:00:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "precommit-hooks",
-          "labels": [
-            "PR #137",
-            "Infrastructure",
-            "DX"
-          ],
-          "title": "Pre-commit Hooks (Husky + lint-staged)",
-          "updatedAt": "2026-01-16T20:00:00.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": true,
-              "id": "ebb-1",
-              "text": "Create ErrorBudgetBurndown component"
-            },
-            {
-              "completed": true,
-              "id": "ebb-2",
-              "text": "Add to project registry with route"
-            },
-            {
-              "completed": true,
-              "id": "ebb-3",
-              "text": "Build SLO configuration inputs"
-            },
-            {
-              "completed": true,
-              "id": "ebb-4",
-              "text": "Build incident input form"
-            },
-            {
-              "completed": true,
-              "id": "ebb-5",
-              "text": "Implement budget calculations"
-            },
-            {
-              "completed": true,
-              "id": "ebb-6",
-              "text": "Create burndown chart with Recharts"
-            },
-            {
-              "completed": true,
-              "id": "ebb-7",
-              "text": "Add summary cards with key metrics"
-            },
-            {
-              "completed": true,
-              "id": "ebb-8",
-              "text": "Mobile responsive layout"
-            }
-          ],
-          "createdAt": "2026-01-16",
-          "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.",
-          "history": [
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-16T04:30:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T05:00:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-17T14:00:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "error-budget-burndown",
-          "labels": [
-            "PR #136",
-            "SRE",
-            "Calculator"
-          ],
-          "planFile": "docs/plans/26-error-budget-burndown.md",
-          "title": "Error Budget Burndown",
-          "updatedAt": "2026-01-17T14:00:00.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": true,
-              "id": "pd-1",
-              "text": "Set up Cloudflare Pages with GitHub repo"
-            },
-            {
-              "completed": true,
-              "id": "pd-2",
-              "text": "Configure preview URL pattern"
-            },
-            {
-              "completed": true,
-              "id": "pd-3",
-              "text": "Create PR comment workflow with preview link"
-            },
-            {
-              "completed": true,
-              "id": "pd-4",
-              "text": "Configure environment variables (disable analytics in preview)"
-            },
-            {
-              "completed": true,
-              "id": "pd-5",
-              "text": "Add PreviewBanner component for visual indicator"
-            }
-          ],
-          "createdAt": "2026-01-13",
-          "description": "Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.\n\nPreview URL: https://personal-website-adg.pages.dev\nBranch pattern: <branch>.personal-website-adg.pages.dev",
-          "history": [
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T02:58:32.294Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-16T03:22:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-16T03:35:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "preview-deploys",
-          "labels": [
-            "Infrastructure"
-          ],
-          "planFile": "docs/plans/10-preview-deployments.md",
-          "title": "Preview Deployments",
-          "updatedAt": "2026-01-16T03:35:00.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": true,
-              "id": "gc-1",
-              "text": "Create reusable CardComments component"
-            },
-            {
-              "completed": true,
-              "id": "gc-2",
-              "text": "Add theme matching (sync with site dark/light mode)"
-            },
-            {
-              "completed": true,
-              "id": "gc-3",
-              "text": "Add to CardEditorModal with lazy loading"
-            },
-            {
-              "completed": true,
-              "id": "gc-4",
-              "text": "Use card.id as discussion term"
-            },
-            {
-              "completed": true,
-              "id": "gc-5",
-              "text": "Test theme switching and comment persistence"
-            }
-          ],
-          "createdAt": "2026-01-16",
-          "description": "Add giscus discussion threads to kanban cards. Reuse existing blog Comments pattern with theme matching. Also fixed blog Comments to use ThemeContext.",
-          "history": [
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T02:20:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-16T02:25:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-16T02:30:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "kanban-giscus",
-          "labels": [
-            "PR #131",
-            "Feature"
-          ],
-          "planFile": "docs/plans/25-kanban-card-comments.md",
-          "title": "Kanban Card Comments",
-          "updatedAt": "2026-01-16T02:30:00.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": true,
-              "id": "se-1",
-              "text": "Install @sentry/cli and add auth token to GitHub secrets"
-            },
-            {
-              "completed": true,
-              "id": "se-2",
-              "text": "Add source map upload to deploy workflow"
-            },
-            {
-              "completed": true,
-              "id": "se-3",
-              "text": "Wrap App in Sentry.ErrorBoundary with fallback UI"
-            },
-            {
-              "completed": true,
-              "id": "se-4",
-              "text": "Add release tracking with commit SHA"
-            },
-            {
-              "completed": true,
-              "id": "se-5",
-              "text": "Verify source maps appear in Sentry dashboard"
-            }
-          ],
-          "createdAt": "2026-01-15",
-          "description": "Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.\n\nCodex Review of PR #130:\n- High (fixed): Sentry lazy loading inconsistency - ErrorBoundary imported but Sentry.init deferred. Fixed: now initializes synchronously before render.\n- Medium (fixed): Source maps publicly served exposing source code. Fixed: using hidden sourcemaps + delete after Sentry upload.",
-          "history": [
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T01:22:48.676Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-16T01:41:18.527Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-16T02:10:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "sentry-enhancement",
-          "labels": [
-            "PR #130",
-            "Observability"
-          ],
-          "title": "Sentry Error Tracking Enhancement",
-          "updatedAt": "2026-01-16T02:10:00.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": true,
-              "id": "ad-1",
-              "text": "Add deduplicateByDate helper function"
-            },
-            {
-              "completed": true,
-              "id": "ad-2",
-              "text": "Apply to ga4History and searchHistory data"
-            },
-            {
-              "completed": true,
-              "id": "ad-3",
-              "text": "Verify charts show one point per date"
-            }
-          ],
-          "createdAt": "2026-01-15",
-          "description": "Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection.",
-          "history": [
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-15T12:00:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-16T01:22:46.568Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-review",
-              "columnTitle": "In Review",
-              "timestamp": "2026-01-16T01:22:46.910Z",
-              "type": "column"
-            },
-            {
-              "columnId": "changelog",
-              "columnTitle": "Change Log",
-              "timestamp": "2026-01-16T01:35:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "analytics-dedupe",
-          "labels": [
-            "Small",
-            "Bug Fix"
-          ],
-          "title": "Analytics Data Deduplication",
-          "updatedAt": "2026-01-16T01:35:00.000Z"
         }
       ],
       "id": "changelog",
@@ -1755,5 +1415,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-18T01:15:00.000Z"
+  "updatedAt": "2026-01-20T19:34:50.455Z"
 }

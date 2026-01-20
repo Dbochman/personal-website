@@ -1,5 +1,5 @@
 {
-  "archivedAt": "2026-01-16T19:37:27Z",
+  "archivedAt": "2026-01-20T19:35:08Z",
   "cards": [
     {
       "createdAt": "2026-01-14",
@@ -248,6 +248,533 @@
       "createdAt": "2026-01-17",
       "archivedAt": "2026-01-19",
       "archiveReason": "Pricing models change frequently. Maintenance burden outweighs value for a personal site."
+    },
+    {
+      "checklist": [
+        {
+          "completed": true,
+          "id": "cle-1",
+          "text": "Create useChangelogData hook to fetch and merge data"
+        },
+        {
+          "completed": true,
+          "id": "cle-2",
+          "text": "Create ChangelogExplorer main component"
+        },
+        {
+          "completed": true,
+          "id": "cle-3",
+          "text": "Create ChangelogCard with expand/collapse animation"
+        },
+        {
+          "completed": true,
+          "id": "cle-4",
+          "text": "Create ExpandedDetails with plan rendering"
+        },
+        {
+          "completed": true,
+          "id": "cle-5",
+          "text": "Add filter controls and PR link badges"
+        },
+        {
+          "completed": true,
+          "id": "cle-6",
+          "text": "Add to project registry with route"
+        },
+        {
+          "completed": true,
+          "id": "cle-7",
+          "text": "Mobile responsive layout and loading skeletons"
+        }
+      ],
+      "createdAt": "2026-01-16T14:45:36.426Z",
+      "description": "Visualize completed work from kanban changelog and archive. Rich expandable cards with PR links, plan file content, and completion history.",
+      "history": [
+        {
+          "columnId": "ideas",
+          "columnTitle": "Ideas",
+          "timestamp": "2026-01-16T14:45:36.426Z",
+          "type": "column"
+        },
+        {
+          "columnId": "todo",
+          "columnTitle": "To Do",
+          "timestamp": "2026-01-16T17:50:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-progress",
+          "columnTitle": "In Progress",
+          "timestamp": "2026-01-16T21:00:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-16T18:14:27.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-16T18:35:00.000Z",
+          "type": "column"
+        }
+      ],
+      "id": "gr9qef9",
+      "labels": [
+        "PR #140",
+        "Feature",
+        "Meta"
+      ],
+      "planFile": "docs/plans/28-changelog-explorer-project.md",
+      "title": "Change Log Explorer Project",
+      "updatedAt": "2026-01-16T18:35:00.000Z"
+    },
+    {
+      "checklist": [
+        {
+          "completed": true,
+          "id": "kus-1",
+          "text": "Delete useKanbanPersistence.ts"
+        },
+        {
+          "completed": true,
+          "id": "kus-2",
+          "text": "Remove URL persistence from KanbanBoard.tsx"
+        },
+        {
+          "completed": true,
+          "id": "kus-3",
+          "text": "Add initialCardId prop and auto-open logic"
+        },
+        {
+          "completed": true,
+          "id": "kus-4",
+          "text": "Update index.tsx to read card param"
+        },
+        {
+          "completed": true,
+          "id": "kus-5",
+          "text": "Update Share button to copy clean URL"
+        },
+        {
+          "completed": true,
+          "id": "kus-6",
+          "text": "Add Copy Card Link to card menu"
+        },
+        {
+          "completed": true,
+          "id": "kus-7",
+          "text": "Remove lz-string dependency"
+        }
+      ],
+      "createdAt": "2026-01-16T17:55:00.000Z",
+      "description": "Remove URL state persistence, keep just `?board=roadmap`. Add deep linking with `?card=id` to open specific cards on load.",
+      "history": [
+        {
+          "columnId": "ideas",
+          "columnTitle": "Ideas",
+          "timestamp": "2026-01-16T17:55:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "todo",
+          "columnTitle": "To Do",
+          "timestamp": "2026-01-16T18:05:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-progress",
+          "columnTitle": "In Progress",
+          "timestamp": "2026-01-16T21:00:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-16T18:14:27.000Z",
+          "type": "column"
+        }
+      ],
+      "id": "kanban-url-cleanup",
+      "labels": [
+        "PR #139",
+        "Cleanup",
+        "UX"
+      ],
+      "planFile": "docs/plans/29-kanban-url-simplification.md",
+      "title": "Kanban URL Simplification",
+      "updatedAt": "2026-01-16T18:14:27.000Z"
+    },
+    {
+      "checklist": [
+        {
+          "completed": true,
+          "id": "pch-1",
+          "text": "Install husky and lint-staged"
+        },
+        {
+          "completed": true,
+          "id": "pch-2",
+          "text": "Initialize husky and create pre-commit hook"
+        },
+        {
+          "completed": true,
+          "id": "pch-3",
+          "text": "Add lint-staged config to package.json"
+        },
+        {
+          "completed": true,
+          "id": "pch-4",
+          "text": "Test with intentional lint error"
+        },
+        {
+          "completed": true,
+          "id": "pch-5",
+          "text": "Verify normal commits work"
+        }
+      ],
+      "createdAt": "2026-01-16T19:30:00.000Z",
+      "description": "Add Husky + lint-staged for pre-commit hooks. Runs ESLint with auto-fix on staged TS/JS files before every commit.",
+      "history": [
+        {
+          "columnId": "ideas",
+          "columnTitle": "Ideas",
+          "timestamp": "2026-01-16T19:30:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-progress",
+          "columnTitle": "In Progress",
+          "timestamp": "2026-01-16T19:45:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-16T19:55:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-16T20:00:00.000Z",
+          "type": "column"
+        }
+      ],
+      "id": "precommit-hooks",
+      "labels": [
+        "PR #137",
+        "Infrastructure",
+        "DX"
+      ],
+      "title": "Pre-commit Hooks (Husky + lint-staged)",
+      "updatedAt": "2026-01-16T20:00:00.000Z"
+    },
+    {
+      "checklist": [
+        {
+          "completed": true,
+          "id": "ebb-1",
+          "text": "Create ErrorBudgetBurndown component"
+        },
+        {
+          "completed": true,
+          "id": "ebb-2",
+          "text": "Add to project registry with route"
+        },
+        {
+          "completed": true,
+          "id": "ebb-3",
+          "text": "Build SLO configuration inputs"
+        },
+        {
+          "completed": true,
+          "id": "ebb-4",
+          "text": "Build incident input form"
+        },
+        {
+          "completed": true,
+          "id": "ebb-5",
+          "text": "Implement budget calculations"
+        },
+        {
+          "completed": true,
+          "id": "ebb-6",
+          "text": "Create burndown chart with Recharts"
+        },
+        {
+          "completed": true,
+          "id": "ebb-7",
+          "text": "Add summary cards with key metrics"
+        },
+        {
+          "completed": true,
+          "id": "ebb-8",
+          "text": "Mobile responsive layout"
+        }
+      ],
+      "createdAt": "2026-01-16",
+      "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.",
+      "history": [
+        {
+          "columnId": "todo",
+          "columnTitle": "To Do",
+          "timestamp": "2026-01-16T04:30:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-progress",
+          "columnTitle": "In Progress",
+          "timestamp": "2026-01-16T05:00:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-17T14:00:00.000Z",
+          "type": "column"
+        }
+      ],
+      "id": "error-budget-burndown",
+      "labels": [
+        "PR #136",
+        "SRE",
+        "Calculator"
+      ],
+      "planFile": "docs/plans/26-error-budget-burndown.md",
+      "title": "Error Budget Burndown",
+      "updatedAt": "2026-01-17T14:00:00.000Z"
+    },
+    {
+      "checklist": [
+        {
+          "completed": true,
+          "id": "pd-1",
+          "text": "Set up Cloudflare Pages with GitHub repo"
+        },
+        {
+          "completed": true,
+          "id": "pd-2",
+          "text": "Configure preview URL pattern"
+        },
+        {
+          "completed": true,
+          "id": "pd-3",
+          "text": "Create PR comment workflow with preview link"
+        },
+        {
+          "completed": true,
+          "id": "pd-4",
+          "text": "Configure environment variables (disable analytics in preview)"
+        },
+        {
+          "completed": true,
+          "id": "pd-5",
+          "text": "Add PreviewBanner component for visual indicator"
+        }
+      ],
+      "createdAt": "2026-01-13",
+      "description": "Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.\n\nPreview URL: https://personal-website-adg.pages.dev\nBranch pattern: <branch>.personal-website-adg.pages.dev",
+      "history": [
+        {
+          "columnId": "in-progress",
+          "columnTitle": "In Progress",
+          "timestamp": "2026-01-16T02:58:32.294Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-16T03:22:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-16T03:35:00.000Z",
+          "type": "column"
+        }
+      ],
+      "id": "preview-deploys",
+      "labels": [
+        "Infrastructure"
+      ],
+      "planFile": "docs/plans/10-preview-deployments.md",
+      "title": "Preview Deployments",
+      "updatedAt": "2026-01-16T03:35:00.000Z"
+    },
+    {
+      "checklist": [
+        {
+          "completed": true,
+          "id": "gc-1",
+          "text": "Create reusable CardComments component"
+        },
+        {
+          "completed": true,
+          "id": "gc-2",
+          "text": "Add theme matching (sync with site dark/light mode)"
+        },
+        {
+          "completed": true,
+          "id": "gc-3",
+          "text": "Add to CardEditorModal with lazy loading"
+        },
+        {
+          "completed": true,
+          "id": "gc-4",
+          "text": "Use card.id as discussion term"
+        },
+        {
+          "completed": true,
+          "id": "gc-5",
+          "text": "Test theme switching and comment persistence"
+        }
+      ],
+      "createdAt": "2026-01-16",
+      "description": "Add giscus discussion threads to kanban cards. Reuse existing blog Comments pattern with theme matching. Also fixed blog Comments to use ThemeContext.",
+      "history": [
+        {
+          "columnId": "in-progress",
+          "columnTitle": "In Progress",
+          "timestamp": "2026-01-16T02:20:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-16T02:25:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-16T02:30:00.000Z",
+          "type": "column"
+        }
+      ],
+      "id": "kanban-giscus",
+      "labels": [
+        "PR #131",
+        "Feature"
+      ],
+      "planFile": "docs/plans/25-kanban-card-comments.md",
+      "title": "Kanban Card Comments",
+      "updatedAt": "2026-01-16T02:30:00.000Z"
+    },
+    {
+      "checklist": [
+        {
+          "completed": true,
+          "id": "se-1",
+          "text": "Install @sentry/cli and add auth token to GitHub secrets"
+        },
+        {
+          "completed": true,
+          "id": "se-2",
+          "text": "Add source map upload to deploy workflow"
+        },
+        {
+          "completed": true,
+          "id": "se-3",
+          "text": "Wrap App in Sentry.ErrorBoundary with fallback UI"
+        },
+        {
+          "completed": true,
+          "id": "se-4",
+          "text": "Add release tracking with commit SHA"
+        },
+        {
+          "completed": true,
+          "id": "se-5",
+          "text": "Verify source maps appear in Sentry dashboard"
+        }
+      ],
+      "createdAt": "2026-01-15",
+      "description": "Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.\n\nCodex Review of PR #130:\n- High (fixed): Sentry lazy loading inconsistency - ErrorBoundary imported but Sentry.init deferred. Fixed: now initializes synchronously before render.\n- Medium (fixed): Source maps publicly served exposing source code. Fixed: using hidden sourcemaps + delete after Sentry upload.",
+      "history": [
+        {
+          "columnId": "in-progress",
+          "columnTitle": "In Progress",
+          "timestamp": "2026-01-16T01:22:48.676Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-16T01:41:18.527Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-16T02:10:00.000Z",
+          "type": "column"
+        }
+      ],
+      "id": "sentry-enhancement",
+      "labels": [
+        "PR #130",
+        "Observability"
+      ],
+      "title": "Sentry Error Tracking Enhancement",
+      "updatedAt": "2026-01-16T02:10:00.000Z"
+    },
+    {
+      "checklist": [
+        {
+          "completed": true,
+          "id": "ad-1",
+          "text": "Add deduplicateByDate helper function"
+        },
+        {
+          "completed": true,
+          "id": "ad-2",
+          "text": "Apply to ga4History and searchHistory data"
+        },
+        {
+          "completed": true,
+          "id": "ad-3",
+          "text": "Verify charts show one point per date"
+        }
+      ],
+      "createdAt": "2026-01-15",
+      "description": "Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection.",
+      "history": [
+        {
+          "columnId": "todo",
+          "columnTitle": "To Do",
+          "timestamp": "2026-01-15T12:00:00.000Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-progress",
+          "columnTitle": "In Progress",
+          "timestamp": "2026-01-16T01:22:46.568Z",
+          "type": "column"
+        },
+        {
+          "columnId": "in-review",
+          "columnTitle": "In Review",
+          "timestamp": "2026-01-16T01:22:46.910Z",
+          "type": "column"
+        },
+        {
+          "columnId": "changelog",
+          "columnTitle": "Change Log",
+          "timestamp": "2026-01-16T01:35:00.000Z",
+          "type": "column"
+        }
+      ],
+      "id": "analytics-dedupe",
+      "labels": [
+        "Small",
+        "Bug Fix"
+      ],
+      "title": "Analytics Data Deduplication",
+      "updatedAt": "2026-01-16T01:35:00.000Z"
     }
   ]
 }
