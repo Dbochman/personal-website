@@ -114,14 +114,13 @@ test.describe('Visual Regression - Components', () => {
     await page.waitForLoadState('networkidle');
     await disableAnimations(page);
 
-    // Click to expand first expertise card
+    // Click to expand first expertise card - assert it exists to catch regressions
     const expertiseButton = page.locator('button[aria-controls^="expertise-panel-"]').first();
-    if (await expertiseButton.isVisible()) {
-      await expertiseButton.click();
-      await page.waitForTimeout(100);
+    await expect(expertiseButton).toBeVisible();
+    await expertiseButton.click();
+    await page.waitForTimeout(100);
 
-      const sidebar = page.locator('.lg\\:sticky').first();
-      await expect(sidebar).toHaveScreenshot('expertise-expanded.png');
-    }
+    const sidebar = page.locator('.lg\\:sticky').first();
+    await expect(sidebar).toHaveScreenshot('expertise-expanded.png');
   });
 });
