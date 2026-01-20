@@ -40,7 +40,7 @@ export default defineConfig({
 
   // Snapshot output directory
   snapshotDir: './tests/e2e/snapshots',
-  snapshotPathTemplate: '{snapshotDir}/{testFilePath}/{arg}{ext}',
+  snapshotPathTemplate: '{snapshotDir}/{testFileName}/{arg}{ext}',
 
   use: {
     // Base URL for tests

@@ -75,11 +75,30 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Extract only the findings from Codex output (skip verbose exec logs)
+          # The summary starts with a line beginning with "codex" (lowercase)
+          awk '
+            /^codex$/ { capture=1 }
+            capture { print }
+          ' review_output.txt > findings.txt
+
+          # If no findings extracted, check if there were no issues
+          if [ ! -s findings.txt ]; then
+            if grep -q "no issues" review_output.txt 2>/dev/null; then
+              echo "No issues found." > findings.txt
+            else
+              echo "Review completed - see workflow logs for details." > findings.txt
+            fi
+          fi
+
+          # Clean up file paths (remove /home/runner/work/.../... prefix)
+          sed -i 's|/home/runner/work/[^/]*/[^/]*/||g' findings.txt
+
           # Build comment with header
           {
             echo "## 🤖 Codex Review"
             echo ""
-            cat review_output.txt
+            cat findings.txt
             echo ""
             echo "---"
             echo "<sub>Automated review by OpenAI Codex • Skip by adding \`[skip-review]\` to PR title</sub>"
