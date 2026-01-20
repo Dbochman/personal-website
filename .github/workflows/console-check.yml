@@ -53,8 +53,9 @@ jobs:
       - name: Run console error checks on production
         env:
           BASE_URL: https://dylanbochman.com
-        # Skip 404 test in production - it pollutes GA4 analytics with /this-page-does-not-exist hits
-        run: npx playwright test --grep-invert="404"
+        # Only run console-errors and smoke tests (exclude visual regression and 404 tests)
+        # Visual regression has its own workflow; 404 test pollutes GA4 analytics
+        run: npx playwright test tests/e2e/console-errors.spec.ts --grep "@smoke"
 
       - name: Upload test results
         if: always()

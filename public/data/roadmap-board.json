@@ -6,63 +6,6 @@
           "checklist": [
             {
               "completed": false,
-              "id": "arch-1",
-              "text": "Centralize MDX ingestion with zod schema for frontmatter validation"
-            },
-            {
-              "completed": false,
-              "id": "arch-2",
-              "text": "Share typed source of truth for RSS, feeds, and OG metadata"
-            },
-            {
-              "completed": false,
-              "id": "arch-3",
-              "text": "Audit client bundle for static sections - consider preact/compat for non-interactive routes"
-            },
-            {
-              "completed": false,
-              "id": "arch-4",
-              "text": "Lazy-load Radix-heavy widgets to reduce initial bundle"
-            },
-            {
-              "completed": false,
-              "id": "arch-5",
-              "text": "Split build into 'content prep' and 'Vite bundle' stages"
-            },
-            {
-              "completed": false,
-              "id": "arch-6",
-              "text": "Cache MDX output in .cache with content hashing"
-            },
-            {
-              "completed": false,
-              "id": "arch-7",
-              "text": "Add automated bundle-size tracking in CI"
-            }
-          ],
-          "createdAt": "2026-01-20",
-          "description": "Recommendations from GPT Architect expert:\n\n**MDX Pipeline**: Centralize MDX ingestion with a schema layer (zod) so frontmatter, RSS/feed data, and OG metadata share one typed source of truth.\n\n**Bundle Optimization**: Audit client bundle for static sections - render MDX to HTML at build, consider preact/compat for non-interactive routes, lazy-load Radix widgets.\n\n**Build Performance**: Split build into 'content prep' and 'Vite bundle' stages, cache content step with hashed MDX output.\n\nEffort estimate: Short (1-4h per item)",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-20T22:00:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "architecture-improvements",
-          "labels": [
-            "Medium",
-            "Infrastructure",
-            "GPT Review"
-          ],
-          "title": "Architecture Improvements (GPT Review)",
-          "updatedAt": "2026-01-20T22:00:00.000Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
               "id": "aet-1",
               "text": "Define event schema (tool_interaction, action, tool_name)"
             },
@@ -645,6 +588,193 @@
           ],
           "planFile": "docs/plans/50-seo-sre-blog-posts.md",
           "title": "Write SRE-Focused Blog Posts"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "mdx-1",
+              "text": "Create zod schema for blog post frontmatter validation"
+            },
+            {
+              "completed": false,
+              "id": "mdx-2",
+              "text": "Centralize MDX ingestion to single typed module"
+            },
+            {
+              "completed": false,
+              "id": "mdx-3",
+              "text": "Share source of truth for RSS feed generation"
+            },
+            {
+              "completed": false,
+              "id": "mdx-4",
+              "text": "Share source of truth for OG image metadata"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Centralize MDX content ingestion with a schema layer so frontmatter, RSS/feed data, and OG metadata share one typed source of truth.\n\nBenefits:\n- Build artifacts produced once, not duplicated\n- Type-safe frontmatter validation\n- Single place to update content structure",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-20T22:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-21T00:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "arch-mdx-pipeline",
+          "labels": [
+            "Medium",
+            "Infrastructure",
+            "GPT Review"
+          ],
+          "planFile": "docs/plans/51-mdx-pipeline-centralization.md",
+          "title": "MDX Pipeline Centralization"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "bundle-1",
+              "text": "Audit bundle with source-map-explorer or bundle-buddy"
+            },
+            {
+              "completed": false,
+              "id": "bundle-2",
+              "text": "Identify static sections that don't need React hydration"
+            },
+            {
+              "completed": false,
+              "id": "bundle-3",
+              "text": "Evaluate preact/compat for non-interactive routes"
+            },
+            {
+              "completed": false,
+              "id": "bundle-4",
+              "text": "Lazy-load Radix-heavy components (Dialog, DropdownMenu, etc.)"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Reduce client-side JavaScript by identifying static sections and lazy-loading heavy components.\n\nTargets:\n- Radix UI components (Dialog, DropdownMenu, Tabs)\n- Static content that doesn't need interactivity\n- Consider preact/compat alias for lighter runtime",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-20T22:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-21T00:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "arch-bundle-optimization",
+          "labels": [
+            "Short",
+            "Performance",
+            "GPT Review"
+          ],
+          "planFile": "docs/plans/52-bundle-size-optimization.md",
+          "title": "Bundle Size Optimization"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "build-1",
+              "text": "Split build into content prep stage"
+            },
+            {
+              "completed": false,
+              "id": "build-2",
+              "text": "Split build into Vite bundle stage"
+            },
+            {
+              "completed": false,
+              "id": "build-3",
+              "text": "Implement content hashing for MDX output"
+            },
+            {
+              "completed": false,
+              "id": "build-4",
+              "text": "Cache content prep output in .cache directory"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Improve build performance by splitting into stages and caching content compilation.\n\nApproach:\n1. Content prep: Compile MDX, generate feeds, create OG data\n2. Vite bundle: Standard React build using cached content\n\nCache content step with hashed MDX output to skip unchanged files.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-20T22:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-21T00:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "arch-build-performance",
+          "labels": [
+            "Medium",
+            "Infrastructure",
+            "GPT Review"
+          ],
+          "planFile": "docs/plans/53-build-performance.md",
+          "title": "Build Performance (Staged + Cached)"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "ci-bundle-1",
+              "text": "Add bundle analysis step to PR checks"
+            },
+            {
+              "completed": false,
+              "id": "ci-bundle-2",
+              "text": "Store bundle size in artifacts or comment on PR"
+            },
+            {
+              "completed": false,
+              "id": "ci-bundle-3",
+              "text": "Set threshold alerts for significant increases"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Add automated bundle-size tracking in CI to catch regressions early.\n\nOptions:\n- bundlewatch action\n- size-limit action\n- Custom script with artifact storage\n\nGoal: Know when a PR significantly increases bundle size before merging.",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-20T22:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-21T00:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "arch-ci-bundle-tracking",
+          "labels": [
+            "Short",
+            "CI/CD",
+            "GPT Review"
+          ],
+          "planFile": "docs/plans/54-ci-bundle-tracking.md",
+          "title": "CI Bundle Size Tracking"
         }
       ],
       "description": "Planned tasks ready to start",
