@@ -36,7 +36,8 @@ vi.mock('@/data/expertise', () => ({
       companies: ['groq'],
       skills: ['Testing']
     }
-  ]
+  ],
+  allSkills: ['Incident Command', 'Kubernetes', 'Root Cause Analysis', 'SLO Design', 'Terraform', 'Testing']
 }))
 
 // Mock SVG imports
