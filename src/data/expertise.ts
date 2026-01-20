@@ -8,6 +8,20 @@ export interface ExpertiseItem {
   skills: string[];
 }
 
+// Extract all unique skills for SEO crawlability
+export const allSkills = Array.from(
+  new Set([
+    'Terraform', 'Kubernetes', 'Prometheus', 'Datadog',
+    'Incident Command', 'Crisis Communication', 'Runbooks',
+    'Root Cause Analysis', 'Blameless Retrospectives', 'Executive Reporting',
+    'SLO/SLI Design', 'Error Budgets', 'Backstage', 'Alerting Strategy',
+    'Facilitation', 'Action Item Tracking', 'Learning Culture',
+    'Executive Updates', 'Customer Communication', 'Status Pages',
+    'Chaos Engineering', 'Runbook Development', 'Onboarding',
+    'Synthetic Testing', 'Automated Remediation', 'Observability'
+  ])
+).sort();
+
 export const coreExpertise: ExpertiseItem[] = [
   {
     title: "Site Reliability Engineering",

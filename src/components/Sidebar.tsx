@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from "@/components/ui/card";
-import { coreExpertise } from "@/data/expertise";
+import { coreExpertise, allSkills } from "@/data/expertise";
 import { ExpertiseCard } from "./ExpertiseCard";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 
@@ -46,6 +46,16 @@ const Sidebar = () => {
               </motion.div>
             ))}
           </motion.div>
+
+          {/* Crawlable skills list - visible to search engines and screen readers */}
+          <div className="sr-only">
+            <h4>Technical Skills</h4>
+            <ul>
+              {allSkills.map(skill => (
+                <li key={skill}>{skill}</li>
+              ))}
+            </ul>
+          </div>
         </CardContent>
       </Card>
     </div>
