@@ -56,11 +56,10 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           # Use codex review with base branch comparison
+          # Note: --base and --commit are mutually exclusive; use --base for PR diffs
           codex review \
-            --commit ${{ github.event.pull_request.head.sha }} \
             --base origin/${{ github.base_ref }} \
             --title "${{ github.event.pull_request.title }}" \
-            "Focus on: bugs, security issues, performance problems, and logic errors. Be concise. Use GitHub markdown with file:line references." \
             > review_output.txt 2>&1 || true
 
           # Check if we got output
