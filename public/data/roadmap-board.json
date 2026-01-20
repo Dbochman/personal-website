@@ -444,33 +444,6 @@
           "title": "Visual Regression Testing"
         },
         {
-          "id": "react-hook-form-update",
-          "title": "Update react-hook-form to 7.55+",
-          "description": "Update react-hook-form from 7.53.0 to 7.55+ (latest: 7.71.1). Required to unblock @hookform/resolvers 5.x upgrade (PR #165).",
-          "labels": [
-            "Small",
-            "Infrastructure"
-          ],
-          "checklist": [
-            {
-              "id": "rhf-1",
-              "text": "Update react-hook-form to latest 7.x",
-              "completed": false
-            },
-            {
-              "id": "rhf-2",
-              "text": "Run tests to verify form functionality",
-              "completed": false
-            },
-            {
-              "id": "rhf-3",
-              "text": "Merge @hookform/resolvers PR #165",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-19"
-        },
-        {
           "checklist": [
             {
               "completed": false,
@@ -534,7 +507,44 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "id": "react-hook-form-update",
+          "title": "Update react-hook-form to 7.55+",
+          "description": "Update react-hook-form from 7.53.0 to 7.55+ (latest: 7.71.1). Required to unblock @hookform/resolvers 5.x upgrade (PR #165).",
+          "labels": [
+            "Small",
+            "Infrastructure"
+          ],
+          "checklist": [
+            {
+              "id": "rhf-1",
+              "text": "Update react-hook-form to latest 7.x",
+              "completed": false
+            },
+            {
+              "id": "rhf-2",
+              "text": "Run tests to verify form functionality",
+              "completed": false
+            },
+            {
+              "id": "rhf-3",
+              "text": "Merge @hookform/resolvers PR #165",
+              "completed": false
+            }
+          ],
+          "createdAt": "2026-01-19",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-19T20:00:00.000Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            }
+          ],
+          "updatedAt": "2026-01-19T20:00:00.000Z"
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
