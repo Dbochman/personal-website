@@ -6,6 +6,7 @@ import { Workspace } from './Workspace';
 import { LearnHeader } from './LearnHeader';
 import { executeCommand } from './engines';
 import { explainCommand } from './explainer';
+import { trackToolEvent } from '@/lib/trackToolEvent';
 import type { Tool, Mode, ToolPreset, ToolState, PersistedToolState } from './types';
 import { TOOL_CONFIGS, DEFAULT_STATE } from './types';
 
@@ -131,6 +132,8 @@ export default function CliPlayground() {
     // Increment run ID to track this specific execution
     const currentRunId = ++runIdRef.current;
 
+    trackToolEvent({ tool_name: 'cli_playground', action: 'command_run', event_label: state.tool });
+
     setState((prev) => ({ ...prev, isLoading: true, error: undefined }));
 
     try {
@@ -196,6 +199,8 @@ export default function CliPlayground() {
     // Invalidate any in-flight requests
     runIdRef.current++;
 
+    trackToolEvent({ tool_name: 'cli_playground', action: 'tool_select', event_label: tool });
+
     // Save current tool state
     toolStateCache.set(state.tool, {
       input: state.input,
@@ -231,11 +236,14 @@ export default function CliPlayground() {
 
   const handleModeChange = useCallback((newMode: Mode) => {
     setMode(newMode);
+    trackToolEvent({ tool_name: 'cli_playground', action: 'mode_switch', event_label: newMode });
   }, []);
 
   const handlePresetSelect = useCallback((preset: ToolPreset) => {
     // Invalidate any in-flight requests
     runIdRef.current++;
+
+    trackToolEvent({ tool_name: 'cli_playground', action: 'preset_select', event_label: preset.name });
 
     const index = TOOL_CONFIGS[state.tool].presets.findIndex(p => p.name === preset.name);
     setCurrentPresetIndex(index >= 0 ? index : 0);

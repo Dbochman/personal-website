@@ -15,6 +15,7 @@ import { RotateCcw, Share2, BookOpen, Terminal, ChevronDown } from 'lucide-react
 import type { Tool, Mode, ToolPreset } from './types';
 import { TOOL_CONFIGS } from './types';
 import { toast } from 'sonner';
+import { trackToolEvent } from '@/lib/trackToolEvent';
 
 interface TopBarProps {
   tool: Tool;
@@ -41,6 +42,7 @@ export function TopBar({
 
   const handleShare = async () => {
     await navigator.clipboard.writeText(window.location.href);
+    trackToolEvent({ tool_name: 'cli_playground', action: 'share_copy', event_label: tool });
     toast.success('Link copied to clipboard');
   };
 

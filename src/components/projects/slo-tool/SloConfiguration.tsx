@@ -12,6 +12,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type SloConfig, type BudgetPeriod, calculateTotalBudget, formatDuration } from './calculations';
 import { SLO_PRESETS, snapToPreset } from '@/lib/slo';
+import { trackToolEvent } from '@/lib/trackToolEvent';
 
 // Input allows full range; slider focuses on high-availability targets
 const MIN_INPUT_SLO = 0;
@@ -71,6 +72,7 @@ export function SloConfiguration({ config, onChange }: SloConfigurationProps) {
 
   const handlePeriodChange = (value: BudgetPeriod) => {
     onChange({ ...config, period: value });
+    trackToolEvent({ tool_name: 'slo_calculator', action: 'period_change', event_label: value });
   };
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {

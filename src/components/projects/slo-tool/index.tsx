@@ -12,6 +12,7 @@ import { IncidentInput } from './IncidentInput';
 import { AchievableTab } from './AchievableTab';
 import { TargetTab } from './TargetTab';
 import { BurndownTab } from './BurndownTab';
+import { trackToolEvent } from '@/lib/trackToolEvent';
 import {
   type ResponseProfile,
   type SloConfig,
@@ -163,15 +164,20 @@ export default function SloTool() {
 
   const handleCompactSloBlur = () => {
     const parsed = parseFloat(sloInputValue);
+    let finalValue: number;
     if (isNaN(parsed) || parsed < MIN_SLO) {
+      finalValue = MIN_SLO;
       setSloInputValue(MIN_SLO.toString());
       setConfig((prev) => ({ ...prev, target: MIN_SLO }));
     } else if (parsed > MAX_SLO) {
+      finalValue = MAX_SLO;
       setSloInputValue(MAX_SLO.toString());
       setConfig((prev) => ({ ...prev, target: MAX_SLO }));
     } else {
+      finalValue = parsed;
       setSloInputValue(parsed.toString());
     }
+    trackToolEvent({ tool_name: 'slo_calculator', action: 'calculate', event_label: finalValue.toString() });
   };
 
   const handleCompactIncidentsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -224,7 +230,10 @@ export default function SloTool() {
 
   return (
     <div className="space-y-6">
-      <Tabs value={mode} onValueChange={(v) => setMode(v as CalculationMode)}>
+      <Tabs value={mode} onValueChange={(v) => {
+        setMode(v as CalculationMode);
+        trackToolEvent({ tool_name: 'slo_calculator', action: 'tab_switch', event_label: v });
+      }}>
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="achievable" className="text-xs sm:text-sm">
             <span className="hidden sm:inline">What can I achieve?</span>
