@@ -60,7 +60,10 @@ async function ensureMermaidInitialized(): Promise<Mermaid> {
   if (lastThemeKey !== themeKey) {
     mermaid.initialize({
       startOnLoad: false,
-      securityLevel: 'loose', // Need loose for node IDs
+      // SECURITY: Using 'strict' mode for XSS protection.
+      // Node ID querying (line ~151) uses developer-controlled IDs, not user input.
+      // Diagram code is hardcoded, not user-provided, so strict mode is safe.
+      securityLevel: 'strict',
       theme: 'base',
       themeVariables: {
         background: 'transparent',

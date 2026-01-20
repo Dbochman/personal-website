@@ -149,3 +149,138 @@ export const showPreviewBanner = isPreview;
 **Cleanup:** Disconnected kanban-save-worker from GitHub integration in Cloudflare—it was triggering failed builds on every commit since the worker code isn't in this repo.
 
 ---
+
+## 2026-01-20: Codex CLI Deep Dive
+
+### Overview
+
+Explored OpenAI Codex CLI (v0.73.0) for CI code review integration and MCP server setup. Key goal: clean up verbose Codex review output for PR comments.
+
+### Codex CLI Commands
+
+| Command | Purpose |
+|---------|---------|
+| `codex review --base origin/main` | PR review against base branch |
+| `codex exec "prompt"` | Non-interactive task execution |
+| `codex exec --json` | JSONL event stream output |
+| `codex exec --output-schema schema.json` | **Structured JSON output** |
+| `codex mcp-server` | Run as MCP server for Claude Code |
+| `codex resume --last` | Resume previous session |
+
+### Structured Output (Game Changer for CI)
+
+Instead of parsing verbose text output with awk, use `--output-schema` for clean JSON:
+
+```bash
+codex exec --sandbox read-only \
+  --output-schema review-schema.json \
+  -o findings.json \
+  "Review git diff against origin/main"
+```
+
+**Schema requirements are strict:**
+- All objects need `"additionalProperties": false`
+- ALL properties must be in `"required"` array (no optional fields)
+- Nested objects have same requirements
+
+Working schema example:
+```json
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "summary": { "type": "string" },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "severity": { "type": "string", "enum": ["P1", "P2", "P3"] },
+          "title": { "type": "string" },
+          "file": { "type": "string" },
+          "lines": { "type": "string" },
+          "description": { "type": "string" }
+        },
+        "required": ["severity", "title", "file", "lines", "description"]
+      }
+    },
+    "verdict": { "type": "string", "enum": ["APPROVE", "REQUEST_CHANGES", "COMMENT"] }
+  },
+  "required": ["summary", "issues", "verdict"]
+}
+```
+
+### MCP Server Integration
+
+Codex can be a tool for Claude Code via MCP:
+
+**Config** (`~/.claude/settings.json`):
+```json
+{
+  "mcpServers": {
+    "codex": {
+      "type": "stdio",
+      "command": "codex",
+      "args": ["-m", "gpt-5.2-codex", "mcp-server"]
+    }
+  }
+}
+```
+
+**Exposed tools:**
+1. `codex` - Start session with `prompt`, `sandbox`, `cwd`, `model`, `developer-instructions`
+2. `codex-reply` - Continue conversation with `conversationId`, `prompt`
+
+Requires Claude Code restart to load. Then accessible as `mcp__codex__codex()`.
+
+### Codex Config
+
+Location: `~/.codex/config.toml`
+
+```toml
+model = 'gpt-5-codex'
+
+[profiles.groq-gpt]
+model = 'openai/gpt-oss-120b'
+model_provider = 'groq'
+
+[projects.'/path/to/repo']
+trust_level = 'trusted'
+```
+
+### Sandbox Modes
+
+| Mode | Description |
+|------|-------------|
+| `read-only` | Can't modify files |
+| `workspace-write` | Can modify workspace only |
+| `danger-full-access` | Full system access |
+
+### Bug Found by Codex Self-Review
+
+Using structured output, Codex found a bug in our own Codex integration:
+
+**Issue:** `grep -q "no issues"` doesn't match `"No issues found."` (capital N)
+**Fix:** Use `grep -iq` for case-insensitive matching
+
+This is a nice example of Codex catching real bugs when given structured output constraints.
+
+### PRs from Today
+
+- **PR #177**: Visual regression testing with Playwright (14 tests, CI workflow)
+- **PR #179**: Clean Codex output and fix issues
+  - AWK filtering to extract only findings from verbose output
+  - Fix checkout ref for workflow_run events (`head_sha` vs `github.ref`)
+  - Fix snapshot path template (`testFileName` vs `testFilePath`)
+  - Case-insensitive grep fix
+  - Kanban board update
+
+### Next Steps
+
+1. Restart Claude Code to load Codex MCP server
+2. Test `mcp__codex__codex` delegation
+3. Consider replacing AWK filtering with structured output schema in CI
+4. Explore multi-turn conversations with `codex-reply`
+
+---

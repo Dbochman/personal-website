@@ -7,7 +7,11 @@
     <title>Content Manager</title>
   </head>
   <body>
-    <!-- Include the script that builds the page and powers Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <!--
+      SECURITY: Pinned to exact version (no caret/tilde) to prevent supply chain attacks.
+      Previously used ^3.0.0 which would auto-update to any 3.x version.
+      Review https://github.com/decaporg/decap-cms/releases before updating.
+    -->
+    <script src="https://unpkg.com/decap-cms@3.10.0/dist/decap-cms.js"></script>
   </body>
 </html>

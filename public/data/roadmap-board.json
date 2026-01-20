@@ -6,6 +6,63 @@
           "checklist": [
             {
               "completed": false,
+              "id": "arch-1",
+              "text": "Centralize MDX ingestion with zod schema for frontmatter validation"
+            },
+            {
+              "completed": false,
+              "id": "arch-2",
+              "text": "Share typed source of truth for RSS, feeds, and OG metadata"
+            },
+            {
+              "completed": false,
+              "id": "arch-3",
+              "text": "Audit client bundle for static sections - consider preact/compat for non-interactive routes"
+            },
+            {
+              "completed": false,
+              "id": "arch-4",
+              "text": "Lazy-load Radix-heavy widgets to reduce initial bundle"
+            },
+            {
+              "completed": false,
+              "id": "arch-5",
+              "text": "Split build into 'content prep' and 'Vite bundle' stages"
+            },
+            {
+              "completed": false,
+              "id": "arch-6",
+              "text": "Cache MDX output in .cache with content hashing"
+            },
+            {
+              "completed": false,
+              "id": "arch-7",
+              "text": "Add automated bundle-size tracking in CI"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Recommendations from GPT Architect expert:\n\n**MDX Pipeline**: Centralize MDX ingestion with a schema layer (zod) so frontmatter, RSS/feed data, and OG metadata share one typed source of truth.\n\n**Bundle Optimization**: Audit client bundle for static sections - render MDX to HTML at build, consider preact/compat for non-interactive routes, lazy-load Radix widgets.\n\n**Build Performance**: Split build into 'content prep' and 'Vite bundle' stages, cache content step with hashed MDX output.\n\nEffort estimate: Short (1-4h per item)",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-20T22:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "architecture-improvements",
+          "labels": [
+            "Medium",
+            "Infrastructure",
+            "GPT Review"
+          ],
+          "title": "Architecture Improvements (GPT Review)",
+          "updatedAt": "2026-01-20T22:00:00.000Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
               "id": "aet-1",
               "text": "Define event schema (tool_interaction, action, tool_name)"
             },
@@ -1446,6 +1503,109 @@
           "summary": "Toast notification when board is updated externally",
           "title": "Kanban External Change Detection",
           "updatedAt": "2026-01-16T18:50:00.000Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "sec-1",
+              "text": "Sanitize search-console-history.json to remove topQueries (privacy)"
+            },
+            {
+              "completed": true,
+              "id": "sec-2",
+              "text": "Pin Decap CMS to exact version 3.10.0 (supply chain)"
+            },
+            {
+              "completed": true,
+              "id": "sec-3",
+              "text": "Set Mermaid securityLevel to 'strict' (XSS prevention)"
+            },
+            {
+              "completed": true,
+              "id": "sec-4",
+              "text": "Add npm audit to PR checks workflow (CVE scanning)"
+            },
+            {
+              "completed": true,
+              "id": "sec-5",
+              "text": "Use structured JSON output for Codex review parsing (durability)"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Security hardening based on GPT Security Analyst review (Risk: HIGH → LOW):\n\n- Sanitized search console metrics to remove raw user queries from public site\n- Pinned Decap CMS from ^3.0.0 to exact 3.10.0 to prevent supply chain attacks\n- Changed Mermaid rendering to 'strict' mode for XSS protection\n- Added npm audit step to PR checks for automated CVE detection\n- Refactored Codex review workflow to use --json and -o flags for durable output parsing",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-20T22:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-20T22:30:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-20T23:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "security-hardening",
+          "labels": [
+            "Security",
+            "GPT Review"
+          ],
+          "summary": "Privacy fixes, supply chain hardening, XSS prevention, CVE scanning",
+          "title": "Security Hardening (GPT Review)",
+          "updatedAt": "2026-01-20T23:00:00.000Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "cq-1",
+              "text": "Add optional chaining to AnalyticsDashboard.tsx (crash prevention)"
+            },
+            {
+              "completed": true,
+              "id": "cq-2",
+              "text": "Cache querySelectorAll in useParallax.ts (scroll performance)"
+            },
+            {
+              "completed": true,
+              "id": "cq-3",
+              "text": "Add onError handler to BlogImage.tsx (broken image UX)"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Code quality fixes based on GPT Code Reviewer analysis:\n\n- Fixed potential crash in AnalyticsDashboard when GA4 summary data is undefined\n- Optimized useParallax hook to cache DOM queries instead of running querySelectorAll on every animation frame\n- Added onError handler to BlogImage to show 'Failed to load' instead of infinite 'Loading...'",
+          "history": [
+            {
+              "columnId": "ideas",
+              "columnTitle": "Ideas",
+              "timestamp": "2026-01-20T22:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-20T23:15:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "code-quality-fixes",
+          "labels": [
+            "Bug",
+            "Performance",
+            "GPT Review"
+          ],
+          "summary": "Crash fix, scroll perf optimization, broken image UX",
+          "title": "Code Quality Fixes (GPT Review)",
+          "updatedAt": "2026-01-20T23:15:00.000Z"
         }
       ],
       "id": "changelog",

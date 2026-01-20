@@ -5,14 +5,20 @@ export const useParallax = () => {
   const requestRef = useRef<number>();
   const ticking = useRef(false);
   const [isVisible, setIsVisible] = useState(true);
+  // Cache parallax elements to avoid querySelectorAll on every frame
+  const elementsRef = useRef<NodeListOf<Element> | null>(null);
 
   const updateParallax = useCallback(() => {
     if (!isVisible) return;
 
+    // Lazy-initialize cached elements on first scroll
+    if (!elementsRef.current) {
+      elementsRef.current = document.querySelectorAll('[data-speed]');
+    }
+
     const scrollY = window.scrollY;
-    const parallaxElements = document.querySelectorAll('[data-speed]');
-    
-    parallaxElements.forEach((element) => {
+
+    elementsRef.current.forEach((element) => {
       const speed = parseFloat(element.getAttribute('data-speed') || '0');
       const yPos = -(scrollY * speed);
       // Use translate3d for hardware acceleration
