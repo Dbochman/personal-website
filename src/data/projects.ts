@@ -37,10 +37,13 @@ export const projectRegistry: ProjectDefinition[] = (projectsMeta as ProjectMeta
 
 /**
  * Get all project metadata (excludes component for list views)
+ * Filters out draft projects by default
  */
-export function getAllProjects(): ProjectMeta[] {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return projectRegistry.map(({ component, ...meta }) => meta);
+export function getAllProjects(includeDrafts = false): ProjectMeta[] {
+  return projectRegistry
+    .filter((p) => includeDrafts || p.status !== 'draft')
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .map(({ component, ...meta }) => meta);
 }
 
 /**
