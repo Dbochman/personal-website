@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, useMemo, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Copy, Check, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
 import type { CommandExplanation, Mode, Tool } from './types';
@@ -64,13 +64,16 @@ export function Workspace({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const availableTabs: OutputTab[] = ['output'];
-  if (tool === 'sed') {
-    availableTabs.push('diff');
-  }
-  if (mode === 'learn') {
-    availableTabs.push('explain');
-  }
+  const availableTabs = useMemo<OutputTab[]>(() => {
+    const tabs: OutputTab[] = ['output'];
+    if (tool === 'sed') {
+      tabs.push('diff');
+    }
+    if (mode === 'learn') {
+      tabs.push('explain');
+    }
+    return tabs;
+  }, [tool, mode]);
   const showTabs = availableTabs.length > 1;
   const shouldHighlightGrep = tool === 'grep' && !error && !!output && !isLoading;
 

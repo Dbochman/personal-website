@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTheme } from '@/context/ThemeContext';
 
 interface CardCommentsProps {
@@ -30,7 +30,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
     return () => observer.disconnect();
   }, []);
 
-  const getGiscusTheme = () => (isDark ? 'dark' : 'light');
+  const getGiscusTheme = useCallback(() => (isDark ? 'dark' : 'light'), [isDark]);
 
   const sendThemeUpdate = (giscusTheme: string) => {
     const iframe = commentsRef.current?.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
@@ -40,7 +40,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
     );
   };
 
-  const loadGiscus = (giscusTheme: string) => {
+  const loadGiscus = useCallback((giscusTheme: string) => {
     if (!commentsRef.current) return;
     commentsRef.current.innerHTML = '';
     const script = document.createElement('script');
@@ -60,7 +60,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
     script.setAttribute('crossorigin', 'anonymous');
     script.async = true;
     commentsRef.current.appendChild(script);
-  };
+  }, [cardId]);
 
   // Load Giscus script when visible
   useEffect(() => {
@@ -74,7 +74,7 @@ export function CardComments({ cardId }: CardCommentsProps) {
     }
 
     sendThemeUpdate(giscusTheme);
-  }, [isVisible, cardId, isDark]);
+  }, [isVisible, cardId, isDark, getGiscusTheme, loadGiscus]);
 
   return (
     <div ref={commentsRef} className="giscus-container min-h-[200px]">

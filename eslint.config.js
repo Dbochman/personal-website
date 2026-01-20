@@ -25,5 +25,18 @@ export default tseslint.config(
       ],
       "@typescript-eslint/no-unused-vars": "error",
     },
+  },
+  // Disable react-refresh rule for files where mixed exports are intentional
+  {
+    files: [
+      "src/components/ui/**/*.tsx",     // shadcn/ui exports variants alongside components
+      "src/context/**/*.tsx",           // Context files export providers + hooks
+      "src/hooks/**/*.tsx",             // Hook files may export related utilities
+      "src/components/blog/MDXComponents.tsx", // MDX component mappings
+      "src/App.tsx",                    // App exports router config
+    ],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
   }
 );

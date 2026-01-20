@@ -264,7 +264,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
     } finally {
       setIsSaving(false);
     }
-  }, [board, boardId, auth.authenticated]);
+  }, [board, boardId, auth.authenticated, baseUpdatedAt]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
