@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Copy, Check, ChevronDown, ChevronUp, ArrowRight } from 'lucide-react';
-import type { CommandExplanation, Mode } from './types';
+import type { CommandExplanation, Mode, Tool } from './types';
 
 interface WorkspaceProps {
   input: string;
@@ -9,6 +9,12 @@ interface WorkspaceProps {
   error?: string;
   isLoading: boolean;
   mode: Mode;
+  tool: Tool;
+  command: string;
+  goalStatus?: {
+    status: 'pass' | 'fail' | 'pending';
+    label: string;
+  };
   explanation: CommandExplanation | null;
   hideStdin?: boolean;
   emptyStatePrompt?: string; // Lesson-aware prompt for empty output
@@ -26,7 +32,7 @@ function LineNumbers({ count }: { count: number }) {
   );
 }
 
-type OutputTab = 'output' | 'explain';
+type OutputTab = 'output' | 'diff' | 'explain';
 
 export function Workspace({
   input,
@@ -34,6 +40,9 @@ export function Workspace({
   error,
   isLoading,
   mode,
+  tool,
+  command,
+  goalStatus,
   explanation,
   hideStdin,
   emptyStatePrompt,
@@ -55,9 +64,112 @@ export function Workspace({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const showTabs = mode === 'learn';
-  // In playground mode, always show output regardless of activeTab state
+  const availableTabs: OutputTab[] = ['output'];
+  if (tool === 'sed') {
+    availableTabs.push('diff');
+  }
+  if (mode === 'learn') {
+    availableTabs.push('explain');
+  }
+  const showTabs = availableTabs.length > 1;
+  const shouldHighlightGrep = tool === 'grep' && !error && !!output && !isLoading;
+
+  const getGrepHighlightRegex = (command: string): RegExp | null => {
+    const parts = command.match(/^(-[invE]+\s+)?(.+)$/);
+    if (!parts) return null;
+
+    const flags = parts[1]?.trim() || '';
+    if (flags.includes('v')) return null;
+
+    let pattern = parts[2].trim();
+    if ((pattern.startsWith('"') && pattern.endsWith('"')) ||
+        (pattern.startsWith("'") && pattern.endsWith("'"))) {
+      pattern = pattern.slice(1, -1);
+    }
+
+    const caseInsensitive = flags.includes('i');
+    const extendedRegex = flags.includes('E');
+    const regexFlags = caseInsensitive ? 'gi' : 'g';
+    const regexPattern = extendedRegex
+      ? pattern
+      : pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    try {
+      return new RegExp(regexPattern, regexFlags);
+    } catch {
+      return null;
+    }
+  };
+
+  const renderHighlightedLine = (line: string, regex: RegExp, lineIndex: number) => {
+    regex.lastIndex = 0;
+    const parts: ReactNode[] = [];
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+
+    while ((match = regex.exec(line)) !== null) {
+      const start = match.index ?? 0;
+      const end = start + match[0].length;
+      if (start > lastIndex) {
+        parts.push(line.slice(lastIndex, start));
+      }
+      parts.push(
+        <mark
+          key={`${lineIndex}-${start}`}
+          className="bg-amber-200/40 text-foreground rounded-sm px-0.5"
+        >
+          {line.slice(start, end)}
+        </mark>
+      );
+      lastIndex = end;
+    }
+
+    if (lastIndex < line.length) {
+      parts.push(line.slice(lastIndex));
+    }
+
+    return parts.length > 0 ? parts : line;
+  };
+
+  const highlightRegex = shouldHighlightGrep ? getGrepHighlightRegex(command) : null;
+  const shouldRenderHighlights = highlightRegex && output.trim() !== '(no matches)';
+  const highlightedOutput = shouldRenderHighlights
+    ? output.split('\n').map((line, index, arr) => (
+        <span key={`${index}`}>
+          {renderHighlightedLine(line, highlightRegex, index)}
+          {index < arr.length - 1 ? '\n' : null}
+        </span>
+      ))
+    : output;
+
+  const getDiffLines = () => {
+    const before = input.split('\n');
+    const after = output.split('\n');
+    const maxLines = Math.max(before.length, after.length);
+    const diff: { type: 'same' | 'add' | 'remove'; text: string }[] = [];
+
+    for (let i = 0; i < maxLines; i += 1) {
+      const left = before[i] ?? '';
+      const right = after[i] ?? '';
+      if (left === right) {
+        diff.push({ type: 'same', text: left });
+      } else {
+        if (left) diff.push({ type: 'remove', text: left });
+        if (right) diff.push({ type: 'add', text: right });
+      }
+    }
+
+    return diff;
+  };
+
+  // In single-tab mode, always show output regardless of activeTab state
   const effectiveTab = showTabs ? activeTab : 'output';
+
+  useEffect(() => {
+    if (!availableTabs.includes(activeTab)) {
+      setActiveTab('output');
+    }
+  }, [availableTabs, activeTab]);
 
   return (
     <div className={`grid gap-3 ${hideStdin ? '' : 'lg:grid-cols-2'} min-h-[200px]`}>
@@ -97,48 +209,63 @@ export function Workspace({
         <div className="flex items-center justify-between px-3 py-1.5 bg-muted/50 border-b">
           {showTabs ? (
             <div className="flex items-center gap-1">
-              <button
-                onClick={() => setActiveTab('output')}
-                className={`text-xs font-medium px-2 py-0.5 rounded transition-colors ${
-                  effectiveTab === 'output'
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                {error ? 'Error' : 'Output'}
-              </button>
-              <button
-                onClick={() => setActiveTab('explain')}
-                className={`text-xs font-medium px-2 py-0.5 rounded transition-colors ${
-                  effectiveTab === 'explain'
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                Explain
-              </button>
+              {availableTabs.map((tab) => {
+                const label = tab === 'output'
+                  ? (error ? 'Error' : 'Output')
+                  : tab === 'diff'
+                    ? 'Diff'
+                    : 'Explain';
+                return (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`text-xs font-medium px-2 py-0.5 rounded transition-colors ${
+                      effectiveTab === tab
+                        ? 'bg-background text-foreground shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
             </div>
           ) : (
             <span className="text-xs font-medium text-muted-foreground">
               {error ? 'Error' : 'Output'}
             </span>
           )}
-          {effectiveTab === 'output' && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 px-1.5 gap-1"
-              onClick={handleCopy}
-              disabled={!output && !error}
-            >
-              {copied ? (
-                <Check className="h-3 w-3 text-green-500" />
-              ) : (
-                <Copy className="h-3 w-3" />
-              )}
-              <span className="text-xs">Copy</span>
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            {goalStatus && (
+              <span
+                className={`text-[11px] font-medium px-2 py-0.5 rounded-full border ${
+                  goalStatus.status === 'pass'
+                    ? 'border-green-500/30 text-green-600 bg-green-500/10'
+                    : goalStatus.status === 'fail'
+                      ? 'border-red-500/30 text-red-500 bg-red-500/10'
+                      : 'border-amber-500/30 text-amber-600 bg-amber-500/10'
+                }`}
+              >
+                {goalStatus.label}
+              </span>
+            )}
+            {effectiveTab === 'output' && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-6 px-1.5 gap-1"
+                onClick={handleCopy}
+                disabled={!output && !error}
+              >
+                {copied ? (
+                  <Check className="h-3 w-3 text-green-500" />
+                ) : (
+                  <Copy className="h-3 w-3" />
+                )}
+                <span className="text-xs">Copy</span>
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Output content */}
@@ -155,10 +282,45 @@ export function Workspace({
               ) : error ? (
                 error
               ) : output ? (
-                output
+                highlightedOutput
               ) : (
                 <span className="text-muted-foreground/50">
                   {emptyStatePrompt || 'Output will appear here...'}
+                </span>
+              )}
+            </pre>
+          </div>
+        )}
+
+        {/* Diff content (sed only) */}
+        {effectiveTab === 'diff' && (
+          <div className="flex flex-1">
+            <LineNumbers count={Math.max(outputLines, inputLines)} />
+            <pre className="flex-1 font-mono text-sm leading-5 p-3 pl-0 overflow-auto whitespace-pre-wrap min-h-[150px]">
+              {isLoading ? (
+                <span className="text-muted-foreground animate-pulse">Running...</span>
+              ) : error ? (
+                <span className="text-red-400">{error}</span>
+              ) : output ? (
+                getDiffLines().map((line, index) => (
+                  <span
+                    key={`${line.type}-${index}`}
+                    className={
+                      line.type === 'add'
+                        ? 'text-emerald-500'
+                        : line.type === 'remove'
+                          ? 'text-red-500'
+                          : 'text-muted-foreground'
+                    }
+                  >
+                    {line.type === 'add' ? '+ ' : line.type === 'remove' ? '- ' : '  '}
+                    {line.text}
+                    {'\n'}
+                  </span>
+                ))
+              ) : (
+                <span className="text-muted-foreground/50">
+                  Run the command to see a diff.
                 </span>
               )}
             </pre>
