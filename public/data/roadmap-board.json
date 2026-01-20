@@ -500,6 +500,100 @@
           ],
           "planFile": "docs/plans/22-tailwind-v4-upgrade.md",
           "title": "Tailwind CSS v4 Upgrade"
+        },
+        {
+          "id": "seo-sre-keywords",
+          "title": "Add SRE Keywords to Title/Meta/H1",
+          "description": "The site lacks explicit 'Site Reliability Engineer' keywords in visible content. Add SRE alongside 'Technical Incident Manager' in title tags, meta descriptions, and H1 headings to improve discoverability for hiring managers searching SRE-related queries.",
+          "labels": ["High", "SEO"],
+          "planFile": "docs/plans/49-seo-sre-keywords.md",
+          "checklist": [
+            {"id": "seo-kw-1", "text": "Update index.html title to include 'SRE'", "completed": false},
+            {"id": "seo-kw-2", "text": "Update meta description with SRE terminology", "completed": false},
+            {"id": "seo-kw-3", "text": "Update HeroSection h2 to mention SRE", "completed": false},
+            {"id": "seo-kw-4", "text": "Update Seo.tsx default keywords", "completed": false}
+          ],
+          "createdAt": "2026-01-20"
+        },
+        {
+          "id": "seo-sre-blog-posts",
+          "title": "Write SRE-Focused Blog Posts",
+          "description": "Current blog posts focus on dev tooling/AI, not reliability topics. Write 2-3 posts on incident management, SLOs, or postmortems to rank for SRE-related searches and demonstrate domain expertise.",
+          "labels": ["High", "SEO", "Content"],
+          "planFile": "docs/plans/50-seo-sre-blog-posts.md",
+          "checklist": [
+            {"id": "seo-blog-1", "text": "Write post on incident response best practices", "completed": false},
+            {"id": "seo-blog-2", "text": "Write post on SLO implementation lessons", "completed": false},
+            {"id": "seo-blog-3", "text": "Write post on postmortem culture", "completed": false}
+          ],
+          "createdAt": "2026-01-20"
+        },
+        {
+          "id": "seo-skills-text",
+          "title": "Add Crawlable Skills Section",
+          "description": "Skills are currently shown as icons without crawlable text. Add an explicit skills list in text form (Prometheus, Grafana, Kubernetes, Terraform, etc.) so search engines can index them.",
+          "labels": ["Medium", "SEO"],
+          "planFile": "docs/plans/51-seo-skills-section.md",
+          "checklist": [
+            {"id": "seo-skills-1", "text": "Create skills data file with categories", "completed": false},
+            {"id": "seo-skills-2", "text": "Add skills section to Index page or Sidebar", "completed": false},
+            {"id": "seo-skills-3", "text": "Ensure text is visible (not just icons)", "completed": false}
+          ],
+          "createdAt": "2026-01-20"
+        },
+        {
+          "id": "seo-jsonld-sameas",
+          "title": "Expand JSON-LD sameAs Links",
+          "description": "Person schema currently only links to LinkedIn. Add GitHub and Twitter to sameAs array for better identity signals to search engines.",
+          "labels": ["Medium", "SEO"],
+          "planFile": "docs/plans/52-seo-jsonld-sameas.md",
+          "checklist": [
+            {"id": "seo-sameas-1", "text": "Add GitHub profile URL to sameAs", "completed": false},
+            {"id": "seo-sameas-2", "text": "Add Twitter profile URL to sameAs", "completed": false},
+            {"id": "seo-sameas-3", "text": "Validate with Google Rich Results Test", "completed": false}
+          ],
+          "createdAt": "2026-01-20"
+        },
+        {
+          "id": "seo-aria-labels",
+          "title": "Add aria-labels to Icon Links",
+          "description": "Social links (LinkedIn, email) use icons without descriptive text. Add aria-labels for accessibility and to help search crawlers understand link purposes.",
+          "labels": ["Medium", "SEO", "Accessibility"],
+          "planFile": "docs/plans/53-seo-aria-labels.md",
+          "checklist": [
+            {"id": "seo-aria-1", "text": "Add aria-label to LinkedIn button in HeroSection", "completed": false},
+            {"id": "seo-aria-2", "text": "Add aria-label to email button in HeroSection", "completed": false},
+            {"id": "seo-aria-3", "text": "Audit other icon-only links across site", "completed": false}
+          ],
+          "createdAt": "2026-01-20"
+        },
+        {
+          "id": "seo-about-page",
+          "title": "Create Dedicated About Page",
+          "description": "Add a full About page with detailed bio including SRE terminology, career history, and expertise areas. Provides more crawlable content targeting 'SRE portfolio' queries.",
+          "labels": ["Low", "SEO", "Content"],
+          "planFile": "docs/plans/54-seo-about-page.md",
+          "checklist": [
+            {"id": "seo-about-1", "text": "Create About page route", "completed": false},
+            {"id": "seo-about-2", "text": "Write detailed bio with SRE/incident management focus", "completed": false},
+            {"id": "seo-about-3", "text": "Add navigation link to About page", "completed": false},
+            {"id": "seo-about-4", "text": "Add JSON-LD Person schema to About page", "completed": false}
+          ],
+          "createdAt": "2026-01-20"
+        },
+        {
+          "id": "seo-faq-schema",
+          "title": "Add FAQ Section with Schema",
+          "description": "Add FAQ section answering common questions (e.g., 'What does an SRE do?') with FAQPage schema markup. Can capture featured snippets and voice search queries.",
+          "labels": ["Low", "SEO"],
+          "planFile": "docs/plans/55-seo-faq-section.md",
+          "checklist": [
+            {"id": "seo-faq-1", "text": "Draft 5-7 FAQ questions and answers", "completed": false},
+            {"id": "seo-faq-2", "text": "Create FAQ component with collapsible answers", "completed": false},
+            {"id": "seo-faq-3", "text": "Add FAQPage JSON-LD schema", "completed": false},
+            {"id": "seo-faq-4", "text": "Validate with Rich Results Test", "completed": false}
+          ],
+          "createdAt": "2026-01-20"
         }
       ],
       "description": "Planned tasks ready to start",
