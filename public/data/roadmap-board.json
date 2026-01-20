@@ -595,61 +595,7 @@
       "title": "To Do"
     },
     {
-      "cards": [
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "vr-1",
-              "text": "Create visual.spec.ts with full-page screenshots"
-            },
-            {
-              "completed": false,
-              "id": "vr-2",
-              "text": "Update playwright.config.ts with snapshot settings"
-            },
-            {
-              "completed": false,
-              "id": "vr-3",
-              "text": "Add CI integration with artifact upload on failure"
-            },
-            {
-              "completed": false,
-              "id": "vr-4",
-              "text": "Set up baseline management (Git LFS or separate branch)"
-            },
-            {
-              "completed": false,
-              "id": "vr-5",
-              "text": "Add flakiness handling (mask dynamic content, disable animations)"
-            }
-          ],
-          "createdAt": "2026-01-13",
-          "description": "Playwright screenshot tests comparing against baselines. Catches unintended UI changes in CI.",
-          "id": "visual-regression",
-          "labels": [
-            "Medium",
-            "Testing"
-          ],
-          "planFile": "docs/plans/08-visual-regression-testing.md",
-          "title": "Visual Regression Testing",
-          "history": [
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-20T20:00:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-20T20:00:00.000Z",
-              "type": "column"
-            }
-          ],
-          "updatedAt": "2026-01-20T20:00:00.000Z"
-        }
-      ],
+      "cards": [],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -662,6 +608,67 @@
     },
     {
       "cards": [
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "vr-1",
+              "text": "Create visual.spec.ts with full-page screenshots"
+            },
+            {
+              "completed": true,
+              "id": "vr-2",
+              "text": "Update playwright.config.ts with snapshot settings"
+            },
+            {
+              "completed": true,
+              "id": "vr-3",
+              "text": "Add CI integration with artifact upload on failure"
+            },
+            {
+              "completed": true,
+              "id": "vr-4",
+              "text": "Set up baseline management (Git LFS or separate branch)"
+            },
+            {
+              "completed": true,
+              "id": "vr-5",
+              "text": "Add flakiness handling (mask dynamic content, disable animations)"
+            }
+          ],
+          "createdAt": "2026-01-13",
+          "description": "Playwright screenshot tests comparing against baselines. Catches unintended UI changes in CI.\n\nImplemented:\n- 14 visual tests (light/dark mode, mobile viewport, component states)\n- CI workflow triggered after deploy with manual baseline update option\n- Animation disabling and dynamic content masking for stability\n- Codex review integration caught checkout ref and path template issues",
+          "history": [
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-20T20:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-20T20:00:00.000Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-20T21:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "visual-regression",
+          "labels": [
+            "PR #177",
+            "PR #179",
+            "Testing"
+          ],
+          "planFile": "docs/plans/08-visual-regression-testing.md",
+          "summary": "Playwright visual regression tests with CI workflow and baseline management",
+          "title": "Visual Regression Testing",
+          "updatedAt": "2026-01-20T21:00:00.000Z"
+        },
         {
           "checklist": [
             {
@@ -1448,5 +1455,5 @@
   "createdAt": "2026-01-16T14:45:27.429Z",
   "id": "roadmap",
   "title": "Site Roadmap",
-  "updatedAt": "2026-01-20T19:34:50.455Z"
+  "updatedAt": "2026-01-20T21:00:00.000Z"
 }
