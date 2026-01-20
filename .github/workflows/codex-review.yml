@@ -1,0 +1,90 @@
+name: Codex PR Review
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+# Don't review docs-only changes
+concurrency:
+  group: codex-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    # Skip if PR is from dependabot or has [skip-review] in title
+    if: |
+      github.actor != 'dependabot[bot]' &&
+      !contains(github.event.pull_request.title, '[skip-review]')
+
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+
+      - name: Install Codex CLI
+        run: npm install -g @openai/codex
+
+      - name: Check for code changes
+        id: check
+        run: |
+          # Check if there are code changes (not just docs/config)
+          CHANGES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD \
+            -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.css' \
+            ':!*.config.*' ':!*.d.ts' | wc -l)
+          if [ "$CHANGES" -eq 0 ]; then
+            echo "has_code=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_code=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run Codex review
+        if: steps.check.outputs.has_code == 'true'
+        id: review
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          # Use codex review with base branch comparison
+          codex review \
+            --base origin/${{ github.base_ref }} \
+            --title "${{ github.event.pull_request.title }}" \
+            "Focus on: bugs, security issues, performance problems, and logic errors. Be concise. Use GitHub markdown with file:line references." \
+            > review_output.txt 2>&1 || true
+
+          # Check if we got output
+          if [ ! -s review_output.txt ]; then
+            echo "Codex review produced no output" > review_output.txt
+          fi
+
+      - name: Post review comment
+        if: steps.check.outputs.has_code == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Build comment with header
+          {
+            echo "## 🤖 Codex Review"
+            echo ""
+            cat review_output.txt
+            echo ""
+            echo "---"
+            echo "<sub>Automated review by OpenAI Codex • Skip by adding \`[skip-review]\` to PR title</sub>"
+          } > comment.txt
+
+          # Post as PR comment
+          gh pr comment ${{ github.event.pull_request.number }} --body-file comment.txt
+
+      - name: Skip comment for non-code changes
+        if: steps.check.outputs.has_code != 'true'
+        run: echo "No code changes to review (docs/config only)"
