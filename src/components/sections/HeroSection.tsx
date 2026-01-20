@@ -28,8 +28,8 @@ const HeroSection = () => {
           <div className="relative mb-6">
             <h2 className="text-6xl font-bold text-foreground mb-2 leading-tight font-mono tracking-tighter">
               Dylan Bochman<br />
-              <span className="block opacity-0 animate-fade-in-delay text-foreground/80 text-4xl">
-                Technical Incident Manager
+              <span className="block opacity-0 animate-fade-in-delay text-foreground/80 text-3xl">
+                Site Reliability Engineer & Incident Manager
               </span>
             </h2>
 
@@ -38,8 +38,8 @@ const HeroSection = () => {
               style={{ transform: 'translate(2px, 2px)' }}
             >
               Dylan Bochman<br />
-              <span className="block opacity-0 animate-fade-in-delay text-foreground/20 text-4xl">
-                Technical Incident Manager
+              <span className="block opacity-0 animate-fade-in-delay text-foreground/20 text-3xl">
+                Site Reliability Engineer & Incident Manager
               </span>
             </div>
           </div>
@@ -55,13 +55,13 @@ const HeroSection = () => {
           
           <div className="flex justify-center gap-4 mb-8">
             <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium" asChild>
-              <a href="mailto:dylanbochman@gmail.com">
+              <a href="mailto:dylanbochman@gmail.com" aria-label="Send email to Dylan Bochman">
                 <Mail className="w-4 h-4 mr-2" />
                 Get In Touch
               </a>
             </Button>
             <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium" asChild>
-              <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer" aria-label="Visit Dylan Bochman's LinkedIn profile">
                 <Linkedin className="w-4 h-4 mr-2" />
                 LinkedIn
               </a>

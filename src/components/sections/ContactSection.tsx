@@ -29,7 +29,7 @@ const ContactSection = () => {
         </p>
         <div className="flex justify-center gap-4 mb-12 flex-wrap">
           <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium" asChild>
-            <a href="mailto:dylanbochman@gmail.com" onClick={() => {
+            <a href="mailto:dylanbochman@gmail.com" aria-label="Request resume via email" onClick={() => {
               if (typeof gtag !== 'undefined') {
                 gtag('event', 'resume_request', {
                   event_category: 'engagement',
@@ -42,7 +42,7 @@ const ContactSection = () => {
             </a>
           </Button>
           <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium" asChild>
-            <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer" onClick={() => {
+            <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer" aria-label="Visit Dylan Bochman's LinkedIn profile" onClick={() => {
               if (typeof gtag !== 'undefined') {
                 gtag('event', 'linkedin_click', {
                   event_category: 'engagement',

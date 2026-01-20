@@ -16,10 +16,12 @@ const Seo = ({ title, description, imageUrl, url, keywords }: SeoProps) => {
   const fullImageUrl = imageUrl ? `https://dylanbochman.com${imageUrl}` : 'https://dylanbochman.com/social-preview.webp';
   const fullUrl = url ? `https://dylanbochman.com${url}` : 'https://dylanbochman.com';
   
-  // Default technical skills keywords
+  // Default technical skills keywords - lead with job title variants people search
   const defaultKeywords = [
-    'Site Reliability Engineering',
+    'Site Reliability Engineer',
     'SRE',
+    'SRE Portfolio',
+    'Site Reliability Engineering',
     'Technical Incident Manager',
     'Incident Management',
     'Groq',
