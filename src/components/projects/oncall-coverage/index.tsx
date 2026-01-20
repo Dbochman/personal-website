@@ -15,6 +15,7 @@ import { BusinessHoursTimeline } from './BusinessHoursTimeline';
 import { MetricsPanel } from './MetricsPanel';
 import { TeamList } from './TeamList';
 import { Tradeoffs } from './Tradeoffs';
+import { trackToolEvent } from '@/lib/trackToolEvent';
 
 export default function OncallCoverage() {
   const [selectedModelId, setSelectedModelId] = useState(COVERAGE_MODELS[0].id);
@@ -31,7 +32,10 @@ export default function OncallCoverage() {
       {/* Model selector */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-2">
         <label className="text-sm font-medium shrink-0">Coverage Model:</label>
-        <Select value={selectedModelId} onValueChange={setSelectedModelId}>
+        <Select value={selectedModelId} onValueChange={(value) => {
+          setSelectedModelId(value);
+          trackToolEvent({ tool_name: 'oncall_coverage', action: 'model_select', event_label: value });
+        }}>
           <SelectTrigger className="w-full sm:w-80" aria-label="Select coverage model">
             <SelectValue />
           </SelectTrigger>
