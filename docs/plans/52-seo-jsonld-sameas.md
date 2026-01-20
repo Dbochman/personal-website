@@ -2,7 +2,7 @@
 
 ## Goal
 
-Add GitHub and Twitter URLs to the Person schema `sameAs` array. This strengthens identity signals to search engines by connecting Dylan's profile across platforms.
+Add GitHub URL to the Person schema `sameAs` array. This strengthens identity signals to search engines by connecting Dylan's profile across platforms.
 
 ## Non-Goals
 
@@ -19,7 +19,7 @@ Add GitHub and Twitter URLs to the Person schema `sameAs` array. This strengthen
 ]
 ```
 
-Only LinkedIn is linked. GitHub and Twitter are missing.
+Only LinkedIn is linked. GitHub is missing.
 
 ---
 
@@ -31,8 +31,7 @@ Only LinkedIn is linked. GitHub and Twitter are missing.
   "sameAs": [
 -   "https://www.linkedin.com/in/dylanbochman"
 +   "https://www.linkedin.com/in/dylanbochman",
-+   "https://github.com/dbochman",
-+   "https://twitter.com/dylanbochman"
++   "https://github.com/dbochman"
   ]
 ```
 
@@ -70,8 +69,7 @@ Only LinkedIn is linked. GitHub and Twitter are missing.
   ],
   "sameAs": [
     "https://www.linkedin.com/in/dylanbochman",
-    "https://github.com/dbochman",
-    "https://twitter.com/dylanbochman"
+    "https://github.com/dbochman"
   ]
 }
 </script>
@@ -87,7 +85,7 @@ Only LinkedIn is linked. GitHub and Twitter are missing.
 npm run dev
 # View page source
 # Search for "sameAs"
-# Verify all three URLs appear
+# Verify URLs appear
 ```
 
 ### 2. JSON Validation
@@ -102,7 +100,7 @@ npm run dev
 1. Go to https://search.google.com/test/rich-results
 2. Enter `https://dylanbochman.com` (after deploy)
 3. Verify Person schema detected
-4. Check `sameAs` shows all three URLs
+4. Check `sameAs` shows URL
 
 ### 4. Schema.org Validator
 
@@ -116,7 +114,6 @@ npm run dev
 
 - [ ] Update `sameAs` array in `index.html` (line 105-107)
 - [ ] Add GitHub URL: `https://github.com/dbochman`
-- [ ] Add Twitter URL: `https://twitter.com/dylanbochman`
 - [ ] Verify JSON is valid (no trailing commas)
 - [ ] Test with Rich Results Test after deploy
 
