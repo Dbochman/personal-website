@@ -506,44 +506,6 @@
           "checklist": [
             {
               "completed": false,
-              "id": "vr-1",
-              "text": "Create visual.spec.ts with full-page screenshots"
-            },
-            {
-              "completed": false,
-              "id": "vr-2",
-              "text": "Update playwright.config.ts with snapshot settings"
-            },
-            {
-              "completed": false,
-              "id": "vr-3",
-              "text": "Add CI integration with artifact upload on failure"
-            },
-            {
-              "completed": false,
-              "id": "vr-4",
-              "text": "Set up baseline management (Git LFS or separate branch)"
-            },
-            {
-              "completed": false,
-              "id": "vr-5",
-              "text": "Add flakiness handling (mask dynamic content, disable animations)"
-            }
-          ],
-          "createdAt": "2026-01-13",
-          "description": "Playwright screenshot tests comparing against baselines. Catches unintended UI changes in CI.",
-          "id": "visual-regression",
-          "labels": [
-            "Medium",
-            "Testing"
-          ],
-          "planFile": "docs/plans/08-visual-regression-testing.md",
-          "title": "Visual Regression Testing"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
               "id": "tw-1",
               "text": "Run npx @tailwindcss/upgrade on feature branch"
             },
@@ -638,155 +600,54 @@
           "checklist": [
             {
               "completed": false,
-              "id": "seo-kw-1",
-              "text": "Update index.html title to include 'SRE'"
+              "id": "vr-1",
+              "text": "Create visual.spec.ts with full-page screenshots"
             },
             {
               "completed": false,
-              "id": "seo-kw-2",
-              "text": "Update meta description with SRE terminology"
+              "id": "vr-2",
+              "text": "Update playwright.config.ts with snapshot settings"
             },
             {
               "completed": false,
-              "id": "seo-kw-3",
-              "text": "Update HeroSection h2 to mention SRE"
+              "id": "vr-3",
+              "text": "Add CI integration with artifact upload on failure"
             },
             {
               "completed": false,
-              "id": "seo-kw-4",
-              "text": "Update Seo.tsx default keywords"
+              "id": "vr-4",
+              "text": "Set up baseline management (Git LFS or separate branch)"
+            },
+            {
+              "completed": false,
+              "id": "vr-5",
+              "text": "Add flakiness handling (mask dynamic content, disable animations)"
             }
           ],
-          "createdAt": "2026-01-20",
-          "description": "The site lacks explicit 'Site Reliability Engineer' keywords in visible content. Add SRE alongside 'Technical Incident Manager' in title tags, meta descriptions, and H1 headings to improve discoverability for hiring managers searching SRE-related queries.",
-          "history": [
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-20T19:34:18.554Z",
-              "type": "column"
-            }
-          ],
-          "id": "seo-sre-keywords",
-          "labels": [
-            "High",
-            "SEO"
-          ],
-          "planFile": "docs/plans/49-seo-sre-keywords.md",
-          "title": "Add SRE Keywords to Title/Meta/H1",
-          "updatedAt": "2026-01-20T19:34:18.554Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "seo-sameas-1",
-              "text": "Add GitHub profile URL to sameAs"
-            },
-            {
-              "completed": false,
-              "id": "seo-sameas-2",
-              "text": "Add Twitter profile URL to sameAs"
-            },
-            {
-              "completed": false,
-              "id": "seo-sameas-3",
-              "text": "Validate with Google Rich Results Test"
-            }
-          ],
-          "createdAt": "2026-01-20",
-          "description": "Person schema currently only links to LinkedIn. Add GitHub and Twitter to sameAs array for better identity signals to search engines.",
-          "history": [
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-20T19:34:25.623Z",
-              "type": "column"
-            }
-          ],
-          "id": "seo-jsonld-sameas",
+          "createdAt": "2026-01-13",
+          "description": "Playwright screenshot tests comparing against baselines. Catches unintended UI changes in CI.",
+          "id": "visual-regression",
           "labels": [
             "Medium",
-            "SEO"
+            "Testing"
           ],
-          "planFile": "docs/plans/52-seo-jsonld-sameas.md",
-          "title": "Expand JSON-LD sameAs Links",
-          "updatedAt": "2026-01-20T19:34:25.623Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "seo-skills-1",
-              "text": "Create skills data file with categories"
-            },
-            {
-              "completed": false,
-              "id": "seo-skills-2",
-              "text": "Add skills section to Index page or Sidebar"
-            },
-            {
-              "completed": false,
-              "id": "seo-skills-3",
-              "text": "Ensure text is visible (not just icons)"
-            }
-          ],
-          "createdAt": "2026-01-20",
-          "description": "Skills are currently shown as icons without crawlable text. Add an explicit skills list in text form (Prometheus, Grafana, Kubernetes, Terraform, etc.) so search engines can index them.",
+          "planFile": "docs/plans/08-visual-regression-testing.md",
+          "title": "Visual Regression Testing",
           "history": [
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-20T20:00:00.000Z",
+              "type": "column"
+            },
             {
               "columnId": "in-progress",
               "columnTitle": "In Progress",
-              "timestamp": "2026-01-20T19:34:45.528Z",
+              "timestamp": "2026-01-20T20:00:00.000Z",
               "type": "column"
             }
           ],
-          "id": "seo-skills-text",
-          "labels": [
-            "Medium",
-            "SEO"
-          ],
-          "planFile": "docs/plans/51-seo-skills-section.md",
-          "title": "Add Crawlable Skills Section",
-          "updatedAt": "2026-01-20T19:34:45.528Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "seo-aria-1",
-              "text": "Add aria-label to LinkedIn button in HeroSection"
-            },
-            {
-              "completed": false,
-              "id": "seo-aria-2",
-              "text": "Add aria-label to email button in HeroSection"
-            },
-            {
-              "completed": false,
-              "id": "seo-aria-3",
-              "text": "Audit other icon-only links across site"
-            }
-          ],
-          "createdAt": "2026-01-20",
-          "description": "Social links (LinkedIn, email) use icons without descriptive text. Add aria-labels for accessibility and to help search crawlers understand link purposes.",
-          "history": [
-            {
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-20T19:34:28.886Z",
-              "type": "column"
-            }
-          ],
-          "id": "seo-aria-labels",
-          "labels": [
-            "Medium",
-            "SEO",
-            "Accessibility"
-          ],
-          "planFile": "docs/plans/53-seo-aria-labels.md",
-          "title": "Add aria-labels to Icon Links",
-          "updatedAt": "2026-01-20T19:34:28.886Z"
+          "updatedAt": "2026-01-20T20:00:00.000Z"
         }
       ],
       "color": "blue",
@@ -801,6 +662,178 @@
     },
     {
       "cards": [
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "seo-kw-1",
+              "text": "Update index.html title to include 'SRE'"
+            },
+            {
+              "completed": true,
+              "id": "seo-kw-2",
+              "text": "Update meta description with SRE terminology"
+            },
+            {
+              "completed": true,
+              "id": "seo-kw-3",
+              "text": "Update HeroSection h2 to mention SRE"
+            },
+            {
+              "completed": true,
+              "id": "seo-kw-4",
+              "text": "Update Seo.tsx default keywords"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Added SRE keywords to title tags, meta descriptions, and H1 headings for better search visibility.",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-20T19:34:18.554Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-20T20:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "seo-sre-keywords",
+          "labels": [
+            "PR #174",
+            "SEO"
+          ],
+          "planFile": "docs/plans/49-seo-sre-keywords.md",
+          "summary": "Added 'Site Reliability Engineer' to title, meta, OG tags, and JSON-LD",
+          "title": "Add SRE Keywords to Title/Meta/H1",
+          "updatedAt": "2026-01-20T20:00:00.000Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "seo-sameas-1",
+              "text": "Add GitHub profile URL to sameAs"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Added GitHub to JSON-LD sameAs array for better identity signals.",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-20T19:34:25.623Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-20T20:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "seo-jsonld-sameas",
+          "labels": [
+            "PR #174",
+            "SEO"
+          ],
+          "planFile": "docs/plans/52-seo-jsonld-sameas.md",
+          "summary": "Added GitHub to Person schema sameAs array",
+          "title": "Expand JSON-LD sameAs Links",
+          "updatedAt": "2026-01-20T20:00:00.000Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "seo-skills-1",
+              "text": "Create skills data file with categories"
+            },
+            {
+              "completed": true,
+              "id": "seo-skills-2",
+              "text": "Add skills section to Index page or Sidebar"
+            },
+            {
+              "completed": true,
+              "id": "seo-skills-3",
+              "text": "Ensure text is visible (not just icons)"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Added sr-only skills list to Sidebar for search engine crawlability.",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-20T19:34:45.528Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-20T20:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "seo-skills-text",
+          "labels": [
+            "PR #174",
+            "SEO"
+          ],
+          "planFile": "docs/plans/51-seo-skills-section.md",
+          "summary": "Added allSkills export and sr-only skills list for SEO",
+          "title": "Add Crawlable Skills Section",
+          "updatedAt": "2026-01-20T20:00:00.000Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "seo-aria-1",
+              "text": "Add aria-label to LinkedIn button in HeroSection"
+            },
+            {
+              "completed": true,
+              "id": "seo-aria-2",
+              "text": "Add aria-label to email button in HeroSection"
+            },
+            {
+              "completed": true,
+              "id": "seo-aria-3",
+              "text": "Audit other icon-only links across site"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Added aria-labels to all email and LinkedIn buttons for accessibility.",
+          "history": [
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-20T19:34:28.886Z",
+              "type": "column"
+            },
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-20T20:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "seo-aria-labels",
+          "labels": [
+            "PR #174",
+            "SEO",
+            "Accessibility"
+          ],
+          "planFile": "docs/plans/53-seo-aria-labels.md",
+          "summary": "Added aria-labels to HeroSection and ContactSection buttons",
+          "title": "Add aria-labels to Icon Links",
+          "updatedAt": "2026-01-20T20:00:00.000Z"
+        },
         {
           "checklist": [
             {
