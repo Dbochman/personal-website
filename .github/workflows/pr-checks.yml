@@ -27,6 +27,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Security audit
+        run: npm audit --audit-level=high --omit=dev
+        continue-on-error: true  # Don't block PRs on advisories; report only
+
       - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@v4

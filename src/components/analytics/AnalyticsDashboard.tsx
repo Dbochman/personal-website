@@ -108,8 +108,8 @@ export function AnalyticsDashboard() {
   const latestGA4 = ga4History[ga4History.length - 1];
   const previousGA4 = ga4History[ga4History.length - 2];
 
-  // Calculate session trend (guard against divide-by-zero)
-  const sessionTrend = latestGA4 && previousGA4 && previousGA4.summary.sessions > 0
+  // Calculate session trend (guard against missing data and divide-by-zero)
+  const sessionTrend = latestGA4?.summary?.sessions != null && previousGA4?.summary?.sessions != null && previousGA4.summary.sessions > 0
     ? ((latestGA4.summary.sessions - previousGA4.summary.sessions) / previousGA4.summary.sessions) * 100
     : undefined;
 
@@ -142,7 +142,7 @@ export function AnalyticsDashboard() {
         <motion.div variants={staggerItem}>
           <MetricCard
             title="Sessions (7d)"
-            value={latestGA4?.summary.sessions.toLocaleString() ?? '—'}
+            value={latestGA4?.summary?.sessions?.toLocaleString() ?? '—'}
             icon={Users}
             trend={sessionTrend}
           />
@@ -166,9 +166,9 @@ export function AnalyticsDashboard() {
         <motion.div variants={staggerItem}>
           <MetricCard
             title="Bounce Rate"
-            value={latestGA4 ? `${(latestGA4.summary.bounceRate * 100).toFixed(0)}%` : '—'}
+            value={latestGA4?.summary?.bounceRate != null ? `${(latestGA4.summary.bounceRate * 100).toFixed(0)}%` : '—'}
             icon={Activity}
-            status={latestGA4 ? (latestGA4.summary.bounceRate <= 0.5 ? 'good' : latestGA4.summary.bounceRate <= 0.7 ? 'warning' : 'critical') : undefined}
+            status={latestGA4?.summary?.bounceRate != null ? (latestGA4.summary.bounceRate <= 0.5 ? 'good' : latestGA4.summary.bounceRate <= 0.7 ? 'warning' : 'critical') : undefined}
           />
         </motion.div>
       </motion.div>

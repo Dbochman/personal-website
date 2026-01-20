@@ -58,16 +58,32 @@ jobs:
           # Authenticate with API key
           echo "$OPENAI_API_KEY" | codex login --with-api-key
 
-          # Use codex review with base branch comparison
-          # Note: --base and --commit are mutually exclusive; use --base for PR diffs
+          # Use codex review with JSON output for structured parsing
+          # --json outputs newline-delimited JSON events (JSONL stream)
+          # -o writes the final message to a file for reliable extraction
           codex review \
             --base origin/${{ github.base_ref }} \
             --title "${{ github.event.pull_request.title }}" \
-            > review_output.txt 2>&1 || true
+            --json \
+            -o findings.txt \
+            > review_events.jsonl 2>&1 || true
 
-          # Check if we got output
-          if [ ! -s review_output.txt ]; then
-            echo "Codex review produced no output" > review_output.txt
+          # Fallback: if -o didn't produce output, extract from JSONL events
+          if [ ! -s findings.txt ]; then
+            # Extract agent message content from JSONL events
+            # Look for item.message.delta or item.message events with content
+            if [ -s review_events.jsonl ]; then
+              jq -rs '
+                [.[] | select(.type == "item.message" or .type == "item.message.delta")
+                     | .content // .delta // empty]
+                | add // "No findings extracted from review."
+              ' review_events.jsonl > findings.txt 2>/dev/null || true
+            fi
+          fi
+
+          # Final fallback if still empty
+          if [ ! -s findings.txt ]; then
+            echo "Review completed - see workflow logs for details." > findings.txt
           fi
 
       - name: Post review comment
@@ -75,22 +91,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Extract only the findings from Codex output (skip verbose exec logs)
-          # The summary starts with a line beginning with "codex" (lowercase)
-          awk '
-            /^codex$/ { capture=1 }
-            capture { print }
-          ' review_output.txt > findings.txt
-
-          # If no findings extracted, check if there were no issues
-          if [ ! -s findings.txt ]; then
-            if grep -q "no issues" review_output.txt 2>/dev/null; then
-              echo "No issues found." > findings.txt
-            else
-              echo "Review completed - see workflow logs for details." > findings.txt
-            fi
-          fi
-
           # Clean up file paths (remove /home/runner/work/.../... prefix)
           sed -i 's|/home/runner/work/[^/]*/[^/]*/||g' findings.txt
 
