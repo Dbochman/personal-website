@@ -9,7 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 const ContactSection = () => {
 
   return (
-    <section id="contact" className="py-16 px-6 bg-gradient-to-t from-foreground/10 to-transparent relative mt-16">
+    <section id="contact" className="py-16 px-6 bg-linear-to-t from-foreground/10 to-transparent relative mt-16">
       {/* SRE Background Elements - Hidden on mobile */}
       <div className="hidden md:block">
         <div className="absolute top-8 left-12 w-20 h-20 parallax-element" data-speed="0.1" title="SLO Dashboard">

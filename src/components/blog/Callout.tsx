@@ -37,7 +37,7 @@ export function Callout({ type = 'info', title, children }: CalloutProps) {
   return (
     <div className={`my-6 rounded-lg border-l-4 ${style.border} ${style.bg} p-4`}>
       <div className="flex gap-3">
-        <div className="flex-shrink-0 mt-0.5">{style.icon}</div>
+        <div className="shrink-0 mt-0.5">{style.icon}</div>
         <div className="flex-1">
           {title && (
             <div className="font-semibold mb-2 text-foreground">{title}</div>

@@ -112,7 +112,7 @@ export function MermaidDiagram({ code }: MermaidDiagramProps) {
   }
 
   return (
-    <div className="w-full overflow-x-auto [&_svg_*]:!animate-none mermaid-scope">
+    <div className="w-full overflow-x-auto [&_svg_*]:animate-none! mermaid-scope">
       <style>{`
         .mermaid-scope .mermaid-jump {
           cursor: pointer;

@@ -200,7 +200,7 @@ export function Workspace({
             value={input}
             onChange={(e) => onInputChange(e.target.value)}
             placeholder="Paste or type input data..."
-            className="flex-1 bg-transparent border-none outline-none resize-none font-mono text-sm leading-5 p-3 pl-0 min-h-[150px]"
+            className="flex-1 bg-transparent border-none outline-hidden resize-none font-mono text-sm leading-5 p-3 pl-0 min-h-[150px]"
             spellCheck={false}
           />
         </div>
@@ -224,7 +224,7 @@ export function Workspace({
                     onClick={() => setActiveTab(tab)}
                     className={`text-xs font-medium px-2 py-0.5 rounded transition-colors ${
                       effectiveTab === tab
-                        ? 'bg-background text-foreground shadow-sm'
+                        ? 'bg-background text-foreground shadow-xs'
                         : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >

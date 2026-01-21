@@ -389,7 +389,7 @@ export function CardEditorModal({
                   <div className="text-xs text-muted-foreground space-y-2 max-h-32 overflow-y-auto">
                     {[...card.history].reverse().map((change, i) => (
                       <div key={i} className="flex flex-col gap-0.5">
-                        <span className="break-words">{formatChangeDescription(change)}</span>
+                        <span className="wrap-break-word">{formatChangeDescription(change)}</span>
                         <span className="text-muted-foreground/70">{formatDate(change.timestamp)}</span>
                       </div>
                     ))}

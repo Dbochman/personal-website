@@ -70,7 +70,7 @@ export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: Ka
       ref={setNodeRef}
       style={style}
       className={cn(
-        'p-3 border shadow-sm cursor-grab active:cursor-grabbing touch-none group relative',
+        'p-3 border shadow-xs cursor-grab active:cursor-grabbing touch-none group relative',
         colorConfig ? colorConfig.bg : 'bg-background',
         colorConfig && colorConfig.border,
         isDragging && 'opacity-50',
@@ -112,9 +112,9 @@ export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: Ka
       </div>
 
       <div className="pr-6">
-        <p className="font-medium text-sm break-words">{card.title}</p>
+        <p className="font-medium text-sm wrap-break-word">{card.title}</p>
         {(card.summary || card.description) && (
-          <p className="text-xs text-muted-foreground mt-1 break-words">
+          <p className="text-xs text-muted-foreground mt-1 wrap-break-word">
             {card.summary || card.description}
           </p>
         )}

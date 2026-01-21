@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 
 interface TagListProps {
   tags: string[];
-  variant?: 'outline' | 'secondary' | 'default';
+  variant?: 'outline-solid' | 'secondary' | 'default';
   size?: 'sm' | 'default';
   /** Max tags on mobile (default 5) */
   mobileLimit?: number;

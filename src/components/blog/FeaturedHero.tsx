@@ -21,7 +21,7 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
   return (
     <article className="relative group h-full">
       <div className="h-full p-6 md:p-8 rounded-lg border border-foreground/10
-                      bg-gradient-to-br from-zinc-50 to-zinc-100
+                      bg-linear-to-br from-zinc-50 to-zinc-100
                       dark:from-zinc-800/60 dark:to-zinc-900/60
                       transition-all duration-300
                       group-hover:border-primary/50 group-hover:shadow-lg
@@ -39,7 +39,7 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
           <Link
             to={`/blog/${post.slug}`}
             onClick={handleClick}
-            className="after:absolute after:inset-0 after:content-[''] focus:outline-none"
+            className="after:absolute after:inset-0 after:content-[''] focus:outline-hidden"
           >
             {post.title}
           </Link>

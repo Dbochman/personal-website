@@ -76,7 +76,7 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
           >
             {experiences.map((exp, index) => (
               <motion.div key={index} variants={slowStaggerItem}>
-                <Card className="bg-background/60 backdrop-blur-sm border-foreground/20 hover:border-foreground/40 transition-all">
+                <Card className="bg-background/60 backdrop-blur-xs border-foreground/20 hover:border-foreground/40 transition-all">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <div>
@@ -117,7 +117,7 @@ const ExperienceSection = ({ value, onValueChange }: ExperienceSectionProps) => 
                   <ul className="space-y-2">
                     {exp.highlights.map((highlight, i) => (
                       <li key={i} className="flex items-start gap-3 text-foreground/80">
-                        <span className="w-2 h-2 bg-foreground rounded-full mt-2 flex-shrink-0"></span>
+                        <span className="w-2 h-2 bg-foreground rounded-full mt-2 shrink-0"></span>
                         <span className="text-sm">{highlight}</span>
                       </li>
                     ))}

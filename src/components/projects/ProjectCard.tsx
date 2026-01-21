@@ -64,7 +64,7 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
   return (
     <TransitionLink
       to={`/projects/${project.slug}`}
-      className="block group focus:outline-none"
+      className="block group focus:outline-hidden"
       onMouseEnter={handleFirstInteraction}
       onFocus={handleFirstInteraction}
     >
@@ -72,14 +72,14 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
         {/* Preview area - monochrome icon display */}
         <div className={cn(
           "relative h-32 flex items-center justify-center",
-          "bg-gradient-to-br from-foreground/5 via-foreground/[0.02] to-transparent"
+          "bg-linear-to-br from-foreground/5 via-foreground/2 to-transparent"
         )}>
           {/* Tool visualization */}
           {IconComponent && (
             <div className="relative">
               <div className="absolute inset-0 blur-xl opacity-50 bg-foreground/20" />
               <div
-                className="relative p-4 rounded-xl border shadow-sm bg-foreground/10 border-foreground/20"
+                className="relative p-4 rounded-xl border shadow-xs bg-foreground/10 border-foreground/20"
                 style={{ viewTransitionName: `project-icon-${project.slug}` }}
               >
                 <IconComponent className="w-8 h-8 text-foreground/80" />

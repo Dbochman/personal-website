@@ -11,8 +11,8 @@ const GoalsSection = () => {
         </h3>
         <div className="w-20 h-0.5 bg-foreground mx-auto"></div>
       </div>
-      <Card className="bg-background/30 backdrop-blur-sm border-foreground/20 hover:border-foreground/40 transition-all relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-foreground to-transparent"></div>
+      <Card className="bg-background/30 backdrop-blur-xs border-foreground/20 hover:border-foreground/40 transition-all relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-foreground to-transparent"></div>
         <CardContent className="p-8">
           <div className="text-center">
             <p className="text-lg text-foreground/90 leading-relaxed">

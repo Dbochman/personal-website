@@ -48,7 +48,7 @@ export function CommandRow({
         onChange={(e) => onCommandChange(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Enter command..."
-        className="flex-1 bg-transparent border-none outline-none font-mono text-sm placeholder:text-muted-foreground/50"
+        className="flex-1 bg-transparent border-none outline-hidden font-mono text-sm placeholder:text-muted-foreground/50"
         spellCheck={false}
         autoComplete="off"
       />
