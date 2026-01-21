@@ -7,12 +7,14 @@
     "node": ">=20.17.0"
   },
   "scripts": {
-    "dev": "node scripts/copy-metrics-to-public.js && tsx scripts/precompile-mdx.ts && vite",
+    "dev": "npm run build:content && vite",
     "precompile-mdx": "tsx scripts/precompile-mdx.ts",
     "copy-metrics": "node scripts/copy-metrics-to-public.js",
-    "build": "node scripts/copy-metrics-to-public.js && tsx scripts/precompile-mdx.ts && tsx scripts/generate-feeds.ts && node scripts/validate-projects.mjs && node scripts/generate-og-images.mjs && vite build && node scripts/prerender.mjs",
-    "build:netlify": "node scripts/copy-metrics-to-public.js && tsx scripts/precompile-mdx.ts && tsx scripts/generate-feeds.ts && node scripts/validate-projects.mjs && node scripts/generate-og-images.mjs && vite build",
-    "build:preview": "node scripts/copy-metrics-to-public.js && tsx scripts/precompile-mdx.ts && tsx scripts/generate-feeds.ts && node scripts/validate-projects.mjs && node scripts/generate-og-images.mjs && vite build",
+    "build:content": "node scripts/copy-metrics-to-public.js && tsx scripts/precompile-mdx.ts && tsx scripts/generate-feeds.ts && node scripts/validate-projects.mjs && node scripts/generate-og-images.mjs",
+    "build:vite": "vite build",
+    "build": "npm run build:content && npm run build:vite && node scripts/prerender.mjs",
+    "build:netlify": "npm run build:content && npm run build:vite",
+    "build:preview": "npm run build:content && npm run build:vite",
     "build:dev": "tsx scripts/precompile-mdx.ts && tsx scripts/generate-feeds.ts && vite build --mode development",
     "build:analyze": "ANALYZE=true npm run build",
     "lint": "eslint .",
