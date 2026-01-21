@@ -58,51 +58,40 @@ jobs:
           # Authenticate with API key
           echo "$OPENAI_API_KEY" | codex login --with-api-key
 
-          # Use codex exec review with JSON output for structured parsing
-          # --json and -o are global flags for `codex exec`, must come BEFORE the subcommand
-          # --json outputs newline-delimited JSON events (JSONL stream)
-          # -o writes the final message to a file for reliable extraction
-          # A PROMPT is required to tell Codex to output a summary (otherwise it only runs commands)
-          codex exec \
+          # Generate the diff for context
+          git diff origin/${{ github.base_ref }}...HEAD > pr_diff.txt
+
+          # Get list of changed files
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | head -20)
+
+          # Use codex exec with a direct prompt (not the review subcommand)
+          # The review subcommand doesn't output a message, so we use exec directly
+          cat << 'REVIEW_PROMPT' | codex exec \
             --json \
             -o findings.txt \
-            review \
-            --base origin/${{ github.base_ref }} \
-            --title "${{ github.event.pull_request.title }}" \
-            "Review the code changes and provide a summary of any issues, suggestions, or concerns. Format your response as a code review with sections for: 1) Summary, 2) Issues Found (if any), 3) Suggestions (if any). Be concise." \
+            -s read-only \
+            - \
             > review_events.jsonl 2>&1 || true
+          You are reviewing a pull request titled: "${{ github.event.pull_request.title }}"
 
-          # Debug: show what we got
-          echo "=== Debug: findings.txt exists? ==="
-          ls -la findings.txt 2>&1 || echo "findings.txt not found"
-          echo "=== Debug: review_events.jsonl stats ==="
-          wc -l review_events.jsonl 2>&1 || echo "review_events.jsonl not found"
-          echo "=== Debug: Event types in JSONL ==="
-          jq -r '.type // "no-type"' review_events.jsonl 2>/dev/null | sort | uniq -c | head -20 || echo "No valid JSON"
-          echo "=== Debug: Sample events ==="
-          head -5 review_events.jsonl 2>/dev/null || echo "No events"
-          echo "=== Debug: Last 5 events ==="
-          tail -5 review_events.jsonl 2>/dev/null || echo "No events"
+          Review the code changes in this repository. The diff has been saved to pr_diff.txt.
+          Read the diff file and analyze the changes.
 
-          # Fallback: if -o didn't produce output, extract from JSONL events
-          if [ ! -s findings.txt ]; then
-            echo "=== -o flag didn't produce output, trying JSONL extraction ==="
-            # Extract agent message content from JSONL events
-            # Try multiple possible event structures
-            if [ -s review_events.jsonl ]; then
-              # Try to find message content in various event formats
-              jq -rs '
-                [.[] |
-                  # Try different possible structures
-                  (.message.content // .content // .text // .delta.text // .delta // empty)
-                  | select(. != null and . != "")
-                ] | join("") | if . == "" then "No content found in events" else . end
-              ' review_events.jsonl > findings.txt 2>/dev/null || true
+          Provide a code review with:
+          1. **Summary**: What this PR does (1-2 sentences)
+          2. **Review**: Any issues, concerns, or suggestions
+          3. **Verdict**: LGTM, Needs Changes, or Needs Discussion
 
-              echo "=== Debug: Extracted content length ==="
-              wc -c findings.txt
-            fi
-          fi
+          Be concise and focus on substantive issues. Skip style nitpicks.
+          REVIEW_PROMPT
+
+          # Debug output
+          echo "=== Debug: findings.txt ==="
+          ls -la findings.txt 2>&1 || echo "not found"
+          head -20 findings.txt 2>/dev/null || echo "empty"
+
+          echo "=== Debug: JSONL event types ==="
+          jq -r '.type // "no-type"' review_events.jsonl 2>/dev/null | sort | uniq -c || echo "no events"
 
           # Final fallback if still empty
           if [ ! -s findings.txt ]; then
