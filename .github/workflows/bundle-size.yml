@@ -19,8 +19,8 @@ jobs:
 
       - run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Install Playwright for pre-rendering
+        run: npx playwright install chromium
 
       - name: Compare bundle size
         uses: preactjs/compressed-size-action@v2
