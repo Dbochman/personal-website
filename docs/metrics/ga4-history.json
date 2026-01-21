@@ -2093,5 +2093,357 @@
         "unit": "ms"
       }
     }
+  },
+  {
+    "timestamp": "2026-01-21T06:17:41.291Z",
+    "date": "2026-01-21",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 8109,
+      "users": 7870,
+      "pageViews": 8871,
+      "averageSessionDuration": 28,
+      "bounceRate": 0.94
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 2134,
+        "users": 2073,
+        "pageViews": 2490
+      },
+      {
+        "page": "/blog/",
+        "sessions": 1271,
+        "users": 1268,
+        "pageViews": 1273
+      },
+      {
+        "page": "/runbook",
+        "sessions": 950,
+        "users": 946,
+        "pageViews": 945
+      },
+      {
+        "page": "/blog",
+        "sessions": 687,
+        "users": 670,
+        "pageViews": 587
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 388,
+        "users": 387,
+        "pageViews": 387
+      },
+      {
+        "page": "/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai",
+        "sessions": 358,
+        "users": 356,
+        "pageViews": 358
+      },
+      {
+        "page": "/projects/kanban",
+        "sessions": 56,
+        "users": 6,
+        "pageViews": 355
+      },
+      {
+        "page": "/projects",
+        "sessions": 281,
+        "users": 211,
+        "pageViews": 301
+      },
+      {
+        "page": "/projects/uptime-calculator",
+        "sessions": 261,
+        "users": 258,
+        "pageViews": 277
+      },
+      {
+        "page": "/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai/",
+        "sessions": 216,
+        "users": 216,
+        "pageViews": 216
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 6893,
+        "users": 6690
+      },
+      {
+        "device": "mobile",
+        "sessions": 1214,
+        "users": 1178
+      },
+      {
+        "device": "tablet",
+        "sessions": 2,
+        "users": 2
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 7773,
+          "users": 7621
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 20,
+          "users": 5
+        },
+        {
+          "channel": "Referral",
+          "sessions": 10,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 4,
+          "users": 3
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 7773,
+          "users": 7621
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 18,
+          "users": 3
+        },
+        {
+          "source": "dashboard.uptimerobot.com",
+          "medium": "referral",
+          "sessions": 10,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 4,
+          "users": 3
+        },
+        {
+          "source": "bing",
+          "medium": "organic",
+          "sessions": 2,
+          "users": 2
+        }
+      ]
+    },
+    "webVitals": {
+      "FCP": {
+        "count": 1474,
+        "average": 548.6377204884668,
+        "unit": "ms"
+      },
+      "TTFB": {
+        "count": 1423,
+        "average": 104.33450456781448,
+        "unit": "ms"
+      },
+      "LCP": {
+        "count": 632,
+        "average": 350.5901898734177,
+        "unit": "ms"
+      },
+      "CLS": {
+        "count": 305,
+        "average": 0.009898360655737704,
+        "unit": ""
+      },
+      "INP": {
+        "count": 171,
+        "average": 48.70175438596491,
+        "unit": "ms"
+      }
+    }
+  },
+  {
+    "timestamp": "2026-01-21T06:18:08.085Z",
+    "date": "2026-01-21",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 8109,
+      "users": 7870,
+      "pageViews": 8871,
+      "averageSessionDuration": 28,
+      "bounceRate": 0.94
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 2134,
+        "users": 2073,
+        "pageViews": 2490
+      },
+      {
+        "page": "/blog/",
+        "sessions": 1271,
+        "users": 1268,
+        "pageViews": 1273
+      },
+      {
+        "page": "/runbook",
+        "sessions": 950,
+        "users": 946,
+        "pageViews": 945
+      },
+      {
+        "page": "/blog",
+        "sessions": 687,
+        "users": 670,
+        "pageViews": 587
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 388,
+        "users": 387,
+        "pageViews": 387
+      },
+      {
+        "page": "/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai",
+        "sessions": 358,
+        "users": 356,
+        "pageViews": 358
+      },
+      {
+        "page": "/projects/kanban",
+        "sessions": 56,
+        "users": 6,
+        "pageViews": 355
+      },
+      {
+        "page": "/projects",
+        "sessions": 281,
+        "users": 211,
+        "pageViews": 301
+      },
+      {
+        "page": "/projects/uptime-calculator",
+        "sessions": 261,
+        "users": 258,
+        "pageViews": 277
+      },
+      {
+        "page": "/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai/",
+        "sessions": 216,
+        "users": 216,
+        "pageViews": 216
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 6893,
+        "users": 6690
+      },
+      {
+        "device": "mobile",
+        "sessions": 1214,
+        "users": 1178
+      },
+      {
+        "device": "tablet",
+        "sessions": 2,
+        "users": 2
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 7773,
+          "users": 7621
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 20,
+          "users": 5
+        },
+        {
+          "channel": "Referral",
+          "sessions": 10,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 4,
+          "users": 3
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 7773,
+          "users": 7621
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 18,
+          "users": 3
+        },
+        {
+          "source": "dashboard.uptimerobot.com",
+          "medium": "referral",
+          "sessions": 10,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 4,
+          "users": 3
+        },
+        {
+          "source": "bing",
+          "medium": "organic",
+          "sessions": 2,
+          "users": 2
+        }
+      ]
+    },
+    "webVitals": {
+      "FCP": {
+        "count": 1474,
+        "average": 548.6377204884668,
+        "unit": "ms"
+      },
+      "TTFB": {
+        "count": 1423,
+        "average": 104.33450456781448,
+        "unit": "ms"
+      },
+      "LCP": {
+        "count": 632,
+        "average": 350.5901898734177,
+        "unit": "ms"
+      },
+      "CLS": {
+        "count": 305,
+        "average": 0.009898360655737704,
+        "unit": ""
+      },
+      "INP": {
+        "count": 171,
+        "average": 48.70175438596491,
+        "unit": "ms"
+      }
+    }
   }
 ]
