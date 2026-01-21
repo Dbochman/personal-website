@@ -58,14 +58,16 @@ jobs:
           # Authenticate with API key
           echo "$OPENAI_API_KEY" | codex login --with-api-key
 
-          # Use codex review with JSON output for structured parsing
+          # Use codex exec review with JSON output for structured parsing
+          # --json and -o are global flags for `codex exec`, must come BEFORE the subcommand
           # --json outputs newline-delimited JSON events (JSONL stream)
           # -o writes the final message to a file for reliable extraction
-          codex review \
-            --base origin/${{ github.base_ref }} \
-            --title "${{ github.event.pull_request.title }}" \
+          codex exec \
             --json \
             -o findings.txt \
+            review \
+            --base origin/${{ github.base_ref }} \
+            --title "${{ github.event.pull_request.title }}" \
             > review_events.jsonl 2>&1 || true
 
           # Fallback: if -o didn't produce output, extract from JSONL events
