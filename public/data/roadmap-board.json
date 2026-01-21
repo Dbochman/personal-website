@@ -583,54 +583,6 @@
           "checklist": [
             {
               "completed": false,
-              "id": "bundle-1",
-              "text": "Audit bundle with source-map-explorer or bundle-buddy"
-            },
-            {
-              "completed": false,
-              "id": "bundle-2",
-              "text": "Identify static sections that don't need React hydration"
-            },
-            {
-              "completed": false,
-              "id": "bundle-3",
-              "text": "Evaluate preact/compat for non-interactive routes"
-            },
-            {
-              "completed": false,
-              "id": "bundle-4",
-              "text": "Lazy-load Radix-heavy components (Dialog, DropdownMenu, etc.)"
-            }
-          ],
-          "createdAt": "2026-01-20",
-          "description": "Reduce client-side JavaScript by identifying static sections and lazy-loading heavy components.\n\nTargets:\n- Radix UI components (Dialog, DropdownMenu, Tabs)\n- Static content that doesn't need interactivity\n- Consider preact/compat alias for lighter runtime",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-20T22:00:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-21T00:00:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "arch-bundle-optimization",
-          "labels": [
-            "Short",
-            "Performance",
-            "GPT Review"
-          ],
-          "planFile": "docs/plans/52-bundle-size-optimization.md",
-          "title": "Bundle Size Optimization"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
               "id": "build-1",
               "text": "Split build into content prep stage"
             },
@@ -675,49 +627,6 @@
           "planFile": "docs/plans/53-build-performance.md",
           "title": "Build Performance (Staged + Cached)"
         },
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "ci-bundle-1",
-              "text": "Add bundle analysis step to PR checks"
-            },
-            {
-              "completed": false,
-              "id": "ci-bundle-2",
-              "text": "Store bundle size in artifacts or comment on PR"
-            },
-            {
-              "completed": false,
-              "id": "ci-bundle-3",
-              "text": "Set threshold alerts for significant increases"
-            }
-          ],
-          "createdAt": "2026-01-20",
-          "description": "Add automated bundle-size tracking in CI to catch regressions early.\n\nOptions:\n- bundlewatch action\n- size-limit action\n- Custom script with artifact storage\n\nGoal: Know when a PR significantly increases bundle size before merging.",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-20T22:00:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-21T00:00:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "arch-ci-bundle-tracking",
-          "labels": [
-            "Short",
-            "CI/CD",
-            "GPT Review"
-          ],
-          "planFile": "docs/plans/54-ci-bundle-tracking.md",
-          "title": "CI Bundle Size Tracking"
-        }
       ],
       "description": "Planned tasks ready to start",
       "id": "todo",
@@ -737,6 +646,27 @@
     },
     {
       "cards": [
+        {
+          "createdAt": "2026-01-21",
+          "description": "Knip audit found 14 unused npm packages and 32 unused files. Removed dead code and added CI workflow to track bundle size on PRs.\n\nRemoved:\n- react-hook-form, zod, cmdk, vaul, embla-carousel, etc.\n- 27 unused shadcn/ui components\n- Misc files (App.css, PlaceholderProject)\n\nAdded:\n- preactjs/compressed-size-action workflow\n- npm run analyze for local bundle visualization",
+          "history": [
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-21T10:15:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "bundle-cleanup-tracking",
+          "labels": [
+            "PR #187",
+            "Infrastructure",
+            "CI/CD"
+          ],
+          "summary": "Removed 14 unused deps, 32 files; added CI bundle tracking",
+          "title": "Bundle Cleanup & CI Tracking",
+          "updatedAt": "2026-01-21T10:15:00.000Z"
+        },
         {
           "checklist": [
             {
