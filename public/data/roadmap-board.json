@@ -6,43 +6,6 @@
           "checklist": [
             {
               "completed": false,
-              "id": "aet-1",
-              "text": "Define event schema (tool_interaction, action, tool_name)"
-            },
-            {
-              "completed": false,
-              "id": "aet-2",
-              "text": "Add events to SLO Calculator (tab switch, calculate, copy)"
-            },
-            {
-              "completed": false,
-              "id": "aet-3",
-              "text": "Add events to CLI Playground (run command, preset select)"
-            },
-            {
-              "completed": false,
-              "id": "aet-4",
-              "text": "Add events to On-Call Coverage (timezone add, model switch)"
-            },
-            {
-              "completed": false,
-              "id": "aet-5",
-              "text": "Update analytics dashboard to show tool engagement"
-            }
-          ],
-          "createdAt": "2026-01-19",
-          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions. Answer: 'Are people getting value from the tools?'",
-          "id": "analytics-event-tracking",
-          "labels": [
-            "Small",
-            "Analytics"
-          ],
-          "title": "Analytics Event Tracking"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
               "id": "abt-1",
               "text": "Create traffic classification utility (bot, ci, human)"
             },
@@ -324,7 +287,7 @@
             {
               "completed": false,
               "id": "krr-3",
-              "text": "Create goal slider (efficiency ↔ safety)"
+              "text": "Create goal slider (efficiency \u2194 safety)"
             },
             {
               "completed": false,
@@ -535,54 +498,6 @@
           "checklist": [
             {
               "completed": false,
-              "id": "mdx-1",
-              "text": "Create zod schema for blog post frontmatter validation"
-            },
-            {
-              "completed": false,
-              "id": "mdx-2",
-              "text": "Centralize MDX ingestion to single typed module"
-            },
-            {
-              "completed": false,
-              "id": "mdx-3",
-              "text": "Share source of truth for RSS feed generation"
-            },
-            {
-              "completed": false,
-              "id": "mdx-4",
-              "text": "Share source of truth for OG image metadata"
-            }
-          ],
-          "createdAt": "2026-01-20",
-          "description": "Centralize MDX content ingestion with a schema layer so frontmatter, RSS/feed data, and OG metadata share one typed source of truth.\n\nBenefits:\n- Build artifacts produced once, not duplicated\n- Type-safe frontmatter validation\n- Single place to update content structure",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-20T22:00:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-21T00:00:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "arch-mdx-pipeline",
-          "labels": [
-            "Medium",
-            "Infrastructure",
-            "GPT Review"
-          ],
-          "planFile": "docs/plans/51-mdx-pipeline-centralization.md",
-          "title": "MDX Pipeline Centralization"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
               "id": "build-1",
               "text": "Split build into content prep stage"
             },
@@ -626,14 +541,60 @@
           ],
           "planFile": "docs/plans/53-build-performance.md",
           "title": "Build Performance (Staged + Cached)"
-        },
+        }
       ],
       "description": "Planned tasks ready to start",
       "id": "todo",
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "aet-1",
+              "text": "Define event schema (tool_interaction, action, tool_name)"
+            },
+            {
+              "completed": true,
+              "id": "aet-2",
+              "text": "Add events to SLO Calculator (tab switch, calculate, copy)"
+            },
+            {
+              "completed": true,
+              "id": "aet-3",
+              "text": "Add events to CLI Playground (run command, preset select)"
+            },
+            {
+              "completed": true,
+              "id": "aet-4",
+              "text": "Add events to On-Call Coverage (timezone add, model switch)"
+            },
+            {
+              "completed": false,
+              "id": "aet-5",
+              "text": "Update analytics dashboard to show tool engagement"
+            }
+          ],
+          "createdAt": "2026-01-19",
+          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions. Answer: 'Are people getting value from the tools?'",
+          "id": "analytics-event-tracking",
+          "labels": [
+            "Small",
+            "Analytics"
+          ],
+          "title": "Analytics Event Tracking",
+          "history": [
+            {
+              "type": "column",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-21T18:10:10.050185Z"
+            }
+          ]
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -646,6 +607,27 @@
     },
     {
       "cards": [
+        {
+          "createdAt": "2026-01-21",
+          "description": "Centralized blog content with Zod schema validation. Single source of truth for frontmatter, RSS feeds, and OG metadata.\n\nKey changes:\n- Zod schema for frontmatter validation at build time\n- JSON manifest for reliable feed generation\n- Duplicate slug detection\n- Codex review workflow fixes (6 issues found and fixed)",
+          "history": [
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-21T17:40:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "mdx-pipeline-centralization",
+          "labels": [
+            "PR #189",
+            "Infrastructure",
+            "GPT Review"
+          ],
+          "summary": "Zod schema validation, JSON manifest, Codex workflow fixes",
+          "title": "MDX Pipeline Centralization",
+          "updatedAt": "2026-01-21T17:40:00.000Z"
+        },
         {
           "createdAt": "2026-01-21",
           "description": "Knip audit found 14 unused npm packages and 32 unused files. Removed dead code and added CI workflow to track bundle size on PRs.\n\nRemoved:\n- react-hook-form, zod, cmdk, vaul, embla-carousel, etc.\n- 27 unused shadcn/ui components\n- Misc files (App.css, PlaceholderProject)\n\nAdded:\n- preactjs/compressed-size-action workflow\n- npm run analyze for local bundle visualization",
@@ -692,7 +674,7 @@
             {
               "completed": true,
               "id": "tw-5",
-              "text": "Update outline-hidden → outline-hidden"
+              "text": "Update outline-hidden \u2192 outline-hidden"
             },
             {
               "completed": true,
@@ -716,7 +698,7 @@
             }
           ],
           "createdAt": "2026-01-08",
-          "description": "Migrated to Tailwind CSS v4 with CSS-first configuration. Used GPT Plan Reviewer (3 rounds) and Architect for migration mapping. Official upgrade tool handled 73 files.\n\nResults:\n- Build time: 5.67s → 5.17s (-9%)\n- CSS size: 102KB → 140KB (+37%)\n- Lighthouse: 95 → 79 (accepted tradeoff for better DX)\n\nFixed cursor-pointer regression on dark mode toggle. Updated CSS budget from 110KB to 150KB.",
+          "description": "Migrated to Tailwind CSS v4 with CSS-first configuration. Used GPT Plan Reviewer (3 rounds) and Architect for migration mapping. Official upgrade tool handled 73 files.\n\nResults:\n- Build time: 5.67s \u2192 5.17s (-9%)\n- CSS size: 102KB \u2192 140KB (+37%)\n- Lighthouse: 95 \u2192 79 (accepted tradeoff for better DX)\n\nFixed cursor-pointer regression on dark mode toggle. Updated CSS budget from 110KB to 150KB.",
           "history": [
             {
               "columnId": "todo",
@@ -1616,7 +1598,7 @@
             }
           ],
           "createdAt": "2026-01-20",
-          "description": "Security hardening based on GPT Security Analyst review (Risk: HIGH → LOW):\n\n- Sanitized search console metrics to remove raw user queries from public site\n- Pinned Decap CMS from ^3.0.0 to exact 3.10.0 to prevent supply chain attacks\n- Changed Mermaid rendering to 'strict' mode for XSS protection\n- Added npm audit step to PR checks for automated CVE detection\n- Refactored Codex review workflow to use --json and -o flags for durable output parsing",
+          "description": "Security hardening based on GPT Security Analyst review (Risk: HIGH \u2192 LOW):\n\n- Sanitized search console metrics to remove raw user queries from public site\n- Pinned Decap CMS from ^3.0.0 to exact 3.10.0 to prevent supply chain attacks\n- Changed Mermaid rendering to 'strict' mode for XSS protection\n- Added npm audit step to PR checks for automated CVE detection\n- Refactored Codex review workflow to use --json and -o flags for durable output parsing",
           "history": [
             {
               "columnId": "ideas",

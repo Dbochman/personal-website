@@ -123,6 +123,32 @@ async function fetchGA4Data() {
       ],
     });
 
+    // Fetch tool interaction events
+    const [toolEventsResponse] = await analyticsDataClient.runReport({
+      property: propertyId,
+      dateRanges: [
+        {
+          startDate: '7daysAgo',
+          endDate: 'today',
+        },
+      ],
+      dimensions: [
+        { name: 'customEvent:tool_name' },
+        { name: 'customEvent:action' },
+      ],
+      metrics: [
+        { name: 'eventCount' },
+      ],
+      dimensionFilter: {
+        filter: {
+          fieldName: 'eventName',
+          stringFilter: {
+            value: 'tool_interaction',
+          },
+        },
+      },
+    });
+
     // Extract overall metrics
     let totalSessions = 0;
     let totalUsers = 0;
@@ -209,6 +235,24 @@ async function fetchGA4Data() {
       .sort((a, b) => b.sessions - a.sessions)
       .slice(0, 10);
 
+    // Process tool interaction events
+    const toolMetrics = {};
+    let totalToolInteractions = 0;
+
+    toolEventsResponse.rows?.forEach(row => {
+      const toolName = row.dimensionValues[0].value;
+      const action = row.dimensionValues[1].value;
+      const count = parseInt(row.metricValues[0].value || '0', 10);
+
+      totalToolInteractions += count;
+
+      if (!toolMetrics[toolName]) {
+        toolMetrics[toolName] = { total: 0, actions: {} };
+      }
+      toolMetrics[toolName].total += count;
+      toolMetrics[toolName].actions[action] = (toolMetrics[toolName].actions[action] || 0) + count;
+    });
+
     // Process Web Vitals (RUM) data
     // Note: web-vitals library reports all timing metrics in milliseconds
     const webVitals = {};
@@ -253,6 +297,17 @@ async function fetchGA4Data() {
         sources: topSources,
       },
       webVitals: Object.keys(webVitals).length > 0 ? webVitals : null,
+      toolInteractions: totalToolInteractions > 0 ? {
+        total: totalToolInteractions,
+        byTool: Object.entries(toolMetrics).map(([name, data]) => ({
+          name,
+          total: data.total,
+          actions: Object.entries(data.actions).map(([action, count]) => ({
+            action,
+            count,
+          })).sort((a, b) => b.count - a.count),
+        })).sort((a, b) => b.total - a.total),
+      } : null,
     };
 
     // Read existing history
@@ -276,6 +331,9 @@ async function fetchGA4Data() {
     console.log(`📈 Sessions: ${totalSessions}, Users: ${totalUsers}, Page Views: ${totalPageViews}`);
     if (Object.keys(webVitals).length > 0) {
       console.log(`⚡ Web Vitals: ${Object.keys(webVitals).join(', ')}`);
+    }
+    if (totalToolInteractions > 0) {
+      console.log(`🔧 Tool Interactions: ${totalToolInteractions} (${Object.keys(toolMetrics).join(', ')})`);
     }
     console.log(`📊 Total historical entries: ${history.length}`);
 
