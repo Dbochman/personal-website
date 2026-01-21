@@ -1,33 +1,15 @@
+// Re-export schema types as the source of truth
+export type { BlogFrontmatter, ValidatedBlogPost, RssItem, OgMeta } from '@/content/blog/schema';
+
 /**
  * Blog post author
  */
-export type BlogAuthor = 'Claude' | 'Dylan';
+export type BlogAuthor = 'Claude' | 'Dylan' | 'Dylan & Claude';
 
 /**
- * Blog post frontmatter metadata
+ * Complete blog post with content (alias for ValidatedBlogPost for compatibility)
  */
-export interface BlogFrontmatter {
-  title: string;
-  slug: string;
-  date: string;
-  updated?: string;
-  author: BlogAuthor;
-  description: string;
-  tags: string[];
-  category?: string;
-  featured?: boolean;
-  draft: boolean;
-  image?: string;
-  readingTime?: string;
-}
-
-/**
- * Complete blog post with content
- */
-export interface BlogPost extends BlogFrontmatter {
-  content: string;
-  readingTime: string; // Auto-calculated, always present
-}
+export type { ValidatedBlogPost as BlogPost } from '@/content/blog/schema';
 
 /**
  * Blog metadata and statistics

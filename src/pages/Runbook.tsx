@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import PageLayout from '@/components/layout/PageLayout';
 import { FeaturedHero } from '@/components/blog/FeaturedHero';
-import { getPostSync } from '@/lib/blog-loader-precompiled';
+import { getPostBySlug } from '@/content/blog';
 import {
   quickReferences,
   architectureOverview,
@@ -267,7 +267,7 @@ export default function Runbook() {
   const cameFromBlog = (location.state as { fromBlog?: boolean })?.fromBlog === true;
 
   // Load synchronously for SSR/pre-rendering
-  const relatedPost = !cameFromBlog ? getPostSync(RUNBOOK_BLOG_SLUG) : null;
+  const relatedPost = !cameFromBlog ? getPostBySlug(RUNBOOK_BLOG_SLUG) : null;
 
   return (
     <>

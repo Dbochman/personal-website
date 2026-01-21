@@ -5,11 +5,11 @@ import PageLayout from '@/components/layout/PageLayout';
 import { Footer } from '@/components/layout/Footer';
 import { BlogList } from '@/components/blog/BlogList';
 import { FeaturedHero } from '@/components/blog/FeaturedHero';
-import { getPostsSync } from '@/lib/blog-loader-precompiled';
+import { getAllPosts } from '@/content/blog';
 
 export default function Blog() {
   // Load synchronously for SSR/pre-rendering
-  const posts = getPostsSync();
+  const posts = getAllPosts();
 
   // Extract featured post and regular posts
   const featuredPost = useMemo(() => posts.find((p) => p.featured), [posts]);
