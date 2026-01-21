@@ -62,12 +62,14 @@ jobs:
           # --json and -o are global flags for `codex exec`, must come BEFORE the subcommand
           # --json outputs newline-delimited JSON events (JSONL stream)
           # -o writes the final message to a file for reliable extraction
+          # A PROMPT is required to tell Codex to output a summary (otherwise it only runs commands)
           codex exec \
             --json \
             -o findings.txt \
             review \
             --base origin/${{ github.base_ref }} \
             --title "${{ github.event.pull_request.title }}" \
+            "Review the code changes and provide a summary of any issues, suggestions, or concerns. Format your response as a code review with sections for: 1) Summary, 2) Issues Found (if any), 3) Suggestions (if any). Be concise." \
             > review_events.jsonl 2>&1 || true
 
           # Debug: show what we got
