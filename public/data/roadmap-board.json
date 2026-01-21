@@ -548,53 +548,7 @@
       "title": "To Do"
     },
     {
-      "cards": [
-        {
-          "checklist": [
-            {
-              "completed": true,
-              "id": "aet-1",
-              "text": "Define event schema (tool_interaction, action, tool_name)"
-            },
-            {
-              "completed": true,
-              "id": "aet-2",
-              "text": "Add events to SLO Calculator (tab switch, calculate, copy)"
-            },
-            {
-              "completed": true,
-              "id": "aet-3",
-              "text": "Add events to CLI Playground (run command, preset select)"
-            },
-            {
-              "completed": true,
-              "id": "aet-4",
-              "text": "Add events to On-Call Coverage (timezone add, model switch)"
-            },
-            {
-              "completed": false,
-              "id": "aet-5",
-              "text": "Update analytics dashboard to show tool engagement"
-            }
-          ],
-          "createdAt": "2026-01-19",
-          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions. Answer: 'Are people getting value from the tools?'",
-          "id": "analytics-event-tracking",
-          "labels": [
-            "Small",
-            "Analytics"
-          ],
-          "title": "Analytics Event Tracking",
-          "history": [
-            {
-              "type": "column",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-21T18:10:10.050185Z"
-            }
-          ]
-        }
-      ],
+      "cards": [],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -607,6 +561,26 @@
     },
     {
       "cards": [
+        {
+          "createdAt": "2026-01-21",
+          "description": "Added GA4 event collection and dashboard visualization for tool interactions.\n\nImplemented:\n- GA4 Data API query for tool_interaction custom events\n- Tools tab in analytics dashboard with interaction metrics\n- Tracks: tab switches, calculations, preset selections, copy actions\n- Local Codex review caught type mismatch (toolInteractions null handling)",
+          "history": [
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-21T18:30:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "analytics-event-tracking",
+          "labels": [
+            "PR #190",
+            "Analytics"
+          ],
+          "summary": "GA4 tool_interaction events, dashboard Tools tab",
+          "title": "Analytics Event Tracking",
+          "updatedAt": "2026-01-21T18:30:00.000Z"
+        },
         {
           "createdAt": "2026-01-21",
           "description": "Centralized blog content with Zod schema validation. Single source of truth for frontmatter, RSS feeds, and OG metadata.\n\nKey changes:\n- Zod schema for frontmatter validation at build time\n- JSON manifest for reliable feed generation\n- Duplicate slug detection\n- Codex review workflow fixes (6 issues found and fixed)",
