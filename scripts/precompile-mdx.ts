@@ -22,9 +22,24 @@ import { blogFrontmatterSchema, type BlogFrontmatter } from '../src/content/blog
 const CONTENT_DIR = './content/blog';
 const OUTPUT_DIR = './src/generated/blog';
 const CACHE_DIR = './.cache/mdx';
+const SCRIPT_PATH = './scripts/precompile-mdx.ts';
+const SCHEMA_PATH = './src/content/blog/schema.ts';
 
 // Cache schema version - bump this to invalidate all caches
 const CACHE_VERSION = 1;
+
+/**
+ * Compute a fingerprint of the toolchain (compiler script + schema).
+ * Cache is invalidated when the compiler or schema changes.
+ */
+async function computeToolchainFingerprint(): Promise<string> {
+  const [scriptContent, schemaContent] = await Promise.all([
+    readFile(SCRIPT_PATH, 'utf-8'),
+    readFile(SCHEMA_PATH, 'utf-8'),
+  ]);
+  const combined = `${CACHE_VERSION}:${scriptContent}:${schemaContent}`;
+  return createHash('sha256').update(combined).digest('hex').slice(0, 16);
+}
 
 interface ManifestEntry {
   file: string;
@@ -46,6 +61,7 @@ interface CacheEntry {
 
 interface CacheManifest {
   version: number;
+  toolchainFingerprint: string;
   entries: Record<string, CacheEntry>;
 }
 
@@ -53,22 +69,26 @@ function hashContent(content: string): string {
   return createHash('sha256').update(content).digest('hex').slice(0, 16);
 }
 
-async function loadCacheManifest(): Promise<CacheManifest> {
+async function loadCacheManifest(toolchainFingerprint: string): Promise<CacheManifest> {
   const manifestPath = join(CACHE_DIR, 'manifest.json');
   if (existsSync(manifestPath)) {
     try {
       const data = await readFile(manifestPath, 'utf-8');
       const manifest = JSON.parse(data) as CacheManifest;
-      // Invalidate if version changed
-      if (manifest.version === CACHE_VERSION) {
+      // Invalidate if version or toolchain changed
+      if (manifest.version === CACHE_VERSION && manifest.toolchainFingerprint === toolchainFingerprint) {
         return manifest;
       }
-      console.log('📦 Cache version changed, rebuilding all...');
+      if (manifest.version !== CACHE_VERSION) {
+        console.log('📦 Cache version changed, rebuilding all...');
+      } else {
+        console.log('📦 Toolchain changed, rebuilding all...');
+      }
     } catch {
       console.log('📦 Cache manifest corrupted, rebuilding all...');
     }
   }
-  return { version: CACHE_VERSION, entries: {} };
+  return { version: CACHE_VERSION, toolchainFingerprint, entries: {} };
 }
 
 async function saveCacheManifest(manifest: CacheManifest): Promise<void> {
@@ -86,8 +106,9 @@ async function precompileMDX() {
     await mkdir(CACHE_DIR, { recursive: true });
   }
 
-  // Load cache
-  const cache = await loadCacheManifest();
+  // Compute toolchain fingerprint and load cache
+  const toolchainFingerprint = await computeToolchainFingerprint();
+  const cache = await loadCacheManifest(toolchainFingerprint);
 
   // Read all .txt files from content directory
   const files = await readdir(CONTENT_DIR);
