@@ -14,14 +14,14 @@ draft: false
 
 "Why are we below our availability target again?"
 
-I have heard this line in reliability review meetings at Spotify, HashiCorp, and most recently Groq. Someone drops 99.99% onto a slide because it signals confidence. Then reality shows up: the on-call engineer takes 15 minutes to acknowledge the page, another 20 to figure out which subsystem is failing, and another 30 to restore service. That is over an hour of user impact from a single incident, even when the team is doing solid work.
+I have heard this line in reliability reviews at Spotify, HashiCorp, and, more recently, at Groq. Someone drops 99.99% onto a slide because it signals confidence. Then reality shows up: the on-call engineer takes 15 minutes to acknowledge the page, another 20 to figure out which subsystem is failing, and another 30 to restore service. That is over an hour of user impact from a single incident, even when the team is doing solid work.
 
-Now put that next to the budget.
+Now compare that with the error budget.
 
 At 99.99% availability, your error budget is measured in single-digit minutes:
 
-| Window | Total minutes | Error budget |
-|--------|---------------|--------------|
+| Window | Total minutes (W) | Error budget |
+|--------|-------------------|--------------|
 | 28 days | 40,320 | 4.03 min |
 | 30 days | 43,200 | 4.32 min |
 | 31 days | 44,640 | 4.46 min |
@@ -34,11 +34,11 @@ One real incident can wipe out the month. I have done that math half-awake at 3 
 
 A common pattern looks like this:
 
-1. Pick the shiniest number in the room (99.9%, 99.95%, 99.99%)
-2. Convert it into an error budget
-3. Assume the team can operate inside that budget
-4. Miss the target anyway
-5. Quietly stop using the SLO, or debate whether the misses "should count"
+- Pick the most optimistic number in the room (99.9%, 99.95%, 99.99%)
+- Convert it into an error budget
+- Assume the team can operate inside that budget
+- Miss the target anyway
+- Quietly stop using the SLO, or debate whether the misses "should count"
 
 That sequence fails because it treats the SLO as a statement of intent rather than a statement of capability.
 
@@ -48,13 +48,15 @@ That sequence fails because it treats the SLO as a statement of intent rather th
 
 For time-based availability SLOs, your ceiling usually comes down to three factors:
 
-1. **Incident frequency** — how often you have user-impacting incidents that count against the SLO
-2. **Time to restore service** — how long user impact lasts when an incident happens
-3. **Blast radius** — how much of your user base or traffic is affected when something goes wrong
+- **Incident frequency:** how often you have user-impacting incidents that count against the SLO
+- **Time to restore service:** how long user impact lasts when an incident happens
+- **Blast radius:** how much of your user base or traffic is affected when something goes wrong
 
 Most teams model only frequency and restoration time, and they silently assume blast radius is always 100%. That assumption is sometimes true, but it often hides the highest-return resilience work you can do.
 
 ### A simple model
+
+Let W equal the minutes in your measurement window. For a rolling 30-day window, W = 43,200.
 
 If you assume each incident takes the entire service down (100% blast radius), downtime is:
 
@@ -62,13 +64,13 @@ If you assume each incident takes the entire service down (100% blast radius), d
 Downtime (minutes) = Incidents × Mean time to restore
 ```
 
-For a 30-day window:
+And the achievable SLO is:
 
 ```
-Achievable SLO = 1 - (Incidents × MTTR) / 43,200
+Achievable SLO = 1 - (Incidents × MTTR) / W
 ```
 
-**Example:** Two incidents per month with an average MTTR of 45 minutes.
+**Example:** Two incidents per month with an average MTTR of 45 minutes, using a 30-day window.
 
 ```
 Downtime = 2 × 45 = 90 minutes
@@ -81,11 +83,13 @@ That team can credibly target 99.7% or 99.75%. Targeting 99.9% means committing 
 
 In practice, not every incident affects all users. A database failover might cause 30 seconds of errors for 40% of traffic. A bad deploy might degrade one region while others stay healthy.
 
-When blast radius varies:
+When blast radius varies, the approximation becomes:
 
 ```
 Effective downtime = Incidents × MTTR × Average blast radius
 ```
+
+If you have per-incident impact data, sum each incident's duration times its impact fraction for the most accurate result. If blast radius varies a lot across incidents, summing per incident is more reliable than relying on an average.
 
 **Example:** Three incidents per month, 40-minute average MTTR, but average blast radius is 50%.
 
@@ -125,8 +129,8 @@ Same incident count, dramatically different achievable SLO.
 
 ### Quick reference: SLO vs incident tolerance
 
-| Incidents/month | MTTR | Achievable SLO | Error budget |
-|-----------------|------|----------------|--------------|
+| Incidents/month | MTTR | Achievable SLO | Downtime in window |
+|-----------------|------|----------------|---------------------|
 | 1 | 30 min | 99.93% | 30 min |
 | 1 | 60 min | 99.86% | 60 min |
 | 2 | 30 min | 99.86% | 60 min |
@@ -137,7 +141,7 @@ The relationship is linear. Halving MTTR or halving incident count produces the 
 
 ## Which resilience investments move the needle
 
-When your achievable SLO falls short of business requirements, you have three levers:
+When your achievable SLO falls short of business requirements, you have three levers. These map to resilience outcomes: respond faster (reduce time to restore), prevent repeats (reduce incident frequency), and contain failures (reduce blast radius).
 
 **Reduce time to restore** by improving:
 - Alerting coverage and thresholds (detect faster)
@@ -157,29 +161,24 @@ When your achievable SLO falls short of business requirements, you have three le
 - Progressive rollouts and canarying
 - Load shedding and backpressure
 
-MTTR improvements often pay off fastest—they are mostly process and tooling changes. Reducing incident frequency requires deeper engineering work. Blast radius reduction can be the highest-leverage investment, but it requires architectural commitment.
+MTTR improvements often pay off fastest because they are mostly process and tooling changes. Reducing incident frequency requires deeper engineering work. Blast radius reduction can be the highest-leverage investment, but it requires architectural commitment.
 
 ## Setting an honest SLO
 
 Here is the process I keep coming back to:
 
-1. **Measure your current MTTR** by phase. If you lack data, use pessimistic estimates and commit to measuring.
-
-2. **Count your incidents** over the past 3–6 months. Normalize to monthly.
-
-3. **Estimate blast radius** if your incidents vary in scope. If most incidents are total outages, assume 100%.
-
-4. **Calculate your achievable SLO** using the model above, or [use the calculator](/projects/slo-tool).
-
-5. **Set your target slightly below achievable.** If the math says 99.85%, target 99.8%. Leave room for worse-than-average months.
-
-6. **Name the improvement path** if that number does not satisfy the business. "Reduce acknowledgment time from 12 minutes to 5" is actionable. "Improve reliability" is not.
+- First, **measure your current MTTR** by phase. If you lack data, use pessimistic estimates and commit to measuring.
+- Then, **count your incidents** over the past 3–6 months. Normalize to monthly.
+- Next, **estimate blast radius** if your incidents vary in scope. If most incidents are total outages, assume 100%.
+- Then, **calculate your achievable SLO** using the model above, or [use the calculator](/projects/slo-tool).
+- Next, **set your target slightly below achievable.** If the math says 99.85%, target 99.8%. Leave room for worse-than-average months.
+- Finally, **name the improvement path** if that number does not satisfy the business. "Reduce acknowledgment time from 12 minutes to 5" is actionable. "Improve reliability" is not.
 
 ## Making error budgets useful
 
 Once the SLO reflects capability, error budgets become a real decision-making tool.
 
-At 99.8% monthly, you have 86.4 minutes of budget. You can have grown-up conversations:
+At 99.8% monthly, you have 86.4 minutes of budget. You can have clear trade-off conversations:
 
 - "This deploy carries risk. Can the remaining budget absorb a 20-minute incident?"
 - "We have used 60 minutes this month. Let us slow down risky changes."
@@ -191,11 +190,11 @@ Error budgets only work when teams believe they are achievable. A 99.99% target 
 
 I built an [SLO Calculator](/projects/slo-tool) that handles this math.
 
-**"What can I achieve?"** — Enter response times by phase and incident frequency. It returns your honest SLO ceiling.
+**"What can I achieve?"** Enter response times by phase and incident frequency. It returns your honest SLO ceiling.
 
-**"Can I meet this SLO?"** — Enter a target and your current capabilities. It tells you whether the numbers work.
+**"Can I meet this SLO?"** Enter a target and your current capabilities. It tells you whether the numbers work.
 
-**"Budget Burndown"** — Simulate incidents and watch how the error budget depletes over a period.
+**"Budget Burndown"** Simulate incidents and watch how the error budget depletes over a period.
 
 Start with the first tab. It forces the conversation to begin with capability rather than aspiration.
 
@@ -203,7 +202,7 @@ Start with the first tab. It forces the conversation to begin with capability ra
 
 **How many incidents can we have at 99.9%?**
 
-At 99.9% monthly, your error budget is 43.2 minutes. Divide by your MTTR. With 30-minute MTTR, that is 1.4 incidents. With 60-minute MTTR, it is 0.7—a single typical incident exceeds the budget.
+At 99.9% monthly, your error budget is 43.2 minutes. Divide by your MTTR. With 30-minute MTTR, that is 1.4 incidents. With 60-minute MTTR, it is 0.7, meaning a single typical incident exceeds the budget.
 
 **What is the difference between SLO and SLA?**
 
@@ -223,15 +222,13 @@ Most teams cannot actually sustain 99.99% availability. The math does not work u
 - Automated remediation or one-click rollbacks
 - Architectural patterns that limit blast radius
 
-That level of resilience requires sustained investment. For many services, 99.9% is the honest target—and consistently hitting a realistic number builds more trust than chronically missing an aspirational one.
+That level of resilience requires sustained investment. For many services, 99.9% is the honest target, and consistently hitting a realistic number builds more trust than chronically missing an aspirational one.
 
 The goal is not the highest number. It is the truest one your resilience investments can defend.
 
----
-
 **Next steps:**
-1. [Calculate your achievable SLO](/projects/slo-tool) based on current capabilities
-2. Compare it with business requirements
-3. Identify which lever—MTTR, frequency, or blast radius—offers the best return
+- [Calculate your achievable SLO](/projects/slo-tool) based on current capabilities
+- Compare it with business requirements
+- Identify which lever (MTTR, frequency, or blast radius) offers the best return
 
 For more on SLO implementation, the [Google SRE Workbook](https://sre.google/workbook/implementing-slos/) remains the canonical reference.
