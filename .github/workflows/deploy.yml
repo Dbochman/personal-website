@@ -82,7 +82,7 @@ jobs:
           // Note: Mermaid adds ~2MB for diagram support (flowchart, sequence, etc.)
           const BUDGETS = {
             totalJS: 4500 * 1024,     // 4.5MB raw (current ~4.3MB with Mermaid)
-            totalCSS: 110 * 1024,     // 110KB raw (current ~100KB)
+            totalCSS: 150 * 1024,     // 150KB raw (current ~140KB after Tailwind v4 upgrade)
             largestChunk: 500 * 1024, // 500KB raw (current ~480KB)
           };
 
