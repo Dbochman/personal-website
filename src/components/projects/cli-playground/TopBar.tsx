@@ -61,7 +61,7 @@ export function TopBar({
               key={t}
               value={t}
               aria-label={`Select ${t}`}
-              className="font-mono text-sm px-3 data-[state=on]:bg-background data-[state=on]:shadow-sm"
+              className="font-mono text-sm px-3 data-[state=on]:bg-background data-[state=on]:shadow-xs"
             >
               {t}
             </ToggleGroupItem>
@@ -104,7 +104,7 @@ export function TopBar({
           <ToggleGroupItem
             value="learn"
             aria-label="Learn mode"
-            className="text-sm px-3 gap-1.5 data-[state=on]:bg-background data-[state=on]:shadow-sm"
+            className="text-sm px-3 gap-1.5 data-[state=on]:bg-background data-[state=on]:shadow-xs"
           >
             <BookOpen className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Learn</span>
@@ -112,7 +112,7 @@ export function TopBar({
           <ToggleGroupItem
             value="playground"
             aria-label="Playground mode"
-            className="text-sm px-3 gap-1.5 data-[state=on]:bg-background data-[state=on]:shadow-sm"
+            className="text-sm px-3 gap-1.5 data-[state=on]:bg-background data-[state=on]:shadow-xs"
           >
             <Terminal className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">Play</span>

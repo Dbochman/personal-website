@@ -80,8 +80,8 @@ This site already targets modern browsers (View Transitions API requires similar
 | Change | Current Usage | Notes |
 |--------|---------------|-------|
 | Default border color | Using `border-foreground/20` | Now defaults to `currentColor` - verify visual appearance |
-| Ring width default | May use `ring` utility | Changed from 3px to 1px |
-| Renamed utilities | `shadow-sm`, `rounded-sm`, etc. | Upgrade tool handles this |
+| Ring width default | May use `ring-3` utility | Changed from 3px to 1px |
+| Renamed utilities | `shadow-xs`, `rounded-sm`, etc. | Upgrade tool handles this |
 
 ### Low Impact (Likely No Changes Needed)
 
@@ -239,13 +239,13 @@ Search and replace in codebase:
 
 | Find | Replace | Files affected |
 |------|---------|----------------|
-| `shadow-sm` | `shadow-xs` | ~30 |
-| `shadow` (standalone) | `shadow-sm` | (check usage) |
+| `shadow-xs` | `shadow-2xs` | ~30 |
+| `shadow-sm` (standalone) | `shadow-xs` | (check usage) |
 | `rounded-sm` | `rounded-xs` | ~20 |
 | `rounded` (standalone) | `rounded-sm` | (check usage) |
-| `outline-none` | `outline-hidden` | ~10 |
-| `ring` (standalone) | `ring-3` | (check usage) |
-| `blur-sm` | `blur-xs` | ~5 |
+| `outline-hidden` | `outline-hidden` | ~10 |
+| `ring-3` (standalone) | `ring-3` | (check usage) |
+| `blur-xs` | `blur-xs` | ~5 |
 
 ### Phase 7: Update PostCSS (if not using Vite plugin)
 
@@ -279,7 +279,7 @@ Remove `autoprefixer` and `postcss-import` from dependencies (built-in).
 - [ ] Add `@theme inline` block for color registration
 - [ ] Convert container config to `@utility`
 - [ ] Fix shadow/blur/rounded utility renames
-- [ ] Update `outline-none` → `outline-hidden`
+- [ ] Update `outline-hidden` → `outline-hidden`
 - [ ] Review ring utility usage
 - [ ] Verify border color defaults
 - [ ] Remove @tailwindcss/container-queries (now built-in)

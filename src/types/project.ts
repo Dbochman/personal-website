@@ -3,7 +3,7 @@ import type { LazyExoticComponent, ComponentType } from 'react';
 /**
  * Project status indicating development state
  */
-export type ProjectStatus = 'active' | 'experimental' | 'archived';
+export type ProjectStatus = 'active' | 'experimental' | 'archived' | 'draft';
 
 /**
  * Project metadata for display in lists and cards

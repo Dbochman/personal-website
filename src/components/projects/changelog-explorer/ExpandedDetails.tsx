@@ -158,9 +158,9 @@ export function ExpandedDetails({ entry }: ExpandedDetailsProps) {
             {entry.checklist.map((item) => (
               <li key={item.id} className="flex items-start gap-2 text-sm">
                 {item.completed ? (
-                  <CheckSquare className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                  <CheckSquare className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
                 ) : (
-                  <Square className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                  <Square className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
                 )}
                 <span className={item.completed ? 'text-muted-foreground line-through' : ''}>
                   {item.text}

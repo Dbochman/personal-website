@@ -93,7 +93,7 @@ export function ExpertiseCard({ item, index, isExpanded, onExpand, onCollapse }:
   return (
     <button
       type="button"
-      className="group w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-1 rounded-sm"
+      className="group w-full text-left focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-foreground/50 focus-visible:ring-offset-1 rounded-sm"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onFocus={handleFocus}
@@ -106,7 +106,7 @@ export function ExpertiseCard({ item, index, isExpanded, onExpand, onCollapse }:
       <div
         className={`text-xs p-2 border transition-[background-color,border-color,color,transform,box-shadow] duration-200 cursor-pointer
                     ${isHovered || isFocused || isExpanded
-                      ? 'bg-foreground/15 border-foreground/40 text-foreground scale-[1.02] shadow-sm'
+                      ? 'bg-foreground/15 border-foreground/40 text-foreground scale-[1.02] shadow-xs'
                       : 'bg-foreground/5 border-foreground/20 text-foreground/80'}`}
       >
         {item.title}

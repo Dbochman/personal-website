@@ -207,7 +207,7 @@ describe('BlogList', () => {
       }
     });
 
-    it('fires blog_search event on search input blur', () => {
+    it('fires blog_search event on search input blur-sm', () => {
       renderWithRouter(<BlogList posts={mockPosts} />);
       const searchInput = screen.getByPlaceholderText('Search posts...');
 

@@ -63,10 +63,10 @@ function resolveOgImage(slug: string, ogImage: string | undefined): string {
   return `${SITE_URL}/og-images/${slug}.png`;
 }
 
-const statusVariants: Record<ProjectStatus, 'default' | 'secondary' | 'outline'> = {
+const statusVariants: Record<ProjectStatus, 'default' | 'secondary' | 'outline-solid'> = {
   active: 'default',
   experimental: 'secondary',
-  archived: 'outline',
+  archived: 'outline-solid',
 };
 
 const statusLabels: Record<ProjectStatus, string> = {
@@ -195,7 +195,7 @@ export default function Project() {
 
       <PageLayout>
         {/* Hero section with background - all projects get this */}
-        <div className="relative bg-gradient-to-b from-foreground/5 via-foreground/[0.02] to-transparent pb-8">
+        <div className="relative bg-linear-to-b from-foreground/5 via-foreground/2 to-transparent pb-8">
           {/* Grid pattern overlay */}
           <div
             className="absolute inset-0 opacity-[0.03]"
@@ -222,7 +222,7 @@ export default function Project() {
                   {/* Icon - inline with title for view transition */}
                   {project.icon && iconRegistry[project.icon] && (
                     <div
-                      className="shrink-0 p-3 rounded-xl border shadow-sm bg-foreground/10 border-foreground/20"
+                      className="shrink-0 p-3 rounded-xl border shadow-xs bg-foreground/10 border-foreground/20"
                       style={{ viewTransitionName: `project-icon-${slug}` }}
                     >
                       {(() => {

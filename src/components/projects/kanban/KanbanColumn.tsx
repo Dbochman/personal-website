@@ -85,7 +85,7 @@ export function KanbanColumn({
   return (
     <div
       className={cn(
-        'flex-shrink-0 w-64 rounded-lg p-3 border',
+        'shrink-0 w-64 rounded-lg p-3 border',
         colorConfig.bg,
         colorConfig.border,
         isOver && 'ring-2 ring-primary ring-offset-2 ring-offset-background'

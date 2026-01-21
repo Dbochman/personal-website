@@ -306,7 +306,7 @@ export function AnimatedMermaidDiagram({
         <div
           ref={containerRef}
           className={cn(
-            'lg:col-span-3 overflow-x-auto animated-mermaid [&_svg_*]:!animate-none rounded-lg bg-muted/30 p-4',
+            'lg:col-span-3 overflow-x-auto animated-mermaid [&_svg_*]:animate-none! rounded-lg bg-muted/30 p-4',
             currentIndex >= 0 && 'animation-active'
           )}
         >

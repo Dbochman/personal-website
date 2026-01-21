@@ -137,7 +137,7 @@ export function BlogList({ posts }: BlogListProps) {
               {allTags.map((tag) => (
                 <Badge
                   key={tag}
-                  variant={selectedTags.includes(tag) ? 'default' : 'outline'}
+                  variant={selectedTags.includes(tag) ? 'default' : 'outline-solid'}
                   className="cursor-pointer hover:bg-primary/10"
                   onClick={() => handleTagClick(tag)}
                 >

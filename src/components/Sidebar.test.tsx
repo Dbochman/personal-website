@@ -74,7 +74,7 @@ describe('Sidebar', () => {
     render(<Sidebar />)
     
     const card = screen.getByText('Core Expertise').closest('[class*="bg-background"]')
-    expect(card).toHaveClass('bg-background/60', 'backdrop-blur-sm', 'border-transparent')
+    expect(card).toHaveClass('bg-background/60', 'backdrop-blur-xs', 'border-transparent')
   })
 
   it('should have proper CSS classes for card content', () => {

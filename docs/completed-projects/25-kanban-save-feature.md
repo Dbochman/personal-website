@@ -622,7 +622,7 @@ const handleSaveToGitHub = async () => {
       Logout
     </Button>
     <Button
-      variant={isDirty ? 'default' : 'outline'}
+      variant={isDirty ? 'default' : 'outline-solid'}
       size="sm"
       onClick={handleSaveToGitHub}
       disabled={isSaving || !isDirty}

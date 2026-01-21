@@ -2644,7 +2644,7 @@
                 "width": 0,
                 "height": 0
               },
-              "snippet": "<div data-state=\"inactive\" data-orientation=\"horizontal\" role=\"tabpanel\" aria-labelledby=\"radix-:r6:-trigger-target\" hidden=\"\" id=\"radix-:r6:-content-target\" tabindex=\"0\" class=\"ring-offset-background focus-visible:outline-none focus-visible:ring-2 foc…\">",
+              "snippet": "<div data-state=\"inactive\" data-orientation=\"horizontal\" role=\"tabpanel\" aria-labelledby=\"radix-:r6:-trigger-target\" hidden=\"\" id=\"radix-:r6:-content-target\" tabindex=\"0\" class=\"ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 foc…\">",
               "nodeLabel": "div.bg-card > div.space-y-6 > div > div#radix-:r6:-content-target",
               "explanation": "Fix any of the following:\n  Document has multiple elements referenced with ARIA with the same id attribute: radix-:r6:-content-target"
             },
@@ -2665,7 +2665,7 @@
                       "width": 0,
                       "height": 0
                     },
-                    "snippet": "<div data-state=\"inactive\" data-orientation=\"horizontal\" role=\"tabpanel\" aria-labelledby=\"radix-:r6:-trigger-target\" hidden=\"\" id=\"radix-:r6:-content-target\" tabindex=\"0\" class=\"ring-offset-background focus-visible:outline-none focus-visible:ring-2 foc…\">",
+                    "snippet": "<div data-state=\"inactive\" data-orientation=\"horizontal\" role=\"tabpanel\" aria-labelledby=\"radix-:r6:-trigger-target\" hidden=\"\" id=\"radix-:r6:-content-target\" tabindex=\"0\" class=\"ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 foc…\">",
                     "nodeLabel": "div.space-y-6 > div > div.mt-6 > div#radix-:r6:-content-target"
                   }
                 }

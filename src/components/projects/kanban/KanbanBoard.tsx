@@ -526,7 +526,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
             auth.authenticated ? (
               <>
                 <Button
-                  variant={isDirty ? 'default' : 'outline'}
+                  variant={isDirty ? 'default' : 'outline-solid'}
                   size="sm"
                   onClick={handleSaveToGitHub}
                   disabled={isSaving || !isDirty}
@@ -587,7 +587,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
           {/* Add column button */}
           <Button
             variant="outline"
-            className="flex-shrink-0 w-64 h-12 border-dashed self-start"
+            className="shrink-0 w-64 h-12 border-dashed self-start"
             onClick={handleAddColumn}
           >
             <Plus className="w-4 h-4 mr-1" />

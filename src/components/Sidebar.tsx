@@ -24,7 +24,7 @@ const Sidebar = () => {
   return (
     <div className="lg:sticky lg:top-24 space-y-6">
       {/* Core Expertise Card */}
-      <Card className="bg-background/60 backdrop-blur-sm border-transparent">
+      <Card className="bg-background/60 backdrop-blur-xs border-transparent">
         <CardContent className="p-6">
           <h3 className="text-lg font-bold text-foreground mb-6">Core Expertise</h3>
           <motion.div

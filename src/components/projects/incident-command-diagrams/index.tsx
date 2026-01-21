@@ -236,7 +236,7 @@ export default function IncidentCommandDiagrams() {
             <TabsTrigger
               key={diagram.id}
               value={diagram.id}
-              className="rounded-md px-3 py-1.5 text-xs data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm sm:text-sm"
+              className="rounded-md px-3 py-1.5 text-xs data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-xs sm:text-sm"
             >
               {diagram.title}
             </TabsTrigger>

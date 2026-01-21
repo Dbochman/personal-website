@@ -182,7 +182,7 @@ export function KanbanColumn({ column, onAddCard, onEditColumn }) {
     <div
       ref={setNodeRef}
       className={cn(
-        'flex-shrink-0 w-72 bg-muted/50 rounded-lg p-3',
+        'shrink-0 w-72 bg-muted/50 rounded-lg p-3',
         isOver && 'ring-2 ring-primary'
       )}
     >
@@ -259,7 +259,7 @@ export function KanbanCard({ card, isDragging = false }) {
       {...listeners}
     >
       <div className="flex items-start gap-2">
-        <GripVertical className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+        <GripVertical className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
         <div className="flex-1 min-w-0">
           <p className="font-medium text-sm">{card.title}</p>
           {card.labels && card.labels.length > 0 && (

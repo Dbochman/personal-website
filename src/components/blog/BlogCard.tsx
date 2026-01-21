@@ -39,7 +39,7 @@ export const BlogCard = memo(function BlogCard({ post }: BlogCardProps) {
             {/* Main card link - covers entire card */}
             <TransitionLink
               to={`/blog/${post.slug}`}
-              className="after:absolute after:inset-0 after:content-[''] focus:outline-none"
+              className="after:absolute after:inset-0 after:content-[''] focus:outline-hidden"
             >
               {post.title}
             </TransitionLink>
