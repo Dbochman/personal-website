@@ -1,0 +1,100 @@
+---
+title: "What Hundreds of Incidents Taught Me About Response"
+date: "2026-01-22"
+author: Dylan
+description: "Practical incident response lessons from years at Groq, HashiCorp, and Spotify. What actually works when systems fail."
+tags:
+  - SRE
+  - Incident Management
+  - Incident Response
+category: Technical
+draft: false
+---
+
+After managing incidents at Groq, HashiCorp, and Spotify, patterns emerge. Here's what I wish I knew on day one.
+
+## The 80/20 of incident response
+
+Most incidents resolve the same way. The exotic failures are memorable but rare. Optimize for the common case.
+
+The vast majority of incidents I've seen fall into three buckets:
+
+1. **Config changes** - Someone changed something, and it broke something else
+2. **Demand changes** - Traffic spiked, load shifted, or usage patterns changed unexpectedly
+3. **Dependency changes** - An upstream service changed behavior, went down, or degraded
+
+That's it. The cascading multi-system failures that make great conference talks? Maybe 5% of incidents. Your playbooks, your tooling, and your muscle memory should optimize for these three cases first.
+
+## Slow down to speed up
+
+The first 5 minutes set the tone. Rushing to "fix" before understanding causes more damage than the original issue.
+
+I've made this mistake more than once: pushing out a status page resolution message the moment metrics look better, only to realize the fix isn't stable. Now you're pulling the incident back into an active state, and customers who thought it was over are watching it reopen. (I built a [Status Page Update Generator](/projects/statuspage-update) partly to slow myself down here.)
+
+That "resolved" to "investigating" transition destroys trust faster than the original outage. It signals you don't actually know what's happening.
+
+Wait. Confirm stability for 10-15 minutes before declaring resolution. Watch the metrics through at least one full cycle of whatever you're measuring. The pressure to close quickly is real, but reopening is worse.
+
+## Communication is mitigation
+
+Customers tolerate downtime better than silence. A status update changes perception, even if it just says "still investigating."
+
+The cadence that worked for me:
+
+- **External (status page, customer-facing):** Every 30 minutes for high-severity incidents
+- **Internal (Slack, stakeholders):** Every 15 minutes for high-severity
+
+For lower severities, stretch to 60 minutes or even hours between updates. Set the expectation and hit it consistently. Missing your own cadence is worse than having a longer interval.
+
+The content doesn't need to be revelatory. "We've identified the affected component and are testing a fix" is fine. Silence for 45 minutes while you're heads-down debugging makes customers assume you've forgotten about them.
+
+## The war room is a crutch
+
+10 people in a Zoom watching 1 person type doesn't parallelize work. It creates pressure and slows decisions.
+
+My preferred structure:
+
+- **Incident Commander (IC):** Owns coordination, not investigation. Asks "what do you need?" not "what did you try?"
+- **AI Scribe:** Let the robots take notes. Humans should be thinking, not transcribing.
+- **SMEs:** The people who actually know the systems. They do the work.
+
+One thing I've learned: keep leaders at arm's length. Executives want to help, but their presence changes the room. If a VP needs updates, pull them into a side channel. If they're getting disruptive, create a "leadership bridge" and redirect them there.
+
+The people debugging need to feel safe saying "I don't know" and trying things that might not work. That's harder with an audience.
+
+## Your runbook is lying to you
+
+Runbooks written after an incident solve *that* incident. They age the moment systems evolve.
+
+The fix isn't better runbooks. It's putting the information where you'll actually see it.
+
+Keep runbook content as close to your alert definitions as possible. The alert fires, the context is right there. No hunting through a wiki, no "I think there's a doc somewhere."
+
+More importantly: create a feedback loop. Every time an alert pages on-call, part of the resolution is checking whether the linked context is still accurate. If the troubleshooting steps were wrong or incomplete, update them *now*, while you still remember what actually worked.
+
+This turns runbook maintenance from a quarterly chore into a continuous habit. The docs stay fresh because they're validated every time they're used.
+
+## Metrics that matter during incidents
+
+MTTR is a lagging indicator. During the incident, you need to know what's happening now.
+
+The metric that matters most: **customer impact**. Specifically: WHO is impacted and to what degree.
+
+Not "the API is returning 500s" - that's a symptom. You need to know: Is this affecting 1% of users or 100%? Is it all customers or one region? Is it blocking payments or just slowing down a dashboard?
+
+This shapes every decision:
+- **Severity assignment:** 1000 users fully blocked is different from 10 users seeing slow loads
+- **Communication tone:** "Some users may experience delays" vs "Service is unavailable"
+- **Prioritization:** Fix the thing affecting paying customers first
+
+Build dashboards that answer "who's hurting right now?" before you need them. During the incident is too late to figure out your impact query. (My [SLO Calculator](/projects/slo-tool) can help you think through what "hurting" means for your service.)
+
+## The meta-lesson
+
+Not every incident has equally valuable learning opportunities.
+
+It's tempting to mandate retrospectives for everything. "We learn from all failures!" But that creates postmortem fatigue. The tenth retro about a config typo teaches nothing new.
+
+Instead: talk to the responders. They were there. They know if this was a novel failure or a repeat of something you already understand. Collaboratively decide how much retrospective effort an incident deserves.
+
+Some incidents need a full blameless postmortem with stakeholders and action items. Others need a quick note in Slack and a one-line fix. The responders can tell you which is which, if you ask them.
