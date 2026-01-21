@@ -112,12 +112,13 @@ export const readingTime = ${JSON.stringify(readingTimeText)};
     }
   }
 
-  // Write manifest file
+  // Write manifest as both JS (for imports) and JSON (for scripts)
   const manifestContent = `// Auto-generated manifest of precompiled blog posts
 // Generated at: ${new Date().toISOString()}
 export const blogManifest = ${JSON.stringify(manifest, null, 2)};
 `;
   await writeFile(join(OUTPUT_DIR, 'manifest.js'), manifestContent);
+  await writeFile(join(OUTPUT_DIR, 'manifest.json'), JSON.stringify(manifest, null, 2));
 
   console.log(`\n✅ Precompilation complete!`);
   console.log(`   ${Object.keys(manifest).length} posts compiled to ${OUTPUT_DIR}`);

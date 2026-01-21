@@ -19,7 +19,7 @@ export const blogFrontmatterSchema = z.object({
   date: dateSchema,
   description: z.string().min(1, 'Description is required'),
   tags: z.array(z.string()).default([]),
-  author: z.enum(['Dylan', 'Claude', 'Dylan & Claude']),
+  author: z.enum(['Dylan', 'Claude', 'Dylan & Claude']).default('Claude'),
   draft: z.boolean().default(false),
   featured: z.boolean().optional().default(false),
   category: z.string().optional().default('General'),

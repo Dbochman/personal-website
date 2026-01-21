@@ -38,7 +38,7 @@ interface BlogPostForFeed {
  * Load blog posts from the precompiled manifest
  */
 function loadBlogPosts(): BlogPostForFeed[] {
-  const manifestPath = path.join(process.cwd(), 'src/generated/blog/manifest.js');
+  const manifestPath = path.join(process.cwd(), 'src/generated/blog/manifest.json');
 
   if (!fs.existsSync(manifestPath)) {
     console.error('❌ Manifest not found at', manifestPath);
@@ -46,16 +46,8 @@ function loadBlogPosts(): BlogPostForFeed[] {
     process.exit(1);
   }
 
-  // Read and parse the manifest JS file
-  const manifestContent = fs.readFileSync(manifestPath, 'utf8');
-  const jsonMatch = manifestContent.match(/export const blogManifest = ({[\s\S]*});/);
-
-  if (!jsonMatch) {
-    console.error('❌ Could not parse manifest');
-    process.exit(1);
-  }
-
-  const manifest: Manifest = JSON.parse(jsonMatch[1]);
+  // Read JSON manifest directly (no brittle regex parsing)
+  const manifest: Manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 
   const posts: BlogPostForFeed[] = Object.entries(manifest)
     .filter(([, entry]) => !entry.frontmatter.draft)
