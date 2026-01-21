@@ -45,6 +45,7 @@ async function precompileMDX() {
   console.log(`📝 Found ${txtFiles.length} blog posts to compile`);
 
   const manifest: Manifest = {};
+  const usedSlugs = new Map<string, string>(); // slug -> filename for error messages
   let errors = 0;
 
   for (const file of txtFiles) {
@@ -62,6 +63,15 @@ async function precompileMDX() {
         ...rawFrontmatter,
         slug: rawFrontmatter.slug || slugFromFilename,
       });
+
+      // Check for duplicate slugs (custom frontmatter.slug could collide)
+      const effectiveSlug = validated.slug || slugFromFilename;
+      if (usedSlugs.has(effectiveSlug)) {
+        throw new Error(
+          `Duplicate slug "${effectiveSlug}" - already used by ${usedSlugs.get(effectiveSlug)}`
+        );
+      }
+      usedSlugs.set(effectiveSlug, file);
 
       // Compile MDX to JS
       const compiled = await compile(mdxContent, {
