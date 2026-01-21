@@ -6,43 +6,6 @@
           "checklist": [
             {
               "completed": false,
-              "id": "aet-1",
-              "text": "Define event schema (tool_interaction, action, tool_name)"
-            },
-            {
-              "completed": false,
-              "id": "aet-2",
-              "text": "Add events to SLO Calculator (tab switch, calculate, copy)"
-            },
-            {
-              "completed": false,
-              "id": "aet-3",
-              "text": "Add events to CLI Playground (run command, preset select)"
-            },
-            {
-              "completed": false,
-              "id": "aet-4",
-              "text": "Add events to On-Call Coverage (timezone add, model switch)"
-            },
-            {
-              "completed": false,
-              "id": "aet-5",
-              "text": "Update analytics dashboard to show tool engagement"
-            }
-          ],
-          "createdAt": "2026-01-19",
-          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions. Answer: 'Are people getting value from the tools?'",
-          "id": "analytics-event-tracking",
-          "labels": [
-            "Small",
-            "Analytics"
-          ],
-          "title": "Analytics Event Tracking"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
               "id": "abt-1",
               "text": "Create traffic classification utility (bot, ci, human)"
             },
@@ -324,7 +287,7 @@
             {
               "completed": false,
               "id": "krr-3",
-              "text": "Create goal slider (efficiency ↔ safety)"
+              "text": "Create goal slider (efficiency \u2194 safety)"
             },
             {
               "completed": false,
@@ -585,7 +548,53 @@
       "title": "To Do"
     },
     {
-      "cards": [],
+      "cards": [
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "aet-1",
+              "text": "Define event schema (tool_interaction, action, tool_name)"
+            },
+            {
+              "completed": true,
+              "id": "aet-2",
+              "text": "Add events to SLO Calculator (tab switch, calculate, copy)"
+            },
+            {
+              "completed": true,
+              "id": "aet-3",
+              "text": "Add events to CLI Playground (run command, preset select)"
+            },
+            {
+              "completed": true,
+              "id": "aet-4",
+              "text": "Add events to On-Call Coverage (timezone add, model switch)"
+            },
+            {
+              "completed": false,
+              "id": "aet-5",
+              "text": "Update analytics dashboard to show tool engagement"
+            }
+          ],
+          "createdAt": "2026-01-19",
+          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions. Answer: 'Are people getting value from the tools?'",
+          "id": "analytics-event-tracking",
+          "labels": [
+            "Small",
+            "Analytics"
+          ],
+          "title": "Analytics Event Tracking",
+          "history": [
+            {
+              "type": "column",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-21T18:10:10.050185Z"
+            }
+          ]
+        }
+      ],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -665,7 +674,7 @@
             {
               "completed": true,
               "id": "tw-5",
-              "text": "Update outline-hidden → outline-hidden"
+              "text": "Update outline-hidden \u2192 outline-hidden"
             },
             {
               "completed": true,
@@ -689,7 +698,7 @@
             }
           ],
           "createdAt": "2026-01-08",
-          "description": "Migrated to Tailwind CSS v4 with CSS-first configuration. Used GPT Plan Reviewer (3 rounds) and Architect for migration mapping. Official upgrade tool handled 73 files.\n\nResults:\n- Build time: 5.67s → 5.17s (-9%)\n- CSS size: 102KB → 140KB (+37%)\n- Lighthouse: 95 → 79 (accepted tradeoff for better DX)\n\nFixed cursor-pointer regression on dark mode toggle. Updated CSS budget from 110KB to 150KB.",
+          "description": "Migrated to Tailwind CSS v4 with CSS-first configuration. Used GPT Plan Reviewer (3 rounds) and Architect for migration mapping. Official upgrade tool handled 73 files.\n\nResults:\n- Build time: 5.67s \u2192 5.17s (-9%)\n- CSS size: 102KB \u2192 140KB (+37%)\n- Lighthouse: 95 \u2192 79 (accepted tradeoff for better DX)\n\nFixed cursor-pointer regression on dark mode toggle. Updated CSS budget from 110KB to 150KB.",
           "history": [
             {
               "columnId": "todo",
@@ -1589,7 +1598,7 @@
             }
           ],
           "createdAt": "2026-01-20",
-          "description": "Security hardening based on GPT Security Analyst review (Risk: HIGH → LOW):\n\n- Sanitized search console metrics to remove raw user queries from public site\n- Pinned Decap CMS from ^3.0.0 to exact 3.10.0 to prevent supply chain attacks\n- Changed Mermaid rendering to 'strict' mode for XSS protection\n- Added npm audit step to PR checks for automated CVE detection\n- Refactored Codex review workflow to use --json and -o flags for durable output parsing",
+          "description": "Security hardening based on GPT Security Analyst review (Risk: HIGH \u2192 LOW):\n\n- Sanitized search console metrics to remove raw user queries from public site\n- Pinned Decap CMS from ^3.0.0 to exact 3.10.0 to prevent supply chain attacks\n- Changed Mermaid rendering to 'strict' mode for XSS protection\n- Added npm audit step to PR checks for automated CVE detection\n- Refactored Codex review workflow to use --json and -o flags for durable output parsing",
           "history": [
             {
               "columnId": "ideas",

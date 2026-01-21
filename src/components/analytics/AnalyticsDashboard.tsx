@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAnalyticsData } from '@/hooks/useAnalyticsData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Activity, Search, Gauge, Users } from 'lucide-react';
+import { Activity, Search, Gauge, Users, Wrench } from 'lucide-react';
 import { MetricCard } from './MetricCard';
 import { CoreWebVitalsCard } from './CoreWebVitalsCard';
 import { RumWebVitalsCard } from './RumWebVitalsCard';
@@ -179,6 +179,7 @@ export function AnalyticsDashboard() {
           <TabsTrigger value="traffic">Traffic</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
           <TabsTrigger value="search">Search</TabsTrigger>
+          <TabsTrigger value="tools">Tools</TabsTrigger>
         </TabsList>
 
         <AnimatePresence mode="wait">
@@ -370,6 +371,74 @@ export function AnalyticsDashboard() {
               icon={Gauge}
             />
           </div>
+              </TabsContent>
+            </motion.div>
+          )}
+
+          {/* Tools Tab */}
+          {activeTab === 'tools' && (
+            <motion.div
+              key="tools"
+              variants={tabContent}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <TabsContent value="tools" className="space-y-4" forceMount>
+          {latestGA4?.toolInteractions ? (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <MetricCard
+                  title="Tool Interactions (7d)"
+                  value={latestGA4.toolInteractions.total.toLocaleString()}
+                  icon={Wrench}
+                />
+                {latestGA4.toolInteractions.byTool.slice(0, 3).map((tool) => (
+                  <MetricCard
+                    key={tool.name}
+                    title={tool.name.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                    value={tool.total.toLocaleString()}
+                    icon={Activity}
+                    subtitle="interactions"
+                  />
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                {latestGA4.toolInteractions.byTool.map((tool) => (
+                  <Card key={tool.name}>
+                    <CardHeader>
+                      <CardTitle className="text-lg">
+                        {tool.name.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {tool.actions.map((action) => (
+                          <div key={action.action} className="flex justify-between items-center py-1 border-b border-border/50 last:border-0">
+                            <span className="text-sm font-mono">
+                              {action.action.replace(/_/g, ' ')}
+                            </span>
+                            <span className="text-sm tabular-nums text-muted-foreground">
+                              {action.count.toLocaleString()}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </>
+          ) : (
+            <Card>
+              <CardContent className="pt-6">
+                <p className="text-muted-foreground text-center py-8">
+                  No tool interaction data available yet. Tool events will appear here once users interact with the SRE tools.
+                </p>
+              </CardContent>
+            </Card>
+          )}
               </TabsContent>
             </motion.div>
           )}

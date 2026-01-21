@@ -76,6 +76,17 @@ export interface GA4HistoryEntry {
       users: number;
     }>;
   };
+  toolInteractions?: {
+    total: number;
+    byTool: Array<{
+      name: string;
+      total: number;
+      actions: Array<{
+        action: string;
+        count: number;
+      }>;
+    }>;
+  };
 }
 
 export interface SearchConsoleHistoryEntry {
