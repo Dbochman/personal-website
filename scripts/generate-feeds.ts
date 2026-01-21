@@ -59,8 +59,9 @@ function loadBlogPosts(): BlogPostForFeed[] {
 
   const posts: BlogPostForFeed[] = Object.entries(manifest)
     .filter(([, entry]) => !entry.frontmatter.draft)
-    .map(([slug, entry]) => ({
-      slug,
+    .map(([filenameSlug, entry]) => ({
+      // Use frontmatter slug if set, otherwise use filename slug
+      slug: entry.frontmatter.slug ?? filenameSlug,
       title: entry.frontmatter.title,
       description: entry.frontmatter.description,
       date: entry.frontmatter.date,
