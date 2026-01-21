@@ -70,16 +70,35 @@ jobs:
             --title "${{ github.event.pull_request.title }}" \
             > review_events.jsonl 2>&1 || true
 
+          # Debug: show what we got
+          echo "=== Debug: findings.txt exists? ==="
+          ls -la findings.txt 2>&1 || echo "findings.txt not found"
+          echo "=== Debug: review_events.jsonl stats ==="
+          wc -l review_events.jsonl 2>&1 || echo "review_events.jsonl not found"
+          echo "=== Debug: Event types in JSONL ==="
+          jq -r '.type // "no-type"' review_events.jsonl 2>/dev/null | sort | uniq -c | head -20 || echo "No valid JSON"
+          echo "=== Debug: Sample events ==="
+          head -5 review_events.jsonl 2>/dev/null || echo "No events"
+          echo "=== Debug: Last 5 events ==="
+          tail -5 review_events.jsonl 2>/dev/null || echo "No events"
+
           # Fallback: if -o didn't produce output, extract from JSONL events
           if [ ! -s findings.txt ]; then
+            echo "=== -o flag didn't produce output, trying JSONL extraction ==="
             # Extract agent message content from JSONL events
-            # Look for item.message.delta or item.message events with content
+            # Try multiple possible event structures
             if [ -s review_events.jsonl ]; then
+              # Try to find message content in various event formats
               jq -rs '
-                [.[] | select(.type == "item.message" or .type == "item.message.delta")
-                     | .content // .delta // empty]
-                | add // "No findings extracted from review."
+                [.[] |
+                  # Try different possible structures
+                  (.message.content // .content // .text // .delta.text // .delta // empty)
+                  | select(. != null and . != "")
+                ] | join("") | if . == "" then "No content found in events" else . end
               ' review_events.jsonl > findings.txt 2>/dev/null || true
+
+              echo "=== Debug: Extracted content length ==="
+              wc -c findings.txt
             fi
           fi
 
