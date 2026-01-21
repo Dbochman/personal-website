@@ -60,6 +60,52 @@
           "id": "zt0s8sg",
           "title": "Re-gravel driveway",
           "updatedAt": "2026-01-15T23:18:22.533Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "0nwlhzf",
+              "text": "Gather Supplies"
+            }
+          ],
+          "color": "pink",
+          "createdAt": "2026-01-21T01:00:26.037Z",
+          "history": [
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-21T01:00:26.037Z",
+              "type": "column"
+            }
+          ],
+          "id": "vkggvjh",
+          "summary": "Bathrobe Embroidery",
+          "title": "Bathrobe Repair",
+          "updatedAt": "2026-01-21T01:00:26.037Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "0nwlhzf",
+              "text": "Gather Supplies"
+            }
+          ],
+          "color": "pink",
+          "createdAt": "2026-01-21T01:01:26.386Z",
+          "history": [
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-21T01:01:26.386Z",
+              "type": "column"
+            }
+          ],
+          "id": "r52i8my",
+          "summary": "Things to be bought for the cabin",
+          "title": "Cabin Purchases",
+          "updatedAt": "2026-01-21T01:01:26.386Z"
         }
       ],
       "description": "Planned projects",
@@ -77,19 +123,78 @@
         {
           "checklist": [
             {
-              "completed": false,
+              "completed": true,
               "id": "rugs-1",
               "text": "Measured"
             },
             {
-              "completed": false,
+              "completed": true,
               "id": "rugs-2",
               "text": "Selected fabric"
+            },
+            {
+              "completed": true,
+              "id": "awvxbr8",
+              "text": "Paid Deposit"
+            },
+            {
+              "completed": false,
+              "id": "l77v48v",
+              "text": "Awaiting Scheduling"
             }
           ],
           "createdAt": "2026-01-14",
           "id": "rugs",
-          "title": "Custom rug runners"
+          "title": "Custom rug runners",
+          "updatedAt": "2026-01-21T00:58:18.955Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": false,
+              "id": "isd8qn7",
+              "text": "Clean Dryer Vent"
+            },
+            {
+              "completed": false,
+              "id": "xbh2i6q",
+              "text": "Sweep / Vacuum"
+            },
+            {
+              "completed": false,
+              "id": "3zgfl3c",
+              "text": "Go through the chemicals"
+            },
+            {
+              "completed": false,
+              "id": "qwwvcls",
+              "text": "Get rid of Snowblower"
+            },
+            {
+              "completed": false,
+              "id": "aote30u",
+              "text": "Dust Walls / Ceiling"
+            }
+          ],
+          "createdAt": "2026-01-21T00:59:38.895Z",
+          "history": [
+            {
+              "columnId": "todo",
+              "columnTitle": "To Do",
+              "timestamp": "2026-01-21T00:59:38.895Z",
+              "type": "column"
+            },
+            {
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-21T00:59:49.601Z",
+              "type": "column"
+            }
+          ],
+          "id": "k5chr9j",
+          "summary": "Clean up the first basement",
+          "title": "Clean Basement One",
+          "updatedAt": "2026-01-21T00:59:49.601Z"
         }
       ],
       "color": "yellow",
@@ -120,5 +225,5 @@
   "createdAt": "2026-01-15T23:17:50.056Z",
   "id": "house",
   "title": "House Projects",
-  "updatedAt": "2026-01-15T23:18:30.252Z"
+  "updatedAt": "2026-01-21T01:01:32.328Z"
 }
