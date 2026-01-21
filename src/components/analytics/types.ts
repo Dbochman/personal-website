@@ -86,7 +86,7 @@ export interface GA4HistoryEntry {
         count: number;
       }>;
     }>;
-  };
+  } | null;
 }
 
 export interface SearchConsoleHistoryEntry {
