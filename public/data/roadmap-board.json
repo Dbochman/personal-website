@@ -464,6 +464,12 @@
       "title": "Ideas"
     },
     {
+      "cards": [],
+      "description": "Planned tasks ready to start",
+      "id": "todo",
+      "title": "To Do"
+    },
+    {
       "cards": [
         {
           "checklist": [
@@ -492,15 +498,17 @@
             "Content"
           ],
           "planFile": "docs/plans/50-seo-sre-blog-posts.md",
-          "title": "Write SRE-Focused Blog Posts"
-        },
+          "title": "Write SRE-Focused Blog Posts",
+          "history": [
+            {
+              "type": "column",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-21T19:30:00.000Z"
+            }
+          ]
+        }
       ],
-      "description": "Planned tasks ready to start",
-      "id": "todo",
-      "title": "To Do"
-    },
-    {
-      "cards": [],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
