@@ -85,15 +85,7 @@ jobs:
           Be concise and focus on substantive issues. Skip style nitpicks.
           REVIEW_PROMPT
 
-          # Debug output
-          echo "=== Debug: findings.txt ==="
-          ls -la findings.txt 2>&1 || echo "not found"
-          head -20 findings.txt 2>/dev/null || echo "empty"
-
-          echo "=== Debug: JSONL event types ==="
-          jq -r '.type // "no-type"' review_events.jsonl 2>/dev/null | sort | uniq -c || echo "no events"
-
-          # Final fallback if still empty
+          # Fallback if Codex didn't produce output
           if [ ! -s findings.txt ]; then
             echo "Review completed - see workflow logs for details." > findings.txt
           fi
