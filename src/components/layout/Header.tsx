@@ -52,7 +52,7 @@ const Header = () => {
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
               aria-pressed={isDark}
-              className="text-foreground/70 hover:text-foreground transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4"
+              className="cursor-pointer text-foreground/70 hover:text-foreground transition-colors font-mono text-sm hover:underline decoration-2 underline-offset-4"
             >
               {isDark ? <Sun data-testid="icon-sun" className="w-5 h-5"/> : <Moon data-testid="icon-moon" className="w-5 h-5"/>}
             </button>
@@ -65,7 +65,7 @@ const Header = () => {
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
               aria-pressed={isDark}
-              className="p-2 text-foreground/70 hover:text-foreground transition-colors"
+              className="cursor-pointer p-2 text-foreground/70 hover:text-foreground transition-colors"
             >
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
