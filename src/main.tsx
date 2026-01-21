@@ -34,6 +34,14 @@ if (typeof window !== 'undefined') {
 
 createRoot(document.getElementById("root")!).render(<App />);
 
+// Set traffic classification BEFORE other analytics events
+// This tags the session as human/bot/ci for filtering in GA4
+if (typeof window !== 'undefined') {
+  import('./lib/analytics/clientTrafficClassifier').then(({ setGA4TrafficType }) => {
+    setGA4TrafficType();
+  });
+}
+
 // Lazy load Web Vitals reporting after page has loaded
 // This defers ~40KB of code that's not needed for initial render
 if (typeof window !== 'undefined') {
