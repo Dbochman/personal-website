@@ -648,7 +648,7 @@
       "cards": [
         {
           "createdAt": "2026-01-21",
-          "description": "Knip audit found 14 unused npm packages and 32 unused files. Removed dead code and added CI workflow to track bundle size on PRs.\n\nRemoved:\n- react-hook-form, zod, cmdk, vaul, embla-carousel, etc.\n- 27 unused shadcn/ui components\n- Misc files (App.css, PlaceholderProject)\n\nAdded:\n- preactjs/compressed-size-action workflow\n- npm run analyze for local bundle visualization",
+          "description": "Knip audit found 14 unused npm packages and 32 unused files. Removed dead code.\n\nRemoved:\n- react-hook-form, zod, cmdk, vaul, embla-carousel, etc.\n- 27 unused shadcn/ui components\n- Misc files (App.css, PlaceholderProject)\n\nAdded:\n- npm run analyze for local bundle visualization\n\nCSS reduced from 141KB to 113KB (-20%) due to removed component styles.",
           "history": [
             {
               "columnId": "changelog",
@@ -660,11 +660,10 @@
           "id": "bundle-cleanup-tracking",
           "labels": [
             "PR #187",
-            "Infrastructure",
-            "CI/CD"
+            "Infrastructure"
           ],
-          "summary": "Removed 14 unused deps, 32 files; added CI bundle tracking",
-          "title": "Bundle Cleanup & CI Tracking",
+          "summary": "Removed 14 unused deps, 32 files; CSS -20%",
+          "title": "Bundle Cleanup",
           "updatedAt": "2026-01-21T10:15:00.000Z"
         },
         {
