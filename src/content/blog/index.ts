@@ -40,18 +40,27 @@ function extractSlugFromPath(path: string): string {
   return match ? match[1] : '';
 }
 
+// Map from post slug to module filename (for component loading)
+const slugToFilename = new Map<string, string>();
+
 /**
  * Create a ValidatedBlogPost from module data
  */
 function createPost(
   frontmatter: BlogFrontmatter,
   compiledMDX: string,
-  slug: string,
+  filenameSlug: string,
   readingTime: string
 ): ValidatedBlogPost {
+  // Use frontmatter slug if provided, otherwise use filename
+  const slug = frontmatter.slug || filenameSlug;
+
+  // Store mapping so getPostComponent can find the right module
+  slugToFilename.set(slug, filenameSlug);
+
   return {
     ...frontmatter,
-    slug: frontmatter.slug || slug,
+    slug,
     readingTime,
     content: compiledMDX,
   };
@@ -77,7 +86,7 @@ export function getAllPosts({ includeDrafts = false } = {}): ValidatedBlogPost[]
  * Get a single blog post by slug
  */
 export function getPostBySlug(slug: string): ValidatedBlogPost | null {
-  return allPosts.find(p => p.slug === slug || extractSlugFromPath(`/${slug}.js`) === slug) || null;
+  return allPosts.find(p => p.slug === slug) || null;
 }
 
 /**
@@ -89,8 +98,9 @@ export function getPostComponent(slug: string): React.ComponentType | null {
     return componentCache.get(slug)!;
   }
 
-  // Get the module
-  const modulePath = `/src/generated/blog/${slug}.js`;
+  // Get the filename for this slug (handles custom slugs in frontmatter)
+  const filename = slugToFilename.get(slug) || slug;
+  const modulePath = `/src/generated/blog/${filename}.js`;
   const module = compiledModules[modulePath];
   if (!module) return null;
 
