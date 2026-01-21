@@ -494,54 +494,6 @@
           "planFile": "docs/plans/50-seo-sre-blog-posts.md",
           "title": "Write SRE-Focused Blog Posts"
         },
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "build-1",
-              "text": "Split build into content prep stage"
-            },
-            {
-              "completed": false,
-              "id": "build-2",
-              "text": "Split build into Vite bundle stage"
-            },
-            {
-              "completed": false,
-              "id": "build-3",
-              "text": "Implement content hashing for MDX output"
-            },
-            {
-              "completed": false,
-              "id": "build-4",
-              "text": "Cache content prep output in .cache directory"
-            }
-          ],
-          "createdAt": "2026-01-20",
-          "description": "Improve build performance by splitting into stages and caching content compilation.\n\nApproach:\n1. Content prep: Compile MDX, generate feeds, create OG data\n2. Vite bundle: Standard React build using cached content\n\nCache content step with hashed MDX output to skip unchanged files.",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-20T22:00:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-21T00:00:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "arch-build-performance",
-          "labels": [
-            "Medium",
-            "Infrastructure",
-            "GPT Review"
-          ],
-          "planFile": "docs/plans/53-build-performance.md",
-          "title": "Build Performance (Staged + Cached)"
-        }
       ],
       "description": "Planned tasks ready to start",
       "id": "todo",
@@ -561,6 +513,28 @@
     },
     {
       "cards": [
+        {
+          "createdAt": "2026-01-21",
+          "description": "Added MDX compilation caching to skip recompilation of unchanged blog posts.\n\nImplemented:\n- Content hashing (SHA256) to detect unchanged files\n- Toolchain fingerprint (script + schema + lockfile) for cache invalidation\n- Split build into build:content and build:vite stages\n- CI cache for .cache/mdx across workflow runs\n\nResult: 21 cached, 0 compiled on incremental builds (vs 21 compiled every time before)",
+          "history": [
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-21T19:00:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "arch-build-performance",
+          "labels": [
+            "PR #191",
+            "Infrastructure",
+            "GPT Review"
+          ],
+          "planFile": "docs/plans/53-build-performance.md",
+          "summary": "MDX caching with toolchain fingerprint, staged build scripts",
+          "title": "Build Performance (Staged + Cached)",
+          "updatedAt": "2026-01-21T19:00:00.000Z"
+        },
         {
           "createdAt": "2026-01-21",
           "description": "Added GA4 event collection and dashboard visualization for tool interactions.\n\nImplemented:\n- GA4 Data API query for tool_interaction custom events\n- Tools tab in analytics dashboard with interaction metrics\n- Tracks: tab switches, calculations, preset selections, copy actions\n- Local Codex review caught type mismatch (toolInteractions null handling)",
