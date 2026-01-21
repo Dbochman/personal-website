@@ -7,13 +7,13 @@
     "node": ">=20.17.0"
   },
   "scripts": {
-    "dev": "node scripts/copy-metrics-to-public.js && node scripts/precompile-mdx.js && vite",
-    "precompile-mdx": "node scripts/precompile-mdx.js",
+    "dev": "node scripts/copy-metrics-to-public.js && tsx scripts/precompile-mdx.ts && vite",
+    "precompile-mdx": "tsx scripts/precompile-mdx.ts",
     "copy-metrics": "node scripts/copy-metrics-to-public.js",
-    "build": "node scripts/copy-metrics-to-public.js && node scripts/generate-feeds.js && node scripts/precompile-mdx.js && node scripts/validate-projects.mjs && node scripts/generate-og-images.mjs && vite build && node scripts/prerender.mjs",
-    "build:netlify": "node scripts/copy-metrics-to-public.js && node scripts/generate-feeds.js && node scripts/precompile-mdx.js && node scripts/validate-projects.mjs && node scripts/generate-og-images.mjs && vite build",
-    "build:preview": "node scripts/copy-metrics-to-public.js && node scripts/generate-feeds.js && node scripts/precompile-mdx.js && node scripts/validate-projects.mjs && node scripts/generate-og-images.mjs && vite build",
-    "build:dev": "node scripts/generate-feeds.js && node scripts/precompile-mdx.js && vite build --mode development",
+    "build": "node scripts/copy-metrics-to-public.js && tsx scripts/precompile-mdx.ts && tsx scripts/generate-feeds.ts && node scripts/validate-projects.mjs && node scripts/generate-og-images.mjs && vite build && node scripts/prerender.mjs",
+    "build:netlify": "node scripts/copy-metrics-to-public.js && tsx scripts/precompile-mdx.ts && tsx scripts/generate-feeds.ts && node scripts/validate-projects.mjs && node scripts/generate-og-images.mjs && vite build",
+    "build:preview": "node scripts/copy-metrics-to-public.js && tsx scripts/precompile-mdx.ts && tsx scripts/generate-feeds.ts && node scripts/validate-projects.mjs && node scripts/generate-og-images.mjs && vite build",
+    "build:dev": "tsx scripts/precompile-mdx.ts && tsx scripts/generate-feeds.ts && vite build --mode development",
     "build:analyze": "ANALYZE=true npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -24,7 +24,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
-    "generate-feeds": "node scripts/generate-feeds.js",
+    "generate-feeds": "tsx scripts/generate-feeds.ts",
     "check-seo": "tsx scripts/check-seo-metrics.ts",
     "lighthouse": "lighthouse http://localhost:8080 --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
     "lighthouse:production": "lighthouse https://dylanbochman.com --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
@@ -82,7 +82,8 @@
     "sonner": "^2.0.7",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "web-vitals": "^5.1.0"
+    "web-vitals": "^5.1.0",
+    "zod": "^4.3.5"
   },
   "overrides": {
     "react-day-picker": {

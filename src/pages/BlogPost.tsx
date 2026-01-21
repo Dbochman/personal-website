@@ -5,10 +5,10 @@ import PageLayout from '@/components/layout/PageLayout';
 import { TagList } from '@/components/blog/TagList';
 import { mdxComponents } from '@/components/blog/MDXComponents';
 import {
-  getPostSync,
-  getPostsSync,
+  getPostBySlug,
+  getAllPosts,
   getPostComponent,
-} from '@/lib/blog-loader-precompiled';
+} from '@/content/blog';
 import { Comments } from '@/components/blog/Comments';
 import { RelatedPosts } from '@/components/blog/RelatedPosts';
 import { TransitionLink } from '@/hooks/useViewTransition';
@@ -17,8 +17,8 @@ export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
 
   // Load synchronously for SSR/pre-rendering
-  const post = slug ? getPostSync(slug) : null;
-  const allPosts = getPostsSync();
+  const post = slug ? getPostBySlug(slug) : null;
+  const allPosts = getAllPosts();
   const MDXContent = slug ? getPostComponent(slug) : null;
 
   if (!post) {
