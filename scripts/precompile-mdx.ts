@@ -24,20 +24,22 @@ const OUTPUT_DIR = './src/generated/blog';
 const CACHE_DIR = './.cache/mdx';
 const SCRIPT_PATH = './scripts/precompile-mdx.ts';
 const SCHEMA_PATH = './src/content/blog/schema.ts';
+const LOCKFILE_PATH = './package-lock.json';
 
 // Cache schema version - bump this to invalidate all caches
 const CACHE_VERSION = 1;
 
 /**
- * Compute a fingerprint of the toolchain (compiler script + schema).
- * Cache is invalidated when the compiler or schema changes.
+ * Compute a fingerprint of the toolchain (compiler script + schema + dependencies).
+ * Cache is invalidated when the compiler, schema, or dependencies change.
  */
 async function computeToolchainFingerprint(): Promise<string> {
-  const [scriptContent, schemaContent] = await Promise.all([
+  const [scriptContent, schemaContent, lockfileContent] = await Promise.all([
     readFile(SCRIPT_PATH, 'utf-8'),
     readFile(SCHEMA_PATH, 'utf-8'),
+    readFile(LOCKFILE_PATH, 'utf-8'),
   ]);
-  const combined = `${CACHE_VERSION}:${scriptContent}:${schemaContent}`;
+  const combined = `${CACHE_VERSION}:${scriptContent}:${schemaContent}:${lockfileContent}`;
   return createHash('sha256').update(combined).digest('hex').slice(0, 16);
 }
 

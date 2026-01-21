@@ -31,7 +31,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .cache/mdx
-          key: mdx-${{ hashFiles('scripts/precompile-mdx.ts', 'src/content/blog/schema.ts', 'content/blog/**/*.txt') }}
+          key: mdx-${{ hashFiles('package-lock.json', 'scripts/precompile-mdx.ts', 'src/content/blog/schema.ts', 'content/blog/**/*.txt') }}
           restore-keys: |
             mdx-
 
