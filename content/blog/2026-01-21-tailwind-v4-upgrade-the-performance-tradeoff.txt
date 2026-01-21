@@ -1,0 +1,225 @@
+---
+title: "Tailwind CSS v4: The Performance Tradeoff We Accepted"
+date: "2026-01-21"
+author: Dylan
+description: "We upgraded to Tailwind CSS v4 expecting faster builds. We got them. We also got a 37% larger CSS bundle and a 16-point Lighthouse regression. Here's why we shipped it anyway."
+tags:
+  - Performance
+  - CSS
+  - Tooling
+category: Technical
+draft: false
+---
+
+The plan looked bulletproof. Three rounds of review with our GPT advisors. Detailed migration mapping. A comprehensive checklist. The official upgrade tool handled 73 files automatically.
+
+Then we ran Lighthouse.
+
+## The promise
+
+Tailwind CSS v4 ships with some wild benchmarks:
+
+| Metric | v3 | v4 | Improvement |
+|--------|-----|-----|-------------|
+| Full builds | ~378ms | ~100ms | 3.5x faster |
+| Incremental builds | 44ms | 5ms | 8.8x faster |
+| No-change builds | 35ms | 192μs | 182x faster |
+
+The architecture changed fundamentally. Configuration moved from JavaScript to CSS. The `tailwind.config.ts` file we'd maintained for months got deleted entirely. Everything now lives in `src/index.css` using `@theme`, `@utility`, and `@plugin` directives.
+
+```css
+@import 'tailwindcss';
+@plugin 'tailwindcss-animate';
+@plugin '@tailwindcss/container-queries';
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  /* ... 50 more color tokens */
+}
+```
+
+The developer experience improved. Vite's hot reload feels snappier. The CSS-first configuration is more predictable than the JavaScript version. Container queries are now built-in. Autoprefixer is bundled.
+
+## The reality
+
+Our build times improved modestly: 5.67s down to 5.17s (-9%). Not the 3.5x advertised, but our site has Mermaid diagrams, Monaco editor, and other heavy dependencies that dwarf Tailwind's contribution.
+
+But the CSS bundle grew. Significantly.
+
+| Metric | v3 | v4 | Change |
+|--------|-----|-----|--------|
+| CSS size | 102KB | 140KB | +37% |
+
+That 38KB increase triggered our CI budget check. We'd set the threshold at 110KB with 15% headroom. v4 blew past it. We bumped the budget to 150KB and merged.
+
+Then came the Lighthouse audit.
+
+| Page | Before | After | Delta |
+|------|--------|-------|-------|
+| Home | 95 | 79 | -16 |
+| Blog | 93 | 73 | -20 |
+| Projects | 87 | 76 | -11 |
+
+Twenty points off the blog page. That's not a rounding error.
+
+## Why the regression?
+
+The larger CSS bundle has three consequences:
+
+1. **Longer download time** - 38KB more to transfer, even with compression
+2. **Longer parse time** - More CSS means more work for the browser's style engine
+3. **Larger render-blocking resource** - CSS blocks first paint until fully parsed
+
+Tailwind v4's new architecture generates more complete CSS. It includes utility classes we might use, rather than only those it can statically detect. The tradeoff is convenience for runtime performance.
+
+## The planning process
+
+This upgrade was the first real test of our new AI planning workflow: Claude Code orchestrating GPT experts through Codex MCP for plan validation and specialized analysis.
+
+### How the delegation works
+
+We set up a pattern where Claude Code (Anthropic's CLI tool) delegates specific tasks to GPT experts via the Codex MCP server. Each expert has a specialized prompt that shapes its analysis:
+
+- **Plan Reviewer** - Evaluates plans for completeness, actionability, and gaps. Returns APPROVE/REJECT with specific feedback.
+- **Architect** - Analyzes system design decisions, creates migration mappings, evaluates tradeoffs.
+- **Scope Analyst** - Catches ambiguities before work starts, surfaces hidden requirements.
+
+What clicked for us: let each model do its one job well. Claude Code keeps the thread of the conversation. GPT experts dive deep on the narrow questions we throw at them.
+
+### Round 1: First rejection
+
+The initial plan documented what needed to change conceptually but lacked specifics. We delegated to the Plan Reviewer:
+
+```
+TASK: Review the Tailwind CSS v4 upgrade plan for completeness.
+
+CONTEXT:
+- Plan document at docs/plans/22-tailwind-v4-upgrade.md
+- Current config: 130 lines of JavaScript in tailwind.config.ts
+- Target: CSS-first configuration with @theme/@utility directives
+
+MUST DO:
+- Evaluate clarity, verifiability, completeness, big picture
+- Simulate actually doing the work to find gaps
+```
+
+The verdict came back: **REJECTED**.
+
+> Missing file-level mapping of tailwind.config.ts to CSS @theme/@utility blocks. Animation plugin class replacement details incomplete. No inventory of which components use tailwindcss-animate utilities.
+
+Fair points. The plan said "replace tailwindcss-animate" but didn't specify which animation classes existed in our codebase or where they were used.
+
+### Round 2: Architect analysis
+
+Rather than guessing, we delegated to the Architect expert to build the missing inventory:
+
+```
+TASK: Create detailed migration mapping for Tailwind v4 upgrade.
+
+CONTEXT:
+- tailwind.config.ts contains custom colors, container config, keyframes
+- tailwindcss-animate plugin is used across shadcn/ui components
+- Need file-level mapping of old config → new CSS syntax
+
+MUST DO:
+- Audit tailwind.config.ts line by line
+- Find all tailwindcss-animate class usages
+- Map each config section to equivalent @theme/@utility syntax
+```
+
+The Architect found 18 components using animation utilities: Accordion, Alert, AlertDialog, Carousel, Collapsible, and more. Each was mapped to specific classes: `animate-accordion-down`, `animate-accordion-up`, `animate-in`, `animate-out`, `fade-in`, `slide-in-from-top`.
+
+This created a concrete checklist. We knew exactly which animations needed to survive the migration.
+
+We updated the plan document with:
+- File structure showing how each config section maps to CSS
+- Animation class inventory with component locations
+- Color token mapping from JS to `@theme` syntax
+
+Ran it through Plan Reviewer again. **REJECTED**.
+
+> Color token strategy conflicting—plan mentions both "hsl in variable" and "wrap with hsl() in @theme" without clarifying which approach. tw-animate-css integration unclear: some sections say @plugin, others say @import.
+
+### Round 3: Hard decisions
+
+The second rejection exposed actual ambiguity. We'd documented options without picking one. That's fine for exploration, dangerous for execution.
+
+We made decisions:
+
+1. **Single entry file** - Everything in `src/index.css`, no separate config files
+2. **HSL handling** - Keep raw HSL values in `:root` (for shadcn/ui compatibility), wrap with `hsl()` in `@theme` (for Tailwind consumption)
+3. **Animation plugin** - Use `@plugin 'tailwindcss-animate'` consistently, not `@import`
+
+Updated the plan to reflect these choices unambiguously. Third review: **APPROVED**.
+
+### Why this matters
+
+The three-round review process took maybe 30 minutes. What did it catch?
+
+**Animation inventory** - The official upgrade tool missed three animations: `animate-collapsible-down`, `animate-collapsible-up`, and `animate-caret-blink`. Without the inventory, we'd have found these broken one at a time in production. The collapsible animation powers the mobile nav menu. The caret blink is used in the CLI playground.
+
+**HSL ambiguity** - Two valid approaches exist for color tokens in v4. Picking the wrong one would have required re-migrating 50+ color references.
+
+**Plugin vs import confusion** - `@plugin` and `@import` work differently for animation libraries. Getting this wrong means animations silently fail.
+
+Each of these would have cost debugging time. Catching them in planning cost nothing but a few prompts.
+
+### The pattern
+
+Yeah, I know "AI review pipeline" sounds like something from a LinkedIn post. But it works. The workflow:
+
+1. Write initial plan (Claude Code or human)
+2. Validate with Plan Reviewer (GPT expert)
+3. Address gaps with Architect analysis (GPT expert)
+4. Re-validate until approved
+5. Execute with confidence
+
+The experts don't write code. They just poke holes in your plan until you've actually thought it through.
+
+## The small bugs
+
+A few things broke that weren't on any checklist.
+
+The dark mode toggle stopped showing a pointer cursor on hover. Tailwind v4 changed some default behaviors. Fixed with a `cursor-pointer` class we hadn't needed before.
+
+The CSS budget check failed in CI. We'd set it conservatively, not anticipating a framework upgrade could nearly double the overhead. Bumped the limit, added a comment explaining the v4 tradeoff.
+
+npm version mismatches after stashing changes caused a confusing state where `node_modules` had v4 but `package-lock.json` still referenced v3. Nuking `node_modules` and reinstalling resolved it.
+
+## The decision
+
+We had three options:
+
+1. **Revert** - Go back to v3, preserve performance scores
+2. **Optimize** - Spend time purging unused CSS, custom build configs
+3. **Accept** - Ship v4, document the tradeoff
+
+We chose option 3.
+
+Here's the reasoning: Lighthouse scores measure synthetic performance under throttled conditions. Real users on modern networks and devices won't notice 38KB. The build-time improvements compound across every code change. The CSS-first configuration will save debugging time for months.
+
+And honestly? A 79 performance score is still "good" by Lighthouse standards. We're not dropping into yellow or red. We're trading perfect green numbers for a better development experience.
+
+## What we'd do differently
+
+**Set realistic expectations.** The 182x improvement benchmarks are for no-change incremental builds in isolation. Real projects have other bottlenecks.
+
+**Test bundle size early.** We should have built v4 in isolation before merging and compared output sizes. The CI check caught it, but we'd have had more options if we'd known earlier.
+
+**Budget for regressions.** Framework upgrades aren't free. Even "drop-in" upgrades can have measurable performance costs. Plan for investigation time.
+
+## The takeaway
+
+Performance optimization isn't about hitting numbers. It's about making informed tradeoffs.
+
+We traded ~16 Lighthouse points for faster builds, simpler configuration, and a modernized CSS architecture. That math works for a personal portfolio site. It might not work for an e-commerce checkout page where every millisecond matters.
+
+The key is measuring before and after, understanding what changed, and making a deliberate choice rather than assuming "newer is better."
+
+We're shipping v4. We know the cost. We documented it here so future-me remembers why the Lighthouse scores look different than they did last week.
+
+---
+
+*The Analytics page at [dylanbochman.com/projects/analytics](/projects/analytics) tracks Lighthouse metrics over time. You can see the v4 regression in the January 21 data point.*

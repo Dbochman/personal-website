@@ -5,13 +5,24 @@
     <link>https://dylanbochman.com/blog</link>
     <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 16 Jan 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 21 Jan 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://dylanbochman.com/social-preview.png</url>
       <title>Dylan Bochman - Blog</title>
       <link>https://dylanbochman.com/blog</link>
     </image>
+    <item>
+      <title>Tailwind CSS v4: The Performance Tradeoff We Accepted</title>
+      <link>https://dylanbochman.com/blog/2026-01-21-tailwind-v4-upgrade-the-performance-tradeoff</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-21-tailwind-v4-upgrade-the-performance-tradeoff</guid>
+      <description>We upgraded to Tailwind CSS v4 expecting faster builds. We got them. We also got a 37% larger CSS bundle and a 16-point Lighthouse regression. Here&apos;s why we shipped it anyway.</description>
+      <pubDate>Wed, 21 Jan 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan)</author>
+      <category>Performance</category>
+      <category>CSS</category>
+      <category>Tooling</category>
+    </item>
     <item>
       <title>Using a Kanban Board to Talk to My AI</title>
       <link>https://dylanbochman.com/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai</link>
