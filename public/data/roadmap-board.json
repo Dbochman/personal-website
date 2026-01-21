@@ -470,45 +470,7 @@
       "title": "To Do"
     },
     {
-      "cards": [
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "seo-blog-1",
-              "text": "Write post on incident response best practices"
-            },
-            {
-              "completed": false,
-              "id": "seo-blog-2",
-              "text": "Write post on SLO implementation lessons"
-            },
-            {
-              "completed": false,
-              "id": "seo-blog-3",
-              "text": "Write post on postmortem culture"
-            }
-          ],
-          "createdAt": "2026-01-20",
-          "description": "Current blog posts focus on dev tooling/AI, not reliability topics. Write 2-3 posts on incident management, SLOs, or postmortems to rank for SRE-related searches and demonstrate domain expertise.",
-          "id": "seo-sre-blog-posts",
-          "labels": [
-            "High",
-            "SEO",
-            "Content"
-          ],
-          "planFile": "docs/plans/50-seo-sre-blog-posts.md",
-          "title": "Write SRE-Focused Blog Posts",
-          "history": [
-            {
-              "type": "column",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress",
-              "timestamp": "2026-01-21T19:30:00.000Z"
-            }
-          ]
-        }
-      ],
+      "cards": [],
       "color": "blue",
       "id": "in-progress",
       "title": "In Progress"
@@ -521,6 +483,51 @@
     },
     {
       "cards": [
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "seo-blog-1",
+              "text": "Write post on incident response best practices"
+            },
+            {
+              "completed": true,
+              "id": "seo-blog-2",
+              "text": "Write post on SLO implementation lessons"
+            },
+            {
+              "completed": true,
+              "id": "seo-blog-3",
+              "text": "Write post on postmortem culture"
+            }
+          ],
+          "createdAt": "2026-01-20",
+          "description": "Three SRE-focused blog posts based on Dylan's experience at Groq, HashiCorp, and Spotify.\n\nPosts:\n1. What Hundreds of Incidents Taught Me About Response - 80/20 rule, communication cadence, war room structure, runbook feedback loops\n2. The SLO Math Most Teams Get Wrong - availability traps, dependency chains, percentiles, setting targets\n3. Postmortems That Actually Change Things - action item ownership, 5 whys as pre-work, capturing context\n\nUsed collaborative drafting: Claude creates structure, Dylan fills in authentic experiences, humanizer skill removes AI patterns.",
+          "history": [
+            {
+              "type": "column",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-21T19:30:00.000Z"
+            },
+            {
+              "type": "column",
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-21T20:00:00.000Z"
+            }
+          ],
+          "id": "seo-sre-blog-posts",
+          "labels": [
+            "PR #192",
+            "Content",
+            "SEO"
+          ],
+          "planFile": "docs/plans/50-seo-sre-blog-posts.md",
+          "summary": "3 SRE posts: incidents, SLOs, postmortems",
+          "title": "Write SRE-Focused Blog Posts",
+          "updatedAt": "2026-01-21T20:00:00.000Z"
+        },
         {
           "createdAt": "2026-01-21",
           "description": "Added MDX compilation caching to skip recompilation of unchanged blog posts.\n\nImplemented:\n- Content hashing (SHA256) to detect unchanged files\n- Toolchain fingerprint (script + schema + lockfile) for cache invalidation\n- Split build into build:content and build:vite stages\n- CI cache for .cache/mdx across workflow runs\n\nResult: 21 cached, 0 compiled on incremental builds (vs 21 compiled every time before)",

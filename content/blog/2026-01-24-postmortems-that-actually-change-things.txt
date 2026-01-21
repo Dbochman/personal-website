@@ -1,0 +1,63 @@
+---
+title: "Postmortems That Actually Change Things"
+date: "2026-01-24"
+author: Dylan
+description: "Most postmortems generate action items that never get done. Here's how to write ones that actually improve your systems."
+tags:
+  - SRE
+  - Postmortems
+  - Incident Management
+category: Technical
+draft: false
+---
+
+Most postmortems end with a list of action items that never get done. The doc gets filed, everyone moves on, and six months later the same incident happens again.
+
+The pattern I've seen repeatedly: unassigned action items languish. They sit in a doc or a backlog, technically existing but not owned by anyone. Having an assigned owner makes the difference between an action item that gets done and one that becomes noise.
+
+## Action items that die
+
+The biggest postmortem failure mode: too many action items without owners that never get prioritized.
+
+Teams finish a postmortem feeling productive. They've identified twelve things that could be better. But without owners and without priority, those twelve items compete against feature work. Feature work has deadlines. Action items have guilt.
+
+Low priority items suffer the worst fate. They stick around long enough to make the backlog feel heavy, but never rise high enough to get done. Eventually someone deletes them in a cleanup and nobody notices.
+
+My rule: if an action item doesn't have a name and a date, it's not real. And if you're generating more than 3-5 items per postmortem, you're not prioritizing. Pick the ones that matter most and let the rest go.
+
+## The 5 whys problem
+
+"5 whys" is useful but often becomes a time sink in synchronous calls.
+
+The technique works. Keep asking why until you hit a systemic cause rather than a proximate one. But doing this live, in a room full of people, eats time and often goes in circles. I've sat through too many of these where we spend 45 minutes arriving at "we need better testing" which, sure, but that's not actionable.
+
+Better approach: contributing causes should be pre-work, not discussion. Have the people closest to the incident write up their understanding before the meeting. The postmortem itself becomes about alignment and prioritization, not discovery. You'll get to root causes faster and people won't sit through an hour of "but why did that happen?"
+
+## Writing for the reader
+
+Postmortems are documentation, not therapy. Someone reading this in a year should understand what happened and why.
+
+The mistake most postmortems make: capturing outcomes but not context. "We rolled back the deploy" is an outcome. Why that was the right call, what you were seeing in the metrics, what alternatives you considered. That's the context that helps future readers understand if their situation is similar.
+
+Write as if you're explaining to a new team member who joined after the incident. What would they need to know to avoid making the same mistake?
+
+## Sharing postmortems
+
+Internal engineering orgs benefit the most from postmortems. The teams building dependent systems need to understand what went wrong and what changed.
+
+A select few should be shared with the larger business. Major customer-facing incidents, ones that generated support tickets or executive attention. These need a version that explains impact in business terms, not just technical ones.
+
+Public postmortems are a different thing entirely. They're a lot of work to write well, and most incidents aren't worth that investment. When they are worth it, the transparency can repair customer relationships that the incident damaged. But that's a strategic choice, not a default.
+
+## What separates learning from ritual
+
+What distinguishes orgs that learn from incidents versus those going through the motions?
+
+Two things: action items getting priority over feature work, and actually adjusting process as a result of learning.
+
+The first is a leadership decision. If postmortem action items always lose to roadmap items, you're signaling that reliability doesn't matter. People notice. They stop writing meaningful action items because why bother.
+
+The second is harder. It means admitting that how you work needs to change, not just what you build. A postmortem that says "we need better alerting" is easy. One that says "our deploy process doesn't have adequate guardrails" requires changing how an entire team operates. That's uncomfortable. Most orgs avoid it.
+
+The ones that learn are the ones willing to be uncomfortable.
+
