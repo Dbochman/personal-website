@@ -2,7 +2,7 @@
 title: "The SLO Math Most Teams Get Wrong"
 date: "2026-01-21"
 author: Dylan
-description: "Most teams set SLOs by picking a number that sounds good. Here's how to calculate a realistic service level objective based on your incident response capabilities."
+description: "Four nines sounds heroic until you've lived through the pager math. Here's how I back into an honest SLO from the ugly incident data."
 tags:
   - SRE
   - SLOs
@@ -13,9 +13,9 @@ draft: false
 
 "We need four nines."
 
-I've heard this in planning meetings at Spotify, HashiCorp, and Groq. Someone picks 99.99% because it sounds professional. Then reality hits: the on-call engineer takes 15 minutes to acknowledge a page, another 20 to diagnose the issue, and 30 more to fix it. That's over an hour of downtime per incident.
+I've heard this line in planning meetings at Spotify, HashiCorp, Groq, and now Nvidia. Someone tosses 99.99% onto a slide because it feels like we have our act together. Then reality shows up: the on-call engineer takes 15 minutes to acknowledge the page, another 20 to figure out which subsystem fell over, and half an hour to roll forward (or back) the fix. That's over an hour of downtime for a single incident, assuming the coffee hasn't gone cold yet.
 
-With a 99.99% SLO, your entire monthly error budget is 4.3 minutes. One incident and you're blown.
+With a 99.99% SLO, your entire monthly error budget is 4.3 minutes. One real incident and you're upside down. I've done that math half-asleep at 3 a.m. It never gets kinder.
 
 *Want to skip ahead? [Try the SLO Calculator](/projects/slo-tool) to plug in your own numbers.*
 
@@ -23,34 +23,34 @@ With a 99.99% SLO, your entire monthly error budget is 4.3 minutes. One incident
 
 Most teams set service level objectives like this:
 
-1. Pick a target that sounds good (99.9%, 99.95%, 99.99%)
-2. Calculate the error budget
-3. Hope they can stay within it
-4. Miss the target
-5. Either ignore it or argue about whether the SLO was "realistic"
+1. Pick the shiniest number in the room (99.9%, 99.95%, 99.99%)
+2. Crunch the error budget
+3. Cross their fingers and hope the pager behaves
+4. Miss the target anyway
+5. Either pretend the SLO never existed or debate whether it was "realistic"
 
-This is backwards. Your SLO should be derived from your actual capabilities, not from wishful thinking.
+That sequence is absolutely backwards. Your SLO has to come from what your team can actually deliver today—not the fantasy version of your org chart. I've sat through too many retros where we rediscover this the hard way.
 
 ## What actually determines your achievable SLO
 
-For availability-based SLOs, your achievable target is primarily a function of:
+For availability-based SLOs, your ceiling is basically set by two brutally simple numbers:
 
-1. **How quickly you respond to incidents** (MTTR - Mean Time to Recovery)
-2. **How many incidents you have** (frequency)
+1. **How fast you close incidents** (MTTR — Mean Time to Recovery)
+2. **How often you cause them** (incident frequency)
 
-Other factors matter too—detection time, partial degradations, and request-based SLIs can complicate the picture—but for most teams, MTTR and incident count are the dominant variables. Get these wrong and no amount of sophistication elsewhere will save you.
+Yes, other knobs exist—detection accuracy, partial outages, request-based SLIs. They matter. But if you mess up MTTR or the number of incidents, nothing else rescues you. I've tried to argue with that math; it doesn't care.
 
-If your mean time to recovery is 45 minutes and you have 2 incidents per month, you're burning 90 minutes of downtime monthly. In a 30-day month (43,200 minutes), that's:
+Say your mean time to recovery is 45 minutes and you average two incidents a month. That's 90 minutes of downtime. In a 30-day month (43,200 minutes), the availability works out to:
 
 ```
 (43,200 - 90) / 43,200 = 99.79%
 ```
 
-Your achievable SLO is approximately 99.8%. Setting a target of 99.95% means you're committing to something you structurally cannot deliver without changing your incident response or reducing incident frequency.
+So your realistic SLO is roughly 99.8%. Targeting 99.95% without changing the underlying response or reducing incident count is just a bet you've already lost.
 
 ## How to calculate an SLO from MTTR
 
-MTTR isn't one number. It's the sum of several phases, each with different improvement levers:
+MTTR isn't a single knob. It's the sum of several phases, each with different failure modes and ways to speed them up:
 
 | Phase | What it measures | Typical range |
 |-------|------------------|---------------|
@@ -70,29 +70,29 @@ MTTR isn't one number. It's the sum of several phases, each with different impro
 **Example: A struggling team**
 
 - Detection: 5 minutes
-- Acknowledgment: 15 minutes (on-call was in a meeting)
-- Diagnosis: 20 minutes (logs were hard to find)
+- Acknowledgment: 15 minutes (on-call was in a meeting and ignored Slack—been there)
+- Diagnosis: 20 minutes (dashboards were lying)
 - Remediation: 30 minutes
 - **Total MTTR: 70 minutes**
 
-Same number of incidents, dramatically different achievable SLO.
+Same incident count, wildly different SLO ceiling.
 
 ## The SLO calculation formula
 
-For a monthly availability SLO with `n` incidents and MTTR of `m` minutes:
+For a monthly availability SLO with `n` incidents and an MTTR of `m` minutes:
 
 ```
 Achievable SLO = 1 - (n × m) / 43,200
 ```
 
-**Worked example:** Your team has 3 incidents per month with an average MTTR of 65 minutes.
+**Worked example:** Three incidents per month with an average MTTR of 65 minutes.
 
 ```
 Downtime = 3 × 65 = 195 minutes
 Achievable SLO = 1 - (195 / 43,200) = 99.55%
 ```
 
-Setting a 99.9% target would require either cutting MTTR to 14 minutes or reducing incidents to 1 per month.
+If you're aiming for 99.9%, you either need to chop MTTR down to 14 minutes or cut incidents to one per month. No wishful thinking gets around it.
 
 ### Quick reference: SLO vs incident tolerance
 
@@ -104,96 +104,94 @@ Setting a 99.9% target would require either cutting MTTR to 14 minutes or reduci
 | 2 | 60 min | 99.72% | 120 min |
 | 4 | 45 min | 99.58% | 180 min |
 
-The relationship is linear. Halving your MTTR or halving your incident count has the same effect on your achievable SLO.
+The relationship is linear. Halve MTTR or halve incident count—you get the same bump in SLO. Pick whichever hurts less (or whichever you can influence this quarter).
 
 ## Which lever to pull: MTTR vs incident frequency
 
-When your achievable SLO doesn't meet business requirements, you have two options:
+When your achievable SLO is below what the business wants, you've got two levers and neither is free:
 
 **Reduce MTTR** by improving:
-- Alerting coverage and thresholds (detect faster)
-- On-call responsiveness and tooling (acknowledge faster)
-- Observability and runbooks (diagnose faster)
-- Automation and rollback capabilities (fix faster)
+- Alerting coverage and thresholds so detection is near-instant
+- On-call responsiveness and tooling (kill the "sorry, was in transit" excuse)
+- Observability, runbooks, and jump boxes to speed diagnosis
+- Automation, safe rollbacks, and feature flags to shrink remediation time
 
-**Reduce incident frequency** by improving:
-- Testing and CI/CD quality gates
+**Reduce incident frequency** by tightening:
+- Testing and CI/CD gates (fail fast, not in prod)
 - Capacity planning and load testing
 - Dependency management and circuit breakers
-- Architecture and blast radius reduction
+- Architecture patterns that limit blast radius
 
-Both matter. But MTTR improvements often have faster ROI because they're process changes, not architectural changes. You can improve ack time this week; reducing incident frequency usually takes months.
+Both levers matter. MTTR work often pays off faster—it's mostly process and tooling tweaks. Driving incidents down usually involves deeper engineering work with a longer lead time. Pick your battles, but pick them deliberately.
 
 ## Setting honest SLOs: A practical approach
 
-Here's the process I recommend:
+Here's the playbook I keep coming back to:
 
-1. **Measure your current MTTR** by phase. If you don't have data, use conservative estimates and commit to measuring.
+1. **Measure your current MTTR** by phase. If you lack data, use pessimistic estimates and promise yourself you'll gather the real numbers.
+2. **Count your incidents** over the last 3–6 months. Normalize to monthly so you're not fooling yourself with a lucky quiet stretch.
+3. **Calculate your achievable SLO** with the formula above—or just [use the calculator](/projects/slo-tool).
+4. **Aim 0.05–0.1% below the ceiling.** If math says you can do 99.85%, set 99.8%. Leave room for the month where nothing cooperates.
+5. **Name the improvement levers** if that number doesn't satisfy the business. "Reduce acknowledgment from 12 minutes to 5" is actionable. "Improve reliability" isn't.
 
-2. **Count your incidents** over the past 3-6 months. Normalize to monthly.
-
-3. **Calculate your achievable SLO** using the formula above, or [use the calculator](/projects/slo-tool).
-
-4. **Set your target 0.05-0.1% below achievable**. If you can achieve 99.85%, target 99.8%. This gives you room for worse-than-average months.
-
-5. **Identify improvement levers** if the achievable SLO doesn't meet business needs. Be specific: "We need to reduce ack time from 12 minutes to 5 minutes" is actionable. "We need to improve reliability" is not.
+If that sounds unglamorous, yeah. But it's the only way I've seen SLOs survive beyond the kickoff presentation.
 
 ## Making error budgets useful
 
-Once you have an honest SLO, error budgets become useful instead of fictional.
+Once you anchor the target in reality, error budgets stop being fiction.
 
-At 99.8% monthly, you have 86.4 minutes of budget. That's real. You can make decisions against it:
+At 99.8% monthly, you bank 86.4 minutes. That's tangible. You can have grown-up conversations like:
 
-- "This deployment has risk. Do we have budget to absorb a potential 20-minute incident?"
-- "We've used 60 minutes this month. Let's slow down on risky changes."
-- "We're consistently under budget. We could take on more feature velocity."
+- "This deploy carries risk; can the remaining 40 minutes absorb a 20-minute incident if it goes sideways?"
+- "We've spent 60 minutes this month; maybe slow-roll the risky changes."
+- "We're comfortably under budget; we can afford to push velocity a bit."
 
-Error budgets only work when the SLO reflects reality. A 99.99% target that you consistently miss teaches your team to ignore SLOs entirely.
+Teams only respect error budgets when they're achievable. A 99.99% scoreboard you miss every month teaches everyone to ignore the whole framework. I've watched that culture rot set in, and it's brutal to undo.
 
 ## SLO Calculator walkthrough
 
-I built an [SLO Calculator](/projects/slo-tool) that does this math for you. It has three modes:
+I built an [SLO Calculator](/projects/slo-tool) to save myself from redoing this math in spreadsheets.
 
-**"What can I achieve?"** - Enter your response times by phase and incident frequency. It calculates your realistic SLO ceiling.
+**"What can I achieve?"** – Feed it response times by phase plus incident frequency. It spits out your honest SLO ceiling.
 
-**"Can I meet this SLO?"** - Enter a target and your current capabilities. It tells you whether the math works and what would need to change.
+**"Can I meet this SLO?"** – Enter the shiny target and your current capabilities. It tells you whether the numbers reconcile and which part has to get better.
 
-**"Budget Burndown"** - Visualize how your error budget depletes over a period based on simulated incidents.
+**"Budget Burndown"** – Simulate incidents and watch how fast the error budget evaporates. Seeing the graph tank is a helpful wake-up call for stakeholders.
 
-The first tab is the most useful starting point. It forces the conversation to start from capabilities rather than aspirations.
+Start with the first tab. It forces the conversation to be about what your team can actually deliver instead of what looks good in a roadmap review.
 
 ## Frequently asked questions
 
 **How many incidents can we have at 99.9%?**
 
-At 99.9% monthly, you have 43.2 minutes of error budget. Divide by your MTTR. With 30-minute MTTR, that's 1.4 incidents. With 60-minute MTTR, that's 0.7 incidents—meaning even one typical incident blows your budget.
+At 99.9% monthly you get 43.2 minutes of error budget. Divide by MTTR. With 30-minute MTTR, that's 1.4 incidents. With 60-minute MTTR, it's 0.7—meaning a single typical incident blows the budget. No tricks here.
 
 **What's the difference between SLO and SLA?**
 
-An SLO (Service Level Objective) is an internal target. An SLA (Service Level Agreement) is a contractual commitment with consequences for missing it. Your SLO should be stricter than your SLA to give you buffer before breaching contracts.
+An SLO (Service Level Objective) is our internal promise to ourselves. An SLA (Service Level Agreement) is the contractual promise where lawyers get involved if you miss it. Your SLO should be tighter than your SLA so you hit the legal bar with room to spare.
 
 **Should we use time-based or request-based SLOs?**
 
-Request-based SLOs (e.g., 99.9% of requests succeed) are more precise but harder to reason about for incident response. Time-based SLOs are simpler for operational planning. Many teams use both: request-based for API services, time-based for user-facing availability.
+Request-based SLOs (e.g., 99.9% of requests succeed) are laser-precise but harder to map to on-call life. Time-based numbers are easier for operational planning. Most larger teams run both: request-based for APIs, time-based for user-facing availability. Pick what lets you sleep at night and defend decisions to stakeholders.
 
 ## The uncomfortable truth
 
-Most teams can't actually achieve 99.99% availability. The math doesn't support it unless you have:
+Most teams can't actually sustain 99.99% availability. The math doesn't pencil out unless you've invested in:
 
-- Sub-minute detection
-- Immediate acknowledgment (follow-the-sun coverage or automated response)
-- Pre-diagnosed issues (comprehensive runbooks)
-- Automated remediation
+- Sub-minute detection with minimal false positives
+- Follow-the-sun coverage or automation so acknowledgment is instant
+- Runbooks that practically diagnose the issue for you
+- Automated remediation or one-click rollbacks
 
-That's a significant investment. For many services, 99.9% is a more honest target—and hitting a realistic target consistently builds more trust than missing an aspirational one.
+That stack takes real money and years of muscle-building. For plenty of services, 99.9% is the honest target—and consistently hitting an honest number earns more trust than missing an aspirational one while insisting everything is fine.
 
-The goal isn't the highest number. It's the most accurate one.
+The goal isn't the highest number. It's the truest one you can defend when the pager wakes you up.
 
 ---
 
 **Next steps:**
 1. [Calculate your achievable SLO](/projects/slo-tool) based on current capabilities
-2. Compare against business requirements
-3. Identify the specific MTTR phase or incident driver to improve
+2. Compare it with what the business is asking for
+3. Pick the MTTR phase or incident driver you're going to fix next (and write it down before the next incident steals your attention)
 
-For more on SLO implementation, the [Google SRE Workbook](https://sre.google/workbook/implementing-slos/) is the canonical reference.
+For more on SLO implementation, the [Google SRE Workbook](https://sre.google/workbook/implementing-slos/) is still the canonical playbook. I keep my dog-eared copy within reach.
