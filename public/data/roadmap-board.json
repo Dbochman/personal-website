@@ -535,54 +535,6 @@
           "checklist": [
             {
               "completed": false,
-              "id": "mdx-1",
-              "text": "Create zod schema for blog post frontmatter validation"
-            },
-            {
-              "completed": false,
-              "id": "mdx-2",
-              "text": "Centralize MDX ingestion to single typed module"
-            },
-            {
-              "completed": false,
-              "id": "mdx-3",
-              "text": "Share source of truth for RSS feed generation"
-            },
-            {
-              "completed": false,
-              "id": "mdx-4",
-              "text": "Share source of truth for OG image metadata"
-            }
-          ],
-          "createdAt": "2026-01-20",
-          "description": "Centralize MDX content ingestion with a schema layer so frontmatter, RSS/feed data, and OG metadata share one typed source of truth.\n\nBenefits:\n- Build artifacts produced once, not duplicated\n- Type-safe frontmatter validation\n- Single place to update content structure",
-          "history": [
-            {
-              "columnId": "ideas",
-              "columnTitle": "Ideas",
-              "timestamp": "2026-01-20T22:00:00.000Z",
-              "type": "column"
-            },
-            {
-              "columnId": "todo",
-              "columnTitle": "To Do",
-              "timestamp": "2026-01-21T00:00:00.000Z",
-              "type": "column"
-            }
-          ],
-          "id": "arch-mdx-pipeline",
-          "labels": [
-            "Medium",
-            "Infrastructure",
-            "GPT Review"
-          ],
-          "planFile": "docs/plans/51-mdx-pipeline-centralization.md",
-          "title": "MDX Pipeline Centralization"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
               "id": "build-1",
               "text": "Split build into content prep stage"
             },
@@ -626,7 +578,7 @@
           ],
           "planFile": "docs/plans/53-build-performance.md",
           "title": "Build Performance (Staged + Cached)"
-        },
+        }
       ],
       "description": "Planned tasks ready to start",
       "id": "todo",
@@ -646,6 +598,27 @@
     },
     {
       "cards": [
+        {
+          "createdAt": "2026-01-21",
+          "description": "Centralized blog content with Zod schema validation. Single source of truth for frontmatter, RSS feeds, and OG metadata.\n\nKey changes:\n- Zod schema for frontmatter validation at build time\n- JSON manifest for reliable feed generation\n- Duplicate slug detection\n- Codex review workflow fixes (6 issues found and fixed)",
+          "history": [
+            {
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-21T17:40:00.000Z",
+              "type": "column"
+            }
+          ],
+          "id": "mdx-pipeline-centralization",
+          "labels": [
+            "PR #189",
+            "Infrastructure",
+            "GPT Review"
+          ],
+          "summary": "Zod schema validation, JSON manifest, Codex workflow fixes",
+          "title": "MDX Pipeline Centralization",
+          "updatedAt": "2026-01-21T17:40:00.000Z"
+        },
         {
           "createdAt": "2026-01-21",
           "description": "Knip audit found 14 unused npm packages and 32 unused files. Removed dead code and added CI workflow to track bundle size on PRs.\n\nRemoved:\n- react-hook-form, zod, cmdk, vaul, embla-carousel, etc.\n- 27 unused shadcn/ui components\n- Misc files (App.css, PlaceholderProject)\n\nAdded:\n- preactjs/compressed-size-action workflow\n- npm run analyze for local bundle visualization",
