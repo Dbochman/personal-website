@@ -55,8 +55,9 @@ const BOT_USER_AGENT_PATTERNS = [
 ];
 
 // CI/automation user agent patterns
+// Note: Avoid generic patterns like /chromium/i which false-positive on real users
 const CI_USER_AGENT_PATTERNS = [
-  /headlesschrome/i,
+  /HeadlessChrome/i, // Specific headless indicator
   /playwright/i,
   /puppeteer/i,
   /selenium/i,
@@ -64,7 +65,6 @@ const CI_USER_AGENT_PATTERNS = [
   /phantomjs/i,
   /cypress/i,
   /nightwatch/i,
-  /chromium/i, // Headless chromium often used in CI
   /github-actions/i,
 ];
 

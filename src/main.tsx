@@ -3,7 +3,8 @@ import * as Sentry from '@sentry/react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import { setGA4TrafficType } from './lib/analytics/clientTrafficClassifier'
+// Note: Traffic classification now runs inline in index.html BEFORE gtag config
+// to ensure the first page_view event includes traffic_type
 
 // Initialize Sentry before rendering to capture all errors including first-paint
 // This is required since App.tsx uses Sentry.ErrorBoundary
@@ -31,12 +32,6 @@ if (typeof window !== 'undefined') {
   } else {
     document.documentElement.classList.remove('dark')
   }
-}
-
-// Set traffic classification BEFORE React renders to ensure
-// the GA4 custom dimension is set before any analytics events fire
-if (typeof window !== 'undefined') {
-  setGA4TrafficType();
 }
 
 createRoot(document.getElementById("root")!).render(<App />);
