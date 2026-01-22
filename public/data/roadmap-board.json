@@ -6,45 +6,9 @@
           "checklist": [
             {
               "completed": false,
-              "id": "abt-1",
-              "text": "Create traffic classification utility (bot, ci, human)"
+              "id": "mnl-1",
+              "text": "Create metric name input (one per line, optional type hints)"
             },
-            {
-              "completed": false,
-              "id": "abt-2",
-              "text": "Detect CI via user agent (HeadlessChrome, Playwright)"
-            },
-            {
-              "completed": false,
-              "id": "abt-3",
-              "text": "Add custom dimension to GA4 config"
-            },
-            {
-              "completed": false,
-              "id": "abt-4",
-              "text": "Tag sessions on first pageview"
-            },
-            {
-              "completed": false,
-              "id": "abt-5",
-              "text": "Add traffic type filter to analytics dashboard"
-            },
-            {
-              "completed": false,
-              "id": "abt-6",
-              "text": "Document patterns discovered for future reference"
-            }
-          ],
-          "createdAt": "2026-01-19",
-          "description": "Tag suspicious traffic with custom dimension instead of filtering. Enables analysis of bot patterns while keeping data.\n\nIndicators to tag:\n- Known bot user agents (Googlebot, Bingbot, HeadlessChrome, etc.)\n- CI/automation user agents (GitHub Actions runners)\n- Zero scroll/interaction events within session\n- Datacenter IP ranges (if detectable client-side)\n- Known probe paths (wp-admin, .env, xmlrpc.php, etc.)",
-          "id": "analytics-bot-ci-tagging",
-          "labels": [
-            "Small",
-            "Analytics"
-          ],
-          "planFile": "docs/plans/56-analytics-bot-ci-tagging.md",
-          "title": "Analytics Bot & CI Traffic Tagging"
-        },
         {
           "checklist": [
             {
@@ -425,40 +389,6 @@
           "planFile": "docs/plans/54-seo-about-page.md",
           "title": "Create Dedicated About Page",
           "updatedAt": "2026-01-20T19:34:31.846Z"
-        },
-        {
-          "checklist": [
-            {
-              "completed": false,
-              "id": "las-1",
-              "text": "Review current Lighthouse workflow frequency and categories"
-            },
-            {
-              "completed": false,
-              "id": "las-2",
-              "text": "Configure Lighthouse to focus on a11y and SEO categories"
-            },
-            {
-              "completed": false,
-              "id": "las-3",
-              "text": "Reduce run frequency (weekly or on significant changes)"
-            },
-            {
-              "completed": false,
-              "id": "las-4",
-              "text": "Add a11y score to analytics dashboard"
-            }
-          ],
-          "createdAt": "2026-01-19",
-          "description": "Lab Lighthouse provides unique value for accessibility audits and SEO checks that field CWV data can't capture. Reframe the workflow to focus on these strengths.\n\nField data (GA4): Performance metrics (FCP, LCP, CLS, INP, TTFB)\nLab data (Lighthouse): Accessibility score, SEO score, best practices\n\nConsider: Run Lighthouse less frequently (weekly instead of per-commit) with focus on a11y/SEO categories only.",
-          "id": "lighthouse-a11y-seo-focus",
-          "labels": [
-            "Small",
-            "Analytics",
-            "Accessibility"
-          ],
-          "planFile": "docs/plans/57-lighthouse-a11y-seo-focus.md",
-          "title": "Lighthouse: A11y & SEO Focus"
         }
       ],
       "description": "Draft plans and attach them, then move to To Do",
@@ -485,6 +415,107 @@
     },
     {
       "cards": [
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "abt-1",
+              "text": "Create traffic classification utility (bot, ci, human)"
+            },
+            {
+              "completed": true,
+              "id": "abt-2",
+              "text": "Detect CI via user agent (HeadlessChrome, Playwright)"
+            },
+            {
+              "completed": true,
+              "id": "abt-3",
+              "text": "Add custom dimension to GA4 config"
+            },
+            {
+              "completed": true,
+              "id": "abt-4",
+              "text": "Tag sessions on first pageview"
+            }
+          ],
+          "createdAt": "2026-01-19",
+          "description": "Client-side traffic classification for GA4 custom dimension. Tags sessions as human, bot, or ci based on user agent patterns and probe paths.\n\nImplemented:\n- Inline classification in index.html before gtag config\n- Bot detection: search engines, AI crawlers, monitoring tools, SEO bots\n- CI detection: HeadlessChrome, Playwright, Puppeteer, Selenium\n- Probe path detection: wp-admin, .env, .git, etc.\n- Session caching in sessionStorage for SPA consistency\n\nCodex review caught timing issue (classification must run before gtag config) and chromium false positive (removed generic pattern).",
+          "history": [
+            {
+              "type": "column",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-21T21:00:00.000Z"
+            },
+            {
+              "type": "column",
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-22T02:30:00.000Z"
+            }
+          ],
+          "id": "analytics-bot-ci-tagging",
+          "labels": [
+            "PR #193",
+            "Analytics",
+            "GPT Review"
+          ],
+          "planFile": "docs/plans/56-analytics-bot-ci-tagging.md",
+          "summary": "Client-side bot/CI/human classification for GA4 traffic_type dimension",
+          "title": "Analytics Bot & CI Traffic Tagging",
+          "updatedAt": "2026-01-22T02:30:00.000Z"
+        },
+        {
+          "checklist": [
+            {
+              "completed": true,
+              "id": "las-1",
+              "text": "Review current Lighthouse workflow frequency and categories"
+            },
+            {
+              "completed": true,
+              "id": "las-2",
+              "text": "Configure Lighthouse to focus on a11y and SEO categories"
+            },
+            {
+              "completed": true,
+              "id": "las-3",
+              "text": "Reduce run frequency (weekly or on significant changes)"
+            },
+            {
+              "completed": true,
+              "id": "las-4",
+              "text": "Add path triggers for UI changes"
+            }
+          ],
+          "createdAt": "2026-01-19",
+          "description": "Reframed Lighthouse CI to focus on accessibility and SEO audits while relying on GA4 field data for performance.\n\nImplemented:\n- Changed scheduled runs from daily to weekly (Sundays)\n- Added path-based triggers for significant UI changes (src/pages/**, src/components/**, index.html, tailwind.config.*, vite.config.*)\n- Added include_lighthouse input for manual runs\n- GA4/Search Console still run daily (Mon-Sat)\n\nCodex review caught cron conflict (both daily and weekly would fire on Sundays).",
+          "history": [
+            {
+              "type": "column",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress",
+              "timestamp": "2026-01-21T21:00:00.000Z"
+            },
+            {
+              "type": "column",
+              "columnId": "changelog",
+              "columnTitle": "Change Log",
+              "timestamp": "2026-01-22T02:30:00.000Z"
+            }
+          ],
+          "id": "lighthouse-a11y-seo-focus",
+          "labels": [
+            "PR #194",
+            "Analytics",
+            "Accessibility",
+            "GPT Review"
+          ],
+          "planFile": "docs/plans/57-lighthouse-a11y-seo-focus.md",
+          "summary": "Weekly Lighthouse runs focused on a11y/SEO, path triggers for UI changes",
+          "title": "Lighthouse: A11y & SEO Focus",
+          "updatedAt": "2026-01-22T02:30:00.000Z"
+        },
         {
           "checklist": [
             {
