@@ -2,13 +2,22 @@ name: Daily Analytics Collection
 
 on:
   workflow_dispatch:
-  # Manual trigger for ad-hoc data collection
+    inputs:
+      include_lighthouse:
+        description: 'Run Lighthouse audit (normally weekly only)'
+        required: false
+        type: boolean
+        default: false
   schedule:
-    # Run daily at 6 AM UTC
-    - cron: '0 6 * * *'
+    # GA4 and Search Console run Mon-Sat at 6 AM UTC
+    - cron: '0 6 * * 1-6'
+    # Full run with Lighthouse on Sundays at 6 AM UTC (a11y/SEO focus)
+    - cron: '0 6 * * 0'
 
 jobs:
   lighthouse:
+    # Run weekly on Sundays, or on manual dispatch with include_lighthouse=true
+    if: github.event.schedule == '0 6 * * 0' || github.event.inputs.include_lighthouse == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -36,7 +45,7 @@ jobs:
         run: |
           mkdir -p docs/metrics
           cp lighthouse-reports/summary.json docs/metrics/latest-multi-page.json
-          echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"commit\": \"${{ github.sha }}\"}" > docs/metrics/last-run.json
+          echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"commit\": \"${{ github.sha }}\", \"trigger\": \"${{ github.event_name == 'schedule' && 'scheduled' || 'manual' }}\"}" > docs/metrics/last-run.json
 
       - name: Upload Lighthouse reports
         uses: actions/upload-artifact@v4
@@ -49,7 +58,7 @@ jobs:
       completed: ${{ job.status == 'success' }}
 
   search-console:
-    needs: lighthouse
+    # Run daily - no dependency on lighthouse (which is weekly)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -83,6 +92,7 @@ jobs:
           retention-days: 7
 
   ga4:
+    # Run daily - depends on search-console for sequential execution
     needs: search-console
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -118,7 +128,9 @@ jobs:
           retention-days: 7
 
   commit-all:
-    needs: [lighthouse, search-console, ga4]
+    # Wait for data collection jobs; lighthouse is optional (weekly only)
+    needs: [search-console, ga4]
+    if: always() && (needs.search-console.result == 'success' || needs.ga4.result == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -135,15 +147,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
+        continue-on-error: true
 
       - name: Merge artifacts into docs/metrics
         run: |
           mkdir -p docs/metrics
 
-          # Copy Lighthouse data
+          # Copy Lighthouse data (only available on weekly runs)
           if [ -f artifacts/lighthouse-reports/summary.json ]; then
             cp artifacts/lighthouse-reports/summary.json docs/metrics/latest-multi-page.json
-            echo "✅ Lighthouse data updated"
+            echo "✅ Lighthouse data updated (weekly run)"
+          else
+            echo "ℹ️  No Lighthouse data this run (weekly only)"
           fi
 
           # Copy Search Console data

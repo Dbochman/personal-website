@@ -6,7 +6,22 @@ on:
     types:
       - completed
   workflow_dispatch:
-  # Scheduled runs moved to analytics-daily.yml for unified daily collection
+    inputs:
+      reason:
+        description: 'Reason for manual run'
+        required: false
+        type: string
+  # Path-based trigger for significant UI changes
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/pages/**'
+      - 'src/components/**'
+      - 'src/index.css'
+      - 'index.html'
+      - 'tailwind.config.*'
+      - 'vite.config.*'
 
 jobs:
   lighthouse:
