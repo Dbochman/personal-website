@@ -3,6 +3,8 @@ import * as Sentry from '@sentry/react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
+// Note: Traffic classification now runs inline in index.html BEFORE gtag config
+// to ensure the first page_view event includes traffic_type
 
 // Initialize Sentry before rendering to capture all errors including first-paint
 // This is required since App.tsx uses Sentry.ErrorBoundary

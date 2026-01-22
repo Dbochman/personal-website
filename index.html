@@ -184,12 +184,68 @@
     </script>
   </head>
 
+<!-- Traffic Classification (must run BEFORE gtag config) -->
+<script>
+  (function() {
+    // Bot user agent patterns
+    var botPatterns = [
+      /googlebot/i, /bingbot/i, /slurp/i, /duckduckbot/i, /baiduspider/i,
+      /yandexbot/i, /facebot/i, /facebookexternalhit/i, /twitterbot/i,
+      /linkedinbot/i, /pinterest/i, /slackbot/i, /telegrambot/i, /whatsapp/i,
+      /discordbot/i, /bot\b/i, /crawler/i, /spider/i, /scraper/i, /fetcher/i,
+      /uptimerobot/i, /pingdom/i, /newrelic/i, /datadog/i, /statuscake/i,
+      /ahrefsbot/i, /semrushbot/i, /mj12bot/i, /dotbot/i, /petalbot/i,
+      /gptbot/i, /chatgpt/i, /claudebot/i, /anthropic/i, /ccbot/i, /perplexitybot/i
+    ];
+    // CI/automation patterns (specific headless indicators, not generic browsers)
+    var ciPatterns = [
+      /HeadlessChrome/i, /playwright/i, /puppeteer/i, /selenium/i,
+      /webdriver/i, /phantomjs/i, /cypress/i, /nightwatch/i, /github-actions/i
+    ];
+    // Probe paths
+    var probePatterns = [
+      /wp-admin/i, /wp-login/i, /\.env/i, /\.git/i, /\.php$/i, /phpmyadmin/i,
+      /xmlrpc\.php/i, /\.sql/i, /\.bak/i, /cgi-bin/i, /\.asp/i
+    ];
+
+    var ua = navigator.userAgent || '';
+    var path = location.pathname || '/';
+    var type = 'human';
+
+    // Check CI first (more specific)
+    for (var i = 0; i < ciPatterns.length; i++) {
+      if (ciPatterns[i].test(ua)) { type = 'ci'; break; }
+    }
+    // Check bots
+    if (type === 'human') {
+      for (var j = 0; j < botPatterns.length; j++) {
+        if (botPatterns[j].test(ua)) { type = 'bot'; break; }
+      }
+    }
+    // Check probe paths
+    if (type === 'human') {
+      for (var k = 0; k < probePatterns.length; k++) {
+        if (probePatterns[k].test(path)) { type = 'bot'; break; }
+      }
+    }
+
+    // Cache in sessionStorage for SPA consistency
+    try { sessionStorage.setItem('traffic_type', type); } catch(e) {}
+
+    // Expose for gtag config
+    window.__trafficType = type;
+  })();
+</script>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VDM15EMJN2"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
+
+  // Set traffic_type BEFORE config (so first page_view includes it)
+  gtag('set', { traffic_type: window.__trafficType || 'human' });
 
   gtag('config', 'G-VDM15EMJN2', {
     anonymize_ip: true,
