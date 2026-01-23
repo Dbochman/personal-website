@@ -626,3 +626,96 @@ Based on review findings, recommended order:
 | History growth | Unbounded | Compaction at 100 entries |
 | Stale deletions | Not addressed | Validate against board |
 | Partial save | Not addressed | Warning on dispatch failure |
+
+---
+
+## Codex AI Review (2026-01-23)
+
+Automated review via `codex exec` identified additional issues:
+
+### 🔴 Critical
+
+**Backslash escaping is lossy**
+> "Escaping `---` in descriptions creates an ambiguous encoding layer; any user-entered line that legitimately begins with `\---` will be silently altered on deserialize, corrupting content."
+
+**Recommendation**: Use base64 encoding, CDATA-style blocks, or length-delimited encoding instead of backslash escaping. Or move description entirely into frontmatter (already proposed in strengthening section).
+
+### 🟠 High
+
+**1. ALLOWED_ORIGINS parsing vulnerability**
+> "Comma-split with no validation could yield empty strings; a trailing comma yields `""` and may accidentally allow the `null` origin if CORS check does loose comparisons."
+
+**Fix**:
+```typescript
+function getAllowedOrigins(env: Env): string[] {
+  return env.ALLOWED_ORIGINS
+    .split(',')
+    .map(s => s.trim())
+    .filter(s => s.length > 0 && s.startsWith('http')); // Validate format
+}
+```
+
+**2. sed migration is fragile**
+> "Assumes file structure (no BOM, frontmatter at line 1). Use parser-based migration instead of line insertion."
+
+**Fix**: Use gray-matter to read, modify, and rewrite:
+```javascript
+const matter = require('gray-matter');
+const content = fs.readFileSync(boardPath, 'utf-8');
+const { data, content: body } = matter(content);
+data.schemaVersion = 1;
+fs.writeFileSync(boardPath, matter.stringify(body, data));
+```
+
+**3. `...` is also a YAML document boundary**
+> "gray-matter/js-yaml may treat `...` as end-of-document. If description begins with `...`, similar corruption could occur."
+
+**Fix**: Handle both `---` and `...` in boundary escaping/detection, or use frontmatter-only approach.
+
+### 🟡 Medium
+
+**1. Validation divergence (labels)**
+> "Precompile silently removes duplicates while worker rejects them. Creates client/server inconsistency."
+
+**Decision**: Standardize on silent dedup in both places (already noted in strengthening).
+
+**2. schemaVersion default masks missing field**
+> "`.default(1)` means old files without the field parse as version 1, skipping migration detection."
+
+**Fix**: Don't use default, detect explicitly:
+```typescript
+const KanbanBoardMetaSchema = z.object({
+  schemaVersion: z.number().int().min(1).optional(), // No default
+  // ...
+}).superRefine((data, ctx) => {
+  if (data.schemaVersion === undefined) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Missing schemaVersion - run migration',
+      path: ['schemaVersion'],
+    });
+  }
+});
+```
+
+### Open Questions from Codex
+
+1. Does gray-matter/js-yaml treat `...` as document end? **→ Test and confirm**
+2. How does CORS checking handle empty/invalid origins today? **→ Audit current implementation**
+
+---
+
+## Final Implementation Checklist
+
+Based on all reviews (manual + Codex), the implementation must:
+
+- [ ] Use frontmatter for description (avoids all YAML boundary issues)
+- [ ] Handle both `---` AND `...` if keeping body content
+- [ ] Validate ALLOWED_ORIGINS entries (no empty strings, must start with http)
+- [ ] Use gray-matter for schema migration (not sed)
+- [ ] Detect missing schemaVersion explicitly (no default)
+- [ ] Standardize on silent label dedup (both precompile and worker)
+- [ ] Add BroadcastChannel for multi-tab deletedCardIds sync
+- [ ] Validate deletedCardIds against current board on load
+- [ ] Add history compaction at 100 entries
+- [ ] Return warning (not failure) if dispatch fails after save
