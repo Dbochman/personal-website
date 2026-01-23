@@ -54,6 +54,8 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
   // Track deleted card IDs for explicit deletion on save (persisted to localStorage)
   const deletedCardStorageKey = `kanban-deleted-cards-${boardId}`;
   const [deletedCardIds, setDeletedCardIds] = useState<string[]>(() => {
+    // Guard for SSR/build/test environments without DOM
+    if (typeof window === 'undefined') return [];
     // Initialize from localStorage, validating against current board
     try {
       const stored = localStorage.getItem(deletedCardStorageKey);
@@ -109,12 +111,17 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
   // Multi-tab sync for deletedCardIds
   useEffect(() => {
     const handleStorageEvent = (e: StorageEvent) => {
-      if (e.key === deletedCardStorageKey && e.newValue !== null) {
-        try {
-          const newIds = JSON.parse(e.newValue) as string[];
-          setDeletedCardIds(newIds);
-        } catch {
-          // Ignore parse errors
+      if (e.key === deletedCardStorageKey) {
+        if (e.newValue === null) {
+          // Another tab cleared the key (e.g., after successful save)
+          setDeletedCardIds([]);
+        } else {
+          try {
+            const newIds = JSON.parse(e.newValue) as string[];
+            setDeletedCardIds(newIds);
+          } catch {
+            // Ignore parse errors
+          }
         }
       }
     };
