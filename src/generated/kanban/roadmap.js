@@ -318,12 +318,16 @@ export const board = {
       "id": "in-review",
       "title": "In Review",
       "color": "pink",
+      "cards": []
+    },
+    {
+      "id": "changelog",
+      "title": "Change Log",
       "cards": [
         {
           "id": "kanban-system-durability-improvements",
           "title": "Kanban System Durability Improvements",
           "summary": "Address validation gaps and edge cases from architecture review (7.5/10 durability score)",
-          "description": "Address gaps identified in the Kanban System Health Report (2026-01-23).\n\n**Current Durability Score: 7.5/10**\n\n### Critical Issues\n- YAML boundary vulnerability: if description starts with `---`, parsing breaks\n- No schema versioning: format changes would break all boards\n\n### High Priority\n- Hardcoded repo/domain values break if repo moves\n- No validation on labels, summary, archiveReason fields\n- Title changes and checklist modifications not tracked in history\n\nSee architecture review for full details.\n",
           "labels": [
             "Medium",
             "Kanban",
@@ -383,6 +387,7 @@ export const board = {
           ],
           "planFile": "docs/plans/59-kanban-durability-improvements.md",
           "createdAt": "2026-01-23T19:08:16.405Z",
+          "updatedAt": "2026-01-23T21:20:18.222Z",
           "history": [
             {
               "type": "column",
@@ -395,15 +400,15 @@ export const board = {
               "timestamp": "2026-01-23T19:31:00.000Z",
               "columnId": "in-review",
               "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T21:20:18.222Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "changelog",
-      "title": "Change Log",
-      "cards": [
+        },
         {
           "id": "new-board-feature",
           "title": "New Board Creation",
