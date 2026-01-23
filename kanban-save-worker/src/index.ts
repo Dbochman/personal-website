@@ -38,19 +38,30 @@ interface Session {
 
 const SESSION_TTL = 60 * 60 * 24 * 7; // 7 days
 
+// Safe default for local development (wrangler dev)
+const DEV_ORIGINS = ['http://localhost:5173', 'http://localhost:8080'];
+
 /**
  * Parse and validate ALLOWED_ORIGINS from env var
  * Rejects empty strings and origins that don't start with http
- * Throws if no valid origins are configured
+ * Falls back to DEV_ORIGINS if not configured (for local dev)
+ * Logs warning when using fallback
  */
 function getAllowedOrigins(env: Env): string[] {
+  // Handle missing or empty ALLOWED_ORIGINS
+  if (!env.ALLOWED_ORIGINS || env.ALLOWED_ORIGINS.trim() === '') {
+    console.warn('ALLOWED_ORIGINS not set, using dev defaults:', DEV_ORIGINS);
+    return DEV_ORIGINS;
+  }
+
   const origins = env.ALLOWED_ORIGINS
     .split(',')
     .map(s => s.trim())
     .filter(s => s.length > 0 && s.startsWith('http'));
 
   if (origins.length === 0) {
-    throw new Error('ALLOWED_ORIGINS is empty or contains no valid origins');
+    console.warn('ALLOWED_ORIGINS contains no valid origins, using dev defaults:', DEV_ORIGINS);
+    return DEV_ORIGINS;
   }
 
   return origins;

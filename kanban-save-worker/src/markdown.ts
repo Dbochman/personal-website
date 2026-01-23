@@ -186,10 +186,10 @@ export function serializeCard(card: KanbanCard, columnId: string): string {
       }
       // Checklist change fields
       if (entry.action) {
-        lines.push(`    action: ${entry.action}`);
+        lines.push(`    action: ${escapeYamlString(entry.action)}`);
       }
       if (entry.itemId) {
-        lines.push(`    itemId: ${entry.itemId}`);
+        lines.push(`    itemId: ${escapeYamlString(entry.itemId)}`);
       }
       if (entry.itemText) {
         lines.push(`    itemText: ${escapeYamlString(entry.itemText)}`);
