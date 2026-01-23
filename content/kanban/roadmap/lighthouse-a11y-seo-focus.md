@@ -19,6 +19,7 @@ checklist:
   - id: las-4
     text: Add a11y score to analytics dashboard
     completed: true
+planFile: docs/plans/57-lighthouse-a11y-seo-focus.md
 createdAt: "2026-01-19T00:00:00.000Z"
 updatedAt: "2026-01-23T00:00:00.000Z"
 history:

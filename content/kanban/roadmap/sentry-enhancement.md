@@ -21,6 +21,7 @@ checklist:
   - id: se-5
     text: Verify source maps appear in Sentry dashboard
     completed: true
+planFile: docs/plans/23-sentry-error-tracking.md
 createdAt: "2026-01-15"
 updatedAt: "2026-01-16T02:10:00.000Z"
 history:

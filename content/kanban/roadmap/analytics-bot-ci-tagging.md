@@ -24,6 +24,7 @@ checklist:
   - id: abt-6
     text: Document patterns discovered for future reference
     completed: true
+planFile: docs/plans/56-analytics-bot-ci-tagging.md
 createdAt: "2026-01-19T00:00:00.000Z"
 updatedAt: "2026-01-23T00:00:00.000Z"
 history:

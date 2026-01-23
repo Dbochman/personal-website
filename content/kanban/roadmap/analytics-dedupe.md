@@ -15,6 +15,7 @@ checklist:
   - id: ad-3
     text: Verify charts show one point per date
     completed: true
+planFile: docs/plans/24-analytics-data-deduplication.md
 createdAt: "2026-01-15"
 updatedAt: "2026-01-16T01:35:00.000Z"
 history:

@@ -373,7 +373,7 @@ export const board = {
               "completed": true
             }
           ],
-          "planFile": "~/.claude/plans/new-board-creation.md",
+          "planFile": "docs/plans/58-new-board-creation.md",
           "prStatus": "pending",
           "createdAt": "2026-01-22T00:00:00.000Z",
           "updatedAt": "2026-01-23T17:14:22.317Z",
@@ -403,7 +403,7 @@ export const board = {
               "columnTitle": "Change Log"
             }
           ],
-          "description": "Add ability to create new kanban boards from the UI. Board selector dropdown to switch between boards, plus 'New Board' button to create fresh boards.\n\n**Architecture Decision**: Dynamic board discovery (Option A from plan). Worker scans `content/kanban/` to discover boards, no hardcoded allowlist.\n\n**Codex Review Complete** (2026-01-23):\n- Race condition handling with retry logic on 409\n- Markdown fallback for new boards before precompile\n- Column ID validation with `SAFE_ID`\n- Optimistic UI with `precompiled: false` indicator\n\nSee `~/.claude/plans/new-board-creation.md` for full implementation plan."
+          "description": "Add ability to create new kanban boards from the UI. Board selector dropdown to switch between boards, plus 'New Board' button to create fresh boards.\n\n**Architecture Decision**: Dynamic board discovery (Option A from plan). Worker scans `content/kanban/` to discover boards, no hardcoded allowlist.\n\n**Codex Review Complete** (2026-01-23):\n- Race condition handling with retry logic on 409\n- Markdown fallback for new boards before precompile\n- Column ID validation with `SAFE_ID`\n- Optimistic UI with `precompiled: false` indicator\n\nSee `docs/plans/58-new-board-creation.md` for full implementation plan."
         },
         {
           "id": "markdown-based-kanban",
@@ -610,6 +610,7 @@ export const board = {
               "completed": true
             }
           ],
+          "planFile": "docs/plans/56-analytics-bot-ci-tagging.md",
           "createdAt": "2026-01-19T00:00:00.000Z",
           "updatedAt": "2026-01-23T00:00:00.000Z",
           "history": [
@@ -722,6 +723,7 @@ export const board = {
               "completed": true
             }
           ],
+          "planFile": "docs/plans/57-lighthouse-a11y-seo-focus.md",
           "createdAt": "2026-01-19T00:00:00.000Z",
           "updatedAt": "2026-01-23T00:00:00.000Z",
           "history": [
@@ -1933,6 +1935,7 @@ export const board = {
               "completed": true
             }
           ],
+          "planFile": "docs/plans/23-sentry-error-tracking.md",
           "createdAt": "2026-01-15",
           "updatedAt": "2026-01-16T02:10:00.000Z",
           "history": [
@@ -1981,6 +1984,7 @@ export const board = {
               "completed": true
             }
           ],
+          "planFile": "docs/plans/24-analytics-data-deduplication.md",
           "createdAt": "2026-01-15",
           "updatedAt": "2026-01-16T01:35:00.000Z",
           "history": [
@@ -2154,6 +2158,7 @@ export const board = {
             "UX"
           ],
           "checklist": [],
+          "planFile": "docs/plans/11-framer-motion-animations.md",
           "createdAt": "2026-01-15T00:00:00.000Z",
           "history": [],
           "description": "Stagger animations for grids, scroll reveals, tab transitions, mobile nav stagger. Respects prefers-reduced-motion."
@@ -2176,6 +2181,7 @@ export const board = {
             "Won't Do"
           ],
           "checklist": [],
+          "planFile": "docs/plans/07-renovate-automation.md",
           "createdAt": "2026-01-14T00:00:00.000Z",
           "history": [],
           "description": "Decided against: overhead not justified for actively-maintained personal project. Manual npm update works fine."

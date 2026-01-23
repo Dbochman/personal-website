@@ -31,7 +31,7 @@ checklist:
   - id: nbf-8
     text: 'Frontend: Handle precompiled:false response (optimistic UI)'
     completed: true
-planFile: ~/.claude/plans/new-board-creation.md
+planFile: docs/plans/58-new-board-creation.md
 prStatus: pending
 createdAt: '2026-01-22T00:00:00.000Z'
 updatedAt: '2026-01-23T17:14:22.317Z'
@@ -63,4 +63,4 @@ Add ability to create new kanban boards from the UI. Board selector dropdown to 
 - Column ID validation with `SAFE_ID`
 - Optimistic UI with `precompiled: false` indicator
 
-See `~/.claude/plans/new-board-creation.md` for full implementation plan.
+See `docs/plans/58-new-board-creation.md` for full implementation plan.
