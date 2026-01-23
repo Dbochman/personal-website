@@ -466,6 +466,11 @@ export const board = {
       "id": "in-review",
       "title": "In Review",
       "color": "pink",
+      "cards": []
+    },
+    {
+      "id": "changelog",
+      "title": "Change Log",
       "cards": [
         {
           "id": "tailwind-v4",
@@ -478,110 +483,74 @@ export const board = {
             {
               "id": "tw-1",
               "text": "Run npx @tailwindcss/upgrade on feature branch",
-              "completed": false
+              "completed": true
             },
             {
               "id": "tw-2",
               "text": "Update PostCSS config (remove autoprefixer)",
-              "completed": false
+              "completed": true
             },
             {
               "id": "tw-3",
               "text": "Consider Vite plugin migration",
-              "completed": false
+              "completed": true
             },
             {
               "id": "tw-4",
               "text": "Fix shadow/blur/rounded utility renames",
-              "completed": false
+              "completed": true
             },
             {
               "id": "tw-5",
-              "text": "Update outline-none Ã¢ÂÂ outline-hidden",
-              "completed": false
+              "text": "Update outline-none → outline-hidden",
+              "completed": true
             },
             {
               "id": "tw-6",
               "text": "Migrate tailwindcss-animate plugin",
-              "completed": false
+              "completed": true
             },
             {
               "id": "tw-7",
               "text": "Remove @tailwindcss/container-queries (now built-in)",
-              "completed": false
+              "completed": true
             },
             {
               "id": "tw-8",
               "text": "Test dark mode and animations",
-              "completed": false
+              "completed": true
             },
             {
               "id": "tw-9",
               "text": "Run Lighthouse audit before/after",
-              "completed": false
+              "completed": true
             }
           ],
           "planFile": "docs/plans/22-tailwind-v4-upgrade.md",
-          "createdAt": "2026-01-08",
-          "updatedAt": "2026-01-23T15:59:42.941Z",
+          "createdAt": "2026-01-08T00:00:00.000Z",
+          "updatedAt": "2026-01-21T00:00:00.000Z",
           "history": [
             {
               "type": "column",
-              "timestamp": "2026-01-23T15:59:42.716Z",
+              "timestamp": "2026-01-08T00:00:00.000Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-20T00:00:00.000Z",
               "columnId": "in-progress",
               "columnTitle": "In Progress"
             },
             {
               "type": "column",
-              "timestamp": "2026-01-23T15:59:42.866Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-23T15:59:42.874Z",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-23T15:59:42.889Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-23T15:59:42.902Z",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-23T15:59:42.917Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-23T15:59:42.927Z",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-23T15:59:42.941Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
+              "timestamp": "2026-01-21T00:00:00.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
             }
           ],
-          "description": "Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files."
-        }
-      ]
-    },
-    {
-      "id": "changelog",
-      "title": "Change Log",
-      "cards": [
+          "description": "Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files.\n\nCompleted Jan 21. See blog post: \"Tailwind v4 Upgrade: The Performance Tradeoff\""
+        },
         {
           "id": "preview-deploys",
           "title": "Preview Deployments",
@@ -1861,6 +1830,27 @@ export const board = {
             }
           ],
           "description": "Eliminate dual maintenance by making markdown the single source of truth.\n\nCurrent state: JSON files are edited by save workflow, markdown files power ChangelogExplorer.\n\nTarget state: Save workflow writes .md files directly via GitHub API, precompile runs on every push.\n\nBenefits:\n- Single source of truth (no sync issues)\n- Better git diffs for card changes\n- Easier manual editing when needed\n- CLI tools work with same format"
+        },
+        {
+          "id": "jan-23-kanban-phase-2",
+          "title": "Jan 23: Kanban Phase 2 Complete",
+          "summary": "Markdown is now the single source of truth for kanban boards",
+          "labels": [
+            "Infrastructure",
+            "Kanban"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-23T16:00:00.000Z",
+          "updatedAt": "2026-01-23T16:00:00.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T16:00:00.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "## Phase 2: Markdown-Only Saves\n\nCompleted the migration to make markdown the single source of truth for kanban boards.\n\n### Key Changes\n\n- **Eliminated JSON files**: Removed `roadmap-board.json`, `house-board.json`, and `roadmap-archive.json`\n- **Worker writes directly to markdown**: Save flow now commits `.md` files via GitHub Trees API\n- **Commit SHA conflict detection**: Replaced timestamp-based detection with atomic commit SHA comparison\n- **Precompiled JS fallback**: Board loads from worker API (primary) or generated JS (offline fallback)\n\n### Bug Fixes\n\n- Fixed UTF-8 encoding corruption for non-ASCII characters (arrows, emojis)\n- Fixed duplicate history entries during drag operations (moved tracking from `handleDragOver` to `handleDragEnd`)\n- Fixed Cloudflare Workers 50 subrequest limit by using inline content in tree items\n- Fixed open redirect vulnerability in OAuth return_to validation\n\n### Architecture\n\n```\nSave: UI → Worker → GitHub Trees API → content/kanban/*.md\n                ↓\n      repository_dispatch → precompile-content.yml\n                ↓\n      src/generated/kanban/*.js\n\nLoad: UI → Worker API (primary) → precompiled JS (fallback)\n```\n\nRelated PRs: #195, #198"
         }
       ]
     },
