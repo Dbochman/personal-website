@@ -286,18 +286,14 @@ export async function commitFilesAtomic(
   const baseTreeSha = await getCommitTree(parentSha, env);
 
   // Build tree items for files to add/update
-  const treeItems: TreeItem[] = [];
-
-  for (const file of files) {
-    // Create blob for each file
-    const blobSha = await createBlob(file.content, env);
-    treeItems.push({
-      path: file.path,
-      mode: '100644',
-      type: 'blob',
-      sha: blobSha,
-    });
-  }
+  // Use inline content instead of creating separate blobs to avoid
+  // hitting Cloudflare Workers' 50 subrequest limit
+  const treeItems: TreeItem[] = files.map((file) => ({
+    path: file.path,
+    mode: '100644' as const,
+    type: 'blob' as const,
+    content: file.content,
+  }));
 
   // Add deletions (sha: null removes the file)
   for (const path of deletions) {
