@@ -30,7 +30,7 @@ export const board = {
             },
             {
               "id": "krr-3",
-              "text": "Create goal slider (efficiency ↔ safety)",
+              "text": "Create goal slider (efficiency â safety)",
               "completed": false
             },
             {
@@ -415,55 +415,6 @@ export const board = {
           "description": "Lab Lighthouse provides unique value for accessibility audits and SEO checks that field CWV data can't capture. Reframe the workflow to focus on these strengths.\n\nField data (GA4): Performance metrics (FCP, LCP, CLS, INP, TTFB)\nLab data (Lighthouse): Accessibility score, SEO score, best practices\n\nConsider: Run Lighthouse less frequently (weekly instead of per-commit) with focus on a11y/SEO categories only."
         },
         {
-          "id": "markdown-based-kanban",
-          "title": "Migrate Kanban to Markdown Files",
-          "labels": [
-            "Medium",
-            "DX",
-            "Infrastructure"
-          ],
-          "checklist": [
-            {
-              "id": "mbk-1",
-              "text": "Evaluate Backlog.md vs custom Content Collections approach",
-              "completed": false
-            },
-            {
-              "id": "mbk-2",
-              "text": "Design folder structure and frontmatter schema",
-              "completed": false
-            },
-            {
-              "id": "mbk-3",
-              "text": "Create migration script (JSON → markdown files)",
-              "completed": false
-            },
-            {
-              "id": "mbk-4",
-              "text": "Build aggregation utility (markdown files → typed data)",
-              "completed": false
-            },
-            {
-              "id": "mbk-5",
-              "text": "Update useChangelogData hook to use new source",
-              "completed": false
-            },
-            {
-              "id": "mbk-6",
-              "text": "Migrate roadmap-board.json",
-              "completed": false
-            },
-            {
-              "id": "mbk-7",
-              "text": "Migrate house-board.json",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-22T00:00:00.000Z",
-          "history": [],
-          "description": "Replace monolithic roadmap-board.json with individual markdown files per card. Adopt Backlog.md pattern or Astro Content Collections approach.\n\nProblem: 1665-line JSON file is error-prone for manual editing (trailing commas, bracket mismatches).\n\nOptions evaluated:\n- Backlog.md (ready-made, Claude Code compatible)\n- Astro Content Collections pattern (gray-matter + Zod)\n- YAML files\n- TypeScript data files"
-        },
-        {
           "id": "new-board-feature",
           "title": "New Board Creation",
           "labels": [
@@ -496,50 +447,6 @@ export const board = {
           "createdAt": "2026-01-22T00:00:00.000Z",
           "history": [],
           "description": "Add ability to create new kanban boards from the UI. Board selector dropdown to switch between boards, plus 'New Board' button to create fresh boards.\n\nOptions:\n- Dev-only: Create _board.md file, requires rebuild\n- Runtime: Create via GitHub API (like current save workflow)\n- Full Phase 2: Markdown-only saves with board creation"
-        },
-        {
-          "id": "phase-2-markdown-only-saves",
-          "title": "Phase 2: Markdown-Only Saves",
-          "labels": [
-            "Medium",
-            "Kanban",
-            "Infrastructure"
-          ],
-          "checklist": [
-            {
-              "id": "p2-1",
-              "text": "Update save workflow to write .md files instead of JSON",
-              "completed": false
-            },
-            {
-              "id": "p2-2",
-              "text": "Generate card IDs from title slug (like CLI does)",
-              "completed": false
-            },
-            {
-              "id": "p2-3",
-              "text": "Handle card renames (rename .md file)",
-              "completed": false
-            },
-            {
-              "id": "p2-4",
-              "text": "Handle card deletion (delete .md file)",
-              "completed": false
-            },
-            {
-              "id": "p2-5",
-              "text": "Trigger precompile after save (GitHub Action or webhook)",
-              "completed": false
-            },
-            {
-              "id": "p2-6",
-              "text": "Remove JSON files after validation",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-23T00:00:00.000Z",
-          "history": [],
-          "description": "Eliminate dual maintenance by making markdown the single source of truth.\n\nCurrent state: JSON files are edited by save workflow, markdown files power ChangelogExplorer.\n\nTarget state: Save workflow writes .md files directly via GitHub API, precompile runs on every push.\n\nBenefits:\n- Single source of truth (no sync issues)\n- Better git diffs for card changes\n- Easier manual editing when needed\n- CLI tools work with same format"
         }
       ]
     },
@@ -578,7 +485,7 @@ export const board = {
             },
             {
               "id": "tw-5",
-              "text": "Update outline-none → outline-hidden",
+              "text": "Update outline-none â outline-hidden",
               "completed": false
             },
             {
@@ -658,7 +565,411 @@ export const board = {
       "id": "in-review",
       "title": "In Review",
       "color": "pink",
-      "cards": []
+      "cards": [
+        {
+          "id": "markdown-based-kanban",
+          "title": "Migrate Kanban to Markdown Files",
+          "labels": [
+            "Medium",
+            "DX",
+            "Infrastructure"
+          ],
+          "checklist": [
+            {
+              "id": "mbk-1",
+              "text": "Evaluate Backlog.md vs custom Content Collections approach",
+              "completed": false
+            },
+            {
+              "id": "mbk-2",
+              "text": "Design folder structure and frontmatter schema",
+              "completed": false
+            },
+            {
+              "id": "mbk-3",
+              "text": "Create migration script (JSON â markdown files)",
+              "completed": false
+            },
+            {
+              "id": "mbk-4",
+              "text": "Build aggregation utility (markdown files â typed data)",
+              "completed": false
+            },
+            {
+              "id": "mbk-5",
+              "text": "Update useChangelogData hook to use new source",
+              "completed": false
+            },
+            {
+              "id": "mbk-6",
+              "text": "Migrate roadmap-board.json",
+              "completed": false
+            },
+            {
+              "id": "mbk-7",
+              "text": "Migrate house-board.json",
+              "completed": false
+            }
+          ],
+          "createdAt": "2026-01-22T00:00:00.000Z",
+          "updatedAt": "2026-01-23T15:34:46.043Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.403Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.420Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.427Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.448Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.455Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.475Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.483Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.499Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.513Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.537Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.546Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.567Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.574Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.595Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.604Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.615Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.627Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.650Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.659Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.671Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.683Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.697Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.707Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.717Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.727Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.757Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.766Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.783Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.790Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.805Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.810Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:45.822Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:46.043Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            }
+          ],
+          "description": "Replace monolithic roadmap-board.json with individual markdown files per card. Adopt Backlog.md pattern or Astro Content Collections approach.\n\nProblem: 1665-line JSON file is error-prone for manual editing (trailing commas, bracket mismatches).\n\nOptions evaluated:\n- Backlog.md (ready-made, Claude Code compatible)\n- Astro Content Collections pattern (gray-matter + Zod)\n- YAML files\n- TypeScript data files"
+        },
+        {
+          "id": "phase-2-markdown-only-saves",
+          "title": "Phase 2: Markdown-Only Saves",
+          "labels": [
+            "Medium",
+            "Kanban",
+            "Infrastructure"
+          ],
+          "checklist": [
+            {
+              "id": "p2-1",
+              "text": "Update save workflow to write .md files instead of JSON",
+              "completed": false
+            },
+            {
+              "id": "p2-2",
+              "text": "Generate card IDs from title slug (like CLI does)",
+              "completed": false
+            },
+            {
+              "id": "p2-3",
+              "text": "Handle card renames (rename .md file)",
+              "completed": false
+            },
+            {
+              "id": "p2-4",
+              "text": "Handle card deletion (delete .md file)",
+              "completed": false
+            },
+            {
+              "id": "p2-5",
+              "text": "Trigger precompile after save (GitHub Action or webhook)",
+              "completed": false
+            },
+            {
+              "id": "p2-6",
+              "text": "Remove JSON files after validation",
+              "completed": false
+            }
+          ],
+          "createdAt": "2026-01-23T00:00:00.000Z",
+          "updatedAt": "2026-01-23T15:34:40.506Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:34.969Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:35.036Z",
+              "columnId": "archived",
+              "columnTitle": "Archived"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:35.311Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.135Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.324Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.341Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.356Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.366Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.384Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.396Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.407Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.423Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.446Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.458Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.469Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.479Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.492Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:34:40.506Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            }
+          ],
+          "description": "Eliminate dual maintenance by making markdown the single source of truth.\n\nCurrent state: JSON files are edited by save workflow, markdown files power ChangelogExplorer.\n\nTarget state: Save workflow writes .md files directly via GitHub API, precompile runs on every push.\n\nBenefits:\n- Single source of truth (no sync issues)\n- Better git diffs for card changes\n- Easier manual editing when needed\n- CLI tools work with same format"
+        }
+      ]
     },
     {
       "id": "changelog",
@@ -1814,7 +2125,7 @@ export const board = {
           "checklist": [],
           "createdAt": "2026-01-07T00:00:00.000Z",
           "history": [],
-          "description": "55 → 98 Lighthouse, system fonts, Radix cleanup"
+          "description": "55 â 98 Lighthouse, system fonts, Radix cleanup"
         },
         {
           "id": "jan-8",
@@ -1837,7 +2148,7 @@ export const board = {
           "checklist": [],
           "createdAt": "2026-01-11T00:00:00.000Z",
           "history": [],
-          "description": "Blog LCP 5.6s → 3.1s (45% faster)"
+          "description": "Blog LCP 5.6s â 3.1s (45% faster)"
         },
         {
           "id": "jan-12",
@@ -1907,7 +2218,7 @@ export const board = {
           "checklist": [],
           "createdAt": "2026-01-15T00:00:00.000Z",
           "history": [],
-          "description": "Analytics CLS 0.71→0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders"
+          "description": "Analytics CLS 0.71â0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders"
         },
         {
           "id": "pr-125",
@@ -2086,5 +2397,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-01-18T01:15:00.000Z"
+  "updatedAt": "2026-01-23T15:34:48.289Z"
 };
