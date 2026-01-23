@@ -379,3 +379,250 @@ Each phase is independently deployable and testable.
 - [ ] All validation errors caught before save
 - [ ] Complete audit trail of card modifications
 - [ ] Graceful recovery from interrupted sessions
+
+---
+
+## Critical Review & Strengthening
+
+### Issue 1: YAML Boundary Escaping Approach
+
+**Problem with proposed solution**: Backslash escaping (`\---`) is not a standard YAML escape sequence. gray-matter passes content through as-is after the second `---`, so the backslash would appear literally in the description.
+
+**Better approach**: Use HTML entity or a custom marker that's unambiguous:
+
+```typescript
+// Option A: Use a zero-width space (invisible but breaks the pattern)
+description = description.replace(/^---/gm, '\u200B---');
+
+// Option B: Use a comment-style marker
+description = description.replace(/^---/gm, '<!---ESCAPED--->---');
+
+// Option C: Store description in frontmatter as multiline string (safest)
+// This avoids the body entirely for descriptions with special content
+```
+
+**Recommended**: Option C - Move description into frontmatter using YAML multiline syntax:
+
+```yaml
+---
+id: test-card
+title: Test
+description: |
+  ---
+  This is safe because it's inside the frontmatter block
+  ---
+  And gray-matter handles it correctly
+createdAt: "2026-01-23T00:00:00.000Z"
+---
+```
+
+This eliminates the body entirely for cards with descriptions, making parsing deterministic.
+
+### Issue 2: localStorage Multi-Tab Race Condition
+
+**Problem**: Two tabs open on same board:
+1. Tab A deletes card-1, writes `["card-1"]` to localStorage
+2. Tab B deletes card-2, writes `["card-2"]` to localStorage (overwrites!)
+3. Tab A refreshes, sees only card-2 in deletedCardIds
+4. User thinks card-1 deletion was saved, but it wasn't
+
+**Solution**: Use `BroadcastChannel` API for cross-tab synchronization:
+
+```typescript
+const channel = new BroadcastChannel('kanban-sync');
+
+// When deleting a card
+function handleDeleteCard(cardId: string) {
+  setDeletedCardIds(prev => {
+    const next = [...prev, cardId];
+    localStorage.setItem(key, JSON.stringify(next));
+    channel.postMessage({ type: 'delete', boardId, cardId });
+    return next;
+  });
+}
+
+// Listen for changes from other tabs
+useEffect(() => {
+  const handler = (event: MessageEvent) => {
+    if (event.data.type === 'delete' && event.data.boardId === boardId) {
+      setDeletedCardIds(prev =>
+        prev.includes(event.data.cardId) ? prev : [...prev, event.data.cardId]
+      );
+    }
+  };
+  channel.addEventListener('message', handler);
+  return () => channel.removeEventListener('message', handler);
+}, [boardId]);
+```
+
+**Alternative**: Use `storage` event listener (fires when another tab modifies localStorage):
+
+```typescript
+useEffect(() => {
+  const handler = (e: StorageEvent) => {
+    if (e.key === `${DELETED_CARDS_KEY}-${boardId}` && e.newValue) {
+      setDeletedCardIds(JSON.parse(e.newValue));
+    }
+  };
+  window.addEventListener('storage', handler);
+  return () => window.removeEventListener('storage', handler);
+}, [boardId]);
+```
+
+### Issue 3: Secrets vs Vars in wrangler.toml
+
+**Verify these stay as secrets** (set via `wrangler secret put`, not in toml):
+- `GITHUB_TOKEN` - PAT for repo access
+- `SESSION_SECRET` - Cookie signing key
+- `OAUTH_CLIENT_SECRET` - GitHub OAuth secret
+
+**Safe for `[vars]`** (non-sensitive):
+- `REPO_OWNER` - Public info
+- `REPO_NAME` - Public info
+- `ALLOWED_ORIGINS` - Public info (visible in CORS headers anyway)
+
+**Add explicit documentation**:
+```toml
+# wrangler.toml
+# NOTE: Sensitive values must be set via `wrangler secret put`:
+#   - GITHUB_TOKEN
+#   - SESSION_SECRET
+#   - OAUTH_CLIENT_SECRET
+
+[vars]
+REPO_OWNER = "Dbochman"
+REPO_NAME = "personal-website"
+ALLOWED_ORIGINS = "https://dylanbochman.com,https://www.dylanbochman.com,http://localhost:5173"
+```
+
+### Issue 4: History Schema Backwards Compatibility
+
+**Problem**: Adding new types to `CardChangeSchema.type` enum breaks old precompile reading new data.
+
+**Solution**: Use `.passthrough()` or make type more permissive:
+
+```typescript
+// Option A: Allow unknown types (forward-compatible)
+const CardChangeSchema = z.object({
+  type: z.string(), // Not an enum - allows future types
+  timestamp: isoDateString,
+  // ... rest with .optional() for all fields
+}).passthrough(); // Allow unknown fields
+
+// Option B: Version the history entries themselves
+const CardChangeSchema = z.discriminatedUnion('version', [
+  z.object({ version: z.literal(1), type: z.enum(['column']), ... }),
+  z.object({ version: z.literal(2), type: z.enum(['column', 'title', 'checklist']), ... }),
+]);
+```
+
+**Recommended**: Option A with graceful degradation. Unknown history types are preserved but not rendered in UI until code is updated.
+
+### Issue 5: Unbounded History Growth
+
+**Problem**: History array grows forever with no pruning.
+
+**Solution**: Add optional history compaction:
+
+```typescript
+const MAX_HISTORY_ENTRIES = 100;
+
+function compactHistory(history: CardChange[]): CardChange[] {
+  if (history.length <= MAX_HISTORY_ENTRIES) return history;
+
+  // Keep first entry (creation), last N-1 entries
+  return [history[0], ...history.slice(-(MAX_HISTORY_ENTRIES - 1))];
+}
+```
+
+**Alternative**: Archive old history entries to a separate file when saving.
+
+### Issue 6: Stale deletedCardIds in localStorage
+
+**Problem**: If a card was already deleted (by another user or in another session), localStorage might contain stale IDs that no longer exist in the board.
+
+**Solution**: Validate against current board state on load:
+
+```typescript
+useEffect(() => {
+  const stored = localStorage.getItem(`${DELETED_CARDS_KEY}-${boardId}`);
+  if (stored && board) {
+    const storedIds = JSON.parse(stored);
+    const existingCardIds = new Set(
+      board.columns.flatMap(col => col.cards.map(c => c.id))
+    );
+    // Only keep IDs that still exist in the board
+    const validIds = storedIds.filter((id: string) => existingCardIds.has(id));
+    if (validIds.length !== storedIds.length) {
+      // Some were already deleted, update localStorage
+      localStorage.setItem(`${DELETED_CARDS_KEY}-${boardId}`, JSON.stringify(validIds));
+    }
+    setDeletedCardIds(validIds);
+  }
+}, [boardId, board]);
+```
+
+### Issue 7: Validation Inconsistency (Dedup in Transform vs Reject)
+
+**Problem**: Precompile uses `.transform()` to deduplicate labels silently, but worker rejects duplicates with an error. Inconsistent behavior.
+
+**Solution**: Standardize on one approach:
+
+```typescript
+// Option A: Both silently deduplicate (more lenient)
+// Precompile: .transform(labels => [...new Set(labels)])
+// Worker: deduplicate before validation
+
+// Option B: Both reject duplicates (more strict)
+// Precompile: .refine(labels => new Set(labels).size === labels.length, 'Duplicate labels')
+// Worker: reject with error
+```
+
+**Recommended**: Option A (silent dedup) for labels specifically, since duplicates are a data quality issue, not a security issue.
+
+### Issue 8: Missing Error Recovery for Partial Saves
+
+**Problem**: If worker commits markdown but `triggerDispatch` fails, precompiled JS won't update.
+
+**Solution**: Add retry logic and monitoring:
+
+```typescript
+// In worker save handler
+try {
+  await triggerDispatch('precompile-content', env);
+} catch (err) {
+  // Log error but don't fail the save
+  console.error('Failed to trigger precompile:', err);
+  // Return warning in response
+  return Response.json({
+    success: true,
+    newHeadSha,
+    warning: 'Save succeeded but precompile trigger failed. Board may take longer to update.',
+  });
+}
+```
+
+---
+
+## Updated Implementation Order
+
+Based on review findings, recommended order:
+
+1. **Phase 1a**: Move description into frontmatter (avoids YAML boundary issue entirely)
+2. **Phase 1b**: Add schemaVersion with forward-compatible history schema
+3. **Phase 2**: Environment variables (straightforward)
+4. **Phase 3**: Validation with consistent dedup approach
+5. **Phase 4**: History tracking with compaction limit
+6. **Phase 5**: localStorage with multi-tab sync and stale ID cleanup
+
+## Risk Mitigations Added
+
+| Risk | Original Plan | Strengthened |
+|------|---------------|--------------|
+| YAML parsing | Backslash escape | Move to frontmatter |
+| Multi-tab conflict | Not addressed | BroadcastChannel sync |
+| Secret exposure | Implicit | Explicit documentation |
+| Schema evolution | Breaking change | Forward-compatible |
+| History growth | Unbounded | Compaction at 100 entries |
+| Stale deletions | Not addressed | Validate against board |
+| Partial save | Not addressed | Warning on dispatch failure |
