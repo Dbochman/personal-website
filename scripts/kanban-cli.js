@@ -303,17 +303,24 @@ async function syncBoard(options) {
         const mdPath = join(CONTENT_DIR, board, `${card.id}.md`);
 
         if (existsSync(mdPath)) {
-          // Update existing - check if JSON is newer or fields differ
+          // Update existing - compare all fields including description body
           const content = await readFile(mdPath, 'utf-8');
-          const { data: frontmatter } = matter(content);
+          const { data: frontmatter, content: mdBody } = matter(content);
 
+          // Compare all relevant fields - simpler to just regenerate if any differ
           const needsUpdate =
             frontmatter.column !== col.id ||
             frontmatter.title !== card.title ||
+            (mdBody.trim() || undefined) !== (card.description || undefined) ||
             JSON.stringify(frontmatter.labels || []) !== JSON.stringify(card.labels || []) ||
             JSON.stringify(frontmatter.checklist || []) !== JSON.stringify(card.checklist || []) ||
+            JSON.stringify(frontmatter.history || []) !== JSON.stringify(card.history || []) ||
             frontmatter.summary !== card.summary ||
-            (card.updatedAt && frontmatter.updatedAt !== card.updatedAt);
+            frontmatter.planFile !== card.planFile ||
+            frontmatter.prStatus !== card.prStatus ||
+            frontmatter.color !== card.color ||
+            frontmatter.archivedAt !== card.archivedAt ||
+            frontmatter.archiveReason !== card.archiveReason;
 
           if (needsUpdate) {
             await createCardMarkdown(board, card, col.id);
