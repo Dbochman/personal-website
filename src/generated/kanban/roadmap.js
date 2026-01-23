@@ -30,7 +30,7 @@ export const board = {
             },
             {
               "id": "krr-3",
-              "text": "Create goal slider (efficiency â safety)",
+              "text": "Create goal slider (efficiency Ã¢ÂÂ safety)",
               "completed": false
             },
             {
@@ -454,6 +454,18 @@ export const board = {
       "id": "todo",
       "title": "To Do",
       "description": "Planned tasks ready to start",
+      "cards": []
+    },
+    {
+      "id": "in-progress",
+      "title": "In Progress",
+      "color": "blue",
+      "cards": []
+    },
+    {
+      "id": "in-review",
+      "title": "In Review",
+      "color": "pink",
       "cards": [
         {
           "id": "tailwind-v4",
@@ -485,7 +497,7 @@ export const board = {
             },
             {
               "id": "tw-5",
-              "text": "Update outline-none â outline-hidden",
+              "text": "Update outline-none Ã¢ÂÂ outline-hidden",
               "completed": false
             },
             {
@@ -511,61 +523,59 @@ export const board = {
           ],
           "planFile": "docs/plans/22-tailwind-v4-upgrade.md",
           "createdAt": "2026-01-08",
-          "history": [],
-          "description": "Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files."
-        },
-        {
-          "id": "visual-regression",
-          "title": "Visual Regression Testing",
-          "labels": [
-            "Medium",
-            "Testing"
-          ],
-          "checklist": [
+          "updatedAt": "2026-01-23T15:59:42.941Z",
+          "history": [
             {
-              "id": "vr-1",
-              "text": "Create visual.spec.ts with full-page screenshots",
-              "completed": false
+              "type": "column",
+              "timestamp": "2026-01-23T15:59:42.716Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
             },
             {
-              "id": "vr-2",
-              "text": "Update playwright.config.ts with snapshot settings",
-              "completed": false
+              "type": "column",
+              "timestamp": "2026-01-23T15:59:42.866Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
             },
             {
-              "id": "vr-3",
-              "text": "Add CI integration with artifact upload on failure",
-              "completed": false
+              "type": "column",
+              "timestamp": "2026-01-23T15:59:42.874Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
             },
             {
-              "id": "vr-4",
-              "text": "Set up baseline management (Git LFS or separate branch)",
-              "completed": false
+              "type": "column",
+              "timestamp": "2026-01-23T15:59:42.889Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
             },
             {
-              "id": "vr-5",
-              "text": "Add flakiness handling (mask dynamic content, disable animations)",
-              "completed": false
+              "type": "column",
+              "timestamp": "2026-01-23T15:59:42.902Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:59:42.917Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:59:42.927Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T15:59:42.941Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
             }
           ],
-          "planFile": "docs/plans/08-visual-regression-testing.md",
-          "createdAt": "2026-01-13",
-          "history": [],
-          "description": "Playwright screenshot tests comparing against baselines. Catches unintended UI changes in CI."
-        }
-      ]
-    },
-    {
-      "id": "in-progress",
-      "title": "In Progress",
-      "color": "blue",
-      "cards": []
-    },
-    {
-      "id": "in-review",
-      "title": "In Review",
-      "color": "pink",
-      "cards": [
+          "description": "Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files."
+        },
         {
           "id": "markdown-based-kanban",
           "title": "Migrate Kanban to Markdown Files",
@@ -587,12 +597,12 @@ export const board = {
             },
             {
               "id": "mbk-3",
-              "text": "Create migration script (JSON â markdown files)",
+              "text": "Create migration script (JSON Ã¢ÂÂ markdown files)",
               "completed": false
             },
             {
               "id": "mbk-4",
-              "text": "Build aggregation utility (markdown files â typed data)",
+              "text": "Build aggregation utility (markdown files Ã¢ÂÂ typed data)",
               "completed": false
             },
             {
@@ -2125,7 +2135,7 @@ export const board = {
           "checklist": [],
           "createdAt": "2026-01-07T00:00:00.000Z",
           "history": [],
-          "description": "55 â 98 Lighthouse, system fonts, Radix cleanup"
+          "description": "55 Ã¢ÂÂ 98 Lighthouse, system fonts, Radix cleanup"
         },
         {
           "id": "jan-8",
@@ -2148,7 +2158,7 @@ export const board = {
           "checklist": [],
           "createdAt": "2026-01-11T00:00:00.000Z",
           "history": [],
-          "description": "Blog LCP 5.6s â 3.1s (45% faster)"
+          "description": "Blog LCP 5.6s Ã¢ÂÂ 3.1s (45% faster)"
         },
         {
           "id": "jan-12",
@@ -2218,7 +2228,7 @@ export const board = {
           "checklist": [],
           "createdAt": "2026-01-15T00:00:00.000Z",
           "history": [],
-          "description": "Analytics CLS 0.71â0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders"
+          "description": "Analytics CLS 0.71Ã¢ÂÂ0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders"
         },
         {
           "id": "pr-125",
@@ -2397,5 +2407,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-01-23T15:34:48.289Z"
+  "updatedAt": "2026-01-23T15:59:45.003Z"
 };
