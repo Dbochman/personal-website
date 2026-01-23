@@ -454,8 +454,19 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
     );
   }
 
+  // Validate types (payload may have non-string values)
+  if (typeof payload.id !== 'string' || typeof payload.title !== 'string') {
+    return Response.json(
+      { error: 'invalid_payload', message: 'Board ID and title must be strings' } as CreateBoardResponse,
+      { status: 400, headers: corsHeaders(request) }
+    );
+  }
+
+  const id = payload.id.trim();
+  const title = payload.title.trim();
+
   // Validate board ID format
-  if (!SAFE_ID.test(payload.id)) {
+  if (!SAFE_ID.test(id)) {
     return Response.json(
       { error: 'invalid_board_id', message: 'Board ID must be lowercase alphanumeric with hyphens' } as CreateBoardResponse,
       { status: 400, headers: corsHeaders(request) }
@@ -463,7 +474,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   }
 
   // Validate title
-  if (!payload.title || payload.title.length > MAX_TITLE_LENGTH) {
+  if (!title || title.length > MAX_TITLE_LENGTH) {
     return Response.json(
       { error: 'invalid_title', message: `Title required and must be under ${MAX_TITLE_LENGTH} characters` } as CreateBoardResponse,
       { status: 400, headers: corsHeaders(request) }
@@ -488,7 +499,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
 
     try {
       // Check board doesn't already exist
-      const existing = await getFileContent(`content/kanban/${payload.id}/_board.md`, env);
+      const existing = await getFileContent(`content/kanban/${id}/_board.md`, env);
       if (existing) {
         return Response.json(
           { error: 'board_exists', message: 'A board with this ID already exists' } as CreateBoardResponse,
@@ -501,8 +512,8 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
 
       // Create board structure
       const board: KanbanBoard = {
-        id: payload.id,
-        title: payload.title,
+        id,
+        title,
         columns: columns.map((c) => ({ ...c, cards: [] })),
         createdAt: now,
         updatedAt: now,
@@ -512,9 +523,9 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
 
       // Commit the new board
       const newSha = await commitFilesAtomic(
-        [{ path: `content/kanban/${payload.id}/_board.md`, content: boardMarkdown }],
+        [{ path: `content/kanban/${id}/_board.md`, content: boardMarkdown }],
         [],
-        `kanban: create board ${payload.id} (by ${session.githubUsername})`,
+        `kanban: create board ${id} (by ${session.githubUsername})`,
         headSha,
         env
       );
@@ -523,14 +534,21 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
       await triggerDispatch('precompile-content', env);
 
       return Response.json(
-        { success: true, boardId: payload.id, newHeadSha: newSha } as CreateBoardResponse,
+        { success: true, boardId: id, newHeadSha: newSha } as CreateBoardResponse,
         { status: 201, headers: corsHeaders(request) }
       );
     } catch (err) {
-      if (err instanceof GitHubApiError && err.status === 409 && attempt < MAX_RETRIES) {
-        // Race condition: another commit happened. Retry.
-        console.log(`Create board retry attempt ${attempt} due to concurrent modification`);
-        continue;
+      if (err instanceof GitHubApiError && err.status === 409) {
+        if (attempt < MAX_RETRIES) {
+          // Race condition: another commit happened. Retry.
+          console.log(`Create board retry attempt ${attempt} due to concurrent modification`);
+          continue;
+        }
+        // Retries exhausted - return 409 to client
+        return Response.json(
+          { error: 'conflict', message: 'Too many concurrent modifications, please try again' } as CreateBoardResponse,
+          { status: 409, headers: corsHeaders(request) }
+        );
       }
 
       console.error('Error creating board:', err);
@@ -544,6 +562,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
     }
   }
 
+  // Should not reach here, but return 409 as fallback
   return Response.json(
     { error: 'conflict', message: 'Too many concurrent modifications, please try again' } as CreateBoardResponse,
     { status: 409, headers: corsHeaders(request) }
