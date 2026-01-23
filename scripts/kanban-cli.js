@@ -78,6 +78,9 @@ async function createCardMarkdown(boardId, card, columnId) {
   if (card.planFile) frontmatter.planFile = card.planFile;
   if (card.color) frontmatter.color = card.color;
   if (card.prStatus) frontmatter.prStatus = card.prStatus;
+  if (card.summary) frontmatter.summary = card.summary;
+  if (card.archivedAt) frontmatter.archivedAt = card.archivedAt;
+  if (card.archiveReason) frontmatter.archiveReason = card.archiveReason;
   frontmatter.createdAt = card.createdAt || new Date().toISOString();
   if (card.updatedAt) frontmatter.updatedAt = card.updatedAt;
   if (card.history?.length) frontmatter.history = card.history;
@@ -278,13 +281,20 @@ async function syncBoard(options) {
         const mdPath = join(CONTENT_DIR, board, `${card.id}.md`);
 
         if (existsSync(mdPath)) {
-          // Update existing
+          // Update existing - check if JSON is newer or fields differ
           const content = await readFile(mdPath, 'utf-8');
           const { data: frontmatter } = matter(content);
 
-          // Check if column changed
-          if (frontmatter.column !== col.id) {
-            await updateCardMarkdownColumn(board, card.id, col.id, col.title);
+          const needsUpdate =
+            frontmatter.column !== col.id ||
+            frontmatter.title !== card.title ||
+            JSON.stringify(frontmatter.labels || []) !== JSON.stringify(card.labels || []) ||
+            JSON.stringify(frontmatter.checklist || []) !== JSON.stringify(card.checklist || []) ||
+            frontmatter.summary !== card.summary ||
+            (card.updatedAt && frontmatter.updatedAt !== card.updatedAt);
+
+          if (needsUpdate) {
+            await createCardMarkdown(board, card, col.id);
             updated++;
           }
         } else {

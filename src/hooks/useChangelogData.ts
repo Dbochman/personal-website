@@ -53,13 +53,23 @@ function cardToEntry(card: KanbanCard): ChangelogEntry {
   };
 }
 
+interface LoadResult {
+  entries: ChangelogEntry[];
+  error: string | null;
+}
+
 /**
  * Load changelog entries from precompiled kanban data
  * Synchronous since data is precompiled at build time
  */
-function loadChangelogEntries(boardId: string): ChangelogEntry[] {
+function loadChangelogEntries(boardId: string): LoadResult {
   const board = getBoardSync(boardId);
-  if (!board) return [];
+  if (!board) {
+    return {
+      entries: [],
+      error: `Board "${boardId}" not found. Run "npm run precompile-kanban" to generate precompiled data.`,
+    };
+  }
 
   // Get changelog column cards
   const changelogColumn = board.columns.find((col) => col.id === 'changelog');
@@ -87,14 +97,16 @@ function loadChangelogEntries(boardId: string): ChangelogEntry[] {
   }
 
   // Sort by completedAt descending (newest first)
-  return Array.from(entryMap.values()).sort(
+  const entries = Array.from(entryMap.values()).sort(
     (a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
   );
+
+  return { entries, error: null };
 }
 
 export function useChangelogData(boardId: string = 'roadmap') {
   // Load entries synchronously (data is precompiled)
-  const entries = useMemo(() => loadChangelogEntries(boardId), [boardId]);
+  const { entries, error } = useMemo(() => loadChangelogEntries(boardId), [boardId]);
 
   // Derive unique labels for filtering
   const allLabels = useMemo(() => {
@@ -111,6 +123,5 @@ export function useChangelogData(boardId: string = 'roadmap') {
   }, [entries]);
 
   // isLoading is always false since data is precompiled
-  // error is always null since we don't have async loading
-  return { entries, isLoading: false, error: null, allLabels };
+  return { entries, isLoading: false, error, allLabels };
 }
