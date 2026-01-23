@@ -5,13 +5,13 @@ import type { KanbanBoard as BoardType } from '@/types/kanban';
 
 const WORKER_URL = 'https://api.dylanbochman.com';
 
-// Valid board IDs (must match worker whitelist)
-const VALID_BOARDS = ['roadmap', 'house'] as const;
-type BoardId = (typeof VALID_BOARDS)[number];
+// Board ID validation (matches worker SAFE_ID regex)
+const isValidBoardId = (id: string) => /^[a-z0-9][a-z0-9-]{0,48}[a-z0-9]?$/.test(id);
 
 interface BoardData {
   board: BoardType;
   headCommitSha: string | null;
+  precompiled?: boolean;
 }
 
 export default function Kanban() {
@@ -20,10 +20,10 @@ export default function Kanban() {
   const [error, setError] = useState<string | null>(null);
 
   // Get board ID from URL, default to 'roadmap'
-  const boardId = useMemo<BoardId>(() => {
+  const boardId = useMemo(() => {
     const param = searchParams.get('board');
-    if (param && VALID_BOARDS.includes(param as BoardId)) {
-      return param as BoardId;
+    if (param && isValidBoardId(param)) {
+      return param;
     }
     return 'roadmap';
   }, [searchParams]);
@@ -47,7 +47,14 @@ export default function Kanban() {
           setData({
             board: apiData.board,
             headCommitSha: apiData.headCommitSha,
+            precompiled: apiData.precompiled,
           });
+          return;
+        }
+
+        // Handle 404 - board not found
+        if (apiRes.status === 404) {
+          setError('Board not found. It may have been deleted or not yet created.');
           return;
         }
       } catch {
@@ -61,6 +68,7 @@ export default function Kanban() {
         setData({
           board: module.board,
           headCommitSha: null, // No SHA available from static file
+          precompiled: true,
         });
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load board');

@@ -93,4 +93,38 @@ export interface SaveResponse {
 export interface BoardResponse {
   board: KanbanBoard;
   headCommitSha: string;
+  precompiled?: boolean;
+}
+
+/**
+ * Board summary for listing
+ */
+export interface BoardSummary {
+  id: string;
+  title: string;
+  cardCount: number;
+}
+
+/**
+ * Create board request payload
+ */
+export interface CreateBoardRequest {
+  id: string;
+  title: string;
+  columns?: Array<{
+    id: string;
+    title: string;
+    description?: string;
+  }>;
+}
+
+/**
+ * Create board response
+ */
+export interface CreateBoardResponse {
+  success: boolean;
+  boardId?: string;
+  newHeadSha?: string;
+  error?: string;
+  message?: string;
 }
