@@ -30,6 +30,6 @@ checklist:
     completed: false
 planFile: docs/plans/42-recording-rules-generator.md
 createdAt: "2026-01-17T00:00:00.000Z"
+description: |
+  Generate recording rules from PromQL queries. Naming conventions, analysis hints, YAML export with presets for HTTP/K8s rules.
 ---
-
-Generate recording rules from PromQL queries. Naming conventions, analysis hints, YAML export with presets for HTTP/K8s rules.

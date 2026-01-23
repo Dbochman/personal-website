@@ -37,6 +37,6 @@ history:
     timestamp: "2026-01-16T02:30:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Add giscus discussion threads to kanban cards. Reuse existing blog Comments pattern with theme matching. Also fixed blog Comments to use ThemeContext.
 ---
-
-Add giscus discussion threads to kanban cards. Reuse existing blog Comments pattern with theme matching. Also fixed blog Comments to use ThemeContext.

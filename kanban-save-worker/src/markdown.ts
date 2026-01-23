@@ -3,7 +3,7 @@
  * Converts board data to markdown files with YAML frontmatter
  */
 
-import type { KanbanBoard, KanbanCard, KanbanColumn } from './types';
+import type { KanbanBoard, KanbanCard, KanbanColumn, CardChange } from './types';
 
 /**
  * Convert Date objects or date strings to ISO string format
@@ -46,12 +46,25 @@ function escapeYamlString(value: string): string {
   return value;
 }
 
+const MAX_HISTORY_ENTRIES = 100;
+
+/**
+ * Compact history to prevent unbounded growth
+ * Keeps first entry (creation) plus last N-1 entries
+ */
+function compactHistory(history: CardChange[]): CardChange[] {
+  if (history.length <= MAX_HISTORY_ENTRIES) return history;
+  // Keep first (creation) + last N-1 entries
+  return [history[0], ...history.slice(-(MAX_HISTORY_ENTRIES - 1))];
+}
+
 /**
  * Serialize board metadata to _board.md content
  */
 export function serializeBoardMeta(board: KanbanBoard): string {
   const lines: string[] = ['---'];
 
+  lines.push(`schemaVersion: ${board.schemaVersion || 1}`);
   lines.push(`id: ${board.id}`);
   lines.push(`title: ${escapeYamlString(board.title)}`);
   lines.push(`createdAt: "${toISOString(board.createdAt)}"`);
@@ -137,10 +150,11 @@ export function serializeCard(card: KanbanCard, columnId: string): string {
     lines.push(`archiveReason: ${escapeYamlString(card.archiveReason)}`);
   }
 
-  // History array
+  // History array (compacted to prevent unbounded growth)
   if (card.history && card.history.length > 0) {
+    const history = compactHistory(card.history);
     lines.push('history:');
-    for (const entry of card.history) {
+    for (const entry of history) {
       lines.push(`  - type: ${entry.type}`);
       lines.push(`    timestamp: "${toISOString(entry.timestamp)}"`);
       if (entry.columnId) {
@@ -158,14 +172,15 @@ export function serializeCard(card: KanbanCard, columnId: string): string {
     }
   }
 
-  lines.push('---');
-
-  // Body is the description
+  // Description in frontmatter using YAML block scalar (safe from --- boundary issues)
   if (card.description) {
-    lines.push('');
-    lines.push(card.description);
+    lines.push('description: |');
+    for (const line of card.description.split('\n')) {
+      lines.push(`  ${line}`);
+    }
   }
 
+  lines.push('---');
   lines.push('');
 
   return lines.join('\n');

@@ -5,6 +5,6 @@ column: changelog
 labels:
   - Performance
 createdAt: "2026-01-07T00:00:00.000Z"
+description: |
+  55 → 98 Lighthouse, system fonts, Radix cleanup
 ---
-
-55 → 98 Lighthouse, system fonts, Radix cleanup

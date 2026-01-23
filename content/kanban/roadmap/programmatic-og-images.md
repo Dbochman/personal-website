@@ -42,16 +42,16 @@ history:
     timestamp: "2026-01-17T03:15:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Generate Open Graph images at build time for project pages using satori + @resvg/resvg-js.
+  
+  Implemented:
+  - Build-time generation via scripts/generate-og-images.mjs
+  - Build-time validation via scripts/validate-projects.mjs
+  - Dark theme template with icon, title, description, tags
+  - Inter font (regular + bold) for typography
+  - Added to build pipeline in package.json
+  - Extracted project metadata to projects-meta.json
+  - Simplified projects.ts by removing inline metadata
+  - Fail-fast guards for CI (exits 1 on generation or validation failures)
 ---
-
-Generate Open Graph images at build time for project pages using satori + @resvg/resvg-js.
-
-Implemented:
-- Build-time generation via scripts/generate-og-images.mjs
-- Build-time validation via scripts/validate-projects.mjs
-- Dark theme template with icon, title, description, tags
-- Inter font (regular + bold) for typography
-- Added to build pipeline in package.json
-- Extracted project metadata to projects-meta.json
-- Simplified projects.ts by removing inline metadata
-- Fail-fast guards for CI (exits 1 on generation or validation failures)

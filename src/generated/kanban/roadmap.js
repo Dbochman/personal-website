@@ -1,6 +1,7 @@
 // Auto-generated - do not edit
 // Source: content/kanban/roadmap/
 export const board = {
+  "schemaVersion": 1,
   "id": "roadmap",
   "title": "Site Roadmap",
   "columns": [
@@ -12,6 +13,7 @@ export const board = {
         {
           "id": "k8s-resource-rightsizer",
           "title": "K8s Resource Right-Sizer",
+          "description": "Recommend CPU/memory requests/limits from utilization percentiles. Goal slider for efficiency vs safety, YAML snippet output.\n",
           "labels": [
             "Medium",
             "SRE",
@@ -56,12 +58,12 @@ export const board = {
           ],
           "planFile": "docs/plans/44-k8s-resource-rightsizer.md",
           "createdAt": "2026-01-17T00:00:00.000Z",
-          "history": [],
-          "description": "Recommend CPU/memory requests/limits from utilization percentiles. Goal slider for efficiency vs safety, YAML snippet output."
+          "history": []
         },
         {
           "id": "logql-builder",
           "title": "LogQL / CloudWatch Insights Builder",
+          "description": "Visual query builder for LogQL and CloudWatch Insights. Language toggle, stream selectors, pipeline stages, and presets for common queries.\n",
           "labels": [
             "Medium",
             "SRE",
@@ -106,12 +108,12 @@ export const board = {
           ],
           "planFile": "docs/plans/39-logql-builder.md",
           "createdAt": "2026-01-17T00:00:00.000Z",
-          "history": [],
-          "description": "Visual query builder for LogQL and CloudWatch Insights. Language toggle, stream selectors, pipeline stages, and presets for common queries."
+          "history": []
         },
         {
           "id": "metric-naming-linter",
           "title": "Metric Naming Linter",
+          "description": "Lint metric names against Prometheus/OTel conventions. Severity-coded issues, auto-fix suggestions, bulk apply and export.\n",
           "labels": [
             "Small",
             "SRE",
@@ -151,12 +153,12 @@ export const board = {
           ],
           "planFile": "docs/plans/46-metric-naming-linter.md",
           "createdAt": "2026-01-17T00:00:00.000Z",
-          "history": [],
-          "description": "Lint metric names against Prometheus/OTel conventions. Severity-coded issues, auto-fix suggestions, bulk apply and export."
+          "history": []
         },
         {
           "id": "react-component-xray",
           "title": "React Component X-ray",
+          "description": "Analyze React code to visualize component trees. Flag render anti-patterns (inline functions, missing keys, unstable deps).\n",
           "labels": [
             "Medium",
             "Learning",
@@ -201,12 +203,12 @@ export const board = {
           ],
           "planFile": "docs/plans/48-react-component-xray.md",
           "createdAt": "2026-01-17T00:00:00.000Z",
-          "history": [],
-          "description": "Analyze React code to visualize component trees. Flag render anti-patterns (inline functions, missing keys, unstable deps)."
+          "history": []
         },
         {
           "id": "recording-rules-generator",
           "title": "Prometheus Recording Rules Generator",
+          "description": "Generate recording rules from PromQL queries. Naming conventions, analysis hints, YAML export with presets for HTTP/K8s rules.\n",
           "labels": [
             "Medium",
             "SRE",
@@ -251,12 +253,12 @@ export const board = {
           ],
           "planFile": "docs/plans/42-recording-rules-generator.md",
           "createdAt": "2026-01-17T00:00:00.000Z",
-          "history": [],
-          "description": "Generate recording rules from PromQL queries. Naming conventions, analysis hints, YAML export with presets for HTTP/K8s rules."
+          "history": []
         },
         {
           "id": "regex-log-parser",
           "title": "Regex Log Parser",
+          "description": "Build regex parsing rules interactively. Highlight fields, live matching preview, export to grok/Logstash/Fluent Bit/Vector formats.\n",
           "labels": [
             "Medium",
             "SRE",
@@ -296,81 +298,7 @@ export const board = {
           ],
           "planFile": "docs/plans/40-regex-log-parser.md",
           "createdAt": "2026-01-17T00:00:00.000Z",
-          "history": [],
-          "description": "Build regex parsing rules interactively. Highlight fields, live matching preview, export to grok/Logstash/Fluent Bit/Vector formats."
-        },
-        {
-          "id": "kanban-system-durability-improvements",
-          "title": "Kanban System Durability Improvements",
-          "summary": "Address validation gaps and edge cases from architecture review (7.5/10 durability score)",
-          "labels": [
-            "Medium",
-            "Kanban",
-            "Technical Debt"
-          ],
-          "checklist": [
-            {
-              "id": "ksd-p0-1",
-              "text": "P0: Move description into YAML frontmatter (avoid --- boundary issue)",
-              "completed": false
-            },
-            {
-              "id": "ksd-p0-2",
-              "text": "P0: Add schema versioning with explicit detection (no default)",
-              "completed": false
-            },
-            {
-              "id": "ksd-p1-3",
-              "text": "P1: Validate ALLOWED_ORIGINS parsing (reject empty/invalid)",
-              "completed": false
-            },
-            {
-              "id": "ksd-p1-4",
-              "text": "P1: Extract hardcoded values to env vars (wrangler.toml)",
-              "completed": false
-            },
-            {
-              "id": "ksd-p1-5",
-              "text": "P1: Make history schema forward-compatible (.passthrough)",
-              "completed": false
-            },
-            {
-              "id": "ksd-p2-6",
-              "text": "P2: Add field validation limits (labels, summary, archiveReason)",
-              "completed": false
-            },
-            {
-              "id": "ksd-p2-7",
-              "text": "P2: Add history compaction (max 100 entries)",
-              "completed": false
-            },
-            {
-              "id": "ksd-p2-8",
-              "text": "P2: Track title changes in history",
-              "completed": false
-            },
-            {
-              "id": "ksd-p3-9",
-              "text": "P3: Persist deletedCardIds with multi-tab sync",
-              "completed": false
-            },
-            {
-              "id": "ksd-p3-10",
-              "text": "P3: Return warning (not failure) on dispatch error",
-              "completed": false
-            }
-          ],
-          "planFile": "docs/plans/59-kanban-durability-improvements.md",
-          "createdAt": "2026-01-23T19:08:16.405Z",
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-23T19:08:16.405Z",
-              "columnId": "ideas",
-              "columnTitle": "Ideas"
-            }
-          ],
-          "description": "Address gaps identified in the Kanban System Health Report (2026-01-23).\n\n**Current Durability Score: 7.5/10**\n\n### Critical Issues\n- YAML boundary vulnerability: if description starts with `---`, parsing breaks\n- No schema versioning: format changes would break all boards\n\n### High Priority\n- Hardcoded repo/domain values break if repo moves\n- No validation on labels, summary, archiveReason fields\n- Title changes and checklist modifications not tracked in history\n\nSee architecture review for full details."
+          "history": []
         }
       ]
     },
@@ -390,7 +318,87 @@ export const board = {
       "id": "in-review",
       "title": "In Review",
       "color": "pink",
-      "cards": []
+      "cards": [
+        {
+          "id": "kanban-system-durability-improvements",
+          "title": "Kanban System Durability Improvements",
+          "summary": "Address validation gaps and edge cases from architecture review (7.5/10 durability score)",
+          "description": "Address gaps identified in the Kanban System Health Report (2026-01-23).\n\n**Current Durability Score: 7.5/10**\n\n### Critical Issues\n- YAML boundary vulnerability: if description starts with `---`, parsing breaks\n- No schema versioning: format changes would break all boards\n\n### High Priority\n- Hardcoded repo/domain values break if repo moves\n- No validation on labels, summary, archiveReason fields\n- Title changes and checklist modifications not tracked in history\n\nSee architecture review for full details.\n",
+          "labels": [
+            "Medium",
+            "Kanban",
+            "Technical Debt"
+          ],
+          "checklist": [
+            {
+              "id": "ksd-p0-1",
+              "text": "P0: Move description into YAML frontmatter (avoid --- boundary issue)",
+              "completed": true
+            },
+            {
+              "id": "ksd-p0-2",
+              "text": "P0: Add schema versioning with explicit detection (no default)",
+              "completed": true
+            },
+            {
+              "id": "ksd-p1-3",
+              "text": "P1: Validate ALLOWED_ORIGINS parsing (reject empty/invalid)",
+              "completed": true
+            },
+            {
+              "id": "ksd-p1-4",
+              "text": "P1: Extract hardcoded values to env vars (wrangler.toml)",
+              "completed": true
+            },
+            {
+              "id": "ksd-p1-5",
+              "text": "P1: Make history schema forward-compatible (.passthrough)",
+              "completed": true
+            },
+            {
+              "id": "ksd-p2-6",
+              "text": "P2: Add field validation limits (labels, summary, archiveReason)",
+              "completed": true
+            },
+            {
+              "id": "ksd-p2-7",
+              "text": "P2: Add history compaction (max 100 entries)",
+              "completed": true
+            },
+            {
+              "id": "ksd-p2-8",
+              "text": "P2: Track title changes in history",
+              "completed": true
+            },
+            {
+              "id": "ksd-p3-9",
+              "text": "P3: Persist deletedCardIds with multi-tab sync",
+              "completed": true
+            },
+            {
+              "id": "ksd-p3-10",
+              "text": "P3: Return warning (not failure) on dispatch error",
+              "completed": true
+            }
+          ],
+          "planFile": "docs/plans/59-kanban-durability-improvements.md",
+          "createdAt": "2026-01-23T19:08:16.405Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T19:08:16.405Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T19:31:00.000Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "changelog",
@@ -399,6 +407,7 @@ export const board = {
         {
           "id": "new-board-feature",
           "title": "New Board Creation",
+          "description": "Add ability to create new kanban boards from the UI. Board selector dropdown to switch between boards, plus 'New Board' button to create fresh boards.\n\n**Architecture Decision**: Dynamic board discovery (Option A from plan). Worker scans `content/kanban/` to discover boards, no hardcoded allowlist.\n\n**Codex Review Complete** (2026-01-23):\n- Race condition handling with retry logic on 409\n- Markdown fallback for new boards before precompile\n- Column ID validation with `SAFE_ID`\n- Optimistic UI with `precompiled: false` indicator\n\nSee `docs/plans/58-new-board-creation.md` for full implementation plan.\n",
           "labels": [
             "Medium",
             "Kanban",
@@ -475,12 +484,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Add ability to create new kanban boards from the UI. Board selector dropdown to switch between boards, plus 'New Board' button to create fresh boards.\n\n**Architecture Decision**: Dynamic board discovery (Option A from plan). Worker scans `content/kanban/` to discover boards, no hardcoded allowlist.\n\n**Codex Review Complete** (2026-01-23):\n- Race condition handling with retry logic on 409\n- Markdown fallback for new boards before precompile\n- Column ID validation with `SAFE_ID`\n- Optimistic UI with `precompiled: false` indicator\n\nSee `docs/plans/58-new-board-creation.md` for full implementation plan."
+          ]
         },
         {
           "id": "markdown-based-kanban",
           "title": "Migrate Kanban to Markdown Files",
+          "description": "Replace monolithic roadmap-board.json with individual markdown files per card. Adopt Backlog.md pattern or Astro Content Collections approach.\n\nProblem: 1665-line JSON file is error-prone for manual editing (trailing commas, bracket mismatches).\n\nOptions evaluated:\n- Backlog.md (ready-made, Claude Code compatible)\n- Astro Content Collections pattern (gray-matter + Zod)\n- YAML files\n- TypeScript data files\n",
           "labels": [
             "Medium",
             "DX",
@@ -550,12 +559,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Replace monolithic roadmap-board.json with individual markdown files per card. Adopt Backlog.md pattern or Astro Content Collections approach.\n\nProblem: 1665-line JSON file is error-prone for manual editing (trailing commas, bracket mismatches).\n\nOptions evaluated:\n- Backlog.md (ready-made, Claude Code compatible)\n- Astro Content Collections pattern (gray-matter + Zod)\n- YAML files\n- TypeScript data files"
+          ]
         },
         {
           "id": "phase-2-markdown-only-saves",
           "title": "Phase 2: Markdown-Only Saves",
+          "description": "Eliminate dual maintenance by making markdown the single source of truth.\n\nCurrent state: JSON files are edited by save workflow, markdown files power ChangelogExplorer.\n\nTarget state: Save workflow writes .md files directly via GitHub API, precompile runs on every push.\n\nBenefits:\n- Single source of truth (no sync issues)\n- Better git diffs for card changes\n- Easier manual editing when needed\n- CLI tools work with same format\n",
           "labels": [
             "Medium",
             "Kanban",
@@ -620,13 +629,13 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Eliminate dual maintenance by making markdown the single source of truth.\n\nCurrent state: JSON files are edited by save workflow, markdown files power ChangelogExplorer.\n\nTarget state: Save workflow writes .md files directly via GitHub API, precompile runs on every push.\n\nBenefits:\n- Single source of truth (no sync issues)\n- Better git diffs for card changes\n- Easier manual editing when needed\n- CLI tools work with same format"
+          ]
         },
         {
           "id": "jan-23-kanban-phase-2",
           "title": "Jan 23: Kanban Phase 2 Complete",
           "summary": "Markdown is now the single source of truth for kanban boards",
+          "description": "## Phase 2: Markdown-Only Saves\n\nCompleted the migration to make markdown the single source of truth for kanban boards.\n\n### Key Changes\n\n- **Eliminated JSON files**: Removed `roadmap-board.json`, `house-board.json`, and `roadmap-archive.json`\n- **Worker writes directly to markdown**: Save flow now commits `.md` files via GitHub Trees API\n- **Commit SHA conflict detection**: Replaced timestamp-based detection with atomic commit SHA comparison\n- **Precompiled JS fallback**: Board loads from worker API (primary) or generated JS (offline fallback)\n\n### Bug Fixes\n\n- Fixed UTF-8 encoding corruption for non-ASCII characters (arrows, emojis)\n- Fixed duplicate history entries during drag operations (moved tracking from `handleDragOver` to `handleDragEnd`)\n- Fixed Cloudflare Workers 50 subrequest limit by using inline content in tree items\n- Fixed open redirect vulnerability in OAuth return_to validation\n\n### Architecture\n\n```\nSave: UI → Worker → GitHub Trees API → content/kanban/*.md\n                ↓\n      repository_dispatch → precompile-content.yml\n                ↓\n      src/generated/kanban/*.js\n\nLoad: UI → Worker API (primary) → precompiled JS (fallback)\n```\n\nRelated PRs: #195, #198\n",
           "labels": [
             "Infrastructure",
             "Kanban"
@@ -641,12 +650,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "## Phase 2: Markdown-Only Saves\n\nCompleted the migration to make markdown the single source of truth for kanban boards.\n\n### Key Changes\n\n- **Eliminated JSON files**: Removed `roadmap-board.json`, `house-board.json`, and `roadmap-archive.json`\n- **Worker writes directly to markdown**: Save flow now commits `.md` files via GitHub Trees API\n- **Commit SHA conflict detection**: Replaced timestamp-based detection with atomic commit SHA comparison\n- **Precompiled JS fallback**: Board loads from worker API (primary) or generated JS (offline fallback)\n\n### Bug Fixes\n\n- Fixed UTF-8 encoding corruption for non-ASCII characters (arrows, emojis)\n- Fixed duplicate history entries during drag operations (moved tracking from `handleDragOver` to `handleDragEnd`)\n- Fixed Cloudflare Workers 50 subrequest limit by using inline content in tree items\n- Fixed open redirect vulnerability in OAuth return_to validation\n\n### Architecture\n\n```\nSave: UI → Worker → GitHub Trees API → content/kanban/*.md\n                ↓\n      repository_dispatch → precompile-content.yml\n                ↓\n      src/generated/kanban/*.js\n\nLoad: UI → Worker API (primary) → precompiled JS (fallback)\n```\n\nRelated PRs: #195, #198"
+          ]
         },
         {
           "id": "analytics-bot-ci-tagging",
           "title": "Analytics Bot & CI Traffic Tagging",
+          "description": "Tag suspicious traffic with custom dimension instead of filtering. Enables analysis of bot patterns while keeping data.\n\nImplemented in `src/lib/analytics/clientTrafficClassifier.ts`:\n- Known bot user agents (Googlebot, Bingbot, HeadlessChrome, etc.)\n- CI/automation user agents (GitHub Actions runners, Playwright)\n- Known probe paths (wp-admin, .env, xmlrpc.php, etc.)\n- Sessions tagged on first pageview with GA4 custom dimension\n",
           "labels": [
             "Small",
             "Analytics"
@@ -705,12 +714,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Tag suspicious traffic with custom dimension instead of filtering. Enables analysis of bot patterns while keeping data.\n\nImplemented in `src/lib/analytics/clientTrafficClassifier.ts`:\n- Known bot user agents (Googlebot, Bingbot, HeadlessChrome, etc.)\n- CI/automation user agents (GitHub Actions runners, Playwright)\n- Known probe paths (wp-admin, .env, xmlrpc.php, etc.)\n- Sessions tagged on first pageview with GA4 custom dimension"
+          ]
         },
         {
           "id": "analytics-event-tracking",
           "title": "Analytics Event Tracking",
+          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions.\n\nImplemented in `src/lib/trackToolEvent.ts` with events firing in:\n- SLO Calculator: tab_switch, calculate, period_change\n- CLI Playground: command_run, tool_select, mode_switch, preset_select, share_copy\n- On-Call Coverage: model_select\n",
           "labels": [
             "Small",
             "Analytics"
@@ -763,12 +772,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions.\n\nImplemented in `src/lib/trackToolEvent.ts` with events firing in:\n- SLO Calculator: tab_switch, calculate, period_change\n- CLI Playground: command_run, tool_select, mode_switch, preset_select, share_copy\n- On-Call Coverage: model_select"
+          ]
         },
         {
           "id": "lighthouse-a11y-seo-focus",
           "title": "Lighthouse: A11y & SEO Focus",
+          "description": "Lab Lighthouse provides unique value for accessibility audits and SEO checks that field CWV data can't capture. Reframed the workflow to focus on these strengths.\n\nImplemented in `.github/workflows/lighthouse.yml`:\n- Path-based triggers (only runs on UI changes to src/pages, components, CSS)\n- Multi-page testing with thresholds: A11y ≥95, SEO ≥90, Best Practices ≥90\n- Results stored in lighthouse-metrics branch for historical tracking\n",
           "labels": [
             "Small",
             "Analytics",
@@ -818,12 +827,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Lab Lighthouse provides unique value for accessibility audits and SEO checks that field CWV data can't capture. Reframed the workflow to focus on these strengths.\n\nImplemented in `.github/workflows/lighthouse.yml`:\n- Path-based triggers (only runs on UI changes to src/pages, components, CSS)\n- Multi-page testing with thresholds: A11y ≥95, SEO ≥90, Best Practices ≥90\n- Results stored in lighthouse-metrics branch for historical tracking"
+          ]
         },
         {
           "id": "tailwind-v4",
           "title": "Tailwind CSS v4 Upgrade",
+          "description": "Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files.\n\nCompleted Jan 21. See blog post: \"Tailwind v4 Upgrade: The Performance Tradeoff\"\n",
           "labels": [
             "Medium-Large",
             "Infrastructure"
@@ -897,13 +906,13 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files.\n\nCompleted Jan 21. See blog post: \"Tailwind v4 Upgrade: The Performance Tradeoff\""
+          ]
         },
         {
           "id": "react-hook-form-update",
           "title": "react-hook-form & @hookform/resolvers Update",
           "summary": "Dependency updates to unblock form validation library",
+          "description": "Updated react-hook-form from 7.53.0 to 7.71.1 and @hookform/resolvers from 3.10.0 to 5.2.2. The resolvers package had a peer dependency requiring react-hook-form >=7.55.0.\n",
           "labels": [
             "PR #165",
             "Infrastructure"
@@ -940,13 +949,13 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Updated react-hook-form from 7.53.0 to 7.71.1 and @hookform/resolvers from 3.10.0 to 5.2.2. The resolvers package had a peer dependency requiring react-hook-form >=7.55.0."
+          ]
         },
         {
           "id": "animated-mermaid-diagrams",
           "title": "Animated Mermaid Diagrams",
           "summary": "Interactive step-by-step walkthrough for incident command flowcharts",
+          "description": "Added animated walkthrough mode to incident-command-diagrams with:\n\n- Step-by-step animation with play/pause/skip/back controls\n- Decision nodes that pause for user to choose a path (branching logic)\n- Link nodes for cross-diagram navigation and external tool links\n- Side-by-side layout with sticky context panel\n- Auto-scroll to center active node in viewport\n- Progress bar and step counter\n- Lazy-loaded Mermaid rendering with theme support\n",
           "labels": [
             "PR #162",
             "Feature",
@@ -968,13 +977,13 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Added animated walkthrough mode to incident-command-diagrams with:\n\n- Step-by-step animation with play/pause/skip/back controls\n- Decision nodes that pause for user to choose a path (branching logic)\n- Link nodes for cross-diagram navigation and external tool links\n- Side-by-side layout with sticky context panel\n- Auto-scroll to center active node in viewport\n- Progress bar and step counter\n- Lazy-loaded Mermaid rendering with theme support"
+          ]
         },
         {
           "id": "cli-tool-playground",
           "title": "CLI Tool Playground",
           "summary": "In-browser kubectl/jq/grep/sed/awk with Learn and Play modes",
+          "description": "Interactive in-browser demos for CLI tools. Pure JS implementations (no WASM).\n\nFeatures:\n- Tool selector: kubectl, jq, grep, sed, awk\n- Learn mode with goals, hints, and command chips\n- Playground mode for freeform experimentation\n- Command explainer with flag breakdowns and 'Try next' suggestions\n- Shareable URL state (tool, mode, input, command)\n- 5 presets per tool covering common use cases\n\nkubectl simulator:\n- 5 triage scenarios (CrashLoopBackOff, ImagePullBackOff, Service Mismatch, Rollout Regression, Node Pressure)\n- Full K8s resource schema (pods, deployments, services, nodes, events)\n- Supports: get, describe, logs, rollout, top, events\n- Session state mutation for rollback commands\n\nSecurity fixes:\n- Replaced Function() with safe regex parser (XSS)\n- URL param validation with fallbacks\n- Race condition guards for async results\n",
           "labels": [
             "PR #156",
             "Feature",
@@ -1049,12 +1058,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Interactive in-browser demos for CLI tools. Pure JS implementations (no WASM).\n\nFeatures:\n- Tool selector: kubectl, jq, grep, sed, awk\n- Learn mode with goals, hints, and command chips\n- Playground mode for freeform experimentation\n- Command explainer with flag breakdowns and 'Try next' suggestions\n- Shareable URL state (tool, mode, input, command)\n- 5 presets per tool covering common use cases\n\nkubectl simulator:\n- 5 triage scenarios (CrashLoopBackOff, ImagePullBackOff, Service Mismatch, Rollout Regression, Node Pressure)\n- Full K8s resource schema (pods, deployments, services, nodes, events)\n- Supports: get, describe, logs, rollout, top, events\n- Session state mutation for rollback commands\n\nSecurity fixes:\n- Replaced Function() with safe regex parser (XSS)\n- URL param validation with fallbacks\n- Race condition guards for async results"
+          ]
         },
         {
           "id": "error-budget-burndown",
           "title": "Error Budget Burndown",
+          "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.\n",
           "labels": [
             "PR #136",
             "SRE",
@@ -1124,13 +1133,13 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date."
+          ]
         },
         {
           "id": "programmatic-og-images",
           "title": "Programmatic OG Image Generation",
           "summary": "Build-time OG images via satori + resvg for project pages",
+          "description": "Generate Open Graph images at build time for project pages using satori + @resvg/resvg-js.\n\nImplemented:\n- Build-time generation via scripts/generate-og-images.mjs\n- Build-time validation via scripts/validate-projects.mjs\n- Dark theme template with icon, title, description, tags\n- Inter font (regular + bold) for typography\n- Added to build pipeline in package.json\n- Extracted project metadata to projects-meta.json\n- Simplified projects.ts by removing inline metadata\n- Fail-fast guards for CI (exits 1 on generation or validation failures)\n",
           "labels": [
             "PR #150",
             "Enhancement",
@@ -1190,12 +1199,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Generate Open Graph images at build time for project pages using satori + @resvg/resvg-js.\n\nImplemented:\n- Build-time generation via scripts/generate-og-images.mjs\n- Build-time validation via scripts/validate-projects.mjs\n- Dark theme template with icon, title, description, tags\n- Inter font (regular + bold) for typography\n- Added to build pipeline in package.json\n- Extracted project metadata to projects-meta.json\n- Simplified projects.ts by removing inline metadata\n- Fail-fast guards for CI (exits 1 on generation or validation failures)"
+          ]
         },
         {
           "id": "slo-calculator-seo",
           "title": "SLO Calculator SEO",
+          "description": "Added JSON-LD structured data and keyword optimization for SLO Calculator project page.\n\nImplemented:\n- WebApplication JSON-LD schema for active projects\n- BreadcrumbList JSON-LD schema for navigation\n- Keywords and ogImage fields in ProjectMeta type\n- SEO-optimized keywords for SLO Calculator\n- resolveOgImage helper for absolute URL handling\n\nOG image generation moved to separate task (Programmatic OG Image Generation).\n",
           "labels": [
             "PR #149",
             "SEO",
@@ -1249,13 +1258,13 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Added JSON-LD structured data and keyword optimization for SLO Calculator project page.\n\nImplemented:\n- WebApplication JSON-LD schema for active projects\n- BreadcrumbList JSON-LD schema for navigation\n- Keywords and ogImage fields in ProjectMeta type\n- SEO-optimized keywords for SLO Calculator\n- resolveOgImage helper for absolute URL handling\n\nOG image generation moved to separate task (Programmatic OG Image Generation)."
+          ]
         },
         {
           "id": "slo-tool-ux-improvements",
           "title": "SLO Tool UX Improvements",
           "summary": "Better defaults, collapsible sections, burn rate simulator",
+          "description": "Polished the SLO Calculator with better defaults and new burn rate simulator.\n\nChanges:\n- Realistic default response times (26m MTTR)\n- Collapsible Response Times section (shows Alert latency by default)\n- Removed redundant burndown charts from Achievable/Target tabs\n- Added interactive Burn Rate Simulator slider (0.1x-5x)\n- Explanatory text for the 'ideal' line concept\n- Fixed slider resync when inputs change (Codex finding)\n- Fixed edge case when zero incidents (Codex finding)\n",
           "labels": [
             "PR #151",
             "Enhancement",
@@ -1271,12 +1280,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Polished the SLO Calculator with better defaults and new burn rate simulator.\n\nChanges:\n- Realistic default response times (26m MTTR)\n- Collapsible Response Times section (shows Alert latency by default)\n- Removed redundant burndown charts from Achievable/Target tabs\n- Added interactive Burn Rate Simulator slider (0.1x-5x)\n- Explanatory text for the 'ideal' line concept\n- Fixed slider resync when inputs change (Codex finding)\n- Fixed edge case when zero incidents (Codex finding)"
+          ]
         },
         {
           "id": "grafana-dashboard-builder",
           "title": "Grafana Dashboard JSON Builder",
+          "description": "Visual editor for Grafana dashboards. Drag-and-drop panel layout, panel type picker, export schema v38+ JSON.\n",
           "labels": [
             "Deferred",
             "Large",
@@ -1288,12 +1297,12 @@ export const board = {
           "createdAt": "2026-01-17T00:00:00.000Z",
           "archivedAt": "2026-01-19T00:00:00.000Z",
           "archiveReason": "Too large for current priorities. Consider revisiting when smaller SRE tools are complete.",
-          "history": [],
-          "description": "Visual editor for Grafana dashboards. Drag-and-drop panel layout, panel type picker, export schema v38+ JSON."
+          "history": []
         },
         {
           "id": "log-pattern-extractor",
           "title": "Log Pattern Extractor",
+          "description": "Detect recurring log patterns from raw lines. Auto-group by template, field type inference, export to regex/grok/logstash format.\n",
           "labels": [
             "Deferred",
             "Medium",
@@ -1305,12 +1314,12 @@ export const board = {
           "createdAt": "2026-01-17T00:00:00.000Z",
           "archivedAt": "2026-01-19T00:00:00.000Z",
           "archiveReason": "Overlaps significantly with regex-log-parser. Build that first, then evaluate if this adds enough value.",
-          "history": [],
-          "description": "Detect recurring log patterns from raw lines. Auto-group by template, field type inference, export to regex/grok/logstash format."
+          "history": []
         },
         {
           "id": "retention-cost-estimator",
           "title": "Retention Cost Estimator",
+          "description": "Estimate observability costs across providers (Datadog, Grafana Cloud, New Relic). Side-by-side comparison, retention tradeoffs.\n",
           "labels": [
             "Deferred",
             "Medium",
@@ -1322,12 +1331,12 @@ export const board = {
           "createdAt": "2026-01-17T00:00:00.000Z",
           "archivedAt": "2026-01-19T00:00:00.000Z",
           "archiveReason": "Pricing models change frequently. Maintenance burden outweighs value for a personal site.",
-          "history": [],
-          "description": "Estimate observability costs across providers (Datadog, Grafana Cloud, New Relic). Side-by-side comparison, retention tradeoffs."
+          "history": []
         },
         {
           "id": "slo-tools-cross-pollination",
           "title": "SLO Tools Cross-Pollination",
+          "description": "Connected SLO tools with shared presets and cross-linking. Unified sloPresets.ts, slider magnetism, flexible input ranges (0-99.999%), and URL param sync for SLO + incidents.\n",
           "labels": [
             "PR #143",
             "PR #144",
@@ -1394,13 +1403,13 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Connected SLO tools with shared presets and cross-linking. Unified sloPresets.ts, slider magnetism, flexible input ranges (0-99.999%), and URL param sync for SLO + incidents."
+          ]
         },
         {
           "id": "unified-slo-tool",
           "title": "Unified SLO Calculator",
           "summary": "Merged SLO Calculator + Error Budget into 3-tab interface",
+          "description": "Consolidated SLO Calculator and Error Budget Burndown into one project with three tabs:\n\n- What can I achieve? (response time inputs directly visible)\n- Can I meet this SLO? (collapsible config)\n- Budget Burndown (full chart view)\n\nRemoved 2,700+ lines of redundant code. Collapsible configuration for target/burndown tabs, direct inputs for achievable tab.\n",
           "labels": [
             "PR #145",
             "PR #146",
@@ -1482,12 +1491,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Consolidated SLO Calculator and Error Budget Burndown into one project with three tabs:\n\n- What can I achieve? (response time inputs directly visible)\n- Can I meet this SLO? (collapsible config)\n- Budget Burndown (full chart view)\n\nRemoved 2,700+ lines of redundant code. Collapsible configuration for target/burndown tabs, direct inputs for achievable tab."
+          ]
         },
         {
           "id": "slo-burndown-integration",
           "title": "SLO Calculator Burndown Integration",
+          "description": "Add 'SLO Burndown' tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input.\n",
           "labels": [
             "PR #142",
             "Enhancement",
@@ -1565,12 +1574,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Add 'SLO Burndown' tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input."
+          ]
         },
         {
           "id": "precommit-hooks",
           "title": "Pre-commit Hooks (Husky + lint-staged)",
+          "description": "Add Husky + lint-staged for pre-commit hooks. Runs ESLint with auto-fix on staged TS/JS files before every commit.\n",
           "labels": [
             "PR #137",
             "Infrastructure",
@@ -1630,13 +1639,13 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Add Husky + lint-staged for pre-commit hooks. Runs ESLint with auto-fix on staged TS/JS files before every commit."
+          ]
         },
         {
           "id": "kanban-external-change-detection",
           "title": "Kanban External Change Detection",
           "summary": "Toast notification when board is updated externally",
+          "description": "Detect when board is updated externally (e.g., by Claude commits). Check on tab focus + every 15s while visible. Show toast with reload button to prevent save conflicts.\n",
           "labels": [
             "PR #141",
             "UX",
@@ -1696,12 +1705,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Detect when board is updated externally (e.g., by Claude commits). Check on tab focus + every 15s while visible. Show toast with reload button to prevent save conflicts."
+          ]
         },
         {
           "id": "gr9qef9",
           "title": "Change Log Explorer Project",
+          "description": "Visualize completed work from kanban changelog and archive. Rich expandable cards with PR links, plan file content, and completion history.\n",
           "labels": [
             "PR #140",
             "Feature",
@@ -1778,12 +1787,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Visualize completed work from kanban changelog and archive. Rich expandable cards with PR links, plan file content, and completion history."
+          ]
         },
         {
           "id": "kanban-url-cleanup",
           "title": "Kanban URL Simplification",
+          "description": "Remove URL state persistence, keep just `?board=roadmap`. Add deep linking with `?card=id` to open specific cards on load.\n",
           "labels": [
             "PR #139",
             "Cleanup",
@@ -1854,12 +1863,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Remove URL state persistence, keep just `?board=roadmap`. Add deep linking with `?card=id` to open specific cards on load."
+          ]
         },
         {
           "id": "preview-deploys",
           "title": "Preview Deployments",
+          "description": "Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.\n\nPreview URL: https://personal-website-adg.pages.dev\nBranch pattern: <branch>.personal-website-adg.pages.dev\n",
           "labels": [
             "Infrastructure"
           ],
@@ -1912,12 +1921,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.\n\nPreview URL: https://personal-website-adg.pages.dev\nBranch pattern: <branch>.personal-website-adg.pages.dev"
+          ]
         },
         {
           "id": "kanban-giscus",
           "title": "Kanban Card Comments",
+          "description": "Add giscus discussion threads to kanban cards. Reuse existing blog Comments pattern with theme matching. Also fixed blog Comments to use ThemeContext.\n",
           "labels": [
             "PR #131",
             "Feature"
@@ -1971,12 +1980,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Add giscus discussion threads to kanban cards. Reuse existing blog Comments pattern with theme matching. Also fixed blog Comments to use ThemeContext."
+          ]
         },
         {
           "id": "sentry-enhancement",
           "title": "Sentry Error Tracking Enhancement",
+          "description": "Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.\n\nCodex Review of PR #130:\n- High (fixed): Sentry lazy loading inconsistency - ErrorBoundary imported but Sentry.init deferred. Fixed: now initializes synchronously before render.\n- Medium (fixed): Source maps publicly served exposing source code. Fixed: using hidden sourcemaps + delete after Sentry upload.\n",
           "labels": [
             "PR #130",
             "Observability"
@@ -2030,12 +2039,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.\n\nCodex Review of PR #130:\n- High (fixed): Sentry lazy loading inconsistency - ErrorBoundary imported but Sentry.init deferred. Fixed: now initializes synchronously before render.\n- Medium (fixed): Source maps publicly served exposing source code. Fixed: using hidden sourcemaps + delete after Sentry upload."
+          ]
         },
         {
           "id": "analytics-dedupe",
           "title": "Analytics Data Deduplication",
+          "description": "Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection.\n",
           "labels": [
             "Small",
             "Bug Fix"
@@ -2085,12 +2094,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection."
+          ]
         },
         {
           "id": "pr-127",
           "title": "Kanban Board Save Feature",
+          "description": "GitHub OAuth login, Cloudflare Worker proxy, save to GitHub via Actions. Includes conflict detection, unsaved changes warning.\n",
           "labels": [
             "PR #127",
             "Feature"
@@ -2183,12 +2192,12 @@ export const board = {
               "columnId": "changelog",
               "columnTitle": "Change Log"
             }
-          ],
-          "description": "GitHub OAuth login, Cloudflare Worker proxy, save to GitHub via Actions. Includes conflict detection, unsaved changes warning."
+          ]
         },
         {
           "id": "jan-14-15",
           "title": "Jan 14-15: Infrastructure & Polish",
+          "description": "View Transitions API, RUM with web-vitals, CI/CD improvements with PR checks, Container Queries, MCP testing workflows\n",
           "labels": [
             "PR #109",
             "PR #113",
@@ -2196,36 +2205,36 @@ export const board = {
           ],
           "checklist": [],
           "createdAt": "2026-01-15T00:00:00.000Z",
-          "history": [],
-          "description": "View Transitions API, RUM with web-vitals, CI/CD improvements with PR checks, Container Queries, MCP testing workflows"
+          "history": []
         },
         {
           "id": "pr-124",
           "title": "React Performance Optimizations",
+          "description": "Analytics CLS 0.71→0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders\n",
           "labels": [
             "PR #124",
             "Performance"
           ],
           "checklist": [],
           "createdAt": "2026-01-15T00:00:00.000Z",
-          "history": [],
-          "description": "Analytics CLS 0.71→0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders"
+          "history": []
         },
         {
           "id": "pr-125",
           "title": "Dynamic PR Status Indicator",
+          "description": "Live CI status for In Review cards via GitHub API, merged icon for changelog PRs\n",
           "labels": [
             "PR #125",
             "UX"
           ],
           "checklist": [],
           "createdAt": "2026-01-15T00:00:00.000Z",
-          "history": [],
-          "description": "Live CI status for In Review cards via GitHub API, merged icon for changelog PRs"
+          "history": []
         },
         {
           "id": "pr-126",
           "title": "Framer Motion Animations",
+          "description": "Stagger animations for grids, scroll reveals, tab transitions, mobile nav stagger. Respects prefers-reduced-motion.\n",
           "labels": [
             "PR #126",
             "UX"
@@ -2233,88 +2242,87 @@ export const board = {
           "checklist": [],
           "planFile": "docs/plans/11-framer-motion-animations.md",
           "createdAt": "2026-01-15T00:00:00.000Z",
-          "history": [],
-          "description": "Stagger animations for grids, scroll reveals, tab transitions, mobile nav stagger. Respects prefers-reduced-motion."
+          "history": []
         },
         {
           "id": "jan-14",
           "title": "Jan 14: Kanban & UX",
+          "description": "Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications\n",
           "labels": [
             "PR #97-108"
           ],
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications"
+          "history": []
         },
         {
           "id": "renovate-wontdo",
           "title": "Renovate Automation",
+          "description": "Decided against: overhead not justified for actively-maintained personal project. Manual npm update works fine.\n",
           "labels": [
             "Won't Do"
           ],
           "checklist": [],
           "planFile": "docs/plans/07-renovate-automation.md",
           "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "Decided against: overhead not justified for actively-maintained personal project. Manual npm update works fine."
+          "history": []
         },
         {
           "id": "jan-13",
           "title": "Jan 13: Analytics & Accessibility",
+          "description": "Analytics Dashboard, On-Call Coverage Explorer, Skip Navigation, Footer/Nav cleanup\n",
           "labels": [
             "PR #94",
             "PR #96"
           ],
           "checklist": [],
           "createdAt": "2026-01-13T00:00:00.000Z",
-          "history": [],
-          "description": "Analytics Dashboard, On-Call Coverage Explorer, Skip Navigation, Footer/Nav cleanup"
+          "history": []
         },
         {
           "id": "jan-12",
           "title": "Jan 12: Projects Page Launch",
+          "description": "SLO Calculator, Status Page Generator, registry pattern\n",
           "labels": [
             "PR #88-92"
           ],
           "checklist": [],
           "createdAt": "2026-01-12T00:00:00.000Z",
-          "history": [],
-          "description": "SLO Calculator, Status Page Generator, registry pattern"
+          "history": []
         },
         {
           "id": "jan-11",
           "title": "Jan 11: MDX Precompilation",
+          "description": "Blog LCP 5.6s → 3.1s (45% faster)\n",
           "labels": [
             "PR #84",
             "Performance"
           ],
           "checklist": [],
           "createdAt": "2026-01-11T00:00:00.000Z",
-          "history": [],
-          "description": "Blog LCP 5.6s → 3.1s (45% faster)"
+          "history": []
         },
         {
           "id": "jan-8",
           "title": "Jan 8: Blog Phase 4 & 5",
+          "description": "Comments, syntax highlighting, RSS, structured data\n",
           "labels": [
             "Feature"
           ],
           "checklist": [],
           "createdAt": "2026-01-08T00:00:00.000Z",
-          "history": [],
-          "description": "Comments, syntax highlighting, RSS, structured data"
+          "history": []
         },
         {
           "id": "jan-6-7",
           "title": "Jan 6-7: Node.js v24 + Perf",
+          "description": "55 → 98 Lighthouse, system fonts, Radix cleanup\n",
           "labels": [
             "Performance"
           ],
           "checklist": [],
           "createdAt": "2026-01-07T00:00:00.000Z",
-          "history": [],
-          "description": "55 → 98 Lighthouse, system fonts, Radix cleanup"
+          "history": []
         }
       ]
     }

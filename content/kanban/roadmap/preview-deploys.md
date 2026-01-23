@@ -36,9 +36,9 @@ history:
     timestamp: "2026-01-16T03:35:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.
+  
+  Preview URL: https://personal-website-adg.pages.dev
+  Branch pattern: <branch>.personal-website-adg.pages.dev
 ---
-
-Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.
-
-Preview URL: https://personal-website-adg.pages.dev
-Branch pattern: <branch>.personal-website-adg.pages.dev

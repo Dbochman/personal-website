@@ -37,10 +37,10 @@ history:
     timestamp: "2026-01-16T02:10:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.
+  
+  Codex Review of PR #130:
+  - High (fixed): Sentry lazy loading inconsistency - ErrorBoundary imported but Sentry.init deferred. Fixed: now initializes synchronously before render.
+  - Medium (fixed): Source maps publicly served exposing source code. Fixed: using hidden sourcemaps + delete after Sentry upload.
 ---
-
-Source maps for readable stack traces, React error boundaries, release tracking, and improved debugging context.
-
-Codex Review of PR #130:
-- High (fixed): Sentry lazy loading inconsistency - ErrorBoundary imported but Sentry.init deferred. Fixed: now initializes synchronously before render.
-- Medium (fixed): Source maps publicly served exposing source code. Fixed: using hidden sourcemaps + delete after Sentry upload.

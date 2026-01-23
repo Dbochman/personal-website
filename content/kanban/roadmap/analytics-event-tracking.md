@@ -36,11 +36,11 @@ history:
     timestamp: "2026-01-23T00:00:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions.
+  
+  Implemented in `src/lib/trackToolEvent.ts` with events firing in:
+  - SLO Calculator: tab_switch, calculate, period_change
+  - CLI Playground: command_run, tool_select, mode_switch, preset_select, share_copy
+  - On-Call Coverage: model_select
 ---
-
-Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions.
-
-Implemented in `src/lib/trackToolEvent.ts` with events firing in:
-- SLO Calculator: tab_switch, calculate, period_change
-- CLI Playground: command_run, tool_select, mode_switch, preset_select, share_copy
-- On-Call Coverage: model_select

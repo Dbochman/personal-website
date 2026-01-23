@@ -30,17 +30,22 @@ export const ChecklistItemSchema = z.object({
   completed: z.boolean().default(false),
 });
 
-// Card history entry schema
+// Card history entry schema (forward-compatible: string type, passthrough for unknown fields)
+// This allows future history types (title changes, checklist updates) without breaking older code
 export const CardChangeSchema = z.object({
-  type: z.enum(['column', 'title', 'description', 'labels']),
+  type: z.string(), // Not enum - allows future types
   timestamp: isoDateString,
   // For column changes
   columnId: z.string().optional(),
   columnTitle: z.string().optional(),
-  // For field changes
-  from: z.string().optional(),
-  to: z.string().optional(),
-});
+  // For field changes (supports string or array for multi-value changes)
+  from: z.union([z.string(), z.array(z.string())]).optional(),
+  to: z.union([z.string(), z.array(z.string())]).optional(),
+  // For checklist changes
+  action: z.string().optional(),
+  itemId: z.string().optional(),
+  itemText: z.string().optional(),
+}).passthrough(); // Allow unknown fields for forward compatibility
 
 // PR status enum
 export const PrStatusSchema = z.enum(['passing', 'failing', 'pending']);
@@ -58,12 +63,18 @@ export const ColumnColorSchema = z.enum([
 ]);
 
 // Card frontmatter schema (what goes in markdown YAML)
+// Field limits match worker/precompile for consistency
 export const KanbanCardFrontmatterSchema = z.object({
   id: z.string().min(1, 'Card id is required'),
-  title: z.string().min(1, 'Card title is required'),
+  title: z.string().min(1, 'Card title is required').max(100),
   column: z.string().min(1, 'Card column is required'),
-  summary: z.string().optional(),
-  labels: z.array(z.string()).default([]),
+  summary: z.string().max(200).optional(),
+  description: z.string().max(5000).optional(), // Now in frontmatter (safe from YAML boundary issues)
+  // Labels: max 50 chars each, max 20 labels, silently deduplicate
+  labels: z.array(z.string().max(50))
+    .max(20)
+    .default([])
+    .transform(labels => [...new Set(labels)]),
   checklist: z.array(ChecklistItemSchema).default([]),
   planFile: z.string().optional(),
   color: ColumnColorSchema.optional(),
@@ -72,7 +83,7 @@ export const KanbanCardFrontmatterSchema = z.object({
   updatedAt: isoDateString.optional(),
   // Archive-specific fields
   archivedAt: isoDateString.optional(),
-  archiveReason: z.string().optional(),
+  archiveReason: z.string().max(500).optional(),
   // History is stored but may be large
   history: z.array(CardChangeSchema).default([]),
 }).superRefine((data, ctx) => {
@@ -98,11 +109,20 @@ export const ColumnDefinitionSchema = z.object({
 
 // Board metadata schema (in _board.md frontmatter)
 export const KanbanBoardMetaSchema = z.object({
+  schemaVersion: z.number().int().min(1), // Required, no default - forces explicit migration
   id: z.string().min(1, 'Board id is required'),
   title: z.string().min(1, 'Board title is required'),
   createdAt: isoDateString,
   updatedAt: isoDateString,
   columns: z.array(ColumnDefinitionSchema).min(1, 'At least one column is required'),
+}).superRefine((data, ctx) => {
+  if (data.schemaVersion === undefined) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Missing schemaVersion - run migration to add schema version',
+      path: ['schemaVersion'],
+    });
+  }
 });
 
 // Types derived from schemas

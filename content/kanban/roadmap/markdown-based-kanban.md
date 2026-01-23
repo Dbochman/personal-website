@@ -47,14 +47,14 @@ history:
     timestamp: "2026-01-23T16:00:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Replace monolithic roadmap-board.json with individual markdown files per card. Adopt Backlog.md pattern or Astro Content Collections approach.
+  
+  Problem: 1665-line JSON file is error-prone for manual editing (trailing commas, bracket mismatches).
+  
+  Options evaluated:
+  - Backlog.md (ready-made, Claude Code compatible)
+  - Astro Content Collections pattern (gray-matter + Zod)
+  - YAML files
+  - TypeScript data files
 ---
-
-Replace monolithic roadmap-board.json with individual markdown files per card. Adopt Backlog.md pattern or Astro Content Collections approach.
-
-Problem: 1665-line JSON file is error-prone for manual editing (trailing commas, bracket mismatches).
-
-Options evaluated:
-- Backlog.md (ready-made, Claude Code compatible)
-- Astro Content Collections pattern (gray-matter + Zod)
-- YAML files
-- TypeScript data files

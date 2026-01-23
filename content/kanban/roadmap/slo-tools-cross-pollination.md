@@ -46,6 +46,6 @@ history:
     timestamp: "2026-01-16T23:30:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Connected SLO tools with shared presets and cross-linking. Unified sloPresets.ts, slider magnetism, flexible input ranges (0-99.999%), and URL param sync for SLO + incidents.
 ---
-
-Connected SLO tools with shared presets and cross-linking. Unified sloPresets.ts, slider magnetism, flexible input ranges (0-99.999%), and URL param sync for SLO + incidents.

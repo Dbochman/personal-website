@@ -40,12 +40,12 @@ history:
     timestamp: "2026-01-23T00:00:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Tag suspicious traffic with custom dimension instead of filtering. Enables analysis of bot patterns while keeping data.
+  
+  Implemented in `src/lib/analytics/clientTrafficClassifier.ts`:
+  - Known bot user agents (Googlebot, Bingbot, HeadlessChrome, etc.)
+  - CI/automation user agents (GitHub Actions runners, Playwright)
+  - Known probe paths (wp-admin, .env, xmlrpc.php, etc.)
+  - Sessions tagged on first pageview with GA4 custom dimension
 ---
-
-Tag suspicious traffic with custom dimension instead of filtering. Enables analysis of bot patterns while keeping data.
-
-Implemented in `src/lib/analytics/clientTrafficClassifier.ts`:
-- Known bot user agents (Googlebot, Bingbot, HeadlessChrome, etc.)
-- CI/automation user agents (GitHub Actions runners, Playwright)
-- Known probe paths (wp-admin, .env, xmlrpc.php, etc.)
-- Sessions tagged on first pageview with GA4 custom dimension

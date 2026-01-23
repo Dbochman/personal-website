@@ -52,6 +52,6 @@ history:
     timestamp: "2026-01-16T18:35:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Visualize completed work from kanban changelog and archive. Rich expandable cards with PR links, plan file content, and completion history.
 ---
-
-Visualize completed work from kanban changelog and archive. Rich expandable cards with PR links, plan file content, and completion history.

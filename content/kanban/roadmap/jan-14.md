@@ -5,6 +5,6 @@ column: changelog
 labels:
   - "PR #97-108"
 createdAt: "2026-01-14T00:00:00.000Z"
+description: |
+  Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications
 ---
-
-Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications

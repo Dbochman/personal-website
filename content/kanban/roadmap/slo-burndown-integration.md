@@ -53,6 +53,6 @@ history:
     timestamp: "2026-01-16T20:15:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Add 'SLO Burndown' tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input.
 ---
-
-Add 'SLO Burndown' tab to SLO Uptime Calculator. Reuse BurndownChart from Error Budget Burndown, generate simulated incidents from 'incidents per month' input.

@@ -48,6 +48,6 @@ history:
     timestamp: "2026-01-16T18:14:27.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Remove URL state persistence, keep just `?board=roadmap`. Add deep linking with `?card=id` to open specific cards on load.
 ---
-
-Remove URL state persistence, keep just `?board=roadmap`. Add deep linking with `?card=id` to open specific cards on load.

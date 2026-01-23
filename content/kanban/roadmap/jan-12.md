@@ -5,6 +5,6 @@ column: changelog
 labels:
   - "PR #88-92"
 createdAt: "2026-01-12T00:00:00.000Z"
+description: |
+  SLO Calculator, Status Page Generator, registry pattern
 ---
-
-SLO Calculator, Status Page Generator, registry pattern

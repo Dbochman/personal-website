@@ -23,6 +23,11 @@ export interface Env {
   GITHUB_CLIENT_ID: string;
   GITHUB_CLIENT_SECRET: string;
   SESSIONS: KVNamespace;
+  // Configuration env vars (from wrangler.toml [vars])
+  REPO_OWNER: string;
+  REPO_NAME: string;
+  WORKER_URL: string;
+  ALLOWED_ORIGINS: string;
 }
 
 interface Session {
@@ -31,15 +36,18 @@ interface Session {
   createdAt: number;
 }
 
-const REPO_OWNER = 'Dbochman';
-const REPO_NAME = 'personal-website';
 const SESSION_TTL = 60 * 60 * 24 * 7; // 7 days
-const WORKER_URL = 'https://api.dylanbochman.com';
-const ALLOWED_ORIGINS = [
-  'https://dylanbochman.com',
-  'http://localhost:8080',
-  'http://localhost:5173',
-];
+
+/**
+ * Parse and validate ALLOWED_ORIGINS from env var
+ * Rejects empty strings and origins that don't start with http
+ */
+function getAllowedOrigins(env: Env): string[] {
+  return env.ALLOWED_ORIGINS
+    .split(',')
+    .map(s => s.trim())
+    .filter(s => s.length > 0 && s.startsWith('http'));
+}
 
 // Board ID validation regex (prevents path traversal)
 const SAFE_ID = /^[a-z0-9][a-z0-9-]{0,48}[a-z0-9]?$/;
@@ -48,6 +56,10 @@ const SAFE_ID = /^[a-z0-9][a-z0-9-]{0,48}[a-z0-9]?$/;
 const MAX_COLUMNS = 10;
 const MAX_TITLE_LENGTH = 100;
 const MAX_DESCRIPTION_LENGTH = 5000;
+const MAX_SUMMARY_LENGTH = 200;
+const MAX_ARCHIVE_REASON_LENGTH = 500;
+const MAX_LABEL_LENGTH = 50;
+const MAX_LABELS_PER_CARD = 20;
 
 // Default columns for new boards
 const DEFAULT_COLUMNS = [
@@ -57,14 +69,15 @@ const DEFAULT_COLUMNS = [
   { id: 'done', title: 'Done' },
 ];
 
-function getCorsOrigin(request: Request): string {
+function getCorsOrigin(request: Request, env: Env): string {
+  const allowedOrigins = getAllowedOrigins(env);
   const origin = request.headers.get('Origin') || '';
-  return ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
 }
 
-function corsHeaders(request: Request) {
+function corsHeaders(request: Request, env: Env) {
   return {
-    'Access-Control-Allow-Origin': getCorsOrigin(request),
+    'Access-Control-Allow-Origin': getCorsOrigin(request, env),
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Credentials': 'true',
@@ -77,7 +90,7 @@ export default {
 
     // CORS preflight
     if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: corsHeaders(request) });
+      return new Response(null, { headers: corsHeaders(request, env) });
     }
 
     // OAuth routes
@@ -116,19 +129,20 @@ export default {
       return handleSave(request, env);
     }
 
-    return new Response('Not found', { status: 404, headers: corsHeaders(request) });
+    return new Response('Not found', { status: 404, headers: corsHeaders(request, env) });
   },
 };
 
 function handleLogin(request: Request, env: Env): Response {
+  const allowedOrigins = getAllowedOrigins(env);
   const url = new URL(request.url);
-  const returnTo = url.searchParams.get('return_to') || `${ALLOWED_ORIGINS[0]}/projects/kanban`;
+  const returnTo = url.searchParams.get('return_to') || `${allowedOrigins[0]}/projects/kanban`;
 
   // Validate return_to to prevent open redirect
   // Parse as URL and check origin exactly (not startsWith, which allows bypasses)
   try {
     const returnUrl = new URL(returnTo);
-    if (!ALLOWED_ORIGINS.includes(returnUrl.origin)) {
+    if (!allowedOrigins.includes(returnUrl.origin)) {
       return new Response('Invalid return_to', { status: 400 });
     }
   } catch {
@@ -138,7 +152,7 @@ function handleLogin(request: Request, env: Env): Response {
   const state = crypto.randomUUID();
   const authUrl = new URL('https://github.com/login/oauth/authorize');
   authUrl.searchParams.set('client_id', env.GITHUB_CLIENT_ID);
-  authUrl.searchParams.set('redirect_uri', `${WORKER_URL}/auth/callback`);
+  authUrl.searchParams.set('redirect_uri', `${env.WORKER_URL}/auth/callback`);
   authUrl.searchParams.set('scope', 'read:user');
   authUrl.searchParams.set('state', state);
 
@@ -153,6 +167,7 @@ function handleLogin(request: Request, env: Env): Response {
 }
 
 async function handleCallback(request: Request, env: Env): Promise<Response> {
+  const allowedOrigins = getAllowedOrigins(env);
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
   const state = url.searchParams.get('state');
@@ -160,7 +175,7 @@ async function handleCallback(request: Request, env: Env): Promise<Response> {
   // Parse state and return_to from cookie
   const cookies = parseCookies(request.headers.get('Cookie') || '');
   const [savedState, returnTo] = (cookies.oauth_state || '').split('|');
-  const redirectUrl = returnTo || `${ALLOWED_ORIGINS[0]}/projects/kanban`;
+  const redirectUrl = returnTo || `${allowedOrigins[0]}/projects/kanban`;
 
   if (state !== savedState) {
     return redirectWithError('State mismatch', redirectUrl);
@@ -196,7 +211,7 @@ async function handleCallback(request: Request, env: Env): Promise<Response> {
 
   // Check if user is a collaborator on the repo
   const collabResponse = await fetch(
-    `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/collaborators/${userData.login}`,
+    `https://api.github.com/repos/${env.REPO_OWNER}/${env.REPO_NAME}/collaborators/${userData.login}`,
     {
       headers: {
         Authorization: `Bearer ${env.GITHUB_PAT}`,
@@ -240,7 +255,7 @@ async function handleStatus(request: Request, env: Env): Promise<Response> {
       username: session?.githubUsername || null,
     }),
     {
-      headers: { ...corsHeaders(request), 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders(request, env), 'Content-Type': 'application/json' },
     }
   );
 }
@@ -253,7 +268,7 @@ async function handleLogout(request: Request, env: Env): Promise<Response> {
 
   return new Response(JSON.stringify({ success: true }), {
     headers: {
-      ...corsHeaders(request),
+      ...corsHeaders(request, env),
       'Content-Type': 'application/json',
       'Set-Cookie': 'session=; HttpOnly; Secure; SameSite=Lax; Max-Age=0; Path=/',
     },
@@ -267,11 +282,11 @@ async function handleLogout(request: Request, env: Env): Promise<Response> {
 async function handleListBoards(request: Request, env: Env): Promise<Response> {
   try {
     const boards = await discoverBoards(env);
-    return Response.json({ boards }, { headers: corsHeaders(request) });
+    return Response.json({ boards }, { headers: corsHeaders(request, env) });
   } catch (err) {
     console.error('Error listing boards:', err);
     // Fallback to empty list on error
-    return Response.json({ boards: [] }, { headers: corsHeaders(request) });
+    return Response.json({ boards: [] }, { headers: corsHeaders(request, env) });
   }
 }
 
@@ -322,6 +337,7 @@ function parseBoardMetaMarkdown(content: string): KanbanBoard | null {
   const frontmatter = frontmatterMatch[1];
 
   // Parse basic fields
+  const schemaVersionMatch = frontmatter.match(/^schemaVersion:\s*(\d+)$/m);
   const idMatch = frontmatter.match(/^id:\s*(.+)$/m);
   const titleMatch = frontmatter.match(/^title:\s*["']?(.+?)["']?\s*$/m);
   const createdAtMatch = frontmatter.match(/^createdAt:\s*["']?(.+?)["']?\s*$/m);
@@ -352,6 +368,7 @@ function parseBoardMetaMarkdown(content: string): KanbanBoard | null {
   }
 
   return {
+    schemaVersion: schemaVersionMatch ? parseInt(schemaVersionMatch[1], 10) : 1,
     id: idMatch[1].trim(),
     title: titleMatch[1].trim(),
     columns,
@@ -374,7 +391,7 @@ async function handleGetBoard(
   if (!SAFE_ID.test(boardId)) {
     return Response.json(
       { error: 'invalid_board_id' },
-      { status: 400, headers: corsHeaders(request) }
+      { status: 400, headers: corsHeaders(request, env) }
     );
   }
 
@@ -394,7 +411,7 @@ async function handleGetBoard(
           headCommitSha,
           precompiled: true,
         };
-        return Response.json(response, { headers: corsHeaders(request) });
+        return Response.json(response, { headers: corsHeaders(request, env) });
       }
     }
 
@@ -403,7 +420,7 @@ async function handleGetBoard(
     if (!boardMeta) {
       return Response.json(
         { error: 'board_not_found' },
-        { status: 404, headers: corsHeaders(request) }
+        { status: 404, headers: corsHeaders(request, env) }
       );
     }
 
@@ -411,7 +428,7 @@ async function handleGetBoard(
     if (!board) {
       return Response.json(
         { error: 'invalid_board_format' },
-        { status: 500, headers: corsHeaders(request) }
+        { status: 500, headers: corsHeaders(request, env) }
       );
     }
 
@@ -421,12 +438,12 @@ async function handleGetBoard(
       precompiled: false,
     };
 
-    return Response.json(response, { headers: corsHeaders(request) });
+    return Response.json(response, { headers: corsHeaders(request, env) });
   } catch (err) {
     console.error('Error getting board:', err);
     return Response.json(
       { error: 'internal_error', message: err instanceof Error ? err.message : 'Unknown error' },
-      { status: 500, headers: corsHeaders(request) }
+      { status: 500, headers: corsHeaders(request, env) }
     );
   }
 }
@@ -440,7 +457,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   if (!session) {
     return Response.json(
       { error: 'not_authenticated' } as CreateBoardResponse,
-      { status: 401, headers: corsHeaders(request) }
+      { status: 401, headers: corsHeaders(request, env) }
     );
   }
 
@@ -450,7 +467,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   } catch {
     return Response.json(
       { success: false, error: 'invalid_json' } as CreateBoardResponse,
-      { status: 400, headers: corsHeaders(request) }
+      { status: 400, headers: corsHeaders(request, env) }
     );
   }
 
@@ -458,7 +475,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   if (typeof payload.id !== 'string' || typeof payload.title !== 'string') {
     return Response.json(
       { success: false, error: 'invalid_payload', message: 'Board ID and title must be strings' } as CreateBoardResponse,
-      { status: 400, headers: corsHeaders(request) }
+      { status: 400, headers: corsHeaders(request, env) }
     );
   }
 
@@ -469,7 +486,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   if (!SAFE_ID.test(id)) {
     return Response.json(
       { success: false, error: 'invalid_board_id', message: 'Board ID must be lowercase alphanumeric with hyphens' } as CreateBoardResponse,
-      { status: 400, headers: corsHeaders(request) }
+      { status: 400, headers: corsHeaders(request, env) }
     );
   }
 
@@ -477,7 +494,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   if (!title || title.length > MAX_TITLE_LENGTH) {
     return Response.json(
       { success: false, error: 'invalid_title', message: `Title required and must be under ${MAX_TITLE_LENGTH} characters` } as CreateBoardResponse,
-      { status: 400, headers: corsHeaders(request) }
+      { status: 400, headers: corsHeaders(request, env) }
     );
   }
 
@@ -487,7 +504,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   if (columnValidation) {
     return Response.json(
       { success: false, error: 'invalid_columns', message: columnValidation } as CreateBoardResponse,
-      { status: 400, headers: corsHeaders(request) }
+      { status: 400, headers: corsHeaders(request, env) }
     );
   }
 
@@ -503,7 +520,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
       if (existing) {
         return Response.json(
           { success: false, error: 'board_exists', message: 'A board with this ID already exists' } as CreateBoardResponse,
-          { status: 409, headers: corsHeaders(request) }
+          { status: 409, headers: corsHeaders(request, env) }
         );
       }
 
@@ -512,6 +529,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
 
       // Create board structure
       const board: KanbanBoard = {
+        schemaVersion: 1,
         id,
         title,
         columns: columns.map((c) => ({ ...c, cards: [] })),
@@ -530,12 +548,18 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
         env
       );
 
-      // Trigger precompile
-      await triggerDispatch('precompile-content', env);
+      // Trigger precompile (non-blocking - board created even if dispatch fails)
+      let warning: string | undefined;
+      try {
+        await triggerDispatch('precompile-content', env);
+      } catch (err) {
+        console.error('Failed to trigger precompile:', err);
+        warning = 'Board created but precompile may be delayed.';
+      }
 
       return Response.json(
-        { success: true, boardId: id, newHeadSha: newSha } as CreateBoardResponse,
-        { status: 201, headers: corsHeaders(request) }
+        { success: true, boardId: id, newHeadSha: newSha, message: warning } as CreateBoardResponse,
+        { status: 201, headers: corsHeaders(request, env) }
       );
     } catch (err) {
       if (err instanceof GitHubApiError && err.status === 409) {
@@ -547,7 +571,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
         // Retries exhausted - return 409 to client
         return Response.json(
           { success: false, error: 'conflict', message: 'Too many concurrent modifications, please try again' } as CreateBoardResponse,
-          { status: 409, headers: corsHeaders(request) }
+          { status: 409, headers: corsHeaders(request, env) }
         );
       }
 
@@ -558,7 +582,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
           error: 'github_error',
           message: err instanceof Error ? err.message : 'Unknown error',
         } as CreateBoardResponse,
-        { status: 500, headers: corsHeaders(request) }
+        { status: 500, headers: corsHeaders(request, env) }
       );
     }
   }
@@ -566,7 +590,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   // Should not reach here, but return 409 as fallback
   return Response.json(
     { success: false, error: 'conflict', message: 'Too many concurrent modifications, please try again' } as CreateBoardResponse,
-    { status: 409, headers: corsHeaders(request) }
+    { status: 409, headers: corsHeaders(request, env) }
   );
 }
 
@@ -645,6 +669,19 @@ function validateBoard(board: KanbanBoard): string | null {
       if (card.description && card.description.length > MAX_DESCRIPTION_LENGTH) {
         return `Card description too long: ${card.id}`;
       }
+      if (card.summary && card.summary.length > MAX_SUMMARY_LENGTH) {
+        return `Card summary too long: ${card.id} (max ${MAX_SUMMARY_LENGTH} characters)`;
+      }
+      if (card.labels) {
+        if (card.labels.length > MAX_LABELS_PER_CARD) {
+          return `Too many labels on card ${card.id} (max ${MAX_LABELS_PER_CARD})`;
+        }
+        for (const label of card.labels) {
+          if (label.length > MAX_LABEL_LENGTH) {
+            return `Label too long on card ${card.id}: "${label.substring(0, 20)}..." (max ${MAX_LABEL_LENGTH} characters)`;
+          }
+        }
+      }
     }
   }
 
@@ -660,7 +697,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   if (!session) {
     return Response.json(
       { success: false, error: 'not_authenticated' } as SaveResponse,
-      { status: 401, headers: corsHeaders(request) }
+      { status: 401, headers: corsHeaders(request, env) }
     );
   }
 
@@ -670,7 +707,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   } catch {
     return Response.json(
       { success: false, error: 'invalid_json' } as SaveResponse,
-      { status: 400, headers: corsHeaders(request) }
+      { status: 400, headers: corsHeaders(request, env) }
     );
   }
 
@@ -680,7 +717,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   if (!SAFE_ID.test(boardId)) {
     return Response.json(
       { success: false, error: 'invalid_board_id' } as SaveResponse,
-      { status: 400, headers: corsHeaders(request) }
+      { status: 400, headers: corsHeaders(request, env) }
     );
   }
 
@@ -689,7 +726,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   if (!boardMeta) {
     return Response.json(
       { success: false, error: 'board_not_found' } as SaveResponse,
-      { status: 404, headers: corsHeaders(request) }
+      { status: 404, headers: corsHeaders(request, env) }
     );
   }
 
@@ -698,7 +735,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   if (boardValidation) {
     return Response.json(
       { success: false, error: 'invalid_board', message: boardValidation } as SaveResponse,
-      { status: 400, headers: corsHeaders(request) }
+      { status: 400, headers: corsHeaders(request, env) }
     );
   }
 
@@ -706,7 +743,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   if (board.id !== boardId) {
     return Response.json(
       { success: false, error: 'board_id_mismatch', message: 'Board ID in payload does not match URL' } as SaveResponse,
-      { status: 400, headers: corsHeaders(request) }
+      { status: 400, headers: corsHeaders(request, env) }
     );
   }
 
@@ -715,7 +752,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
     if (!SAFE_ID.test(cardId)) {
       return Response.json(
         { success: false, error: 'invalid_deleted_card_id', message: `Invalid card ID: ${cardId}` } as SaveResponse,
-        { status: 400, headers: corsHeaders(request) }
+        { status: 400, headers: corsHeaders(request, env) }
       );
     }
   }
@@ -726,7 +763,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
     if (currentSha !== headCommitSha) {
       return Response.json(
         { success: false, error: 'conflict', message: 'Board was modified externally. Please reload.' } as SaveResponse,
-        { status: 409, headers: corsHeaders(request) }
+        { status: 409, headers: corsHeaders(request, env) }
       );
     }
 
@@ -751,16 +788,23 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
     // Atomic commit with parent SHA check
     const newSha = await commitFilesAtomic(files, deletions, message, headCommitSha, env);
 
-    // Trigger precompile workflow
-    await triggerDispatch('precompile-content', env);
+    // Trigger precompile workflow (non-blocking - save succeeded even if dispatch fails)
+    let warning: string | undefined;
+    try {
+      await triggerDispatch('precompile-content', env);
+    } catch (err) {
+      console.error('Failed to trigger precompile:', err);
+      warning = 'Save succeeded but precompile may be delayed.';
+    }
 
     const response: SaveResponse = {
       success: true,
       newHeadSha: newSha,
+      message: warning,
     };
 
     return Response.json(response, {
-      headers: corsHeaders(request),
+      headers: corsHeaders(request, env),
     });
   } catch (err) {
     console.error('Save error:', err);
@@ -769,19 +813,19 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
       if (err.status === 409) {
         return Response.json(
           { success: false, error: 'conflict', message: 'Concurrent modification detected' } as SaveResponse,
-          { status: 409, headers: corsHeaders(request) }
+          { status: 409, headers: corsHeaders(request, env) }
         );
       }
 
       return Response.json(
         { success: false, error: 'github_error', message: err.message } as SaveResponse,
-        { status: err.status >= 500 ? 502 : err.status, headers: corsHeaders(request) }
+        { status: err.status >= 500 ? 502 : err.status, headers: corsHeaders(request, env) }
       );
     }
 
     return Response.json(
       { success: false, error: 'internal_error', message: err instanceof Error ? err.message : 'Unknown error' } as SaveResponse,
-      { status: 500, headers: corsHeaders(request) }
+      { status: 500, headers: corsHeaders(request, env) }
     );
   }
 }

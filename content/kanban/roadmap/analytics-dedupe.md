@@ -35,6 +35,6 @@ history:
     timestamp: "2026-01-16T01:35:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection.
 ---
-
-Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection.

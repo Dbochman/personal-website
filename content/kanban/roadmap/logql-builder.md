@@ -30,6 +30,6 @@ checklist:
     completed: false
 planFile: docs/plans/39-logql-builder.md
 createdAt: "2026-01-17T00:00:00.000Z"
+description: |
+  Visual query builder for LogQL and CloudWatch Insights. Language toggle, stream selectors, pipeline stages, and presets for common queries.
 ---
-
-Visual query builder for LogQL and CloudWatch Insights. Language toggle, stream selectors, pipeline stages, and presets for common queries.

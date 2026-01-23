@@ -30,6 +30,6 @@ checklist:
     completed: false
 planFile: docs/plans/44-k8s-resource-rightsizer.md
 createdAt: "2026-01-17T00:00:00.000Z"
+description: |
+  Recommend CPU/memory requests/limits from utilization percentiles. Goal slider for efficiency vs safety, YAML snippet output.
 ---
-
-Recommend CPU/memory requests/limits from utilization percentiles. Goal slider for efficiency vs safety, YAML snippet output.

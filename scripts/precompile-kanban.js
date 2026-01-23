@@ -54,24 +54,34 @@ const ChecklistItemSchema = z.object({
   completed: z.boolean().default(false),
 });
 
+// Forward-compatible schema: string type instead of enum, passthrough for unknown fields
+// This allows future history types (title changes, checklist updates) without breaking older precompile
 const CardChangeSchema = z.object({
-  type: z.enum(['column', 'title', 'description', 'labels']),
+  type: z.string(), // Not enum - allows future types
   timestamp: isoDateString,
   columnId: z.string().optional(),
   columnTitle: z.string().optional(),
-  from: z.string().optional(),
-  to: z.string().optional(),
-});
+  from: z.union([z.string(), z.array(z.string())]).optional(), // Array for multi-value changes
+  to: z.union([z.string(), z.array(z.string())]).optional(),
+  action: z.string().optional(), // For checklist: add, remove, toggle
+  itemId: z.string().optional(), // For checklist item changes
+  itemText: z.string().optional(), // For checklist item changes
+}).passthrough(); // Allow unknown fields for forward compatibility
 
 const PrStatusSchema = z.enum(['passing', 'failing', 'pending']);
 const ColumnColorSchema = z.enum(['default', 'yellow', 'orange', 'purple', 'blue', 'green', 'red', 'pink']);
 
 const KanbanCardFrontmatterSchema = z.object({
   id: z.string().min(1),
-  title: z.string().min(1),
+  title: z.string().min(1).max(100),
   column: z.string().min(1),
-  summary: z.string().optional(),
-  labels: z.array(z.string()).default([]),
+  summary: z.string().max(200).optional(),
+  description: z.string().max(5000).optional(), // Now in frontmatter (safe from YAML boundary issues)
+  // Labels: max 50 chars each, max 20 labels, silently deduplicate
+  labels: z.array(z.string().max(50))
+    .max(20)
+    .default([])
+    .transform(labels => [...new Set(labels)]),
   checklist: z.array(ChecklistItemSchema).default([]),
   planFile: z.string().optional(),
   color: ColumnColorSchema.optional(),
@@ -79,7 +89,7 @@ const KanbanCardFrontmatterSchema = z.object({
   createdAt: isoDateString,
   updatedAt: isoDateString.optional(),
   archivedAt: isoDateString.optional(),
-  archiveReason: z.string().optional(),
+  archiveReason: z.string().max(500).optional(),
   history: z.array(CardChangeSchema).default([]),
 }).superRefine((data, ctx) => {
   const checklistIds = data.checklist.map((item) => item.id);
@@ -101,11 +111,20 @@ const ColumnDefinitionSchema = z.object({
 });
 
 const KanbanBoardMetaSchema = z.object({
+  schemaVersion: z.number().int().min(1), // Required, no default - forces explicit migration
   id: z.string().min(1),
   title: z.string().min(1),
   createdAt: isoDateString,
   updatedAt: isoDateString,
   columns: z.array(ColumnDefinitionSchema).min(1),
+}).superRefine((data, ctx) => {
+  if (data.schemaVersion === undefined) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Missing schemaVersion - run migration to add schema version',
+      path: ['schemaVersion'],
+    });
+  }
 });
 
 // ============================================================================
@@ -185,10 +204,11 @@ async function processBoard(boardDir) {
       continue;
     }
 
-    // Add description from body
+    // Prefer description from frontmatter, fall back to body for backwards compatibility
+    const finalDescription = card.description || description.trim() || undefined;
     cards.push({
       ...card,
-      description: description.trim() || undefined,
+      description: finalDescription,
     });
 
     stats.cards++;
@@ -241,6 +261,7 @@ async function processBoard(boardDir) {
   });
 
   const result = {
+    schemaVersion: board.schemaVersion,
     id: board.id,
     title: board.title,
     columns,

@@ -5,11 +5,18 @@
 
 export interface Env {
   GITHUB_PAT: string;
+  REPO_OWNER: string;
+  REPO_NAME: string;
 }
 
-const REPO_OWNER = 'Dbochman';
-const REPO_NAME = 'personal-website';
 const GITHUB_API = 'https://api.github.com';
+
+/**
+ * Get the repo path for GitHub API calls
+ */
+function getRepoPath(env: Env): string {
+  return `/repos/${env.REPO_OWNER}/${env.REPO_NAME}`;
+}
 
 interface TreeItem {
   path: string;
@@ -51,7 +58,7 @@ async function githubFetch(
  */
 export async function getHeadSha(env: Env): Promise<string> {
   const response = await githubFetch(
-    `/repos/${REPO_OWNER}/${REPO_NAME}/git/ref/heads/main`,
+    `${getRepoPath(env)}/git/ref/heads/main`,
     env
   );
 
@@ -72,7 +79,7 @@ export async function getFileContent(
   env: Env
 ): Promise<{ content: string; sha: string } | null> {
   const response = await githubFetch(
-    `/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`,
+    `${getRepoPath(env)}/contents/${path}`,
     env
   );
 
@@ -105,7 +112,7 @@ export async function getDirectoryContents(
   env: Env
 ): Promise<Array<{ name: string; path: string; sha: string; type: string }>> {
   const response = await githubFetch(
-    `/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`,
+    `${getRepoPath(env)}/contents/${path}`,
     env
   );
 
@@ -133,7 +140,7 @@ export async function getDirectoryContents(
  */
 async function createBlob(content: string, env: Env): Promise<string> {
   const response = await githubFetch(
-    `/repos/${REPO_OWNER}/${REPO_NAME}/git/blobs`,
+    `${getRepoPath(env)}/git/blobs`,
     env,
     {
       method: 'POST',
@@ -162,7 +169,7 @@ async function createTree(
   env: Env
 ): Promise<string> {
   const response = await githubFetch(
-    `/repos/${REPO_OWNER}/${REPO_NAME}/git/trees`,
+    `${getRepoPath(env)}/git/trees`,
     env,
     {
       method: 'POST',
@@ -192,7 +199,7 @@ async function createCommit(
   env: Env
 ): Promise<string> {
   const response = await githubFetch(
-    `/repos/${REPO_OWNER}/${REPO_NAME}/git/commits`,
+    `${getRepoPath(env)}/git/commits`,
     env,
     {
       method: 'POST',
@@ -230,7 +237,7 @@ async function updateRef(newSha: string, expectedSha: string, env: Env): Promise
   }
 
   const response = await githubFetch(
-    `/repos/${REPO_OWNER}/${REPO_NAME}/git/refs/heads/main`,
+    `${getRepoPath(env)}/git/refs/heads/main`,
     env,
     {
       method: 'PATCH',
@@ -258,7 +265,7 @@ async function updateRef(newSha: string, expectedSha: string, env: Env): Promise
  */
 async function getCommitTree(commitSha: string, env: Env): Promise<string> {
   const response = await githubFetch(
-    `/repos/${REPO_OWNER}/${REPO_NAME}/git/commits/${commitSha}`,
+    `${getRepoPath(env)}/git/commits/${commitSha}`,
     env
   );
 
@@ -322,7 +329,7 @@ export async function commitFilesAtomic(
  */
 export async function triggerDispatch(eventType: string, env: Env): Promise<void> {
   const response = await githubFetch(
-    `/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`,
+    `${getRepoPath(env)}/dispatches`,
     env,
     {
       method: 'POST',

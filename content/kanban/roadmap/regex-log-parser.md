@@ -27,6 +27,6 @@ checklist:
     completed: false
 planFile: docs/plans/40-regex-log-parser.md
 createdAt: "2026-01-17T00:00:00.000Z"
+description: |
+  Build regex parsing rules interactively. Highlight fields, live matching preview, export to grok/Logstash/Fluent Bit/Vector formats.
 ---
-
-Build regex parsing rules interactively. Highlight fields, live matching preview, export to grok/Logstash/Fluent Bit/Vector formats.

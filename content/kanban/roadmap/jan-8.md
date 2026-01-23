@@ -5,6 +5,6 @@ column: changelog
 labels:
   - Feature
 createdAt: "2026-01-08T00:00:00.000Z"
+description: |
+  Comments, syntax highlighting, RSS, structured data
 ---
-
-Comments, syntax highlighting, RSS, structured data

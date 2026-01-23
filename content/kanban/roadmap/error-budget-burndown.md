@@ -47,6 +47,6 @@ history:
     timestamp: "2026-01-17T14:00:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.
 ---
-
-Visualize how quickly you're consuming error budget. Input SLO target + incident history to see burn rate and projected exhaustion date.
