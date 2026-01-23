@@ -32,6 +32,7 @@ checklist:
   - id: ksd-8
     text: "Add checklist change tracking to history"
     completed: false
+planFile: docs/plans/59-kanban-durability-improvements.md
 createdAt: '2026-01-23T19:08:16.405Z'
 history:
   - type: column
