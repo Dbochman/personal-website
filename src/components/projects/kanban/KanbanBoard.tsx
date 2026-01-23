@@ -109,6 +109,8 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
   }, [deletedCardIds, deletedCardStorageKey]);
 
   // Multi-tab sync for deletedCardIds
+  // When another tab deletes cards, sync both the deletion list AND remove cards from board
+  // This prevents the scenario where Tab B saves with cards in board + those same cards in deletedCardIds
   useEffect(() => {
     const handleStorageEvent = (e: StorageEvent) => {
       if (e.key === deletedCardStorageKey) {
@@ -118,6 +120,24 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
         } else {
           try {
             const newIds = JSON.parse(e.newValue) as string[];
+            // Find IDs that are new (not already in our deletedCardIds)
+            const currentIds = new Set(deletedCardIds);
+            const addedIds = newIds.filter(id => !currentIds.has(id));
+
+            // If there are newly deleted cards from another tab, remove them from our board
+            if (addedIds.length > 0) {
+              const addedIdSet = new Set(addedIds);
+              setBoard(prev => ({
+                ...prev,
+                columns: prev.columns.map(col => ({
+                  ...col,
+                  cards: col.cards.filter(card => !addedIdSet.has(card.id)),
+                })),
+              }));
+              // Mark as dirty since board changed
+              setIsDirty(true);
+            }
+
             setDeletedCardIds(newIds);
           } catch {
             // Ignore parse errors
@@ -127,7 +147,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
     };
     window.addEventListener('storage', handleStorageEvent);
     return () => window.removeEventListener('storage', handleStorageEvent);
-  }, [deletedCardStorageKey]);
+  }, [deletedCardStorageKey, deletedCardIds]);
 
   // Warn user before leaving page with unsaved changes
   useEffect(() => {

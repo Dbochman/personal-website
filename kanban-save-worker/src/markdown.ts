@@ -163,11 +163,36 @@ export function serializeCard(card: KanbanCard, columnId: string): string {
       if (entry.columnTitle) {
         lines.push(`    columnTitle: ${escapeYamlString(entry.columnTitle)}`);
       }
+      // Handle from/to which can be string or array
       if (entry.from !== undefined) {
-        lines.push(`    from: ${escapeYamlString(entry.from)}`);
+        if (Array.isArray(entry.from)) {
+          lines.push(`    from:`);
+          for (const item of entry.from) {
+            lines.push(`      - ${escapeYamlString(item)}`);
+          }
+        } else {
+          lines.push(`    from: ${escapeYamlString(entry.from)}`);
+        }
       }
       if (entry.to !== undefined) {
-        lines.push(`    to: ${escapeYamlString(entry.to)}`);
+        if (Array.isArray(entry.to)) {
+          lines.push(`    to:`);
+          for (const item of entry.to) {
+            lines.push(`      - ${escapeYamlString(item)}`);
+          }
+        } else {
+          lines.push(`    to: ${escapeYamlString(entry.to)}`);
+        }
+      }
+      // Checklist change fields
+      if (entry.action) {
+        lines.push(`    action: ${escapeYamlString(entry.action)}`);
+      }
+      if (entry.itemId) {
+        lines.push(`    itemId: ${escapeYamlString(entry.itemId)}`);
+      }
+      if (entry.itemText) {
+        lines.push(`    itemText: ${escapeYamlString(entry.itemText)}`);
       }
     }
   }

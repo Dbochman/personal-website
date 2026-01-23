@@ -3,15 +3,25 @@
  * Mirrors src/types/kanban.ts in the main app
  */
 
-export type CardChangeType = 'column' | 'title' | 'description' | 'labels';
+// Forward-compatible: string type allows future history types
+// Common types: 'column', 'title', 'description', 'labels', 'checklist'
+export type CardChangeType = string;
 
 export interface CardChange {
   type: CardChangeType;
   timestamp: string;
+  // For column changes
   columnId?: string;
   columnTitle?: string;
-  from?: string;
-  to?: string;
+  // For field changes (string or array for multi-value fields like labels)
+  from?: string | string[];
+  to?: string | string[];
+  // For checklist changes
+  action?: string; // 'add', 'remove', 'toggle'
+  itemId?: string;
+  itemText?: string;
+  // Allow any additional fields for forward compatibility
+  [key: string]: unknown;
 }
 
 export interface ChecklistItem {
