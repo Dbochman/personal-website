@@ -17,6 +17,14 @@ import matter from 'gray-matter';
 const DATA_DIR = './public/data';
 const CONTENT_DIR = './content/kanban';
 
+// Convert Date objects or date strings to ISO string format
+function toISOString(value) {
+  if (!value) return value;
+  if (value instanceof Date) return value.toISOString();
+  if (typeof value === 'string') return value;
+  return String(value);
+}
+
 // Parse command line arguments
 function parseArgs() {
   const args = process.argv.slice(2);
@@ -36,11 +44,19 @@ function parseArgs() {
 
 // Generate a URL-friendly slug from title
 function slugify(title) {
-  return title
+  const slug = title
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
     .slice(0, 50);
+
+  if (!slug) {
+    throw new Error(
+      `Cannot generate ID from title "${title}". Title must contain at least one alphanumeric character, or use --id to specify an explicit ID.`
+    );
+  }
+
+  return slug;
 }
 
 // Load board JSON
@@ -79,11 +95,17 @@ async function createCardMarkdown(boardId, card, columnId) {
   if (card.color) frontmatter.color = card.color;
   if (card.prStatus) frontmatter.prStatus = card.prStatus;
   if (card.summary) frontmatter.summary = card.summary;
-  if (card.archivedAt) frontmatter.archivedAt = card.archivedAt;
+  if (card.archivedAt) frontmatter.archivedAt = toISOString(card.archivedAt);
   if (card.archiveReason) frontmatter.archiveReason = card.archiveReason;
-  frontmatter.createdAt = card.createdAt || new Date().toISOString();
-  if (card.updatedAt) frontmatter.updatedAt = card.updatedAt;
-  if (card.history?.length) frontmatter.history = card.history;
+  // Ensure dates are always ISO strings (gray-matter may parse as Date objects)
+  frontmatter.createdAt = toISOString(card.createdAt) || new Date().toISOString();
+  if (card.updatedAt) frontmatter.updatedAt = toISOString(card.updatedAt);
+  if (card.history?.length) {
+    frontmatter.history = card.history.map((h) => ({
+      ...h,
+      timestamp: toISOString(h.timestamp),
+    }));
+  }
 
   const content = matter.stringify(card.description || '', frontmatter);
   const filePath = join(boardDir, `${card.id}.md`);
