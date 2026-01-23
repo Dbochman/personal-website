@@ -194,23 +194,51 @@ async function processBoard(boardDir) {
     stats.cards++;
   }
 
-  // Sort cards by createdAt for deterministic output
+  // Sort cards by createdAt for deterministic output (default for most columns)
   cards.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 
   console.log(`  ✓ Validated ${cards.length} cards`);
 
+  /**
+   * Get the completion date from a card's history (last move to changelog column)
+   * Falls back to createdAt if no history exists
+   */
+  function getCompletedAt(card) {
+    if (!card.history || card.history.length === 0) {
+      return card.createdAt;
+    }
+    // Find the last move to changelog column
+    const changelogMoves = card.history.filter(
+      (h) => h.type === 'column' && h.columnId === 'changelog'
+    );
+    if (changelogMoves.length > 0) {
+      return changelogMoves[changelogMoves.length - 1].timestamp;
+    }
+    // Fall back to last history entry or createdAt
+    return card.history[card.history.length - 1].timestamp || card.createdAt;
+  }
+
   // Build board structure matching KanbanBoard type
-  const columns = board.columns.map((colDef) => ({
-    id: colDef.id,
-    title: colDef.title,
-    description: colDef.description,
-    color: colDef.color,
-    cards: cards.filter((c) => c.column === colDef.id).map((c) => {
-      // Remove column field from card (it's implicit from the column)
-      const { column, ...cardWithoutColumn } = c;
-      return cardWithoutColumn;
-    }),
-  }));
+  const columns = board.columns.map((colDef) => {
+    let columnCards = cards.filter((c) => c.column === colDef.id);
+
+    // Sort changelog column by completion date (newest first) to match Change Log Explorer
+    if (colDef.id === 'changelog') {
+      columnCards.sort((a, b) => new Date(getCompletedAt(b)).getTime() - new Date(getCompletedAt(a)).getTime());
+    }
+
+    return {
+      id: colDef.id,
+      title: colDef.title,
+      description: colDef.description,
+      color: colDef.color,
+      cards: columnCards.map((c) => {
+        // Remove column field from card (it's implicit from the column)
+        const { column, ...cardWithoutColumn } = c;
+        return cardWithoutColumn;
+      }),
+    };
+  });
 
   const result = {
     id: board.id,
