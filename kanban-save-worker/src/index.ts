@@ -41,12 +41,19 @@ const SESSION_TTL = 60 * 60 * 24 * 7; // 7 days
 /**
  * Parse and validate ALLOWED_ORIGINS from env var
  * Rejects empty strings and origins that don't start with http
+ * Throws if no valid origins are configured
  */
 function getAllowedOrigins(env: Env): string[] {
-  return env.ALLOWED_ORIGINS
+  const origins = env.ALLOWED_ORIGINS
     .split(',')
     .map(s => s.trim())
     .filter(s => s.length > 0 && s.startsWith('http'));
+
+  if (origins.length === 0) {
+    throw new Error('ALLOWED_ORIGINS is empty or contains no valid origins');
+  }
+
+  return origins;
 }
 
 // Board ID validation regex (prevents path traversal)
