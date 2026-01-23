@@ -163,10 +163,9 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
           throw new Error('API unavailable');
         }
       } catch {
-        // Fallback to static JSON
-        const res = await fetch(`/data/${boardId}-board.json`);
-        if (!res.ok) throw new Error('Failed to fetch');
-        data = await res.json();
+        // Fallback to precompiled JS
+        const module = await import(`@/generated/kanban/${boardId}.js`);
+        data = module.board;
       }
 
       setBoard(data);
@@ -182,21 +181,22 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
     }
   }, [boardId]);
 
-  // Check for external changes (uses static JSON for polling)
+  // Check for external changes (uses commit SHA comparison)
   const checkForExternalChanges = useCallback(async () => {
-    // Don't check if we've already detected a change
-    if (externalChangeDetectedRef.current) return;
+    // Don't check if we've already detected a change or don't have a SHA to compare
+    if (externalChangeDetectedRef.current || !headCommitSha) return;
 
     try {
-      const res = await fetch(`/data/${boardId}-board.json`);
+      const res = await fetch(`${WORKER_URL}/board/${boardId}`, {
+        credentials: 'include',
+      });
       if (!res.ok) return;
 
       const data = await res.json();
-      const remoteUpdatedAt = data.updatedAt;
-      const localUpdatedAt = board.updatedAt;
+      const remoteSha = data.headCommitSha;
 
-      // If remote is newer than our local board, external change detected
-      if (remoteUpdatedAt && localUpdatedAt && new Date(remoteUpdatedAt) > new Date(localUpdatedAt)) {
+      // If remote SHA differs from our local SHA, external change detected
+      if (remoteSha && remoteSha !== headCommitSha) {
         setExternalChangeDetected(true);
 
         toast('Board was updated externally', {
@@ -215,7 +215,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
       // Silently fail - don't disrupt user
       console.debug('External change check failed');
     }
-  }, [boardId, board.updatedAt, isDirty, handleSoftReload]);
+  }, [boardId, headCommitSha, isDirty, handleSoftReload]);
 
   // Set up polling and visibility detection for external changes
   useEffect(() => {

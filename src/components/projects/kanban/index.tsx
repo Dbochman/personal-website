@@ -51,17 +51,15 @@ export default function Kanban() {
           return;
         }
       } catch {
-        // API unavailable, fall back to static JSON
-        console.debug('Worker API unavailable, falling back to static JSON');
+        // API unavailable, fall back to precompiled JS
+        console.debug('Worker API unavailable, falling back to precompiled JS');
       }
 
-      // Fallback: load from static JSON (no commit SHA - saves may not work)
+      // Fallback: load from precompiled JS (no commit SHA - saves may not work)
       try {
-        const res = await fetch(`/data/${boardId}-board.json`);
-        if (!res.ok) throw new Error(`Board not found: ${boardId}`);
-        const board = await res.json();
+        const module = await import(`@/generated/kanban/${boardId}.js`);
         setData({
-          board,
+          board: module.board,
           headCommitSha: null, // No SHA available from static file
         });
       } catch (err) {
