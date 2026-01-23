@@ -298,6 +298,68 @@ export const board = {
           "createdAt": "2026-01-17T00:00:00.000Z",
           "history": [],
           "description": "Build regex parsing rules interactively. Highlight fields, live matching preview, export to grok/Logstash/Fluent Bit/Vector formats."
+        },
+        {
+          "id": "kanban-system-durability-improvements",
+          "title": "Kanban System Durability Improvements",
+          "summary": "Address validation gaps and edge cases from architecture review (7.5/10 durability score)",
+          "labels": [
+            "Medium",
+            "Kanban",
+            "Technical Debt"
+          ],
+          "checklist": [
+            {
+              "id": "ksd-1",
+              "text": "Fix YAML boundary vulnerability (descriptions containing ---)",
+              "completed": false
+            },
+            {
+              "id": "ksd-2",
+              "text": "Add version: 1 field to _board.md schema for migration path",
+              "completed": false
+            },
+            {
+              "id": "ksd-3",
+              "text": "Extract REPO_OWNER, REPO_NAME, ALLOWED_ORIGINS to env vars",
+              "completed": false
+            },
+            {
+              "id": "ksd-4",
+              "text": "Add label validation (max 50 chars, max 20 labels, dedup)",
+              "completed": false
+            },
+            {
+              "id": "ksd-5",
+              "text": "Add length limits for summary (200) and archiveReason (500)",
+              "completed": false
+            },
+            {
+              "id": "ksd-6",
+              "text": "Track title changes in card history",
+              "completed": false
+            },
+            {
+              "id": "ksd-7",
+              "text": "Persist deletedCardIds in localStorage for crash recovery",
+              "completed": false
+            },
+            {
+              "id": "ksd-8",
+              "text": "Add checklist change tracking to history",
+              "completed": false
+            }
+          ],
+          "createdAt": "2026-01-23T19:08:16.405Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T19:08:16.405Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            }
+          ],
+          "description": "Address gaps identified in the Kanban System Health Report (2026-01-23).\n\n**Current Durability Score: 7.5/10**\n\n### Critical Issues\n- YAML boundary vulnerability: if description starts with `---`, parsing breaks\n- No schema versioning: format changes would break all boards\n\n### High Priority\n- Hardcoded repo/domain values break if repo moves\n- No validation on labels, summary, archiveReason fields\n- Title changes and checklist modifications not tracked in history\n\nSee architecture review for full details."
         }
       ]
     },
