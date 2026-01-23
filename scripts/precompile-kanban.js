@@ -186,6 +186,9 @@ async function processBoard(boardDir) {
     stats.cards++;
   }
 
+  // Sort cards by createdAt for deterministic output
+  cards.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+
   console.log(`  ✓ Validated ${cards.length} cards`);
 
   // Build board structure matching KanbanBoard type
