@@ -63,6 +63,9 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
   const [externalChangeDetected, setExternalChangeDetected] = useState(false);
   const externalChangeDetectedRef = useRef(false);
 
+  // Track the original column when drag starts (for history deduplication)
+  const dragStartColumnRef = useRef<string | null>(null);
+
   // Keep ref in sync with state (for use in callbacks without stale closures)
   useEffect(() => {
     externalChangeDetectedRef.current = externalChangeDetected;
@@ -349,6 +352,9 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
     const { active } = event;
     const card = findCard(active.id as string);
     setActiveCard(card);
+    // Track starting column for history deduplication
+    const startColumn = findColumnByCardId(active.id as string);
+    dragStartColumnRef.current = startColumn?.id || null;
   };
 
   const handleDragOver = (event: DragOverEvent) => {
@@ -370,23 +376,15 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
       const activeIndex = activeCards.findIndex((c) => c.id === activeId);
       const [movedCard] = activeCards.splice(activeIndex, 1);
 
-      // Track column movement
-      const now = new Date().toISOString();
-      const updatedCard = {
-        ...movedCard,
-        updatedAt: now,
-        history: [
-          ...(movedCard.history || []),
-          { type: 'column' as const, timestamp: now, columnId: overColumn.id, columnTitle: overColumn.title },
-        ],
-      };
+      // Don't add history during drag - only update position
+      // History will be added in handleDragEnd
 
       // If dropping on a column (not a card), add to end
       const overIndex = overColumn.cards.findIndex((c) => c.id === overId);
       if (overIndex === -1) {
-        overCards.push(updatedCard);
+        overCards.push(movedCard);
       } else {
-        overCards.splice(overIndex, 0, updatedCard);
+        overCards.splice(overIndex, 0, movedCard);
       }
 
       return {
@@ -406,17 +404,55 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+    const startColumnId = dragStartColumnRef.current;
     setActiveCard(null);
+    dragStartColumnRef.current = null; // Reset for next drag
 
     if (!over) return;
 
     const activeId = active.id as string;
     const overId = over.id as string;
 
-    if (activeId === overId) return;
-
     const activeColumn = findColumnByCardId(activeId);
     if (!activeColumn) return;
+
+    // Check if card moved to a different column (compared to where drag started)
+    const movedToNewColumn = startColumnId && startColumnId !== activeColumn.id;
+
+    if (movedToNewColumn) {
+      // Add history entry for the final column (only once, at drag end)
+      updateBoard((prev) => ({
+        ...prev,
+        columns: prev.columns.map((col) => {
+          if (col.id !== activeColumn.id) return col;
+
+          return {
+            ...col,
+            cards: col.cards.map((card) => {
+              if (card.id !== activeId) return card;
+
+              const now = new Date().toISOString();
+              // Deduplicate: don't add if last history entry is same column
+              const lastEntry = card.history?.[card.history.length - 1];
+              if (lastEntry?.type === 'column' && lastEntry?.columnId === activeColumn.id) {
+                return { ...card, updatedAt: now };
+              }
+
+              return {
+                ...card,
+                updatedAt: now,
+                history: [
+                  ...(card.history || []),
+                  { type: 'column' as const, timestamp: now, columnId: activeColumn.id, columnTitle: activeColumn.title },
+                ],
+              };
+            }),
+          };
+        }),
+      }));
+    }
+
+    if (activeId === overId) return;
 
     // Same column reordering
     const overCardInSameColumn = activeColumn.cards.find((c) => c.id === overId);
