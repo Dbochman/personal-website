@@ -41,6 +41,7 @@ interface KanbanCardProps {
 }
 
 export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: KanbanCardProps) {
+  // Disable sortable for drag overlay to prevent duplicate draggable registration
   const {
     attributes,
     listeners,
@@ -48,26 +49,29 @@ export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: Ka
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: card.id });
+  } = useSortable({ id: card.id, disabled: isDragOverlay });
 
   const isChangelog = columnId === 'changelog';
   const isInReview = columnId === 'in-review';
 
   // Only fetch dynamic status for cards in "In Review" column without hardcoded prStatus
-  const prNumber = isInReview && !card.prStatus ? getFirstPrNumber(card.labels) : null;
+  // Skip fetching for drag overlay to avoid duplicate requests
+  const prNumber = isInReview && !card.prStatus && !isDragOverlay ? getFirstPrNumber(card.labels) : null;
   const { status: dynamicStatus, loading: statusLoading } = usePrStatus(prNumber);
   const displayStatus = card.prStatus ?? dynamicStatus;
 
-  const style = {
+  const style = isDragOverlay ? undefined : {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
   const colorConfig = card.color ? CARD_COLORS[card.color] : null;
 
+  // Don't apply sortable props to drag overlay - it's just a visual clone
+  const sortableProps = isDragOverlay ? {} : { ref: setNodeRef, ...attributes, ...listeners };
+
   return (
     <Card
-      ref={setNodeRef}
       style={style}
       className={cn(
         'p-3 border shadow-xs cursor-grab active:cursor-grabbing touch-none group relative',
@@ -76,8 +80,7 @@ export function KanbanCard({ card, columnId, onEdit, isDragOverlay = false }: Ka
         isDragging && 'opacity-50',
         isDragOverlay && 'shadow-lg rotate-3'
       )}
-      {...attributes}
-      {...listeners}
+      {...sortableProps}
     >
       {/* Action buttons - top right */}
       <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex gap-1">
