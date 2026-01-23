@@ -8,29 +8,35 @@ labels:
   - Kanban
   - Technical Debt
 checklist:
-  - id: ksd-1
-    text: "Fix YAML boundary vulnerability (descriptions containing ---)"
+  - id: ksd-p0-1
+    text: "P0: Move description into YAML frontmatter (avoid --- boundary issue)"
     completed: false
-  - id: ksd-2
-    text: "Add version: 1 field to _board.md schema for migration path"
+  - id: ksd-p0-2
+    text: "P0: Add schema versioning with explicit detection (no default)"
     completed: false
-  - id: ksd-3
-    text: "Extract REPO_OWNER, REPO_NAME, ALLOWED_ORIGINS to env vars"
+  - id: ksd-p1-3
+    text: "P1: Validate ALLOWED_ORIGINS parsing (reject empty/invalid)"
     completed: false
-  - id: ksd-4
-    text: "Add label validation (max 50 chars, max 20 labels, dedup)"
+  - id: ksd-p1-4
+    text: "P1: Extract hardcoded values to env vars (wrangler.toml)"
     completed: false
-  - id: ksd-5
-    text: "Add length limits for summary (200) and archiveReason (500)"
+  - id: ksd-p1-5
+    text: "P1: Make history schema forward-compatible (.passthrough)"
     completed: false
-  - id: ksd-6
-    text: "Track title changes in card history"
+  - id: ksd-p2-6
+    text: "P2: Add field validation limits (labels, summary, archiveReason)"
     completed: false
-  - id: ksd-7
-    text: "Persist deletedCardIds in localStorage for crash recovery"
+  - id: ksd-p2-7
+    text: "P2: Add history compaction (max 100 entries)"
     completed: false
-  - id: ksd-8
-    text: "Add checklist change tracking to history"
+  - id: ksd-p2-8
+    text: "P2: Track title changes in history"
+    completed: false
+  - id: ksd-p3-9
+    text: "P3: Persist deletedCardIds with multi-tab sync"
+    completed: false
+  - id: ksd-p3-10
+    text: "P3: Return warning (not failure) on dispatch error"
     completed: false
 planFile: docs/plans/59-kanban-durability-improvements.md
 createdAt: '2026-01-23T19:08:16.405Z'
