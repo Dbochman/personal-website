@@ -606,6 +606,11 @@ function validateColumns(
     if (!colTitle || colTitle.length > MAX_TITLE_LENGTH) {
       return `Column title required and must be under ${MAX_TITLE_LENGTH} characters`;
     }
+
+    // Validate description length if provided
+    if (col.description && col.description.length > MAX_DESCRIPTION_LENGTH) {
+      return `Column description too long (max ${MAX_DESCRIPTION_LENGTH} characters)`;
+    }
   }
 
   return null;
