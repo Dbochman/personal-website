@@ -733,9 +733,9 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
     );
   }
 
-  let payload: SaveRequest;
+  let payload: unknown;
   try {
-    payload = (await request.json()) as SaveRequest;
+    payload = await request.json();
   } catch {
     return Response.json(
       { success: false, error: 'invalid_json' } as SaveResponse,
@@ -743,7 +743,16 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
     );
   }
 
-  const { board, boardId, headCommitSha, deletedCardIds } = payload;
+  // Guard payload before destructuring - JSON could be null, primitive, or array
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    return Response.json(
+      { success: false, error: 'invalid_payload', message: 'Request body must be a JSON object' } as SaveResponse,
+      { status: 400, headers: corsHeaders(request, env) }
+    );
+  }
+
+  // Safe to destructure now (payload is Record<string, unknown>)
+  const { board, boardId, headCommitSha, deletedCardIds } = payload as SaveRequest;
 
   // Shape validation - ensure basic structure before validateBoard
   if (typeof boardId !== 'string') {
