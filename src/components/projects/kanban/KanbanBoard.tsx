@@ -295,6 +295,10 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
         if (data.newHeadSha) {
           setHeadCommitSha(data.newHeadSha);
         }
+        // Update board's updatedAt to prevent false external-change detection
+        // The worker sets this timestamp when saving, so we mirror it locally
+        const now = new Date().toISOString();
+        setBoard((prev) => ({ ...prev, updatedAt: now }));
         toast.success('Board saved! Changes will appear after precompile completes.');
         // Clear success indicator after 3 seconds
         setTimeout(() => setSaveSuccess(false), 3000);

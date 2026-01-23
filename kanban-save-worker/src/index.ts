@@ -95,8 +95,14 @@ function handleLogin(request: Request, env: Env): Response {
   const returnTo = url.searchParams.get('return_to') || `${ALLOWED_ORIGINS[0]}/projects/kanban`;
 
   // Validate return_to to prevent open redirect
-  if (!ALLOWED_ORIGINS.some((origin) => returnTo.startsWith(origin))) {
-    return new Response('Invalid return_to', { status: 400 });
+  // Parse as URL and check origin exactly (not startsWith, which allows bypasses)
+  try {
+    const returnUrl = new URL(returnTo);
+    if (!ALLOWED_ORIGINS.includes(returnUrl.origin)) {
+      return new Response('Invalid return_to', { status: 400 });
+    }
+  } catch {
+    return new Response('Invalid return_to URL', { status: 400 });
   }
 
   const state = crypto.randomUUID();
