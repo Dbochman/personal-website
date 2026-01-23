@@ -14,10 +14,10 @@ checklist:
     text: Design folder structure and frontmatter schema
     completed: false
   - id: mbk-3
-    text: "Create migration script (JSON â markdown files)"
+    text: "Create migration script (JSON Ã¢ÂÂ markdown files)"
     completed: false
   - id: mbk-4
-    text: "Build aggregation utility (markdown files â typed data)"
+    text: "Build aggregation utility (markdown files Ã¢ÂÂ typed data)"
     completed: false
   - id: mbk-5
     text: Update useChangelogData hook to use new source

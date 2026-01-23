@@ -2,7 +2,7 @@
 id: roadmap
 title: Site Roadmap
 createdAt: "2026-01-16T14:45:27.429Z"
-updatedAt: "2026-01-23T15:34:48.289Z"
+updatedAt: "2026-01-23T15:59:45.003Z"
 columns:
   - id: ideas
     title: Ideas

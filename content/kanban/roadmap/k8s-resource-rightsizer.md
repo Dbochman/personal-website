@@ -14,7 +14,7 @@ checklist:
     text: Build utilization percentile inputs (P50/P95/P99/Max)
     completed: false
   - id: krr-3
-    text: "Create goal slider (efficiency â safety)"
+    text: "Create goal slider (efficiency Ã¢ÂÂ safety)"
     completed: false
   - id: krr-4
     text: Implement recommendation engine with reasoning
