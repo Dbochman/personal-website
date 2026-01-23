@@ -89,7 +89,7 @@ jobs:
           // Transfer sizes are ~70% smaller due to gzip compression
           // Note: Mermaid adds ~2MB for diagram support (flowchart, sequence, etc.)
           const BUDGETS = {
-            totalJS: 4500 * 1024,     // 4.5MB raw (current ~4.3MB with Mermaid)
+            totalJS: 4600 * 1024,     // 4.6MB raw (current ~4.5MB with Mermaid + kanban)
             totalCSS: 150 * 1024,     // 150KB raw (current ~140KB after Tailwind v4 upgrade)
             largestChunk: 500 * 1024, // 500KB raw (current ~480KB)
           };
