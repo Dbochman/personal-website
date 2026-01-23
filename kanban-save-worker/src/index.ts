@@ -645,7 +645,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   const session = await getSession(request, env);
   if (!session) {
     return Response.json(
-      { error: 'not_authenticated' },
+      { success: false, error: 'not_authenticated' } as SaveResponse,
       { status: 401, headers: corsHeaders(request) }
     );
   }
@@ -655,7 +655,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
     payload = (await request.json()) as SaveRequest;
   } catch {
     return Response.json(
-      { error: 'invalid_json' },
+      { success: false, error: 'invalid_json' } as SaveResponse,
       { status: 400, headers: corsHeaders(request) }
     );
   }
@@ -665,7 +665,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   // Validate board ID format
   if (!SAFE_ID.test(boardId)) {
     return Response.json(
-      { error: 'invalid_board_id' },
+      { success: false, error: 'invalid_board_id' } as SaveResponse,
       { status: 400, headers: corsHeaders(request) }
     );
   }
@@ -674,7 +674,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   const boardMeta = await getFileContent(`content/kanban/${boardId}/_board.md`, env);
   if (!boardMeta) {
     return Response.json(
-      { error: 'board_not_found' },
+      { success: false, error: 'board_not_found' } as SaveResponse,
       { status: 404, headers: corsHeaders(request) }
     );
   }
@@ -683,7 +683,15 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   const boardValidation = validateBoard(board);
   if (boardValidation) {
     return Response.json(
-      { error: 'invalid_board', message: boardValidation },
+      { success: false, error: 'invalid_board', message: boardValidation } as SaveResponse,
+      { status: 400, headers: corsHeaders(request) }
+    );
+  }
+
+  // Ensure board.id matches the boardId in the URL path
+  if (board.id !== boardId) {
+    return Response.json(
+      { success: false, error: 'board_id_mismatch', message: 'Board ID in payload does not match URL' } as SaveResponse,
       { status: 400, headers: corsHeaders(request) }
     );
   }
@@ -692,7 +700,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   for (const cardId of deletedCardIds || []) {
     if (!SAFE_ID.test(cardId)) {
       return Response.json(
-        { error: 'invalid_deleted_card_id', cardId },
+        { success: false, error: 'invalid_deleted_card_id', message: `Invalid card ID: ${cardId}` } as SaveResponse,
         { status: 400, headers: corsHeaders(request) }
       );
     }
@@ -703,7 +711,7 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
     const currentSha = await getHeadSha(env);
     if (currentSha !== headCommitSha) {
       return Response.json(
-        { error: 'conflict', message: 'Board was modified externally. Please reload.' } as SaveResponse,
+        { success: false, error: 'conflict', message: 'Board was modified externally. Please reload.' } as SaveResponse,
         { status: 409, headers: corsHeaders(request) }
       );
     }
@@ -746,19 +754,19 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
     if (err instanceof GitHubApiError) {
       if (err.status === 409) {
         return Response.json(
-          { error: 'conflict', message: 'Concurrent modification detected' } as SaveResponse,
+          { success: false, error: 'conflict', message: 'Concurrent modification detected' } as SaveResponse,
           { status: 409, headers: corsHeaders(request) }
         );
       }
 
       return Response.json(
-        { error: 'github_error', message: err.message } as SaveResponse,
+        { success: false, error: 'github_error', message: err.message } as SaveResponse,
         { status: err.status >= 500 ? 502 : err.status, headers: corsHeaders(request) }
       );
     }
 
     return Response.json(
-      { error: 'internal_error', message: err instanceof Error ? err.message : 'Unknown error' } as SaveResponse,
+      { success: false, error: 'internal_error', message: err instanceof Error ? err.message : 'Unknown error' } as SaveResponse,
       { status: 500, headers: corsHeaders(request) }
     );
   }

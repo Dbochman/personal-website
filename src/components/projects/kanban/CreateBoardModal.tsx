@@ -33,8 +33,8 @@ export function CreateBoardModal({ isOpen, onClose, onCreated }: CreateBoardModa
       const generated = title
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-|-$/g, '')
-        .slice(0, 50);
+        .slice(0, 50)
+        .replace(/^-|-$/g, ''); // Trim after slice to handle truncation mid-word
       setId(generated);
     }
   }, [title, idManuallyEdited]);

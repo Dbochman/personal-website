@@ -618,8 +618,13 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
   };
 
   const handleBoardCreated = (newBoardId: string) => {
-    // Navigate to the new board
-    setSearchParams({ board: newBoardId });
+    // Navigate to the new board, preserving other params but clearing card (different board)
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('board', newBoardId);
+      next.delete('card'); // Card IDs are board-specific
+      return next;
+    });
     toast.success('Board created! It may take a moment to fully load.');
   };
 

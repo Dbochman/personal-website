@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import {
   DropdownMenu,
@@ -36,33 +36,48 @@ export function BoardSelector({
   const [isLoading, setIsLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    async function loadBoards() {
-      try {
-        const res = await fetch(`${WORKER_URL}/boards`, {
-          credentials: 'include',
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setBoards(data.boards || []);
-        }
-      } catch (err) {
-        console.error('Failed to load boards:', err);
-      } finally {
-        setIsLoading(false);
+  const loadBoards = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${WORKER_URL}/boards`, {
+        credentials: 'include',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setBoards(data.boards || []);
       }
+    } catch (err) {
+      console.error('Failed to load boards:', err);
+    } finally {
+      setIsLoading(false);
     }
-
-    loadBoards();
   }, []);
 
+  // Load boards on mount and when dropdown opens
+  useEffect(() => {
+    loadBoards();
+  }, [loadBoards]);
+
+  function handleOpenChange(open: boolean) {
+    setIsOpen(open);
+    if (open) {
+      loadBoards(); // Refresh list when dropdown opens
+    }
+  }
+
   function handleBoardSelect(boardId: string) {
-    setSearchParams({ board: boardId });
+    // Preserve existing params but update board and clear card (different board)
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('board', boardId);
+      next.delete('card'); // Card IDs are board-specific
+      return next;
+    });
     setIsOpen(false);
   }
 
   return (
-    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+    <DropdownMenu open={isOpen} onOpenChange={handleOpenChange}>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="gap-2">
           <LayoutGrid className="h-4 w-4" />
