@@ -367,18 +367,25 @@ function parseBoardMetaMarkdown(content: string): KanbanBoard | null {
   const columns: KanbanColumn[] = [];
   const columnsMatch = frontmatter.match(/^columns:\n((?:  - [\s\S]*?(?=\n[a-z]|\n---|\n$))*)/m);
 
+  // Valid column colors
+  const validColors = new Set(['default', 'yellow', 'orange', 'purple', 'blue', 'green', 'red', 'pink']);
+
   if (columnsMatch) {
     const columnBlocks = columnsMatch[1].split(/\n  - /).filter(Boolean);
     for (const block of columnBlocks) {
       const colIdMatch = block.match(/id:\s*(.+)/);
       const colTitleMatch = block.match(/title:\s*["']?(.+?)["']?\s*$/m);
       const colDescMatch = block.match(/description:\s*["']?(.+?)["']?\s*$/m);
+      const colColorMatch = block.match(/color:\s*["']?(\w+)["']?\s*$/m);
 
       if (colIdMatch && colTitleMatch) {
+        const colorValue = colColorMatch ? colColorMatch[1].trim() : undefined;
         columns.push({
           id: colIdMatch[1].trim(),
           title: colTitleMatch[1].trim(),
           description: colDescMatch ? colDescMatch[1].trim() : undefined,
+          // Only include color if it's a valid ColumnColor value
+          color: colorValue && validColors.has(colorValue) ? colorValue as KanbanColumn['color'] : undefined,
           cards: [],
         });
       }
@@ -417,19 +424,26 @@ async function handleGetBoard(
     // Get current HEAD SHA
     const headCommitSha = await getHeadSha(env);
 
-    // Try precompiled JS first
+    // Try precompiled JS first (with fallback on parse failure)
     const boardFile = await getFileContent(`src/generated/kanban/${boardId}.js`, env);
     if (boardFile) {
-      // Parse the board data from the JS file
-      const match = boardFile.content.match(/export const board = (\{[\s\S]*\});/);
-      if (match) {
-        const board = JSON.parse(match[1]) as KanbanBoard;
-        const response: BoardResponse = {
-          board,
-          headCommitSha,
-          precompiled: true,
-        };
-        return Response.json(response, { headers: corsHeaders(request, env) });
+      try {
+        // Parse the board data from the JS file
+        const match = boardFile.content.match(/export const board = (\{[\s\S]*\});/);
+        if (match) {
+          const board = JSON.parse(match[1]) as KanbanBoard;
+          const response: BoardResponse = {
+            board,
+            headCommitSha,
+            precompiled: true,
+          };
+          return Response.json(response, { headers: corsHeaders(request, env) });
+        }
+        // No match - fall through to _board.md fallback
+        console.warn(`Precompiled file for ${boardId} exists but regex didn't match`);
+      } catch (parseErr) {
+        // Parse failed (truncated content, format change, etc.) - fall through to _board.md
+        console.warn(`Failed to parse precompiled board ${boardId}:`, parseErr);
       }
     }
 
@@ -730,6 +744,46 @@ async function handleSave(request: Request, env: Env): Promise<Response> {
   }
 
   const { board, boardId, headCommitSha, deletedCardIds } = payload;
+
+  // Shape validation - ensure basic structure before validateBoard
+  if (typeof boardId !== 'string') {
+    return Response.json(
+      { success: false, error: 'invalid_payload', message: 'boardId must be a string' } as SaveResponse,
+      { status: 400, headers: corsHeaders(request, env) }
+    );
+  }
+  if (typeof headCommitSha !== 'string') {
+    return Response.json(
+      { success: false, error: 'invalid_payload', message: 'headCommitSha must be a string' } as SaveResponse,
+      { status: 400, headers: corsHeaders(request, env) }
+    );
+  }
+  if (!board || typeof board !== 'object') {
+    return Response.json(
+      { success: false, error: 'invalid_payload', message: 'board must be an object' } as SaveResponse,
+      { status: 400, headers: corsHeaders(request, env) }
+    );
+  }
+  if (!Array.isArray(board.columns)) {
+    return Response.json(
+      { success: false, error: 'invalid_payload', message: 'board.columns must be an array' } as SaveResponse,
+      { status: 400, headers: corsHeaders(request, env) }
+    );
+  }
+  for (const col of board.columns) {
+    if (!col || typeof col !== 'object' || !Array.isArray(col.cards)) {
+      return Response.json(
+        { success: false, error: 'invalid_payload', message: 'Each column must have a cards array' } as SaveResponse,
+        { status: 400, headers: corsHeaders(request, env) }
+      );
+    }
+  }
+  if (deletedCardIds !== undefined && !Array.isArray(deletedCardIds)) {
+    return Response.json(
+      { success: false, error: 'invalid_payload', message: 'deletedCardIds must be an array' } as SaveResponse,
+      { status: 400, headers: corsHeaders(request, env) }
+    );
+  }
 
   // Validate board ID format
   if (!SAFE_ID.test(boardId)) {

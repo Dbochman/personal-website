@@ -29,17 +29,23 @@ interface PrResponse {
 // Module-level cache shared across all hook instances
 const cache = new Map<number, CacheEntry>();
 
-function getCachedStatus(prNumber: number): PrStatus | null {
+interface CacheResult {
+  hit: boolean;
+  status: PrStatus | null;
+}
+
+function getCachedStatus(prNumber: number): CacheResult {
   const entry = cache.get(prNumber);
-  if (!entry) return null;
+  if (!entry) return { hit: false, status: null };
 
   const isExpired = Date.now() - entry.timestamp > CACHE_TTL;
   if (isExpired) {
     cache.delete(prNumber);
-    return null;
+    return { hit: false, status: null };
   }
 
-  return entry.status;
+  // Cache hit - status may be null (meaning "no CI status available")
+  return { hit: true, status: entry.status };
 }
 
 function setCachedStatus(prNumber: number, status: PrStatus | null): void {
@@ -127,7 +133,8 @@ export interface UsePrStatusResult {
 export function usePrStatus(prNumber: number | null): UsePrStatusResult {
   const [status, setStatus] = useState<PrStatus | null>(() => {
     if (prNumber === null) return null;
-    return getCachedStatus(prNumber);
+    const cached = getCachedStatus(prNumber);
+    return cached.hit ? cached.status : null;
   });
   const [loading, setLoading] = useState(false);
 
@@ -138,10 +145,10 @@ export function usePrStatus(prNumber: number | null): UsePrStatusResult {
       return;
     }
 
-    // Check cache first
+    // Check cache first - null statuses are also cached to prevent repeated API calls
     const cached = getCachedStatus(prNumber);
-    if (cached) {
-      setStatus(cached);
+    if (cached.hit) {
+      setStatus(cached.status);
       setLoading(false);
       return;
     }
@@ -152,6 +159,7 @@ export function usePrStatus(prNumber: number | null): UsePrStatusResult {
 
     fetchPrStatus(prNumber).then((newStatus) => {
       if (!cancelled) {
+        // Cache the result even if null (means "no CI status available")
         setCachedStatus(prNumber, newStatus);
         setStatus(newStatus);
         setLoading(false);

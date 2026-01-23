@@ -49,6 +49,8 @@ interface KanbanBoardProps {
 export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadCommitSha }: KanbanBoardProps) {
   const [, setSearchParams] = useSearchParams();
   const [board, setBoard] = useState<BoardType>(initialBoard);
+  // Track the "baseline" board state for reset - updated after save/reload
+  const baselineBoardRef = useRef<BoardType>(initialBoard);
   // Track the commit SHA for conflict detection
   const [headCommitSha, setHeadCommitSha] = useState<string | null>(initialHeadCommitSha ?? null);
   // Track deleted card IDs for explicit deletion on save (persisted to localStorage)
@@ -241,6 +243,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
       }
 
       setBoard(data);
+      baselineBoardRef.current = data; // Update baseline after reload
       setHeadCommitSha(newSha);
       setDeletedCardIds([]);
       setIsDirty(false);
@@ -373,7 +376,11 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
         // Update board's updatedAt to prevent false external-change detection
         // The worker sets this timestamp when saving, so we mirror it locally
         const now = new Date().toISOString();
-        setBoard((prev) => ({ ...prev, updatedAt: now }));
+        setBoard((prev) => {
+          const updated = { ...prev, updatedAt: now };
+          baselineBoardRef.current = updated; // Update baseline after successful save
+          return updated;
+        });
         toast.success('Board saved! Changes will appear after precompile completes.');
         // Clear success indicator after 3 seconds
         setTimeout(() => setSaveSuccess(false), 3000);
@@ -664,7 +671,8 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
   };
 
   const handleReset = () => {
-    setBoard(initialBoard);
+    // Reset to the last loaded/saved state, not the original initialBoard prop
+    setBoard(baselineBoardRef.current);
     setDeletedCardIds([]);
     setIsDirty(false);
     setConflictDetected(false);
