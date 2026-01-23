@@ -22,16 +22,16 @@ checklist:
     completed: true
   - id: nbf-5
     text: "Frontend: BoardSelector component with dropdown"
-    completed: false
+    completed: true
   - id: nbf-6
     text: "Frontend: CreateBoardModal with title/ID inputs"
-    completed: false
+    completed: true
   - id: nbf-7
     text: "Frontend: Remove static VALID_BOARDS allowlist"
     completed: true
   - id: nbf-8
     text: "Frontend: Handle precompiled:false response (optimistic UI)"
-    completed: false
+    completed: true
 createdAt: "2026-01-22T00:00:00.000Z"
 updatedAt: "2026-01-23T00:00:00.000Z"
 history:

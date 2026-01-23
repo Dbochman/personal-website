@@ -344,12 +344,12 @@ export const board = {
             {
               "id": "nbf-5",
               "text": "Frontend: BoardSelector component with dropdown",
-              "completed": false
+              "completed": true
             },
             {
               "id": "nbf-6",
               "text": "Frontend: CreateBoardModal with title/ID inputs",
-              "completed": false
+              "completed": true
             },
             {
               "id": "nbf-7",
@@ -359,7 +359,7 @@ export const board = {
             {
               "id": "nbf-8",
               "text": "Frontend: Handle precompiled:false response (optimistic UI)",
-              "completed": false
+              "completed": true
             }
           ],
           "planFile": "~/.claude/plans/new-board-creation.md",
