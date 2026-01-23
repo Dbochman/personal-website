@@ -1829,7 +1829,7 @@ export const board = {
             {
               "id": "p2-6",
               "text": "Remove JSON files after validation",
-              "completed": false
+              "completed": true
             }
           ],
           "createdAt": "2026-01-23T00:00:00.000Z",
