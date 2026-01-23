@@ -1,7 +1,7 @@
 ---
 id: phase-2-markdown-only-saves
 title: "Phase 2: Markdown-Only Saves"
-column: ideas
+column: in-review
 labels:
   - Medium
   - Kanban
@@ -26,6 +26,16 @@ checklist:
     text: Remove JSON files after validation
     completed: false
 createdAt: "2026-01-23T00:00:00.000Z"
+updatedAt: "2026-01-23T15:26:08.058Z"
+history:
+  - type: column
+    timestamp: "2026-01-23T15:26:06.422Z"
+    columnId: changelog
+    columnTitle: Change Log
+  - type: column
+    timestamp: "2026-01-23T15:26:08.058Z"
+    columnId: in-review
+    columnTitle: In Review
 ---
 
 Eliminate dual maintenance by making markdown the single source of truth.

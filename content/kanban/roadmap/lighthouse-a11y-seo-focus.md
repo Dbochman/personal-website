@@ -1,7 +1,7 @@
 ---
 id: lighthouse-a11y-seo-focus
 title: "Lighthouse: A11y & SEO Focus"
-column: ideas
+column: in-review
 labels:
   - Small
   - Analytics
@@ -20,6 +20,16 @@ checklist:
     text: Add a11y score to analytics dashboard
     completed: false
 createdAt: "2026-01-19T00:00:00.000Z"
+updatedAt: "2026-01-23T15:26:01.504Z"
+history:
+  - type: column
+    timestamp: "2026-01-23T15:25:57.289Z"
+    columnId: changelog
+    columnTitle: Change Log
+  - type: column
+    timestamp: "2026-01-23T15:26:01.504Z"
+    columnId: in-review
+    columnTitle: In Review
 ---
 
 Lab Lighthouse provides unique value for accessibility audits and SEO checks that field CWV data can't capture. Reframe the workflow to focus on these strengths.
