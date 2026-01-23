@@ -2,19 +2,20 @@
 /**
  * Kanban CLI - Manage kanban cards from the command line
  *
+ * PHASE 2 NOTE: This CLI now writes only to markdown files.
+ * JSON files are no longer updated. Run "npm run precompile-kanban" after changes.
+ *
  * Usage:
  *   node scripts/kanban-cli.js add --board=roadmap --column=ideas --title="My Card"
  *   node scripts/kanban-cli.js move --board=roadmap --card=my-card --to=todo
- *   node scripts/kanban-cli.js sync --board=roadmap [--direction=json-to-md|md-to-json]
  *   node scripts/kanban-cli.js list --board=roadmap [--column=ideas]
  */
 
-import { readFile, writeFile, mkdir } from 'fs/promises';
+import { readFile, writeFile, mkdir, readdir } from 'fs/promises';
 import { existsSync } from 'fs';
-import { join } from 'path';
+import { join, basename } from 'path';
 import matter from 'gray-matter';
 
-const DATA_DIR = './public/data';
 const CONTENT_DIR = './content/kanban';
 
 // Convert Date objects or date strings to ISO string format
@@ -59,25 +60,67 @@ function slugify(title) {
   return slug;
 }
 
-// Load board JSON
-async function loadBoardJson(boardId) {
-  const path = join(DATA_DIR, `${boardId}-board.json`);
-  if (!existsSync(path)) {
+// Load board metadata from _board.md
+async function loadBoardMeta(boardId) {
+  const boardPath = join(CONTENT_DIR, boardId, '_board.md');
+  if (!existsSync(boardPath)) {
     throw new Error(`Board not found: ${boardId}`);
   }
-  const content = await readFile(path, 'utf-8');
-  return JSON.parse(content);
+  const content = await readFile(boardPath, 'utf-8');
+  const { data: meta } = matter(content);
+  return meta;
 }
 
-// Save board JSON
-async function saveBoardJson(boardId, board) {
-  const path = join(DATA_DIR, `${boardId}-board.json`);
-  board.updatedAt = new Date().toISOString();
-  await writeFile(path, JSON.stringify(board, null, 2) + '\n');
+// Load all cards from markdown files
+async function loadCards(boardId) {
+  const boardDir = join(CONTENT_DIR, boardId);
+  const files = await readdir(boardDir);
+  const cardFiles = files.filter((f) => f.endsWith('.md') && f !== '_board.md');
+
+  const cards = [];
+  for (const file of cardFiles) {
+    const content = await readFile(join(boardDir, file), 'utf-8');
+    const { data: frontmatter, content: description } = matter(content);
+    cards.push({
+      ...frontmatter,
+      description: description.trim() || undefined,
+    });
+  }
+  return cards;
 }
 
-// Create markdown file for card
-async function createCardMarkdown(boardId, card, columnId) {
+// Load full board structure from markdown
+async function loadBoard(boardId) {
+  const meta = await loadBoardMeta(boardId);
+  const cards = await loadCards(boardId);
+
+  // Group cards by column
+  const columns = meta.columns.map((col) => ({
+    ...col,
+    cards: cards.filter((c) => c.column === col.id),
+  }));
+
+  return {
+    ...meta,
+    columns,
+  };
+}
+
+// Update board metadata _board.md
+async function updateBoardMeta(boardId, meta) {
+  const boardPath = join(CONTENT_DIR, boardId, '_board.md');
+  const content = await readFile(boardPath, 'utf-8');
+  const { content: body } = matter(content);
+
+  // Update updatedAt
+  meta.updatedAt = new Date().toISOString();
+
+  const newContent = matter.stringify(body, meta);
+  await writeFile(boardPath, newContent);
+}
+
+// Create/update markdown file for card
+async function saveCardMarkdown(boardId, card, columnId) {
   const boardDir = join(CONTENT_DIR, boardId);
   if (!existsSync(boardDir)) {
     await mkdir(boardDir, { recursive: true });
@@ -89,17 +132,19 @@ async function createCardMarkdown(boardId, card, columnId) {
     column: columnId,
   };
 
+  if (card.summary) frontmatter.summary = card.summary;
   if (card.labels?.length) frontmatter.labels = card.labels;
   if (card.checklist?.length) frontmatter.checklist = card.checklist;
   if (card.planFile) frontmatter.planFile = card.planFile;
   if (card.color) frontmatter.color = card.color;
   if (card.prStatus) frontmatter.prStatus = card.prStatus;
-  if (card.summary) frontmatter.summary = card.summary;
   if (card.archivedAt) frontmatter.archivedAt = toISOString(card.archivedAt);
   if (card.archiveReason) frontmatter.archiveReason = card.archiveReason;
+
   // Ensure dates are always ISO strings (gray-matter may parse as Date objects)
   frontmatter.createdAt = toISOString(card.createdAt) || new Date().toISOString();
   if (card.updatedAt) frontmatter.updatedAt = toISOString(card.updatedAt);
+
   if (card.history?.length) {
     frontmatter.history = card.history.map((h) => ({
       ...h,
@@ -113,35 +158,6 @@ async function createCardMarkdown(boardId, card, columnId) {
   return filePath;
 }
 
-// Update markdown file column
-async function updateCardMarkdownColumn(boardId, cardId, newColumnId, columnTitle) {
-  const filePath = join(CONTENT_DIR, boardId, `${cardId}.md`);
-  if (!existsSync(filePath)) {
-    console.warn(`  Warning: Markdown file not found: ${filePath}`);
-    return null;
-  }
-
-  const content = await readFile(filePath, 'utf-8');
-  const { data: frontmatter, content: body } = matter(content);
-
-  // Update column
-  frontmatter.column = newColumnId;
-  frontmatter.updatedAt = new Date().toISOString();
-
-  // Add history entry
-  if (!frontmatter.history) frontmatter.history = [];
-  frontmatter.history.push({
-    type: 'column',
-    timestamp: frontmatter.updatedAt,
-    columnId: newColumnId,
-    columnTitle: columnTitle,
-  });
-
-  const newContent = matter.stringify(body, frontmatter);
-  await writeFile(filePath, newContent);
-  return filePath;
-}
-
 // === COMMANDS ===
 
 async function addCard(options) {
@@ -151,23 +167,22 @@ async function addCard(options) {
   if (!column) throw new Error('--column is required');
   if (!title) throw new Error('--title is required');
 
-  const boardData = await loadBoardJson(board);
-  const targetColumn = boardData.columns.find((c) => c.id === column);
+  const boardMeta = await loadBoardMeta(board);
+  const targetColumn = boardMeta.columns.find((c) => c.id === column);
 
   if (!targetColumn) {
-    const validColumns = boardData.columns.map((c) => c.id).join(', ');
+    const validColumns = boardMeta.columns.map((c) => c.id).join(', ');
     throw new Error(`Column "${column}" not found. Valid columns: ${validColumns}`);
   }
 
-  // Generate card
+  // Generate card ID
   const cardId = slugify(title);
   const now = new Date().toISOString();
 
   // Check for ID collision
-  for (const col of boardData.columns) {
-    if (col.cards.some((c) => c.id === cardId)) {
-      throw new Error(`Card with ID "${cardId}" already exists`);
-    }
+  const existingCards = await loadCards(board);
+  if (existingCards.some((c) => c.id === cardId)) {
+    throw new Error(`Card with ID "${cardId}" already exists`);
   }
 
   const card = {
@@ -175,23 +190,23 @@ async function addCard(options) {
     title,
     description: description || '',
     labels: labels ? labels.split(',').map((l) => l.trim()) : [],
-    createdAt: now.split('T')[0], // Date only for JSON
+    createdAt: now,
+    history: [
+      {
+        type: 'column',
+        timestamp: now,
+        columnId: column,
+        columnTitle: targetColumn.title,
+      },
+    ],
   };
 
-  // Add to JSON
-  targetColumn.cards.push(card);
-  await saveBoardJson(board, boardData);
-  console.log(`✓ Added to JSON: ${board}-board.json`);
+  // Create markdown file only (no JSON)
+  const mdPath = await saveCardMarkdown(board, card, column);
+  console.log(`✓ Created: ${mdPath}`);
 
-  // Create markdown (with full ISO date)
-  card.createdAt = now;
-  const mdPath = await createCardMarkdown(board, card, column);
-  console.log(`✓ Created markdown: ${mdPath}`);
-
-  console.log(`\n✅ Card "${title}" added to ${column} column`);
+  console.log(`\n✅ Card "${title}" added to ${targetColumn.title}`);
   console.log(`   ID: ${cardId}`);
-
-  // Remind to precompile
   console.log(`\n💡 Run "npm run precompile-kanban" to update precompiled data`);
 }
 
@@ -202,44 +217,33 @@ async function moveCard(options) {
   if (!cardId) throw new Error('--card is required');
   if (!targetColumnId) throw new Error('--to is required');
 
-  const boardData = await loadBoardJson(board);
+  const boardMeta = await loadBoardMeta(board);
+  const cards = await loadCards(board);
 
-  // Find card and source column
-  let sourceColumn = null;
-  let card = null;
-  let cardIndex = -1;
-
-  for (const col of boardData.columns) {
-    const idx = col.cards.findIndex((c) => c.id === cardId);
-    if (idx !== -1) {
-      sourceColumn = col;
-      card = col.cards[idx];
-      cardIndex = idx;
-      break;
-    }
-  }
-
+  // Find card
+  const card = cards.find((c) => c.id === cardId);
   if (!card) {
     throw new Error(`Card "${cardId}" not found in board "${board}"`);
   }
 
   // Find target column
-  const targetColumn = boardData.columns.find((c) => c.id === targetColumnId);
+  const targetColumn = boardMeta.columns.find((c) => c.id === targetColumnId);
   if (!targetColumn) {
-    const validColumns = boardData.columns.map((c) => c.id).join(', ');
+    const validColumns = boardMeta.columns.map((c) => c.id).join(', ');
     throw new Error(`Column "${targetColumnId}" not found. Valid columns: ${validColumns}`);
   }
 
-  if (sourceColumn.id === targetColumnId) {
+  const sourceColumnId = card.column;
+  if (sourceColumnId === targetColumnId) {
     console.log(`Card is already in "${targetColumnId}" column`);
     return;
   }
 
-  // Move in JSON
+  // Update card
   const now = new Date().toISOString();
-  sourceColumn.cards.splice(cardIndex, 1);
+  card.column = targetColumnId;
+  card.updatedAt = now;
 
-  // Add history entry
   if (!card.history) card.history = [];
   card.history.push({
     type: 'column',
@@ -247,17 +251,10 @@ async function moveCard(options) {
     columnId: targetColumnId,
     columnTitle: targetColumn.title,
   });
-  card.updatedAt = now;
 
-  targetColumn.cards.push(card);
-  await saveBoardJson(board, boardData);
-  console.log(`✓ Moved in JSON: ${sourceColumn.id} → ${targetColumnId}`);
-
-  // Update markdown
-  const mdPath = await updateCardMarkdownColumn(board, cardId, targetColumnId, targetColumn.title);
-  if (mdPath) {
-    console.log(`✓ Updated markdown: ${mdPath}`);
-  }
+  // Save updated markdown
+  const mdPath = await saveCardMarkdown(board, card, targetColumnId);
+  console.log(`✓ Updated: ${mdPath}`);
 
   console.log(`\n✅ Card "${card.title}" moved to ${targetColumn.title}`);
   console.log(`\n💡 Run "npm run precompile-kanban" to update precompiled data`);
@@ -268,7 +265,7 @@ async function listCards(options) {
 
   if (!board) throw new Error('--board is required');
 
-  const boardData = await loadBoardJson(board);
+  const boardData = await loadBoard(board);
 
   console.log(`\n📋 ${boardData.title || board}\n`);
 
@@ -284,65 +281,6 @@ async function listCards(options) {
     }
     console.log('');
   }
-}
-
-async function syncBoard(options) {
-  const { board, direction = 'json-to-md' } = options;
-
-  if (!board) throw new Error('--board is required');
-
-  if (direction === 'json-to-md') {
-    console.log(`🔄 Syncing JSON → Markdown for ${board}...`);
-
-    const boardData = await loadBoardJson(board);
-    let created = 0;
-    let updated = 0;
-
-    for (const col of boardData.columns) {
-      for (const card of col.cards) {
-        const mdPath = join(CONTENT_DIR, board, `${card.id}.md`);
-
-        if (existsSync(mdPath)) {
-          // Update existing - compare all fields including description body
-          const content = await readFile(mdPath, 'utf-8');
-          const { data: frontmatter, content: mdBody } = matter(content);
-
-          // Compare all relevant fields - simpler to just regenerate if any differ
-          const needsUpdate =
-            frontmatter.column !== col.id ||
-            frontmatter.title !== card.title ||
-            (mdBody.trim() || undefined) !== (card.description || undefined) ||
-            JSON.stringify(frontmatter.labels || []) !== JSON.stringify(card.labels || []) ||
-            JSON.stringify(frontmatter.checklist || []) !== JSON.stringify(card.checklist || []) ||
-            JSON.stringify(frontmatter.history || []) !== JSON.stringify(card.history || []) ||
-            frontmatter.summary !== card.summary ||
-            frontmatter.planFile !== card.planFile ||
-            frontmatter.prStatus !== card.prStatus ||
-            frontmatter.color !== card.color ||
-            frontmatter.archivedAt !== card.archivedAt ||
-            frontmatter.archiveReason !== card.archiveReason;
-
-          if (needsUpdate) {
-            await createCardMarkdown(board, card, col.id);
-            updated++;
-          }
-        } else {
-          // Create new
-          await createCardMarkdown(board, card, col.id);
-          created++;
-        }
-      }
-    }
-
-    console.log(`✅ Sync complete: ${created} created, ${updated} updated`);
-  } else if (direction === 'md-to-json') {
-    console.log(`🔄 Syncing Markdown → JSON for ${board}...`);
-    console.log(`   (Not yet implemented - run migration script instead)`);
-  } else {
-    throw new Error(`Invalid direction: ${direction}. Use "json-to-md" or "md-to-json"`);
-  }
-
-  console.log(`\n💡 Run "npm run precompile-kanban" to update precompiled data`);
 }
 
 // === MAIN ===
@@ -361,19 +299,15 @@ async function main() {
       case 'list':
         await listCards(options);
         break;
-      case 'sync':
-        await syncBoard(options);
-        break;
       case 'help':
       case undefined:
         console.log(`
-Kanban CLI - Manage kanban cards
+Kanban CLI - Manage kanban cards (markdown-only mode)
 
 Commands:
   add     Add a new card
   move    Move a card between columns
   list    List cards in a board
-  sync    Sync JSON and Markdown files
 
 Examples:
   node scripts/kanban-cli.js add --board=roadmap --column=ideas --title="My Feature"
@@ -381,7 +315,8 @@ Examples:
   node scripts/kanban-cli.js move --board=roadmap --card=my-card --to=in-progress
   node scripts/kanban-cli.js list --board=roadmap
   node scripts/kanban-cli.js list --board=roadmap --column=ideas
-  node scripts/kanban-cli.js sync --board=roadmap
+
+Note: After making changes, run "npm run precompile-kanban" to update precompiled data.
         `);
         break;
       default:
