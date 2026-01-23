@@ -1,7 +1,7 @@
 ---
 id: phase-2-markdown-only-saves
 title: "Phase 2: Markdown-Only Saves"
-column: in-review
+column: changelog
 labels:
   - Medium
   - Kanban
@@ -9,97 +9,41 @@ labels:
 checklist:
   - id: p2-1
     text: Update save workflow to write .md files instead of JSON
-    completed: false
+    completed: true
   - id: p2-2
     text: Generate card IDs from title slug (like CLI does)
-    completed: false
+    completed: true
   - id: p2-3
     text: Handle card renames (rename .md file)
-    completed: false
+    completed: true
   - id: p2-4
     text: Handle card deletion (delete .md file)
-    completed: false
+    completed: true
   - id: p2-5
     text: Trigger precompile after save (GitHub Action or webhook)
-    completed: false
+    completed: true
   - id: p2-6
     text: Remove JSON files after validation
     completed: false
 createdAt: "2026-01-23T00:00:00.000Z"
-updatedAt: "2026-01-23T15:34:40.506Z"
+updatedAt: "2026-01-23T16:00:00.000Z"
 history:
   - type: column
-    timestamp: "2026-01-23T15:34:34.969Z"
-    columnId: changelog
-    columnTitle: Change Log
+    timestamp: "2026-01-23T00:00:00.000Z"
+    columnId: ideas
+    columnTitle: Ideas
   - type: column
-    timestamp: "2026-01-23T15:34:35.036Z"
-    columnId: archived
-    columnTitle: Archived
-  - type: column
-    timestamp: "2026-01-23T15:34:35.311Z"
-    columnId: changelog
-    columnTitle: Change Log
-  - type: column
-    timestamp: "2026-01-23T15:34:40.135Z"
-    columnId: in-review
-    columnTitle: In Review
-  - type: column
-    timestamp: "2026-01-23T15:34:40.324Z"
-    columnId: in-progress
-    columnTitle: In Progress
-  - type: column
-    timestamp: "2026-01-23T15:34:40.341Z"
-    columnId: in-review
-    columnTitle: In Review
-  - type: column
-    timestamp: "2026-01-23T15:34:40.356Z"
-    columnId: in-progress
-    columnTitle: In Progress
-  - type: column
-    timestamp: "2026-01-23T15:34:40.366Z"
-    columnId: in-review
-    columnTitle: In Review
-  - type: column
-    timestamp: "2026-01-23T15:34:40.384Z"
-    columnId: in-progress
-    columnTitle: In Progress
-  - type: column
-    timestamp: "2026-01-23T15:34:40.396Z"
-    columnId: in-review
-    columnTitle: In Review
-  - type: column
-    timestamp: "2026-01-23T15:34:40.407Z"
-    columnId: in-progress
-    columnTitle: In Progress
-  - type: column
-    timestamp: "2026-01-23T15:34:40.423Z"
-    columnId: in-review
-    columnTitle: In Review
-  - type: column
-    timestamp: "2026-01-23T15:34:40.446Z"
-    columnId: in-progress
-    columnTitle: In Progress
-  - type: column
-    timestamp: "2026-01-23T15:34:40.458Z"
-    columnId: in-review
-    columnTitle: In Review
-  - type: column
-    timestamp: "2026-01-23T15:34:40.469Z"
-    columnId: in-progress
-    columnTitle: In Progress
-  - type: column
-    timestamp: "2026-01-23T15:34:40.479Z"
-    columnId: in-review
-    columnTitle: In Review
-  - type: column
-    timestamp: "2026-01-23T15:34:40.492Z"
+    timestamp: "2026-01-23T10:00:00.000Z"
     columnId: in-progress
     columnTitle: In Progress
   - type: column
     timestamp: "2026-01-23T15:34:40.506Z"
     columnId: in-review
     columnTitle: In Review
+  - type: column
+    timestamp: "2026-01-23T16:00:00.000Z"
+    columnId: changelog
+    columnTitle: Change Log
 ---
 
 Eliminate dual maintenance by making markdown the single source of truth.
