@@ -1,7 +1,7 @@
 ---
 id: phase-2-markdown-only-saves
 title: "Phase 2: Markdown-Only Saves"
-column: ideas
+column: in-review
 labels:
   - Medium
   - Kanban
@@ -26,6 +26,80 @@ checklist:
     text: Remove JSON files after validation
     completed: false
 createdAt: "2026-01-23T00:00:00.000Z"
+updatedAt: "2026-01-23T15:34:40.506Z"
+history:
+  - type: column
+    timestamp: "2026-01-23T15:34:34.969Z"
+    columnId: changelog
+    columnTitle: Change Log
+  - type: column
+    timestamp: "2026-01-23T15:34:35.036Z"
+    columnId: archived
+    columnTitle: Archived
+  - type: column
+    timestamp: "2026-01-23T15:34:35.311Z"
+    columnId: changelog
+    columnTitle: Change Log
+  - type: column
+    timestamp: "2026-01-23T15:34:40.135Z"
+    columnId: in-review
+    columnTitle: In Review
+  - type: column
+    timestamp: "2026-01-23T15:34:40.324Z"
+    columnId: in-progress
+    columnTitle: In Progress
+  - type: column
+    timestamp: "2026-01-23T15:34:40.341Z"
+    columnId: in-review
+    columnTitle: In Review
+  - type: column
+    timestamp: "2026-01-23T15:34:40.356Z"
+    columnId: in-progress
+    columnTitle: In Progress
+  - type: column
+    timestamp: "2026-01-23T15:34:40.366Z"
+    columnId: in-review
+    columnTitle: In Review
+  - type: column
+    timestamp: "2026-01-23T15:34:40.384Z"
+    columnId: in-progress
+    columnTitle: In Progress
+  - type: column
+    timestamp: "2026-01-23T15:34:40.396Z"
+    columnId: in-review
+    columnTitle: In Review
+  - type: column
+    timestamp: "2026-01-23T15:34:40.407Z"
+    columnId: in-progress
+    columnTitle: In Progress
+  - type: column
+    timestamp: "2026-01-23T15:34:40.423Z"
+    columnId: in-review
+    columnTitle: In Review
+  - type: column
+    timestamp: "2026-01-23T15:34:40.446Z"
+    columnId: in-progress
+    columnTitle: In Progress
+  - type: column
+    timestamp: "2026-01-23T15:34:40.458Z"
+    columnId: in-review
+    columnTitle: In Review
+  - type: column
+    timestamp: "2026-01-23T15:34:40.469Z"
+    columnId: in-progress
+    columnTitle: In Progress
+  - type: column
+    timestamp: "2026-01-23T15:34:40.479Z"
+    columnId: in-review
+    columnTitle: In Review
+  - type: column
+    timestamp: "2026-01-23T15:34:40.492Z"
+    columnId: in-progress
+    columnTitle: In Progress
+  - type: column
+    timestamp: "2026-01-23T15:34:40.506Z"
+    columnId: in-review
+    columnTitle: In Review
 ---
 
 Eliminate dual maintenance by making markdown the single source of truth.
