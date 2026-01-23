@@ -1,81 +1,72 @@
-# Plan: Tailwind CSS v4 Upgrade
+# Spec: Tailwind CSS v4 Upgrade
 
-## Executive Summary
+## Overview
 
-**Current Version:** Tailwind CSS v3.4.11
-**Target Version:** Tailwind CSS v4.x
-**Estimated Effort:** Medium-Large (~2-3 hours)
-**Risk Level:** Medium - significant changes to color system and animation plugin
+Upgrade Tailwind CSS from v3.4.11 to v4.x with minimal visual regressions. The site targets modern browsers; Firefox 128+ is acceptable (owner confirmed). The upgrade improves build performance, simplifies config, and enables CSS-first theming.
 
-### Key Changes Required
+## Goals
 
-- Replace `tailwindcss-animate` with `tw-animate-css`
-- Migrate HSL color variables to new format
-- Convert `tailwind.config.ts` to CSS-based `@theme` configuration
-- Switch to Vite plugin (recommended) or update PostCSS config
-- Update import syntax in `src/index.css`
+- Upgrade to Tailwind v4.x and remove deprecated tooling.
+- Migrate configuration to CSS (`@theme`, `@utility`).
+- Preserve visual parity across all pages and key components.
+- Keep the upgrade isolated, reviewable, and reversible.
 
-## Current State
+## Non-Goals
 
-**Dependencies:**
-- `tailwindcss` v3.4.11
-- `tailwindcss-animate` plugin
-- `@tailwindcss/container-queries` plugin (now built-in to v4)
-- `autoprefixer` (now built-in to v4)
+- Redesigning existing UI or changing visual style.
+- Refactoring unrelated CSS or component logic.
+- Introducing new features beyond v4-required changes.
 
-**Config files:**
-- `tailwind.config.ts` - 130 lines of JS config
-- `postcss.config.js` - using `tailwindcss` and `autoprefixer`
-- `src/index.css` - uses `@tailwind base/components/utilities`
+## Success Criteria
 
-**Breaking changes impact:** ~116 occurrences of potentially affected utilities across 59 files
+- `npm run build` and `npm run preview` succeed without errors.
+- No visual regressions on the QA checklist (desktop + mobile).
+- Animations and dark mode behave identically to v3.
+- No unexpected bundle size regressions (v4 expected to be equal or smaller).
 
-## Benefits of Upgrading
+## Constraints & Assumptions
 
-### Performance Improvements
+- Browser support: Safari 16.4+, Chrome 111+, Firefox 128+.
+- Vite is the build system; prefer the official Vite plugin.
+- Only the site owner uses Firefox, already on 128+.
+- Use ASCII in edits unless the file already contains non-ASCII.
 
-| Metric | v3 | v4 | Improvement |
-|--------|-----|-----|-------------|
-| Full builds | ~378ms | ~100ms | **3.5x faster** |
-| Incremental builds (new CSS) | 44ms | 5ms | **8.8x faster** |
-| Incremental builds (no new CSS) | 35ms | 192μs | **182x faster** |
+## Workstreams (Parallelizable)
 
-### Developer Experience
+Each workstream is independently assignable with its own deliverables and acceptance criteria.
 
-- **First-party Vite plugin** - tighter integration with our build system
-- **CSS-first configuration** - all config in one CSS file
-- **Automatic content detection** - no need to configure template paths
-- **Built-in tooling** - no need for `autoprefixer` or `postcss-import`
+### Workstream A: Preflight & Baseline
 
-### New Features
+**Owner:** Agent A
 
-- Dynamic values without brackets (`h-100` instead of `h-[100px]`)
-- Built-in container queries (no plugin needed)
-- OKLCH color space with P3 display support
-- Native CSS nesting support
-- 3D transform utilities
+**Tasks**
+- Create upgrade branch: `feature/tailwind-v4`.
+- Capture baseline Lighthouse (Performance/Accessibility/Best Practices/SEO).
+- Capture baseline visual snapshots: homepage, blog list, blog post, projects, analytics dashboard, kanban.
+- Record current package versions for Tailwind-related dependencies.
 
-## Browser Requirements
+**Deliverables**
+- Baseline metrics + notes in the PR description or a `docs/upgrade-notes/tw-v4-baseline.md` file.
 
-v4 requires modern CSS features (`@property`, `color-mix()`):
-- Safari 16.4+ (released March 2023) ✓
-- Chrome 111+ (released March 2023) ✓
-- Firefox 128+ (released July 2024) ✓
+**Acceptance**
+- Baseline recorded and shareable.
 
-This site already targets modern browsers (View Transitions API requires similar support).
+### Workstream B: Dependency + Tooling Upgrade
 
-## Breaking Changes Impact Analysis
+**Owner:** Agent B
 
-### High Impact (Requires Manual Changes)
+**Tasks**
+- Run `npx @tailwindcss/upgrade` on the branch.
+- Install `@tailwindcss/vite` and integrate into `vite.config.ts`.
+- Remove `autoprefixer` and `postcss-import` if no longer required.
+- Remove `@tailwindcss/container-queries` (built-in in v4).
 
-| Change | Current Usage | Migration Required |
-|--------|---------------|-------------------|
-| `tailwindcss-animate` deprecated | Used in `tailwind.config.ts` | Replace with `tw-animate-css` |
-| HSL color format | `hsl(var(--color))` pattern | Wrap HSL in variable, use `@theme inline` |
-| Container config (`center`, `padding`) | Used in `tailwind.config.ts` | Convert to `@utility container` |
-| Import syntax | `@tailwind base/components/utilities` | Change to `@import "tailwindcss"` |
+**Deliverables**
+- Updated `package.json`/lockfile.
+- Updated `vite.config.ts`.
 
-### Medium Impact (Auto-migrated or Simple Changes)
+**Acceptance**
+- `npm run dev` starts without Tailwind-related errors.
 
 | Change | Current Usage | Notes |
 |--------|---------------|-------|
@@ -83,127 +74,136 @@ This site already targets modern browsers (View Transitions API requires similar
 | Ring width default | May use `ring-3` utility | Changed from 3px to 1px |
 | Renamed utilities | `shadow-xs`, `rounded-sm`, etc. | Upgrade tool handles this |
 
-### Low Impact (Likely No Changes Needed)
+### Workstream C: Config Migration to CSS
 
-| Change | Notes |
-|--------|-------|
-| Dark mode (class-based) | Still supported in v4 |
-| Custom keyframes | Should work as-is |
-| `tailwind-merge` | v2.5.2 is compatible |
-| CVA (class-variance-authority) | Compatible with v4 output |
+**Owner:** Agent C
 
-## Migration Steps
+**Tasks**
+- Migrate `tailwind.config.ts` to CSS `@theme` and `@utility` blocks.
+- Implement container settings via `@utility container`.
+- Convert custom utilities from `@layer utilities` to `@utility`.
+- Remove `tailwind.config.ts` if all config is moved.
 
-### Phase 1: Run Upgrade Tool
+**Deliverables**
+- Updated `src/index.css` (or relevant global CSS).
+- `tailwind.config.ts` removed or minimized (only if required).
 
-```bash
-# Create migration branch
-git checkout -b feature/tailwind-v4
+**Acceptance**
+- Tailwind builds without config errors.
 
-# Run official upgrade tool (Node 20+ required)
-npx @tailwindcss/upgrade
+### Workstream D: Theme Variables & Color System
 
-# Review changes
-git diff
-```
+**Owner:** Agent D
 
-The tool will:
-- Update dependencies in `package.json`
-- Attempt to migrate `tailwind.config.ts` to CSS
-- Update template files with renamed utilities
+**Tasks**
+- Move `:root` and `.dark` out of `@layer base`.
+- Wrap HSL values inside the variables (e.g., `--background: hsl(...)`).
+- Add `@theme inline` mappings for `--color-*` and radius tokens.
 
-### Phase 2: Install Vite Plugin
+**Deliverables**
+- Updated theme tokens in CSS.
 
-```bash
-# Install the Vite plugin (recommended over PostCSS for Vite projects)
-npm install -D @tailwindcss/vite
-```
+**Acceptance**
+- Color variables resolve correctly in devtools and in the editor.
 
-**Update vite.config.ts:**
-```typescript
+### Workstream E: Animation Plugin Migration
+
+**Owner:** Agent E
+
+**Tasks**
+- Remove `tailwindcss-animate`.
+- Install `tw-animate-css`.
+- Update `src/index.css` imports (`@import "tailwindcss";` then `@import "tw-animate-css";`).
+- Verify class name compatibility with existing animation utility usage.
+
+**Deliverables**
+- Updated dependencies and CSS imports.
+
+**Acceptance**
+- Animation classes compile and animate as before.
+
+### Workstream F: Utility Renames & Defaults
+
+**Owner:** Agent F
+
+**Tasks**
+- Replace renamed utilities:
+  - `shadow-sm` → `shadow-xs`
+  - `shadow` → `shadow-sm` (only when intended)
+  - `rounded-sm` → `rounded-xs`
+  - `rounded` → `rounded-sm` (only when intended)
+  - `outline-none` → `outline-hidden`
+  - `ring` → `ring-3`
+  - `blur-sm` → `blur-xs`
+- Audit border color defaults and ring width changes on key components.
+
+**Deliverables**
+- Updated component classes.
+
+**Acceptance**
+- No visual regressions on buttons, inputs, cards, and navigation.
+
+### Workstream G: QA & Regression Verification
+
+**Owner:** Agent G
+
+**Tasks**
+- Run `npm run build` and `npm run preview`.
+- Execute the QA checklist (below) on desktop and mobile.
+- Compare Lighthouse to baseline.
+
+**Deliverables**
+- Completed QA checklist template in `docs/upgrade-notes/tw-v4-qa-template.md`.
+- Lighthouse comparison notes.
+
+**Acceptance**
+- All QA items pass or have documented, approved deltas.
+
+## Implementation Details
+
+### Vite Plugin (preferred)
+
+```ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  // ... rest of config
 });
 ```
 
-### Phase 3: Replace Animation Plugin
+### CSS Import Changes
 
-```bash
-# Remove old plugin
-npm uninstall tailwindcss-animate
-
-# Install replacement
-npm install -D tw-animate-css
-```
-
-**Update src/index.css:**
 ```css
 @import "tailwindcss";
 @import "tw-animate-css";
 ```
 
-### Phase 4: Migrate CSS Variables
+### Theme Example (HSL in variables)
 
-**Current Format (v3):**
 ```css
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-  }
-}
-```
-```typescript
-// tailwind.config.ts
-colors: {
-  background: 'hsl(var(--background))',
-}
-```
-
-**Target Format (v4):**
-```css
-@import "tailwindcss";
-
-/* Move :root and .dark OUT of @layer base */
 :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(222.2 84% 4.9%);
-  /* ... all colors with hsl() wrapper */
 }
 
 .dark {
   --background: hsl(222.2 84% 4.9%);
   --foreground: hsl(210 40% 98%);
-  /* ... */
 }
 
-/* Register colors with Tailwind using @theme inline */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  /* ... map all colors */
-
-  /* Border radius */
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 }
 ```
 
-**Benefits of new format:**
-1. VSCode color picker works - colors display correctly in editor
-2. Chrome DevTools support - can see actual color values
-3. Simpler mental model - HSL is in the variable, not wrapped at usage
+### Container Utility
 
-### Phase 5: Migrate Config to CSS
-
-**Container utility:**
 ```css
 @utility container {
   margin-inline: auto;
@@ -212,30 +212,19 @@ colors: {
 }
 ```
 
-**Font family:**
-```css
-@theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-```
+## QA Checklist (Tightened)
 
-**Custom utilities:**
-```css
-/* v3 */
-@layer utilities {
-  .gauge-progress { ... }
-}
+Run on desktop and mobile. Confirm both light and dark mode.
 
-/* v4 */
-@utility gauge-progress {
-  transform: rotate(-90deg);
-}
-```
+### Global UI
 
-### Phase 6: Fix Renamed Utilities
+- No console errors or warnings related to Tailwind or CSS.
+- Typography scale and line-heights match baseline.
+- Border colors and ring focus styles match baseline.
+- Shadows and blur effects visually match baseline.
+- Hover and focus states match baseline.
 
-Search and replace in codebase:
+### Navigation & Layout
 
 | Find | Replace | Files affected |
 |------|---------|----------------|
@@ -247,29 +236,27 @@ Search and replace in codebase:
 | `ring-3` (standalone) | `ring-3` | (check usage) |
 | `blur-xs` | `blur-xs` | ~5 |
 
-### Phase 7: Update PostCSS (if not using Vite plugin)
+- Header layout (logo, nav, CTA) matches baseline.
+- Mobile menu open/close works; overlay and transitions match baseline.
+- Footer spacing and links match baseline.
 
-```javascript
-// postcss.config.js
-export default {
-  plugins: {
-    "@tailwindcss/postcss": {},
-  },
-};
-```
+### Homepage
 
-Remove `autoprefixer` and `postcss-import` from dependencies (built-in).
+- Hero spacing, gradient/background, and CTA buttons match baseline.
+- Experience cards: shadows, borders, and hover states match baseline.
+- Section spacing and typography scale match baseline.
 
-### Phase 8: Test and Verify
+### Blog
 
-1. Run `npm run dev` and check for build errors
-2. Visually inspect all pages
-3. Test dark mode toggle
-4. Verify animations work (accordion, Framer Motion)
-5. Check responsive breakpoints
-6. Run existing tests
+- Blog list cards: border, shadow, and hover states match baseline.
+- Blog post page: headings, code blocks, and links match baseline.
 
-## Checklist
+### Projects
+
+- Project cards: hover and focus styles match baseline.
+- Tag pills: background and text colors match baseline.
+
+## Upgrade Checklist
 
 - [ ] Run `npx @tailwindcss/upgrade` on feature branch
 - [ ] Review and commit automated changes
@@ -290,77 +277,45 @@ Remove `autoprefixer` and `postcss-import` from dependencies (built-in).
 - [ ] Run Lighthouse audit before/after
 - [ ] Visual regression check on key pages
 
-## Testing Checklist
+### Analytics Dashboard
 
-### Visual Regression Testing
+- Tabs and transitions behave correctly.
+- Cards and charts render without spacing regressions.
 
-- [ ] Homepage hero section
-- [ ] Navigation (desktop and mobile)
-- [ ] Experience section cards
-- [ ] Blog listing page (card shadows, borders)
-- [ ] Blog post pages
-- [ ] Projects page
-- [ ] Analytics dashboard (charts, cards)
-- [ ] Kanban board (drag states, colors)
-- [ ] Dark mode on all pages
-- [ ] Mobile responsive views
+### Kanban Board
 
-### Functionality Testing
+- Column layout and scroll behavior match baseline.
+- Card drag states and hover styles match baseline.
 
-- [ ] Dark mode toggle works
-- [ ] Accordion animations
-- [ ] Framer Motion stagger animations
-- [ ] Hover effects on cards
-- [ ] Mobile menu open/close
-- [ ] Tab transitions on Analytics
+### Animations
 
-### Build Testing
+- Accordion open/close animation works.
+- Framer Motion stagger animations render correctly.
 
-- [ ] `npm run build` succeeds
-- [ ] `npm run preview` shows correct output
-- [ ] No console errors in browser
-- [ ] Lighthouse scores maintained
-- [ ] Bundle size comparison (v4 should be smaller)
+### Responsiveness
+
+- Layout at 375px, 768px, 1024px matches baseline.
+- No overflow or clipping in sections or cards.
+
+### Build & Performance
+
+- `npm run build` succeeds.
+- `npm run preview` renders correct UI.
+- Lighthouse scores within acceptable range of baseline.
 
 ## Risks & Mitigations
 
-| Risk | Mitigation |
-|------|------------|
-| Plugin incompatibility | Use `tw-animate-css` replacement, fallback to CSS |
-| Subtle visual differences | Visual regression testing, side-by-side comparison |
-| Build failures | Run upgrade on branch, thorough review before merge |
-| CSS variable conflicts | Current vars use `--` prefix, v4 uses `--tw-` by default |
-| Color picker issues | Wrap HSL values in variables per new format |
+- **Plugin mismatch:** Verify class name parity between `tailwindcss-animate` and `tw-animate-css` before merge.
+- **Default style shifts:** Focus on borders, ring widths, shadows, and rounded utilities during QA.
+- **Config migration gaps:** Keep `tailwind.config.ts` only if needed for unsupported features.
 
 ## Rollback Plan
 
-If critical issues are found:
+- Revert the merge commit or PR if critical regressions are found.
+- Keep the upgrade branch for reference and future retries.
 
-```bash
-# Discard all changes and return to main
-git checkout main
+## References
 
-# Or reset to before migration
-git reset --hard HEAD~N  # where N is number of commits to undo
-```
-
-Keep the migration branch for reference even if not merged immediately.
-
-## Resources
-
-### Official Documentation
-- [Tailwind CSS v4 Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
-- [Tailwind CSS v4.0 Release Blog](https://tailwindcss.com/blog/tailwindcss-v4)
-- Automated tool: `npx @tailwindcss/upgrade`
-
-### shadcn/ui Migration
-- [shadcn/ui Tailwind v4 Guide](https://ui.shadcn.com/docs/tailwind-v4)
-
-### Community Guides
-- [Migrating from Tailwind CSS v3 to v4: A Complete Developer's Guide](https://dev.to/elechipro/migrating-from-tailwind-css-v3-to-v4-a-complete-developers-guide-cjd)
-- [Updating shadcn/ui to Tailwind 4 - Theming Guide](https://www.shadcnblocks.com/blog/tailwind4-shadcn-themeing/)
-
-### npm Packages
-- [tw-animate-css](https://www.npmjs.com/package/tw-animate-css) - Animation replacement
-- [@tailwindcss/vite](https://www.npmjs.com/package/@tailwindcss/vite) - Vite plugin
-- [@tailwindcss/postcss](https://www.npmjs.com/package/@tailwindcss/postcss) - PostCSS plugin
+- Tailwind CSS v4 Upgrade Guide: https://tailwindcss.com/docs/upgrade-guide
+- Tailwind CSS v4 Release Blog: https://tailwindcss.com/blog/tailwindcss-v4
+- shadcn/ui Tailwind v4 Guide: https://ui.shadcn.com/docs/tailwind-v4
