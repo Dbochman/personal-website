@@ -30,7 +30,7 @@ export const board = {
             },
             {
               "id": "krr-3",
-              "text": "Create goal slider (efficiency Ã¢ÂÂ safety)",
+              "text": "Create goal slider (efficiency ↔ safety)",
               "completed": false
             },
             {
@@ -2136,7 +2136,7 @@ export const board = {
           "checklist": [],
           "createdAt": "2026-01-15T00:00:00.000Z",
           "history": [],
-          "description": "Analytics CLS 0.71Ã¢ÂÂ0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders"
+          "description": "Analytics CLS 0.71→0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders"
         },
         {
           "id": "pr-125",
@@ -2219,7 +2219,7 @@ export const board = {
           "checklist": [],
           "createdAt": "2026-01-11T00:00:00.000Z",
           "history": [],
-          "description": "Blog LCP 5.6s Ã¢ÂÂ 3.1s (45% faster)"
+          "description": "Blog LCP 5.6s → 3.1s (45% faster)"
         },
         {
           "id": "jan-8",
@@ -2241,7 +2241,7 @@ export const board = {
           "checklist": [],
           "createdAt": "2026-01-07T00:00:00.000Z",
           "history": [],
-          "description": "55 Ã¢ÂÂ 98 Lighthouse, system fonts, Radix cleanup"
+          "description": "55 → 98 Lighthouse, system fonts, Radix cleanup"
         }
       ]
     }
