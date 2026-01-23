@@ -300,121 +300,6 @@ export const board = {
           "description": "Build regex parsing rules interactively. Highlight fields, live matching preview, export to grok/Logstash/Fluent Bit/Vector formats."
         },
         {
-          "id": "analytics-bot-ci-tagging",
-          "title": "Analytics Bot & CI Traffic Tagging",
-          "labels": [
-            "Small",
-            "Analytics"
-          ],
-          "checklist": [
-            {
-              "id": "abt-1",
-              "text": "Create traffic classification utility (bot, ci, human)",
-              "completed": false
-            },
-            {
-              "id": "abt-2",
-              "text": "Detect CI via user agent (HeadlessChrome, Playwright)",
-              "completed": false
-            },
-            {
-              "id": "abt-3",
-              "text": "Add custom dimension to GA4 config",
-              "completed": false
-            },
-            {
-              "id": "abt-4",
-              "text": "Tag sessions on first pageview",
-              "completed": false
-            },
-            {
-              "id": "abt-5",
-              "text": "Add traffic type filter to analytics dashboard",
-              "completed": false
-            },
-            {
-              "id": "abt-6",
-              "text": "Document patterns discovered for future reference",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-19T00:00:00.000Z",
-          "history": [],
-          "description": "Tag suspicious traffic with custom dimension instead of filtering. Enables analysis of bot patterns while keeping data.\n\nIndicators to tag:\n- Known bot user agents (Googlebot, Bingbot, HeadlessChrome, etc.)\n- CI/automation user agents (GitHub Actions runners)\n- Zero scroll/interaction events within session\n- Datacenter IP ranges (if detectable client-side)\n- Known probe paths (wp-admin, .env, xmlrpc.php, etc.)"
-        },
-        {
-          "id": "analytics-event-tracking",
-          "title": "Analytics Event Tracking",
-          "labels": [
-            "Small",
-            "Analytics"
-          ],
-          "checklist": [
-            {
-              "id": "aet-1",
-              "text": "Define event schema (tool_interaction, action, tool_name)",
-              "completed": false
-            },
-            {
-              "id": "aet-2",
-              "text": "Add events to SLO Calculator (tab switch, calculate, copy)",
-              "completed": false
-            },
-            {
-              "id": "aet-3",
-              "text": "Add events to CLI Playground (run command, preset select)",
-              "completed": false
-            },
-            {
-              "id": "aet-4",
-              "text": "Add events to On-Call Coverage (timezone add, model switch)",
-              "completed": false
-            },
-            {
-              "id": "aet-5",
-              "text": "Update analytics dashboard to show tool engagement",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-19T00:00:00.000Z",
-          "history": [],
-          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions. Answer: 'Are people getting value from the tools?'"
-        },
-        {
-          "id": "lighthouse-a11y-seo-focus",
-          "title": "Lighthouse: A11y & SEO Focus",
-          "labels": [
-            "Small",
-            "Analytics",
-            "Accessibility"
-          ],
-          "checklist": [
-            {
-              "id": "las-1",
-              "text": "Review current Lighthouse workflow frequency and categories",
-              "completed": false
-            },
-            {
-              "id": "las-2",
-              "text": "Configure Lighthouse to focus on a11y and SEO categories",
-              "completed": false
-            },
-            {
-              "id": "las-3",
-              "text": "Reduce run frequency (weekly or on significant changes)",
-              "completed": false
-            },
-            {
-              "id": "las-4",
-              "text": "Add a11y score to analytics dashboard",
-              "completed": false
-            }
-          ],
-          "createdAt": "2026-01-19T00:00:00.000Z",
-          "history": [],
-          "description": "Lab Lighthouse provides unique value for accessibility audits and SEO checks that field CWV data can't capture. Reframe the workflow to focus on these strengths.\n\nField data (GA4): Performance metrics (FCP, LCP, CLS, INP, TTFB)\nLab data (Lighthouse): Accessibility score, SEO score, best practices\n\nConsider: Run Lighthouse less frequently (weekly instead of per-commit) with focus on a11y/SEO categories only."
-        },
-        {
           "id": "new-board-feature",
           "title": "New Board Creation",
           "labels": [
@@ -1642,6 +1527,181 @@ export const board = {
             }
           ],
           "description": "Added animated walkthrough mode to incident-command-diagrams with:\n\n- Step-by-step animation with play/pause/skip/back controls\n- Decision nodes that pause for user to choose a path (branching logic)\n- Link nodes for cross-diagram navigation and external tool links\n- Side-by-side layout with sticky context panel\n- Auto-scroll to center active node in viewport\n- Progress bar and step counter\n- Lazy-loaded Mermaid rendering with theme support"
+        },
+        {
+          "id": "analytics-bot-ci-tagging",
+          "title": "Analytics Bot & CI Traffic Tagging",
+          "labels": [
+            "Small",
+            "Analytics"
+          ],
+          "checklist": [
+            {
+              "id": "abt-1",
+              "text": "Create traffic classification utility (bot, ci, human)",
+              "completed": true
+            },
+            {
+              "id": "abt-2",
+              "text": "Detect CI via user agent (HeadlessChrome, Playwright)",
+              "completed": true
+            },
+            {
+              "id": "abt-3",
+              "text": "Add custom dimension to GA4 config",
+              "completed": true
+            },
+            {
+              "id": "abt-4",
+              "text": "Tag sessions on first pageview",
+              "completed": true
+            },
+            {
+              "id": "abt-5",
+              "text": "Add traffic type filter to analytics dashboard",
+              "completed": true
+            },
+            {
+              "id": "abt-6",
+              "text": "Document patterns discovered for future reference",
+              "completed": true
+            }
+          ],
+          "createdAt": "2026-01-19T00:00:00.000Z",
+          "updatedAt": "2026-01-23T00:00:00.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-19T00:00:00.000Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-21T00:00:00.000Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T00:00:00.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Tag suspicious traffic with custom dimension instead of filtering. Enables analysis of bot patterns while keeping data.\n\nImplemented in `src/lib/analytics/clientTrafficClassifier.ts`:\n- Known bot user agents (Googlebot, Bingbot, HeadlessChrome, etc.)\n- CI/automation user agents (GitHub Actions runners, Playwright)\n- Known probe paths (wp-admin, .env, xmlrpc.php, etc.)\n- Sessions tagged on first pageview with GA4 custom dimension"
+        },
+        {
+          "id": "analytics-event-tracking",
+          "title": "Analytics Event Tracking",
+          "labels": [
+            "Small",
+            "Analytics"
+          ],
+          "checklist": [
+            {
+              "id": "aet-1",
+              "text": "Define event schema (tool_interaction, action, tool_name)",
+              "completed": true
+            },
+            {
+              "id": "aet-2",
+              "text": "Add events to SLO Calculator (tab switch, calculate, copy)",
+              "completed": true
+            },
+            {
+              "id": "aet-3",
+              "text": "Add events to CLI Playground (run command, preset select)",
+              "completed": true
+            },
+            {
+              "id": "aet-4",
+              "text": "Add events to On-Call Coverage (timezone add, model switch)",
+              "completed": true
+            },
+            {
+              "id": "aet-5",
+              "text": "Update analytics dashboard to show tool engagement",
+              "completed": true
+            }
+          ],
+          "createdAt": "2026-01-19T00:00:00.000Z",
+          "updatedAt": "2026-01-23T00:00:00.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-19T00:00:00.000Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-21T00:00:00.000Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T00:00:00.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Add GA4 events for interactive tool usage. Track calculator submissions, tab switches, copy-to-clipboard actions.\n\nImplemented in `src/lib/trackToolEvent.ts` with events firing in:\n- SLO Calculator: tab_switch, calculate, period_change\n- CLI Playground: command_run, tool_select, mode_switch, preset_select, share_copy\n- On-Call Coverage: model_select"
+        },
+        {
+          "id": "lighthouse-a11y-seo-focus",
+          "title": "Lighthouse: A11y & SEO Focus",
+          "labels": [
+            "Small",
+            "Analytics",
+            "Accessibility"
+          ],
+          "checklist": [
+            {
+              "id": "las-1",
+              "text": "Review current Lighthouse workflow frequency and categories",
+              "completed": true
+            },
+            {
+              "id": "las-2",
+              "text": "Configure Lighthouse to focus on a11y and SEO categories",
+              "completed": true
+            },
+            {
+              "id": "las-3",
+              "text": "Reduce run frequency (weekly or on significant changes)",
+              "completed": true
+            },
+            {
+              "id": "las-4",
+              "text": "Add a11y score to analytics dashboard",
+              "completed": true
+            }
+          ],
+          "createdAt": "2026-01-19T00:00:00.000Z",
+          "updatedAt": "2026-01-23T00:00:00.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-19T00:00:00.000Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-21T00:00:00.000Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-23T00:00:00.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Lab Lighthouse provides unique value for accessibility audits and SEO checks that field CWV data can't capture. Reframed the workflow to focus on these strengths.\n\nImplemented in `.github/workflows/lighthouse.yml`:\n- Path-based triggers (only runs on UI changes to src/pages, components, CSS)\n- Multi-page testing with thresholds: A11y ≥95, SEO ≥90, Best Practices ≥90\n- Results stored in lighthouse-metrics branch for historical tracking"
         },
         {
           "id": "react-hook-form-update",
