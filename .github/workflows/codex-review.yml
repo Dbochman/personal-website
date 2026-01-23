@@ -3,18 +3,21 @@ name: Codex PR Review
 on:
   pull_request:
     branches: [main]
-    types: [opened, synchronize]
+    types: [opened, synchronize, closed]
 
-# Don't review docs-only changes
+# Cancel in-progress runs when new commits are pushed OR when PR is closed/merged
 concurrency:
   group: codex-review-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
+  # Skip review entirely if PR was closed/merged - concurrency will cancel in-progress runs
   review:
     runs-on: ubuntu-latest
-    # Skip if PR is from dependabot or has [skip-review] in title
+    # Skip if PR is closed/merged, from dependabot, or has [skip-review] in title
+    # When PR closes, the concurrency group cancels in-progress runs
     if: |
+      github.event.action != 'closed' &&
       github.actor != 'dependabot[bot]' &&
       !contains(github.event.pull_request.title, '[skip-review]')
 

@@ -3,16 +3,20 @@ name: PR Checks
 on:
   pull_request:
     branches: [main]
+    types: [opened, synchronize, closed]
     paths-ignore:
       - '**.md'
       - 'docs/**'
 
+# Cancel in-progress runs when new commits are pushed OR when PR is closed/merged
 concurrency:
   group: pr-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
   test:
+    # Skip if PR is closed - concurrency will cancel in-progress runs
+    if: github.event.action != 'closed'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
