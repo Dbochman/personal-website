@@ -51,64 +51,63 @@ Husky + lint-staged runs ESLint on staged files before every commit. Commits wit
 - **localStorage**: Use URL params or stateless approaches
 - **Direct commits to main**: Always use feature branches and PRs
 
-## Kanban Board Updates
+## Kanban Board Management
 
-When updating cards in `src/types/kanban.ts`:
+### CLI Commands (Preferred)
+
+Use the kanban CLI for card management - it handles both JSON and markdown files:
+
+```bash
+# Add a card
+npm run kanban:add -- --board=roadmap --column=ideas --title="My Feature" --labels="Small,Feature"
+
+# Move a card
+npm run kanban:move -- --board=roadmap --card=my-feature --to=in-progress
+
+# List cards
+npm run kanban:list -- --board=roadmap --column=ideas
+
+# Sync JSON → Markdown
+npm run kanban:sync -- --board=roadmap
+
+# After any change, run precompile
+npm run precompile-kanban
+```
+
+See `.claude/skills/kanban-card-management/SKILL.md` for full documentation.
+
+### Architecture
+
+The kanban system uses two sources (being unified in Phase 2):
+- **JSON** (`public/data/{board}-board.json`): Powers editable board UI with save
+- **Markdown** (`content/kanban/{board}/*.md`): Powers ChangelogExplorer via precompile
+
+See `.claude/skills/kanban-dual-source-sync/SKILL.md` for sync strategies.
 
 ### Column Flow
 
-Cards progress through: **Backlog → To Do → In Progress → In Review → Change Log**
+Cards progress through: **Ideas → To Do → In Progress → In Review → Change Log**
 
-- **In Review**: For PRs that are opened but not yet merged (add `prStatus` field)
-- **Change Log**: Summarized entries of completed work (not individual cards)
+- **Ideas**: Draft plans and ideas
+- **In Review**: PRs opened but not yet merged (add `prStatus` field)
+- **Change Log**: Summarized entries of completed work
 
 ### PR Status Indicator
 
 Cards in "In Review" should include a `prStatus` field to show CI status:
 
-```typescript
-{
-  id: 'react-perf',
-  title: 'React Performance Optimizations',
-  labels: ['PR #124'],
-  prStatus: 'passing', // Shows green check ✓
-  // prStatus: 'failing', // Shows red X ✗
-  // prStatus: 'pending', // Shows yellow clock ⏳
-  createdAt: '2026-01-15'
-}
-```
-
-### Card Movements
-
-- **Moving cards between columns**: Add a `history` entry with `type: 'column'`, `timestamp`, `columnId`, and `columnTitle`
-- **Updating card fields**: Add a `history` entry with `type: 'title'|'description'|'labels'`, `timestamp`, `from`, and `to`
-- **Adding PR labels**: Use format `PR #123` (single PRs auto-link to GitHub)
-
-Example history entry for column move:
-```typescript
-history: [
-  { type: 'column', timestamp: '2026-01-14T14:00:00.000Z', columnId: 'in-review', columnTitle: 'In Review' },
-],
+```yaml
+prStatus: passing  # Shows green check ✓
+prStatus: failing  # Shows red X ✗
+prStatus: pending  # Shows yellow clock ⏳
 ```
 
 ### Change Log Pattern
 
-When work is merged, don't move individual cards to Change Log. Instead, create summary entries grouped by date:
-
-```typescript
-{
-  id: 'jan-15',
-  title: 'Jan 15: React Performance',
-  description: 'Analytics CLS fix, scroll throttling, React.memo for list components',
-  labels: ['Performance', 'PR #120'],
-  createdAt: '2026-01-15'
-}
-```
-
+When work is merged, create summary entries grouped by date:
 - **Title**: `Mon DD: Theme` (e.g., "Jan 15: React Performance")
 - **Description**: Brief summary of what was accomplished
 - **Labels**: Include relevant PR numbers and categories
-- **Remove the original card** from In Review once summarized
 
 ## Commit Message Style Guide
 

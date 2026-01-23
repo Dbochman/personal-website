@@ -1,5 +1,6 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import type { KanbanCard, ChecklistItem, CardChange } from '@/types/kanban';
+import { getBoardSync } from '@/lib/kanban-loader';
 
 export interface ChangelogEntry {
   id: string;
@@ -11,15 +12,6 @@ export interface ChangelogEntry {
   planFile?: string;
   createdAt: string;
   completedAt: string; // Derived from last column history entry to 'changelog'
-}
-
-interface ArchiveData {
-  archivedAt: string;
-  cards: KanbanCard[];
-}
-
-interface BoardData {
-  columns: { id: string; title: string; cards: KanbanCard[] }[];
 }
 
 /**
@@ -61,69 +53,60 @@ function cardToEntry(card: KanbanCard): ChangelogEntry {
   };
 }
 
+interface LoadResult {
+  entries: ChangelogEntry[];
+  error: string | null;
+}
+
+/**
+ * Load changelog entries from precompiled kanban data
+ * Synchronous since data is precompiled at build time
+ */
+function loadChangelogEntries(boardId: string): LoadResult {
+  const board = getBoardSync(boardId);
+  if (!board) {
+    return {
+      entries: [],
+      error: `Board "${boardId}" not found. Run "npm run precompile-kanban" to generate precompiled data.`,
+    };
+  }
+
+  // Get changelog column cards
+  const changelogColumn = board.columns.find((col) => col.id === 'changelog');
+  const changelogCards = changelogColumn?.cards || [];
+
+  // Get archived column cards (previously in separate archive.json)
+  const archivedColumn = board.columns.find((col) => col.id === 'archived');
+  const archivedCards = archivedColumn?.cards || [];
+
+  // Convert to entries
+  const changelogEntries = changelogCards.map(cardToEntry);
+  const archiveEntries = archivedCards.map(cardToEntry);
+
+  // Merge and deduplicate by ID (changelog takes priority)
+  const entryMap = new Map<string, ChangelogEntry>();
+
+  // Add archive entries first (lower priority)
+  for (const entry of archiveEntries) {
+    entryMap.set(entry.id, entry);
+  }
+
+  // Add changelog entries (higher priority, overwrites)
+  for (const entry of changelogEntries) {
+    entryMap.set(entry.id, entry);
+  }
+
+  // Sort by completedAt descending (newest first)
+  const entries = Array.from(entryMap.values()).sort(
+    (a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
+  );
+
+  return { entries, error: null };
+}
+
 export function useChangelogData(boardId: string = 'roadmap') {
-  const [entries, setEntries] = useState<ChangelogEntry[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        // Fetch board data (required)
-        const boardRes = await fetch(`/data/${boardId}-board.json`);
-        if (!boardRes.ok) throw new Error('Failed to load board data');
-        const boardData: BoardData = await boardRes.json();
-
-        // Fetch archive data (optional - may not exist for all boards)
-        let archiveData: ArchiveData = { archivedAt: '', cards: [] };
-        try {
-          const archiveRes = await fetch(`/data/${boardId}-archive.json`);
-          if (archiveRes.ok) {
-            archiveData = await archiveRes.json();
-          }
-        } catch {
-          // Archive doesn't exist, continue without it
-        }
-
-        // Get changelog column cards
-        const changelogColumn = boardData.columns.find((col) => col.id === 'changelog');
-        const changelogCards = changelogColumn?.cards || [];
-
-        // Convert to entries
-        const changelogEntries = changelogCards.map(cardToEntry);
-        const archiveEntries = archiveData.cards.map(cardToEntry);
-
-        // Merge and deduplicate by ID (changelog takes priority)
-        const entryMap = new Map<string, ChangelogEntry>();
-
-        // Add archive entries first (lower priority)
-        for (const entry of archiveEntries) {
-          entryMap.set(entry.id, entry);
-        }
-
-        // Add changelog entries (higher priority, overwrites)
-        for (const entry of changelogEntries) {
-          entryMap.set(entry.id, entry);
-        }
-
-        // Sort by completedAt descending (newest first)
-        const allEntries = Array.from(entryMap.values()).sort(
-          (a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
-        );
-
-        setEntries(allEntries);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load changelog data');
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchData();
-  }, [boardId]);
+  // Load entries synchronously (data is precompiled)
+  const { entries, error } = useMemo(() => loadChangelogEntries(boardId), [boardId]);
 
   // Derive unique labels for filtering
   const allLabels = useMemo(() => {
@@ -139,5 +122,6 @@ export function useChangelogData(boardId: string = 'roadmap') {
     return Array.from(labelSet).sort();
   }, [entries]);
 
-  return { entries, isLoading, error, allLabels };
+  // isLoading is always false since data is precompiled
+  return { entries, isLoading: false, error, allLabels };
 }
