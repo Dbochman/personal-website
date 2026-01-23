@@ -1,7 +1,8 @@
 ---
 id: new-board-feature
 title: New Board Creation
-column: in-progress
+column: in-review
+prStatus: pending
 labels:
   - Medium
   - Kanban
@@ -43,6 +44,10 @@ history:
     timestamp: "2026-01-23T00:00:00.000Z"
     columnId: in-progress
     columnTitle: In Progress
+  - type: column
+    timestamp: "2026-01-23T00:00:00.000Z"
+    columnId: in-review
+    columnTitle: In Review
 ---
 
 Add ability to create new kanban boards from the UI. Board selector dropdown to switch between boards, plus 'New Board' button to create fresh boards.
