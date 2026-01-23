@@ -1,0 +1,50 @@
+#!/usr/bin/env sh
+
+# Skip if pushing to main (we already reviewed before merge)
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$current_branch" = "main" ]; then
+  exit 0
+fi
+
+# Skip if SKIP_CODEX_REVIEW is set
+if [ -n "$SKIP_CODEX_REVIEW" ]; then
+  echo "⏭️  Skipping Codex review (SKIP_CODEX_REVIEW is set)"
+  exit 0
+fi
+
+# Check if codex is available
+if ! command -v codex &> /dev/null; then
+  echo "⚠️  Codex CLI not found, skipping review"
+  exit 0
+fi
+
+echo "🤖 Running Codex review before push..."
+echo "   (Skip with: SKIP_CODEX_REVIEW=1 git push, or git push --no-verify)"
+echo ""
+
+# Run codex review and capture output
+output=$(codex review --base main 2>&1)
+exit_code=$?
+
+# Display the output
+echo "$output"
+
+# Check for "Needs Changes" verdict
+if echo "$output" | grep -q "Verdict:.*Needs Changes"; then
+  echo ""
+  echo "❌ Codex review found issues that need changes."
+  echo "   Fix the issues above, then push again."
+  echo "   To push anyway: SKIP_CODEX_REVIEW=1 git push"
+  exit 1
+fi
+
+# Check for errors
+if [ $exit_code -ne 0 ]; then
+  echo ""
+  echo "⚠️  Codex review failed with exit code $exit_code"
+  echo "   Proceeding with push anyway..."
+fi
+
+echo ""
+echo "✅ Codex review passed!"
+exit 0
