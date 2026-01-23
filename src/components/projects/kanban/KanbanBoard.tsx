@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   DndContext,
   DragOverlay,
@@ -16,6 +17,8 @@ import { KanbanColumn } from './KanbanColumn';
 import { KanbanCard } from './KanbanCard';
 import { CardEditorModal } from './CardEditorModal';
 import { ColumnEditorModal } from './ColumnEditorModal';
+import { BoardSelector } from './BoardSelector';
+import { CreateBoardModal } from './CreateBoardModal';
 import { Button } from '@/components/ui/button';
 import { Plus, RotateCcw, Share2, Save, Loader2, Check, LogIn, LogOut, RefreshCw } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
@@ -44,6 +47,7 @@ interface KanbanBoardProps {
 }
 
 export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadCommitSha }: KanbanBoardProps) {
+  const [, setSearchParams] = useSearchParams();
   const [board, setBoard] = useState<BoardType>(initialBoard);
   // Track the commit SHA for conflict detection
   const [headCommitSha, setHeadCommitSha] = useState<string | null>(initialHeadCommitSha ?? null);
@@ -120,6 +124,9 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
   // Column editor state
   const [editingColumnId, setEditingColumnId] = useState<string | null>(null);
   const [isColumnModalOpen, setIsColumnModalOpen] = useState(false);
+
+  // Create board modal state
+  const [isCreateBoardModalOpen, setIsCreateBoardModalOpen] = useState(false);
   const [isAddingColumn, setIsAddingColumn] = useState(false);
 
   // Wrapper that updates board state
@@ -610,6 +617,17 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
     }
   };
 
+  const handleBoardCreated = (newBoardId: string) => {
+    // Navigate to the new board, preserving other params but clearing card (different board)
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('board', newBoardId);
+      next.delete('card'); // Card IDs are board-specific
+      return next;
+    });
+    toast.success('Board created! It may take a moment to fully load.');
+  };
+
   const editingColumn = editingColumnId
     ? board.columns.find((c) => c.id === editingColumnId)
     : null;
@@ -621,8 +639,14 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
     <div className="space-y-4">
       {/* Toolbar */}
       <div className="flex items-center justify-between flex-wrap gap-2">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span>Drag cards between columns.</span>
+        <div className="flex items-center gap-3">
+          <BoardSelector
+            currentBoardId={boardId}
+            currentBoardTitle={board.title}
+            onCreateNew={() => setIsCreateBoardModalOpen(true)}
+            isAuthenticated={auth.authenticated}
+          />
+          <span className="text-sm text-muted-foreground">Drag cards between columns.</span>
           {isDirty && !conflictDetected && (
             <span className="text-yellow-600 dark:text-yellow-400">Unsaved changes</span>
           )}
@@ -754,6 +778,13 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
         }}
         onSave={handleSaveColumn}
         onDelete={editingColumn ? handleDeleteColumn : undefined}
+      />
+
+      {/* Create board modal */}
+      <CreateBoardModal
+        isOpen={isCreateBoardModalOpen}
+        onClose={() => setIsCreateBoardModalOpen(false)}
+        onCreated={handleBoardCreated}
       />
     </div>
   );
