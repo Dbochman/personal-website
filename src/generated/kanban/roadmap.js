@@ -303,35 +303,57 @@ export const board = {
           "id": "new-board-feature",
           "title": "New Board Creation",
           "labels": [
-            "Small",
+            "Medium",
             "Kanban",
             "Feature"
           ],
           "checklist": [
             {
               "id": "nbf-1",
-              "text": "Add board selector dropdown showing all discovered boards",
+              "text": "Worker: Add GET /boards endpoint with dynamic discovery",
               "completed": false
             },
             {
               "id": "nbf-2",
-              "text": "Design 'New Board' modal (name, initial columns)",
+              "text": "Worker: Add markdown fallback to GET /board/:id (before precompile)",
               "completed": false
             },
             {
               "id": "nbf-3",
-              "text": "Implement board creation via save workflow",
+              "text": "Worker: Add POST /boards endpoint with retry logic for 409",
               "completed": false
             },
             {
               "id": "nbf-4",
-              "text": "Add board to navigation after creation",
+              "text": "Worker: Add column/size validation (SAFE_ID, max limits)",
+              "completed": false
+            },
+            {
+              "id": "nbf-5",
+              "text": "Frontend: BoardSelector component with dropdown",
+              "completed": false
+            },
+            {
+              "id": "nbf-6",
+              "text": "Frontend: CreateBoardModal with title/ID inputs",
+              "completed": false
+            },
+            {
+              "id": "nbf-7",
+              "text": "Frontend: Remove static VALID_BOARDS allowlist",
+              "completed": false
+            },
+            {
+              "id": "nbf-8",
+              "text": "Frontend: Handle precompiled:false response (optimistic UI)",
               "completed": false
             }
           ],
+          "planFile": "~/.claude/plans/new-board-creation.md",
           "createdAt": "2026-01-22T00:00:00.000Z",
+          "updatedAt": "2026-01-23T00:00:00.000Z",
           "history": [],
-          "description": "Add ability to create new kanban boards from the UI. Board selector dropdown to switch between boards, plus 'New Board' button to create fresh boards.\n\nOptions:\n- Dev-only: Create _board.md file, requires rebuild\n- Runtime: Create via GitHub API (like current save workflow)\n- Full Phase 2: Markdown-only saves with board creation"
+          "description": "Add ability to create new kanban boards from the UI. Board selector dropdown to switch between boards, plus 'New Board' button to create fresh boards.\n\n**Architecture Decision**: Dynamic board discovery (Option A from plan). Worker scans `content/kanban/` to discover boards, no hardcoded allowlist.\n\n**Codex Review Complete** (2026-01-23):\n- Race condition handling with retry logic on 409\n- Markdown fallback for new boards before precompile\n- Column ID validation with `SAFE_ID`\n- Optimistic UI with `precompiled: false` indicator\n\nSee `~/.claude/plans/new-board-creation.md` for full implementation plan."
         }
       ]
     },
