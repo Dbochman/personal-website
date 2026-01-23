@@ -20,8 +20,12 @@ function toISOString(value: Date | string | undefined): string | undefined {
  * Escape YAML string values that contain special characters
  */
 function escapeYamlString(value: string): string {
-  // If the string contains special characters or starts with special chars, quote it
+  // Check for non-ASCII characters (any character > 127)
+  const hasNonAscii = /[^\x00-\x7F]/.test(value);
+
+  // If the string contains special characters, non-ASCII, or starts with special chars, quote it
   if (
+    hasNonAscii ||
     value.includes(':') ||
     value.includes('#') ||
     value.includes('"') ||
@@ -36,8 +40,8 @@ function escapeYamlString(value: string): string {
     value === 'false' ||
     value === 'null'
   ) {
-    // Use double quotes and escape internal quotes
-    return `"${value.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`;
+    // Use double quotes and escape internal quotes and newlines
+    return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`;
   }
   return value;
 }

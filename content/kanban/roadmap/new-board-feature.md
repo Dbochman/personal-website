@@ -11,7 +11,7 @@ checklist:
     text: Add board selector dropdown showing all discovered boards
     completed: false
   - id: nbf-2
-    text: "Design 'New Board' modal (name, initial columns)"
+    text: Design 'New Board' modal (name, initial columns)
     completed: false
   - id: nbf-3
     text: Implement board creation via save workflow
