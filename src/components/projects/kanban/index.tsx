@@ -88,6 +88,7 @@ export default function Kanban() {
 
   return (
     <KanbanBoard
+      key={boardId} // Force remount when board changes to reset internal state
       initialBoard={data.board}
       boardId={boardId}
       initialCardId={cardId || undefined}

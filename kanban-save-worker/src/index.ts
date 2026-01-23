@@ -449,7 +449,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
     payload = (await request.json()) as CreateBoardRequest;
   } catch {
     return Response.json(
-      { error: 'invalid_json' } as CreateBoardResponse,
+      { success: false, error: 'invalid_json' } as CreateBoardResponse,
       { status: 400, headers: corsHeaders(request) }
     );
   }
@@ -457,7 +457,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   // Validate types (payload may have non-string values)
   if (typeof payload.id !== 'string' || typeof payload.title !== 'string') {
     return Response.json(
-      { error: 'invalid_payload', message: 'Board ID and title must be strings' } as CreateBoardResponse,
+      { success: false, error: 'invalid_payload', message: 'Board ID and title must be strings' } as CreateBoardResponse,
       { status: 400, headers: corsHeaders(request) }
     );
   }
@@ -468,7 +468,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   // Validate board ID format
   if (!SAFE_ID.test(id)) {
     return Response.json(
-      { error: 'invalid_board_id', message: 'Board ID must be lowercase alphanumeric with hyphens' } as CreateBoardResponse,
+      { success: false, error: 'invalid_board_id', message: 'Board ID must be lowercase alphanumeric with hyphens' } as CreateBoardResponse,
       { status: 400, headers: corsHeaders(request) }
     );
   }
@@ -476,7 +476,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   // Validate title
   if (!title || title.length > MAX_TITLE_LENGTH) {
     return Response.json(
-      { error: 'invalid_title', message: `Title required and must be under ${MAX_TITLE_LENGTH} characters` } as CreateBoardResponse,
+      { success: false, error: 'invalid_title', message: `Title required and must be under ${MAX_TITLE_LENGTH} characters` } as CreateBoardResponse,
       { status: 400, headers: corsHeaders(request) }
     );
   }
@@ -486,7 +486,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
   const columnValidation = validateColumns(columns);
   if (columnValidation) {
     return Response.json(
-      { error: 'invalid_columns', message: columnValidation } as CreateBoardResponse,
+      { success: false, error: 'invalid_columns', message: columnValidation } as CreateBoardResponse,
       { status: 400, headers: corsHeaders(request) }
     );
   }
@@ -502,7 +502,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
       const existing = await getFileContent(`content/kanban/${id}/_board.md`, env);
       if (existing) {
         return Response.json(
-          { error: 'board_exists', message: 'A board with this ID already exists' } as CreateBoardResponse,
+          { success: false, error: 'board_exists', message: 'A board with this ID already exists' } as CreateBoardResponse,
           { status: 409, headers: corsHeaders(request) }
         );
       }
@@ -546,7 +546,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
         }
         // Retries exhausted - return 409 to client
         return Response.json(
-          { error: 'conflict', message: 'Too many concurrent modifications, please try again' } as CreateBoardResponse,
+          { success: false, error: 'conflict', message: 'Too many concurrent modifications, please try again' } as CreateBoardResponse,
           { status: 409, headers: corsHeaders(request) }
         );
       }
@@ -554,6 +554,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
       console.error('Error creating board:', err);
       return Response.json(
         {
+          success: false,
           error: 'github_error',
           message: err instanceof Error ? err.message : 'Unknown error',
         } as CreateBoardResponse,
@@ -564,7 +565,7 @@ async function handleCreateBoard(request: Request, env: Env): Promise<Response> 
 
   // Should not reach here, but return 409 as fallback
   return Response.json(
-    { error: 'conflict', message: 'Too many concurrent modifications, please try again' } as CreateBoardResponse,
+    { success: false, error: 'conflict', message: 'Too many concurrent modifications, please try again' } as CreateBoardResponse,
     { status: 409, headers: corsHeaders(request) }
   );
 }
@@ -586,15 +587,23 @@ function validateColumns(
 
   const columnIds = new Set<string>();
   for (const col of columns) {
-    if (!SAFE_ID.test(col.id)) {
-      return `Invalid column ID: ${col.id}`;
+    // Validate types first
+    if (typeof col.id !== 'string' || typeof col.title !== 'string') {
+      return 'Column ID and title must be strings';
     }
-    if (columnIds.has(col.id)) {
-      return `Duplicate column ID: ${col.id}`;
-    }
-    columnIds.add(col.id);
 
-    if (!col.title || col.title.length > MAX_TITLE_LENGTH) {
+    const colId = col.id.trim();
+    const colTitle = col.title.trim();
+
+    if (!SAFE_ID.test(colId)) {
+      return `Invalid column ID: ${colId}`;
+    }
+    if (columnIds.has(colId)) {
+      return `Duplicate column ID: ${colId}`;
+    }
+    columnIds.add(colId);
+
+    if (!colTitle || colTitle.length > MAX_TITLE_LENGTH) {
       return `Column title required and must be under ${MAX_TITLE_LENGTH} characters`;
     }
   }
