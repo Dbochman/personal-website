@@ -1,0 +1,7 @@
+name = "kanban-save-worker"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "d699ddc9107543b09466bac8625c74c3"

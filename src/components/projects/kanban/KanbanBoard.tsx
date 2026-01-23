@@ -17,7 +17,7 @@ import { KanbanCard } from './KanbanCard';
 import { CardEditorModal } from './CardEditorModal';
 import { ColumnEditorModal } from './ColumnEditorModal';
 import { Button } from '@/components/ui/button';
-import { Plus, RotateCcw, Share2, Save, Loader2, Check, LogIn, LogOut } from 'lucide-react';
+import { Plus, RotateCcw, Share2, Save, Loader2, Check, LogIn, LogOut, RefreshCw } from 'lucide-react';
 import { toast } from '@/components/ui/sonner';
 import type { KanbanBoard as BoardType, KanbanCard as CardType, KanbanColumn as ColumnType, ColumnColor } from '@/types/kanban';
 import { generateId } from '@/types/kanban';
@@ -29,22 +29,31 @@ interface AuthStatus {
   username: string | null;
 }
 
+interface SaveResponse {
+  success?: boolean;
+  newHeadSha?: string;
+  error?: string;
+  message?: string;
+}
+
 interface KanbanBoardProps {
   initialBoard: BoardType;
   boardId: string; // ID used for saving (e.g., 'roadmap')
   initialCardId?: string; // Card ID to open on mount (for deep linking)
+  initialHeadCommitSha?: string | null; // Commit SHA for conflict detection
 }
 
-export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoardProps) {
+export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadCommitSha }: KanbanBoardProps) {
   const [board, setBoard] = useState<BoardType>(initialBoard);
-  // Track the updatedAt for conflict detection
-  const [baseUpdatedAt, setBaseUpdatedAt] = useState(
-    initialBoard.updatedAt || new Date().toISOString()
-  );
+  // Track the commit SHA for conflict detection
+  const [headCommitSha, setHeadCommitSha] = useState<string | null>(initialHeadCommitSha ?? null);
+  // Track deleted card IDs for explicit deletion on save
+  const [deletedCardIds, setDeletedCardIds] = useState<string[]>([]);
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const [conflictDetected, setConflictDetected] = useState(false);
 
   // Auth state
   const [auth, setAuth] = useState<AuthStatus>({ authenticated: false, username: null });
@@ -134,14 +143,35 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
   // Soft reload - fetch new data and update state in place
   const handleSoftReload = useCallback(async () => {
     try {
-      const res = await fetch(`/data/${boardId}-board.json`);
-      if (!res.ok) throw new Error('Failed to fetch');
-      const data = await res.json();
+      // Try to load from worker API first (has commit SHA)
+      let data: BoardType;
+      let newSha: string | null = null;
+
+      try {
+        const apiRes = await fetch(`${WORKER_URL}/board/${boardId}`, {
+          credentials: 'include',
+        });
+
+        if (apiRes.ok) {
+          const apiData = await apiRes.json();
+          data = apiData.board;
+          newSha = apiData.headCommitSha;
+        } else {
+          throw new Error('API unavailable');
+        }
+      } catch {
+        // Fallback to static JSON
+        const res = await fetch(`/data/${boardId}-board.json`);
+        if (!res.ok) throw new Error('Failed to fetch');
+        data = await res.json();
+      }
 
       setBoard(data);
-      setBaseUpdatedAt(data.updatedAt || new Date().toISOString());
+      setHeadCommitSha(newSha);
+      setDeletedCardIds([]);
       setIsDirty(false);
       setExternalChangeDetected(false);
+      setConflictDetected(false);
 
       toast.success('Board reloaded');
     } catch {
@@ -149,7 +179,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
     }
   }, [boardId]);
 
-  // Check for external changes
+  // Check for external changes (uses static JSON for polling)
   const checkForExternalChanges = useCallback(async () => {
     // Don't check if we've already detected a change
     if (externalChangeDetectedRef.current) return;
@@ -160,15 +190,16 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
 
       const data = await res.json();
       const remoteUpdatedAt = data.updatedAt;
+      const localUpdatedAt = board.updatedAt;
 
-      // If remote is newer than our base, external change detected
-      if (remoteUpdatedAt && new Date(remoteUpdatedAt) > new Date(baseUpdatedAt)) {
+      // If remote is newer than our local board, external change detected
+      if (remoteUpdatedAt && localUpdatedAt && new Date(remoteUpdatedAt) > new Date(localUpdatedAt)) {
         setExternalChangeDetected(true);
 
         toast('Board was updated externally', {
           id: 'external-change', // Prevent duplicate toasts
           description: isDirty
-            ? 'You have unsaved changes that will be discarded.'
+            ? 'You have unsaved changes that may conflict.'
             : 'Click reload to get the latest version.',
           action: {
             label: 'Reload',
@@ -181,11 +212,11 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
       // Silently fail - don't disrupt user
       console.debug('External change check failed');
     }
-  }, [boardId, baseUpdatedAt, isDirty, handleSoftReload]);
+  }, [boardId, board.updatedAt, isDirty, handleSoftReload]);
 
   // Set up polling and visibility detection for external changes
   useEffect(() => {
-    // Poll every 60 seconds while visible
+    // Poll every 15 seconds while visible
     let intervalId: ReturnType<typeof setInterval> | null = null;
 
     const startPolling = () => {
@@ -227,7 +258,12 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
   // Save board to GitHub via Cloudflare Worker (requires auth)
   const handleSaveToGitHub = useCallback(async () => {
     if (!auth.authenticated) {
-      console.error('Not authenticated');
+      toast.error('Not authenticated');
+      return;
+    }
+
+    if (!headCommitSha) {
+      toast.error('Cannot save: missing commit reference. Please reload the page.');
       return;
     }
 
@@ -235,7 +271,6 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
     setSaveSuccess(false);
 
     try {
-      const newUpdatedAt = new Date().toISOString();
       const response = await fetch(`${WORKER_URL}/save`, {
         method: 'POST',
         credentials: 'include',
@@ -243,28 +278,47 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          board: { ...board, updatedAt: newUpdatedAt },
+          board,
           boardId,
-          baseUpdatedAt, // Original timestamp for conflict detection
+          headCommitSha,
+          deletedCardIds,
         }),
       });
 
-      if (response.ok) {
+      const data: SaveResponse = await response.json();
+
+      if (response.ok && data.success) {
         setIsDirty(false);
         setSaveSuccess(true);
-        // Update baseUpdatedAt so consecutive saves work without reload
-        setBaseUpdatedAt(newUpdatedAt);
+        setDeletedCardIds([]); // Clear deleted IDs after successful save
+        // Update headCommitSha so consecutive saves work without reload
+        if (data.newHeadSha) {
+          setHeadCommitSha(data.newHeadSha);
+        }
+        toast.success('Board saved! Changes will appear after precompile completes.');
         // Clear success indicator after 3 seconds
         setTimeout(() => setSaveSuccess(false), 3000);
+      } else if (response.status === 409) {
+        // Conflict detected
+        setConflictDetected(true);
+        toast.error('Board was modified externally. Please reload to see changes.', {
+          id: 'save-conflict',
+          action: {
+            label: 'Reload',
+            onClick: handleSoftReload,
+          },
+          duration: Infinity,
+        });
       } else {
-        console.error('Save failed:', await response.text());
+        toast.error(data.message || data.error || 'Save failed');
       }
     } catch (err) {
       console.error('Save error:', err);
+      toast.error('Failed to save board');
     } finally {
       setIsSaving(false);
     }
-  }, [board, boardId, auth.authenticated, baseUpdatedAt]);
+  }, [board, boardId, auth.authenticated, headCommitSha, deletedCardIds, handleSoftReload]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -434,6 +488,9 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
   };
 
   const handleDeleteCard = (cardId: string) => {
+    // Track deleted card ID for explicit deletion on save
+    setDeletedCardIds((prev) => [...prev, cardId]);
+
     updateBoard((prev) => ({
       ...prev,
       columns: prev.columns.map((col) => ({
@@ -481,6 +538,13 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
   };
 
   const handleDeleteColumn = (columnId: string) => {
+    // Track all card IDs in the deleted column
+    const column = board.columns.find((col) => col.id === columnId);
+    if (column) {
+      const cardIdsInColumn = column.cards.map((c) => c.id);
+      setDeletedCardIds((prev) => [...prev, ...cardIdsInColumn]);
+    }
+
     updateBoard((prev) => ({
       ...prev,
       columns: prev.columns.filter((col) => col.id !== columnId),
@@ -489,7 +553,9 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
 
   const handleReset = () => {
     setBoard(initialBoard);
+    setDeletedCardIds([]);
     setIsDirty(false);
+    setConflictDetected(false);
   };
 
   const handleShare = async () => {
@@ -497,8 +563,10 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
       const url = new URL(window.location.href);
       url.search = `?board=${boardId}`;
       await navigator.clipboard.writeText(url.toString());
+      toast.success('Link copied to clipboard');
     } catch (e) {
       console.error('Failed to copy URL:', e);
+      toast.error('Failed to copy link');
     }
   };
 
@@ -506,13 +574,21 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
     ? board.columns.find((c) => c.id === editingColumnId)
     : null;
 
+  // Determine if save should be disabled
+  const canSave = auth.authenticated && headCommitSha && isDirty && !conflictDetected;
+
   return (
     <div className="space-y-4">
       {/* Toolbar */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <span>Drag cards between columns.</span>
-          {isDirty && <span className="text-yellow-600 dark:text-yellow-400">Unsaved changes</span>}
+          {isDirty && !conflictDetected && (
+            <span className="text-yellow-600 dark:text-yellow-400">Unsaved changes</span>
+          )}
+          {conflictDetected && (
+            <span className="text-red-600 dark:text-red-400">Conflict - reload required</span>
+          )}
           {saveSuccess && <span className="text-green-600 dark:text-green-400">Saved!</span>}
           {auth.authenticated && (
             <span className="text-muted-foreground">
@@ -525,21 +601,33 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId }: KanbanBoar
           {!isCheckingAuth && (
             auth.authenticated ? (
               <>
-                <Button
-                  variant={isDirty ? 'default' : 'outline-solid'}
-                  size="sm"
-                  onClick={handleSaveToGitHub}
-                  disabled={isSaving || !isDirty}
-                >
-                  {isSaving ? (
-                    <Loader2 className="w-4 h-4 mr-1 animate-spin" />
-                  ) : saveSuccess ? (
-                    <Check className="w-4 h-4 mr-1" />
-                  ) : (
-                    <Save className="w-4 h-4 mr-1" />
-                  )}
-                  {isSaving ? 'Saving...' : saveSuccess ? 'Saved' : 'Save'}
-                </Button>
+                {conflictDetected ? (
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={handleSoftReload}
+                  >
+                    <RefreshCw className="w-4 h-4 mr-1" />
+                    Reload Board
+                  </Button>
+                ) : (
+                  <Button
+                    variant={isDirty ? 'default' : 'outline-solid'}
+                    size="sm"
+                    onClick={handleSaveToGitHub}
+                    disabled={isSaving || !canSave}
+                    title={!headCommitSha ? 'Cannot save: missing commit reference' : undefined}
+                  >
+                    {isSaving ? (
+                      <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+                    ) : saveSuccess ? (
+                      <Check className="w-4 h-4 mr-1" />
+                    ) : (
+                      <Save className="w-4 h-4 mr-1" />
+                    )}
+                    {isSaving ? 'Saving...' : saveSuccess ? 'Saved' : 'Save'}
+                  </Button>
+                )}
                 <Button variant="outline" size="sm" onClick={handleLogout}>
                   <LogOut className="w-4 h-4 mr-1" />
                   Logout

@@ -1,4 +1,9 @@
-name: Save Kanban Board
+name: Save Kanban Board (DEPRECATED)
+
+# DEPRECATED: This workflow is no longer triggered by the new markdown-based save flow.
+# The Cloudflare Worker now writes directly to markdown files and triggers precompile-content.yml.
+# This workflow will be removed in Phase 2c after validation.
+# See: docs/plans/phase-2-markdown-only-saves.md
 
 on:
   repository_dispatch:

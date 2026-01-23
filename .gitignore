@@ -91,12 +91,12 @@ scratch/
 notes.txt
 TODO.txt
 
-# Generated precompiled MDX
-src/generated/
+# Generated precompiled content (kanban is committed for worker API access)
+src/generated/*
+!src/generated/kanban/
 
 # Copied metrics (generated at build time)
 public/metrics/
 public/lighthouse-reports/
 public/og-images/
 .claude/
-kanban-save-worker/
