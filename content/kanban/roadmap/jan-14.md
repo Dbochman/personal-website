@@ -1,7 +1,7 @@
 ---
 id: jan-14
 title: "Jan 14: Kanban & UX"
-column: archived
+column: changelog
 labels:
   - "PR #97-108"
 createdAt: "2026-01-14T00:00:00.000Z"

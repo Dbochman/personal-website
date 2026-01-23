@@ -324,6 +324,28 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "jan-6-7",
+          "title": "Jan 6-7: Node.js v24 + Perf",
+          "labels": [
+            "Performance"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-07T00:00:00.000Z",
+          "history": [],
+          "description": "55 Ã¢ÂÂ 98 Lighthouse, system fonts, Radix cleanup"
+        },
+        {
+          "id": "jan-8",
+          "title": "Jan 8: Blog Phase 4 & 5",
+          "labels": [
+            "Feature"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-08T00:00:00.000Z",
+          "history": [],
+          "description": "Comments, syntax highlighting, RSS, structured data"
+        },
+        {
           "id": "tailwind-v4",
           "title": "Tailwind CSS v4 Upgrade",
           "labels": [
@@ -403,6 +425,41 @@ export const board = {
           "description": "Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files.\n\nCompleted Jan 21. See blog post: \"Tailwind v4 Upgrade: The Performance Tradeoff\""
         },
         {
+          "id": "jan-11",
+          "title": "Jan 11: MDX Precompilation",
+          "labels": [
+            "PR #84",
+            "Performance"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-11T00:00:00.000Z",
+          "history": [],
+          "description": "Blog LCP 5.6s Ã¢ÂÂ 3.1s (45% faster)"
+        },
+        {
+          "id": "jan-12",
+          "title": "Jan 12: Projects Page Launch",
+          "labels": [
+            "PR #88-92"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-12T00:00:00.000Z",
+          "history": [],
+          "description": "SLO Calculator, Status Page Generator, registry pattern"
+        },
+        {
+          "id": "jan-13",
+          "title": "Jan 13: Analytics & Accessibility",
+          "labels": [
+            "PR #94",
+            "PR #96"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-13T00:00:00.000Z",
+          "history": [],
+          "description": "Analytics Dashboard, On-Call Coverage Explorer, Skip Navigation, Footer/Nav cleanup"
+        },
+        {
           "id": "preview-deploys",
           "title": "Preview Deployments",
           "labels": [
@@ -461,6 +518,28 @@ export const board = {
           "description": "Deploy PRs to unique preview URLs via Cloudflare Pages. Enables visual review before merge.\n\nPreview URL: https://personal-website-adg.pages.dev\nBranch pattern: <branch>.personal-website-adg.pages.dev"
         },
         {
+          "id": "jan-14",
+          "title": "Jan 14: Kanban & UX",
+          "labels": [
+            "PR #97-108"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-14T00:00:00.000Z",
+          "history": [],
+          "description": "Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications"
+        },
+        {
+          "id": "renovate-wontdo",
+          "title": "Renovate Automation",
+          "labels": [
+            "Won't Do"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-14T00:00:00.000Z",
+          "history": [],
+          "description": "Decided against: overhead not justified for actively-maintained personal project. Manual npm update works fine."
+        },
+        {
           "id": "analytics-dedupe",
           "title": "Analytics Data Deduplication",
           "labels": [
@@ -513,6 +592,153 @@ export const board = {
             }
           ],
           "description": "Deduplicate time-series data in useAnalyticsData hook. ga4-history.json has multiple entries per date from automated collection."
+        },
+        {
+          "id": "jan-14-15",
+          "title": "Jan 14-15: Infrastructure & Polish",
+          "labels": [
+            "PR #109",
+            "PR #113",
+            "PR #115-117"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-15T00:00:00.000Z",
+          "history": [],
+          "description": "View Transitions API, RUM with web-vitals, CI/CD improvements with PR checks, Container Queries, MCP testing workflows"
+        },
+        {
+          "id": "pr-124",
+          "title": "React Performance Optimizations",
+          "labels": [
+            "PR #124",
+            "Performance"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-15T00:00:00.000Z",
+          "history": [],
+          "description": "Analytics CLS 0.71Ã¢ÂÂ0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders"
+        },
+        {
+          "id": "pr-125",
+          "title": "Dynamic PR Status Indicator",
+          "labels": [
+            "PR #125",
+            "UX"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-15T00:00:00.000Z",
+          "history": [],
+          "description": "Live CI status for In Review cards via GitHub API, merged icon for changelog PRs"
+        },
+        {
+          "id": "pr-126",
+          "title": "Framer Motion Animations",
+          "labels": [
+            "PR #126",
+            "UX"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-15T00:00:00.000Z",
+          "history": [],
+          "description": "Stagger animations for grids, scroll reveals, tab transitions, mobile nav stagger. Respects prefers-reduced-motion."
+        },
+        {
+          "id": "pr-127",
+          "title": "Kanban Board Save Feature",
+          "labels": [
+            "PR #127",
+            "Feature"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-15T00:00:00.000Z",
+          "updatedAt": "2026-01-15T23:03:36.667Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T22:29:58.815Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.401Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.413Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.443Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.465Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.489Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.509Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.532Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.555Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.579Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.599Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.622Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.643Z",
+              "columnId": "in-review",
+              "columnTitle": "In Review"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-15T23:03:36.667Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "GitHub OAuth login, Cloudflare Worker proxy, save to GitHub via Actions. Includes conflict detection, unsaved changes warning."
         },
         {
           "id": "sentry-enhancement",
@@ -1296,6 +1522,40 @@ export const board = {
           "description": "Interactive in-browser demos for CLI tools. Pure JS implementations (no WASM).\n\nFeatures:\n- Tool selector: kubectl, jq, grep, sed, awk\n- Learn mode with goals, hints, and command chips\n- Playground mode for freeform experimentation\n- Command explainer with flag breakdowns and 'Try next' suggestions\n- Shareable URL state (tool, mode, input, command)\n- 5 presets per tool covering common use cases\n\nkubectl simulator:\n- 5 triage scenarios (CrashLoopBackOff, ImagePullBackOff, Service Mismatch, Rollout Regression, Node Pressure)\n- Full K8s resource schema (pods, deployments, services, nodes, events)\n- Supports: get, describe, logs, rollout, top, events\n- Session state mutation for rollback commands\n\nSecurity fixes:\n- Replaced Function() with safe regex parser (XSS)\n- URL param validation with fallbacks\n- Race condition guards for async results"
         },
         {
+          "id": "grafana-dashboard-builder",
+          "title": "Grafana Dashboard JSON Builder",
+          "labels": [
+            "Deferred",
+            "Large",
+            "SRE",
+            "Tool"
+          ],
+          "checklist": [],
+          "planFile": "docs/plans/41-grafana-dashboard-builder.md",
+          "createdAt": "2026-01-17T00:00:00.000Z",
+          "archivedAt": "2026-01-19T00:00:00.000Z",
+          "archiveReason": "Too large for current priorities. Consider revisiting when smaller SRE tools are complete.",
+          "history": [],
+          "description": "Visual editor for Grafana dashboards. Drag-and-drop panel layout, panel type picker, export schema v38+ JSON."
+        },
+        {
+          "id": "log-pattern-extractor",
+          "title": "Log Pattern Extractor",
+          "labels": [
+            "Deferred",
+            "Medium",
+            "SRE",
+            "Tool"
+          ],
+          "checklist": [],
+          "planFile": "docs/plans/45-log-pattern-extractor.md",
+          "createdAt": "2026-01-17T00:00:00.000Z",
+          "archivedAt": "2026-01-19T00:00:00.000Z",
+          "archiveReason": "Overlaps significantly with regex-log-parser. Build that first, then evaluate if this adds enough value.",
+          "history": [],
+          "description": "Detect recurring log patterns from raw lines. Auto-group by template, field type inference, export to regex/grok/logstash format."
+        },
+        {
           "id": "programmatic-og-images",
           "title": "Programmatic OG Image Generation",
           "summary": "Build-time OG images via satori + resvg for project pages",
@@ -1360,6 +1620,23 @@ export const board = {
             }
           ],
           "description": "Generate Open Graph images at build time for project pages using satori + @resvg/resvg-js.\n\nImplemented:\n- Build-time generation via scripts/generate-og-images.mjs\n- Build-time validation via scripts/validate-projects.mjs\n- Dark theme template with icon, title, description, tags\n- Inter font (regular + bold) for typography\n- Added to build pipeline in package.json\n- Extracted project metadata to projects-meta.json\n- Simplified projects.ts by removing inline metadata\n- Fail-fast guards for CI (exits 1 on generation or validation failures)"
+        },
+        {
+          "id": "retention-cost-estimator",
+          "title": "Retention Cost Estimator",
+          "labels": [
+            "Deferred",
+            "Medium",
+            "SRE",
+            "Calculator"
+          ],
+          "checklist": [],
+          "planFile": "docs/plans/43-retention-cost-estimator.md",
+          "createdAt": "2026-01-17T00:00:00.000Z",
+          "archivedAt": "2026-01-19T00:00:00.000Z",
+          "archiveReason": "Pricing models change frequently. Maintenance burden outweighs value for a personal site.",
+          "history": [],
+          "description": "Estimate observability costs across providers (Datadog, Grafana Cloud, New Relic). Side-by-side comparison, retention tradeoffs."
         },
         {
           "id": "slo-burndown-integration",
@@ -1959,289 +2236,6 @@ export const board = {
             }
           ],
           "description": "## Phase 2: Markdown-Only Saves\n\nCompleted the migration to make markdown the single source of truth for kanban boards.\n\n### Key Changes\n\n- **Eliminated JSON files**: Removed `roadmap-board.json`, `house-board.json`, and `roadmap-archive.json`\n- **Worker writes directly to markdown**: Save flow now commits `.md` files via GitHub Trees API\n- **Commit SHA conflict detection**: Replaced timestamp-based detection with atomic commit SHA comparison\n- **Precompiled JS fallback**: Board loads from worker API (primary) or generated JS (offline fallback)\n\n### Bug Fixes\n\n- Fixed UTF-8 encoding corruption for non-ASCII characters (arrows, emojis)\n- Fixed duplicate history entries during drag operations (moved tracking from `handleDragOver` to `handleDragEnd`)\n- Fixed Cloudflare Workers 50 subrequest limit by using inline content in tree items\n- Fixed open redirect vulnerability in OAuth return_to validation\n\n### Architecture\n\n```\nSave: UI → Worker → GitHub Trees API → content/kanban/*.md\n                ↓\n      repository_dispatch → precompile-content.yml\n                ↓\n      src/generated/kanban/*.js\n\nLoad: UI → Worker API (primary) → precompiled JS (fallback)\n```\n\nRelated PRs: #195, #198"
-        }
-      ]
-    },
-    {
-      "id": "archived",
-      "title": "Archived",
-      "cards": [
-        {
-          "id": "jan-6-7",
-          "title": "Jan 6-7: Node.js v24 + Perf",
-          "labels": [
-            "Performance"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-07T00:00:00.000Z",
-          "history": [],
-          "description": "55 Ã¢ÂÂ 98 Lighthouse, system fonts, Radix cleanup"
-        },
-        {
-          "id": "jan-8",
-          "title": "Jan 8: Blog Phase 4 & 5",
-          "labels": [
-            "Feature"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-08T00:00:00.000Z",
-          "history": [],
-          "description": "Comments, syntax highlighting, RSS, structured data"
-        },
-        {
-          "id": "jan-11",
-          "title": "Jan 11: MDX Precompilation",
-          "labels": [
-            "PR #84",
-            "Performance"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-11T00:00:00.000Z",
-          "history": [],
-          "description": "Blog LCP 5.6s Ã¢ÂÂ 3.1s (45% faster)"
-        },
-        {
-          "id": "jan-12",
-          "title": "Jan 12: Projects Page Launch",
-          "labels": [
-            "PR #88-92"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-12T00:00:00.000Z",
-          "history": [],
-          "description": "SLO Calculator, Status Page Generator, registry pattern"
-        },
-        {
-          "id": "jan-13",
-          "title": "Jan 13: Analytics & Accessibility",
-          "labels": [
-            "PR #94",
-            "PR #96"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-13T00:00:00.000Z",
-          "history": [],
-          "description": "Analytics Dashboard, On-Call Coverage Explorer, Skip Navigation, Footer/Nav cleanup"
-        },
-        {
-          "id": "jan-14",
-          "title": "Jan 14: Kanban & UX",
-          "labels": [
-            "PR #97-108"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "Kanban board with drag-and-drop, card colors, House Projects board, performance budgets, ARIA live regions, deploy notifications"
-        },
-        {
-          "id": "renovate-wontdo",
-          "title": "Renovate Automation",
-          "labels": [
-            "Won't Do"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "Decided against: overhead not justified for actively-maintained personal project. Manual npm update works fine."
-        },
-        {
-          "id": "jan-14-15",
-          "title": "Jan 14-15: Infrastructure & Polish",
-          "labels": [
-            "PR #109",
-            "PR #113",
-            "PR #115-117"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-15T00:00:00.000Z",
-          "history": [],
-          "description": "View Transitions API, RUM with web-vitals, CI/CD improvements with PR checks, Container Queries, MCP testing workflows"
-        },
-        {
-          "id": "pr-124",
-          "title": "React Performance Optimizations",
-          "labels": [
-            "PR #124",
-            "Performance"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-15T00:00:00.000Z",
-          "history": [],
-          "description": "Analytics CLS 0.71Ã¢ÂÂ0.10, scroll throttling, React.memo, lazy-loaded charts, skeleton loaders"
-        },
-        {
-          "id": "pr-125",
-          "title": "Dynamic PR Status Indicator",
-          "labels": [
-            "PR #125",
-            "UX"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-15T00:00:00.000Z",
-          "history": [],
-          "description": "Live CI status for In Review cards via GitHub API, merged icon for changelog PRs"
-        },
-        {
-          "id": "pr-126",
-          "title": "Framer Motion Animations",
-          "labels": [
-            "PR #126",
-            "UX"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-15T00:00:00.000Z",
-          "history": [],
-          "description": "Stagger animations for grids, scroll reveals, tab transitions, mobile nav stagger. Respects prefers-reduced-motion."
-        },
-        {
-          "id": "pr-127",
-          "title": "Kanban Board Save Feature",
-          "labels": [
-            "PR #127",
-            "Feature"
-          ],
-          "checklist": [],
-          "createdAt": "2026-01-15T00:00:00.000Z",
-          "updatedAt": "2026-01-15T23:03:36.667Z",
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T22:29:58.815Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.401Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.413Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.443Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.465Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.489Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.509Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.532Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.555Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.579Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.599Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.622Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.643Z",
-              "columnId": "in-review",
-              "columnTitle": "In Review"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-15T23:03:36.667Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            }
-          ],
-          "description": "GitHub OAuth login, Cloudflare Worker proxy, save to GitHub via Actions. Includes conflict detection, unsaved changes warning."
-        },
-        {
-          "id": "grafana-dashboard-builder",
-          "title": "Grafana Dashboard JSON Builder",
-          "labels": [
-            "Deferred",
-            "Large",
-            "SRE",
-            "Tool"
-          ],
-          "checklist": [],
-          "planFile": "docs/plans/41-grafana-dashboard-builder.md",
-          "createdAt": "2026-01-17T00:00:00.000Z",
-          "archivedAt": "2026-01-19T00:00:00.000Z",
-          "archiveReason": "Too large for current priorities. Consider revisiting when smaller SRE tools are complete.",
-          "history": [],
-          "description": "Visual editor for Grafana dashboards. Drag-and-drop panel layout, panel type picker, export schema v38+ JSON."
-        },
-        {
-          "id": "log-pattern-extractor",
-          "title": "Log Pattern Extractor",
-          "labels": [
-            "Deferred",
-            "Medium",
-            "SRE",
-            "Tool"
-          ],
-          "checklist": [],
-          "planFile": "docs/plans/45-log-pattern-extractor.md",
-          "createdAt": "2026-01-17T00:00:00.000Z",
-          "archivedAt": "2026-01-19T00:00:00.000Z",
-          "archiveReason": "Overlaps significantly with regex-log-parser. Build that first, then evaluate if this adds enough value.",
-          "history": [],
-          "description": "Detect recurring log patterns from raw lines. Auto-group by template, field type inference, export to regex/grok/logstash format."
-        },
-        {
-          "id": "retention-cost-estimator",
-          "title": "Retention Cost Estimator",
-          "labels": [
-            "Deferred",
-            "Medium",
-            "SRE",
-            "Calculator"
-          ],
-          "checklist": [],
-          "planFile": "docs/plans/43-retention-cost-estimator.md",
-          "createdAt": "2026-01-17T00:00:00.000Z",
-          "archivedAt": "2026-01-19T00:00:00.000Z",
-          "archiveReason": "Pricing models change frequently. Maintenance burden outweighs value for a personal site.",
-          "history": [],
-          "description": "Estimate observability costs across providers (Datadog, Grafana Cloud, New Relic). Side-by-side comparison, retention tradeoffs."
         }
       ]
     }

@@ -1,7 +1,7 @@
 ---
 id: jan-11
 title: "Jan 11: MDX Precompilation"
-column: archived
+column: changelog
 labels:
   - "PR #84"
   - Performance

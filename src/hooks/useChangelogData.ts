@@ -71,35 +71,14 @@ function loadChangelogEntries(boardId: string): LoadResult {
     };
   }
 
-  // Get changelog column cards
+  // Get changelog column cards (all completed work is now in a single column)
   const changelogColumn = board.columns.find((col) => col.id === 'changelog');
   const changelogCards = changelogColumn?.cards || [];
 
-  // Get archived column cards (previously in separate archive.json)
-  const archivedColumn = board.columns.find((col) => col.id === 'archived');
-  const archivedCards = archivedColumn?.cards || [];
-
-  // Convert to entries
-  const changelogEntries = changelogCards.map(cardToEntry);
-  const archiveEntries = archivedCards.map(cardToEntry);
-
-  // Merge and deduplicate by ID (changelog takes priority)
-  const entryMap = new Map<string, ChangelogEntry>();
-
-  // Add archive entries first (lower priority)
-  for (const entry of archiveEntries) {
-    entryMap.set(entry.id, entry);
-  }
-
-  // Add changelog entries (higher priority, overwrites)
-  for (const entry of changelogEntries) {
-    entryMap.set(entry.id, entry);
-  }
-
-  // Sort by completedAt descending (newest first)
-  const entries = Array.from(entryMap.values()).sort(
-    (a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime()
-  );
+  // Convert to entries and sort by completedAt descending (newest first)
+  const entries = changelogCards
+    .map(cardToEntry)
+    .sort((a, b) => new Date(b.completedAt).getTime() - new Date(a.completedAt).getTime());
 
   return { entries, error: null };
 }

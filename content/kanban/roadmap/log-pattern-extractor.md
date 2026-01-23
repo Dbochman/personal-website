@@ -1,7 +1,7 @@
 ---
 id: log-pattern-extractor
 title: Log Pattern Extractor
-column: archived
+column: changelog
 labels:
   - Deferred
   - Medium

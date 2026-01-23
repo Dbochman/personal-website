@@ -18,8 +18,6 @@ columns:
     color: pink
   - id: changelog
     title: Change Log
-  - id: archived
-    title: Archived
 ---
 
 Board configuration for Site Roadmap.

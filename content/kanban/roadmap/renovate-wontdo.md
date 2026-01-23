@@ -1,7 +1,7 @@
 ---
 id: renovate-wontdo
 title: Renovate Automation
-column: archived
+column: changelog
 labels:
   - "Won't Do"
 createdAt: "2026-01-14T00:00:00.000Z"

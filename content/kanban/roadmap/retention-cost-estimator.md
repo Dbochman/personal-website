@@ -1,7 +1,7 @@
 ---
 id: retention-cost-estimator
 title: Retention Cost Estimator
-column: archived
+column: changelog
 labels:
   - Deferred
   - Medium

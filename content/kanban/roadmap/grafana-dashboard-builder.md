@@ -1,7 +1,7 @@
 ---
 id: grafana-dashboard-builder
 title: Grafana Dashboard JSON Builder
-column: archived
+column: changelog
 labels:
   - Deferred
   - Large

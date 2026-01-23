@@ -1,7 +1,7 @@
 ---
 id: jan-13
 title: "Jan 13: Analytics & Accessibility"
-column: archived
+column: changelog
 labels:
   - "PR #94"
   - "PR #96"
