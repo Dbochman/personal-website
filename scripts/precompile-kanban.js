@@ -31,13 +31,21 @@ const stats = {
 // Zod Schemas (inline to avoid import issues in Node.js scripts)
 // ============================================================================
 
-const isoDateString = z.string().refine(
+// ISO 8601 date string with preprocessing for Date objects
+// gray-matter may parse unquoted dates as Date objects, so we coerce them
+const isoDateString = z.preprocess(
   (val) => {
-    const fullIso = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/;
-    const dateOnly = /^\d{4}-\d{2}-\d{2}$/;
-    return fullIso.test(val) || dateOnly.test(val);
+    if (val instanceof Date) return val.toISOString();
+    return val;
   },
-  { message: 'Invalid date format. Expected ISO 8601' }
+  z.string().refine(
+    (val) => {
+      const fullIso = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/;
+      const dateOnly = /^\d{4}-\d{2}-\d{2}$/;
+      return fullIso.test(val) || dateOnly.test(val);
+    },
+    { message: 'Invalid date format. Expected ISO 8601' }
+  )
 );
 
 const ChecklistItemSchema = z.object({
