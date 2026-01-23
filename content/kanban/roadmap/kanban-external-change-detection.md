@@ -42,6 +42,6 @@ history:
     timestamp: "2026-01-16T18:50:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Detect when board is updated externally (e.g., by Claude commits). Check on tab focus + every 15s while visible. Show toast with reload button to prevent save conflicts.
 ---
-
-Detect when board is updated externally (e.g., by Claude commits). Check on tab focus + every 15s while visible. Show toast with reload button to prevent save conflicts.

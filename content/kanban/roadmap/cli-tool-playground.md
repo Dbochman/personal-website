@@ -51,25 +51,25 @@ history:
     timestamp: "2026-01-18T01:15:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Interactive in-browser demos for CLI tools. Pure JS implementations (no WASM).
+  
+  Features:
+  - Tool selector: kubectl, jq, grep, sed, awk
+  - Learn mode with goals, hints, and command chips
+  - Playground mode for freeform experimentation
+  - Command explainer with flag breakdowns and 'Try next' suggestions
+  - Shareable URL state (tool, mode, input, command)
+  - 5 presets per tool covering common use cases
+  
+  kubectl simulator:
+  - 5 triage scenarios (CrashLoopBackOff, ImagePullBackOff, Service Mismatch, Rollout Regression, Node Pressure)
+  - Full K8s resource schema (pods, deployments, services, nodes, events)
+  - Supports: get, describe, logs, rollout, top, events
+  - Session state mutation for rollback commands
+  
+  Security fixes:
+  - Replaced Function() with safe regex parser (XSS)
+  - URL param validation with fallbacks
+  - Race condition guards for async results
 ---
-
-Interactive in-browser demos for CLI tools. Pure JS implementations (no WASM).
-
-Features:
-- Tool selector: kubectl, jq, grep, sed, awk
-- Learn mode with goals, hints, and command chips
-- Playground mode for freeform experimentation
-- Command explainer with flag breakdowns and 'Try next' suggestions
-- Shareable URL state (tool, mode, input, command)
-- 5 presets per tool covering common use cases
-
-kubectl simulator:
-- 5 triage scenarios (CrashLoopBackOff, ImagePullBackOff, Service Mismatch, Rollout Regression, Node Pressure)
-- Full K8s resource schema (pods, deployments, services, nodes, events)
-- Supports: get, describe, logs, rollout, top, events
-- Session state mutation for rollback commands
-
-Security fixes:
-- Replaced Function() with safe regex parser (XSS)
-- URL param validation with fallbacks
-- Race condition guards for async results

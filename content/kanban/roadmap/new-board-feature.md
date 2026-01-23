@@ -52,15 +52,16 @@ history:
     timestamp: '2026-01-23T17:14:22.317Z'
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Add ability to create new kanban boards from the UI. Board selector dropdown to switch between boards, plus 'New Board' button to create fresh boards.
+  
+  **Architecture Decision**: Dynamic board discovery (Option A from plan). Worker scans `content/kanban/` to discover boards, no hardcoded allowlist.
+  
+  **Codex Review Complete** (2026-01-23):
+  - Race condition handling with retry logic on 409
+  - Markdown fallback for new boards before precompile
+  - Column ID validation with `SAFE_ID`
+  - Optimistic UI with `precompiled: false` indicator
+  
+  See `docs/plans/58-new-board-creation.md` for full implementation plan.
 ---
-Add ability to create new kanban boards from the UI. Board selector dropdown to switch between boards, plus 'New Board' button to create fresh boards.
-
-**Architecture Decision**: Dynamic board discovery (Option A from plan). Worker scans `content/kanban/` to discover boards, no hardcoded allowlist.
-
-**Codex Review Complete** (2026-01-23):
-- Race condition handling with retry logic on 409
-- Markdown fallback for new boards before precompile
-- Column ID validation with `SAFE_ID`
-- Optimistic UI with `precompiled: false` indicator
-
-See `docs/plans/58-new-board-creation.md` for full implementation plan.

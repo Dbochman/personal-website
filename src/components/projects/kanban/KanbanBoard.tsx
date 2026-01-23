@@ -51,8 +51,21 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
   const [board, setBoard] = useState<BoardType>(initialBoard);
   // Track the commit SHA for conflict detection
   const [headCommitSha, setHeadCommitSha] = useState<string | null>(initialHeadCommitSha ?? null);
-  // Track deleted card IDs for explicit deletion on save
-  const [deletedCardIds, setDeletedCardIds] = useState<string[]>([]);
+  // Track deleted card IDs for explicit deletion on save (persisted to localStorage)
+  const deletedCardStorageKey = `kanban-deleted-cards-${boardId}`;
+  const [deletedCardIds, setDeletedCardIds] = useState<string[]>(() => {
+    // Initialize from localStorage, validating against current board
+    try {
+      const stored = localStorage.getItem(deletedCardStorageKey);
+      if (!stored) return [];
+      const parsed = JSON.parse(stored) as string[];
+      // Only keep IDs that exist in the board (remove stale IDs)
+      const existingCardIds = new Set(initialBoard.columns.flatMap(col => col.cards.map(c => c.id)));
+      return parsed.filter(id => existingCardIds.has(id));
+    } catch {
+      return [];
+    }
+  });
   const [activeCard, setActiveCard] = useState<CardType | null>(null);
   const [isDirty, setIsDirty] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -83,6 +96,31 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
       .catch(() => setAuth({ authenticated: false, username: null }))
       .finally(() => setIsCheckingAuth(false));
   }, []);
+
+  // Persist deletedCardIds to localStorage and sync across tabs
+  useEffect(() => {
+    if (deletedCardIds.length > 0) {
+      localStorage.setItem(deletedCardStorageKey, JSON.stringify(deletedCardIds));
+    } else {
+      localStorage.removeItem(deletedCardStorageKey);
+    }
+  }, [deletedCardIds, deletedCardStorageKey]);
+
+  // Multi-tab sync for deletedCardIds
+  useEffect(() => {
+    const handleStorageEvent = (e: StorageEvent) => {
+      if (e.key === deletedCardStorageKey && e.newValue !== null) {
+        try {
+          const newIds = JSON.parse(e.newValue) as string[];
+          setDeletedCardIds(newIds);
+        } catch {
+          // Ignore parse errors
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorageEvent);
+    return () => window.removeEventListener('storage', handleStorageEvent);
+  }, [deletedCardStorageKey]);
 
   // Warn user before leaving page with unsaved changes
   useEffect(() => {

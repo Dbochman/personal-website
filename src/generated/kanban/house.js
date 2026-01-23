@@ -1,6 +1,7 @@
 // Auto-generated - do not edit
 // Source: content/kanban/house/
 export const board = {
+  "schemaVersion": 1,
   "id": "house",
   "title": "House Projects",
   "columns": [
@@ -12,29 +13,29 @@ export const board = {
         {
           "id": "compost",
           "title": "Set up bear-safe compost system",
+          "description": "Yard waste only, for general soil improvement.\n",
           "labels": [],
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "Yard waste only, for general soil improvement."
+          "history": []
         },
         {
           "id": "faucet",
           "title": "Bathroom faucet replacement",
+          "description": "Centerset; black or antique brass with traditional styling.\n",
           "labels": [],
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "Centerset; black or antique brass with traditional styling."
+          "history": []
         },
         {
           "id": "fencing",
           "title": "Partial yard fencing",
+          "description": "Wood picture-frame panels with hog/goat wire infill. Metal posts with removable wood sleeves.\n",
           "labels": [],
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "Wood picture-frame panels with hog/goat wire infill. Metal posts with removable wood sleeves."
+          "history": []
         },
         {
           "id": "irrigation",
@@ -63,20 +64,20 @@ export const board = {
         {
           "id": "light-fixture",
           "title": "Antique light fixture rewire",
+          "description": "Replace old wiring and socket to safely reuse antique lighting.\n",
           "labels": [],
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "Replace old wiring and socket to safely reuse antique lighting."
+          "history": []
         },
         {
           "id": "stairs",
           "title": "Install outdoor wood stairs",
+          "description": "For sliding glass door. 2–3 steps, wood construction, simple railing.\n",
           "labels": [],
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "For sliding glass door. 2–3 steps, wood construction, simple railing."
+          "history": []
         },
         {
           "id": "zt0s8sg",
@@ -124,11 +125,11 @@ export const board = {
         {
           "id": "water-pressure",
           "title": "Improve shower water pressure",
+          "description": "Private well system. Pressure gauge replacement, then pressure switch and tank checks as needed.\n",
           "labels": [],
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "Private well system. Pressure gauge replacement, then pressure switch and tank checks as needed."
+          "history": []
         }
       ]
     },
@@ -141,11 +142,11 @@ export const board = {
         {
           "id": "bathroom-fan",
           "title": "Bathroom fan refresh",
+          "description": "Painted/refreshed existing grille.\n",
           "labels": [],
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": [],
-          "description": "Painted/refreshed existing grille."
+          "history": []
         },
         {
           "id": "floors",

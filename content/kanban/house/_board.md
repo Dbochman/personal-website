@@ -1,4 +1,5 @@
 ---
+schemaVersion: 1
 id: house
 title: House Projects
 createdAt: "2026-01-15T23:17:50.056Z"

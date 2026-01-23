@@ -60,6 +60,7 @@ export interface KanbanColumn {
 }
 
 export interface KanbanBoard {
+  schemaVersion: number;
   id: string;
   title: string;
   columns: KanbanColumn[];

@@ -41,6 +41,6 @@ history:
     timestamp: "2026-01-16T20:00:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Add Husky + lint-staged for pre-commit hooks. Runs ESLint with auto-fix on staged TS/JS files before every commit.
 ---
-
-Add Husky + lint-staged for pre-commit hooks. Runs ESLint with auto-fix on staged TS/JS files before every commit.

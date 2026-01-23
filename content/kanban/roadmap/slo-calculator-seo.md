@@ -37,15 +37,15 @@ history:
     timestamp: "2026-01-17T03:00:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Added JSON-LD structured data and keyword optimization for SLO Calculator project page.
+  
+  Implemented:
+  - WebApplication JSON-LD schema for active projects
+  - BreadcrumbList JSON-LD schema for navigation
+  - Keywords and ogImage fields in ProjectMeta type
+  - SEO-optimized keywords for SLO Calculator
+  - resolveOgImage helper for absolute URL handling
+  
+  OG image generation moved to separate task (Programmatic OG Image Generation).
 ---
-
-Added JSON-LD structured data and keyword optimization for SLO Calculator project page.
-
-Implemented:
-- WebApplication JSON-LD schema for active projects
-- BreadcrumbList JSON-LD schema for navigation
-- Keywords and ogImage fields in ProjectMeta type
-- SEO-optimized keywords for SLO Calculator
-- resolveOgImage helper for absolute URL handling
-
-OG image generation moved to separate task (Programmatic OG Image Generation).

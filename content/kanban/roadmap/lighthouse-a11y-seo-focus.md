@@ -35,11 +35,11 @@ history:
     timestamp: "2026-01-23T00:00:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Lab Lighthouse provides unique value for accessibility audits and SEO checks that field CWV data can't capture. Reframed the workflow to focus on these strengths.
+  
+  Implemented in `.github/workflows/lighthouse.yml`:
+  - Path-based triggers (only runs on UI changes to src/pages, components, CSS)
+  - Multi-page testing with thresholds: A11y ≥95, SEO ≥90, Best Practices ≥90
+  - Results stored in lighthouse-metrics branch for historical tracking
 ---
-
-Lab Lighthouse provides unique value for accessibility audits and SEO checks that field CWV data can't capture. Reframed the workflow to focus on these strengths.
-
-Implemented in `.github/workflows/lighthouse.yml`:
-- Path-based triggers (only runs on UI changes to src/pages, components, CSS)
-- Multi-page testing with thresholds: A11y ≥95, SEO ≥90, Best Practices ≥90
-- Results stored in lighthouse-metrics branch for historical tracking

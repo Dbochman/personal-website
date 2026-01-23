@@ -27,6 +27,6 @@ history:
     timestamp: "2026-01-19T20:40:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Updated react-hook-form from 7.53.0 to 7.71.1 and @hookform/resolvers from 3.10.0 to 5.2.2. The resolvers package had a peer dependency requiring react-hook-form >=7.55.0.
 ---
-
-Updated react-hook-form from 7.53.0 to 7.71.1 and @hookform/resolvers from 3.10.0 to 5.2.2. The resolvers package had a peer dependency requiring react-hook-form >=7.55.0.

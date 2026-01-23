@@ -30,6 +30,6 @@ checklist:
     completed: false
 planFile: docs/plans/48-react-component-xray.md
 createdAt: "2026-01-17T00:00:00.000Z"
+description: |
+  Analyze React code to visualize component trees. Flag render anti-patterns (inline functions, missing keys, unstable deps).
 ---
-
-Analyze React code to visualize component trees. Flag render anti-patterns (inline functions, missing keys, unstable deps).

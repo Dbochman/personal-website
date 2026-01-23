@@ -49,8 +49,8 @@ history:
     timestamp: "2026-01-21T00:00:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files.
+  
+  Completed Jan 21. See blog post: "Tailwind v4 Upgrade: The Performance Tradeoff"
 ---
-
-Migrate to v4: CSS-based config, Vite plugin, updated utilities. ~116 class renames across 59 files.
-
-Completed Jan 21. See blog post: "Tailwind v4 Upgrade: The Performance Tradeoff"

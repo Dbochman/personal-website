@@ -27,6 +27,6 @@ checklist:
     completed: false
 planFile: docs/plans/46-metric-naming-linter.md
 createdAt: "2026-01-17T00:00:00.000Z"
+description: |
+  Lint metric names against Prometheus/OTel conventions. Severity-coded issues, auto-fix suggestions, bulk apply and export.
 ---
-
-Lint metric names against Prometheus/OTel conventions. Severity-coded issues, auto-fix suggestions, bulk apply and export.

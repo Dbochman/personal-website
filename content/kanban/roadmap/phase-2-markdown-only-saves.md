@@ -44,16 +44,16 @@ history:
     timestamp: "2026-01-23T16:00:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Eliminate dual maintenance by making markdown the single source of truth.
+  
+  Current state: JSON files are edited by save workflow, markdown files power ChangelogExplorer.
+  
+  Target state: Save workflow writes .md files directly via GitHub API, precompile runs on every push.
+  
+  Benefits:
+  - Single source of truth (no sync issues)
+  - Better git diffs for card changes
+  - Easier manual editing when needed
+  - CLI tools work with same format
 ---
-
-Eliminate dual maintenance by making markdown the single source of truth.
-
-Current state: JSON files are edited by save workflow, markdown files power ChangelogExplorer.
-
-Target state: Save workflow writes .md files directly via GitHub API, precompile runs on every push.
-
-Benefits:
-- Single source of truth (no sync issues)
-- Better git diffs for card changes
-- Easier manual editing when needed
-- CLI tools work with same format

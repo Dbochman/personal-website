@@ -56,12 +56,12 @@ history:
     timestamp: "2026-01-16T23:00:00.000Z"
     columnId: changelog
     columnTitle: Change Log
+description: |
+  Consolidated SLO Calculator and Error Budget Burndown into one project with three tabs:
+  
+  - What can I achieve? (response time inputs directly visible)
+  - Can I meet this SLO? (collapsible config)
+  - Budget Burndown (full chart view)
+  
+  Removed 2,700+ lines of redundant code. Collapsible configuration for target/burndown tabs, direct inputs for achievable tab.
 ---
-
-Consolidated SLO Calculator and Error Budget Burndown into one project with three tabs:
-
-- What can I achieve? (response time inputs directly visible)
-- Can I meet this SLO? (collapsible config)
-- Budget Burndown (full chart view)
-
-Removed 2,700+ lines of redundant code. Collapsible configuration for target/burndown tabs, direct inputs for achievable tab.
