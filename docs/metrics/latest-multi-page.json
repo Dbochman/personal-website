@@ -2,62 +2,62 @@
   {
     "page": "home",
     "url": "https://dylanbochman.com",
-    "performance": 58,
+    "performance": 64,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.3 s",
-    "fcp": "2.7 s",
+    "lcp": "4.6 s",
+    "fcp": "3.0 s",
     "cls": "0",
-    "tbt": "1,100 ms"
+    "tbt": "510 ms"
   },
   {
     "page": "blog",
     "url": "https://dylanbochman.com/blog",
-    "performance": 55,
+    "performance": 80,
     "accessibility": 100,
     "seo": 92,
     "bestPractices": 100,
-    "lcp": "5.6 s",
-    "fcp": "4.3 s",
+    "lcp": "3.2 s",
+    "fcp": "3.2 s",
     "cls": "0",
-    "tbt": "560 ms"
+    "tbt": "300 ms"
   },
   {
     "page": "blog-post-404",
     "url": "https://dylanbochman.com/blog/2025-01-08-fixing-404-errors-on-github-pages-spas",
-    "performance": 78,
+    "performance": 76,
     "accessibility": 100,
     "seo": 92,
     "bestPractices": 100,
     "lcp": "4.4 s",
+    "fcp": "3.6 s",
+    "cls": "0",
+    "tbt": "100 ms"
+  },
+  {
+    "page": "projects",
+    "url": "https://dylanbochman.com/projects",
+    "performance": 78,
+    "accessibility": 98,
+    "seo": 92,
+    "bestPractices": 96,
+    "lcp": "4.6 s",
     "fcp": "2.9 s",
     "cls": "0",
     "tbt": "120 ms"
   },
   {
-    "page": "projects",
-    "url": "https://dylanbochman.com/projects",
-    "performance": 77,
-    "accessibility": 98,
-    "seo": 92,
-    "bestPractices": 96,
-    "lcp": "4.7 s",
-    "fcp": "2.9 s",
-    "cls": "0",
-    "tbt": "100 ms"
-  },
-  {
     "page": "project-slo",
     "url": "https://dylanbochman.com/projects/slo-tool",
-    "performance": 67,
+    "performance": 72,
     "accessibility": 97,
     "seo": 92,
     "bestPractices": 96,
-    "lcp": "5.6 s",
-    "fcp": "4.3 s",
+    "lcp": "5.9 s",
+    "fcp": "3.1 s",
     "cls": "0",
-    "tbt": "50 ms"
+    "tbt": "100 ms"
   },
   {
     "page": "project-statuspage",
@@ -67,9 +67,9 @@
     "seo": 92,
     "bestPractices": 96,
     "lcp": "4.8 s",
-    "fcp": "2.9 s",
+    "fcp": "3.0 s",
     "cls": "0",
-    "tbt": "140 ms"
+    "tbt": "130 ms"
   },
   {
     "page": "project-oncall",
@@ -78,10 +78,10 @@
     "accessibility": 96,
     "seo": 92,
     "bestPractices": 96,
-    "lcp": "4.9 s",
+    "lcp": "5.0 s",
     "fcp": "3.0 s",
     "cls": "0",
-    "tbt": "120 ms"
+    "tbt": "100 ms"
   },
   {
     "page": "runbook",
@@ -90,9 +90,9 @@
     "accessibility": 100,
     "seo": 92,
     "bestPractices": 96,
-    "lcp": "4.8 s",
+    "lcp": "4.9 s",
     "fcp": "3.2 s",
     "cls": "0",
-    "tbt": "110 ms"
+    "tbt": "120 ms"
   }
 ]
