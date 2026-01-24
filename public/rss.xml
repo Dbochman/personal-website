@@ -13,26 +13,15 @@
       <link>https://dylanbochman.com/blog</link>
     </image>
     <item>
-      <title>Postmortems That Actually Change Things</title>
-      <link>https://dylanbochman.com/blog/2026-01-24-postmortems-that-actually-change-things</link>
-      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-24-postmortems-that-actually-change-things</guid>
-      <description>Most postmortems generate action items that never get done. Here&apos;s how to write ones that actually improve your systems.</description>
+      <title>Retrospectives That Actually Change Things</title>
+      <link>https://dylanbochman.com/blog/2026-01-24-retrospectives-that-actually-change-things</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-24-retrospectives-that-actually-change-things</guid>
+      <description>Most retrospectives promise progress and deliver paperwork. Here&apos;s how to turn incidents into lasting improvement.</description>
       <pubDate>Sat, 24 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan)</author>
       <category>SRE</category>
-      <category>Postmortems</category>
+      <category>Retrospectives</category>
       <category>Incident Management</category>
-    </item>
-    <item>
-      <title>The SLO Math Most Teams Get Wrong</title>
-      <link>https://dylanbochman.com/blog/2026-01-23-slo-math-most-teams-get-wrong</link>
-      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-23-slo-math-most-teams-get-wrong</guid>
-      <description>Common SLO mistakes and how to fix them. Lessons from implementing service level objectives at scale.</description>
-      <pubDate>Fri, 23 Jan 2026 00:00:00 GMT</pubDate>
-      <author>dylan@dylanbochman.com (Dylan)</author>
-      <category>SRE</category>
-      <category>SLOs</category>
-      <category>Observability</category>
     </item>
     <item>
       <title>What Hundreds of Incidents Taught Me About Response</title>
@@ -69,10 +58,10 @@
       <category>Resilience</category>
     </item>
     <item>
-      <title>Using a Kanban Board to Talk to My AI</title>
+      <title>Turning a Kanban Board Into My AI&apos;s Control Panel</title>
       <link>https://dylanbochman.com/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai</link>
       <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai</guid>
-      <description>A kanban board isn&apos;t just for task tracking. It&apos;s become my async communication channel with Claude. Ideas trigger plan generation, card positions signal intent, and giscus comments capture code review feedback.</description>
+      <description>A kanban board gradually became an asynchronous communication layer between me and Claude. Ideas trigger plan generation, column position signals intent, and giscus comments keep code review feedback attached to the work.</description>
       <pubDate>Fri, 16 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan)</author>
       <category>AI</category>
@@ -94,11 +83,12 @@
       <title>The AI Code Reviewer Who Reviews AI Code</title>
       <link>https://dylanbochman.com/blog/2026-01-15-the-ai-code-reviewer-who-reviews-ai-code</link>
       <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-15-the-ai-code-reviewer-who-reviews-ai-code</guid>
-      <description>Using OpenAI&apos;s Codex as an automated code reviewer for changes written by Claude. The meta layers are getting deep.</description>
+      <description>How our Codex review workflow evolved from manual copy-paste to pre-push hooks and CI automation.</description>
       <pubDate>Thu, 15 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan)</author>
       <category>AI</category>
       <category>Tooling</category>
+      <category>CI/CD</category>
     </item>
     <item>
       <title>The Serverless Kanban: OAuth, Workers, and GitHub Actions</title>
