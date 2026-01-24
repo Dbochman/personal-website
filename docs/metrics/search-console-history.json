@@ -218,5 +218,35 @@
         "impressions": 2
       }
     ]
+  },
+  {
+    "timestamp": "2026-01-24T06:12:21.976Z",
+    "date": "2026-01-24",
+    "period": {
+      "start": "2026-01-17",
+      "end": "2026-01-24"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 7,
+      "averageCTR": 0,
+      "averagePosition": 6.1
+    },
+    "topQueries": [
+      {
+        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 6.142857142857143
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
+        "clicks": 0,
+        "impressions": 7
+      }
+    ]
   }
 ]
