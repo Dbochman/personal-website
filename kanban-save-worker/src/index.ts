@@ -154,17 +154,23 @@ export default {
 function handleLogin(request: Request, env: Env): Response {
   const allowedOrigins = getAllowedOrigins(env);
   const url = new URL(request.url);
-  const returnTo = url.searchParams.get('return_to') || `${allowedOrigins[0]}/projects/kanban`;
+  const defaultReturnTo = `${allowedOrigins[0]}/projects/kanban`;
+  const returnToParam = url.searchParams.get('return_to');
+  let returnTo = defaultReturnTo;
 
   // Validate return_to to prevent open redirect
   // Parse as URL and check origin exactly (not startsWith, which allows bypasses)
-  try {
-    const returnUrl = new URL(returnTo);
-    if (!allowedOrigins.includes(returnUrl.origin)) {
-      return new Response('Invalid return_to', { status: 400 });
+  if (returnToParam) {
+    try {
+      const returnUrl = new URL(returnToParam, allowedOrigins[0]);
+      if (allowedOrigins.includes(returnUrl.origin)) {
+        returnTo = returnUrl.toString();
+      } else {
+        console.warn('Invalid return_to origin:', returnToParam);
+      }
+    } catch (err) {
+      console.warn('Invalid return_to URL:', returnToParam, err);
     }
-  } catch {
-    return new Response('Invalid return_to URL', { status: 400 });
   }
 
   const state = crypto.randomUUID();

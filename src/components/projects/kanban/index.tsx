@@ -36,6 +36,7 @@ export default function Kanban() {
     setError(null);
 
     async function loadBoard() {
+      let apiNotFound = false;
       // Try to load from worker API first (has commit SHA for conflict detection)
       try {
         const apiRes = await fetch(`${WORKER_URL}/board/${boardId}`, {
@@ -54,8 +55,7 @@ export default function Kanban() {
 
         // Handle 404 - board not found
         if (apiRes.status === 404) {
-          setError('Board not found. It may have been deleted or not yet created.');
-          return;
+          apiNotFound = true;
         }
       } catch {
         // API unavailable, fall back to precompiled JS
@@ -71,7 +71,11 @@ export default function Kanban() {
           precompiled: true,
         });
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load board');
+        if (apiNotFound) {
+          setError('Board not found. It may have been deleted or not yet created.');
+        } else {
+          setError(err instanceof Error ? err.message : 'Failed to load board');
+        }
       }
     }
 

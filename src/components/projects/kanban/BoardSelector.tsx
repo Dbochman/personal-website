@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { LayoutGrid, ChevronDown, Plus, Loader2 } from 'lucide-react';
+import { kanbanManifest } from '@/generated/kanban/manifest';
 
 const WORKER_URL = 'https://api.dylanbochman.com';
 
@@ -23,6 +24,25 @@ interface BoardSelectorProps {
   currentBoardTitle: string;
   onCreateNew: () => void;
   isAuthenticated: boolean;
+}
+
+const FALLBACK_BOARDS: BoardSummary[] = Object.entries(kanbanManifest).map(([id, meta]) => ({
+  id,
+  title: meta.title || id,
+  cardCount: meta.cardCount ?? 0,
+}));
+
+function mergeBoards(remoteBoards: BoardSummary[] | null): BoardSummary[] {
+  const merged = new Map<string, BoardSummary>();
+  for (const board of FALLBACK_BOARDS) {
+    merged.set(board.id, board);
+  }
+  if (remoteBoards) {
+    for (const board of remoteBoards) {
+      merged.set(board.id, board);
+    }
+  }
+  return Array.from(merged.values()).sort((a, b) => a.title.localeCompare(b.title));
 }
 
 export function BoardSelector({
@@ -44,10 +64,13 @@ export function BoardSelector({
       });
       if (res.ok) {
         const data = await res.json();
-        setBoards(data.boards || []);
+        setBoards(mergeBoards(data.boards || []));
+        return;
       }
+      setBoards(mergeBoards(null));
     } catch (err) {
       console.error('Failed to load boards:', err);
+      setBoards(mergeBoards(null));
     } finally {
       setIsLoading(false);
     }
