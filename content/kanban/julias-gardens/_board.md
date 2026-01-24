@@ -1,9 +1,9 @@
 ---
 schemaVersion: 1
-id: butts
-title: Butts
+id: julias-gardens
+title: "Julia's Gardens"
 createdAt: "2026-01-24T02:42:59.904Z"
-updatedAt: "2026-01-24T02:42:59.904Z"
+updatedAt: "2026-01-24T02:57:31.312Z"
 columns:
   - id: ideas
     title: Ideas
@@ -17,4 +17,4 @@ columns:
     title: Done
 ---
 
-Board configuration for Butts.
+Board configuration for Julia's Gardens.

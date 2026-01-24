@@ -46,14 +46,6 @@ export const board = {
           "history": []
         },
         {
-          "id": "kitchen",
-          "title": "Rework kitchen",
-          "labels": [],
-          "checklist": [],
-          "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": []
-        },
-        {
           "id": "laundry-line",
           "title": "Install laundry line",
           "labels": [],
@@ -73,7 +65,7 @@ export const board = {
         {
           "id": "stairs",
           "title": "Install outdoor wood stairs",
-          "description": "For sliding glass door. 2–3 steps, wood construction, simple railing.\n",
+          "description": "For sliding glass door. 2-3 steps, wood construction, simple railing.\n",
           "labels": [],
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
@@ -90,6 +82,23 @@ export const board = {
             {
               "type": "column",
               "timestamp": "2026-01-15T23:18:22.533Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            }
+          ]
+        },
+        {
+          "id": "6goscad",
+          "title": "Pellet stove igniter",
+          "labels": [],
+          "checklist": [],
+          "color": "pink",
+          "createdAt": "2026-01-24T02:41:29.863Z",
+          "updatedAt": "2026-01-24T02:41:29.863Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-24T02:41:29.863Z",
               "columnId": "todo",
               "columnTitle": "To Do"
             }
@@ -155,10 +164,26 @@ export const board = {
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
           "history": []
+        },
+        {
+          "id": "kitchen",
+          "title": "Rework kitchen",
+          "labels": [],
+          "checklist": [],
+          "createdAt": "2026-01-14T00:00:00.000Z",
+          "updatedAt": "2026-01-24T02:41:39.337Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-24T02:41:39.337Z",
+              "columnId": "done",
+              "columnTitle": "Done"
+            }
+          ]
         }
       ]
     }
   ],
   "createdAt": "2026-01-15T23:17:50.056Z",
-  "updatedAt": "2026-01-15T23:18:30.252Z"
+  "updatedAt": "2026-01-24T02:41:49.607Z"
 };

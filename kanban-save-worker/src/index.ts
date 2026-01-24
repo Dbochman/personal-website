@@ -38,20 +38,25 @@ interface Session {
 
 const SESSION_TTL = 60 * 60 * 24 * 7; // 7 days
 
-// Safe default for local development (wrangler dev)
-const DEV_ORIGINS = ['http://localhost:5173', 'http://localhost:8080'];
+// Safe default for production + local development if env vars are missing
+const DEFAULT_ORIGINS = [
+  'https://dylanbochman.com',
+  'https://www.dylanbochman.com',
+  'http://localhost:5173',
+  'http://localhost:8080',
+];
 
 /**
  * Parse and validate ALLOWED_ORIGINS from env var
  * Rejects empty strings and origins that don't start with http
- * Falls back to DEV_ORIGINS if not configured (for local dev)
+ * Falls back to DEFAULT_ORIGINS if not configured
  * Logs warning when using fallback
  */
 function getAllowedOrigins(env: Env): string[] {
   // Handle missing or empty ALLOWED_ORIGINS
   if (!env.ALLOWED_ORIGINS || env.ALLOWED_ORIGINS.trim() === '') {
-    console.warn('ALLOWED_ORIGINS not set, using dev defaults:', DEV_ORIGINS);
-    return DEV_ORIGINS;
+    console.warn('ALLOWED_ORIGINS not set, using defaults:', DEFAULT_ORIGINS);
+    return DEFAULT_ORIGINS;
   }
 
   const origins = env.ALLOWED_ORIGINS
@@ -60,8 +65,8 @@ function getAllowedOrigins(env: Env): string[] {
     .filter(s => s.length > 0 && s.startsWith('http'));
 
   if (origins.length === 0) {
-    console.warn('ALLOWED_ORIGINS contains no valid origins, using dev defaults:', DEV_ORIGINS);
-    return DEV_ORIGINS;
+    console.warn('ALLOWED_ORIGINS contains no valid origins, using defaults:', DEFAULT_ORIGINS);
+    return DEFAULT_ORIGINS;
   }
 
   return origins;
@@ -157,6 +162,7 @@ function handleLogin(request: Request, env: Env): Response {
   const defaultReturnTo = `${allowedOrigins[0]}/projects/kanban`;
   const returnToParam = url.searchParams.get('return_to');
   let returnTo = defaultReturnTo;
+  const workerUrl = env.WORKER_URL || url.origin;
 
   // Validate return_to to prevent open redirect
   // Parse as URL and check origin exactly (not startsWith, which allows bypasses)
@@ -176,7 +182,7 @@ function handleLogin(request: Request, env: Env): Response {
   const state = crypto.randomUUID();
   const authUrl = new URL('https://github.com/login/oauth/authorize');
   authUrl.searchParams.set('client_id', env.GITHUB_CLIENT_ID);
-  authUrl.searchParams.set('redirect_uri', `${env.WORKER_URL}/auth/callback`);
+  authUrl.searchParams.set('redirect_uri', `${workerUrl}/auth/callback`);
   authUrl.searchParams.set('scope', 'read:user');
   authUrl.searchParams.set('state', state);
 

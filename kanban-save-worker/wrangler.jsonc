@@ -16,7 +16,13 @@
 			"id": "d699ddc9107543b09466bac8625c74c3",
 			"remote": true
 		}
-	]
+	],
+	"vars": {
+		"REPO_OWNER": "Dbochman",
+		"REPO_NAME": "personal-website",
+		"WORKER_URL": "https://api.dylanbochman.com",
+		"ALLOWED_ORIGINS": "https://dylanbochman.com,https://www.dylanbochman.com,http://localhost:8080,http://localhost:5173"
+	}
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
