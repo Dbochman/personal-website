@@ -1,0 +1,36 @@
+---
+title: "Retrospectives That Actually Change Things"
+date: "2026-01-24"
+author: Dylan
+description: "Most retrospectives promise progress and deliver paperwork. Here's how to turn incidents into lasting improvement."
+tags:
+  - SRE
+  - Retrospectives
+  - Incident Management
+category: Technical
+draft: false
+---
+
+I use the word retrospective instead of postmortem on purpose. "Postmortem" implies the story is over. A retrospective is about what changes next, and that framing matters when you are trying to turn an incident into lasting improvement.
+
+Most retrospectives promise progress and deliver paperwork. A document gets written, a handful of action items get listed, and everyone returns to the roadmap. Six months later, the same failure mode shows up again because nothing in the system, or the way the team works, actually changed.
+
+The most common failure mode is simple: action items without ownership. They exist in a doc or a backlog, technically "tracked" but not owned, which means they never compete effectively with feature work. Features come with deadlines and visibility. Retrospective actions come with guilt, and guilt loses every time. Low-priority fixes linger just long enough to make the backlog feel heavy, then disappear in a cleanup when nobody is watching.
+
+If you want retrospectives to matter, treat action items like commitments. My rule is straightforward: if an action item does not have a name and a date, it is not real. Keep the list short enough to be prioritization, not catharsis. If you are generating more than three to five items per incident, you are not choosing. Pick the changes that will actually reduce recurrence and let the rest go.
+
+Root-cause techniques can help, but the way many teams use them turns the retrospective into a time sink. "5 whys" works when it drives you past the proximate failure and into the systemic one, yet doing it live in a room full of people often burns forty-five minutes to land on something vague like "we need better testing." That might be true, but it is rarely specific enough to change behavior next week.
+
+A better pattern is to move discovery into pre-work. The people closest to the incident should write down contributing causes before the meeting, while the details are still fresh. Then the retrospective discussion becomes alignment and prioritization, not a group exercise in circling the same questions. You will get to root causes faster, and you will spare everyone the slow grind of live debugging a narrative.
+
+Write retrospectives for the reader you will not have in the room. This is documentation, not therapy. Someone should be able to open the doc a year from now and understand what happened, what you saw, what you tried, and why the team made the calls it made. Most writeups capture outcomes but skip context. "We rolled back the deploy" tells you what happened; it does not tell you what signals drove that decision, which alternatives were on the table, or how to recognize the same pattern when it appears again.
+
+The test is straightforward: write as if you are explaining the incident to a new teammate who joined after it happened. If they had to respond to a similar page tomorrow, would your retrospective give them enough context to make better decisions, faster, under pressure?
+
+Sharing is part of the leverage, but it needs intent. Retrospectives are most valuable inside engineering because dependent teams need to understand what failed and what changed. A smaller set should be translated for the broader business: the customer-facing incidents that triggered support volume, revenue impact, or executive attention. That version should explain impact and remediation in business terms, without drowning in implementation detail.
+
+Public retrospectives are different. They are expensive to do well, and most incidents do not justify the investment. When they do, transparency can repair trust, but it should be treated as a strategic choice, not a default workflow.
+
+The gap between learning and ritual comes down to two decisions. The first is whether retrospective action items are allowed to outrank feature work. That is not an engineering problem; it is leadership signaling. If reliability work always loses to roadmap delivery, people notice, and they eventually stop writing meaningful actions because the process has taught them it is pointless.
+
+The second decision is whether you are willing to change how you operate, not just what you build. It is easy to write "we need better alerting." It is harder to admit that your deploy process lacks guardrails, your ownership boundaries are unclear, or your review culture rewards speed over safety, and then to change those habits. Organizations that actually learn are the ones willing to be uncomfortable, because discomfort is often the price of real operational change.
