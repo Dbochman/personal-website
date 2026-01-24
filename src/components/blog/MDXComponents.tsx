@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import { CodeBlock } from './CodeBlock';
 import { Callout } from './Callout';
 import { BlogImage } from './BlogImage';
+import { Chart, MultiSeriesChart } from './Chart';
+import { MTTRBuilder } from './MTTRBuilder';
+import { SeveritySelector } from './SeveritySelector';
+import { AnimatedMermaidDiagram } from '@/components/projects/incident-command-diagrams/AnimatedMermaidDiagram';
 
 // Check if URL is internal to dylanbochman.com
 const isInternalUrl = (href: string | undefined): string | null => {
@@ -211,4 +215,9 @@ export const mdxComponents: MDXComponents = {
   // Custom components available in MDX
   Callout,
   BlogImage,
+  Chart,
+  MultiSeriesChart,
+  MTTRBuilder,
+  SeveritySelector,
+  AnimatedMermaidDiagram,
 };
