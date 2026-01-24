@@ -58,6 +58,7 @@ export function SeveritySelector({
             <button
               key={item.severity}
               onClick={() => setSelected(i)}
+              aria-pressed={selected === i}
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 selected === i
                   ? 'bg-primary text-primary-foreground'

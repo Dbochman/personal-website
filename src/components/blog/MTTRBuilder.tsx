@@ -72,6 +72,7 @@ function Slider({
           step={step}
           value={value}
           onChange={(e) => onChange(parseInt(e.target.value))}
+          aria-label={label}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />
       </div>
