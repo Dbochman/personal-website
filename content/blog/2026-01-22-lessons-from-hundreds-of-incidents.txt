@@ -11,90 +11,18 @@ category: Technical
 draft: false
 ---
 
-After managing incidents at Groq, HashiCorp, and Spotify, patterns emerge. Here's what I wish I knew on day one.
+After managing incidents at Groq, HashiCorp, and Spotify, I have found that certain patterns start to repeat. The systems differ, the symptoms change, and the stakes vary, but the dynamics often rhyme. If I were briefing my day-one self, I would spend less time worrying about exotic failure modes and more time building fluency in the situations that seem to show up every week.
 
-## The 80/20 of incident response
+In my experience, most incidents resolve in a fairly familiar way, and the rare, cinematic outages are not where teams spend most of their time. I have seen the bulk of incidents fall into three buckets: a configuration change that broke something adjacent, a demand change where traffic or usage patterns shifted unexpectedly, or a dependency change where an upstream service degraded, changed behavior, or went down. The cascading, multi-system failures that make great conference stories do happen, but they have felt like the exception rather than the rule. Because of that, I have found it useful to shape playbooks, tooling, and muscle memory around those three categories first.
 
-Most incidents resolve the same way. The exotic failures are memorable but rare. Optimize for the common case.
+I have also learned, sometimes the hard way, that the first five minutes set the tone, and speed without clarity can create more damage than the original issue. I have pushed a "resolved" update the moment metrics looked better and then realized the fix was not stable. The painful part is rarely the wobble itself; it is the whiplash. Moving from "resolved" back to "investigating" tends to burn trust quickly because it signals that you do not actually have a handle on what is happening. What has worked better for me is waiting to confirm stability for ten to fifteen minutes before declaring resolution, and watching the system through at least one full cycle of whatever matters most for that service, whether that is batch processing, cache warmup, or regional traffic rebalance. The pressure to close quickly is real, but in my experience, reopening is worse.
 
-The vast majority of incidents I've seen fall into three buckets:
+Over time, I have come to think of communication as part of mitigation, not a side task. In my experience, customers tolerate downtime better than silence, and a [consistent cadence](/projects/statuspage-update) changes how an incident feels even when the underlying facts have not changed. For high-severity incidents, a cadence that has worked well for me is external updates every thirty minutes and internal stakeholder updates every fifteen. For lower severities, I have found it can be fine to stretch to sixty minutes or longer, as long as the expectation is set and then met consistently. Missing your own cadence often seems worse than choosing a longer interval because it signals drift and disorganization. The content itself does not need to be revelatory. "We have identified the affected component and are testing a fix" is usually enough, while long silence tends to make people assume you forgot or lost control.
 
-1. **Config changes** - Someone changed something, and it broke something else
-2. **Demand changes** - Traffic spiked, load shifted, or usage patterns changed unexpectedly
-3. **Dependency changes** - An upstream service changed behavior, went down, or degraded
+I have also become more skeptical of the default "war room" shape. Sometimes it helps, but in my experience it can easily turn into ten people watching one person type, which does not parallelize work and can slow decisions. A structure I have preferred is an [Incident Commander](/projects/incident-command-diagrams) who focuses on coordination rather than investigation, an AI scribe or automated tooling to capture the timeline, and a small set of subject-matter experts who can actually make changes safely. Leadership involvement is a nuance I have had to learn to manage. Executives often want to help, but their presence can change the room, and the people debugging usually need psychological safety to say "I do not know," test hypotheses, and back out of dead ends. When leaders need updates, I have found it works better to use a side channel. When their presence becomes disruptive, a separate leadership bridge has been a practical way to protect focus without cutting anyone out.
 
-That's it. The cascading multi-system failures that make great conference talks? Maybe 5% of incidents. Your playbooks, your tooling, and your muscle memory should optimize for these three cases first.
+Runbooks have helped me many times, but I do not think they stay useful automatically. In my experience, runbooks written after an incident tend to solve that incident, and then they start aging as systems evolve. What has worked better for me is keeping troubleshooting context as close to alert definitions as possible, so that when the alert fires the relevant guidance is right there rather than buried in a wiki. The other part is a feedback loop. When an alert pages on-call, I have found it valuable to treat validation of the linked guidance as part of resolution. If the steps were wrong, incomplete, or misleading, updating them immediately tends to keep documentation honest because it is refreshed while the details are still clear.
 
-## Slow down to speed up
+During incidents, I have seen teams reach for MTTR as if it can steer the moment, but I have come to think of it as primarily a lagging indicator. In the middle of an incident, the metric that has felt most useful is [customer impact](/projects/slo-tool), specifically who is impacted and to what degree. "The API is returning 500s" describes a symptom, but it does not tell you whether this affects one percent of users or everyone, whether it is isolated to a region, or whether it blocks payments versus slowing a dashboard. In my experience, those distinctions shape severity, messaging, and prioritization, and they prevent teams from optimizing the wrong thing under pressure. I have found it pays to build dashboards that answer "who is hurting right now?" before you need them, because during the incident is a terrible time to invent the query that defines impact.
 
-The first 5 minutes set the tone. Rushing to "fix" before understanding causes more damage than the original issue.
-
-I've made this mistake more than once: pushing out a status page resolution message the moment metrics look better, only to realize the fix isn't stable. Now you're pulling the incident back into an active state, and customers who thought it was over are watching it reopen. (I built a [Status Page Update Generator](/projects/statuspage-update) partly to slow myself down here.)
-
-That "resolved" to "investigating" transition destroys trust faster than the original outage. It signals you don't actually know what's happening.
-
-Wait. Confirm stability for 10-15 minutes before declaring resolution. Watch the metrics through at least one full cycle of whatever you're measuring. The pressure to close quickly is real, but reopening is worse.
-
-## Communication is mitigation
-
-Customers tolerate downtime better than silence. A status update changes perception, even if it just says "still investigating."
-
-The cadence that worked for me:
-
-- **External (status page, customer-facing):** Every 30 minutes for high-severity incidents
-- **Internal (Slack, stakeholders):** Every 15 minutes for high-severity
-
-For lower severities, stretch to 60 minutes or even hours between updates. Set the expectation and hit it consistently. Missing your own cadence is worse than having a longer interval.
-
-The content doesn't need to be revelatory. "We've identified the affected component and are testing a fix" is fine. Silence for 45 minutes while you're heads-down debugging makes customers assume you've forgotten about them.
-
-## The war room is a crutch
-
-10 people in a Zoom watching 1 person type doesn't parallelize work. It creates pressure and slows decisions.
-
-My preferred structure:
-
-- **Incident Commander (IC):** Owns coordination, not investigation. Asks "what do you need?" not "what did you try?"
-- **AI Scribe:** Let the robots take notes. Humans should be thinking, not transcribing.
-- **SMEs:** The people who actually know the systems. They do the work.
-
-One thing I've learned: keep leaders at arm's length. Executives want to help, but their presence changes the room. If a VP needs updates, pull them into a side channel. If they're getting disruptive, create a "leadership bridge" and redirect them there.
-
-The people debugging need to feel safe saying "I don't know" and trying things that might not work. That's harder with an audience.
-
-## Your runbook is lying to you
-
-Runbooks written after an incident solve *that* incident. They age the moment systems evolve.
-
-The fix isn't better runbooks. It's putting the information where you'll actually see it.
-
-Keep runbook content as close to your alert definitions as possible. The alert fires, the context is right there. No hunting through a wiki, no "I think there's a doc somewhere."
-
-More importantly: create a feedback loop. Every time an alert pages on-call, part of the resolution is checking whether the linked context is still accurate. If the troubleshooting steps were wrong or incomplete, update them *now*, while you still remember what actually worked.
-
-This turns runbook maintenance from a quarterly chore into a continuous habit. The docs stay fresh because they're validated every time they're used.
-
-## Metrics that matter during incidents
-
-MTTR is a lagging indicator. During the incident, you need to know what's happening now.
-
-The metric that matters most: **customer impact**. Specifically: WHO is impacted and to what degree.
-
-Not "the API is returning 500s" - that's a symptom. You need to know: Is this affecting 1% of users or 100%? Is it all customers or one region? Is it blocking payments or just slowing down a dashboard?
-
-This shapes every decision:
-- **Severity assignment:** 1000 users fully blocked is different from 10 users seeing slow loads
-- **Communication tone:** "Some users may experience delays" vs "Service is unavailable"
-- **Prioritization:** Fix the thing affecting paying customers first
-
-Build dashboards that answer "who's hurting right now?" before you need them. During the incident is too late to figure out your impact query. (My [SLO Calculator](/projects/slo-tool) can help you think through what "hurting" means for your service.)
-
-## Not every incident is a lesson
-
-Not every incident has equally valuable learning opportunities.
-
-It's tempting to mandate retrospectives for everything. "We learn from all failures!" But that creates postmortem fatigue. The tenth retro about a config typo teaches nothing new.
-
-Instead: talk to the responders. They were there. They know if this was a novel failure or a repeat of something you already understand. Collaboratively decide how much retrospective effort an incident deserves.
-
-Some incidents need a full blameless postmortem with stakeholders and action items. Others need a quick note in Slack and a one-line fix. The responders can tell you which is which, if you ask them.
+Finally, I do not think every incident deserves the same [retrospective](/blog/2026-01-24-retrospectives-that-actually-change-things) weight. It is tempting to mandate a full retrospective for everything in the name of learning, but in my experience that can quickly turn into fatigue, and fatigue produces shallow writeups that nobody trusts. The tenth retrospective about a configuration typo rarely teaches something new. What has worked better for me is asking the responders. They were there, they usually know whether the failure was novel or familiar, and they can tell you whether the right output is a full, blameless retrospective with stakeholders and action items, a lightweight writeup, or a quick note plus a one-line fix. Sizing the retrospective effort intentionally has helped preserve energy for the incidents that actually change how you understand the system.
