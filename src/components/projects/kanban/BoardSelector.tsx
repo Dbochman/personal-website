@@ -121,7 +121,7 @@ export function BoardSelector({
           boards.map((board) => (
             <DropdownMenuItem
               key={board.id}
-              onClick={() => handleBoardSelect(board.id)}
+              onSelect={() => handleBoardSelect(board.id)}
               className={board.id === currentBoardId ? 'bg-accent' : ''}
             >
               <span className="flex-1 truncate">{board.title}</span>
@@ -134,7 +134,7 @@ export function BoardSelector({
         {isAuthenticated && (
           <>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={onCreateNew}>
+            <DropdownMenuItem onSelect={onCreateNew}>
               <Plus className="h-4 w-4 mr-2" />
               New Board...
             </DropdownMenuItem>
