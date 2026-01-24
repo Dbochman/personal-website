@@ -20,6 +20,8 @@ export interface AnimationNode {
   branches?: [[string, number], [string, number]];
   /** Target diagram ID for link nodes (e.g., 'incident-management') */
   linkTo?: string;
+  /** Terminal nodes end the walkthrough (show replay button) */
+  terminal?: boolean;
 }
 
 // Lazy-load mermaid
@@ -190,6 +192,13 @@ export function AnimatedMermaidDiagram({
     const currentNode = currentIndex >= 0 ? nodes[currentIndex] : null;
     const isDecision = currentNode?.type === 'decision';
 
+    // Terminal nodes end the walkthrough immediately
+    if (currentNode?.terminal) {
+      setIsPlaying(false);
+      onComplete?.();
+      return;
+    }
+
     // Use longer pause for decision nodes (10s slow pulse effect)
     const interval = isDecision ? 10000 : speed;
 
@@ -218,12 +227,13 @@ export function AnimatedMermaidDiagram({
   }, [isPlaying, awaitingDecision, nodes, speed, currentIndex, onComplete]);
 
   const start = useCallback(() => {
-    if (currentIndex === -1 || currentIndex >= nodes.length - 1) {
+    const atTerminal = currentIndex >= 0 && nodes[currentIndex]?.terminal;
+    if (currentIndex === -1 || currentIndex >= nodes.length - 1 || atTerminal) {
       setCurrentIndex(0);
     }
     setIsPlaying(true);
     setAwaitingDecision(false);
-  }, [currentIndex, nodes.length]);
+  }, [currentIndex, nodes]);
 
   const pause = useCallback(() => {
     setIsPlaying(false);
@@ -296,7 +306,7 @@ export function AnimatedMermaidDiagram({
 
   const progress = currentIndex === -1 ? 0 : ((currentIndex + 1) / nodes.length) * 100;
   const currentNode = currentIndex >= 0 ? nodes[currentIndex] : null;
-  const isComplete = currentIndex >= nodes.length - 1 && !isPlaying;
+  const isComplete = (currentIndex >= nodes.length - 1 || currentNode?.terminal) && !isPlaying;
 
   return (
     <div className="space-y-4">

@@ -17,6 +17,31 @@ Most retrospectives promise progress and deliver paperwork. A document gets writ
 
 The most common failure mode is simple: action items without ownership. They exist in a doc or a backlog, technically "tracked" but not owned, which means they never compete effectively with feature work. Features come with deadlines and visibility. Retrospective actions come with guilt, and guilt loses every time. Low-priority fixes linger just long enough to make the backlog feel heavy, then disappear in a cleanup when nobody is watching.
 
+<AnimatedMermaidDiagram
+  code={`flowchart TD
+  A[Action Items Created] --> B{Owner + Date Assigned?}
+  B -->|Yes| C[Owned Item]
+  B -->|No| D[Unowned Item]
+  C --> E{Prioritized?}
+  E -->|Yes| F[✓ Completed]
+  E -->|No| G[Deprioritized]
+  G --> H[Quietly Abandoned]
+  D --> I[Lingers Forever]
+  I --> J[Deleted in Cleanup]`}
+  nodes={[
+    { id: 'A', label: 'Action Items Created', description: 'Retrospective generates action items to prevent recurrence.' },
+    { id: 'B', label: 'Owner + Date Assigned?', type: 'decision', branches: [['Yes', 2], ['No', 5]], description: 'The critical fork: items with a name and date are real commitments. Items without ownership are wishes.' },
+    { id: 'C', label: 'Owned Item', description: 'Someone has committed to this work with a deadline.' },
+    { id: 'E', label: 'Prioritized?', type: 'decision', branches: [['Yes', 4], ['No', 6]], description: 'Does this item compete effectively against feature work?' },
+    { id: 'F', label: 'Completed ✓', terminal: true, description: 'The rare success: item gets done, system improves.' },
+    { id: 'D', label: 'Unowned Item', description: 'Technically tracked but not owned. Nobody feels responsible.' },
+    { id: 'G', label: 'Deprioritized', description: 'Roadmap pressure wins. "We\'ll get to it later."' },
+    { id: 'H', label: 'Quietly Abandoned', terminal: true, description: 'Slips off the radar. Nobody notices or complains.' },
+    { id: 'I', label: 'Lingers Forever', description: 'Sits in backlog, creating guilt but no action.' },
+    { id: 'J', label: 'Deleted in Cleanup', terminal: true, description: 'Eventually removed when someone cleans up stale tickets.' },
+  ]}
+/>
+
 If you want retrospectives to matter, treat action items like commitments. My rule is straightforward: if an action item does not have a name and a date, it is not real. Keep the list short enough to be prioritization, not catharsis. If you are generating more than three to five items per incident, you are not choosing. Pick the changes that will actually reduce recurrence and let the rest go.
 
 Root-cause techniques can help, but the way many teams use them turns the retrospective into a time sink. "5 whys" works when it drives you past the proximate failure and into the systemic one, yet doing it live in a room full of people often burns forty-five minutes to land on something vague like "we need better testing." That might be true, but it is rarely specific enough to change behavior next week.
