@@ -3,7 +3,7 @@ schemaVersion: 1
 id: house
 title: House Projects
 createdAt: "2026-01-15T23:17:50.056Z"
-updatedAt: "2026-01-15T23:18:30.252Z"
+updatedAt: "2026-01-24T02:41:49.607Z"
 columns:
   - id: todo
     title: To Do
