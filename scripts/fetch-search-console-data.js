@@ -70,7 +70,7 @@ async function fetchSearchConsoleData() {
         endDate: formatDate(endDate),
         dimensions: ['query', 'page'],
         rowLimit: 100,
-        dataState: 'final', // or 'all' for fresher but potentially incomplete data
+        dataState: 'all', // fresher data, may include low-volume queries hidden by 'final'
       },
     });
 
