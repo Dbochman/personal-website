@@ -23,7 +23,7 @@ export const experiences: Experience[] = [
   {
     company: "Groq",
     role: "Technical Incident Manager",
-    period: "July 2025 – January 2025",
+    period: "July 2025 – January 2026",
     description: "Building zero-to-one incident response capabilities for high-performance AI infrastructure.",
     highlights: [
       "Establish Groq's zero-to-one incident management framework, including policies, runbooks, and onboarding materials that align with security and compliance requirements.",
