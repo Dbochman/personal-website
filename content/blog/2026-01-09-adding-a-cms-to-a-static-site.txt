@@ -125,3 +125,7 @@ Performance is adequate rather than optimal. The runtime MDX compilation adds we
 The architecture has a few quirks: `.txt` files containing MDX, a redirect for the CMS. But quirks that work reliably are better than elegance that doesn't.
 
 Sometimes the right solution is the one that works, even when it is not the one that was planned. Especially when it is not the one that was planned.
+
+---
+
+*If you want to set up Decap CMS yourself without reading about our debugging journey, see [Decap CMS with Netlify: Git Gateway, Build Hooks, and the Cloudflare Gotcha](/blog/2026-01-15-decap-cms-netlify-setup-guide).*

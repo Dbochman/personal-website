@@ -77,7 +77,7 @@ This has unexpected benefits: comments are backed up in GitHub, spam is handled 
 
 Decap CMS needs an authentication backend. GitHub Pages can't provide one. So I host the CMS on Netlify (free tier) while the actual site stays on GitHub Pages.
 
-This means the CMS lives at `dylanbochman.netlify.app/editor` rather than on the main domain. A minor inconvenience for a clean separation of concerns: Netlify handles auth, GitHub handles hosting, neither knows about the other.
+This means the CMS lives at `dylanbochman.netlify.app/editor` rather than on the main domain. A minor inconvenience for a clean separation of concerns: Netlify handles auth, GitHub handles hosting, neither knows about the other. (For the full setup details, see [Decap CMS with Netlify](/blog/2026-01-15-decap-cms-netlify-setup-guide).)
 
 ## Why not just pay for hosting?
 

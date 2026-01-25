@@ -187,3 +187,7 @@ We went with Option B. The CMS is a private admin interface with no SEO value, s
 Netlify Identity handles authentication. Git Gateway commits to your repo. Build hooks trigger rebuilds. The Cloudflare redirect (if you need it) routes editor traffic where it needs to go.
 
 The result is a CMS with nothing to maintain. Content lives in Git, auth is handled by Netlify, and your site stays static.
+
+---
+
+*For the full story of how we arrived at this setup (including the MDX debugging that preceded it), see [Building a Blog, One Revert at a Time](/blog/2026-01-09-adding-a-cms-to-a-static-site). For how the CMS fits into the broader architecture, see [The Architecture of a Free Website](/blog/2026-01-10-architecture-of-a-free-website).*
