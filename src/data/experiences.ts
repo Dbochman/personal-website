@@ -12,7 +12,7 @@ export const experiences: Experience[] = [
   {
     company: "Nvidia",
     role: "Technical Incident Manager",
-    period: "February 2025 – Present",
+    period: "January 2026 – Present",
     description: "Inference Incident Management and Operational Resilience, Supporting both cloud and onsite inference hardware.",
     highlights: [
       "Lead incident response for Nvidia's inference infrastructure, coordinating across cloud and on-premises environments",
