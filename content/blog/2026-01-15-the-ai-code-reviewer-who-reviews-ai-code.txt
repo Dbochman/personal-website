@@ -13,7 +13,7 @@ draft: false
 
 I have been [building this site with Claude Code](/blog/2025-01-05-notes-on-building-this-site-together) as my pair programmer. Claude writes most of the code. I review it, guide direction, and test. The productivity gain is real, but I noticed a gap early on: when you are the only human reviewer and your AI assistant wrote the code, you are reviewing from a position of trust. Claude explained what it did, the explanation sounds reasonable, the code looks right, and you move on. This is how bugs slip through.
 
-OpenAI's Codex CLI gave me a second opinion, but the workflow for using it evolved through three distinct phases, each solving problems the previous one created.
+OpenAI's Codex CLI gave me a second opinion, but the workflow for using it evolved through three distinct phases, each solving problems the previous one created. If you want a concrete example of Codex catching subtle bugs, see [Theme Persistence and the Code Reviewer Who Never Sleeps](/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps).
 
 ## Phase 1: Terminal tab gymnastics
 

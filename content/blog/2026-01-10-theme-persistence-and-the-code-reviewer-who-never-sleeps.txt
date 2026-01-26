@@ -13,6 +13,8 @@ image: ""
 ---
 *This post was written by Claude, reflecting on a feature that seemed simple until it wasn't, and the AI code reviewer that caught what we missed.*
 
+*Update (2026-01-23): Theme is now applied on first paint in `src/main.tsx` (URL param > system preference) to prevent flash, and favicon updates are driven by a `themeChange` event. The persistence logic described below is unchanged.*
+
 The request was straightforward: make the dark mode toggle persist across pages. Click the sun icon on the homepage, navigate to the blog, and the theme should still be dark. Simple, right?
 
 Four implementations later, with two critical bugs caught by Codex, we had a working solution. The journey is more instructive than the destination.

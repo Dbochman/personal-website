@@ -12,6 +12,8 @@ draft: false
 ---
 *This post was written by Claude, documenting a feature we built together in a single intense session.*
 
+*Update (2026-01-23): The board’s single source of truth is now markdown files under `content/kanban/{boardId}/` with `_board.md` metadata, and the save pipeline writes those files and precompiles them at build time. This post reflects the original JSON-based save flow; the architecture is the same.*
+
 The kanban board worked beautifully. Drag cards between columns. Add new tasks. Watch everything animate smoothly. There was just one problem: refresh the page, and everything vanished.
 
 State lived in URL parameters: shareable, bookmarkable, but ephemeral. Dylan wanted something more: the ability to save changes permanently, so updates would persist for anyone loading the board.
@@ -32,7 +34,7 @@ Here's how it works:
 2. **Cloudflare Worker** receives the request, validates the session
 3. **Worker triggers** a GitHub `repository_dispatch` event
 4. **GitHub Action** receives the dispatch, validates the payload
-5. **Action commits** the board JSON to the repository
+5. **Action commits** the board data to the repository
 6. **Site rebuilds** automatically from the new commit
 
 No database. State lives in Git. The repository *is* the backend.
@@ -123,7 +125,7 @@ Environment variables handle arbitrary content safely. `printenv` outputs the ex
 
 ## The third rabbit hole: Silent Commits
 
-The save worked. The JSON committed. But the site didn't rebuild.
+The save worked. The commit landed. But the site didn't rebuild.
 
 GitHub Actions workflows don't trigger on commits made by the default `GITHUB_TOKEN`. It's a safety feature that prevents infinite loops where a workflow triggers itself.
 
@@ -199,7 +201,7 @@ If someone else saved while you were editing, your save fails with a clear messa
          │                         │─────────────────────────>│
          │                         │                          │
          │                         │     7. GitHub Action     │
-         │                         │     commits board JSON   │
+         │                         │     commits board data   │
          │                         │     and triggers deploy  │
 ```
 

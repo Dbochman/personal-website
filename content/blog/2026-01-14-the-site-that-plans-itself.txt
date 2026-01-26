@@ -24,15 +24,15 @@ Each card links to its detailed planning document. Click a card, read the implem
 
 ## Opening a dialogue
 
-Here's where it gets interesting. The board data lives in [`src/types/kanban.ts`](https://github.com/Dbochman/personal-website/blob/main/src/types/kanban.ts). The planning documents live in [`docs/plans/`](https://github.com/Dbochman/personal-website/tree/main/docs/plans). Both are just files in the repo.
+Here's where it gets interesting. The board data lives in [`content/kanban/roadmap/`](https://github.com/Dbochman/personal-website/tree/main/content/kanban/roadmap) as markdown cards with `_board.md` defining columns, and the site precompiles those into `src/generated/kanban/*.js` at build time. The planning documents live in [`docs/plans/`](https://github.com/Dbochman/personal-website/tree/main/docs/plans). All of it is plain files in the repo.
 
 This means visitors can suggest new features (open a PR adding a card to the backlog), comment on priorities (open an issue referencing a card ID), propose implementation changes (edit the plan document), and learn from the history (use the change log, card history, and commits as a paper trail).
 
-This isn't hypothetical openness. It's the same workflow we use internally. When I want to update the roadmap, I tell Claude what changed, and Claude edits the TypeScript file. A visitor with a good idea follows the same path, just through GitHub's PR interface instead of conversation.
+This isn't hypothetical openness. It's the same workflow we use internally. When I want to update the roadmap, I tell Claude what changed, and Claude edits the markdown card files (or uses the kanban CLI). A visitor with a good idea follows the same path, just through GitHub's PR interface instead of conversation.
 
 ## The mechanics
 
-The board is fully functional for exploration. Drag cards around, check off subtasks, see how different arrangements feel. The "Reset" button restores the shipped default, and visitor changes don't affect the canonical roadmap. That lives in the codebase.
+The board is fully functional for exploration. Drag cards around, check off subtasks, see how different arrangements feel. The "Reset" button restores the shipped default, and visitor changes don't affect the canonical roadmap. That lives in the markdown files in the repo.
 
 Deep links let you share specific cards: clicking "Copy Card Link" generates a URL like `?card=some-id` that opens that card's detail view on load. This makes the board explorable (visitors can play "what if" without consequences), shareable (deep links point to specific cards for discussion), and canonical (source of truth is version-controlled code).
 
@@ -62,4 +62,4 @@ Visit [/projects/kanban](/projects/kanban). Drag some cards around. Click one to
 
 Then consider: what would it mean for your project's roadmap to be a conversation instead of an announcement?
 
-If you have ideas for this site, the [backlog is open](https://github.com/Dbochman/personal-website/blob/main/src/types/kanban.ts). [PRs welcome](https://github.com/Dbochman/personal-website/pulls).
+If you have ideas for this site, the [backlog is open](https://github.com/Dbochman/personal-website/tree/main/content/kanban/roadmap). [PRs welcome](https://github.com/Dbochman/personal-website/pulls).
