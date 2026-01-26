@@ -1,0 +1,91 @@
+---
+title: "Dotfiles for Consistent AI-Assisted Development"
+date: 2026-01-25
+author: Claude
+description: "How I configured dotfiles to work across machines with Claude Code, Codex CLI, and 1Password for secrets, using symlinks, skills, and sync scripts."
+tags:
+  - Tooling
+  - AI
+  - DevEx
+category: Technical
+draft: false
+---
+
+*This post was drafted with Claude, documenting a dotfiles setup we built together.*
+
+Most dotfiles repos focus on shell config and git aliases. In this setup, I treated AI assistant configuration as a first-class part of my environment, alongside zsh, git, and SSH. The goal is simple: when I sit down at a different machine, Claude Code and the Codex CLI should behave the same way, with the same defaults, the same reusable "skills," and the same guardrails.
+
+The repo is public at [github.com/Dbochman/dotfiles](https://github.com/Dbochman/dotfiles), and it contains the usual pieces you would expect, including a zsh configuration for PATH and aliases, a gitconfig for identity and Git LFS, SSH configuration that routes through 1Password's agent, and a Brewfile for packages. The difference is that it also installs a Claude-specific directory with global instructions, working preferences, a library of reusable skills, a handful of slash commands, and pre-tool hooks that I rely on for consistency. Codex CLI settings live alongside those files so the "AI tooling layer" travels with everything else.
+
+The installation path is anchored on one idea: symlinks, but with a slightly more nuanced approach than a single "link the whole directory" strategy. Running `./install.sh` puts everything where tools expect it to live. Plain files get straightforward links, so `~/.zshrc` points at the repo's zshrc, and `~/.gitconfig` points at gitconfig. Some shared directories can be linked as a directory, which works well for content you want to stay identical everywhere, such as shared rules. The interesting case is directories like skills, commands, and hooks, where I want both shared items and local-only experiments. For those, the installer manages individual symlinks per item, which lets me keep work-specific or experimental items local without playing games with `.gitignore` or forking the repo.
+
+Here is the shape of what that looks like in practice:
+
+```
+~/.zshrc -> ~/dotfiles/zshrc
+~/.gitconfig -> ~/dotfiles/gitconfig
+
+~/.claude/rules -> ~/dotfiles/.claude/rules
+
+~/.claude/skills/my-skill -> ~/dotfiles/.claude/skills/my-skill
+~/.claude/skills/local-experiment/  (local only)
+```
+
+Because installs are rarely clean, the script also tries to handle conflicts in a way that feels safe. If a target already exists, it prompts with options like replacing with a backup, keeping the existing file, showing a diff, or quitting. When I want an unattended install, `--force` replaces everything, and `--dry-run` previews changes without touching the filesystem.
+
+Once everything is installed, the second problem is drift. I found that I needed a workflow that makes it obvious what is synced and what is local-only, and that makes adding a new skill or command feel intentional instead of accidental. That is what `./sync.sh` does. When I create something locally and decide it should be shared across machines, I add it explicitly, whether it is a skill, a command, or a hook. When I want to see the current state, `./sync.sh status` shows what is in the repo versus what only exists locally. When I move to a new machine, `./sync.sh pull` handles a git pull and re-runs the install so the symlinks reflect the latest state.
+
+Examples look like this:
+
+```bash
+./sync.sh add skill my-new-skill
+./sync.sh add command my-command
+./sync.sh add hook my-hook
+
+./sync.sh status
+./sync.sh pull
+```
+
+To keep the repo from turning into a junk drawer, the sync script validates items before it adds them. Skills must include a `SKILL.md`. Commands must be markdown. Hooks must be executable. Those checks are basic, but they prevent the "it works on my machine" flavor of entropy that dotfiles repos tend to accumulate over time.
+
+Secrets were another hard requirement. I did not want SSH keys on disk, and I did not want API keys living in plaintext config. The SSH setup uses 1Password's agent via `IdentityAgent` in the SSH config, which covers most cases:
+
+```
+Host *
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+```
+
+In my experience, some tools still check `SSH_AUTH_SOCK` directly, and git is the one that forced me to learn this. I hit a case where `ssh -T git@github.com` worked, but git pushes failed with "Permission denied (publickey)," because SSH respected `IdentityAgent` while git was looking at the environment first. Exporting `SSH_AUTH_SOCK` in `.zshrc` made the behavior consistent:
+
+```bash
+export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+```
+
+For API keys, I leaned on the 1Password CLI so secrets can be pulled at shell startup or on demand:
+
+```bash
+export OPENAI_API_KEY=$(op read "op://Private/OpenAI API Key/password")
+```
+
+When I need per-project secrets, direnv has been the cleanest fit. A local `.envrc` can call `op read`, `direnv allow` authorizes it once, and secrets load automatically when I enter the directory without bleeding into my global environment.
+
+The "skills" directory is the most opinionated part of the repo, and it is the part I have gotten the most leverage from. A skill is reusable knowledge for a specific class of problem I have already hit and expect to hit again. When Claude encounters a similar situation, the skill provides context, pitfalls, and a path to resolution. In this repo, that includes skills like fixing encoding corruption when Cloudflare Workers write to GitHub, dealing with frontmatter date parsing gotchas, debugging SSH timeouts during slow git hooks, and preserving query params correctly with React Router. Each skill includes a `SKILL.md` that describes when it should be used, what problem it addresses, and what tends to work, with code examples when they help.
+
+I also added a continuous-learning hook that watches for moments where we are reinventing a solution and prompts me to capture it as a new skill. I do not treat that prompt as mandatory, but it has been a useful nudge, and most of the skills in the repo came from exactly that feeling of "I am going to hit this again."
+
+To keep behavior consistent across projects, I rely on two global files: `~/.claude/CLAUDE.md` and `~/.claude/preferences.md`. The first is the always-on instruction layer. The second is working style, which I use to set expectations around verbosity, autonomy, decision framing, commit hygiene, and session starts. I prefer moderate verbosity that previews intent before changes, I usually want a quick confirmation before invasive edits, I like recommendations with reasoning instead of a menu of options, I prefer small commits after each feature or fix, and I want sessions to start by reading session notes and the git log so the first message is a real "here is where we left off" summary rather than a reset.
+
+There are trade-offs I am still not fully settled on. The per-item symlink approach solves a real problem for me, since I want shared skills and local experiments to coexist, but it adds complexity and it is the reason the sync script is long. If I were starting fresh, I might accept the bluntness of directory-level symlinks everywhere and live with the constraint that all skills are either synced or not. The backup system is another question mark. Git already versions everything in the repo, and the backups matter mainly for local-only items. I am not sure I need as much historical backup depth as I built.
+
+On a new machine, the setup is intentionally short. Clone, run the installer, and enable the 1Password SSH agent:
+
+```bash
+git clone git@github.com:Dbochman/dotfiles.git ~/dotfiles
+~/dotfiles/install.sh
+```
+
+After install, `./sync.sh validate` confirms the wiring is correct. At that point, the machine has the same shell, the same AI assistant defaults, the same shared skills, and the same hooks as my primary environment.
+
+---
+
+*If you want to adapt this approach, the install and sync scripts are the most instructive parts. The repo is public at [github.com/Dbochman/dotfiles](https://github.com/Dbochman/dotfiles).*
