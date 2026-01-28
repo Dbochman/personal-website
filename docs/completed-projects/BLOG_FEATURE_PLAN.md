@@ -509,7 +509,7 @@ Following the performance analysis above, build-time MDX precompilation was impl
 **Implementation (PR #84):**
 1. **Build-time MDX compilation** - `scripts/precompile-mdx.js` compiles MDX at build time
 2. **Synchronous loaders** - `src/lib/blog-loader-precompiled.ts` with `getPostsSync()` and `getPostSync()` for SSR/pre-rendering compatibility
-3. **Filename-based slugs** - Slugs extracted from filenames (e.g., `2025-01-04-hello-world.txt`) rather than frontmatter
+3. **Filename-based slugs** - Slugs extracted from filenames (e.g., `2026-01-04-hello-world.txt`) rather than frontmatter
 4. **Lightweight utilities** - Created `src/lib/blog-utils.ts` for tree-shaking of filter/sort functions
 
 **Bundle Optimization:**

@@ -12,7 +12,7 @@ const BASE_URL = process.env.BASE_URL || 'https://dylanbochman.com';
 const PAGES = [
   { name: 'home', url: BASE_URL },
   { name: 'blog', url: `${BASE_URL}/blog` },
-  { name: 'blog-post-404', url: `${BASE_URL}/blog/2025-01-08-fixing-404-errors-on-github-pages-spas` },
+  { name: 'blog-post-404', url: `${BASE_URL}/blog/2026-01-08-fixing-404-errors-on-github-pages-spas` },
   { name: 'projects', url: `${BASE_URL}/projects` },
   { name: 'project-slo', url: `${BASE_URL}/projects/slo-tool` },
   { name: 'project-statuspage', url: `${BASE_URL}/projects/statuspage-update` },
