@@ -265,18 +265,18 @@ export function AnalyticsDashboard() {
                     <thead>
                       <tr className="border-b">
                         <th className="text-left py-2 font-medium">Page</th>
-                        <th className="text-right py-2 font-medium">Sessions</th>
-                        <th className="text-right py-2 font-medium">Users</th>
-                        <th className="text-right py-2 font-medium">Page Views</th>
+                        <th className="text-right py-2 pl-4 font-medium">Sessions</th>
+                        <th className="text-right py-2 pl-4 font-medium">Users</th>
+                        <th className="text-right py-2 pl-4 font-medium hidden sm:table-cell">Views</th>
                       </tr>
                     </thead>
                     <tbody>
                       {latestGA4.topPages.slice(0, 10).map((page) => (
                         <tr key={page.page} className="border-b border-border/50">
-                          <td className="py-2 font-mono text-xs truncate max-w-[200px]">{page.page}</td>
-                          <td className="text-right py-2 tabular-nums">{page.sessions.toLocaleString()}</td>
-                          <td className="text-right py-2 tabular-nums">{page.users.toLocaleString()}</td>
-                          <td className="text-right py-2 tabular-nums">{page.pageViews.toLocaleString()}</td>
+                          <td className="py-2 font-mono text-xs truncate max-w-[150px] sm:max-w-[200px]">{page.page}</td>
+                          <td className="text-right py-2 pl-4 tabular-nums">{page.sessions.toLocaleString()}</td>
+                          <td className="text-right py-2 pl-4 tabular-nums">{page.users.toLocaleString()}</td>
+                          <td className="text-right py-2 pl-4 tabular-nums hidden sm:table-cell">{page.pageViews.toLocaleString()}</td>
                         </tr>
                       ))}
                     </tbody>
