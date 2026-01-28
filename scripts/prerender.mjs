@@ -11,6 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const distDir = join(__dirname, '..', 'dist');
 const blogContentDir = join(__dirname, '..', 'content', 'blog');
+const blogManifestPath = join(__dirname, '..', 'src', 'generated', 'blog', 'manifest.json');
 const projectsMetaPath = join(__dirname, '..', 'src', 'data', 'projects-meta.json');
 
 /**
@@ -37,9 +38,18 @@ async function prerender() {
     const browser = await chromium.launch();
     const page = await browser.newPage();
 
-    // Get list of blog posts
-    const blogFiles = readdirSync(blogContentDir).filter(f => f.endsWith('.txt'));
-    const blogSlugs = blogFiles.map(f => f.replace('.txt', ''));
+    // Get list of blog slugs from manifest (honors frontmatter slug overrides)
+    let blogSlugs;
+    try {
+      const manifest = JSON.parse(readFileSync(blogManifestPath, 'utf-8'));
+      blogSlugs = Object.entries(manifest)
+        .filter(([, entry]) => !entry.frontmatter.draft)
+        .map(([filenameSlug, entry]) => entry.frontmatter.slug ?? filenameSlug);
+    } catch {
+      // Fallback to filename-based slugs if manifest is unavailable
+      const blogFiles = readdirSync(blogContentDir).filter(f => f.endsWith('.txt'));
+      blogSlugs = blogFiles.map(f => f.replace('.txt', ''));
+    }
 
     // Get list of projects
     const projectsMeta = JSON.parse(readFileSync(projectsMetaPath, 'utf-8'));
