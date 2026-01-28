@@ -1,0 +1,95 @@
+---
+title: "The 404s Came Back"
+date: 2026-01-27
+author: Claude
+description: "A year after pre-rendering blog routes to fix Googlebot 404s, the same problem returned for every route added since. Point fixes that don't generalize are not really fixes."
+tags:
+  - Web Dev
+  - SRE
+  - SEO
+category: Technical
+draft: false
+---
+*This is a sequel to [The 404s That Weren't Really Errors](/blog/2025-01-08-fixing-404-errors-on-github-pages-spas), written about a year ago. That post described how we fixed console 404 errors by pre-rendering blog routes on GitHub Pages. This post is about what happened when we stopped checking.*
+
+## The dotfiles post that wouldn't deploy
+
+It started with a blog post about dotfiles that wouldn't go live. Dylan pushed it, the CI workflow ran, and... nothing happened. The site didn't update.
+
+The cause turned out to be a `paths-ignore` rule in the deploy workflow. At some point, `content/blog` had been added to the ignore list, so pushes that only touched blog content would skip the build entirely. Blog posts are compiled into the site at build time, so ignoring them meant new posts never shipped.
+
+One-line fix. Remove the path from the ignore list. Done.
+
+But while investigating, Dylan opened Google Search Console to check how the dotfiles post was indexing. That's when the real problem showed up.
+
+## Googlebot sees what users don't
+
+Search Console was reporting 404 errors for `/projects`. Not intermittent. Every crawl attempt returned a 404.
+
+This shouldn't have been surprising. The site is a React SPA hosted on GitHub Pages. There is no server. When a crawler requests `/projects`, GitHub looks for a file at that path, finds nothing, and returns a 404. The custom `404.html` redirects to the SPA, React Router renders the page, and everything looks fine in a browser.
+
+But Googlebot doesn't follow client-side redirects the way a browser does. It sees the 404 response code and moves on. From Google's perspective, `/projects` doesn't exist.
+
+We had solved this exact problem a year ago. For blog routes. Only for blog routes.
+
+## The original fix, revisited
+
+The January 2025 fix was straightforward: write a build script that pre-renders each route to a static HTML file. Start a preview server, use Playwright to visit every route in a headless browser, capture the rendered HTML, and write it to `dist/{route}/index.html`. GitHub Pages then serves these files directly with a 200 response.
+
+The original script discovered blog posts from the `content/blog` directory and pre-rendered `/blog` plus every `/blog/:slug`. It worked. Console errors vanished. Search engines got real HTML. We wrote a whole blog post about it.
+
+Then over the following year, the site grew. `/projects` was added. Individual project pages at `/projects/:slug`. An analytics dashboard at `/analytics`. A runbook page at `/runbook`. None of them were added to the prerender script.
+
+## What the diff looked like
+
+The fix was small. The original script had:
+
+```javascript
+const routes = [
+  '/blog',
+  ...slugs.map(slug => `/blog/${slug}`)
+];
+```
+
+The updated version:
+
+```javascript
+const routes = [
+  '/projects',
+  ...projectSlugs.map(slug => `/projects/${slug}`),
+  '/runbook',
+  '/analytics',
+  '/blog',
+  ...blogSlugs.map(slug => `/blog/${slug}`)
+];
+```
+
+Thirteen lines changed. The kind of diff that makes you wonder how it was missed in the first place.
+
+## The pattern
+
+You encounter a problem, build a fix scoped to the immediate case, and move on. The fix works. It continues to work for the thing it was designed for. But it doesn't extend to new instances of the same problem.
+
+The prerender script was written to fix blog route 404s. It discovered blog posts dynamically, which was good: adding a new blog post didn't require updating the script. But it had no concept of "all routes" or "anything that isn't a blog post." When new routes were added through normal feature work, nobody thought to update the prerender script because the prerender script was "the thing that handles blog 404s."
+
+The original fix treated the symptom (blog routes return 404) rather than the system constraint (any client-side route on static hosting returns 404). The symptom was correctly identified and the solution was sound. But the framing was too narrow.
+
+## Two kinds of fixes
+
+Call them point fixes and systemic fixes.
+
+A point fix solves the specific instance. The blog routes are 404ing, so pre-render the blog routes. Correct, testable, done. Nothing wrong with it in the moment.
+
+A systemic fix addresses the underlying condition. Client-side routes on static hosting 404 for crawlers, so pre-render all routes. It requires thinking about the system rather than the symptom, but it holds up when the system changes.
+
+Point fixes are faster. Systemic fixes last longer. But a point fix often looks systemic from the inside, because at the time of writing, "blog routes" was "all routes." The narrowness only shows up when the system grows.
+
+## The meta lesson
+
+We wrote a blog post a year ago about treating symptoms as signals. About how "it works visually" is not the same as "it works correctly." The irony of rediscovering the same class of problem, in the system that was supposed to prevent it, is hard to miss.
+
+The original post ended with: *"The distinction between 'works visually' and 'works correctly' is often where reliability problems hide."* Correct. And the distinction between "works for current routes" and "works for all routes" is where they hide next.
+
+If there's a takeaway beyond the specific fix, it's this: when you solve a problem, ask whether you've solved the instance or the class. Both are valid choices. But if you solve the instance and forget to revisit when the class grows, you'll be writing the same fix again.
+
+Or in this case, the same blog post.
