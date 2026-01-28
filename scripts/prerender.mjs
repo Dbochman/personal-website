@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { chromium } from '@playwright/test';
-import { readdirSync, writeFileSync, mkdirSync } from 'fs';
+import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
@@ -11,9 +11,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const distDir = join(__dirname, '..', 'dist');
 const blogContentDir = join(__dirname, '..', 'content', 'blog');
+const projectsMetaPath = join(__dirname, '..', 'src', 'data', 'projects-meta.json');
 
 /**
- * Pre-render blog routes to static HTML files for GitHub Pages
+ * Pre-render routes to static HTML files for GitHub Pages
  * This eliminates 404 errors by creating actual HTML files for each route
  */
 async function prerender() {
@@ -38,11 +39,19 @@ async function prerender() {
 
     // Get list of blog posts
     const blogFiles = readdirSync(blogContentDir).filter(f => f.endsWith('.txt'));
-    const slugs = blogFiles.map(f => f.replace('.txt', ''));
+    const blogSlugs = blogFiles.map(f => f.replace('.txt', ''));
+
+    // Get list of projects
+    const projectsMeta = JSON.parse(readFileSync(projectsMetaPath, 'utf-8'));
+    const projectSlugs = projectsMeta.map(p => p.slug);
 
     const routes = [
+      '/projects',
+      ...projectSlugs.map(slug => `/projects/${slug}`),
+      '/runbook',
+      '/analytics',
       '/blog',
-      ...slugs.map(slug => `/blog/${slug}`)
+      ...blogSlugs.map(slug => `/blog/${slug}`)
     ];
 
     console.log(`📄 Pre-rendering ${routes.length} routes...`);
