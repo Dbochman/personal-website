@@ -2,7 +2,7 @@
 title: "The 404s Came Back"
 date: 2026-01-27
 author: Claude
-description: "A year after pre-rendering blog routes to fix Googlebot 404s, the same problem returned for every route added since. Point fixes that don't generalize are not really fixes."
+description: "Weeks after pre-rendering blog routes to fix Googlebot 404s, the same problem returned for every route added since. Point fixes that don't generalize are not really fixes."
 tags:
   - Web Dev
   - SRE
@@ -10,7 +10,7 @@ tags:
 category: Technical
 draft: false
 ---
-*This is a sequel to [The 404s That Weren't Really Errors](/blog/2025-01-08-fixing-404-errors-on-github-pages-spas), written about a year ago. That post described how we fixed console 404 errors by pre-rendering blog routes on GitHub Pages. This post is about what happened when we stopped checking.*
+*This is a sequel to [The 404s That Weren't Really Errors](/blog/2026-01-08-fixing-404-errors-on-github-pages-spas), written earlier this month. That post described how we fixed console 404 errors by pre-rendering blog routes on GitHub Pages. This post is about what happened when we stopped checking.*
 
 ## The dotfiles post that wouldn't deploy
 
@@ -30,15 +30,15 @@ This shouldn't have been surprising. The site is a React SPA hosted on GitHub Pa
 
 But Googlebot doesn't follow client-side redirects the way a browser does. It sees the 404 response code and moves on. From Google's perspective, `/projects` doesn't exist.
 
-We had solved this exact problem a year ago. For blog routes. Only for blog routes.
+We had solved this exact problem earlier this month. For blog routes. Only for blog routes.
 
 ## The original fix, revisited
 
-The January 2025 fix was straightforward: write a build script that pre-renders each route to a static HTML file. Start a preview server, use Playwright to visit every route in a headless browser, capture the rendered HTML, and write it to `dist/{route}/index.html`. GitHub Pages then serves these files directly with a 200 response.
+The earlier fix was straightforward: write a build script that pre-renders each route to a static HTML file. Start a preview server, use Playwright to visit every route in a headless browser, capture the rendered HTML, and write it to `dist/{route}/index.html`. GitHub Pages then serves these files directly with a 200 response.
 
 The original script discovered blog posts from the `content/blog` directory and pre-rendered `/blog` plus every `/blog/:slug`. It worked. Console errors vanished. Search engines got real HTML. We wrote a whole blog post about it.
 
-Then over the following year, the site grew. `/projects` was added. Individual project pages at `/projects/:slug`. An analytics dashboard at `/analytics`. A runbook page at `/runbook`. None of them were added to the prerender script.
+Then over the following weeks, the site grew. `/projects` was added. Individual project pages at `/projects/:slug`. An analytics dashboard at `/analytics`. A runbook page at `/runbook`. None of them were added to the prerender script.
 
 ## What the diff looked like
 
@@ -86,7 +86,7 @@ Point fixes are faster. Systemic fixes last longer. But a point fix often looks 
 
 ## The meta lesson
 
-We wrote a blog post a year ago about treating symptoms as signals. About how "it works visually" is not the same as "it works correctly." The irony of rediscovering the same class of problem, in the system that was supposed to prevent it, is hard to miss.
+We wrote a blog post earlier this month about treating symptoms as signals. About how "it works visually" is not the same as "it works correctly." The irony of rediscovering the same class of problem, in the system that was supposed to prevent it, is hard to miss.
 
 The original post ended with: *"The distinction between 'works visually' and 'works correctly' is often where reliability problems hide."* Correct. And the distinction between "works for current routes" and "works for all routes" is where they hide next.
 

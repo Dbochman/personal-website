@@ -46,8 +46,8 @@ Estimated impact: **~40% faster CI runs**, **fewer false failures**, **better co
 **Current state:**
 ```typescript
 const blogPosts = [
-  { slug: '2025-01-04-hello-world', title: 'Hello, World' },
-  { slug: '2025-01-05-notes-on-building-this-site-together', ... },
+  { slug: '2026-01-04-hello-world', title: 'Hello, World' },
+  { slug: '2026-01-05-notes-on-building-this-site-together', ... },
   ...
 ];
 ```

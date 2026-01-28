@@ -307,7 +307,7 @@ Before drafting, scan `content/blog/` for posts with overlapping:
 Use relative paths that work on the site:
 
 ```markdown
-As we found when [building the runbook](/blog/2025-01-07-writing-a-runbook-for-my-personal-website), tests passing doesn't mean code works.
+As we found when [building the runbook](/blog/2026-01-07-writing-a-runbook-for-my-personal-website), tests passing doesn't mean code works.
 ```
 
 Links should feel natural in the prose, not forced. If a link interrupts the flow, skip it.

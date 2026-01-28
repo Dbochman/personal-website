@@ -16,11 +16,11 @@ The blog has 19 posts, mostly about building this site:
 
 ```
 content/blog/
-├── 2025-01-04-hello-world.txt
-├── 2025-01-05-notes-on-building-this-site-together.txt
-├── 2025-01-07-uptime-monitoring-for-a-personal-site.txt
-├── 2025-01-07-writing-a-runbook-for-my-personal-website.txt
-├── 2025-01-08-fixing-404-errors-on-github-pages-spas.txt
+├── 2026-01-04-hello-world.txt
+├── 2026-01-05-notes-on-building-this-site-together.txt
+├── 2026-01-07-uptime-monitoring-for-a-personal-site.txt
+├── 2026-01-07-writing-a-runbook-for-my-personal-website.txt
+├── 2026-01-08-fixing-404-errors-on-github-pages-spas.txt
 ├── 2026-01-09-adding-a-cms-to-a-static-site.txt
 ├── 2026-01-10-architecture-of-a-free-website.txt
 ├── 2026-01-10-automating-the-blog-itself.txt

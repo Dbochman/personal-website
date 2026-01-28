@@ -25,7 +25,7 @@ function getNewestBlogSlug(): string {
     .filter(f => f.endsWith('.txt'))
     .sort()
     .reverse();
-  return posts[0]?.replace('.txt', '') || '2025-01-04-hello-world';
+  return posts[0]?.replace('.txt', '') || '2026-01-04-hello-world';
 }
 
 // Patterns to ignore (known/acceptable warnings)
