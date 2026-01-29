@@ -78,7 +78,7 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
 
       {/* Details Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* By Runner */}
+        {/* By Runner - only show runners with usage */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -88,7 +88,9 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {Object.entries(byRunner).map(([runner, stats]) => (
+              {Object.entries(byRunner)
+                .filter(([, stats]) => stats.minutes > 0)
+                .map(([runner, stats]) => (
                 <div key={runner} className="flex justify-between items-center py-2 border-b border-border/50 last:border-0">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium capitalize">{runner}</span>
