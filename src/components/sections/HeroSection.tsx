@@ -53,7 +53,7 @@ const HeroSection = () => {
             </p>
           </div>
           
-          <div className="flex justify-center gap-4 mb-8">
+          <div className="flex flex-wrap justify-center gap-3 mb-8 px-4">
             <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium" asChild>
               <a href="mailto:dylanbochman@gmail.com" aria-label="Send email to Dylan Bochman">
                 <Mail className="w-4 h-4 mr-2" />
