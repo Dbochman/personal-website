@@ -41,6 +41,7 @@ const filesToCopy = [
   { src: 'docs/metrics/latest.json', dest: 'public/metrics/latest.json' },
   { src: 'docs/metrics/ga4-history.json', dest: 'public/metrics/ga4-history.json' },
   { src: 'lighthouse-reports/summary.json', dest: 'public/lighthouse-reports/summary.json' },
+  { src: 'docs/metrics/github-billing-history.json', dest: 'public/metrics/github-billing-history.json' },
 ];
 
 // Files that need sanitization before copying

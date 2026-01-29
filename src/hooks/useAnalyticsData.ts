@@ -4,6 +4,7 @@ import type {
   GA4HistoryEntry,
   SearchConsoleHistoryEntry,
   LighthousePageScore,
+  GitHubBillingEntry,
   AnalyticsData,
 } from '@/components/analytics/types';
 
@@ -56,6 +57,7 @@ export function useAnalyticsData(): AnalyticsData {
     ga4History: [],
     searchHistory: [],
     lighthouseSummary: [],
+    billingHistory: [],
     isLoading: true,
     error: null,
     warning: null,
@@ -63,11 +65,12 @@ export function useAnalyticsData(): AnalyticsData {
 
   useEffect(() => {
     async function loadData() {
-      const [latestResult, ga4Result, searchResult, lighthouseResult] = await Promise.all([
+      const [latestResult, ga4Result, searchResult, lighthouseResult, billingResult] = await Promise.all([
         fetchJson<LatestMetrics>('/metrics/latest.json'),
         fetchJson<GA4HistoryEntry[]>('/metrics/ga4-history.json'),
         fetchJson<SearchConsoleHistoryEntry[]>('/metrics/search-console-history.json'),
         fetchJson<LighthousePageScore[]>('/lighthouse-reports/summary.json'),
+        fetchJson<GitHubBillingEntry[]>('/metrics/github-billing-history.json'),
       ]);
 
       // Track missing files (404s) for warning
@@ -80,6 +83,7 @@ export function useAnalyticsData(): AnalyticsData {
         { name: 'ga4-history.json', result: ga4Result },
         { name: 'search-console-history.json', result: searchResult },
         { name: 'lighthouse summary', result: lighthouseResult },
+        { name: 'github-billing-history.json', result: billingResult },
       ];
 
       for (const { name, result } of results) {
@@ -111,6 +115,7 @@ export function useAnalyticsData(): AnalyticsData {
         ga4History: ga4Result.status === 'success' ? deduplicateByDate(ga4Result.data) : [],
         searchHistory: searchResult.status === 'success' ? deduplicateByDate(searchResult.data) : [],
         lighthouseSummary: lighthouseResult.status === 'success' ? lighthouseResult.data : [],
+        billingHistory: billingResult.status === 'success' ? deduplicateByDate(billingResult.data) : [],
         isLoading: false,
         error: null,
         warning,

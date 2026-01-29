@@ -57,6 +57,38 @@ jobs:
     outputs:
       completed: ${{ job.status == 'success' }}
 
+  github-billing:
+    # Run weekly on Sundays alongside Lighthouse
+    if: github.event.schedule == '0 6 * * 0' || github.event.inputs.include_lighthouse == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Fetch GitHub billing data
+        env:
+          GH_BILLING_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: node scripts/fetch-github-billing.js
+
+      - name: Upload billing data
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-billing-data
+          path: docs/metrics/github-billing-history.json
+          retention-days: 7
+
   search-console:
     # Run daily - no dependency on lighthouse (which is weekly)
     runs-on: ubuntu-latest
@@ -128,8 +160,8 @@ jobs:
           retention-days: 7
 
   commit-all:
-    # Wait for data collection jobs; lighthouse is optional (weekly only)
-    needs: [search-console, ga4]
+    # Wait for data collection jobs; lighthouse and github-billing are optional (weekly only)
+    needs: [search-console, ga4, github-billing]
     if: always() && (needs.search-console.result == 'success' || needs.ga4.result == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -171,6 +203,14 @@ jobs:
           if [ -f artifacts/ga4-data/ga4-history.json ]; then
             cp artifacts/ga4-data/ga4-history.json docs/metrics/
             echo "✅ GA4 data updated"
+          fi
+
+          # Copy GitHub billing data (only available on weekly runs)
+          if [ -f artifacts/github-billing-data/github-billing-history.json ]; then
+            cp artifacts/github-billing-data/github-billing-history.json docs/metrics/
+            echo "✅ GitHub billing data updated (weekly run)"
+          else
+            echo "ℹ️  No GitHub billing data this run (weekly only)"
           fi
 
       - name: Setup Node.js
