@@ -29,7 +29,7 @@ const HeroSection = () => {
             <h2 className="text-6xl font-bold text-foreground mb-2 leading-tight font-mono tracking-tighter">
               Dylan Bochman<br />
               <span className="block opacity-0 animate-fade-in-delay text-foreground/80 text-3xl">
-                Site Reliability Engineer & Incident Manager
+                Sr. Site Reliability Engineer - Technical Incident Manager
               </span>
             </h2>
 
@@ -39,7 +39,7 @@ const HeroSection = () => {
             >
               Dylan Bochman<br />
               <span className="block opacity-0 animate-fade-in-delay text-foreground/20 text-3xl">
-                Site Reliability Engineer & Incident Manager
+                Sr. Site Reliability Engineer - Technical Incident Manager
               </span>
             </div>
           </div>

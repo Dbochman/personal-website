@@ -20,7 +20,7 @@ const Index = () => {
   return (
     <NavigationContext.Provider value={{ openExperienceAccordion }}>
       <Seo
-        title="Technical Incident Manager"
+        title="Sr. Site Reliability Engineer - Technical Incident Manager"
         description="Specializing in Reliability, Resilience, and Incident Management, with experience spanning SRE and Product Management at Nvidia, Groq, HashiCorp, and Spotify."
         keywords={coreExpertise.map(item => item.title)}
       />
