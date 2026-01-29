@@ -31,7 +31,7 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
   return (
     <div className="space-y-4">
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -42,19 +42,6 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
           <CardContent>
             <div className="text-2xl font-bold">{summary.totalMinutes.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground mt-1">{period.description}</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Gross Cost
-            </CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">${summary.totalGrossAmount.toFixed(2)}</div>
-            <p className="text-xs text-muted-foreground mt-1">before free tier</p>
           </CardContent>
         </Card>
 
