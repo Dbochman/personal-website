@@ -75,7 +75,7 @@ export default function BlogPost() {
 
         <link rel="canonical" href={`https://dylanbochman.com/blog/${post.slug}`} />
 
-        {/* JSON-LD Structured Data */}
+        {/* JSON-LD Structured Data - BlogPosting */}
         <script type="application/ld+json">
           {JSON.stringify({
             '@context': 'https://schema.org',
@@ -100,6 +100,34 @@ export default function BlogPost() {
               '@id': `https://dylanbochman.com/blog/${post.slug}`,
             },
             keywords: post.tags.join(', '),
+          })}
+        </script>
+
+        {/* JSON-LD Breadcrumb for navigation */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://dylanbochman.com',
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Blog',
+                item: 'https://dylanbochman.com/blog',
+              },
+              {
+                '@type': 'ListItem',
+                position: 3,
+                name: post.title,
+                item: `https://dylanbochman.com/blog/${post.slug}`,
+              },
+            ],
           })}
         </script>
       </Helmet>
