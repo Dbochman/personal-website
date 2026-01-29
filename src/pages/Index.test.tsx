@@ -33,8 +33,9 @@ describe('Index Page', () => {
     })).toBeInTheDocument();
 
     // Check for buttons
-    expect(screen.getAllByText('Get In Touch')[0].closest('a')).toHaveAttribute('href', 'mailto:dylanbochman@gmail.com');
+    expect(screen.getAllByText('Email')[0].closest('a')).toHaveAttribute('href', 'mailto:dylanbochman@gmail.com');
     expect(screen.getAllByText('LinkedIn')[0].closest('a')).toHaveAttribute('href', 'https://www.linkedin.com/in/dbochman/');
+    expect(screen.getAllByText('GitHub')[0].closest('a')).toHaveAttribute('href', 'https://github.com/Dbochman');
 
     // Check for Sidebar content
     expect(screen.getByText('Core Expertise')).toBeInTheDocument();
