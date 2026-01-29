@@ -1,7 +1,9 @@
-import { memo } from 'react';
+import { memo, lazy, Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { GitHubBillingEntry } from './types';
 import { DollarSign, Clock, Database, Server } from 'lucide-react';
+
+const BillingTrendChart = lazy(() => import('./charts/BillingTrendChart').then(m => ({ default: m.BillingTrendChart })));
 
 interface GitHubBillingCardProps {
   data: GitHubBillingEntry[];
@@ -75,6 +77,20 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
           </CardContent>
         </Card>
       </div>
+
+      {/* Minutes Trend Chart - only show if we have history */}
+      {data.length > 1 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Minutes Over Time</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Suspense fallback={<div className="h-48 bg-muted rounded animate-pulse" />}>
+              <BillingTrendChart data={data} />
+            </Suspense>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Details Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
