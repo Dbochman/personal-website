@@ -78,12 +78,12 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
 
       {/* Details Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* By Runner - only show runners with usage */}
+        {/* Resource Usage - runners + storage */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Server className="h-4 w-4" />
-              Usage by Runner
+              Resource Usage
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -91,10 +91,8 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
               {Object.entries(byRunner)
                 .filter(([, stats]) => stats.minutes > 0)
                 .map(([runner, stats]) => (
-                <div key={runner} className="flex justify-between items-center py-2 border-b border-border/50 last:border-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium capitalize">{runner}</span>
-                  </div>
+                <div key={runner} className="flex justify-between items-center py-2 border-b border-border/50">
+                  <span className="text-sm font-medium capitalize">{runner} runners</span>
                   <div className="text-right">
                     <span className="text-sm tabular-nums">{stats.minutes.toLocaleString()} min</span>
                     <span className="text-xs text-muted-foreground ml-2">
@@ -103,6 +101,17 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
                   </div>
                 </div>
               ))}
+              {storage.gbHours > 0 && (
+                <div className="flex justify-between items-center py-2">
+                  <span className="text-sm font-medium">Artifact storage</span>
+                  <div className="text-right">
+                    <span className="text-sm tabular-nums">{storage.gbHours.toFixed(2)} GB-hrs</span>
+                    <span className="text-xs text-muted-foreground ml-2">
+                      (${storage.grossAmount.toFixed(2)})
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -140,23 +149,6 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
           </CardContent>
         </Card>
       </div>
-
-      {/* Storage */}
-      {storage.gbHours > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-sm">Artifact Storage</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">GB-Hours used</span>
-              <span className="text-sm tabular-nums">
-                {storage.gbHours.toFixed(2)} GB-hrs (${storage.grossAmount.toFixed(2)})
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-      )}
     </div>
   );
 });
