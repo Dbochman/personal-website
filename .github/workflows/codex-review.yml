@@ -39,7 +39,20 @@ jobs:
       - name: Install Codex CLI
         run: npm install -g @openai/codex
 
+      - name: Check for skip flag in commit message
+        id: skip_check
+        run: |
+          # Get the latest commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          if echo "$COMMIT_MSG" | grep -qi '\[skip-review\]'; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "Skipping review: [skip-review] found in commit message"
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Check for code changes
+        if: steps.skip_check.outputs.skip != 'true'
         id: check
         run: |
           # Check if there are code changes (not just docs/config)
@@ -53,7 +66,7 @@ jobs:
           fi
 
       - name: Run Codex review
-        if: steps.check.outputs.has_code == 'true'
+        if: steps.skip_check.outputs.skip != 'true' && steps.check.outputs.has_code == 'true'
         id: review
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -94,7 +107,7 @@ jobs:
           fi
 
       - name: Post review comment
-        if: steps.check.outputs.has_code == 'true'
+        if: steps.skip_check.outputs.skip != 'true' && steps.check.outputs.has_code == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -108,7 +121,7 @@ jobs:
             cat findings.txt
             echo ""
             echo "---"
-            echo "<sub>Automated review by OpenAI Codex • Skip by adding \`[skip-review]\` to PR title</sub>"
+            echo "<sub>Automated review by OpenAI Codex • Skip with \`[skip-review]\` in PR title or commit message</sub>"
           } > comment.txt
 
           # Post as PR comment
