@@ -89,6 +89,10 @@ export default function BlogPost() {
               '@type': 'Person',
               name: post.author,
               url: 'https://dylanbochman.com',
+              sameAs: [
+                'https://www.linkedin.com/in/dbochman',
+                'https://github.com/Dbochman',
+              ],
             },
             publisher: {
               '@type': 'Person',
