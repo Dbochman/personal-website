@@ -137,6 +137,17 @@ The actual fix. Cloudflare was intercepting identity requests.
 Dylan noticed it worked on the .netlify.app domain.
 ```
 
+### CI Skip Flags
+
+Use these flags in commit messages or PR titles to control CI behavior:
+
+| Flag | Effect |
+|------|--------|
+| `[skip ci]` | Skip all GitHub Actions workflows |
+| `[skip-review]` | Skip Codex PR review (saves API cost) |
+
+**When to use `[skip-review]`:** For follow-up commits after a PR is already open and reviewed, or for trivial fixes where Codex review adds no value.
+
 ## Session Notes
 
 At session end, append notable observations to `.claude/session-notes.md`:
