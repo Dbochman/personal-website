@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Mail, Linkedin, Github, MapPin, Activity } from "lucide-react";
+import { Mail, Linkedin, MapPin, Activity } from "lucide-react";
+import { GitHubMark } from "@/components/icons/GitHubMark";
 import ErrorRateChart from "@/components/icons/ErrorRateChart";
 import LatencyHistogram from "@/components/icons/LatencyHistogram";
 import AlertCounter from "@/components/icons/AlertCounter";
@@ -68,7 +69,7 @@ const HeroSection = () => {
             </Button>
             <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium" asChild>
               <a href="https://github.com/Dbochman" target="_blank" rel="noopener noreferrer" aria-label="Visit Dylan Bochman's GitHub profile">
-                <Github className="w-4 h-4 mr-2" />
+                <GitHubMark className="w-4 h-4 mr-2" />
                 GitHub
               </a>
             </Button>
