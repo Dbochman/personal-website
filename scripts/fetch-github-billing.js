@@ -26,7 +26,8 @@ const __dirname = path.dirname(__filename);
 
 const HISTORY_FILE = path.join(__dirname, '../docs/metrics/github-billing-history.json');
 const MAX_ENTRIES = 52; // ~1 year of weekly data
-const GITHUB_USERNAME = 'Dbochman';
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'Dbochman';
+const MINUTES_WARNING_THRESHOLD = parseInt(process.env.BILLING_MINUTES_THRESHOLD || '50000', 10);
 
 async function fetchGitHubBilling() {
   try {
@@ -70,10 +71,18 @@ async function fetchGitHubBilling() {
 
     const data = await response.json();
 
+    // Guard: Validate API response shape
+    if (typeof data !== 'object' || data === null) {
+      console.error('❌ Invalid API response: expected object');
+      process.exit(1);
+    }
+
     // Guard: Don't save if no usage items
-    if (!data.usageItems || data.usageItems.length === 0) {
-      console.warn('⚠️  No usage items returned - this might be expected for new accounts');
+    if (!data.usageItems || !Array.isArray(data.usageItems)) {
+      console.warn('⚠️  No usageItems array in response - this might be expected for new accounts');
       // Still save an entry to track that we checked
+    } else if (data.usageItems.length === 0) {
+      console.warn('⚠️  Empty usage items - no Actions usage this billing period');
     }
 
     // Filter to Actions-related items only
@@ -131,23 +140,32 @@ async function fetchGitHubBilling() {
       }
     }
 
-    // Guard: Sanity check for suspiciously high values
-    if (totalMinutes > 50000) {
-      console.error(`❌ Suspiciously high minutes value (${totalMinutes}) - skipping to prevent bad data`);
-      process.exit(1);
+    // Guard: Warn for suspiciously high values but don't fail
+    if (totalMinutes > MINUTES_WARNING_THRESHOLD) {
+      console.warn(`⚠️  High minutes value (${totalMinutes}) exceeds threshold (${MINUTES_WARNING_THRESHOLD})`);
+      console.warn('   Review data manually. Set BILLING_MINUTES_THRESHOLD to adjust.');
     }
 
-    // Build the entry
+    // Build the entry (use UTC to avoid timezone drift)
     const now = new Date();
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const year = now.getUTCFullYear();
+    const month = now.getUTCMonth();
+    const startOfMonth = new Date(Date.UTC(year, month, 1));
+
+    // Format dates in UTC
+    const formatUTCDate = (d) => d.toISOString().split('T')[0];
+    const formatUTCShort = (d) => {
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${months[d.getUTCMonth()]} ${d.getUTCDate()}`;
+    };
 
     const entry = {
       timestamp: now.toISOString(),
-      date: now.toISOString().split('T')[0],
+      date: formatUTCDate(now),
       period: {
-        start: startOfMonth.toISOString().split('T')[0],
-        end: now.toISOString().split('T')[0],
-        description: `${startOfMonth.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`,
+        start: formatUTCDate(startOfMonth),
+        end: formatUTCDate(now),
+        description: `${formatUTCShort(startOfMonth)} - ${formatUTCShort(now)}, ${year}`,
       },
       summary: {
         totalMinutes: Math.round(totalMinutes),

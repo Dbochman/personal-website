@@ -160,8 +160,8 @@ jobs:
           retention-days: 7
 
   commit-all:
-    # Wait for data collection jobs; lighthouse is optional (weekly only)
-    needs: [search-console, ga4]
+    # Wait for data collection jobs; lighthouse and github-billing are optional (weekly only)
+    needs: [search-console, ga4, github-billing]
     if: always() && (needs.search-console.result == 'success' || needs.ga4.result == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 5
