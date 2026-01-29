@@ -77,3 +77,9 @@ When Chrome DevTools MCP is available:
 | UI changes | Responsive check (320px, 768px) |
 | New route | Console, network, a11y snapshot |
 | Before PR | Quick smoke test |
+
+## New Routes
+
+When adding a new page/route:
+1. Add to `vite.config.ts` → `prerender.routes` array
+2. Without prerendering, direct URL access returns 404 on GitHub Pages (SPA limitation)
