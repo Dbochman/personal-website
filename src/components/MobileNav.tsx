@@ -17,18 +17,25 @@ import { staggerContainer, navItem } from '@/lib/motion';
 const MobileNav = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const isBlogPage = location.pathname.startsWith('/blog');
-  const isProjectsPage = location.pathname.startsWith('/projects');
+  const isBlogLanding = location.pathname === '/blog';
+  const isProjectsLanding = location.pathname === '/projects';
+  const isBlogSubpage = location.pathname.startsWith('/blog/');
+  const isProjectsSubpage = location.pathname.startsWith('/projects/');
   const isRunbookPage = location.pathname === '/runbook';
 
   // Show simplified nav on blog, projects, and runbook pages
+  // Hide current section's link only on landing pages to avoid redundant navigation
   let navItemsToShow = navigationItems;
-  if (isBlogPage) {
+  if (isBlogLanding) {
+    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/projects", label: "Projects" }];
+  } else if (isProjectsLanding) {
+    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }];
+  } else if (isBlogSubpage) {
     navItemsToShow = [{ href: "/", label: "Home" }, { href: "/projects", label: "Projects" }, { href: "/blog", label: "Blog" }];
-  } else if (isProjectsPage) {
+  } else if (isProjectsSubpage) {
     navItemsToShow = [{ href: "/", label: "Home" }, { href: "/projects", label: "Projects" }, { href: "/blog", label: "Blog" }];
   } else if (isRunbookPage) {
-    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }, { href: "/runbook", label: "Runbook" }];
+    navItemsToShow = [{ href: "/", label: "Home" }, { href: "/blog", label: "Blog" }];
   }
 
   return (
