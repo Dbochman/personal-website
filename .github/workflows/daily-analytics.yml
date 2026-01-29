@@ -79,7 +79,7 @@ jobs:
 
       - name: Fetch GitHub billing data
         env:
-          GH_BILLING_TOKEN: ${{ secrets.GH_BILLING_TOKEN }}
+          GH_BILLING_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         run: node scripts/fetch-github-billing.js
 
       - name: Upload billing data
