@@ -11,7 +11,7 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     company: "Nvidia",
-    role: "Technical Incident Manager",
+    role: "Sr. Site Reliability Engineer - Technical Incident Manager",
     period: "January 2026 – Present",
     description: "Inference Incident Management and Operational Resilience, Supporting both cloud and onsite inference hardware.",
     highlights: [
