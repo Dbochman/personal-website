@@ -66,7 +66,7 @@ const HeroSection = () => {
                 LinkedIn
               </a>
             </Button>
-            <Button size="lg" variant="outline" className="hover-lift font-medium" asChild>
+            <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium" asChild>
               <a href="https://github.com/Dbochman" target="_blank" rel="noopener noreferrer" aria-label="Visit Dylan Bochman's GitHub profile">
                 <Github className="w-4 h-4 mr-2" />
                 GitHub
