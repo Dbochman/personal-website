@@ -325,6 +325,27 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "jan-28-hero-github",
+          "title": "Jan 28: Hero GitHub Button",
+          "summary": "Added GitHub profile button to hero section",
+          "labels": [
+            "UI",
+            "Enhancement"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-28T00:00:00.000Z",
+          "updatedAt": "2026-01-29T02:36:13.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-29T02:36:13.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Added GitHub button to hero section alongside the Email button:\n- Solid variant for visual hierarchy\n- Renamed \"Get In Touch\" to \"Email\" for clarity\n- Updated tests for new button layout\n\nCommits: b98efed, 0e53f51, acf7603, bd55d64"
+        },
+        {
           "id": "github-actions-billing-dashboard",
           "title": "GitHub Actions Billing Dashboard",
           "labels": [
@@ -349,6 +370,138 @@ export const board = {
             }
           ],
           "description": "Track Actions minutes/spend in analytics dashboard. Phase 0 (API validation) complete - uses new Enhanced Billing endpoint. See docs/plans/60-github-actions-billing-dashboard.md"
+        },
+        {
+          "id": "jan-28-seo-schema",
+          "title": "Jan 28: SEO Schema Improvements",
+          "summary": "ProfilePage schema, blog breadcrumbs, sameAs social links",
+          "labels": [
+            "PR #212",
+            "SEO",
+            "Enhancement"
+          ],
+          "checklist": [],
+          "planFile": "docs/plans/61-seo-profilepage-schema.md",
+          "createdAt": "2026-01-28T00:00:00.000Z",
+          "updatedAt": "2026-01-29T01:28:24.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-29T01:28:24.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Enhanced structured data for better search visibility:\n- Added ProfilePage JSON-LD schema to homepage\n- Added BreadcrumbList schema to blog posts\n- Fixed LinkedIn URL in social links\n- Added author.sameAs to BlogPosting schema\n\nPlan: [docs/plans/61-seo-profilepage-schema.md](/docs/plans/61-seo-profilepage-schema.md)"
+        },
+        {
+          "id": "jan-28-blog-dates",
+          "title": "Jan 28: Blog Post Date Rename",
+          "summary": "Renamed all 2025 blog posts to 2026 dates",
+          "labels": [
+            "PR #211",
+            "Content",
+            "Cleanup"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-28T00:00:00.000Z",
+          "updatedAt": "2026-01-28T14:14:23.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-28T14:14:23.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Renamed all blog post files and frontmatter dates from 2025 to 2026 to reflect correct publication year."
+        },
+        {
+          "id": "jan-27-404s-sequel",
+          "title": "Jan 27: The 404s Came Back",
+          "summary": "Sequel blog post on debugging 404 errors from CI traffic",
+          "labels": [
+            "PR #209",
+            "PR #210",
+            "Blog",
+            "Content"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-27T00:00:00.000Z",
+          "updatedAt": "2026-01-28T02:56:51.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-28T02:50:15.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Published sequel to the original 404 debugging post, covering:\n- Mysterious traffic from CI/CD pipelines\n- HeadlessChrome user agent detection\n- Analytics filtering for bot traffic\n\nAlso improved Top Pages table readability on mobile (PR #210).\n\nRelated: [Blog post](/blog/2026-01-27-the-404s-came-back)"
+        },
+        {
+          "id": "jan-27-seo-prerender",
+          "title": "Jan 27: SEO Pre-render All Routes",
+          "summary": "Fixed Googlebot crawlability by pre-rendering all routes",
+          "labels": [
+            "SEO",
+            "Infrastructure"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-27T00:00:00.000Z",
+          "updatedAt": "2026-01-27T00:00:00.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-27T00:00:00.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Pre-rendered all routes at build time to ensure Googlebot can crawl them without JavaScript execution. SPAs on GitHub Pages return 404 for direct URL access without pre-rendering.\n\nCommit: 4eee9a8"
+        },
+        {
+          "id": "jan-25-dotfiles-blog",
+          "title": "Jan 25: Dotfiles for AI-Assisted Development",
+          "summary": "Blog post on configuring Claude Code with dotfiles and CLAUDE.md patterns",
+          "labels": [
+            "PR #205",
+            "Blog",
+            "Content"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-25T00:00:00.000Z",
+          "updatedAt": "2026-01-26T02:18:11.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-26T02:18:11.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Published blog post covering dotfiles patterns for AI-assisted development:\n- CLAUDE.md project instructions\n- Global vs project-specific rules\n- Session notes for context persistence\n- Commit message conventions with flags\n\nRelated: [Blog post](/blog/2026-01-25-dotfiles-for-ai-assisted-development)"
+        },
+        {
+          "id": "jan-25-nvidia-update",
+          "title": "Jan 25: Employment Update",
+          "summary": "Updated role to Nvidia Technical Incident Manager",
+          "labels": [
+            "PR #83",
+            "Content"
+          ],
+          "checklist": [],
+          "createdAt": "2026-01-25T00:00:00.000Z",
+          "updatedAt": "2026-01-25T00:00:00.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-25T00:00:00.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Updated employment information to reflect new role as Technical Incident Manager at Nvidia."
         },
         {
           "id": "kanban-system-durability-improvements",
