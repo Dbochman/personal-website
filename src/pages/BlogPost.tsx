@@ -90,7 +90,7 @@ export default function BlogPost() {
               name: post.author,
               url: 'https://dylanbochman.com',
               sameAs: [
-                'https://www.linkedin.com/in/dylanbochman',
+                'https://www.linkedin.com/in/dbochman',
                 'https://github.com/Dbochman',
               ],
             },

@@ -52,7 +52,7 @@ The homepage already has a `Person` schema. ProfilePage wraps it with additional
       "SLO Monitoring"
     ],
     "sameAs": [
-      "https://www.linkedin.com/in/dylanbochman",
+      "https://www.linkedin.com/in/dbochman",
       "https://github.com/Dbochman"
     ]
   }
@@ -97,7 +97,7 @@ Replace the existing Person schema with ProfilePage that wraps Person:
     "name": "Dylan Bochman",
     <!-- ... existing Person properties ... -->
     "sameAs": [
-      "https://www.linkedin.com/in/dylanbochman",
+      "https://www.linkedin.com/in/dbochman",
       "https://github.com/Dbochman"
     ]
   }

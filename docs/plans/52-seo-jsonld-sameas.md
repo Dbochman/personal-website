@@ -15,7 +15,7 @@ Add GitHub URL to the Person schema `sameAs` array. This strengthens identity si
 
 ```json
 "sameAs": [
-  "https://www.linkedin.com/in/dylanbochman"
+  "https://www.linkedin.com/in/dbochman"
 ]
 ```
 
@@ -29,8 +29,8 @@ Only LinkedIn is linked. GitHub is missing.
 
 ```diff
   "sameAs": [
--   "https://www.linkedin.com/in/dylanbochman"
-+   "https://www.linkedin.com/in/dylanbochman",
+-   "https://www.linkedin.com/in/dbochman"
++   "https://www.linkedin.com/in/dbochman",
 +   "https://github.com/dbochman"
   ]
 ```
@@ -68,7 +68,7 @@ Only LinkedIn is linked. GitHub is missing.
     "SLO Monitoring"
   ],
   "sameAs": [
-    "https://www.linkedin.com/in/dylanbochman",
+    "https://www.linkedin.com/in/dbochman",
     "https://github.com/dbochman"
   ]
 }

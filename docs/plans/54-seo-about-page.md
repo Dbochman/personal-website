@@ -146,7 +146,7 @@ export default function About() {
       "Prometheus", "Observability", "Chaos Engineering"
     ],
     "sameAs": [
-      "https://www.linkedin.com/in/dylanbochman",
+      "https://www.linkedin.com/in/dbochman",
       "https://github.com/dbochman",
       "https://twitter.com/dylanbochman"
     ]
