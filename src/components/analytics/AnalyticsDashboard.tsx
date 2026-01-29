@@ -9,6 +9,7 @@ import { CoreWebVitalsCard } from './CoreWebVitalsCard';
 import { RumWebVitalsCard } from './RumWebVitalsCard';
 import { LighthouseScoresTable } from './LighthouseScoresTable';
 import { TrafficQualityCard } from './TrafficQualityCard';
+import { GitHubBillingCard } from './GitHubBillingCard';
 import { staggerContainer, staggerItem, tabContent } from '@/lib/motion';
 
 // Lazy load Recharts-dependent components (heaviest)
@@ -19,7 +20,7 @@ const LighthouseHistoryChart = lazy(() => import('./charts/LighthouseHistoryChar
 const SearchPerformanceChart = lazy(() => import('./charts/SearchPerformanceChart').then(m => ({ default: m.SearchPerformanceChart })));
 
 export function AnalyticsDashboard() {
-  const { latest, ga4History, searchHistory, lighthouseSummary, isLoading, error, warning } = useAnalyticsData();
+  const { latest, ga4History, searchHistory, lighthouseSummary, billingHistory, isLoading, error, warning } = useAnalyticsData();
   const [activeTab, setActiveTab] = useState('traffic');
 
   if (isLoading) {
@@ -180,6 +181,7 @@ export function AnalyticsDashboard() {
           <TabsTrigger value="performance">Performance</TabsTrigger>
           <TabsTrigger value="search">Search</TabsTrigger>
           <TabsTrigger value="tools">Tools</TabsTrigger>
+          <TabsTrigger value="cicd">CI/CD</TabsTrigger>
         </TabsList>
 
         <AnimatePresence mode="wait">
@@ -439,6 +441,21 @@ export function AnalyticsDashboard() {
               </CardContent>
             </Card>
           )}
+              </TabsContent>
+            </motion.div>
+          )}
+
+          {/* CI/CD Tab */}
+          {activeTab === 'cicd' && (
+            <motion.div
+              key="cicd"
+              variants={tabContent}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <TabsContent value="cicd" className="space-y-4" forceMount>
+                <GitHubBillingCard data={billingHistory} />
               </TabsContent>
             </motion.div>
           )}

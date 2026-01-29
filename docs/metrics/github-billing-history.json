@@ -1,0 +1,48 @@
+[
+  {
+    "timestamp": "2026-01-29T01:29:00.920Z",
+    "date": "2026-01-29",
+    "period": {
+      "start": "2026-01-01",
+      "end": "2026-01-29",
+      "description": "Jan 1 - Jan 28, 2026"
+    },
+    "summary": {
+      "totalMinutes": 5243,
+      "totalGrossAmount": 31.46,
+      "totalDiscountAmount": 31.46,
+      "totalNetAmount": 0
+    },
+    "byRunner": {
+      "linux": {
+        "minutes": 5243,
+        "grossAmount": 31.46
+      },
+      "macos": {
+        "minutes": 0,
+        "grossAmount": 0
+      },
+      "windows": {
+        "minutes": 0,
+        "grossAmount": 0
+      }
+    },
+    "byRepository": [
+      {
+        "name": "personal-website",
+        "minutes": 4061,
+        "grossAmount": 24.37
+      },
+      {
+        "name": "dbochman.github.io",
+        "minutes": 1182,
+        "grossAmount": 7.09
+      }
+    ],
+    "storage": {
+      "gbHours": 642.22,
+      "grossAmount": 0.22
+    },
+    "status": "valid"
+  }
+]

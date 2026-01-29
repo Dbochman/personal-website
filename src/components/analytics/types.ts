@@ -131,11 +131,44 @@ export interface LighthousePageScore {
   tbt: string;
 }
 
+// GitHub Actions billing data types
+export interface GitHubBillingEntry {
+  timestamp: string;
+  date: string;
+  period: {
+    start: string;
+    end: string;
+    description: string;
+  };
+  summary: {
+    totalMinutes: number;
+    totalGrossAmount: number;
+    totalDiscountAmount: number;
+    totalNetAmount: number;
+  };
+  byRunner: {
+    linux: { minutes: number; grossAmount: number };
+    macos: { minutes: number; grossAmount: number };
+    windows: { minutes: number; grossAmount: number };
+  };
+  byRepository: Array<{
+    name: string;
+    minutes: number;
+    grossAmount: number;
+  }>;
+  storage: {
+    gbHours: number;
+    grossAmount: number;
+  };
+  status: 'valid' | 'empty';
+}
+
 export interface AnalyticsData {
   latest: LatestMetrics | null;
   ga4History: GA4HistoryEntry[];
   searchHistory: SearchConsoleHistoryEntry[];
   lighthouseSummary: LighthousePageScore[];
+  billingHistory: GitHubBillingEntry[];
   isLoading: boolean;
   error: string | null;
   warning: string | null;
