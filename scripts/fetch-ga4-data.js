@@ -123,31 +123,38 @@ async function fetchGA4Data() {
       ],
     });
 
-    // Fetch tool interaction events
-    const [toolEventsResponse] = await analyticsDataClient.runReport({
-      property: propertyId,
-      dateRanges: [
-        {
-          startDate: '7daysAgo',
-          endDate: 'today',
-        },
-      ],
-      dimensions: [
-        { name: 'customEvent:tool_name' },
-        { name: 'customEvent:action' },
-      ],
-      metrics: [
-        { name: 'eventCount' },
-      ],
-      dimensionFilter: {
-        filter: {
-          fieldName: 'eventName',
-          stringFilter: {
-            value: 'tool_interaction',
+    // Fetch tool interaction events (optional - requires custom dimensions to be registered in GA4)
+    let toolEventsResponse = { rows: [] };
+    try {
+      const [toolResponse] = await analyticsDataClient.runReport({
+        property: propertyId,
+        dateRanges: [
+          {
+            startDate: '7daysAgo',
+            endDate: 'today',
+          },
+        ],
+        dimensions: [
+          { name: 'customEvent:tool_name' },
+          { name: 'customEvent:action' },
+        ],
+        metrics: [
+          { name: 'eventCount' },
+        ],
+        dimensionFilter: {
+          filter: {
+            fieldName: 'eventName',
+            stringFilter: {
+              value: 'tool_interaction',
+            },
           },
         },
-      },
-    });
+      });
+      toolEventsResponse = toolResponse;
+    } catch (toolError) {
+      console.log('⚠️  Tool interaction query failed (custom dimensions may not be registered):', toolError.message);
+      console.log('   Continuing without tool interaction data...');
+    }
 
     // Extract overall metrics
     let totalSessions = 0;
