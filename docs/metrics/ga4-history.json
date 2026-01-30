@@ -2445,5 +2445,359 @@
         "unit": "ms"
       }
     }
+  },
+  {
+    "timestamp": "2026-01-30T14:52:25.024Z",
+    "date": "2026-01-30",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 2084,
+      "users": 1979,
+      "pageViews": 2093,
+      "averageSessionDuration": 37,
+      "bounceRate": 0.89
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 458,
+        "users": 429,
+        "pageViews": 483
+      },
+      {
+        "page": "/runbook",
+        "sessions": 283,
+        "users": 283,
+        "pageViews": 282
+      },
+      {
+        "page": "/blog/",
+        "sessions": 238,
+        "users": 233,
+        "pageViews": 244
+      },
+      {
+        "page": "/blog",
+        "sessions": 177,
+        "users": 162,
+        "pageViews": 159
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 128,
+        "users": 128,
+        "pageViews": 128
+      },
+      {
+        "page": "/blog/2026-01-24-postmortems-that-actually-change-things",
+        "sessions": 79,
+        "users": 79,
+        "pageViews": 79
+      },
+      {
+        "page": "/blog/2026-01-24-postmortems-that-actually-change-things/",
+        "sessions": 61,
+        "users": 61,
+        "pageViews": 61
+      },
+      {
+        "page": "/projects/kanban",
+        "sessions": 22,
+        "users": 8,
+        "pageViews": 53
+      },
+      {
+        "page": "/projects",
+        "sessions": 78,
+        "users": 55,
+        "pageViews": 48
+      },
+      {
+        "page": "/blog/2025-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 47,
+        "users": 47,
+        "pageViews": 47
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 1421,
+        "users": 1339
+      },
+      {
+        "device": "mobile",
+        "sessions": 655,
+        "users": 634
+      },
+      {
+        "device": "tablet",
+        "sessions": 8,
+        "users": 6
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 1924,
+          "users": 1896
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 28,
+          "users": 5
+        },
+        {
+          "channel": "Referral",
+          "sessions": 3,
+          "users": 2
+        },
+        {
+          "channel": "Organic Social",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 1924,
+          "users": 1896
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 28,
+          "users": 5
+        },
+        {
+          "source": "perplexity.ai",
+          "medium": "referral",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "source": "linkedin.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 656,
+        "average": 168.65853658536585,
+        "unit": "ms"
+      },
+      "FCP": {
+        "count": 614,
+        "average": 614.086319218241,
+        "unit": "ms"
+      },
+      "LCP": {
+        "count": 112,
+        "average": 398.58035714285717,
+        "unit": "ms"
+      },
+      "INP": {
+        "count": 95,
+        "average": 380.2105263157895,
+        "unit": "ms"
+      },
+      "CLS": {
+        "count": 20,
+        "average": 0.011300000000000001,
+        "unit": ""
+      }
+    },
+    "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-01-30T14:52:50.859Z",
+    "date": "2026-01-30",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 2084,
+      "users": 1979,
+      "pageViews": 2093,
+      "averageSessionDuration": 37,
+      "bounceRate": 0.89
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 458,
+        "users": 429,
+        "pageViews": 483
+      },
+      {
+        "page": "/runbook",
+        "sessions": 283,
+        "users": 283,
+        "pageViews": 282
+      },
+      {
+        "page": "/blog/",
+        "sessions": 238,
+        "users": 233,
+        "pageViews": 244
+      },
+      {
+        "page": "/blog",
+        "sessions": 177,
+        "users": 162,
+        "pageViews": 159
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 128,
+        "users": 128,
+        "pageViews": 128
+      },
+      {
+        "page": "/blog/2026-01-24-postmortems-that-actually-change-things",
+        "sessions": 79,
+        "users": 79,
+        "pageViews": 79
+      },
+      {
+        "page": "/blog/2026-01-24-postmortems-that-actually-change-things/",
+        "sessions": 61,
+        "users": 61,
+        "pageViews": 61
+      },
+      {
+        "page": "/projects/kanban",
+        "sessions": 22,
+        "users": 8,
+        "pageViews": 53
+      },
+      {
+        "page": "/projects",
+        "sessions": 78,
+        "users": 55,
+        "pageViews": 48
+      },
+      {
+        "page": "/blog/2025-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 47,
+        "users": 47,
+        "pageViews": 47
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 1421,
+        "users": 1339
+      },
+      {
+        "device": "mobile",
+        "sessions": 655,
+        "users": 634
+      },
+      {
+        "device": "tablet",
+        "sessions": 8,
+        "users": 6
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 1924,
+          "users": 1896
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 28,
+          "users": 5
+        },
+        {
+          "channel": "Referral",
+          "sessions": 3,
+          "users": 2
+        },
+        {
+          "channel": "Organic Social",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 1924,
+          "users": 1896
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 28,
+          "users": 5
+        },
+        {
+          "source": "perplexity.ai",
+          "medium": "referral",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "source": "linkedin.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 656,
+        "average": 168.65853658536585,
+        "unit": "ms"
+      },
+      "FCP": {
+        "count": 614,
+        "average": 614.086319218241,
+        "unit": "ms"
+      },
+      "LCP": {
+        "count": 112,
+        "average": 398.58035714285717,
+        "unit": "ms"
+      },
+      "INP": {
+        "count": 95,
+        "average": 380.2105263157895,
+        "unit": "ms"
+      },
+      "CLS": {
+        "count": 20,
+        "average": 0.011300000000000001,
+        "unit": ""
+      }
+    },
+    "toolInteractions": null
   }
 ]
