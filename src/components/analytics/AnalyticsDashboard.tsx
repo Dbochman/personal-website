@@ -176,13 +176,15 @@ export function AnalyticsDashboard() {
 
       {/* Tabbed Sections */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="traffic">Traffic</TabsTrigger>
-          <TabsTrigger value="performance">Performance</TabsTrigger>
-          <TabsTrigger value="search">Search</TabsTrigger>
-          <TabsTrigger value="tools">Tools</TabsTrigger>
-          <TabsTrigger value="cicd">CI/CD</TabsTrigger>
-        </TabsList>
+        <div className="overflow-x-auto -mx-2 px-2">
+          <TabsList className="w-full sm:w-auto">
+            <TabsTrigger value="traffic">Traffic</TabsTrigger>
+            <TabsTrigger value="performance">Performance</TabsTrigger>
+            <TabsTrigger value="search">Search</TabsTrigger>
+            <TabsTrigger value="tools">Tools</TabsTrigger>
+            <TabsTrigger value="cicd">CI/CD</TabsTrigger>
+          </TabsList>
+        </div>
 
         <AnimatePresence mode="wait">
           {/* Traffic Tab */}
