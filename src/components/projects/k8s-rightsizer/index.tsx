@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import { Copy, Check, AlertTriangle, TrendingDown, TrendingUp, Info } from 'lucide-react';
+import { Copy, Check, AlertTriangle, TrendingDown, TrendingUp, Info, HelpCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -67,12 +67,111 @@ const PRESETS: { id: PresetProfile; label: string; description: string }[] = [
   { id: 'custom', label: 'Custom', description: 'Manual slider adjustment' },
 ];
 
+// Common CPU values for quick selection
+const CPU_PRESETS = [
+  { value: '50m', label: '50m', description: '0.05 cores' },
+  { value: '100m', label: '100m', description: '0.1 cores' },
+  { value: '250m', label: '250m', description: '0.25 cores' },
+  { value: '500m', label: '500m', description: '0.5 cores' },
+  { value: '1', label: '1', description: '1 core' },
+  { value: '2', label: '2', description: '2 cores' },
+  { value: '4', label: '4', description: '4 cores' },
+];
+
+// Common memory values for quick selection
+const MEMORY_PRESETS = [
+  { value: '64Mi', label: '64Mi', description: '64 MiB' },
+  { value: '128Mi', label: '128Mi', description: '128 MiB' },
+  { value: '256Mi', label: '256Mi', description: '256 MiB' },
+  { value: '512Mi', label: '512Mi', description: '512 MiB' },
+  { value: '1Gi', label: '1Gi', description: '1 GiB' },
+  { value: '2Gi', label: '2Gi', description: '2 GiB' },
+  { value: '4Gi', label: '4Gi', description: '4 GiB' },
+  { value: '8Gi', label: '8Gi', description: '8 GiB' },
+];
+
 function getRiskColor(risk: 'low' | 'medium' | 'high') {
   switch (risk) {
     case 'low': return 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20';
     case 'medium': return 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20';
     case 'high': return 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20';
   }
+}
+
+// Combobox-style input with integrated dropdown
+interface ResourceInputProps {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  presets: typeof CPU_PRESETS;
+  tooltip: React.ReactNode;
+}
+
+function ResourceInput({ id, label, value, onChange, placeholder, presets, tooltip }: ResourceInputProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <div className="flex items-center gap-1 mb-1">
+        <Label htmlFor={id}>{label}</Label>
+        <Tooltip>
+          <TooltipTrigger>
+            <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
+          </TooltipTrigger>
+          <TooltipContent className="max-w-xs">
+            {tooltip}
+          </TooltipContent>
+        </Tooltip>
+      </div>
+      <div className="relative">
+        <Input
+          id={id}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setOpen(true)}
+          onBlur={() => setTimeout(() => setOpen(false), 150)}
+          placeholder={placeholder}
+          className="pr-8 font-mono"
+          autoComplete="off"
+        />
+        <button
+          type="button"
+          tabIndex={-1}
+          onClick={() => setOpen(!open)}
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={cn("transition-transform", open && "rotate-180")}>
+            <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
+        {open && (
+          <div className="absolute z-50 mt-1 w-full min-w-[180px] rounded-md border bg-popover p-1 shadow-md">
+            <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">Common values</div>
+            {presets.map((p) => (
+              <button
+                key={p.value}
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  onChange(p.value);
+                  setOpen(false);
+                }}
+                className={cn(
+                  "flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground",
+                  value === p.value && "bg-accent"
+                )}
+              >
+                <span className="font-mono">{p.label}</span>
+                <span className="text-xs text-muted-foreground">{p.description}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default function K8sRightsizer() {
@@ -151,12 +250,17 @@ export default function K8sRightsizer() {
 
   const yaml = recommendation ? generateYaml(recommendation) : '';
 
-  const handleCopy = useCallback(() => {
+  const handleCopy = useCallback(async () => {
     if (!yaml) return;
-    navigator.clipboard.writeText(yaml);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-    trackToolEvent('k8s-rightsizer', 'copy_yaml');
+    try {
+      await navigator.clipboard.writeText(yaml);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+      trackToolEvent('k8s-rightsizer', 'copy_yaml');
+    } catch {
+      // Fallback for browsers without clipboard API or in non-secure contexts
+      console.warn('Clipboard API failed, copy manually');
+    }
   }, [yaml]);
 
   const sliderLabel = useMemo(() => {
@@ -225,44 +329,68 @@ export default function K8sRightsizer() {
                       placeholder="3"
                     />
                   </div>
-                  <div>
-                    <Label htmlFor="currentCpuRequests">CPU Requests</Label>
-                    <Input
-                      id="currentCpuRequests"
-                      value={form.currentCpuRequests}
-                      onChange={(e) => updateField('currentCpuRequests', e.target.value)}
-                      placeholder="500m"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="currentCpuLimits">CPU Limits</Label>
-                    <Input
-                      id="currentCpuLimits"
-                      value={form.currentCpuLimits}
-                      onChange={(e) => updateField('currentCpuLimits', e.target.value)}
-                      placeholder="1"
-                    />
-                  </div>
+                  <ResourceInput
+                    id="currentCpuRequests"
+                    label="CPU Requests"
+                    value={form.currentCpuRequests}
+                    onChange={(v) => updateField('currentCpuRequests', v)}
+                    placeholder="500m"
+                    presets={CPU_PRESETS}
+                    tooltip={
+                      <div className="space-y-1">
+                        <p className="font-medium">CPU in millicores (m)</p>
+                        <p>1000m = 1 CPU core</p>
+                        <p className="text-xs">Example: 500m = half a core</p>
+                      </div>
+                    }
+                  />
+                  <ResourceInput
+                    id="currentCpuLimits"
+                    label="CPU Limits"
+                    value={form.currentCpuLimits}
+                    onChange={(v) => updateField('currentCpuLimits', v)}
+                    placeholder="1"
+                    presets={CPU_PRESETS}
+                    tooltip={
+                      <div className="space-y-1">
+                        <p className="font-medium">CPU in millicores (m)</p>
+                        <p>1000m = 1 CPU core</p>
+                        <p className="text-xs">Limits cap max CPU usage</p>
+                      </div>
+                    }
+                  />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <Label htmlFor="currentMemRequests">Memory Requests</Label>
-                    <Input
-                      id="currentMemRequests"
-                      value={form.currentMemRequests}
-                      onChange={(e) => updateField('currentMemRequests', e.target.value)}
-                      placeholder="512Mi"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="currentMemLimits">Memory Limits</Label>
-                    <Input
-                      id="currentMemLimits"
-                      value={form.currentMemLimits}
-                      onChange={(e) => updateField('currentMemLimits', e.target.value)}
-                      placeholder="1Gi"
-                    />
-                  </div>
+                  <ResourceInput
+                    id="currentMemRequests"
+                    label="Memory Requests"
+                    value={form.currentMemRequests}
+                    onChange={(v) => updateField('currentMemRequests', v)}
+                    placeholder="512Mi"
+                    presets={MEMORY_PRESETS}
+                    tooltip={
+                      <div className="space-y-1">
+                        <p className="font-medium">Memory in binary units</p>
+                        <p>Mi = mebibytes, Gi = gibibytes</p>
+                        <p className="text-xs">1Gi = 1024Mi</p>
+                      </div>
+                    }
+                  />
+                  <ResourceInput
+                    id="currentMemLimits"
+                    label="Memory Limits"
+                    value={form.currentMemLimits}
+                    onChange={(v) => updateField('currentMemLimits', v)}
+                    placeholder="1Gi"
+                    presets={MEMORY_PRESETS}
+                    tooltip={
+                      <div className="space-y-1">
+                        <p className="font-medium">Memory in binary units</p>
+                        <p>Mi = mebibytes, Gi = gibibytes</p>
+                        <p className="text-xs">Exceeding limits causes OOMKill</p>
+                      </div>
+                    }
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -292,87 +420,87 @@ export default function K8sRightsizer() {
 
                   <TabsContent value="cpu" className="space-y-3">
                     <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <Label htmlFor="cpuP50">P50 (optional)</Label>
-                        <Input
-                          id="cpuP50"
-                          value={form.cpuP50}
-                          onChange={(e) => updateField('cpuP50', e.target.value)}
-                          placeholder="100m"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="cpuP95">P95 *</Label>
-                        <Input
-                          id="cpuP95"
-                          value={form.cpuP95}
-                          onChange={(e) => updateField('cpuP95', e.target.value)}
-                          placeholder="200m"
-                        />
-                      </div>
+                      <ResourceInput
+                        id="cpuP50"
+                        label="P50 (optional)"
+                        value={form.cpuP50}
+                        onChange={(v) => updateField('cpuP50', v)}
+                        placeholder="100m"
+                        presets={CPU_PRESETS}
+                        tooltip={<p>Median CPU usage - 50% of samples are below this</p>}
+                      />
+                      <ResourceInput
+                        id="cpuP95"
+                        label="P95 *"
+                        value={form.cpuP95}
+                        onChange={(v) => updateField('cpuP95', v)}
+                        placeholder="200m"
+                        presets={CPU_PRESETS}
+                        tooltip={<p>95th percentile - 95% of samples are below this</p>}
+                      />
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <Label htmlFor="cpuP99">P99 (optional)</Label>
-                        <Input
-                          id="cpuP99"
-                          value={form.cpuP99}
-                          onChange={(e) => updateField('cpuP99', e.target.value)}
-                          placeholder="300m"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="cpuMax">Max *</Label>
-                        <Input
-                          id="cpuMax"
-                          value={form.cpuMax}
-                          onChange={(e) => updateField('cpuMax', e.target.value)}
-                          placeholder="400m"
-                        />
-                      </div>
+                      <ResourceInput
+                        id="cpuP99"
+                        label="P99 (optional)"
+                        value={form.cpuP99}
+                        onChange={(v) => updateField('cpuP99', v)}
+                        placeholder="300m"
+                        presets={CPU_PRESETS}
+                        tooltip={<p>99th percentile - captures peak usage</p>}
+                      />
+                      <ResourceInput
+                        id="cpuMax"
+                        label="Max *"
+                        value={form.cpuMax}
+                        onChange={(v) => updateField('cpuMax', v)}
+                        placeholder="400m"
+                        presets={CPU_PRESETS}
+                        tooltip={<p>Maximum observed CPU usage</p>}
+                      />
                     </div>
                   </TabsContent>
 
                   <TabsContent value="memory" className="space-y-3">
                     <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <Label htmlFor="memP50">P50 (optional)</Label>
-                        <Input
-                          id="memP50"
-                          value={form.memP50}
-                          onChange={(e) => updateField('memP50', e.target.value)}
-                          placeholder="256Mi"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="memP95">P95 *</Label>
-                        <Input
-                          id="memP95"
-                          value={form.memP95}
-                          onChange={(e) => updateField('memP95', e.target.value)}
-                          placeholder="400Mi"
-                        />
-                      </div>
+                      <ResourceInput
+                        id="memP50"
+                        label="P50 (optional)"
+                        value={form.memP50}
+                        onChange={(v) => updateField('memP50', v)}
+                        placeholder="256Mi"
+                        presets={MEMORY_PRESETS}
+                        tooltip={<p>Median memory usage - 50% of samples are below this</p>}
+                      />
+                      <ResourceInput
+                        id="memP95"
+                        label="P95 *"
+                        value={form.memP95}
+                        onChange={(v) => updateField('memP95', v)}
+                        placeholder="400Mi"
+                        presets={MEMORY_PRESETS}
+                        tooltip={<p>95th percentile - 95% of samples are below this</p>}
+                      />
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <Label htmlFor="memP99">P99 (optional)</Label>
-                        <Input
-                          id="memP99"
-                          value={form.memP99}
-                          onChange={(e) => updateField('memP99', e.target.value)}
-                          placeholder="450Mi"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="memMax">Max *</Label>
-                        <Input
-                          id="memMax"
-                          value={form.memMax}
-                          onChange={(e) => updateField('memMax', e.target.value)}
-                          placeholder="512Mi"
-                        />
-                      </div>
+                      <ResourceInput
+                        id="memP99"
+                        label="P99 (optional)"
+                        value={form.memP99}
+                        onChange={(v) => updateField('memP99', v)}
+                        placeholder="450Mi"
+                        presets={MEMORY_PRESETS}
+                        tooltip={<p>99th percentile - captures peak usage</p>}
+                      />
+                      <ResourceInput
+                        id="memMax"
+                        label="Max *"
+                        value={form.memMax}
+                        onChange={(v) => updateField('memMax', v)}
+                        placeholder="512Mi"
+                        presets={MEMORY_PRESETS}
+                        tooltip={<p>Maximum observed memory usage</p>}
+                      />
                     </div>
                   </TabsContent>
                 </Tabs>

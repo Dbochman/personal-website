@@ -323,12 +323,22 @@ async function fetchGA4Data() {
       history = JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8'));
     }
 
-    // Append new data
-    history.push(dataEntry);
+    // Check if we already have an entry for today - replace instead of append
+    const todayDate = dataEntry.date;
+    const existingIndex = history.findIndex(entry => entry.date === todayDate);
 
-    // Keep only last 52 entries (1 year of weekly data)
-    if (history.length > 52) {
-      history = history.slice(-52);
+    if (existingIndex !== -1) {
+      // Replace existing entry for today with updated data
+      history[existingIndex] = dataEntry;
+      console.log(`📝 Updated existing entry for ${todayDate}`);
+    } else {
+      // Append new data for a new day
+      history.push(dataEntry);
+    }
+
+    // Keep only last 90 entries (~3 months of daily data)
+    if (history.length > 90) {
+      history = history.slice(-90);
     }
 
     // Write updated history

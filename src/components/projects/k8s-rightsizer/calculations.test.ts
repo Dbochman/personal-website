@@ -36,6 +36,17 @@ describe('parseCpu', () => {
     expect(() => parseCpu('')).toThrow();
     expect(() => parseCpu('abc')).toThrow();
   });
+
+  it('rejects values with trailing junk', () => {
+    expect(() => parseCpu('500mfoo')).toThrow();
+    expect(() => parseCpu('1x')).toThrow();
+    expect(() => parseCpu('500 m')).toThrow(); // embedded space
+  });
+
+  it('rejects invalid suffixes', () => {
+    expect(() => parseCpu('500c')).toThrow(); // invalid suffix
+    expect(() => parseCpu('500M')).toThrow(); // M is for memory, not CPU
+  });
 });
 
 describe('parseMemory', () => {
@@ -57,6 +68,21 @@ describe('parseMemory', () => {
   it('throws on invalid input', () => {
     expect(() => parseMemory('')).toThrow();
     expect(() => parseMemory('abc')).toThrow();
+  });
+
+  it('rejects values with trailing junk', () => {
+    expect(() => parseMemory('256Mifoo')).toThrow();
+    expect(() => parseMemory('1Gib')).toThrow(); // extra 'b' at the end
+    expect(() => parseMemory('1GiB')).toThrow(); // GiB is not valid K8s syntax, only Gi
+  });
+
+  it('rejects invalid suffixes', () => {
+    expect(() => parseMemory('256MB')).toThrow(); // MB is not valid, only M or Mi
+    expect(() => parseMemory('1GB')).toThrow();   // GB is not valid, only G or Gi
+  });
+
+  it('rejects floating point plain bytes', () => {
+    expect(() => parseMemory('1048576.5')).toThrow(); // plain bytes must be integers
   });
 });
 
@@ -267,6 +293,49 @@ describe('calculateRecommendation', () => {
 
     expect(result.savings.monthly).toBeGreaterThan(0);
     expect(result.savings.yearly).toBe(result.savings.monthly * 12);
+  });
+
+  it('clamps negative replicas to 1', () => {
+    const result = calculateRecommendation({
+      usage: baseUsage,
+      current: baseCurrent,
+      replicas: -5,
+      slider: 50,
+    });
+
+    // Should not have negative or zero savings multiplier
+    expect(result.savings.monthly).toBeGreaterThanOrEqual(0);
+  });
+
+  it('clamps zero replicas to 1', () => {
+    const result = calculateRecommendation({
+      usage: baseUsage,
+      current: baseCurrent,
+      replicas: 0,
+      slider: 50,
+    });
+
+    // Should calculate as if 1 replica
+    expect(result.savings.monthly).toBeGreaterThanOrEqual(0);
+  });
+
+  it('floors fractional replicas', () => {
+    const resultFractional = calculateRecommendation({
+      usage: baseUsage,
+      current: baseCurrent,
+      replicas: 3.7,
+      slider: 50,
+    });
+
+    const resultWhole = calculateRecommendation({
+      usage: baseUsage,
+      current: baseCurrent,
+      replicas: 3,
+      slider: 50,
+    });
+
+    // 3.7 should be floored to 3
+    expect(resultFractional.savings.monthly).toBe(resultWhole.savings.monthly);
   });
 });
 

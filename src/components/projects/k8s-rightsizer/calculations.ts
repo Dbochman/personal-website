@@ -104,35 +104,45 @@ export const PRESET_SLIDER_VALUES: Record<PresetProfile, number> = {
 /**
  * Parse CPU string to millicores
  * Examples: "500m" -> 500, "0.5" -> 500, "2" -> 2000
+ * Rejects invalid formats like "500mfoo" or "1.5x"
  */
 export function parseCpu(value: string): number {
   const trimmed = value.trim();
   if (!trimmed) throw new Error('Empty CPU value');
 
-  if (trimmed.endsWith('m')) {
-    const num = parseFloat(trimmed.slice(0, -1));
-    if (isNaN(num)) throw new Error(`Invalid CPU value: ${value}`);
+  // Match millicores: "500m", "100m"
+  const milliMatch = trimmed.match(/^(\d+(?:\.\d+)?)m$/);
+  if (milliMatch) {
+    const num = parseFloat(milliMatch[1]);
+    if (isNaN(num) || num < 0) throw new Error(`Invalid CPU value: ${value}`);
     return Math.round(num);
   }
 
-  const num = parseFloat(trimmed);
-  if (isNaN(num)) throw new Error(`Invalid CPU value: ${value}`);
-  return Math.round(num * 1000);
+  // Match cores: "1", "0.5", "2.5"
+  const coreMatch = trimmed.match(/^(\d+(?:\.\d+)?)$/);
+  if (coreMatch) {
+    const num = parseFloat(coreMatch[1]);
+    if (isNaN(num) || num < 0) throw new Error(`Invalid CPU value: ${value}`);
+    return Math.round(num * 1000);
+  }
+
+  throw new Error(`Invalid CPU value: ${value}`);
 }
 
 /**
  * Parse memory string to bytes
  * Examples: "256Mi" -> 268435456, "1Gi" -> 1073741824, "512M" -> 512000000
+ * Rejects invalid formats like "1GiB" (invalid suffix) or "256Mifoo"
  */
 export function parseMemory(value: string): number {
   const trimmed = value.trim();
   if (!trimmed) throw new Error('Empty memory value');
 
-  // Binary units (Ki, Mi, Gi, Ti)
-  const binaryMatch = trimmed.match(/^([\d.]+)(Ki|Mi|Gi|Ti)$/i);
+  // Binary units (Ki, Mi, Gi, Ti) - must match exactly, case-sensitive for K8s compatibility
+  const binaryMatch = trimmed.match(/^(\d+(?:\.\d+)?)(Ki|Mi|Gi|Ti)$/);
   if (binaryMatch) {
     const num = parseFloat(binaryMatch[1]);
-    if (isNaN(num)) throw new Error(`Invalid memory value: ${value}`);
+    if (isNaN(num) || num < 0) throw new Error(`Invalid memory value: ${value}`);
     const unit = binaryMatch[2].toLowerCase();
     const multipliers: Record<string, number> = {
       'ki': 1024,
@@ -143,11 +153,11 @@ export function parseMemory(value: string): number {
     return Math.round(num * multipliers[unit]);
   }
 
-  // Decimal units (K, M, G, T)
-  const decimalMatch = trimmed.match(/^([\d.]+)(K|M|G|T)$/i);
+  // Decimal units (K, M, G, T) - single letter only
+  const decimalMatch = trimmed.match(/^(\d+(?:\.\d+)?)(K|M|G|T)$/);
   if (decimalMatch) {
     const num = parseFloat(decimalMatch[1]);
-    if (isNaN(num)) throw new Error(`Invalid memory value: ${value}`);
+    if (isNaN(num) || num < 0) throw new Error(`Invalid memory value: ${value}`);
     const unit = decimalMatch[2].toLowerCase();
     const multipliers: Record<string, number> = {
       'k': 1000,
@@ -158,10 +168,15 @@ export function parseMemory(value: string): number {
     return Math.round(num * multipliers[unit]);
   }
 
-  // Plain bytes
-  const num = parseFloat(trimmed);
-  if (isNaN(num)) throw new Error(`Invalid memory value: ${value}`);
-  return Math.round(num);
+  // Plain bytes (integers only for safety)
+  const bytesMatch = trimmed.match(/^(\d+)$/);
+  if (bytesMatch) {
+    const num = parseInt(bytesMatch[1], 10);
+    if (isNaN(num) || num < 0) throw new Error(`Invalid memory value: ${value}`);
+    return num;
+  }
+
+  throw new Error(`Invalid memory value: ${value}`);
 }
 
 // ============================================================================
@@ -300,6 +315,9 @@ export function calculateRecommendation(input: RecommendationInput): Recommendat
     costPerGiBHour = DEFAULT_COST_PER_GIB_HOUR,
   } = input;
 
+  // Validate replicas (must be at least 1)
+  const validatedReplicas = Math.max(1, Math.floor(replicas));
+
   const config = getSliderConfig(slider);
   const reasoning: string[] = [];
   const warnings: string[] = [];
@@ -345,8 +363,8 @@ export function calculateRecommendation(input: RecommendationInput): Recommendat
   }
 
   // Calculate savings
-  const cpuSavingsPerHour = ((current.requests.cpu - cpuRequests) / 1000) * replicas * costPerCoreHour;
-  const memSavingsPerHour = ((current.requests.memory - memRequests) / GiB) * replicas * costPerGiBHour;
+  const cpuSavingsPerHour = ((current.requests.cpu - cpuRequests) / 1000) * validatedReplicas * costPerCoreHour;
+  const memSavingsPerHour = ((current.requests.memory - memRequests) / GiB) * validatedReplicas * costPerGiBHour;
   const monthlySavings = Math.max(0, (cpuSavingsPerHour + memSavingsPerHour) * HOURS_PER_MONTH);
   const yearlySavings = monthlySavings * 12;
 
