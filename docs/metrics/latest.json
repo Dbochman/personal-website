@@ -1,5 +1,5 @@
 {
-  "generated": "2026-01-30T14:52:50.860Z",
+  "generated": "2026-01-31T06:09:55.141Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,62 +8,62 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-01-30T14:52:50.860Z",
-    "sessions_7d": 2084,
-    "users_7d": 1979,
-    "pageviews_7d": 2093,
-    "avgSessionDuration": 37,
-    "bounceRate": 0.89,
+    "lastCheck": "2026-01-31T06:09:55.141Z",
+    "sessions_7d": 1071,
+    "users_7d": 991,
+    "pageviews_7d": 1026,
+    "avgSessionDuration": 35,
+    "bounceRate": 0.83,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 483
-      },
-      {
-        "page": "/runbook",
-        "pageViews": 282
+        "pageViews": 241
       },
       {
         "page": "/blog/",
-        "pageViews": 244
+        "pageViews": 144
+      },
+      {
+        "page": "/runbook",
+        "pageViews": 88
       },
       {
         "page": "/blog",
-        "pageViews": 159
+        "pageViews": 68
       },
       {
-        "page": "/this-page-does-not-exist",
-        "pageViews": 128
+        "page": "/runbook/",
+        "pageViews": 60
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-01-30T14:52:50.860Z",
+    "lastCheck": "2026-01-31T06:09:55.141Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 656,
-        "average": 168.65853658536585,
+        "count": 419,
+        "average": 335.9498806682578,
         "unit": "ms"
       },
       "FCP": {
-        "count": 614,
-        "average": 614.086319218241,
+        "count": 372,
+        "average": 761.6209677419355,
         "unit": "ms"
       },
       "LCP": {
-        "count": 112,
-        "average": 398.58035714285717,
+        "count": 68,
+        "average": 369.8970588235294,
         "unit": "ms"
       },
       "INP": {
-        "count": 95,
-        "average": 380.2105263157895,
+        "count": 60,
+        "average": 501.73333333333335,
         "unit": "ms"
       },
       "CLS": {
-        "count": 20,
-        "average": 0.011300000000000001,
+        "count": 15,
+        "average": 0.015066666666666666,
         "unit": ""
       }
     }
