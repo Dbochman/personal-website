@@ -1,7 +1,7 @@
 ---
 id: k8s-resource-rightsizer
 title: K8s Resource Right-Sizer
-column: ideas
+column: changelog
 labels:
   - Medium
   - SRE
@@ -14,7 +14,7 @@ checklist:
     text: Build utilization percentile inputs (P50/P95/P99/Max)
     completed: false
   - id: krr-3
-    text: "Create goal slider (efficiency ↔ safety)"
+    text: Create goal slider (efficiency ↔ safety)
     completed: false
   - id: krr-4
     text: Implement recommendation engine with reasoning
@@ -26,10 +26,19 @@ checklist:
     text: Create YAML snippet output with copy
     completed: false
   - id: krr-7
-    text: Add preset profiles (web server, worker, db)
+    text: 'Add preset profiles (web server, worker, db)'
     completed: false
 planFile: docs/plans/44-k8s-resource-rightsizer.md
-createdAt: "2026-01-17T00:00:00.000Z"
-description: |
-  Recommend CPU/memory requests/limits from utilization percentiles. Goal slider for efficiency vs safety, YAML snippet output.
+createdAt: '2026-01-17T00:00:00.000Z'
+updatedAt: '2026-01-31T02:27:58.528Z'
+history:
+  - type: column
+    timestamp: '2026-01-31T02:20:40.117Z'
+    columnId: in-progress
+    columnTitle: In Progress
+  - type: column
+    timestamp: '2026-01-31T02:27:58.528Z'
+    columnId: changelog
+    columnTitle: Change Log
 ---
+

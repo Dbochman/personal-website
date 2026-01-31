@@ -12,6 +12,7 @@ const componentMap: Record<string, React.LazyExoticComponent<React.ComponentType
   'changelog': lazy(() => import('@/components/projects/changelog-explorer')),
   'cli-playground': lazy(() => import('@/components/projects/cli-playground')),
   'incident-command-diagrams': lazy(() => import('@/components/projects/incident-command-diagrams')),
+  'k8s-rightsizer': lazy(() => import('@/components/projects/k8s-rightsizer')),
 };
 
 /**

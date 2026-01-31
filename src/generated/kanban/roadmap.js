@@ -11,56 +11,6 @@ export const board = {
       "description": "Draft plans and attach them, then move to To Do",
       "cards": [
         {
-          "id": "k8s-resource-rightsizer",
-          "title": "K8s Resource Right-Sizer",
-          "description": "Recommend CPU/memory requests/limits from utilization percentiles. Goal slider for efficiency vs safety, YAML snippet output.\n",
-          "labels": [
-            "Medium",
-            "SRE",
-            "Calculator"
-          ],
-          "checklist": [
-            {
-              "id": "krr-1",
-              "text": "Build inputs for current requests/limits and replicas",
-              "completed": false
-            },
-            {
-              "id": "krr-2",
-              "text": "Build utilization percentile inputs (P50/P95/P99/Max)",
-              "completed": false
-            },
-            {
-              "id": "krr-3",
-              "text": "Create goal slider (efficiency ↔ safety)",
-              "completed": false
-            },
-            {
-              "id": "krr-4",
-              "text": "Implement recommendation engine with reasoning",
-              "completed": false
-            },
-            {
-              "id": "krr-5",
-              "text": "Add savings/impact calculation and risk indicators",
-              "completed": false
-            },
-            {
-              "id": "krr-6",
-              "text": "Create YAML snippet output with copy",
-              "completed": false
-            },
-            {
-              "id": "krr-7",
-              "text": "Add preset profiles (web server, worker, db)",
-              "completed": false
-            }
-          ],
-          "planFile": "docs/plans/44-k8s-resource-rightsizer.md",
-          "createdAt": "2026-01-17T00:00:00.000Z",
-          "history": []
-        },
-        {
           "id": "logql-builder",
           "title": "LogQL / CloudWatch Insights Builder",
           "description": "Visual query builder for LogQL and CloudWatch Insights. Language toggle, stream selectors, pipeline stages, and presets for common queries.\n",
@@ -324,6 +274,69 @@ export const board = {
       "id": "changelog",
       "title": "Change Log",
       "cards": [
+        {
+          "id": "k8s-resource-rightsizer",
+          "title": "K8s Resource Right-Sizer",
+          "labels": [
+            "Medium",
+            "SRE",
+            "Calculator"
+          ],
+          "checklist": [
+            {
+              "id": "krr-1",
+              "text": "Build inputs for current requests/limits and replicas",
+              "completed": false
+            },
+            {
+              "id": "krr-2",
+              "text": "Build utilization percentile inputs (P50/P95/P99/Max)",
+              "completed": false
+            },
+            {
+              "id": "krr-3",
+              "text": "Create goal slider (efficiency ↔ safety)",
+              "completed": false
+            },
+            {
+              "id": "krr-4",
+              "text": "Implement recommendation engine with reasoning",
+              "completed": false
+            },
+            {
+              "id": "krr-5",
+              "text": "Add savings/impact calculation and risk indicators",
+              "completed": false
+            },
+            {
+              "id": "krr-6",
+              "text": "Create YAML snippet output with copy",
+              "completed": false
+            },
+            {
+              "id": "krr-7",
+              "text": "Add preset profiles (web server, worker, db)",
+              "completed": false
+            }
+          ],
+          "planFile": "docs/plans/44-k8s-resource-rightsizer.md",
+          "createdAt": "2026-01-17T00:00:00.000Z",
+          "updatedAt": "2026-01-31T02:27:58.528Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-01-31T02:20:40.117Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
+            },
+            {
+              "type": "column",
+              "timestamp": "2026-01-31T02:27:58.528Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ]
+        },
         {
           "id": "jan-28-hero-github",
           "title": "Jan 28: Hero GitHub Button",
