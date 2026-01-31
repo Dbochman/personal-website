@@ -36,6 +36,9 @@ export function SessionsTrendChart({ data }: SessionsTrendChartProps) {
     pageViews: entry.summary.pageViews,
   }));
 
+  // Calculate tick interval: show ~5-7 labels max for readability
+  const tickInterval = Math.max(0, Math.ceil(chartData.length / 6) - 1);
+
   return (
     <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height={256}>
@@ -51,6 +54,7 @@ export function SessionsTrendChart({ data }: SessionsTrendChartProps) {
             tick={{ fontSize: 12 }}
             tickLine={false}
             axisLine={false}
+            interval={tickInterval}
             className="text-muted-foreground"
           />
           <YAxis
