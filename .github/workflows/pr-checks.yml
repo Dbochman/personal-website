@@ -32,7 +32,7 @@ jobs:
         run: npm ci
 
       - name: Cache MDX compilation
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .cache/mdx
           key: mdx-${{ hashFiles('package-lock.json', 'scripts/precompile-mdx.ts', 'src/content/blog/schema.ts', 'content/blog/**/*.txt') }}
@@ -45,7 +45,7 @@ jobs:
 
       - name: Cache Playwright browsers
         id: playwright-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
@@ -81,7 +81,7 @@ jobs:
 
       - name: Upload test results on failure
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: playwright-report
           path: playwright-report/
