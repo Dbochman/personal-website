@@ -767,7 +767,7 @@ export default function K8sRightsizer() {
 
                     {/* Calculation note */}
                     <div className="text-xs text-muted-foreground">
-                      {validatedReplicas} replica{validatedReplicas !== 1 ? 's' : ''} x (CPU + Memory) x {HOURS_PER_MONTH} hrs/month
+                      {validatedReplicas} replica{validatedReplicas !== 1 ? 's' : ''} x (CPU + Memory) x {HOURS_PER_MONTH} hrs/month at {CLOUD_PRICING[cloudProvider].label} rates
                     </div>
                   </CardContent>
                 </Card>
