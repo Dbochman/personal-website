@@ -9,6 +9,8 @@ import {
   normalizePercentiles,
   calculateRecommendation,
   generateYaml,
+  CLOUD_PRICING,
+  HOURS_PER_MONTH,
 } from './calculations';
 
 const MiB = 1024 * 1024;
@@ -347,6 +349,11 @@ describe('generateYaml', () => {
       requestsNormalized: { cpu: 220, memory: 512 * MiB },
       limitsNormalized: { cpu: 520, memory: GiB },
       reasoning: [],
+      costs: {
+        current: { cpu: 10, memory: 5, total: 15, yearly: 180 },
+        recommended: { cpu: 5, memory: 5, total: 10, yearly: 120 },
+        savings: { cpu: 5, memory: 0, total: 5, yearly: 60 },
+      },
       savings: { monthly: 10, yearly: 120 },
       risk: 'medium' as const,
       warnings: [],
@@ -357,5 +364,174 @@ describe('generateYaml', () => {
     expect(yaml).toContain('memory: "512Mi"');
     expect(yaml).toContain('cpu: "520m"');
     expect(yaml).toContain('memory: "1Gi"');
+  });
+});
+
+describe('CLOUD_PRICING', () => {
+  it('contains expected providers', () => {
+    expect(CLOUD_PRICING.default).toBeDefined();
+    expect(CLOUD_PRICING.aws).toBeDefined();
+    expect(CLOUD_PRICING.gcp).toBeDefined();
+    expect(CLOUD_PRICING.azure).toBeDefined();
+    expect(CLOUD_PRICING.reserved).toBeDefined();
+  });
+
+  it('has valid pricing structures', () => {
+    Object.values(CLOUD_PRICING).forEach((pricing) => {
+      expect(pricing.cpu).toBeGreaterThan(0);
+      expect(pricing.memory).toBeGreaterThan(0);
+      expect(pricing.label).toBeTruthy();
+    });
+  });
+
+  it('reserved pricing is lower than on-demand', () => {
+    expect(CLOUD_PRICING.reserved.cpu).toBeLessThan(CLOUD_PRICING.default.cpu);
+    expect(CLOUD_PRICING.reserved.memory).toBeLessThan(CLOUD_PRICING.default.memory);
+  });
+});
+
+describe('cost breakdown calculations', () => {
+  const baseUsage = {
+    cpu: { p50: 100, p95: 200, p99: 300, max: 400 },
+    memory: { p50: 256 * MiB, p95: 400 * MiB, p99: 450 * MiB, max: 512 * MiB },
+  };
+
+  const baseCurrent = {
+    requests: { cpu: 500, memory: 1 * GiB },
+    limits: { cpu: 1000, memory: 2 * GiB },
+  };
+
+  it('calculates current costs correctly', () => {
+    const result = calculateRecommendation({
+      usage: baseUsage,
+      current: baseCurrent,
+      replicas: 1,
+      slider: 50,
+    });
+
+    // Current CPU: (500m / 1000) * 1 replica * 0.03 * 730 = 10.95
+    const expectedCpuCost = (500 / 1000) * 1 * 0.03 * HOURS_PER_MONTH;
+    expect(result.costs.current.cpu).toBeCloseTo(expectedCpuCost, 2);
+
+    // Current Memory: (1 GiB / GiB) * 1 replica * 0.004 * 730 = 2.92
+    const expectedMemCost = 1 * 0.004 * HOURS_PER_MONTH;
+    expect(result.costs.current.memory).toBeCloseTo(expectedMemCost, 2);
+
+    // Total should be sum
+    expect(result.costs.current.total).toBeCloseTo(expectedCpuCost + expectedMemCost, 2);
+    expect(result.costs.current.yearly).toBeCloseTo((expectedCpuCost + expectedMemCost) * 12, 2);
+  });
+
+  it('calculates recommended costs correctly', () => {
+    const result = calculateRecommendation({
+      usage: baseUsage,
+      current: baseCurrent,
+      replicas: 1,
+      slider: 50,
+    });
+
+    // Recommended CPU: 220m (from slider=50 test)
+    const expectedRecCpuCost = (220 / 1000) * 1 * 0.03 * HOURS_PER_MONTH;
+    expect(result.costs.recommended.cpu).toBeCloseTo(expectedRecCpuCost, 2);
+
+    expect(result.costs.recommended.total).toBe(
+      result.costs.recommended.cpu + result.costs.recommended.memory
+    );
+  });
+
+  it('calculates savings as difference between current and recommended', () => {
+    const result = calculateRecommendation({
+      usage: baseUsage,
+      current: baseCurrent,
+      replicas: 1,
+      slider: 50,
+    });
+
+    expect(result.costs.savings.cpu).toBeCloseTo(
+      result.costs.current.cpu - result.costs.recommended.cpu, 2
+    );
+    expect(result.costs.savings.memory).toBeCloseTo(
+      result.costs.current.memory - result.costs.recommended.memory, 2
+    );
+    expect(result.costs.savings.total).toBeCloseTo(
+      result.costs.current.total - result.costs.recommended.total, 2
+    );
+  });
+
+  it('scales costs with replicas', () => {
+    const result1 = calculateRecommendation({
+      usage: baseUsage,
+      current: baseCurrent,
+      replicas: 1,
+      slider: 50,
+    });
+
+    const result3 = calculateRecommendation({
+      usage: baseUsage,
+      current: baseCurrent,
+      replicas: 3,
+      slider: 50,
+    });
+
+    expect(result3.costs.current.total).toBeCloseTo(result1.costs.current.total * 3, 2);
+    expect(result3.costs.recommended.total).toBeCloseTo(result1.costs.recommended.total * 3, 2);
+    expect(result3.costs.savings.total).toBeCloseTo(result1.costs.savings.total * 3, 2);
+  });
+
+  it('uses custom pricing when provided', () => {
+    const result = calculateRecommendation({
+      usage: baseUsage,
+      current: baseCurrent,
+      replicas: 1,
+      slider: 50,
+      costPerCoreHour: CLOUD_PRICING.aws.cpu,
+      costPerGiBHour: CLOUD_PRICING.aws.memory,
+    });
+
+    const expectedCpuCost = (500 / 1000) * 1 * CLOUD_PRICING.aws.cpu * HOURS_PER_MONTH;
+    expect(result.costs.current.cpu).toBeCloseTo(expectedCpuCost, 2);
+  });
+
+  it('handles negative savings (cost increase) correctly', () => {
+    // Create scenario where recommended > current
+    const lowCurrent = {
+      requests: { cpu: 100, memory: 128 * MiB },
+      limits: { cpu: 200, memory: 256 * MiB },
+    };
+
+    const result = calculateRecommendation({
+      usage: baseUsage,
+      current: lowCurrent,
+      replicas: 1,
+      slider: 80, // High safety = higher recommendations
+    });
+
+    // Savings should be negative when recommended > current
+    expect(result.costs.savings.total).toBeLessThan(0);
+    expect(result.costs.savings.yearly).toBeLessThan(0);
+
+    // Legacy savings field should be clamped to 0
+    expect(result.savings.monthly).toBe(0);
+    expect(result.savings.yearly).toBe(0);
+  });
+
+  it('handles zero costs gracefully', () => {
+    const zeroCurrent = {
+      requests: { cpu: 0, memory: 0 },
+      limits: { cpu: 100, memory: 128 * MiB },
+    };
+
+    // This will have minimum values due to rounding
+    const result = calculateRecommendation({
+      usage: baseUsage,
+      current: zeroCurrent,
+      replicas: 1,
+      slider: 50,
+    });
+
+    expect(result.costs.current.cpu).toBe(0);
+    expect(result.costs.current.memory).toBe(0);
+    expect(result.costs.recommended.cpu).toBeGreaterThan(0);
+    expect(result.costs.recommended.memory).toBeGreaterThan(0);
   });
 });

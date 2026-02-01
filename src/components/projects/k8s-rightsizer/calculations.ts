@@ -39,12 +39,25 @@ export interface WorkloadInput {
   };
 }
 
+export interface CostBreakdown {
+  cpu: number;      // monthly CPU cost
+  memory: number;   // monthly memory cost
+  total: number;    // monthly total
+  yearly: number;   // annual total
+}
+
 export interface Recommendation {
   requests: ResourceValues;
   limits: ResourceValues;
   requestsNormalized: NormalizedResources;
   limitsNormalized: NormalizedResources;
   reasoning: string[];
+  costs: {
+    current: CostBreakdown;
+    recommended: CostBreakdown;
+    savings: CostBreakdown;  // can be negative for increased allocation
+  };
+  /** @deprecated Use costs.savings instead */
   savings: {
     monthly: number;
     yearly: number;
@@ -71,7 +84,18 @@ const MEMORY_ROUND_VALUES = [
 // Default cost assumptions (approximate cloud pricing)
 export const DEFAULT_COST_PER_CORE_HOUR = 0.03;
 export const DEFAULT_COST_PER_GIB_HOUR = 0.004;
-const HOURS_PER_MONTH = 730;
+export const HOURS_PER_MONTH = 730;
+
+// Cloud provider pricing presets (approximate on-demand pricing)
+export const CLOUD_PRICING = {
+  default: { cpu: 0.03, memory: 0.004, label: 'Default (On-demand)' },
+  aws: { cpu: 0.034, memory: 0.0046, label: 'AWS (US East)' },
+  gcp: { cpu: 0.031, memory: 0.0041, label: 'GCP (US Central)' },
+  azure: { cpu: 0.032, memory: 0.0044, label: 'Azure (East US)' },
+  reserved: { cpu: 0.019, memory: 0.0025, label: 'Reserved/Committed' },
+} as const;
+
+export type CloudProvider = keyof typeof CLOUD_PRICING;
 
 // Slider range mappings
 interface SliderConfig {
@@ -362,16 +386,30 @@ export function calculateRecommendation(input: RecommendationInput): Recommendat
     warnings.push('Memory limits below observed max - risk of OOMKill');
   }
 
-  // Calculate savings
-  const cpuSavingsPerHour = ((current.requests.cpu - cpuRequests) / 1000) * validatedReplicas * costPerCoreHour;
-  const memSavingsPerHour = ((current.requests.memory - memRequests) / GiB) * validatedReplicas * costPerGiBHour;
-  const monthlySavings = Math.max(0, (cpuSavingsPerHour + memSavingsPerHour) * HOURS_PER_MONTH);
+  // Calculate full cost breakdown
+  // Current costs
+  const currentCpuMonthly = (current.requests.cpu / 1000) * validatedReplicas * costPerCoreHour * HOURS_PER_MONTH;
+  const currentMemMonthly = (current.requests.memory / GiB) * validatedReplicas * costPerGiBHour * HOURS_PER_MONTH;
+  const currentTotal = currentCpuMonthly + currentMemMonthly;
+
+  // Recommended costs
+  const recCpuMonthly = (cpuRequests / 1000) * validatedReplicas * costPerCoreHour * HOURS_PER_MONTH;
+  const recMemMonthly = (memRequests / GiB) * validatedReplicas * costPerGiBHour * HOURS_PER_MONTH;
+  const recTotal = recCpuMonthly + recMemMonthly;
+
+  // Savings (positive = cost reduction, negative = cost increase)
+  const cpuSavings = currentCpuMonthly - recCpuMonthly;
+  const memSavings = currentMemMonthly - recMemMonthly;
+  const totalSavings = cpuSavings + memSavings;
+
+  // Legacy savings field (clamped to 0 for backwards compat)
+  const monthlySavings = Math.max(0, totalSavings);
   const yearlySavings = monthlySavings * 12;
 
-  if (cpuSavingsPerHour + memSavingsPerHour < 0) {
+  if (totalSavings < 0) {
     reasoning.push('Recommendation increases resource allocation (negative savings)');
-  } else if (monthlySavings > 0) {
-    reasoning.push(`Estimated monthly savings: $${monthlySavings.toFixed(2)}`);
+  } else if (totalSavings > 0) {
+    reasoning.push(`Estimated monthly savings: $${totalSavings.toFixed(2)}`);
   }
 
   return {
@@ -392,6 +430,26 @@ export function calculateRecommendation(input: RecommendationInput): Recommendat
       memory: memLimits,
     },
     reasoning,
+    costs: {
+      current: {
+        cpu: currentCpuMonthly,
+        memory: currentMemMonthly,
+        total: currentTotal,
+        yearly: currentTotal * 12,
+      },
+      recommended: {
+        cpu: recCpuMonthly,
+        memory: recMemMonthly,
+        total: recTotal,
+        yearly: recTotal * 12,
+      },
+      savings: {
+        cpu: cpuSavings,
+        memory: memSavings,
+        total: totalSavings,
+        yearly: totalSavings * 12,
+      },
+    },
     savings: {
       monthly: monthlySavings,
       yearly: yearlySavings,

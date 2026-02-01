@@ -8,6 +8,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -22,8 +29,11 @@ import {
   calculateRecommendation,
   generateYaml,
   PRESET_SLIDER_VALUES,
+  CLOUD_PRICING,
+  HOURS_PER_MONTH,
   type PresetProfile,
   type PercentileInput,
+  type CloudProvider,
 } from './calculations';
 
 type ResourceType = 'cpu' | 'memory';
@@ -96,6 +106,20 @@ function getRiskColor(risk: 'low' | 'medium' | 'high') {
     case 'medium': return 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20';
     case 'high': return 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20';
   }
+}
+
+/**
+ * Format cost change as percentage, handling edge cases
+ * Returns "—" when current is 0 but recommended > 0 (can't calculate %)
+ */
+function formatCostChangePercent(current: number, savings: number): string {
+  if (current === 0) {
+    // Can't calculate percentage from zero base
+    // If recommended > 0, it's an increase from nothing
+    return savings < 0 ? '+∞' : '—';
+  }
+  const percent = Math.round((savings / current) * 100);
+  return `${savings >= 0 ? '-' : '+'}${Math.abs(percent)}%`;
 }
 
 // Combobox-style input with integrated dropdown
@@ -180,6 +204,7 @@ export default function K8sRightsizer() {
   const [preset, setPreset] = useState<PresetProfile>('custom');
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<ResourceType>('cpu');
+  const [cloudProvider, setCloudProvider] = useState<CloudProvider>('default');
 
   const updateField = useCallback((field: keyof FormState, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -227,8 +252,9 @@ export default function K8sRightsizer() {
       if (form.memP99.trim()) memInput.p99 = parseMemory(form.memP99);
       const memPercentiles = normalizePercentiles(memInput);
 
-      const replicas = parseInt(form.replicas, 10) || 1;
+      const replicas = Math.max(1, Math.floor(parseInt(form.replicas, 10) || 1));
 
+      const pricing = CLOUD_PRICING[cloudProvider];
       const result = calculateRecommendation({
         usage: {
           cpu: cpuPercentiles,
@@ -240,13 +266,19 @@ export default function K8sRightsizer() {
         },
         replicas,
         slider,
+        costPerCoreHour: pricing.cpu,
+        costPerGiBHour: pricing.memory,
       });
 
-      return { recommendation: result, error: null };
+      return { recommendation: result, error: null, validatedReplicas: replicas };
     } catch (e) {
-      return { recommendation: null, error: e instanceof Error ? e.message : 'Invalid input' };
+      return { recommendation: null, error: e instanceof Error ? e.message : 'Invalid input', validatedReplicas: 1 };
     }
-  }, [form, slider]);
+  }, [form, slider, cloudProvider]);
+
+  const validatedReplicas = useMemo(() => {
+    return Math.max(1, Math.floor(parseInt(form.replicas, 10) || 1));
+  }, [form.replicas]);
 
   const yaml = recommendation ? generateYaml(recommendation) : '';
 
@@ -547,7 +579,7 @@ export default function K8sRightsizer() {
               </Card>
             ) : recommendation ? (
               <>
-                {/* Summary Card */}
+                {/* Recommendation Summary Card */}
                 <Card>
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
@@ -576,30 +608,6 @@ export default function K8sRightsizer() {
                       </div>
                     </div>
 
-                    {/* Savings */}
-                    {recommendation.savings.monthly > 0 && (
-                      <div className="flex items-center gap-2 p-3 rounded-lg bg-green-500/10 text-green-600 dark:text-green-400">
-                        <TrendingDown className="h-5 w-5" />
-                        <div>
-                          <div className="font-medium">
-                            ${recommendation.savings.monthly.toFixed(2)}/mo savings
-                          </div>
-                          <div className="text-xs opacity-80">
-                            ${recommendation.savings.yearly.toFixed(0)}/year
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {recommendation.savings.monthly === 0 && (
-                      <div className="flex items-center gap-2 p-3 rounded-lg bg-muted text-muted-foreground">
-                        <TrendingUp className="h-5 w-5" />
-                        <div className="text-sm">
-                          Recommendation increases allocation (more headroom)
-                        </div>
-                      </div>
-                    )}
-
                     {/* Warnings */}
                     {recommendation.warnings.length > 0 && (
                       <div className="space-y-2">
@@ -617,6 +625,149 @@ export default function K8sRightsizer() {
                       {recommendation.reasoning.map((r, i) => (
                         <div key={i}>• {r}</div>
                       ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Cost Analysis Card */}
+                <Card>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-lg">Cost Analysis</CardTitle>
+                      <Select value={cloudProvider} onValueChange={(v) => setCloudProvider(v as CloudProvider)}>
+                        <SelectTrigger className="w-[160px] h-8 text-xs">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.entries(CLOUD_PRICING).map(([key, { label }]) => (
+                            <SelectItem key={key} value={key} className="text-xs">
+                              {label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {/* Cost comparison table */}
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="text-muted-foreground">
+                            <th className="text-left font-medium py-2"></th>
+                            <th className="text-right font-medium py-2 px-2">Current</th>
+                            <th className="text-right font-medium py-2 px-2">Recommended</th>
+                            <th className="text-right font-medium py-2 px-2">Change</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className="py-1.5 text-muted-foreground">CPU</td>
+                            <td className="py-1.5 px-2 text-right font-mono">
+                              ${recommendation.costs.current.cpu.toFixed(2)}/mo
+                            </td>
+                            <td className="py-1.5 px-2 text-right font-mono">
+                              ${recommendation.costs.recommended.cpu.toFixed(2)}/mo
+                            </td>
+                            <td className={cn(
+                              "py-1.5 px-2 text-right font-mono",
+                              recommendation.costs.savings.cpu > 0 && "text-green-600 dark:text-green-400",
+                              recommendation.costs.savings.cpu < 0 && "text-red-600 dark:text-red-400"
+                            )}>
+                              {formatCostChangePercent(recommendation.costs.current.cpu, recommendation.costs.savings.cpu)}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="py-1.5 text-muted-foreground">Memory</td>
+                            <td className="py-1.5 px-2 text-right font-mono">
+                              ${recommendation.costs.current.memory.toFixed(2)}/mo
+                            </td>
+                            <td className="py-1.5 px-2 text-right font-mono">
+                              ${recommendation.costs.recommended.memory.toFixed(2)}/mo
+                            </td>
+                            <td className={cn(
+                              "py-1.5 px-2 text-right font-mono",
+                              recommendation.costs.savings.memory > 0 && "text-green-600 dark:text-green-400",
+                              recommendation.costs.savings.memory < 0 && "text-red-600 dark:text-red-400"
+                            )}>
+                              {formatCostChangePercent(recommendation.costs.current.memory, recommendation.costs.savings.memory)}
+                            </td>
+                          </tr>
+                          <tr className="border-t border-border">
+                            <td className="py-2 font-medium">Total</td>
+                            <td className="py-2 px-2 text-right font-mono font-medium">
+                              ${recommendation.costs.current.total.toFixed(2)}/mo
+                            </td>
+                            <td className="py-2 px-2 text-right font-mono font-medium">
+                              ${recommendation.costs.recommended.total.toFixed(2)}/mo
+                            </td>
+                            <td className={cn(
+                              "py-2 px-2 text-right font-mono font-medium",
+                              recommendation.costs.savings.total > 0 && "text-green-600 dark:text-green-400",
+                              recommendation.costs.savings.total < 0 && "text-red-600 dark:text-red-400"
+                            )}>
+                              {recommendation.costs.savings.total >= 0 ? '-' : '+'}$
+                              {Math.abs(recommendation.costs.savings.total).toFixed(2)}
+                            </td>
+                          </tr>
+                          <tr className="text-muted-foreground">
+                            <td className="py-1"></td>
+                            <td className="py-1 px-2 text-right font-mono text-xs">
+                              ${recommendation.costs.current.yearly.toFixed(0)}/yr
+                            </td>
+                            <td className="py-1 px-2 text-right font-mono text-xs">
+                              ${recommendation.costs.recommended.yearly.toFixed(0)}/yr
+                            </td>
+                            <td className={cn(
+                              "py-1 px-2 text-right font-mono text-xs",
+                              recommendation.costs.savings.yearly > 0 && "text-green-600 dark:text-green-400",
+                              recommendation.costs.savings.yearly < 0 && "text-red-600 dark:text-red-400"
+                            )}>
+                              {recommendation.costs.savings.yearly >= 0 ? '-' : '+'}$
+                              {Math.abs(recommendation.costs.savings.yearly).toFixed(0)}/yr
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* Summary indicator */}
+                    {recommendation.costs.savings.total > 0 ? (
+                      <div className="flex items-center gap-2 p-3 rounded-lg bg-green-500/10 text-green-600 dark:text-green-400">
+                        <TrendingDown className="h-5 w-5 shrink-0" />
+                        <div>
+                          <div className="font-medium">
+                            ${recommendation.costs.savings.total.toFixed(2)}/mo savings
+                          </div>
+                          <div className="text-xs opacity-80">
+                            ${recommendation.costs.savings.yearly.toFixed(0)}/year across {validatedReplicas} replica{validatedReplicas !== 1 ? 's' : ''}
+                          </div>
+                        </div>
+                      </div>
+                    ) : recommendation.costs.savings.total < 0 ? (
+                      <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                        <TrendingUp className="h-5 w-5 shrink-0" />
+                        <div>
+                          <div className="font-medium">
+                            +${Math.abs(recommendation.costs.savings.total).toFixed(2)}/mo increase
+                          </div>
+                          <div className="text-xs opacity-80">
+                            Adds headroom for reliability
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 p-3 rounded-lg bg-muted text-muted-foreground">
+                        <Info className="h-5 w-5 shrink-0" />
+                        <div className="text-sm">
+                          No cost change with current recommendations
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Calculation note */}
+                    <div className="text-xs text-muted-foreground">
+                      {validatedReplicas} replica{validatedReplicas !== 1 ? 's' : ''} x (CPU + Memory) x {HOURS_PER_MONTH} hrs/month at {CLOUD_PRICING[cloudProvider].label} rates
                     </div>
                   </CardContent>
                 </Card>
