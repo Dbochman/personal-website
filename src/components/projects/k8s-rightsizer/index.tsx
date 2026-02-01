@@ -108,6 +108,20 @@ function getRiskColor(risk: 'low' | 'medium' | 'high') {
   }
 }
 
+/**
+ * Format cost change as percentage, handling edge cases
+ * Returns "—" when current is 0 but recommended > 0 (can't calculate %)
+ */
+function formatCostChangePercent(current: number, savings: number): string {
+  if (current === 0) {
+    // Can't calculate percentage from zero base
+    // If recommended > 0, it's an increase from nothing
+    return savings < 0 ? '+∞' : '—';
+  }
+  const percent = Math.round((savings / current) * 100);
+  return `${savings >= 0 ? '-' : '+'}${Math.abs(percent)}%`;
+}
+
 // Combobox-style input with integrated dropdown
 interface ResourceInputProps {
   id: string;
@@ -238,7 +252,7 @@ export default function K8sRightsizer() {
       if (form.memP99.trim()) memInput.p99 = parseMemory(form.memP99);
       const memPercentiles = normalizePercentiles(memInput);
 
-      const replicas = parseInt(form.replicas, 10) || 1;
+      const replicas = Math.max(1, Math.floor(parseInt(form.replicas, 10) || 1));
 
       const pricing = CLOUD_PRICING[cloudProvider];
       const result = calculateRecommendation({
@@ -256,11 +270,15 @@ export default function K8sRightsizer() {
         costPerGiBHour: pricing.memory,
       });
 
-      return { recommendation: result, error: null };
+      return { recommendation: result, error: null, validatedReplicas: replicas };
     } catch (e) {
-      return { recommendation: null, error: e instanceof Error ? e.message : 'Invalid input' };
+      return { recommendation: null, error: e instanceof Error ? e.message : 'Invalid input', validatedReplicas: 1 };
     }
   }, [form, slider, cloudProvider]);
+
+  const validatedReplicas = useMemo(() => {
+    return Math.max(1, Math.floor(parseInt(form.replicas, 10) || 1));
+  }, [form.replicas]);
 
   const yaml = recommendation ? generateYaml(recommendation) : '';
 
@@ -656,11 +674,7 @@ export default function K8sRightsizer() {
                               recommendation.costs.savings.cpu > 0 && "text-green-600 dark:text-green-400",
                               recommendation.costs.savings.cpu < 0 && "text-red-600 dark:text-red-400"
                             )}>
-                              {recommendation.costs.current.cpu > 0
-                                ? `${recommendation.costs.savings.cpu >= 0 ? '-' : '+'}${Math.abs(
-                                    Math.round((recommendation.costs.savings.cpu / recommendation.costs.current.cpu) * 100)
-                                  )}%`
-                                : '0%'}
+                              {formatCostChangePercent(recommendation.costs.current.cpu, recommendation.costs.savings.cpu)}
                             </td>
                           </tr>
                           <tr>
@@ -676,11 +690,7 @@ export default function K8sRightsizer() {
                               recommendation.costs.savings.memory > 0 && "text-green-600 dark:text-green-400",
                               recommendation.costs.savings.memory < 0 && "text-red-600 dark:text-red-400"
                             )}>
-                              {recommendation.costs.current.memory > 0
-                                ? `${recommendation.costs.savings.memory >= 0 ? '-' : '+'}${Math.abs(
-                                    Math.round((recommendation.costs.savings.memory / recommendation.costs.current.memory) * 100)
-                                  )}%`
-                                : '0%'}
+                              {formatCostChangePercent(recommendation.costs.current.memory, recommendation.costs.savings.memory)}
                             </td>
                           </tr>
                           <tr className="border-t border-border">
@@ -730,7 +740,7 @@ export default function K8sRightsizer() {
                             ${recommendation.costs.savings.total.toFixed(2)}/mo savings
                           </div>
                           <div className="text-xs opacity-80">
-                            ${recommendation.costs.savings.yearly.toFixed(0)}/year across {form.replicas} replica{parseInt(form.replicas) !== 1 ? 's' : ''}
+                            ${recommendation.costs.savings.yearly.toFixed(0)}/year across {validatedReplicas} replica{validatedReplicas !== 1 ? 's' : ''}
                           </div>
                         </div>
                       </div>
@@ -757,7 +767,7 @@ export default function K8sRightsizer() {
 
                     {/* Calculation note */}
                     <div className="text-xs text-muted-foreground">
-                      {form.replicas} replica{parseInt(form.replicas) !== 1 ? 's' : ''} x (CPU + Memory) x {HOURS_PER_MONTH} hrs/month
+                      {validatedReplicas} replica{validatedReplicas !== 1 ? 's' : ''} x (CPU + Memory) x {HOURS_PER_MONTH} hrs/month
                     </div>
                   </CardContent>
                 </Card>
