@@ -530,13 +530,47 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
         }, 0);
       }
 
-      // Same position, no change needed
-      if (activeColumn.id === overColumn.id && activeId === overId) return prev;
+      // Same position, no change needed (and no cross-column move happened)
+      if (activeColumn.id === overColumn.id && activeId === overId && !movedFromStart) return prev;
 
-      // Same column reordering
+      // Helper to add history entry for cross-column moves
+      const addHistoryIfNeeded = (card: CardType): CardType => {
+        if (card.id !== activeId || !movedFromStart) return card;
+        const now = new Date().toISOString();
+        const lastEntry = card.history?.[card.history.length - 1];
+        // Deduplicate: don't add if last history entry is same column
+        if (lastEntry?.type === 'column' && lastEntry?.columnId === overColumn.id) {
+          return { ...card, updatedAt: now };
+        }
+        return {
+          ...card,
+          updatedAt: now,
+          history: [
+            ...(card.history || []),
+            { type: 'column' as const, timestamp: now, columnId: overColumn.id, columnTitle: overColumn.title },
+          ],
+        };
+      };
+
+      // Same column reordering (but card may have been moved here by throttled drag-over)
       if (!isCrossColumnMove) {
         const oldIndex = activeColumn.cards.findIndex((c) => c.id === activeId);
         const newIndex = activeColumn.cards.findIndex((c) => c.id === overId);
+
+        // If card moved from start column, add history even if just reordering in target
+        if (movedFromStart) {
+          return {
+            ...prev,
+            columns: prev.columns.map((col) => {
+              if (col.id !== activeColumn.id) return col;
+              const reorderedCards = oldIndex !== -1 && newIndex !== -1 && oldIndex !== newIndex
+                ? arrayMove(col.cards, oldIndex, newIndex)
+                : col.cards;
+              return { ...col, cards: reorderedCards.map(addHistoryIfNeeded) };
+            }),
+          };
+        }
+
         if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) return prev;
 
         return {
@@ -563,32 +597,11 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
         overCards.splice(overIndex, 0, movedCard);
       }
 
-      // Add history entry if this is a real column change from start
-      const now = new Date().toISOString();
-      const updatedOverCards = movedFromStart
-        ? overCards.map((card) => {
-            if (card.id !== activeId) return card;
-            const lastEntry = card.history?.[card.history.length - 1];
-            // Deduplicate: don't add if last history entry is same column
-            if (lastEntry?.type === 'column' && lastEntry?.columnId === overColumn.id) {
-              return { ...card, updatedAt: now };
-            }
-            return {
-              ...card,
-              updatedAt: now,
-              history: [
-                ...(card.history || []),
-                { type: 'column' as const, timestamp: now, columnId: overColumn.id, columnTitle: overColumn.title },
-              ],
-            };
-          })
-        : overCards;
-
       return {
         ...prev,
         columns: prev.columns.map((col) => {
           if (col.id === activeColumn.id) return { ...col, cards: activeCards };
-          if (col.id === overColumn.id) return { ...col, cards: updatedOverCards };
+          if (col.id === overColumn.id) return { ...col, cards: overCards.map(addHistoryIfNeeded) };
           return col;
         }),
       };
