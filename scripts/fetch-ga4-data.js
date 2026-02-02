@@ -77,7 +77,7 @@ async function fetchGA4Data() {
       ],
     });
 
-    // Fetch Web Vitals (RUM data)
+    // Fetch Web Vitals (RUM data) with rating breakdown
     const [vitalsResponse] = await analyticsDataClient.runReport({
       property: propertyId,
       dateRanges: [
@@ -88,6 +88,7 @@ async function fetchGA4Data() {
       ],
       dimensions: [
         { name: 'eventName' },
+        { name: 'customEvent:metric_rating' },
       ],
       metrics: [
         { name: 'eventCount' },
@@ -123,32 +124,7 @@ async function fetchGA4Data() {
       ],
     });
 
-    // First, check if tool_interaction events exist at all (no custom dimensions needed)
-    try {
-      const [toolEventCheck] = await analyticsDataClient.runReport({
-        property: propertyId,
-        dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
-        dimensions: [{ name: 'eventName' }],
-        metrics: [{ name: 'eventCount' }],
-        dimensionFilter: {
-          filter: {
-            fieldName: 'eventName',
-            stringFilter: { value: 'tool_interaction' },
-          },
-        },
-      });
-      if (toolEventCheck.rows?.length > 0) {
-        const count = toolEventCheck.rows[0].metricValues[0].value;
-        console.log(`📊 Found ${count} tool_interaction events in last 30 days`);
-        console.log('   Events ARE being received - register custom dimensions in GA4 to see details');
-      } else {
-        console.log('ℹ️  No tool_interaction events found in last 30 days');
-      }
-    } catch (checkError) {
-      console.log('⚠️  Could not check for tool events:', checkError.message);
-    }
-
-    // Fetch tool interaction events with details (requires custom dimensions to be registered in GA4)
+    // Fetch tool interaction events with details
     let toolEventsResponse = { rows: [] };
     try {
       const [toolResponse] = await analyticsDataClient.runReport({
@@ -177,8 +153,7 @@ async function fetchGA4Data() {
       });
       toolEventsResponse = toolResponse;
     } catch (toolError) {
-      console.log('⚠️  Tool interaction details query failed (custom dimensions may not be registered):', toolError.message);
-      console.log('   To fix: Register tool_name and action as custom dimensions in GA4 Admin');
+      console.log('⚠️  Tool interaction details query failed:', toolError.message);
     }
 
     // Extract overall metrics
@@ -285,24 +260,46 @@ async function fetchGA4Data() {
       toolMetrics[toolName].actions[action] = (toolMetrics[toolName].actions[action] || 0) + count;
     });
 
-    // Process Web Vitals (RUM) data
+    // Process Web Vitals (RUM) data with rating breakdown
     // Note: web-vitals library reports all timing metrics in milliseconds
     const webVitals = {};
     vitalsResponse.rows?.forEach(row => {
       const metric = row.dimensionValues[0].value;
+      const rating = row.dimensionValues[1]?.value || 'unknown';
       const count = parseInt(row.metricValues[0].value || '0', 10);
       const totalValue = parseFloat(row.metricValues[1].value || '0');
 
-      // Calculate average (eventValue is cumulative)
-      const avgValue = count > 0 ? totalValue / count : 0;
+      // Initialize metric if not exists
+      if (!webVitals[metric]) {
+        webVitals[metric] = {
+          count: 0,
+          average: 0,
+          unit: metric === 'CLS' ? '' : 'ms',
+          ratings: { good: 0, 'needs-improvement': 0, poor: 0 },
+          totalValue: 0,
+        };
+      }
 
-      webVitals[metric] = {
-        count,
-        // CLS is scaled by 1000 when sent, so divide back to get actual value
-        // All timing metrics (LCP, FCP, INP, TTFB) are in milliseconds
-        average: metric === 'CLS' ? avgValue / 1000 : avgValue,
-        unit: metric === 'CLS' ? '' : 'ms',
-      };
+      // Accumulate counts by rating
+      webVitals[metric].count += count;
+      webVitals[metric].totalValue += totalValue;
+      if (rating in webVitals[metric].ratings) {
+        webVitals[metric].ratings[rating] += count;
+      }
+    });
+
+    // Calculate averages after aggregation
+    Object.keys(webVitals).forEach(metric => {
+      const data = webVitals[metric];
+      const avgValue = data.count > 0 ? data.totalValue / data.count : 0;
+      // CLS is scaled by 1000 when sent, so divide back to get actual value
+      data.average = metric === 'CLS' ? avgValue / 1000 : avgValue;
+      // Calculate percentage of good ratings
+      data.goodPercent = data.count > 0
+        ? Math.round((data.ratings.good / data.count) * 100)
+        : 0;
+      // Clean up temporary field
+      delete data.totalValue;
     });
 
     // Create data entry
