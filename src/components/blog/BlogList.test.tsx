@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { BlogList } from './BlogList';
 import type { BlogPost } from '@/types/blog';
@@ -163,14 +163,22 @@ describe('BlogList', () => {
 
   describe('analytics', () => {
     beforeEach(() => {
+      vi.useFakeTimers();
       window.gtag = vi.fn();
+      // Mock requestIdleCallback to run callback immediately
+      window.requestIdleCallback = vi.fn((cb) => {
+        cb({} as IdleDeadline);
+        return 1;
+      });
     });
 
     afterEach(() => {
+      vi.useRealTimers();
       delete (window as unknown as { gtag?: unknown }).gtag;
+      delete (window as unknown as { requestIdleCallback?: unknown }).requestIdleCallback;
     });
 
-    it('fires tag_filter_click event when tag is selected', () => {
+    it('fires tag_filter_click event when tag is selected', async () => {
       renderWithRouter(<BlogList posts={mockPosts} />);
 
       const reactTags = screen.getAllByText('React');
@@ -180,7 +188,10 @@ describe('BlogList', () => {
       );
 
       if (reactFilterBadge) {
-        fireEvent.click(reactFilterBadge);
+        await act(async () => {
+          fireEvent.click(reactFilterBadge);
+          vi.runAllTimers();
+        });
 
         expect(window.gtag).toHaveBeenCalledWith('event', 'tag_filter_click', {
           event_category: 'engagement',
@@ -189,7 +200,7 @@ describe('BlogList', () => {
       }
     });
 
-    it('does not fire tag_filter_click when tag is deselected', () => {
+    it('does not fire tag_filter_click when tag is deselected', async () => {
       renderWithRouter(<BlogList posts={mockPosts} />);
 
       const reactTags = screen.getAllByText('React');
@@ -199,20 +210,32 @@ describe('BlogList', () => {
       );
 
       if (reactFilterBadge) {
-        fireEvent.click(reactFilterBadge); // Select
+        await act(async () => {
+          fireEvent.click(reactFilterBadge); // Select
+          vi.runAllTimers();
+        });
         vi.mocked(window.gtag).mockClear();
-        fireEvent.click(reactFilterBadge); // Deselect
+        await act(async () => {
+          fireEvent.click(reactFilterBadge); // Deselect
+          vi.runAllTimers();
+        });
 
         expect(window.gtag).not.toHaveBeenCalled();
       }
     });
 
-    it('fires blog_search event on search input blur-sm', () => {
+    it('fires blog_search event on search input blur-sm', async () => {
       renderWithRouter(<BlogList posts={mockPosts} />);
       const searchInput = screen.getByPlaceholderText('Search posts...');
 
-      fireEvent.change(searchInput, { target: { value: 'DevOps' } });
-      fireEvent.blur(searchInput);
+      await act(async () => {
+        fireEvent.change(searchInput, { target: { value: 'DevOps' } });
+        vi.runAllTimers();
+      });
+      await act(async () => {
+        fireEvent.blur(searchInput);
+        vi.runAllTimers();
+      });
 
       expect(window.gtag).toHaveBeenCalledWith('event', 'blog_search', {
         event_category: 'engagement',
@@ -220,11 +243,14 @@ describe('BlogList', () => {
       });
     });
 
-    it('does not fire blog_search event when search is empty', () => {
+    it('does not fire blog_search event when search is empty', async () => {
       renderWithRouter(<BlogList posts={mockPosts} />);
       const searchInput = screen.getByPlaceholderText('Search posts...');
 
-      fireEvent.blur(searchInput);
+      await act(async () => {
+        fireEvent.blur(searchInput);
+        vi.runAllTimers();
+      });
 
       expect(window.gtag).not.toHaveBeenCalled();
     });

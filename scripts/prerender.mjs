@@ -54,16 +54,22 @@ async function prerender() {
       ...blogSlugs.map(slug => `/blog/${slug}`)
     ];
 
+    // Routes with persistent network activity (auth, polling) that prevent networkidle
+    const routesWithPolling = ['/projects/kanban'];
+
     console.log(`📄 Pre-rendering ${routes.length} routes...`);
 
     for (const route of routes) {
       console.log(`  ➜ ${route}`);
 
-      // Navigate to the route
-      await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle' });
+      // Use domcontentloaded for routes with polling, networkidle for others
+      const waitUntil = routesWithPolling.includes(route) ? 'domcontentloaded' : 'networkidle';
 
-      // Wait for React to render
-      await page.waitForTimeout(500);
+      // Navigate to the route
+      await page.goto(`${baseUrl}${route}`, { waitUntil });
+
+      // Wait for React to render (longer wait for polling routes since we don't wait for network)
+      await page.waitForTimeout(routesWithPolling.includes(route) ? 2000 : 500);
 
       // Get the rendered HTML
       const html = await page.content();

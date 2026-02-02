@@ -42,9 +42,12 @@ jobs:
       - name: Check for skip flag in commit message
         id: skip_check
         run: |
-          # Get the latest commit message
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          if echo "$COMMIT_MSG" | grep -qi '\[skip-review\]'; then
+          # Get the PR head commit message (not the merge commit)
+          # In PR context, git log -1 gets the merge commit, not the actual pushed commit
+          COMMIT_MSG=$(git log -1 --pretty=%B ${{ github.event.pull_request.head.sha }})
+          echo "Checking commit: ${{ github.event.pull_request.head.sha }}"
+          echo "Commit message: $COMMIT_MSG"
+          if echo "$COMMIT_MSG" | grep -qiF '[skip-review]'; then
             echo "skip=true" >> $GITHUB_OUTPUT
             echo "Skipping review: [skip-review] found in commit message"
           else

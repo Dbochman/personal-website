@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { TagList } from '@/components/blog/TagList';
 import { TransitionLink } from '@/hooks/useViewTransition';
 import type { BlogPost } from '@/types/blog';
+import { trackEventDeferred } from '@/lib/analytics';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -14,12 +15,11 @@ export const BlogCard = memo(function BlogCard({ post }: BlogCardProps) {
 
   const handleFirstInteraction = () => {
     if (!hasBeenHovered) {
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'blog_card_expand', {
-          event_category: 'engagement',
-          event_label: post.slug
-        });
-      }
+      // Defer analytics to avoid blocking INP
+      trackEventDeferred('blog_card_expand', {
+        event_category: 'engagement',
+        event_label: post.slug,
+      });
       setHasBeenHovered(true);
     }
   };

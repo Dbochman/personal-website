@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,7 @@ import { BlogCard } from './BlogCard';
 import type { BlogPost, BlogAuthor } from '@/types/blog';
 import { filterPostsBySearch, filterPostsByTags, sortPostsByDate, sortPostsByReadingTime, getAllTags } from '@/lib/blog-utils';
 import { staggerContainer, staggerItem } from '@/lib/motion';
+import { trackEventDeferred } from '@/lib/analytics';
 
 type SortOption = 'newest' | 'oldest' | 'longest' | 'shortest';
 
@@ -28,6 +29,9 @@ export function BlogList({ posts }: BlogListProps) {
   const [selectedAuthor, setSelectedAuthor] = useState<BlogAuthor | 'all'>('all');
   const [sortOption, setSortOption] = useState<SortOption>('newest');
   const [hasInteracted, setHasInteracted] = useState(false);
+
+  // Track pending tag click for deferred analytics
+  const pendingTagRef = useRef<string | null>(null);
 
   // Sync author filter with URL params (handles back/forward navigation)
   useEffect(() => {
@@ -89,26 +93,30 @@ export function BlogList({ posts }: BlogListProps) {
     setHasInteracted(true);
     setSelectedTags(prev => {
       const isSelected = prev.includes(tag);
-      const newTags = isSelected
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag];
-
-      if (!isSelected && typeof gtag !== 'undefined') {
-        gtag('event', 'tag_filter_click', {
-          event_category: 'engagement',
-          event_label: tag
-        });
+      // Track tag additions (not removals) - deferred to avoid blocking INP
+      if (!isSelected) {
+        pendingTagRef.current = tag;
       }
-
-      return newTags;
+      return isSelected ? prev.filter(t => t !== tag) : [...prev, tag];
     });
   };
 
-  const handleSearchBlur = () => {
-    if (searchTerm && typeof gtag !== 'undefined') {
-      gtag('event', 'blog_search', {
+  // Fire deferred analytics after state update completes
+  useEffect(() => {
+    if (pendingTagRef.current) {
+      trackEventDeferred('tag_filter_click', {
         event_category: 'engagement',
-        event_label: searchTerm
+        event_label: pendingTagRef.current,
+      });
+      pendingTagRef.current = null;
+    }
+  }, [selectedTags]);
+
+  const handleSearchBlur = () => {
+    if (searchTerm) {
+      trackEventDeferred('blog_search', {
+        event_category: 'engagement',
+        event_label: searchTerm,
       });
     }
   };

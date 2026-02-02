@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { BlogCard } from './BlogCard';
 import type { BlogPost } from '@/types/blog';
@@ -69,18 +69,29 @@ describe('BlogCard', () => {
 
   describe('analytics', () => {
     beforeEach(() => {
+      vi.useFakeTimers();
       window.gtag = vi.fn();
+      // Mock requestIdleCallback to run callback immediately
+      window.requestIdleCallback = vi.fn((cb) => {
+        cb({} as IdleDeadline);
+        return 1;
+      });
     });
 
     afterEach(() => {
+      vi.useRealTimers();
       delete (window as unknown as { gtag?: unknown }).gtag;
+      delete (window as unknown as { requestIdleCallback?: unknown }).requestIdleCallback;
     });
 
-    it('fires blog_card_expand event on first hover', () => {
+    it('fires blog_card_expand event on first hover', async () => {
       renderWithRouter(<BlogCard post={mockPost} />);
       const article = screen.getByRole('article');
 
-      fireEvent.mouseEnter(article);
+      await act(async () => {
+        fireEvent.mouseEnter(article);
+        vi.runAllTimers();
+      });
 
       expect(window.gtag).toHaveBeenCalledWith('event', 'blog_card_expand', {
         event_category: 'engagement',
@@ -88,22 +99,31 @@ describe('BlogCard', () => {
       });
     });
 
-    it('fires blog_card_expand event only once', () => {
+    it('fires blog_card_expand event only once', async () => {
       renderWithRouter(<BlogCard post={mockPost} />);
       const article = screen.getByRole('article');
 
-      fireEvent.mouseEnter(article);
-      fireEvent.mouseLeave(article);
-      fireEvent.mouseEnter(article);
+      await act(async () => {
+        fireEvent.mouseEnter(article);
+        vi.runAllTimers();
+      });
+      await act(async () => {
+        fireEvent.mouseLeave(article);
+        fireEvent.mouseEnter(article);
+        vi.runAllTimers();
+      });
 
       expect(window.gtag).toHaveBeenCalledTimes(1);
     });
 
-    it('fires blog_card_expand event on focus', () => {
+    it('fires blog_card_expand event on focus', async () => {
       renderWithRouter(<BlogCard post={mockPost} />);
       const article = screen.getByRole('article');
 
-      fireEvent.focus(article);
+      await act(async () => {
+        fireEvent.focus(article);
+        vi.runAllTimers();
+      });
 
       expect(window.gtag).toHaveBeenCalledWith('event', 'blog_card_expand', {
         event_category: 'engagement',

@@ -1,3 +1,4 @@
+import { useMemo, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MEMBER_COLORS } from './types';
 import type { TeamMember } from './types';
@@ -16,48 +17,64 @@ function buildTooltip(lines: (string | null | undefined | false)[]): string {
   return lines.filter(Boolean).join('\n');
 }
 
-// Get timezone label for a team member
-function getTimezoneShort(member: TeamMember): string {
-  if (member.timezone.includes('New_York')) return 'ET';
-  if (member.timezone.includes('Los_Angeles')) return 'PT';
-  if (member.timezone.includes('Chicago')) return 'CT';
-  if (member.timezone.includes('London')) return 'GMT';
-  if (member.timezone.includes('Tokyo')) return 'JST';
-  if (member.timezone.includes('Singapore') || member.timezone.includes('Shanghai')) return 'SGT';
-  return member.region;
-}
-
 export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }: MonthlyHeatmapProps) {
-  // Filter to active rotation members (not backup/off)
-  const activeMembers = team.filter(
-    (m) =>
-      !m.workingHours.toLowerCase().includes('backup') &&
-      m.hoursPerWeek > 0
-  );
+  // Memoize active/rotation members computation
+  const { cycleLength, rotationMembers } = useMemo(() => {
+    const active = team.filter(
+      (m) =>
+        !m.workingHours.toLowerCase().includes('backup') &&
+        m.hoursPerWeek > 0
+    );
+    const cycle = rotationWeeks || active.length || 8;
+    const rotation = active.length > 0 ? active : team.slice(0, cycle);
+    return { cycleLength: cycle, rotationMembers: rotation };
+  }, [team, rotationWeeks]);
 
-  // Use rotation weeks or team size for cycle length
-  const cycleLength = rotationWeeks || activeMembers.length || 8;
-  const rotationMembers = activeMembers.length > 0 ? activeMembers : team.slice(0, cycleLength);
+  // Create Map for O(1) member index lookups (instead of indexOf which is O(n))
+  const memberIndexMap = useMemo(() => {
+    const map = new Map<TeamMember, number>();
+    rotationMembers.forEach((member, idx) => map.set(member, idx));
+    return map;
+  }, [rotationMembers]);
 
-  // Map members to colors by index
-  const getMemberColor = (memberIndex: number) => {
+  // Memoize getMemberColor callback
+  const getMemberColor = useCallback((memberIndex: number) => {
     return MEMBER_COLORS[memberIndex % MEMBER_COLORS.length];
-  };
+  }, []);
 
-  const getDisplayName = (name: string) => name.replace(/\s*\(.*\)/, '');
+  // Memoize getDisplayName callback
+  const getDisplayName = useCallback((name: string) => name.replace(/\s*\(.*\)/, ''), []);
 
-  // Check if shift model is regional (EU/US split) vs rotating
-  const uniqueTimezones = [...new Set(rotationMembers.map((m) => m.timezone))];
-  const isRegionalShift = rotationType === 'shift' && uniqueTimezones.length > 1;
+  // Memoize regional shift calculations
+  const { isRegionalShift, euMembers, apacMembers, usMembers, dayShiftMembers } = useMemo(() => {
+    const timezones = [...new Set(rotationMembers.map((m) => m.timezone))];
+    const regional = rotationType === 'shift' && timezones.length > 1;
+    const eu = rotationMembers.filter((m) => m.region === 'EU');
+    const apac = rotationMembers.filter((m) => m.region === 'APAC');
+    const us = rotationMembers.filter((m) => m.region === 'US');
+    const dayShift = eu.length > 0 ? eu : apac;
+    return {
+      isRegionalShift: regional,
+      euMembers: eu,
+      apacMembers: apac,
+      usMembers: us,
+      dayShiftMembers: dayShift,
+    };
+  }, [rotationMembers, rotationType]);
 
-  // For regional shifts, split by region (supports EU/US or APAC/US)
-  const euMembers = rotationMembers.filter((m) => m.region === 'EU');
-  const apacMembers = rotationMembers.filter((m) => m.region === 'APAC');
-  const usMembers = rotationMembers.filter((m) => m.region === 'US');
-  const dayShiftMembers = euMembers.length > 0 ? euMembers : apacMembers;
+  // Memoize getTimezoneShort callback
+  const getTimezoneShort = useCallback((member: TeamMember): string => {
+    if (member.timezone.includes('New_York')) return 'ET';
+    if (member.timezone.includes('Los_Angeles')) return 'PT';
+    if (member.timezone.includes('Chicago')) return 'CT';
+    if (member.timezone.includes('London')) return 'GMT';
+    if (member.timezone.includes('Tokyo')) return 'JST';
+    if (member.timezone.includes('Singapore') || member.timezone.includes('Shanghai')) return 'SGT';
+    return member.region;
+  }, []);
 
-  // Generate 30 days of coverage based on rotation type
-  const days = Array.from({ length: 30 }, (_, dayIndex) => {
+  // Memoize days array computation - uses Map lookup (O(1)) instead of indexOf (O(n))
+  const days = useMemo(() => Array.from({ length: 30 }, (_, dayIndex) => {
     const dayOfWeek = dayIndex % 7; // 0=Mon, 1=Tue, ..., 5=Sat, 6=Sun
     const isWeekend = dayOfWeek >= 5;
 
@@ -69,9 +86,9 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
         const usPrimaryIndex = dayIndex % usMembers.length;
         const usBackupIndex = (dayIndex + Math.floor(usMembers.length / 2)) % usMembers.length;
 
-        // Find color indices in full rotation members list
-        const dayPrimaryColorIndex = rotationMembers.indexOf(dayShiftMembers[dayPrimaryIdx]);
-        const usPrimaryColorIndex = rotationMembers.indexOf(usMembers[usPrimaryIndex]);
+        // Use Map lookup (O(1)) instead of indexOf (O(n))
+        const dayPrimaryColorIndex = memberIndexMap.get(dayShiftMembers[dayPrimaryIdx]) ?? 0;
+        const usPrimaryColorIndex = memberIndexMap.get(usMembers[usPrimaryIndex]) ?? 0;
 
         return {
           dayNumber: dayIndex + 1,
@@ -80,12 +97,12 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
           dayPrimary: dayShiftMembers[dayPrimaryIdx],
           dayPrimaryColorIndex: dayPrimaryColorIndex,
           dayBackup: dayShiftMembers[dayBackupIdx],
-          dayBackupColorIndex: rotationMembers.indexOf(dayShiftMembers[dayBackupIdx]),
+          dayBackupColorIndex: memberIndexMap.get(dayShiftMembers[dayBackupIdx]) ?? 0,
           // Evening/Night shift = US team
           nightPrimary: usMembers[usPrimaryIndex],
           nightPrimaryColorIndex: usPrimaryColorIndex,
           nightBackup: usMembers[usBackupIndex],
-          nightBackupColorIndex: rotationMembers.indexOf(usMembers[usBackupIndex]),
+          nightBackupColorIndex: memberIndexMap.get(usMembers[usBackupIndex]) ?? 0,
           isWeekend,
           isShift: true as const,
           isDaily: false as const,
@@ -157,18 +174,21 @@ export function MonthlyHeatmap({ team, rotationWeeks, rotationType = 'weekly' }:
       isShift: false as const,
       isDaily: false as const,
     };
-  });
+  }), [rotationType, isRegionalShift, dayShiftMembers, usMembers, rotationMembers, memberIndexMap]);
 
-  // Split into weeks for calendar grid (5 rows of 7 days, with some empty at end)
-  const weeks: (typeof days[0] | null)[][] = [];
-  for (let i = 0; i < 5; i++) {
-    const week: (typeof days[0] | null)[] = [];
-    for (let j = 0; j < 7; j++) {
-      const dayIndex = i * 7 + j;
-      week.push(dayIndex < 30 ? days[dayIndex] : null);
+  // Memoize weeks grid computation
+  const weeks = useMemo(() => {
+    const result: (typeof days[0] | null)[][] = [];
+    for (let i = 0; i < 5; i++) {
+      const week: (typeof days[0] | null)[] = [];
+      for (let j = 0; j < 7; j++) {
+        const dayIndex = i * 7 + j;
+        week.push(dayIndex < 30 ? days[dayIndex] : null);
+      }
+      result.push(week);
     }
-    weeks.push(week);
-  }
+    return result;
+  }, [days]);
 
   return (
     <Card>

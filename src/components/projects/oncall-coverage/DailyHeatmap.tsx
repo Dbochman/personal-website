@@ -1,3 +1,4 @@
+import { useMemo, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import type { CoverageSlot, TeamMember } from './types';
 
@@ -43,6 +44,24 @@ function formatHour(h: number): string {
   return `${h.toString().padStart(2, '0')}:00`;
 }
 
+// Module-level cache for DateTimeFormat instances (expensive to create)
+const dateTimeFormatCache = new Map<string, Intl.DateTimeFormat>();
+
+function getDateTimeFormatter(timezone: string): Intl.DateTimeFormat {
+  if (!dateTimeFormatCache.has(timezone)) {
+    dateTimeFormatCache.set(
+      timezone,
+      new Intl.DateTimeFormat('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone: timezone,
+      })
+    );
+  }
+  return dateTimeFormatCache.get(timezone)!;
+}
+
 // Helper to convert UTC hour to local time string using Intl (handles DST)
 function utcToLocal(utcHour: number, timezone: string): string {
   try {
@@ -50,12 +69,7 @@ function utcToLocal(utcHour: number, timezone: string): string {
     const date = new Date();
     date.setUTCHours(utcHour, 0, 0, 0);
 
-    const formatter = new Intl.DateTimeFormat('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-      timeZone: timezone,
-    });
+    const formatter = getDateTimeFormatter(timezone);
     return formatter.format(date);
   } catch {
     // Fallback if timezone is invalid
@@ -145,61 +159,82 @@ function getCoverageBlocks(
 }
 
 export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps) {
-  // Check if single-site (all same timezone) with shift-based scheduling
-  const uniqueTimezones = [...new Set(team.map((m) => m.timezone))];
-  const isSingleSite = uniqueTimezones.length === 1;
-  const shiftTypes = team.map((m) => getShiftType(m));
-  const hasShifts = shiftTypes.some((s) => s !== null);
-  const hasRotatingShifts = shiftTypes.some((s) => s === 'rotating');
-  const useShiftMode = isSingleSite && hasShifts;
+  // Memoize shift detection to avoid recalculating on every render
+  const { uniqueTimezones, hasRotatingShifts, useShiftMode } = useMemo(() => {
+    const timezones = [...new Set(team.map((m) => m.timezone))];
+    const singleSite = timezones.length === 1;
+    const shiftTypes = team.map((m) => getShiftType(m));
+    const shifts = shiftTypes.some((s) => s !== null);
+    const rotating = shiftTypes.some((s) => s === 'rotating');
+    return {
+      uniqueTimezones: timezones,
+      hasRotatingShifts: rotating,
+      useShiftMode: singleSite && shifts,
+    };
+  }, [team]);
 
-  // Build member map based on mode
-  const memberMap = new Map<string, { key: string; label: string }>();
-  const legendItems: { key: string; label: string; colors: { bg: string } }[] = [];
+  // Memoize memberMap and legendItems computation
+  const { memberMap, legendItems } = useMemo(() => {
+    const map = new Map<string, { key: string; label: string }>();
+    const items: { key: string; label: string; colors: { bg: string } }[] = [];
 
-  if (useShiftMode) {
-    // Shift-based mode (fixed or rotating)
-    team.forEach((member) => {
-      const shift = getShiftType(member);
-      if (shift === 'rotating') {
-        // For rotating, member doesn't have fixed shift - will be determined by hour
-        memberMap.set(member.name, { key: 'rotating', label: 'Rotating' });
-      } else if (shift) {
-        const label = shift === 'day' ? 'Day Shift' : 'Night Shift';
-        memberMap.set(member.name, { key: shift, label });
-      }
-    });
-    legendItems.push(
-      { key: 'day', label: 'Day Shift', colors: SHIFT_COLORS['day'] },
-      { key: 'night', label: 'Night Shift', colors: SHIFT_COLORS['night'] }
-    );
-  } else {
-    // Timezone-based mode
-    team.forEach((member) => {
-      const tz = member.timezone;
-      const label = TIMEZONE_LABELS[tz] || tz;
-      memberMap.set(member.name, { key: tz, label });
-    });
-    uniqueTimezones.forEach((tz) => {
-      legendItems.push({
-        key: tz,
-        label: TIMEZONE_LABELS[tz] || tz,
-        colors: REGION_COLORS[tz] || { bg: 'bg-zinc-400' },
+    if (useShiftMode) {
+      // Shift-based mode (fixed or rotating)
+      team.forEach((member) => {
+        const shift = getShiftType(member);
+        if (shift === 'rotating') {
+          // For rotating, member doesn't have fixed shift - will be determined by hour
+          map.set(member.name, { key: 'rotating', label: 'Rotating' });
+        } else if (shift) {
+          const label = shift === 'day' ? 'Day Shift' : 'Night Shift';
+          map.set(member.name, { key: shift, label });
+        }
       });
-    });
-  }
+      items.push(
+        { key: 'day', label: 'Day Shift', colors: SHIFT_COLORS['day'] },
+        { key: 'night', label: 'Night Shift', colors: SHIFT_COLORS['night'] }
+      );
+    } else {
+      // Timezone-based mode
+      team.forEach((member) => {
+        const tz = member.timezone;
+        const label = TIMEZONE_LABELS[tz] || tz;
+        map.set(member.name, { key: tz, label });
+      });
+      uniqueTimezones.forEach((tz) => {
+        items.push({
+          key: tz,
+          label: TIMEZONE_LABELS[tz] || tz,
+          colors: REGION_COLORS[tz] || { bg: 'bg-zinc-400' },
+        });
+      });
+    }
 
-  const daySlots = coverage[dayIndex] || [];
-  const primaryBlocks = getCoverageBlocks(daySlots, memberMap, 0, useShiftMode && hasRotatingShifts);
-  const secondaryBlocks = getCoverageBlocks(daySlots, memberMap, 1, useShiftMode && hasRotatingShifts);
+    return { memberMap: map, legendItems: items };
+  }, [team, useShiftMode, uniqueTimezones]);
 
-  const getColors = (key: string | null) => {
-    if (!key) return null;
-    if (useShiftMode) return SHIFT_COLORS[key];
-    return REGION_COLORS[key];
-  };
+  // Memoize coverage blocks computation
+  const { primaryBlocks, secondaryBlocks } = useMemo(() => {
+    const slots = coverage[dayIndex] || [];
+    return {
+      primaryBlocks: getCoverageBlocks(slots, memberMap, 0, useShiftMode && hasRotatingShifts),
+      secondaryBlocks: getCoverageBlocks(slots, memberMap, 1, useShiftMode && hasRotatingShifts),
+    };
+  }, [coverage, dayIndex, memberMap, useShiftMode, hasRotatingShifts]);
 
-  const renderTimeline = (blocks: CoverageBlock[], title: string) => (
+  // Memoize getColors callback
+  const getColors = useCallback(
+    (key: string | null) => {
+      if (!key) return null;
+      if (useShiftMode) return SHIFT_COLORS[key];
+      return REGION_COLORS[key];
+    },
+    [useShiftMode]
+  );
+
+  // Memoize renderTimeline to prevent unnecessary re-renders
+  const renderTimeline = useCallback(
+    (blocks: CoverageBlock[], title: string) => (
     <div className="space-y-2">
       <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
       <div className="relative h-12 bg-zinc-200 dark:bg-zinc-700 rounded-lg overflow-hidden">
@@ -244,6 +279,8 @@ export function DailyHeatmap({ coverage, team, dayIndex = 1 }: DailyHeatmapProps
         })}
       </div>
     </div>
+    ),
+    [getColors]
   );
 
   return (
