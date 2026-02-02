@@ -123,7 +123,32 @@ async function fetchGA4Data() {
       ],
     });
 
-    // Fetch tool interaction events (optional - requires custom dimensions to be registered in GA4)
+    // First, check if tool_interaction events exist at all (no custom dimensions needed)
+    try {
+      const [toolEventCheck] = await analyticsDataClient.runReport({
+        property: propertyId,
+        dateRanges: [{ startDate: '30daysAgo', endDate: 'today' }],
+        dimensions: [{ name: 'eventName' }],
+        metrics: [{ name: 'eventCount' }],
+        dimensionFilter: {
+          filter: {
+            fieldName: 'eventName',
+            stringFilter: { value: 'tool_interaction' },
+          },
+        },
+      });
+      if (toolEventCheck.rows?.length > 0) {
+        const count = toolEventCheck.rows[0].metricValues[0].value;
+        console.log(`📊 Found ${count} tool_interaction events in last 30 days`);
+        console.log('   Events ARE being received - register custom dimensions in GA4 to see details');
+      } else {
+        console.log('ℹ️  No tool_interaction events found in last 30 days');
+      }
+    } catch (checkError) {
+      console.log('⚠️  Could not check for tool events:', checkError.message);
+    }
+
+    // Fetch tool interaction events with details (requires custom dimensions to be registered in GA4)
     let toolEventsResponse = { rows: [] };
     try {
       const [toolResponse] = await analyticsDataClient.runReport({
@@ -152,8 +177,8 @@ async function fetchGA4Data() {
       });
       toolEventsResponse = toolResponse;
     } catch (toolError) {
-      console.log('⚠️  Tool interaction query failed (custom dimensions may not be registered):', toolError.message);
-      console.log('   Continuing without tool interaction data...');
+      console.log('⚠️  Tool interaction details query failed (custom dimensions may not be registered):', toolError.message);
+      console.log('   To fix: Register tool_name and action as custom dimensions in GA4 Admin');
     }
 
     // Extract overall metrics
