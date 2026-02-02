@@ -89,6 +89,37 @@ async function prerender() {
     }
 
     await browser.close();
+
+    // Create redirect files for legacy URLs (Google Search Console 404s)
+    // These are .html files that existed on the old site
+    console.log('🔄 Creating legacy URL redirects...');
+    const legacyRedirects = [
+      { from: 'contactme.html', to: '/' },
+      { from: 'bretton-woods.html', to: '/' },
+      { from: 'eurotrip.html', to: '/' },
+      { from: 'photography.html', to: '/' },
+      { from: 'golden-gloves.html', to: '/' },
+    ];
+
+    for (const redirect of legacyRedirects) {
+      const redirectHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <link rel="canonical" href="https://dylanbochman.com${redirect.to}">
+  <meta http-equiv="refresh" content="0; url=${redirect.to}">
+  <script>window.location.href = "${redirect.to}";</script>
+</head>
+<body>
+  <p>Redirecting to <a href="${redirect.to}">dylanbochman.com${redirect.to}</a>...</p>
+</body>
+</html>`;
+      const outputPath = join(distDir, redirect.from);
+      writeFileSync(outputPath, redirectHtml);
+      console.log(`    ✓ Created redirect: ${redirect.from} → ${redirect.to}`);
+    }
+
     console.log('✅ Pre-rendering complete!');
   } catch (error) {
     console.error('❌ Pre-rendering failed:', error);

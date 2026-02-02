@@ -57,8 +57,14 @@ const App = () => (
                     <Route path="/projects/:slug" element={<Project />} />
                     <Route path="/runbook" element={<Runbook />} />
                     <Route path="/analytics" element={<Analytics />} />
-                    {/* Redirect old runbook.html URL to new clean URL */}
+                    {/* Redirects for old/legacy URLs to fix Google Search Console 404s */}
                     <Route path="/runbook.html" element={<Navigate to="/runbook" replace />} />
+                    <Route path="/contactme.html" element={<Navigate to="/" replace />} />
+                    <Route path="/bretton-woods.html" element={<Navigate to="/" replace />} />
+                    <Route path="/eurotrip.html" element={<Navigate to="/" replace />} />
+                    <Route path="/photography.html" element={<Navigate to="/" replace />} />
+                    <Route path="/golden-gloves.html" element={<Navigate to="/" replace />} />
+                    <Route path="/uploads/*" element={<Navigate to="/" replace />} />
                     {/* Unlisted routes - accessible via URL but not in nav */}
                     <Route path="/projects/house" element={<HouseKanban />} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
