@@ -2048,5 +2048,177 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-02-02T06:23:06.250Z",
+    "date": "2026-02-02",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 1102,
+      "users": 1034,
+      "pageViews": 1072,
+      "averageSessionDuration": 32,
+      "bounceRate": 0.85
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 233,
+        "users": 211,
+        "pageViews": 242
+      },
+      {
+        "page": "/blog/",
+        "sessions": 137,
+        "users": 134,
+        "pageViews": 139
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 80,
+        "users": 80,
+        "pageViews": 80
+      },
+      {
+        "page": "/runbook",
+        "sessions": 74,
+        "users": 74,
+        "pageViews": 73
+      },
+      {
+        "page": "/blog",
+        "sessions": 82,
+        "users": 76,
+        "pageViews": 72
+      },
+      {
+        "page": "/blog/2026-01-27-the-404s-came-back",
+        "sessions": 61,
+        "users": 61,
+        "pageViews": 60
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 56,
+        "users": 56,
+        "pageViews": 56
+      },
+      {
+        "page": "/projects/",
+        "sessions": 42,
+        "users": 42,
+        "pageViews": 42
+      },
+      {
+        "page": "/projects/slo-tool/",
+        "sessions": 42,
+        "users": 42,
+        "pageViews": 42
+      },
+      {
+        "page": "/projects/oncall-coverage/",
+        "sessions": 41,
+        "users": 41,
+        "pageViews": 41
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 686,
+        "users": 632
+      },
+      {
+        "device": "mobile",
+        "sessions": 416,
+        "users": 402
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 993,
+          "users": 977
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 22,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 9,
+          "users": 2
+        },
+        {
+          "channel": "Organic Social",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 993,
+          "users": 977
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 22,
+          "users": 7
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 7,
+          "users": 1
+        },
+        {
+          "source": "perplexity.ai",
+          "medium": "referral",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "source": "linkedin.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 431,
+        "average": 341.6426914153132,
+        "unit": "ms"
+      },
+      "FCP": {
+        "count": 394,
+        "average": 800.1548223350254,
+        "unit": "ms"
+      },
+      "LCP": {
+        "count": 60,
+        "average": 423.1166666666667,
+        "unit": "ms"
+      },
+      "INP": {
+        "count": 56,
+        "average": 553.4285714285714,
+        "unit": "ms"
+      },
+      "CLS": {
+        "count": 18,
+        "average": 0.012555555555555556,
+        "unit": ""
+      }
+    },
+    "toolInteractions": null
   }
 ]
