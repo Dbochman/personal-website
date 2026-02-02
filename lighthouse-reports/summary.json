@@ -2,42 +2,54 @@
   {
     "page": "home",
     "url": "https://dylanbochman.com",
-    "performance": 79,
+    "performance": 86,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.2 s",
-    "fcp": "2.8 s",
+    "lcp": "3.6 s",
+    "fcp": "2.2 s",
+    "cls": "0",
+    "tbt": "160 ms"
+  },
+  {
+    "page": "blog",
+    "url": "https://dylanbochman.com/blog",
+    "performance": 72,
+    "accessibility": 100,
+    "seo": 92,
+    "bestPractices": 100,
+    "lcp": "4.6 s",
+    "fcp": "3.8 s",
     "cls": "0",
     "tbt": "180 ms"
   },
   {
     "page": "blog-post-404",
     "url": "https://dylanbochman.com/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
-    "performance": 59,
+    "performance": 64,
     "accessibility": 100,
     "seo": 92,
     "bestPractices": 100,
-    "lcp": "5.8 s",
-    "fcp": "5.4 s",
+    "lcp": "7.0 s",
+    "fcp": "4.9 s",
     "cls": "0",
-    "tbt": "270 ms"
+    "tbt": "100 ms"
   },
   {
     "page": "project-slo",
     "url": "https://dylanbochman.com/projects/slo-tool",
-    "performance": 65,
+    "performance": 67,
     "accessibility": 97,
     "seo": 92,
     "bestPractices": 100,
-    "lcp": "6.6 s",
-    "fcp": "4.2 s",
+    "lcp": "5.4 s",
+    "fcp": "4.6 s",
     "cls": "0",
-    "tbt": "90 ms"
+    "tbt": "130 ms"
   },
   {
-    "page": "project-oncall",
-    "url": "https://dylanbochman.com/projects/oncall-coverage",
+    "page": "project-statuspage",
+    "url": "https://dylanbochman.com/projects/statuspage-update",
     "performance": 77,
     "accessibility": 96,
     "seo": 92,
@@ -45,7 +57,7 @@
     "lcp": "4.3 s",
     "fcp": "3.4 s",
     "cls": "0",
-    "tbt": "140 ms"
+    "tbt": "110 ms"
   },
   {
     "page": "runbook",
@@ -55,7 +67,7 @@
     "seo": 92,
     "bestPractices": 100,
     "lcp": "4.7 s",
-    "fcp": "3.8 s",
+    "fcp": "3.7 s",
     "cls": "0",
     "tbt": "80 ms"
   }
