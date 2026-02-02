@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect, useTransition } from 'react';
 import { Copy, Check, AlertTriangle, TrendingDown, TrendingUp, Info, HelpCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -206,6 +206,20 @@ export default function K8sRightsizer() {
   const [activeTab, setActiveTab] = useState<ResourceType>('cpu');
   const [cloudProvider, setCloudProvider] = useState<CloudProvider>('default');
 
+  // Debounced form state for expensive calculations
+  const [debouncedForm, setDebouncedForm] = useState<FormState>(form);
+  const [isPending, startTransition] = useTransition();
+
+  // Debounce form updates (150ms) to avoid recalculating on every keystroke
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      startTransition(() => {
+        setDebouncedForm(form);
+      });
+    }, 150);
+    return () => clearTimeout(timeout);
+  }, [form]);
+
   const updateField = useCallback((field: keyof FormState, value: string) => {
     setForm(prev => ({ ...prev, [field]: value }));
   }, []);
@@ -221,38 +235,38 @@ export default function K8sRightsizer() {
     setPreset('custom');
   }, []);
 
-  // Compute recommendation
+  // Compute recommendation using debounced form state for better INP
   const { recommendation, error } = useMemo(() => {
     try {
-      // Parse current values
+      // Parse current values (using debouncedForm to avoid recalc on every keystroke)
       const currentCpu = {
-        requests: parseCpu(form.currentCpuRequests),
-        limits: parseCpu(form.currentCpuLimits),
+        requests: parseCpu(debouncedForm.currentCpuRequests),
+        limits: parseCpu(debouncedForm.currentCpuLimits),
       };
       const currentMem = {
-        requests: parseMemory(form.currentMemRequests),
-        limits: parseMemory(form.currentMemLimits),
+        requests: parseMemory(debouncedForm.currentMemRequests),
+        limits: parseMemory(debouncedForm.currentMemLimits),
       };
 
       // Parse CPU percentiles
       const cpuInput: PercentileInput = {
-        p95: parseCpu(form.cpuP95),
-        max: parseCpu(form.cpuMax),
+        p95: parseCpu(debouncedForm.cpuP95),
+        max: parseCpu(debouncedForm.cpuMax),
       };
-      if (form.cpuP50.trim()) cpuInput.p50 = parseCpu(form.cpuP50);
-      if (form.cpuP99.trim()) cpuInput.p99 = parseCpu(form.cpuP99);
+      if (debouncedForm.cpuP50.trim()) cpuInput.p50 = parseCpu(debouncedForm.cpuP50);
+      if (debouncedForm.cpuP99.trim()) cpuInput.p99 = parseCpu(debouncedForm.cpuP99);
       const cpuPercentiles = normalizePercentiles(cpuInput);
 
       // Parse memory percentiles
       const memInput: PercentileInput = {
-        p95: parseMemory(form.memP95),
-        max: parseMemory(form.memMax),
+        p95: parseMemory(debouncedForm.memP95),
+        max: parseMemory(debouncedForm.memMax),
       };
-      if (form.memP50.trim()) memInput.p50 = parseMemory(form.memP50);
-      if (form.memP99.trim()) memInput.p99 = parseMemory(form.memP99);
+      if (debouncedForm.memP50.trim()) memInput.p50 = parseMemory(debouncedForm.memP50);
+      if (debouncedForm.memP99.trim()) memInput.p99 = parseMemory(debouncedForm.memP99);
       const memPercentiles = normalizePercentiles(memInput);
 
-      const replicas = Math.max(1, Math.floor(parseInt(form.replicas, 10) || 1));
+      const replicas = Math.max(1, Math.floor(parseInt(debouncedForm.replicas, 10) || 1));
 
       const pricing = CLOUD_PRICING[cloudProvider];
       const result = calculateRecommendation({
@@ -274,8 +288,9 @@ export default function K8sRightsizer() {
     } catch (e) {
       return { recommendation: null, error: e instanceof Error ? e.message : 'Invalid input', validatedReplicas: 1 };
     }
-  }, [form, slider, cloudProvider]);
+  }, [debouncedForm, slider, cloudProvider]);
 
+  // Use immediate form value for display, debounced value is used in calculation
   const validatedReplicas = useMemo(() => {
     return Math.max(1, Math.floor(parseInt(form.replicas, 10) || 1));
   }, [form.replicas]);
@@ -580,10 +595,15 @@ export default function K8sRightsizer() {
             ) : recommendation ? (
               <>
                 {/* Recommendation Summary Card */}
-                <Card>
+                <Card className={isPending ? 'opacity-70 transition-opacity' : ''}>
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">Recommendation</CardTitle>
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        Recommendation
+                        {isPending && (
+                          <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                        )}
+                      </CardTitle>
                       <Badge variant="outline" className={getRiskColor(recommendation.risk)}>
                         {recommendation.risk} risk
                       </Badge>
