@@ -506,71 +506,93 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
     const activeId = active.id as string;
     const overId = over.id as string;
 
-    const activeColumn = findColumnByCardId(activeId);
-    if (!activeColumn) return;
+    // Use state updater to get fresh state and apply final move
+    // This ensures correctness even if throttled drag-over updates are stale
+    updateBoard((prev) => {
+      // Find columns from fresh state
+      const activeColumn = prev.columns.find((col) => col.cards.some((c) => c.id === activeId));
+      if (!activeColumn) return prev;
 
-    // Check if card moved to a different column (compared to where drag started)
-    const movedToNewColumn = startColumnId && startColumnId !== activeColumn.id;
+      // Determine target column: could be dropping on a column or a card
+      const overColumn = prev.columns.find((col) => col.id === overId) ||
+        prev.columns.find((col) => col.cards.some((c) => c.id === overId));
+      if (!overColumn) return prev;
 
-    // Mark dirty at drag end (not during drag) if card actually moved
-    if (movedToNewColumn || activeId !== overId) {
-      setIsDirty(true);
-      setSaveSuccess(false);
-    }
+      const isCrossColumnMove = activeColumn.id !== overColumn.id;
+      const movedFromStart = startColumnId && startColumnId !== overColumn.id;
 
-    if (movedToNewColumn) {
-      // Add history entry for the final column (only once, at drag end)
-      updateBoard((prev) => ({
+      // Mark dirty if card moved
+      if (isCrossColumnMove || activeId !== overId) {
+        // Use setTimeout to avoid setState during render
+        setTimeout(() => {
+          setIsDirty(true);
+          setSaveSuccess(false);
+        }, 0);
+      }
+
+      // Same position, no change needed
+      if (activeColumn.id === overColumn.id && activeId === overId) return prev;
+
+      // Same column reordering
+      if (!isCrossColumnMove) {
+        const oldIndex = activeColumn.cards.findIndex((c) => c.id === activeId);
+        const newIndex = activeColumn.cards.findIndex((c) => c.id === overId);
+        if (oldIndex === -1 || newIndex === -1 || oldIndex === newIndex) return prev;
+
+        return {
+          ...prev,
+          columns: prev.columns.map((col) => {
+            if (col.id !== activeColumn.id) return col;
+            return { ...col, cards: arrayMove(col.cards, oldIndex, newIndex) };
+          }),
+        };
+      }
+
+      // Cross-column move: ensure card is in target column with history
+      const activeCards = activeColumn.cards.filter((c) => c.id !== activeId);
+      const movedCard = activeColumn.cards.find((c) => c.id === activeId);
+      if (!movedCard) return prev;
+
+      // Calculate insert position
+      const overIndex = overColumn.cards.findIndex((c) => c.id === overId);
+      const overCards = [...overColumn.cards];
+      if (overIndex === -1) {
+        // Dropping on column itself, add to end
+        overCards.push(movedCard);
+      } else {
+        overCards.splice(overIndex, 0, movedCard);
+      }
+
+      // Add history entry if this is a real column change from start
+      const now = new Date().toISOString();
+      const updatedOverCards = movedFromStart
+        ? overCards.map((card) => {
+            if (card.id !== activeId) return card;
+            const lastEntry = card.history?.[card.history.length - 1];
+            // Deduplicate: don't add if last history entry is same column
+            if (lastEntry?.type === 'column' && lastEntry?.columnId === overColumn.id) {
+              return { ...card, updatedAt: now };
+            }
+            return {
+              ...card,
+              updatedAt: now,
+              history: [
+                ...(card.history || []),
+                { type: 'column' as const, timestamp: now, columnId: overColumn.id, columnTitle: overColumn.title },
+              ],
+            };
+          })
+        : overCards;
+
+      return {
         ...prev,
         columns: prev.columns.map((col) => {
-          if (col.id !== activeColumn.id) return col;
-
-          return {
-            ...col,
-            cards: col.cards.map((card) => {
-              if (card.id !== activeId) return card;
-
-              const now = new Date().toISOString();
-              // Deduplicate: don't add if last history entry is same column
-              const lastEntry = card.history?.[card.history.length - 1];
-              if (lastEntry?.type === 'column' && lastEntry?.columnId === activeColumn.id) {
-                return { ...card, updatedAt: now };
-              }
-
-              return {
-                ...card,
-                updatedAt: now,
-                history: [
-                  ...(card.history || []),
-                  { type: 'column' as const, timestamp: now, columnId: activeColumn.id, columnTitle: activeColumn.title },
-                ],
-              };
-            }),
-          };
+          if (col.id === activeColumn.id) return { ...col, cards: activeCards };
+          if (col.id === overColumn.id) return { ...col, cards: updatedOverCards };
+          return col;
         }),
-      }));
-    }
-
-    if (activeId === overId) return;
-
-    // Same column reordering
-    const overCardInSameColumn = activeColumn.cards.find((c) => c.id === overId);
-    if (overCardInSameColumn) {
-      updateBoard((prev) => ({
-        ...prev,
-        columns: prev.columns.map((col) => {
-          if (col.id !== activeColumn.id) return col;
-
-          const oldIndex = col.cards.findIndex((c) => c.id === activeId);
-          const newIndex = col.cards.findIndex((c) => c.id === overId);
-
-          return {
-            ...col,
-            cards: arrayMove(col.cards, oldIndex, newIndex),
-          };
-        }),
-      }));
-    }
+      };
+    });
   };
 
   // Card operations
