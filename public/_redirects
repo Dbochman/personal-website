@@ -1,0 +1,10 @@
+# Cloudflare Pages redirects
+# Redirect /index.html to / (canonical URL) to fix soft 404s
+/index.html / 301
+
+# Legacy .html files from old site - redirect to homepage
+/contactme.html / 301
+/bretton-woods.html / 301
+/eurotrip.html / 301
+/photography.html / 301
+/golden-gloves.html / 301
