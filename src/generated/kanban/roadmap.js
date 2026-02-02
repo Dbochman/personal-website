@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "feb-2-inp-performance-optimization",
+          "title": "Feb 2: INP Performance Optimization",
+          "labels": [
+            "Performance",
+            "PR #222"
+          ],
+          "checklist": [],
+          "createdAt": "2026-02-02T17:13:02.971Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-02-02T17:13:02.971Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Reduced Interaction to Next Paint from 493ms (poor) to <50ms (good). Throttled Kanban drag handlers, deferred analytics to idle time, debounced K8s form inputs, and memoized heatmap computations."
+        },
+        {
           "id": "k8s-resource-right-sizer",
           "title": "K8s Resource Right-Sizer",
           "labels": [
@@ -293,69 +312,6 @@ export const board = {
             }
           ],
           "description": "K8s CPU/memory rightsizing calculator with percentile-based recommendations, risk slider, savings estimates, and YAML export. Includes combobox inputs with tooltips and dropdown presets for easy exploration."
-        },
-        {
-          "id": "k8s-resource-rightsizer",
-          "title": "K8s Resource Right-Sizer",
-          "labels": [
-            "Medium",
-            "SRE",
-            "Calculator"
-          ],
-          "checklist": [
-            {
-              "id": "krr-1",
-              "text": "Build inputs for current requests/limits and replicas",
-              "completed": false
-            },
-            {
-              "id": "krr-2",
-              "text": "Build utilization percentile inputs (P50/P95/P99/Max)",
-              "completed": false
-            },
-            {
-              "id": "krr-3",
-              "text": "Create goal slider (efficiency ↔ safety)",
-              "completed": false
-            },
-            {
-              "id": "krr-4",
-              "text": "Implement recommendation engine with reasoning",
-              "completed": false
-            },
-            {
-              "id": "krr-5",
-              "text": "Add savings/impact calculation and risk indicators",
-              "completed": false
-            },
-            {
-              "id": "krr-6",
-              "text": "Create YAML snippet output with copy",
-              "completed": false
-            },
-            {
-              "id": "krr-7",
-              "text": "Add preset profiles (web server, worker, db)",
-              "completed": false
-            }
-          ],
-          "planFile": "docs/plans/44-k8s-resource-rightsizer.md",
-          "createdAt": "2026-01-17T00:00:00.000Z",
-          "updatedAt": "2026-01-31T02:27:58.528Z",
-          "history": [
-            {
-              "type": "column",
-              "timestamp": "2026-01-31T02:20:40.117Z",
-              "columnId": "in-progress",
-              "columnTitle": "In Progress"
-            },
-            {
-              "type": "column",
-              "timestamp": "2026-01-31T02:27:58.528Z",
-              "columnId": "changelog",
-              "columnTitle": "Change Log"
-            }
-          ]
         },
         {
           "id": "jan-28-hero-github",
