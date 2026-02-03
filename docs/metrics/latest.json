@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-02T16:10:55.740Z",
+  "generated": "2026-02-03T06:17:37.253Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,63 +8,93 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-02-02T16:10:55.740Z",
-    "sessions_7d": 1121,
-    "users_7d": 1051,
-    "pageviews_7d": 1088,
-    "avgSessionDuration": 32,
-    "bounceRate": 0.85,
+    "lastCheck": "2026-02-03T06:17:37.253Z",
+    "sessions_7d": 1252,
+    "users_7d": 1178,
+    "pageviews_7d": 1222,
+    "avgSessionDuration": 30,
+    "bounceRate": 0.87,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 247
+        "pageViews": 276
       },
       {
         "page": "/blog/",
-        "pageViews": 140
+        "pageViews": 146
       },
       {
         "page": "/runbook/",
-        "pageViews": 80
+        "pageViews": 96
       },
       {
         "page": "/blog",
-        "pageViews": 75
+        "pageViews": 89
       },
       {
         "page": "/runbook",
-        "pageViews": 75
+        "pageViews": 86
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-02-02T16:10:55.740Z",
+    "lastCheck": "2026-02-03T06:17:37.253Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 433,
-        "average": 340.83602771362587,
-        "unit": "ms"
+        "count": 463,
+        "average": 387.475161987041,
+        "unit": "ms",
+        "ratings": {
+          "good": 34,
+          "needs-improvement": 1,
+          "poor": 3
+        },
+        "goodPercent": 7
       },
       "FCP": {
-        "count": 395,
-        "average": 798.506329113924,
-        "unit": "ms"
+        "count": 421,
+        "average": 808.5035629453681,
+        "unit": "ms",
+        "ratings": {
+          "good": 31,
+          "needs-improvement": 3,
+          "poor": 2
+        },
+        "goodPercent": 7
       },
       "LCP": {
-        "count": 61,
-        "average": 435.2950819672131,
-        "unit": "ms"
+        "count": 59,
+        "average": 445.2881355932203,
+        "unit": "ms",
+        "ratings": {
+          "good": 2,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 3
       },
       "INP": {
-        "count": 57,
-        "average": 546.6666666666666,
-        "unit": "ms"
+        "count": 55,
+        "average": 571.4909090909091,
+        "unit": "ms",
+        "ratings": {
+          "good": 1,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 2
       },
       "CLS": {
-        "count": 18,
-        "average": 0.012555555555555556,
-        "unit": ""
+        "count": 16,
+        "average": 0.014125,
+        "unit": "",
+        "ratings": {
+          "good": 0,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 0
       }
     }
   }
