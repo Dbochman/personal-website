@@ -1,0 +1,89 @@
+---
+title: "Andre: A Collaborative Music Queue from The Echo Nest Era"
+date: "2026-02-04"
+author: Dylan
+description: "Resurrecting a 2017 office music system, complete with voting, airhorns, and historical throwbacks."
+tags:
+  - Music
+  - Projects
+  - Python
+category: Technical
+draft: false
+---
+
+Some software just refuses to die. Andre is one of those projects.
+
+## The Echo Nest Days
+
+Back in 2014, The Echo Nest had a problem every office has: who controls the music? We built Prosecco, a web-based jukebox where anyone could add songs to a shared queue. No fighting over the aux cord. No Spotify account sharing. Just a URL and democracy.
+
+It worked well enough that when Spotify acquired us, a few of us forked it internally and kept it running. We called the fork "Andre" - if Prosecco is the fancy bubbly, Andre is the cheaper stuff you grab at the corner store. It was a quick and dirty fork, and the name fit.
+
+## The Features That Emerged
+
+The voting system wasn't in the original design. It emerged from actual office debates. Someone would add a song, and three people would groan. So we added upvoting. Queue position became a function of when you added the song plus how many votes it got. The groaning decreased.
+
+Bender mode solved a different problem: the dreaded empty queue. Named after the Futurama character (bite my shiny metal ass), it watches the queue and auto-fills when things get quiet. It tries to match the vibe of recent plays, pulling from a curated pool of tracks.
+
+The airhorns were inevitable. Every office jukebox eventually gets sound effects. Ours has the classic airhorn, a sad trombone, and a few others I won't spoil.
+
+## Throwback Feature
+
+We kept play logs from 2017-2018. When I resurrected Andre, I added a "throwback" feature that surfaces songs from those original logs.
+
+Honestly, it's weird how much this gets me. Songs I haven't thought about in years suddenly playing again. The stuff we listened to while debugging recommendation algorithms, the tracks that got us through late nights before launches. Some of them make me cringe now. Most of them make me smile.
+
+## The Architecture
+
+One thing that confuses people: Andre is a shared queue, but individual playback. Everyone sees the same queue. Everyone can add songs and vote. But each person connects their own Spotify account and plays along on their own device. Andre is the DJ, not the speaker.
+
+```
+┌─────────────────────────────────────┐
+│           Web Browser               │
+│  (Backbone.js + WebSocket client)   │
+└───────────────┬─────────────────────┘
+                │
+┌───────────────▼─────────────────────┐
+│         Flask App (app.py)          │
+│  - OAuth (Google + Spotify)         │
+│  - REST API                         │
+│  - WebSocket (gevent)               │
+└───────────────┬─────────────────────┘
+                │
+┌───────────────▼─────────────────────┐
+│         Redis                       │
+│  - Queue data                       │
+│  - Votes & jams                     │
+│  - Session state                    │
+└───────────────┬─────────────────────┘
+                │
+┌───────────────▼─────────────────────┐
+│    Background Worker (master_player)│
+│  - Tracks playback timing           │
+│  - Bender recommendations           │
+│  - Broadcasts queue updates         │
+└─────────────────────────────────────┘
+```
+
+The background worker is the interesting part. It runs continuously, tracking when songs should end and advancing the queue. When the queue empties, it kicks off Bender mode to pull recommendations. All queue changes get broadcast over WebSockets so everyone's view stays in sync.
+
+## The Modernization
+
+The original codebase was Python 2. Flask, SQLite, the Spotify Web API. It worked but was showing its age.
+
+Over the last year, I've been cleaning it up:
+
+- Python 3 migration (the usual unicode headaches)
+- Swapped SQLite for Redis (simpler for the queue-centric data model)
+- WebSockets via gevent for real-time updates
+- Cleaned up the Spotify OAuth flow
+- Added the throwback feature
+- Dockerized everything for easier deployment
+
+The whole thing runs on a $6/month DigitalOcean droplet with Caddy handling HTTPS. It's not production-grade software. It's a jukebox. But it works, and it's fun, and sometimes that's enough.
+
+## Try It
+
+Andre is live at [andre.dylanbochman.com](https://andre.dylanbochman.com). You'll need Spotify running somewhere to hear the music, but you can browse the interface and see how it works.
+
+There's also a [project page](/projects/andre) with more details on the features and tech stack.
