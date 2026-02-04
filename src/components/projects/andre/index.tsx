@@ -124,6 +124,17 @@ export default function Andre() {
               <li><strong>Filter</strong> - Skip this track and get a different recommendation</li>
             </ul>
           </div>
+          <div>
+            <p className="font-medium text-foreground mb-2">Other Tab</p>
+            <ul className="list-disc list-inside space-y-1 ml-4">
+              <li><strong>Play music here</strong> - Authenticate Spotify and start playback on your device</li>
+              <li><strong>Change colors</strong> - Rotate through theme colors</li>
+              <li><strong>Hide shame</strong> - Hide user gravatars so you don't have to judge friends for bad taste</li>
+              <li><strong>Skip playing song</strong> - Skip the current track</li>
+              <li><strong>Clear queue</strong> - Remove all songs from the queue</li>
+              <li><strong>Pause everything</strong> - Pause playback for everyone</li>
+            </ul>
+          </div>
         </div>
       </div>
 
