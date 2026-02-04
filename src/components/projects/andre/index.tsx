@@ -110,7 +110,7 @@ export default function Andre() {
             <ul className="list-disc list-inside space-y-1 ml-4">
               <li><strong>Up</strong> - Vote a song higher in the queue</li>
               <li><strong>Down</strong> - Vote a song lower in the queue</li>
-              <li><strong>Remove</strong> - Remove a song (your own songs only)</li>
+              <li><strong>Remove</strong> - Remove a song from the queue (be polite about removing others' picks)</li>
               <li><strong>Jam</strong> - Show appreciation for a song</li>
               <li><strong>Comment</strong> - Add a comment to a song</li>
             </ul>
