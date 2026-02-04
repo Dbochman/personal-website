@@ -101,6 +101,32 @@ export default function Andre() {
         </div>
       </div>
 
+      {/* Quick Reference */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Quick Reference</h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <div>
+            <p className="font-medium text-foreground mb-2">Song Controls</p>
+            <ul className="list-disc list-inside space-y-1 ml-4">
+              <li><strong>Up</strong> - Vote a song higher in the queue</li>
+              <li><strong>Down</strong> - Vote a song lower in the queue</li>
+              <li><strong>Remove</strong> - Remove a song (your own songs only)</li>
+              <li><strong>Jam</strong> - Show appreciation for a song</li>
+              <li><strong>Comment</strong> - Add a comment to a song</li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-medium text-foreground mb-2">Bender Recommendations</p>
+            <p className="mb-2">The last song in the queue is always a Bender recommendation. Click it to see options:</p>
+            <ul className="list-disc list-inside space-y-1 ml-4">
+              <li><strong>Spotify</strong> - Open the track in Spotify</li>
+              <li><strong>Queue</strong> - Add this recommendation to the queue</li>
+              <li><strong>Filter</strong> - Skip this track and get a different recommendation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       {/* Queuing and Voting */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Queuing and Voting</h2>
