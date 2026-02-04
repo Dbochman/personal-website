@@ -7,7 +7,7 @@ const FEATURES = [
   {
     icon: Music,
     title: 'Collaborative Queue',
-    description: 'Anyone can add songs to the queue. No account needed, just jump in.',
+    description: 'Everyone sees the same queue. Add songs, and they play on each person\'s own Spotify.',
   },
   {
     icon: Vote,
@@ -40,8 +40,9 @@ const TECH_STACK = [
   'Flask',
   'Python 3',
   'Spotify Web API',
-  'Server-Sent Events',
-  'SQLite',
+  'WebSockets',
+  'Redis',
+  'Docker',
 ];
 
 export default function Andre() {
@@ -90,7 +91,7 @@ export default function Andre() {
             <li>Open Andre on any device connected to your Spotify session</li>
             <li>Search for songs and add them to the shared queue</li>
             <li>Vote on queued songs to influence play order</li>
-            <li>Watch the queue update in real-time via server-sent events</li>
+            <li>Watch the queue update in real-time via WebSockets</li>
             <li>When the queue empties, Bender kicks in with auto-fill suggestions</li>
           </ol>
         </div>
