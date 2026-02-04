@@ -1,4 +1,5 @@
-import { ExternalLink, Vote, Volume2, Music, History, Zap, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ExternalLink, Vote, Volume2, Music, History, Zap, Users, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -138,6 +139,19 @@ export default function Andre() {
             <li><strong>Gravatar</strong> (optional) - If you have a picture on <a href="http://www.gravatar.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">gravatar.com</a>, it'll show as your user image</li>
           </ul>
         </div>
+      </div>
+
+      {/* Blog Post Link */}
+      <div className="border-t pt-6">
+        <Button asChild variant="outline" className="gap-2">
+          <Link to="/blog/2026-02-04-andre-collaborative-music-queue">
+            <BookOpen className="h-4 w-4" />
+            Read the full history
+          </Link>
+        </Button>
+        <p className="text-sm text-muted-foreground mt-2">
+          The Echo Nest origins, the office rules, Bender's time capsule feature, and the architecture.
+        </p>
       </div>
     </div>
   );
