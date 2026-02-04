@@ -1,7 +1,6 @@
 import { ExternalLink, Vote, Volume2, Music, History, Zap, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 
 const FEATURES = [
   {
@@ -34,15 +33,6 @@ const FEATURES = [
     title: 'Office & Party Ready',
     description: 'Built for shared spaces. Works great for offices, parties, and hangouts.',
   },
-];
-
-const TECH_STACK = [
-  'Flask',
-  'Python 3',
-  'Spotify Web API',
-  'WebSockets',
-  'Redis',
-  'Docker',
 ];
 
 export default function Andre() {
@@ -97,49 +87,57 @@ export default function Andre() {
         </div>
       </div>
 
-      {/* Origin Story */}
+      {/* Queuing and Voting */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">The Story</h2>
-        <div className="prose prose-zinc dark:prose-invert max-w-none text-muted-foreground">
+        <h2 className="text-xl font-semibold mb-4">Queuing and Voting</h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
           <p>
-            Andre started life as "Prosecco" at The Echo Nest around 2014. It was the office
-            jukebox - a way for everyone to contribute to the music without fighting over
-            the aux cord.
+            The queue you see is only half the story. Where a newly-added song lands depends on
+            a penalty system designed to keep things fair.
           </p>
           <p>
-            When Spotify acquired The Echo Nest, some of us forked it internally. The voting
-            system emerged from actual office debates about what should play next. Bender mode
-            (named after the Futurama character) solved the eternal "queue is empty and nobody
-            wants to pick" problem.
+            Queue position is based on when a song was added, plus penalties. The penalty formula:
+            the total length of all songs you already have in the queue, plus 2 raised to the power
+            of how many songs you have queued. If you're spamming songs with overlapping title words
+            and they make up more than half the queue, those count double for the exponential penalty.
           </p>
+          <p className="font-medium text-foreground">Example:</p>
           <p>
-            In 2024-2026, I modernized the codebase: Python 3, cleaned up dependencies, and
-            added the throwback feature that pulls from our original 2017-2018 play logs.
-            Those logs are a time capsule of what we listened to during some formative years.
+            Alice, Bob, and Carol are listening. At time 0, Alice adds two 7-minute songs to an empty
+            queue. Five minutes later, Bob adds two songs, then Carol adds three. Carol's third song
+            and Bob's second both have "love" in the title.
           </p>
+          <ul className="list-disc list-inside space-y-1 ml-4">
+            <li>Alice's first song: 0 penalty (2⁰)</li>
+            <li>Alice's second song: 9 min penalty (7 + 2¹)</li>
+            <li>Bob's first song: 0 penalty, enters at 5 min</li>
+            <li>Bob's second song: 5 min penalty (3 + 2¹)</li>
+            <li>Carol's first song: 0 penalty, enters at 5 min</li>
+            <li>Carol's second song: 6 min penalty (4 + 2¹)</li>
+            <li>Carol's third song: 13 min penalty (5 + 2³ due to keyword overlap)</li>
+          </ul>
+          <p>Resulting queue order:</p>
+          <ol className="list-decimal list-inside space-y-1 ml-4 font-mono text-xs">
+            <li>Bob1 - 5 min</li>
+            <li>Carol1 - 5 min</li>
+            <li>Alice2 - 9 min</li>
+            <li>Bob2 - 10 min</li>
+            <li>Carol2 - 11 min</li>
+            <li>Carol3 - 18 min</li>
+          </ol>
         </div>
       </div>
 
-      {/* Tech Stack */}
+      {/* Requirements */}
       <div>
-        <h2 className="text-xl font-semibold mb-4">Tech Stack</h2>
-        <div className="flex flex-wrap gap-2">
-          {TECH_STACK.map((tech) => (
-            <Badge key={tech} variant="outline">
-              {tech}
-            </Badge>
-          ))}
+        <h2 className="text-xl font-semibold mb-4">What You Need</h2>
+        <div className="space-y-3 text-muted-foreground">
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Google account</strong> - Sign in to access the queue</li>
+            <li><strong>Spotify Premium</strong> - Authenticated locally on your device for playback</li>
+            <li><strong>Gravatar</strong> (optional) - If you have a picture on <a href="http://www.gravatar.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">gravatar.com</a>, it'll show as your user image</li>
+          </ul>
         </div>
-      </div>
-
-      {/* CTA */}
-      <div className="text-center pt-4">
-        <Button asChild variant="outline" size="lg" className="gap-2">
-          <a href="https://andre.dylanbochman.com" target="_blank" rel="noopener noreferrer">
-            Try Andre Now
-            <ExternalLink className="h-4 w-4" />
-          </a>
-        </Button>
       </div>
     </div>
   );
