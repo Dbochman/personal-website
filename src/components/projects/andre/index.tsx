@@ -74,12 +74,25 @@ export default function Andre() {
         </div>
       </div>
 
+      {/* Getting Started */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Getting Started</h2>
+        <div className="space-y-4 text-muted-foreground">
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Open Andre and sign in with your Google account</li>
+            <li>Click the <strong>Other</strong> tab</li>
+            <li>Click <strong>Play music here</strong> to authenticate with Spotify</li>
+            <li>Make sure Spotify is playing something (anything works)</li>
+            <li>You're in - start adding songs to the queue</li>
+          </ol>
+        </div>
+      </div>
+
       {/* How It Works */}
       <div>
         <h2 className="text-xl font-semibold mb-4">How It Works</h2>
         <div className="space-y-4 text-muted-foreground">
           <ol className="list-decimal list-inside space-y-2">
-            <li>Open Andre on any device connected to your Spotify session</li>
             <li>Search for songs and add them to the shared queue</li>
             <li>Vote on queued songs to influence play order</li>
             <li>Watch the queue update in real-time via WebSockets</li>
