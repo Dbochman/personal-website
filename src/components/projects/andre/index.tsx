@@ -74,6 +74,18 @@ export default function Andre() {
         </div>
       </div>
 
+      {/* Requirements */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">What You Need</h2>
+        <div className="space-y-3 text-muted-foreground">
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Google account</strong> - Sign in to access the queue</li>
+            <li><strong>Spotify Premium</strong> - Authenticated locally on your device for playback</li>
+            <li><strong>Gravatar</strong> (optional) - If you have a picture on <a href="http://www.gravatar.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">gravatar.com</a>, it'll show as your user image</li>
+          </ul>
+        </div>
+      </div>
+
       {/* Getting Started */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Getting Started</h2>
@@ -176,18 +188,6 @@ export default function Andre() {
             <li>Carol2 - 11 min</li>
             <li>Carol3 - 18 min</li>
           </ol>
-        </div>
-      </div>
-
-      {/* Requirements */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4">What You Need</h2>
-        <div className="space-y-3 text-muted-foreground">
-          <ul className="list-disc list-inside space-y-2">
-            <li><strong>Google account</strong> - Sign in to access the queue</li>
-            <li><strong>Spotify Premium</strong> - Authenticated locally on your device for playback</li>
-            <li><strong>Gravatar</strong> (optional) - If you have a picture on <a href="http://www.gravatar.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">gravatar.com</a>, it'll show as your user image</li>
-          </ul>
         </div>
       </div>
 
