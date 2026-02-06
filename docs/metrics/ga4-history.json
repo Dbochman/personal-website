@@ -2630,5 +2630,403 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-02-05T06:20:08.782Z",
+    "date": "2026-02-05",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 974,
+      "users": 911,
+      "pageViews": 948,
+      "averageSessionDuration": 27,
+      "bounceRate": 0.86
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 209,
+        "users": 190,
+        "pageViews": 216
+      },
+      {
+        "page": "/blog/",
+        "sessions": 124,
+        "users": 123,
+        "pageViews": 124
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 73,
+        "users": 73,
+        "pageViews": 73
+      },
+      {
+        "page": "/blog",
+        "sessions": 77,
+        "users": 73,
+        "pageViews": 72
+      },
+      {
+        "page": "/runbook",
+        "sessions": 71,
+        "users": 71,
+        "pageViews": 70
+      },
+      {
+        "page": "/blog/2026-01-27-the-404s-came-back",
+        "sessions": 60,
+        "users": 60,
+        "pageViews": 59
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 55,
+        "users": 55,
+        "pageViews": 55
+      },
+      {
+        "page": "/blog/2026-01-27-the-404s-came-back/",
+        "sessions": 39,
+        "users": 39,
+        "pageViews": 39
+      },
+      {
+        "page": "/projects/slo-tool/",
+        "sessions": 35,
+        "users": 35,
+        "pageViews": 35
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 33,
+        "users": 33,
+        "pageViews": 33
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 631,
+        "users": 585
+      },
+      {
+        "device": "mobile",
+        "sessions": 343,
+        "users": 326
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 888,
+          "users": 869
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 12,
+          "users": 4
+        },
+        {
+          "channel": "Referral",
+          "sessions": 9,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 888,
+          "users": 869
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 12,
+          "users": 4
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 9,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 347,
+        "average": 453.53025936599425,
+        "unit": "ms",
+        "ratings": {
+          "good": 71,
+          "needs-improvement": 1,
+          "poor": 3
+        },
+        "goodPercent": 20
+      },
+      "FCP": {
+        "count": 306,
+        "average": 893.8235294117648,
+        "unit": "ms",
+        "ratings": {
+          "good": 50,
+          "needs-improvement": 4,
+          "poor": 2
+        },
+        "goodPercent": 16
+      },
+      "LCP": {
+        "count": 49,
+        "average": 439.3673469387755,
+        "unit": "ms",
+        "ratings": {
+          "good": 7,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 14
+      },
+      "INP": {
+        "count": 44,
+        "average": 689.4545454545455,
+        "unit": "ms",
+        "ratings": {
+          "good": 4,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 9
+      },
+      "CLS": {
+        "count": 7,
+        "average": 0.00014285714285714284,
+        "unit": "",
+        "ratings": {
+          "good": 1,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 14
+      }
+    },
+    "toolInteractions": {
+      "total": 10,
+      "byTool": [
+        {
+          "name": "(not set)",
+          "total": 10,
+          "actions": [
+            {
+              "action": "(not set)",
+              "count": 10
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-06T06:18:28.964Z",
+    "date": "2026-02-06",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 772,
+      "users": 728,
+      "pageViews": 749,
+      "averageSessionDuration": 25,
+      "bounceRate": 0.85
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 165,
+        "users": 152,
+        "pageViews": 163
+      },
+      {
+        "page": "/blog/",
+        "sessions": 101,
+        "users": 101,
+        "pageViews": 101
+      },
+      {
+        "page": "/blog",
+        "sessions": 65,
+        "users": 63,
+        "pageViews": 61
+      },
+      {
+        "page": "/runbook",
+        "sessions": 60,
+        "users": 60,
+        "pageViews": 60
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 53,
+        "users": 53,
+        "pageViews": 53
+      },
+      {
+        "page": "/blog/2026-01-27-the-404s-came-back",
+        "sessions": 50,
+        "users": 50,
+        "pageViews": 49
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 45,
+        "users": 45,
+        "pageViews": 45
+      },
+      {
+        "page": "/blog/2026-01-27-the-404s-came-back/",
+        "sessions": 28,
+        "users": 28,
+        "pageViews": 28
+      },
+      {
+        "page": "/projects/slo-tool/",
+        "sessions": 25,
+        "users": 25,
+        "pageViews": 25
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 23,
+        "users": 23,
+        "pageViews": 23
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 513,
+        "users": 482
+      },
+      {
+        "device": "mobile",
+        "sessions": 259,
+        "users": 246
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 705,
+          "users": 689
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 9,
+          "users": 5
+        },
+        {
+          "channel": "Referral",
+          "sessions": 8,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 705,
+          "users": 689
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 9,
+          "users": 5
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 8,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 262,
+        "average": 560.6297709923664,
+        "unit": "ms",
+        "ratings": {
+          "good": 79,
+          "needs-improvement": 2,
+          "poor": 4
+        },
+        "goodPercent": 30
+      },
+      "FCP": {
+        "count": 219,
+        "average": 1012.433789954338,
+        "unit": "ms",
+        "ratings": {
+          "good": 51,
+          "needs-improvement": 5,
+          "poor": 2
+        },
+        "goodPercent": 23
+      },
+      "LCP": {
+        "count": 38,
+        "average": 465.89473684210526,
+        "unit": "ms",
+        "ratings": {
+          "good": 8,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 21
+      },
+      "INP": {
+        "count": 31,
+        "average": 94.96774193548387,
+        "unit": "ms",
+        "ratings": {
+          "good": 4,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 13
+      },
+      "CLS": {
+        "count": 7,
+        "average": 0.00042857142857142855,
+        "unit": "",
+        "ratings": {
+          "good": 2,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 29
+      }
+    },
+    "toolInteractions": {
+      "total": 10,
+      "byTool": [
+        {
+          "name": "(not set)",
+          "total": 10,
+          "actions": [
+            {
+              "action": "(not set)",
+              "count": 10
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
