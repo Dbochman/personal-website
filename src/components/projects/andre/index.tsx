@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ExternalLink, Vote, Volume2, Music, History, Zap, Users, BookOpen } from 'lucide-react';
+import { ExternalLink, Vote, Music, History, Zap, Globe, Mic, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -25,14 +25,14 @@ const FEATURES = [
     description: 'Revisit songs from the original 2017-2018 play logs at The Echo Nest and Spotify.',
   },
   {
-    icon: Volume2,
-    title: 'Airhorns & Sound Effects',
-    description: 'Trigger sound effects for celebrations, transitions, or just because.',
+    icon: Globe,
+    title: 'Multi-Source Music',
+    description: 'Paste Spotify playlists, YouTube playlist URLs, or search SoundCloud. Bulk-add entire playlists.',
   },
   {
-    icon: Users,
-    title: 'Office & Party Ready',
-    description: 'Built for shared spaces. Works great for offices, parties, and hangouts.',
+    icon: Mic,
+    title: 'Podcasts & More',
+    description: 'Search and play Spotify podcast episodes alongside music. Airhorns and sound effects included.',
   },
 ];
 
@@ -43,8 +43,8 @@ export default function Andre() {
       <div className="text-center space-y-4">
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           A collaborative music queue system born at The Echo Nest, refined at Spotify,
-          and resurrected for the modern era. Add songs, vote on the queue, and let the
-          music flow.
+          and resurrected for the modern era. Search or paste URLs from Spotify, YouTube,
+          and SoundCloud. Vote on the queue and let the music flow.
         </p>
         <Button asChild size="lg" className="gap-2">
           <a href="https://andre.dylanbochman.com" target="_blank" rel="noopener noreferrer">
@@ -105,7 +105,7 @@ export default function Andre() {
         <h2 className="text-xl font-semibold mb-4">How It Works</h2>
         <div className="space-y-4 text-muted-foreground">
           <ol className="list-decimal list-inside space-y-2">
-            <li>Search for songs and add them to the shared queue</li>
+            <li>Search for songs or paste Spotify/YouTube/SoundCloud URLs to add to the shared queue</li>
             <li>Vote on queued songs to influence play order</li>
             <li>Watch the queue update in real-time via WebSockets</li>
             <li>When the queue empties, Bender kicks in with auto-fill suggestions</li>
