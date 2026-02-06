@@ -10,6 +10,7 @@ import { RumWebVitalsCard } from './RumWebVitalsCard';
 import { LighthouseScoresTable } from './LighthouseScoresTable';
 import { TrafficQualityCard } from './TrafficQualityCard';
 import { GitHubBillingCard } from './GitHubBillingCard';
+import { BlogAnalyticsCard } from './BlogAnalyticsCard';
 import { staggerContainer, staggerItem, tabContent } from '@/lib/motion';
 
 // Lazy load Recharts-dependent components (heaviest)
@@ -179,6 +180,7 @@ export function AnalyticsDashboard() {
         <div className="overflow-x-auto -mx-2 px-2">
           <TabsList className="w-full sm:w-auto">
             <TabsTrigger value="traffic">Traffic</TabsTrigger>
+            <TabsTrigger value="blog">Blog</TabsTrigger>
             <TabsTrigger value="performance">Performance</TabsTrigger>
             <TabsTrigger value="search">Search</TabsTrigger>
             <TabsTrigger value="tools">Tools</TabsTrigger>
@@ -289,6 +291,21 @@ export function AnalyticsDashboard() {
               </CardContent>
             </Card>
           )}
+              </TabsContent>
+            </motion.div>
+          )}
+
+          {/* Blog Tab */}
+          {activeTab === 'blog' && (
+            <motion.div
+              key="blog"
+              variants={tabContent}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <TabsContent value="blog" className="space-y-4" forceMount>
+                <BlogAnalyticsCard ga4History={ga4History} latestGA4={latestGA4} />
               </TabsContent>
             </motion.div>
           )}
