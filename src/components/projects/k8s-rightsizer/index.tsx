@@ -227,7 +227,7 @@ export default function K8sRightsizer() {
   const handlePresetChange = useCallback((newPreset: PresetProfile) => {
     setPreset(newPreset);
     setSlider(PRESET_SLIDER_VALUES[newPreset]);
-    trackToolEvent('k8s-rightsizer', 'preset_change', { preset: newPreset });
+    trackToolEvent({ tool_name: 'k8s_rightsizer', action: 'preset_change', event_label: newPreset });
   }, []);
 
   const handleSliderChange = useCallback((values: number[]) => {
@@ -303,7 +303,7 @@ export default function K8sRightsizer() {
       await navigator.clipboard.writeText(yaml);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-      trackToolEvent('k8s-rightsizer', 'copy_yaml');
+      trackToolEvent({ tool_name: 'k8s_rightsizer', action: 'copy_yaml', event_label: 'yaml' });
     } catch {
       // Fallback for browsers without clipboard API or in non-secure contexts
       console.warn('Clipboard API failed, copy manually');
