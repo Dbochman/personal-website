@@ -30,9 +30,14 @@ export function BlogTrafficChart({ data }: BlogTrafficChartProps) {
   }
 
   const chartData = data.map((entry) => {
-    const blogSessions = (entry.topPages ?? [])
-      .filter((p) => p.page.startsWith('/blog/') && p.page !== '/blog/' && p.page !== '/blog')
-      .reduce((sum, p) => sum + p.sessions, 0);
+    // Merge trailing-slash duplicates to match BlogAnalyticsCard logic
+    const merged = new Map<string, number>();
+    for (const p of entry.topPages ?? []) {
+      if (!p.page.startsWith('/blog/') || p.page === '/blog/' || p.page === '/blog') continue;
+      const normalized = p.page.replace(/\/$/, '');
+      merged.set(normalized, (merged.get(normalized) ?? 0) + p.sessions);
+    }
+    const blogSessions = Array.from(merged.values()).reduce((sum, s) => sum + s, 0);
 
     return {
       date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
