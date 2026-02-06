@@ -8,7 +8,7 @@
  * - event_label: additional context (e.g., tab name, tool name, model ID)
  */
 
-export type ToolName = 'slo_calculator' | 'cli_playground' | 'oncall_coverage';
+export type ToolName = 'slo_calculator' | 'cli_playground' | 'oncall_coverage' | 'k8s_rightsizer';
 
 interface ToolEventParams {
   tool_name: ToolName;
