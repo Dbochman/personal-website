@@ -101,7 +101,7 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
       let cmp = 0;
       switch (sortKey) {
         case 'title': cmp = a.title.localeCompare(b.title); break;
-        case 'date': cmp = a.date.localeCompare(b.date); break;
+        case 'date': cmp = (new Date(a.date || 0).getTime()) - (new Date(b.date || 0).getTime()); break;
         case 'sessions': cmp = a.sessions - b.sessions; break;
         case 'users': cmp = a.users - b.users; break;
         case 'pageViews': cmp = a.pageViews - b.pageViews; break;
