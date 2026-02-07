@@ -3028,5 +3028,204 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-02-07T06:12:48.096Z",
+    "date": "2026-02-07",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 695,
+      "users": 668,
+      "pageViews": 667,
+      "averageSessionDuration": 17,
+      "bounceRate": 0.86
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 145,
+        "users": 137,
+        "pageViews": 143
+      },
+      {
+        "page": "/blog/",
+        "sessions": 92,
+        "users": 92,
+        "pageViews": 92
+      },
+      {
+        "page": "/blog",
+        "sessions": 64,
+        "users": 63,
+        "pageViews": 61
+      },
+      {
+        "page": "/runbook",
+        "sessions": 60,
+        "users": 60,
+        "pageViews": 60
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 46,
+        "users": 46,
+        "pageViews": 46
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 42,
+        "users": 42,
+        "pageViews": 42
+      },
+      {
+        "page": "/blog/2026-01-27-the-404s-came-back",
+        "sessions": 40,
+        "users": 40,
+        "pageViews": 39
+      },
+      {
+        "page": "/blog/2026-02-04-andre-collaborative-music-queue",
+        "sessions": 22,
+        "users": 22,
+        "pageViews": 22
+      },
+      {
+        "page": "/projects/slo-tool/",
+        "sessions": 21,
+        "users": 21,
+        "pageViews": 21
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 20,
+        "users": 20,
+        "pageViews": 20
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 463,
+        "users": 448
+      },
+      {
+        "device": "mobile",
+        "sessions": 232,
+        "users": 220
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 644,
+          "users": 631
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 9,
+          "users": 5
+        },
+        {
+          "channel": "Referral",
+          "sessions": 3,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 644,
+          "users": 631
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 9,
+          "users": 5
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 3,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 224,
+        "average": 333.5892857142857,
+        "unit": "ms",
+        "ratings": {
+          "good": 120,
+          "needs-improvement": 2,
+          "poor": 4
+        },
+        "goodPercent": 54
+      },
+      "FCP": {
+        "count": 181,
+        "average": 754.6519337016574,
+        "unit": "ms",
+        "ratings": {
+          "good": 83,
+          "needs-improvement": 9,
+          "poor": 2
+        },
+        "goodPercent": 46
+      },
+      "LCP": {
+        "count": 25,
+        "average": 536.48,
+        "unit": "ms",
+        "ratings": {
+          "good": 10,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 40
+      },
+      "INP": {
+        "count": 19,
+        "average": 135.57894736842104,
+        "unit": "ms",
+        "ratings": {
+          "good": 5,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 26
+      },
+      "CLS": {
+        "count": 6,
+        "average": 0.0006666666666666666,
+        "unit": "",
+        "ratings": {
+          "good": 3,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 50
+      }
+    },
+    "toolInteractions": {
+      "total": 7,
+      "byTool": [
+        {
+          "name": "(not set)",
+          "total": 7,
+          "actions": [
+            {
+              "action": "(not set)",
+              "count": 7
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
