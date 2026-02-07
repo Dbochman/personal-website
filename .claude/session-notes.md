@@ -284,3 +284,71 @@ This is a nice example of Codex catching real bugs when given structured output 
 4. Explore multi-turn conversations with `codex-reply`
 
 ---
+
+## 2026-02-06
+
+**Blog Analytics Tab (PR #225, merged).** Added a dedicated Blog tab to the analytics dashboard that filters GA4 topPages to `/blog/` paths and enriches with post metadata from `src/content/blog/index.ts`. Includes overview metrics, traffic-over-time chart, tag/category breakdown charts, and a sortable post performance table.
+
+Review feedback caught two issues:
+1. BlogTrafficChart wasn't normalizing trailing slashes (`/blog/slug` vs `/blog/slug/`), causing chart/table disagreement. Fixed by merging duplicates the same way BlogAnalyticsCard does.
+2. Date sorting used `localeCompare` which works for ISO dates but breaks on empty strings. Fixed with numeric `Date` comparison.
+
+**Andre project page update (PR #226, open).** Updated feature cards to highlight YouTube/SoundCloud/podcast support added Feb 5-6. Replaced "Airhorns" and "Office & Party Ready" cards with "Multi-Source Music" and "Podcasts & More". Blog post left as-is since it works as a historical narrative.
+
+**Analytics data location note:** All analytics data lives in `docs/metrics/*.json`, committed daily by `.github/workflows/daily-analytics.yml`. Any fresh Claude session can read these files directly—no API keys needed.
+
+---
+
+## 2026-02-07 (Mac Mini OpenClaw Setup Marathon)
+
+**Multi-session effort** bringing OpenClaw's Mac Mini gateway from basic to fully capable. Major additions:
+
+### Nest Thermostat Enhancements
+- **Snapshot/history system**: `nest snapshot` records thermostat state + weather to JSONL (`~/.openclaw/nest-history/`). Cron job runs every 30min silently.
+- **Weather integration**: Open-Meteo API (free, no key, 10k calls/day). Location configurable via `~/.openclaw/nest-location.conf`. Shows in status, snapshot, and history.
+- **History command**: `nest history [hours] [room]` — aggregates snapshots showing indoor/outdoor min/max/avg temp, humidity, HVAC heating %, indoor-outdoor delta.
+- **Camera snapshots**: `nest camera snap [room] [output_path]` — WebRTC via aiortc. Required fixing Nest's non-standard SDP (missing ICE candidate foundation field, ssltcp filtering).
+
+### Gmail & Calendar Access
+- **gog CLI** (v0.9.0, Google Workspace CLI) — OAuth2 with file-based keyring (macOS keychain locks under SSH).
+- OAuth manual flow required exchanging auth code directly via curl due to state mismatch across `gog auth add` invocations.
+- Gateway wrapper updated with `GOG_KEYRING_PASSWORD` env var.
+- Skills created: `~/.openclaw/skills/gmail/SKILL.md` and updated `~/.openclaw/skills/calendar/SKILL.md` (replaced icalBuddy with gog).
+- Gog setup reminder cron job removed (completed).
+
+### Key Technical Gotchas
+- **1Password `op read` hangs under launchd** — probe-timeout-cache pattern in gateway wrapper.
+- **Nest WebRTC SDP**: `a=candidate: 1 udp ...` has no foundation field; aiortc crashes on parse. Fix: prepend dummy "0" foundation, filter ssltcp.
+- **gog keychain locked over SSH**: Switch to `gog auth keyring file` with `GOG_KEYRING_PASSWORD`.
+- **gog OAuth state mismatch**: Each `gog auth add --manual` generates new state; can't reuse redirect URLs across invocations. Workaround: direct token exchange via curl + `gog auth tokens import`.
+- **1Password service account is read-only**: Can't create items programmatically. User must create manually.
+
+### 1Password & Credit Card Purchasing
+- **1Password skill** created: `~/.openclaw/skills/1password/SKILL.md` — read vault secrets, credit card fields, purchase safety rules.
+- **Credit card caching** in gateway wrapper: card number, CVV, cardholder, expiry, type, billing address, and credit limit cached to `~/.cache/openclaw-gateway/visa_*` on startup.
+- **1Password MONTH_YEAR and ADDRESS field types** don't work with `op read` — must use `op item get --format json` and parse from JSON. Expiry stored as `YYYYMM`, address as comma-separated string.
+- **Credit limit** ($250) cached as spending guardrail. Skills instructed to never exceed it.
+- Billing address cached for checkout form filling.
+
+### Andre OpenClaw Skill
+- **Andre skill** created: `~/.openclaw/skills/andre/SKILL.md` — REST API queue management + SSH server ops.
+- **SSH config reordering**: Specific `Host` entries (like `andre-droplet`) MUST come before `Host *` wildcard in `~/.ssh/config`, otherwise 1Password SSH agent intercepts even with `IdentityAgent none`.
+
+### Amazon Shopping Skill
+- **Amazon skill** created: `~/.openclaw/skills/amazon-shopping/SKILL.md` — browser-automated shopping with approval flow.
+- OpenClaw browser service uses Chrome via CDP (not Firefox). Amazon logged in via Google auth in Chrome.
+- Skill requires explicit Dylan approval before placing any order, checks credit limit, masks card details.
+- Verified Chrome has active Amazon session cookies (auth tokens expire Feb 2027).
+
+### Location Config
+- Updated `~/.openclaw/nest-location.conf` with secondary residence coordinates.
+
+### Files on Mac Mini
+- `/opt/homebrew/bin/nest` — Main CLI with all new commands
+- `~/.openclaw/bin/nest-camera-snap.py` — WebRTC camera capture
+- `~/.openclaw/skills/{gmail,calendar,nest-thermostat,1password,andre,amazon-shopping}/SKILL.md` — All updated
+- `~/.openclaw/cron/jobs.json` — Analytics briefing + nest snapshot + temp alert
+- `~/Applications/OpenClawGateway.app/Contents/MacOS/OpenClawGateway` — Updated wrapper with card caching
+- All backed up to `~/dotfiles/openclaw/`
+
+---
