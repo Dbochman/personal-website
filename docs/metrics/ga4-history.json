@@ -3227,5 +3227,204 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-02-08T06:14:12.859Z",
+    "date": "2026-02-08",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 650,
+      "users": 624,
+      "pageViews": 626,
+      "averageSessionDuration": 19,
+      "bounceRate": 0.85
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 138,
+        "users": 131,
+        "pageViews": 138
+      },
+      {
+        "page": "/blog/",
+        "sessions": 88,
+        "users": 88,
+        "pageViews": 88
+      },
+      {
+        "page": "/blog",
+        "sessions": 62,
+        "users": 61,
+        "pageViews": 59
+      },
+      {
+        "page": "/runbook",
+        "sessions": 58,
+        "users": 58,
+        "pageViews": 58
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 41,
+        "users": 41,
+        "pageViews": 41
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 40,
+        "users": 40,
+        "pageViews": 40
+      },
+      {
+        "page": "/blog/2026-01-27-the-404s-came-back",
+        "sessions": 36,
+        "users": 36,
+        "pageViews": 35
+      },
+      {
+        "page": "/blog/2026-02-04-andre-collaborative-music-queue",
+        "sessions": 24,
+        "users": 24,
+        "pageViews": 24
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      },
+      {
+        "page": "/projects/slo-tool/",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 432,
+        "users": 423
+      },
+      {
+        "device": "mobile",
+        "sessions": 218,
+        "users": 201
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 608,
+          "users": 593
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 5,
+          "users": 4
+        },
+        {
+          "channel": "Referral",
+          "sessions": 3,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 608,
+          "users": 593
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 5,
+          "users": 4
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 3,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 203,
+        "average": 367.42857142857144,
+        "unit": "ms",
+        "ratings": {
+          "good": 140,
+          "needs-improvement": 4,
+          "poor": 4
+        },
+        "goodPercent": 69
+      },
+      "FCP": {
+        "count": 159,
+        "average": 815.8867924528302,
+        "unit": "ms",
+        "ratings": {
+          "good": 98,
+          "needs-improvement": 10,
+          "poor": 2
+        },
+        "goodPercent": 62
+      },
+      "LCP": {
+        "count": 21,
+        "average": 558.5714285714286,
+        "unit": "ms",
+        "ratings": {
+          "good": 12,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 57
+      },
+      "INP": {
+        "count": 15,
+        "average": 221.86666666666667,
+        "unit": "ms",
+        "ratings": {
+          "good": 6,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 40
+      },
+      "CLS": {
+        "count": 3,
+        "average": 0.0013333333333333333,
+        "unit": "",
+        "ratings": {
+          "good": 3,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": {
+      "total": 2,
+      "byTool": [
+        {
+          "name": "(not set)",
+          "total": 2,
+          "actions": [
+            {
+              "action": "(not set)",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
