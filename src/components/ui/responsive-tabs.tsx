@@ -58,10 +58,10 @@ export function ResponsiveTabsList({
         </Select>
       </div>
 
-      {/* Desktop TabsList — visible at sm+.
-          On mobile: sr-only (not display:none) so TabsTrigger elements
-          remain accessible and aria-labelledby on TabsContent resolves. */}
-      <TabsList className={cn("sr-only sm:not-sr-only sm:inline-flex", tabsListClassName)}>
+      {/* Desktop TabsList — hidden on mobile, visible at sm+.
+          Using hidden/inline-flex instead of sr-only so keyboard users
+          on narrow viewports can't tab into invisible duplicate triggers. */}
+      <TabsList className={cn("hidden sm:inline-flex", tabsListClassName)}>
         {items.map((item) => (
           <TabsTrigger
             key={item.value}
