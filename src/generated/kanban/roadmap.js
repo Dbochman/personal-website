@@ -249,6 +249,27 @@ export const board = {
           "planFile": "docs/plans/40-regex-log-parser.md",
           "createdAt": "2026-01-17T00:00:00.000Z",
           "history": []
+        },
+        {
+          "id": "rework-tablist-mobile-selector",
+          "title": "Rework TabList Mobile Selector",
+          "summary": "Replace horizontal-scroll/flex-wrap TabList with Select dropdown on mobile (<640px)",
+          "description": "Create a reusable ResponsiveTabsList component that renders a native Select dropdown\non mobile and standard TabsList triggers on desktop. Migrate AnalyticsDashboard (6 tabs),\nIncidentCommandDiagrams (3 long-title tabs), and SloTool (3 tabs with dual labels).\nSkip K8sRightsizer (only 2 short tabs). Uses sr-only (not display:none) for the desktop\nTabsList on mobile to preserve aria-labelledby accessibility.\n",
+          "labels": [
+            "Enhancement",
+            "UX"
+          ],
+          "checklist": [],
+          "planFile": "docs/plans/62-rework-tablist-mobile-selector.md",
+          "createdAt": "2026-02-10T01:47:50.564Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-02-10T01:47:50.564Z",
+              "columnId": "ideas",
+              "columnTitle": "Ideas"
+            }
+          ]
         }
       ]
     },

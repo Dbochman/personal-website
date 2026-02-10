@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { ResponsiveTabsList } from '@/components/ui/responsive-tabs';
 import { AnimatedMermaidDiagram, type AnimationNode } from './AnimatedMermaidDiagram';
 
 const DIAGRAMS: Array<{
@@ -144,6 +145,8 @@ flowchart TD
   },
 ];
 
+const DIAGRAM_TABS = DIAGRAMS.map((d) => ({ value: d.id, label: d.title }));
+
 interface DiagramCardProps {
   title: string;
   description: string;
@@ -231,17 +234,13 @@ export default function IncidentCommandDiagrams() {
         Use the tabs to switch views and copy the underlying diagram code.
       </p>
       <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4">
-        <TabsList className="h-auto w-fit max-w-full flex-wrap justify-start gap-1 rounded-lg bg-zinc-200 p-1 text-muted-foreground dark:bg-zinc-800">
-          {DIAGRAMS.map((diagram) => (
-            <TabsTrigger
-              key={diagram.id}
-              value={diagram.id}
-              className="rounded-md px-3 py-1.5 text-xs data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-xs sm:text-sm"
-            >
-              {diagram.title}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+        <ResponsiveTabsList
+          items={DIAGRAM_TABS}
+          value={activeTab}
+          onValueChange={handleTabChange}
+          tabsListClassName="h-auto w-fit max-w-full flex-wrap justify-start gap-1 rounded-lg bg-zinc-200 p-1 text-muted-foreground dark:bg-zinc-800"
+          triggerClassName="rounded-md px-3 py-1.5 text-xs data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-xs sm:text-sm"
+        />
         {DIAGRAMS.map((diagram) => (
           <TabsContent key={diagram.id} value={diagram.id} id={diagram.id}>
             <DiagramCard
