@@ -1,7 +1,8 @@
 import { lazy, Suspense, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAnalyticsData } from '@/hooks/useAnalyticsData';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { ResponsiveTabsList, type TabItem } from '@/components/ui/responsive-tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Activity, Search, Gauge, Users, Wrench } from 'lucide-react';
 import { MetricCard } from './MetricCard';
@@ -19,6 +20,15 @@ const DeviceBreakdownChart = lazy(() => import('./charts/DeviceBreakdownChart').
 const TrafficSourcesChart = lazy(() => import('./charts/TrafficSourcesChart').then(m => ({ default: m.TrafficSourcesChart })));
 const LighthouseHistoryChart = lazy(() => import('./charts/LighthouseHistoryChart').then(m => ({ default: m.LighthouseHistoryChart })));
 const SearchPerformanceChart = lazy(() => import('./charts/SearchPerformanceChart').then(m => ({ default: m.SearchPerformanceChart })));
+
+const ANALYTICS_TABS: TabItem[] = [
+  { value: 'traffic', label: 'Traffic' },
+  { value: 'blog', label: 'Blog' },
+  { value: 'performance', label: 'Performance', mobileLabel: 'Perf' },
+  { value: 'search', label: 'Search' },
+  { value: 'tools', label: 'Tools' },
+  { value: 'cicd', label: 'CI/CD' },
+];
 
 export function AnalyticsDashboard() {
   const { latest, ga4History, searchHistory, lighthouseSummary, billingHistory, isLoading, error, warning } = useAnalyticsData();
@@ -177,16 +187,12 @@ export function AnalyticsDashboard() {
 
       {/* Tabbed Sections */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <div className="overflow-x-auto -mx-2 px-2">
-          <TabsList className="w-full sm:w-auto">
-            <TabsTrigger value="traffic">Traffic</TabsTrigger>
-            <TabsTrigger value="blog">Blog</TabsTrigger>
-            <TabsTrigger value="performance">Performance</TabsTrigger>
-            <TabsTrigger value="search">Search</TabsTrigger>
-            <TabsTrigger value="tools">Tools</TabsTrigger>
-            <TabsTrigger value="cicd">CI/CD</TabsTrigger>
-          </TabsList>
-        </div>
+        <ResponsiveTabsList
+          items={ANALYTICS_TABS}
+          value={activeTab}
+          onValueChange={setActiveTab}
+          tabsListClassName="w-full sm:w-auto"
+        />
 
         <AnimatePresence mode="wait">
           {/* Traffic Tab */}
