@@ -6,6 +6,7 @@ summary: >-
   Replace horizontal-scroll/flex-wrap TabList with Select dropdown on mobile
   (<640px)
 labels:
+  - "PR #230"
   - Enhancement
   - UX
 planFile: docs/plans/62-rework-tablist-mobile-selector.md
