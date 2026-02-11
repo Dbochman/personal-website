@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-10T06:25:22.870Z",
+  "generated": "2026-02-11T06:24:43.065Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,93 +8,93 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-02-10T06:25:22.869Z",
-    "sessions_7d": 360,
-    "users_7d": 337,
-    "pageviews_7d": 348,
-    "avgSessionDuration": 25,
-    "bounceRate": 0.78,
+    "lastCheck": "2026-02-11T06:24:43.065Z",
+    "sessions_7d": 458,
+    "users_7d": 434,
+    "pageviews_7d": 439,
+    "avgSessionDuration": 23,
+    "bounceRate": 0.8,
     "topPages": [
       {
-        "page": "/blog/",
-        "pageViews": 74
+        "page": "/",
+        "pageViews": 90
       },
       {
-        "page": "/",
-        "pageViews": 69
+        "page": "/blog/",
+        "pageViews": 88
       },
       {
         "page": "/blog",
-        "pageViews": 30
+        "pageViews": 38
       },
       {
         "page": "/blog/2026-02-04-andre-collaborative-music-queue",
-        "pageViews": 30
+        "pageViews": 38
       },
       {
         "page": "/runbook",
-        "pageViews": 30
+        "pageViews": 38
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-02-10T06:25:22.870Z",
+    "lastCheck": "2026-02-11T06:24:43.065Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 146,
-        "average": 273.90410958904107,
+        "count": 178,
+        "average": 482.2584269662921,
         "unit": "ms",
         "ratings": {
-          "good": 142,
-          "needs-improvement": 3,
-          "poor": 1
+          "good": 170,
+          "needs-improvement": 5,
+          "poor": 3
         },
-        "goodPercent": 97
+        "goodPercent": 96
       },
       "FCP": {
-        "count": 92,
-        "average": 638.304347826087,
+        "count": 118,
+        "average": 1104.135593220339,
         "unit": "ms",
         "ratings": {
-          "good": 85,
-          "needs-improvement": 7,
-          "poor": 0
+          "good": 106,
+          "needs-improvement": 10,
+          "poor": 2
         },
-        "goodPercent": 92
+        "goodPercent": 90
       },
       "LCP": {
-        "count": 20,
-        "average": 717.35,
+        "count": 22,
+        "average": 891.1363636363636,
         "unit": "ms",
         "ratings": {
-          "good": 20,
+          "good": 22,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
-      "INP": {
-        "count": 8,
-        "average": 289,
-        "unit": "ms",
-        "ratings": {
-          "good": 6,
-          "needs-improvement": 0,
-          "poor": 2
-        },
-        "goodPercent": 75
-      },
       "CLS": {
-        "count": 5,
-        "average": 0.0008,
+        "count": 6,
+        "average": 0.05633333333333333,
         "unit": "",
         "ratings": {
           "good": 5,
           "needs-improvement": 0,
-          "poor": 0
+          "poor": 1
         },
-        "goodPercent": 100
+        "goodPercent": 83
+      },
+      "INP": {
+        "count": 8,
+        "average": 323,
+        "unit": "ms",
+        "ratings": {
+          "good": 5,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 63
       }
     }
   }

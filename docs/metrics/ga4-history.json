@@ -3785,5 +3785,179 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-02-11T06:24:43.063Z",
+    "date": "2026-02-11",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 458,
+      "users": 434,
+      "pageViews": 439,
+      "averageSessionDuration": 23,
+      "bounceRate": 0.8
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 90,
+        "users": 84,
+        "pageViews": 90
+      },
+      {
+        "page": "/blog/",
+        "sessions": 88,
+        "users": 88,
+        "pageViews": 88
+      },
+      {
+        "page": "/blog",
+        "sessions": 38,
+        "users": 38,
+        "pageViews": 38
+      },
+      {
+        "page": "/blog/2026-02-04-andre-collaborative-music-queue",
+        "sessions": 38,
+        "users": 38,
+        "pageViews": 38
+      },
+      {
+        "page": "/runbook",
+        "sessions": 38,
+        "users": 38,
+        "pageViews": 38
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 25,
+        "users": 25,
+        "pageViews": 25
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 25,
+        "users": 25,
+        "pageViews": 25
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 12,
+        "users": 12,
+        "pageViews": 12
+      },
+      {
+        "page": "/blog/2026-02-04-andre-collaborative-music-queue/",
+        "sessions": 12,
+        "users": 12,
+        "pageViews": 12
+      },
+      {
+        "page": "/projects/",
+        "sessions": 12,
+        "users": 12,
+        "pageViews": 12
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 194,
+        "users": 175
+      },
+      {
+        "device": "desktop",
+        "sessions": 264,
+        "users": 259
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 428,
+          "users": 414
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 8,
+          "users": 5
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 428,
+          "users": 414
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 8,
+          "users": 5
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 178,
+        "average": 482.2584269662921,
+        "unit": "ms",
+        "ratings": {
+          "good": 170,
+          "needs-improvement": 5,
+          "poor": 3
+        },
+        "goodPercent": 96
+      },
+      "FCP": {
+        "count": 118,
+        "average": 1104.135593220339,
+        "unit": "ms",
+        "ratings": {
+          "good": 106,
+          "needs-improvement": 10,
+          "poor": 2
+        },
+        "goodPercent": 90
+      },
+      "LCP": {
+        "count": 22,
+        "average": 891.1363636363636,
+        "unit": "ms",
+        "ratings": {
+          "good": 22,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 6,
+        "average": 0.05633333333333333,
+        "unit": "",
+        "ratings": {
+          "good": 5,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 83
+      },
+      "INP": {
+        "count": 8,
+        "average": 323,
+        "unit": "ms",
+        "ratings": {
+          "good": 5,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 63
+      }
+    },
+    "toolInteractions": null
   }
 ]
