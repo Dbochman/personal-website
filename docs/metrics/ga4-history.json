@@ -3086,7 +3086,7 @@
         "pageViews": 39
       },
       {
-        "page": "/blog/2026-02-04-andre-collaborative-music-queue",
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
         "sessions": 22,
         "users": 22,
         "pageViews": 22
@@ -3285,7 +3285,7 @@
         "pageViews": 35
       },
       {
-        "page": "/blog/2026-02-04-andre-collaborative-music-queue",
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
         "sessions": 24,
         "users": 24,
         "pageViews": 24
@@ -3484,7 +3484,7 @@
         "pageViews": 25
       },
       {
-        "page": "/blog/2026-02-04-andre-collaborative-music-queue",
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
         "sessions": 24,
         "users": 24,
         "pageViews": 24
@@ -3645,7 +3645,7 @@
         "pageViews": 30
       },
       {
-        "page": "/blog/2026-02-04-andre-collaborative-music-queue",
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
         "sessions": 30,
         "users": 30,
         "pageViews": 30
@@ -3782,6 +3782,354 @@
           "poor": 0
         },
         "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-02-11T06:24:43.063Z",
+    "date": "2026-02-11",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 458,
+      "users": 434,
+      "pageViews": 439,
+      "averageSessionDuration": 23,
+      "bounceRate": 0.8
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 90,
+        "users": 84,
+        "pageViews": 90
+      },
+      {
+        "page": "/blog/",
+        "sessions": 88,
+        "users": 88,
+        "pageViews": 88
+      },
+      {
+        "page": "/blog",
+        "sessions": 38,
+        "users": 38,
+        "pageViews": 38
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 38,
+        "users": 38,
+        "pageViews": 38
+      },
+      {
+        "page": "/runbook",
+        "sessions": 38,
+        "users": 38,
+        "pageViews": 38
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 25,
+        "users": 25,
+        "pageViews": 25
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 25,
+        "users": 25,
+        "pageViews": 25
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 12,
+        "users": 12,
+        "pageViews": 12
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue/",
+        "sessions": 12,
+        "users": 12,
+        "pageViews": 12
+      },
+      {
+        "page": "/projects/",
+        "sessions": 12,
+        "users": 12,
+        "pageViews": 12
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 194,
+        "users": 175
+      },
+      {
+        "device": "desktop",
+        "sessions": 264,
+        "users": 259
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 428,
+          "users": 414
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 8,
+          "users": 5
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 428,
+          "users": 414
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 8,
+          "users": 5
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 178,
+        "average": 482.2584269662921,
+        "unit": "ms",
+        "ratings": {
+          "good": 170,
+          "needs-improvement": 5,
+          "poor": 3
+        },
+        "goodPercent": 96
+      },
+      "FCP": {
+        "count": 118,
+        "average": 1104.135593220339,
+        "unit": "ms",
+        "ratings": {
+          "good": 106,
+          "needs-improvement": 10,
+          "poor": 2
+        },
+        "goodPercent": 90
+      },
+      "LCP": {
+        "count": 22,
+        "average": 891.1363636363636,
+        "unit": "ms",
+        "ratings": {
+          "good": 22,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 6,
+        "average": 0.05633333333333333,
+        "unit": "",
+        "ratings": {
+          "good": 5,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 83
+      },
+      "INP": {
+        "count": 8,
+        "average": 323,
+        "unit": "ms",
+        "ratings": {
+          "good": 5,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 63
+      }
+    },
+    "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-02-12T06:24:07.640Z",
+    "date": "2026-02-12",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 368,
+      "users": 346,
+      "pageViews": 351,
+      "averageSessionDuration": 31,
+      "bounceRate": 0.77
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 75,
+        "users": 75,
+        "pageViews": 75
+      },
+      {
+        "page": "/",
+        "sessions": 71,
+        "users": 66,
+        "pageViews": 71
+      },
+      {
+        "page": "/blog",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/blog/2026-02-04-andre-collaborative-music-queue",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/runbook",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 21,
+        "users": 21,
+        "pageViews": 21
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 11,
+        "users": 9,
+        "pageViews": 12
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-02-04-andre-collaborative-music-queue/",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 164,
+        "users": 147
+      },
+      {
+        "device": "desktop",
+        "sessions": 204,
+        "users": 199
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 338,
+          "users": 327
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 9,
+          "users": 6
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 338,
+          "users": 327
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 9,
+          "users": 6
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 154,
+        "average": 538.961038961039,
+        "unit": "ms",
+        "ratings": {
+          "good": 145,
+          "needs-improvement": 6,
+          "poor": 3
+        },
+        "goodPercent": 94
+      },
+      "FCP": {
+        "count": 103,
+        "average": 1210.7475728155339,
+        "unit": "ms",
+        "ratings": {
+          "good": 92,
+          "needs-improvement": 9,
+          "poor": 2
+        },
+        "goodPercent": 89
+      },
+      "LCP": {
+        "count": 22,
+        "average": 955.5454545454545,
+        "unit": "ms",
+        "ratings": {
+          "good": 22,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 8,
+        "average": 0.042375,
+        "unit": "",
+        "ratings": {
+          "good": 7,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 88
+      },
+      "INP": {
+        "count": 7,
+        "average": 342.85714285714283,
+        "unit": "ms",
+        "ratings": {
+          "good": 4,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 57
       }
     },
     "toolInteractions": null
