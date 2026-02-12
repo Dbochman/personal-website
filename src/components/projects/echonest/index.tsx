@@ -36,7 +36,7 @@ const FEATURES = [
   },
 ];
 
-export default function Andre() {
+export default function EchoNest() {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
@@ -47,8 +47,8 @@ export default function Andre() {
           and SoundCloud. Vote on the queue and let the music flow.
         </p>
         <Button asChild size="lg" className="gap-2">
-          <a href="https://andre.dylanbochman.com" target="_blank" rel="noopener noreferrer">
-            Launch Andre
+          <a href="https://echone.st" target="_blank" rel="noopener noreferrer">
+            Launch EchoNest
             <ExternalLink className="h-4 w-4" />
           </a>
         </Button>
@@ -91,7 +91,7 @@ export default function Andre() {
         <h2 className="text-xl font-semibold mb-4">Getting Started</h2>
         <div className="space-y-4 text-muted-foreground">
           <ol className="list-decimal list-inside space-y-2">
-            <li>Open Andre and sign in with your Google account</li>
+            <li>Open EchoNest and sign in with your Google account</li>
             <li>Click the <strong>Other</strong> tab</li>
             <li>Click <strong>Play music here</strong> to authenticate with Spotify</li>
             <li>Make sure Spotify is playing something (anything works)</li>
@@ -194,7 +194,7 @@ export default function Andre() {
       {/* Blog Post Link */}
       <div className="border-t pt-6">
         <Button asChild variant="outline" className="gap-2">
-          <Link to="/blog/2026-02-04-andre-collaborative-music-queue">
+          <Link to="/blog/2026-02-04-echonest-collaborative-music-queue">
             <BookOpen className="h-4 w-4" />
             Read the full history
           </Link>

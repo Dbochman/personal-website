@@ -293,7 +293,7 @@ Review feedback caught two issues:
 1. BlogTrafficChart wasn't normalizing trailing slashes (`/blog/slug` vs `/blog/slug/`), causing chart/table disagreement. Fixed by merging duplicates the same way BlogAnalyticsCard does.
 2. Date sorting used `localeCompare` which works for ISO dates but breaks on empty strings. Fixed with numeric `Date` comparison.
 
-**Andre project page update (PR #226, open).** Updated feature cards to highlight YouTube/SoundCloud/podcast support added Feb 5-6. Replaced "Airhorns" and "Office & Party Ready" cards with "Multi-Source Music" and "Podcasts & More". Blog post left as-is since it works as a historical narrative.
+**EchoNest project page update (PR #226, open).** Updated feature cards to highlight YouTube/SoundCloud/podcast support added Feb 5-6. Replaced "Airhorns" and "Office & Party Ready" cards with "Multi-Source Music" and "Podcasts & More". Blog post left as-is since it works as a historical narrative.
 
 **Analytics data location note:** All analytics data lives in `docs/metrics/*.json`, committed daily by `.github/workflows/daily-analytics.yml`. Any fresh Claude session can read these files directly—no API keys needed.
 
@@ -330,9 +330,9 @@ Review feedback caught two issues:
 - **Credit limit** ($250) cached as spending guardrail. Skills instructed to never exceed it.
 - Billing address cached for checkout form filling.
 
-### Andre OpenClaw Skill
-- **Andre skill** created: `~/.openclaw/skills/andre/SKILL.md` — REST API queue management + SSH server ops.
-- **SSH config reordering**: Specific `Host` entries (like `andre-droplet`) MUST come before `Host *` wildcard in `~/.ssh/config`, otherwise 1Password SSH agent intercepts even with `IdentityAgent none`.
+### EchoNest OpenClaw Skill
+- **EchoNest skill** created: `~/.openclaw/skills/echonest/SKILL.md` — REST API queue management + SSH server ops.
+- **SSH config reordering**: Specific `Host` entries (like `echonest-droplet`) MUST come before `Host *` wildcard in `~/.ssh/config`, otherwise 1Password SSH agent intercepts even with `IdentityAgent none`.
 
 ### Amazon Shopping Skill
 - **Amazon skill** created: `~/.openclaw/skills/amazon-shopping/SKILL.md` — browser-automated shopping with approval flow.
@@ -346,7 +346,7 @@ Review feedback caught two issues:
 ### Files on Mac Mini
 - `/opt/homebrew/bin/nest` — Main CLI with all new commands
 - `~/.openclaw/bin/nest-camera-snap.py` — WebRTC camera capture
-- `~/.openclaw/skills/{gmail,calendar,nest-thermostat,1password,andre,amazon-shopping}/SKILL.md` — All updated
+- `~/.openclaw/skills/{gmail,calendar,nest-thermostat,1password,echonest,amazon-shopping}/SKILL.md` — All updated
 - `~/.openclaw/cron/jobs.json` — Analytics briefing + nest snapshot + temp alert
 - `~/Applications/OpenClawGateway.app/Contents/MacOS/OpenClawGateway` — Updated wrapper with card caching
 - All backed up to `~/dotfiles/openclaw/`

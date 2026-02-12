@@ -45,13 +45,21 @@ async function prerender() {
     const projectsMeta = JSON.parse(readFileSync(projectsMetaPath, 'utf-8'));
     const projectSlugs = projectsMeta.map(p => p.slug);
 
+    // Old routes that redirect to new ones — must be prerendered so GitHub Pages
+    // serves the SPA shell which performs the client-side redirect
+    const redirectRoutes = [
+      '/projects/andre',
+      '/blog/2026-02-04-andre-collaborative-music-queue',
+    ];
+
     const routes = [
       '/projects',
       ...projectSlugs.map(slug => `/projects/${slug}`),
       '/runbook',
       '/analytics',
       '/blog',
-      ...blogSlugs.map(slug => `/blog/${slug}`)
+      ...blogSlugs.map(slug => `/blog/${slug}`),
+      ...redirectRoutes,
     ];
 
     // Routes with persistent network activity (auth, polling) that prevent networkidle

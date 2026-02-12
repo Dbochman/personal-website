@@ -1,5 +1,5 @@
 ---
-title: "Andre: A Collaborative Music Queue from The Echo Nest Era"
+title: "EchoNest: A Collaborative Music Queue from The Echo Nest Era"
 date: "2026-02-04"
 author: Dylan
 description: "Resurrecting a 2017 office music system, complete with voting, airhorns, and historical throwbacks."
@@ -11,13 +11,13 @@ category: Technical
 draft: false
 ---
 
-Some software just refuses to die. Andre is one of those projects.
+Some software just refuses to die. EchoNest is one of those projects.
 
 ## The Echo Nest Days
 
 Back in 2014, The Echo Nest had a problem every office has: who controls the music? We built Prosecco, a web-based jukebox where anyone could add songs to a shared queue. No fighting over the aux cord. No Spotify account sharing. Just a URL and democracy.
 
-It worked well enough that when Spotify acquired us, a few of us forked it internally and kept it running. We called the fork "Andre" - if Prosecco is the fancy bubbly, Andre is the cheaper stuff you grab at the corner store. It was a quick and dirty fork, and the name fit.
+It worked well enough that when Spotify acquired us, a few of us forked it internally and kept it running. We called the fork "Andre" - if Prosecco is the fancy bubbly, Andre is the cheaper stuff you grab at the corner store. It was a quick and dirty fork, and the name fit. The project has since been rebranded to EchoNest, a nod to where it all started.
 
 ## The Rules
 
@@ -35,7 +35,7 @@ There were also some "special occasion" buttons that played specific songs. The 
 
 Bender mode solved the dreaded empty queue problem. Named after the Futurama character (bite my shiny metal ass), it watches the queue and auto-fills when things get quiet.
 
-When I resurrected Andre, I upgraded Bender with a "time capsule" feature. We kept play logs from November 2017 through May 2018 - about 11,600 plays across 95 days. Bender now uses these as a recommendation source, surfacing songs that were played on the same day of the week. If it's Monday, you might hear what we listened to on a Monday in 2017.
+When I resurrected the project, I upgraded Bender with a "time capsule" feature. We kept play logs from November 2017 through May 2018 - about 11,600 plays across 95 days. Bender now uses these as a recommendation source, surfacing songs that were played on the same day of the week. If it's Monday, you might hear what we listened to on a Monday in 2017.
 
 It filters out Benderbot's own plays (to avoid feedback loops) and shuffles the results. The effect is strange and wonderful. Songs I haven't thought about in years suddenly playing again. The stuff we listened to while debugging recommendation algorithms, the tracks that got us through late nights before launches. Some of them make me cringe now. Most of them make me smile.
 
@@ -43,7 +43,7 @@ The airhorns were inevitable. Every office jukebox eventually gets sound effects
 
 ## The Architecture
 
-One thing that confuses people: Andre is a shared queue, but individual playback. Everyone sees the same queue. Everyone can add songs and vote. But each person connects their own Spotify account and plays along on their own device. Andre is the DJ, not the speaker.
+One thing that confuses people: EchoNest is a shared queue, but individual playback. Everyone sees the same queue. Everyone can add songs and vote. But each person connects their own Spotify account and plays along on their own device. EchoNest is the DJ, not the speaker.
 
 ```
 ┌─────────────────────────────────────┐
@@ -92,6 +92,6 @@ The whole thing runs on a $6/month DigitalOcean droplet with Caddy handling HTTP
 
 ## Try It
 
-Andre is live at [andre.dylanbochman.com](https://andre.dylanbochman.com). You'll need Spotify running somewhere to hear the music, but you can browse the interface and see how it works.
+EchoNest is live at [echone.st](https://echone.st). You'll need Spotify running somewhere to hear the music, but you can browse the interface and see how it works.
 
-There's also a [project page](/projects/andre) with more details on the features and tech stack.
+There's also a [project page](/projects/echonest) with more details on the features and tech stack.

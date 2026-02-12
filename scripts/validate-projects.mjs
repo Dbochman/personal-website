@@ -25,7 +25,7 @@ const validSlugs = [
   'cli-playground',
   'incident-command-diagrams',
   'k8s-rightsizer',
-  'andre',
+  'echonest',
 ];
 
 console.log('Validating project configuration...');
