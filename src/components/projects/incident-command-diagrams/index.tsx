@@ -89,8 +89,8 @@ flowchart TD
       { id: 'B', label: 'Triage and Assess Severity', description: 'Quickly assess what\'s happening and confirm severity level.' },
       // 2: branches to D(3) or E(4)
       { id: 'C', label: 'Need additional responders?', type: 'decision', branches: [['Page More', 3], ['Proceed Solo', 4]], description: 'Can you handle this alone, or do you need specialists?' },
-      // 3: link to service-owner-paging diagram
-      { id: 'D', label: 'Page Additional On-Call', type: 'link', linkTo: 'service-owner-paging', description: 'Bring in service owners or specialists who can help.' },
+      // 3: link to service-owner-paging diagram (continueAt skips E to converge at F)
+      { id: 'D', label: 'Page Additional On-Call', type: 'link', linkTo: 'service-owner-paging', continueAt: 5, description: 'Bring in service owners or specialists who can help.' },
       // 4
       { id: 'E', label: 'Proceed with current responders', description: 'Continue with the current team.' },
       // 5

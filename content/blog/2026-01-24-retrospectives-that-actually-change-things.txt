@@ -30,13 +30,13 @@ The most common failure mode is simple: action items without ownership. They exi
   I --> J[Deleted in Cleanup]`}
   nodes={[
     { id: 'A', label: 'Action Items Created', description: 'Retrospective generates action items to prevent recurrence.' },
-    { id: 'B', label: 'Owner + Date Assigned?', type: 'decision', branches: [['Yes', 2], ['No', 5]], description: 'The critical fork: items with a name and date are real commitments. Items without ownership are wishes.' },
+    { id: 'B', label: 'Owner + Date Assigned?', type: 'decision', branches: [['Yes', 2], ['No', 7]], description: 'The critical fork: items with a name and date are real commitments. Items without ownership are wishes.' },
     { id: 'C', label: 'Owned Item', description: 'Someone has committed to this work with a deadline.' },
-    { id: 'E', label: 'Prioritized?', type: 'decision', branches: [['Yes', 4], ['No', 6]], description: 'Does this item compete effectively against feature work?' },
+    { id: 'E', label: 'Prioritized?', type: 'decision', branches: [['Yes', 4], ['No', 5]], description: 'Does this item compete effectively against feature work?' },
     { id: 'F', label: 'Completed ✓', terminal: true, description: 'The rare success: item gets done, system improves.' },
-    { id: 'D', label: 'Unowned Item', description: 'Technically tracked but not owned. Nobody feels responsible.' },
     { id: 'G', label: 'Deprioritized', description: 'Roadmap pressure wins. "We\'ll get to it later."' },
     { id: 'H', label: 'Quietly Abandoned', terminal: true, description: 'Slips off the radar. Nobody notices or complains.' },
+    { id: 'D', label: 'Unowned Item', description: 'Technically tracked but not owned. Nobody feels responsible.' },
     { id: 'I', label: 'Lingers Forever', description: 'Sits in backlog, creating guilt but no action.' },
     { id: 'J', label: 'Deleted in Cleanup', terminal: true, description: 'Eventually removed when someone cleans up stale tickets.' },
   ]}
