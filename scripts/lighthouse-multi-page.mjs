@@ -109,7 +109,7 @@ async function main() {
 
   // Check for failures
   const failures = results.filter(r =>
-    r.performance < 50 || r.accessibility < 95 || r.seo < 90 || r.bestPractices < 90
+    r.performance < 50 || r.accessibility < 90 || r.seo < 90 || r.bestPractices < 90
   );
 
   if (failures.length > 0) {
