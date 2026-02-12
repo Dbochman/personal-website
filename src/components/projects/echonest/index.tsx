@@ -6,33 +6,33 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 const FEATURES = [
   {
     icon: Music,
-    title: 'Collaborative Queue',
-    description: 'Everyone sees the same queue. Add songs, and they play on each person\'s own Spotify.',
+    title: 'Shared Queue, Personal Playback',
+    description: "One democratic queue for the room, your own Spotify device for the audio.",
   },
   {
     icon: Vote,
-    title: 'Democratic Voting',
-    description: 'Upvote songs you want to hear sooner. The queue reorders based on votes.',
-  },
-  {
-    icon: Zap,
-    title: 'Bender Mode',
-    description: 'When the queue runs dry, Bender auto-fills with contextually relevant tracks.',
-  },
-  {
-    icon: History,
-    title: 'Throwback Feature',
-    description: 'Revisit songs from the original 2017-2018 play logs at The Echo Nest and Spotify.',
+    title: 'Fair Voting System',
+    description: 'Weighted penalties keep queue hogs in check while the best picks float to the top.',
   },
   {
     icon: Globe,
-    title: 'Multi-Source Music',
-    description: 'Paste Spotify playlists, YouTube playlist URLs, or search SoundCloud. Bulk-add entire playlists.',
+    title: 'Bulk Imports',
+    description: 'Paste Spotify albums or playlists and YouTube playlist URLs, then queue everything with Add All.',
   },
   {
     icon: Mic,
-    title: 'Podcasts & More',
-    description: 'Search and play Spotify podcast episodes alongside music. Airhorns and sound effects included.',
+    title: 'Podcast Friendly',
+    description: 'Dedicated podcast search and smarter skipping make episodes play nicely with songs.',
+  },
+  {
+    icon: History,
+    title: 'SoundCloud & YouTube Ready',
+    description: "Server-side OAuth and proxies keep non-Spotify picks streaming without leaking API keys.",
+  },
+  {
+    icon: Zap,
+    title: 'Time-Capsule Bender',
+    description: 'Bender seeds the queue with 2017-2018 office favorites whenever things get quiet.',
   },
 ];
 
@@ -42,9 +42,10 @@ export default function EchoNest() {
       {/* Hero Section */}
       <div className="text-center space-y-4">
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          A collaborative music queue system born at The Echo Nest, refined at Spotify,
-          and resurrected for the modern era. Search or paste URLs from Spotify, YouTube,
-          and SoundCloud. Vote on the queue and let the music flow.
+          Built at The Echo Nest, revived inside Spotify, and renamed to EchoNest to put the
+          original badge back on the door. Tuned again for 2026 with bulk playlist imports,
+          podcast support, and a smarter Bender—paste URLs from Spotify, YouTube, or SoundCloud,
+          vote the queue, and let the room stay in sync.
         </p>
         <Button asChild size="lg" className="gap-2">
           <a href="https://echone.st" target="_blank" rel="noopener noreferrer">
@@ -140,6 +141,7 @@ export default function EchoNest() {
             <p className="font-medium text-foreground mb-2">Other Tab</p>
             <ul className="list-disc list-inside space-y-1 ml-4">
               <li><strong>Play music here</strong> - Authenticate Spotify and start playback on your device</li>
+              <li><strong>Sync audio</strong> - Link your local player before the airhorn tab lights up</li>
               <li><strong>Change colors</strong> - Rotate through theme colors</li>
               <li><strong>Hide shame</strong> - Hide user gravatars so you don't have to judge friends for bad taste</li>
               <li><strong>Skip playing song</strong> - Skip the current track</li>

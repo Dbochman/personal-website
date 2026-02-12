@@ -1,5 +1,5 @@
 ---
-title: "EchoNest: A Collaborative Music Queue from The Echo Nest Era"
+title: "EchoNest: The Office Jukebox That Won't Stay Retired"
 date: "2026-02-04"
 author: Dylan
 description: "Resurrecting a 2017 office music system, complete with voting, airhorns, and historical throwbacks."
@@ -11,13 +11,13 @@ category: Technical
 draft: false
 ---
 
-Some software just refuses to die. EchoNest is one of those projects.
+I dragged a 2017 office jukebox into 2026, rewired it, and it still keeps the room moving.
 
 ## The Echo Nest Days
 
 Back in 2014, The Echo Nest had a problem every office has: who controls the music? We built Prosecco, a web-based jukebox where anyone could add songs to a shared queue. No fighting over the aux cord. No Spotify account sharing. Just a URL and democracy.
 
-It worked well enough that when Spotify acquired us, a few of us forked it internally and kept it running. We called the fork "Andre" - if Prosecco is the fancy bubbly, Andre is the cheaper stuff you grab at the corner store. It was a quick and dirty fork, and the name fit. The project has since been rebranded to EchoNest, a nod to where it all started.
+It worked well enough that when Spotify acquired us, a few of us forked it internally and kept it running. We called the fork "Andre" - if Prosecco is the fancy bubbly, Andre is the cheaper stuff you grab at the corner store. It was a quick and dirty fork, and the name fit. The project has since been rebranded to EchoNest, which felt like the right way to stitch the nostalgia back to the company that birthed it.
 
 ## The Rules
 
@@ -77,18 +77,31 @@ The background worker is the interesting part. It runs continuously, tracking wh
 
 ## The Modernization
 
-The original codebase was Python 2. Flask, SQLite, the Spotify Web API. It worked but was showing its age.
+The original codebase was Python 2 with Flask and SQLite, and it showed every year of tech debt.
 
-Over the last year, I've been cleaning it up:
+The resurrection started with the basics:
 
-- Python 3 migration (the usual unicode headaches)
-- Swapped SQLite for Redis (simpler for the queue-centric data model)
-- WebSockets via gevent for real-time updates
-- Cleaned up the Spotify OAuth flow
-- Added the throwback feature
-- Dockerized everything for easier deployment
+- Migrated everything to Python 3 (goodbye `unicode` landmines)
+- Replaced SQLite with Redis to match the real-time queue model
+- Swapped the old polling loops for gevent WebSockets so the UI stays in sync
+- Rebuilt the Google and Spotify OAuth flows
+- Added the throwback time-capsule feature for Bender
+- Containerized the whole stack and dropped it on a $6 DigitalOcean box with Caddy handling TLS
 
-The whole thing runs on a $6/month DigitalOcean droplet with Caddy handling HTTPS. It's not production-grade software. It's a jukebox. But it works, and it's fun, and sometimes that's enough.
+Once that foundation held, the recent sprints have focused on making it feel modern again:
+
+- Pasting Spotify albums, playlists, or YouTube playlists now fans out the tracks with one "add all" click (bulk queueing without copy/paste gymnastics)
+- Podcasts have their own search lane and play nicely with the queue, including smarter skip behavior and tests to keep it from regressing
+- SoundCloud is back--now authenticated via server-side OAuth so the streams still resolve after their API changes
+- Syncing audio is clearer with a dedicated button, and local mute/volume controls no longer fight the server settings or other listeners
+- Spotify rate-limit handling, WebSocket message flow, and Bender's seed logic all got hardened so a single 429 or long podcast can't stall the party
+- Redis now runs with auth and protected mode, plus a security checklist to keep the droplet from becoming an open jukebox on the internet
+- Multi-room Nests replace the one-room limit: hit Build a Nest, share a five-character code or slug like `echone.st/friday-vibes`, and every room gets its own queue, voting, jams, and Bender
+- The backend now scopes every Redis key by nest, tracks live listeners with heartbeats, caps pop-up nests at 25 songs, and lets the master player garbage-collect idle rooms without touching the Main Nest
+
+The UI already has the nest bar, copy-link button, and modal flows for building or joining; the roadmap still has nest history, creator controls, and fine-grained Bender weights waiting in the wings.
+
+It's still a jukebox, not a SaaS product. But it ships features again, stays online, and keeps the room honest about its music taste.
 
 ## Try It
 
