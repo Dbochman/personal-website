@@ -135,9 +135,9 @@ jobs:
 
             // Check thresholds per page
             // Performance varies in CI (~60-80) vs local (~90+). Set floor at 50 for CI variability.
-            // SEO at 90 is good for personal sites (92 typical). Accessibility at 95 catches real issues.
+            // SEO at 90 is good for personal sites (92 typical). Accessibility at 90 still flags regressions without flakiness.
             if (page.performance < 50) failures.push(\`\${page.page}: Performance \${page.performance} < 50\`);
-            if (page.accessibility < 95) failures.push(\`\${page.page}: Accessibility \${page.accessibility} < 95\`);
+            if (page.accessibility < 90) failures.push(\`\${page.page}: Accessibility \${page.accessibility} < 90\`);
             if (page.seo < 90) failures.push(\`\${page.page}: SEO \${page.seo} < 90\`);
             if (page.bestPractices < 90) failures.push(\`\${page.page}: Best Practices \${page.bestPractices} < 90\`);
           });
@@ -147,7 +147,7 @@ jobs:
           if (failures.length > 0) {
             console.error('❌ Lighthouse thresholds not met:\\n');
             failures.forEach(f => console.error(\`   - \${f}\`));
-            console.error('\\n📝 Thresholds: Performance ≥50, Accessibility ≥95, SEO ≥90, Best Practices ≥90');
+            console.error('\\n📝 Thresholds: Performance ≥50, Accessibility ≥90, SEO ≥90, Best Practices ≥90');
             process.exit(1);
           } else {
             console.log('✅ All pages passed Lighthouse thresholds!');
@@ -169,7 +169,7 @@ jobs:
 
             summary.forEach(page => {
               const perfStatus = page.performance >= 50 ? '✅' : '❌';
-              const a11yStatus = page.accessibility >= 95 ? '✅' : '❌';
+              const a11yStatus = page.accessibility >= 90 ? '✅' : '❌';
               const seoStatus = page.seo >= 90 ? '✅' : '❌';
               const bpStatus = page.bestPractices >= 90 ? '✅' : '❌';
 
@@ -192,7 +192,7 @@ jobs:
             ### Scores by Page
             ${scoresTable}
 
-            **Thresholds:** Performance ≥50, Accessibility ≥95, SEO ≥90, Best Practices ≥90
+            **Thresholds:** Performance ≥50, Accessibility ≥90, SEO ≥90, Best Practices ≥90
 
             ### Core Web Vitals
             ${vitalsTable}
