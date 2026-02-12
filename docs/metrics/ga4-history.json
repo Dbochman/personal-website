@@ -3959,5 +3959,179 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-02-12T06:24:07.640Z",
+    "date": "2026-02-12",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 368,
+      "users": 346,
+      "pageViews": 351,
+      "averageSessionDuration": 31,
+      "bounceRate": 0.77
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 75,
+        "users": 75,
+        "pageViews": 75
+      },
+      {
+        "page": "/",
+        "sessions": 71,
+        "users": 66,
+        "pageViews": 71
+      },
+      {
+        "page": "/blog",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/blog/2026-02-04-andre-collaborative-music-queue",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/runbook",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 21,
+        "users": 21,
+        "pageViews": 21
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 11,
+        "users": 9,
+        "pageViews": 12
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-02-04-andre-collaborative-music-queue/",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 164,
+        "users": 147
+      },
+      {
+        "device": "desktop",
+        "sessions": 204,
+        "users": 199
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 338,
+          "users": 327
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 9,
+          "users": 6
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 338,
+          "users": 327
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 9,
+          "users": 6
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 154,
+        "average": 538.961038961039,
+        "unit": "ms",
+        "ratings": {
+          "good": 145,
+          "needs-improvement": 6,
+          "poor": 3
+        },
+        "goodPercent": 94
+      },
+      "FCP": {
+        "count": 103,
+        "average": 1210.7475728155339,
+        "unit": "ms",
+        "ratings": {
+          "good": 92,
+          "needs-improvement": 9,
+          "poor": 2
+        },
+        "goodPercent": 89
+      },
+      "LCP": {
+        "count": 22,
+        "average": 955.5454545454545,
+        "unit": "ms",
+        "ratings": {
+          "good": 22,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 8,
+        "average": 0.042375,
+        "unit": "",
+        "ratings": {
+          "good": 7,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 88
+      },
+      "INP": {
+        "count": 7,
+        "average": 342.85714285714283,
+        "unit": "ms",
+        "ratings": {
+          "good": 4,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 57
+      }
+    },
+    "toolInteractions": null
   }
 ]
