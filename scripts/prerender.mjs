@@ -49,7 +49,9 @@ async function prerender() {
     // serves the SPA shell which performs the client-side redirect
     const redirectRoutes = [
       '/projects/andre',
+      '/projects/andre/',
       '/blog/2026-02-04-andre-collaborative-music-queue',
+      '/blog/2026-02-04-andre-collaborative-music-queue/',
     ];
 
     const routes = [
