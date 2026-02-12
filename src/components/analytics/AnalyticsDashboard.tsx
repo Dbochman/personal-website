@@ -22,17 +22,17 @@ const LighthouseHistoryChart = lazy(() => import('./charts/LighthouseHistoryChar
 const SearchPerformanceChart = lazy(() => import('./charts/SearchPerformanceChart').then(m => ({ default: m.SearchPerformanceChart })));
 
 const ANALYTICS_TABS: TabItem[] = [
+  { value: 'search', label: 'Search' },
   { value: 'traffic', label: 'Traffic' },
   { value: 'blog', label: 'Blog' },
   { value: 'performance', label: 'Performance', mobileLabel: 'Perf' },
-  { value: 'search', label: 'Search' },
   { value: 'tools', label: 'Tools' },
   { value: 'cicd', label: 'CI/CD' },
 ];
 
 export function AnalyticsDashboard() {
   const { latest, ga4History, searchHistory, lighthouseSummary, billingHistory, isLoading, error, warning } = useAnalyticsData();
-  const [activeTab, setActiveTab] = useState('traffic');
+  const [activeTab, setActiveTab] = useState('search');
 
   if (isLoading) {
     return (
@@ -120,6 +120,11 @@ export function AnalyticsDashboard() {
   const latestGA4 = ga4History[ga4History.length - 1];
   const previousGA4 = ga4History[ga4History.length - 2];
 
+  // Hide Tools tab when there's no tool interaction data
+  const visibleTabs = latestGA4?.toolInteractions
+    ? ANALYTICS_TABS
+    : ANALYTICS_TABS.filter(tab => tab.value !== 'tools');
+
   // Calculate session trend (guard against missing data and divide-by-zero)
   const sessionTrend = latestGA4?.summary?.sessions != null && previousGA4?.summary?.sessions != null && previousGA4.summary.sessions > 0
     ? ((latestGA4.summary.sessions - previousGA4.summary.sessions) / previousGA4.summary.sessions) * 100
@@ -188,7 +193,7 @@ export function AnalyticsDashboard() {
       {/* Tabbed Sections */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <ResponsiveTabsList
-          items={ANALYTICS_TABS}
+          items={visibleTabs}
           value={activeTab}
           onValueChange={setActiveTab}
           tabsListClassName="w-full sm:w-auto"
