@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ExternalLink, Vote, Music, History, Zap, Globe, Mic, BookOpen } from 'lucide-react';
+import { ExternalLink, Vote, Music, History, Mic, BookOpen, Headphones, Volume2, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -7,7 +7,7 @@ const FEATURES = [
   {
     icon: Music,
     title: 'Shared Queue, Personal Playback',
-    description: "One democratic queue for the room, your own Spotify device for the audio.",
+    description: 'One democratic queue for the room, your own Spotify device for the audio.',
   },
   {
     icon: Vote,
@@ -15,7 +15,7 @@ const FEATURES = [
     description: 'Weighted penalties keep queue hogs in check while the best picks float to the top.',
   },
   {
-    icon: Globe,
+    icon: History,
     title: 'Bulk Imports',
     description: 'Paste Spotify albums or playlists and YouTube playlist URLs, then queue everything with Add All.',
   },
@@ -25,14 +25,14 @@ const FEATURES = [
     description: 'Dedicated podcast search and smarter skipping make episodes play nicely with songs.',
   },
   {
-    icon: History,
-    title: 'SoundCloud & YouTube Ready',
-    description: "Server-side OAuth and proxies keep non-Spotify picks streaming without leaking API keys.",
+    icon: Headphones,
+    title: 'Nests',
+    description: 'Breakout rooms with 5-character codes and their own queues. Seed one with a genre and Bender auto-fills it.',
   },
   {
-    icon: Zap,
-    title: 'Time-Capsule Bender',
-    description: 'Bender seeds the queue with 2017-2018 office favorites whenever things get quiet.',
+    icon: Volume2,
+    title: 'Airhorns',
+    description: 'Slam the airhorn tab to blast a sound effect across every synced device in the room.',
   },
 ];
 
@@ -43,9 +43,9 @@ export default function EchoNest() {
       <div className="text-center space-y-4">
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Built at The Echo Nest, revived inside Spotify, and renamed to EchoNest to put the
-          original badge back on the door. Tuned again for 2026 with bulk playlist imports,
-          podcast support, and a smarter Bender—paste URLs from Spotify, YouTube, or SoundCloud,
-          vote the queue, and let the room stay in sync.
+          original badge back on the door. Tuned again for 2026 with Nests (breakout rooms),
+          Bender strategies that mix genre picks with same-day-of-week throwbacks, bulk imports,
+          podcast support, and synced airhorns.
         </p>
         <Button asChild size="lg" className="gap-2">
           <a href="https://echone.st" target="_blank" rel="noopener noreferrer">
@@ -81,8 +81,8 @@ export default function EchoNest() {
         <div className="space-y-3 text-muted-foreground">
           <ul className="list-disc list-inside space-y-2">
             <li><strong>Google account</strong> - Sign in to access the queue</li>
-            <li><strong>Spotify Premium</strong> - Authenticated locally on your device for playback</li>
-            <li><strong>Gravatar</strong> (optional) - If you have a picture on <a href="http://www.gravatar.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">gravatar.com</a>, it'll show as your user image</li>
+            <li><strong>Spotify Premium</strong> - Connect via the in-app Spotify button for playback</li>
+            <li><strong>Gravatar</strong> (optional) - If you have a picture on <a href="http://www.gravatar.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">gravatar.com</a>, it'll show as your user image. Otherwise you get a monster avatar.</li>
           </ul>
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function EchoNest() {
           <ol className="list-decimal list-inside space-y-2">
             <li>Open EchoNest and sign in with your Google account</li>
             <li>Click the <strong>Other</strong> tab</li>
-            <li>Click <strong>Play music here</strong> to authenticate with Spotify</li>
+            <li>Click <strong>Connect Spotify</strong> to link your Spotify Premium account (or <strong>Skip for now</strong> to browse the queue without playback)</li>
             <li>Make sure Spotify is playing something (anything works)</li>
             <li>You're in - start adding songs to the queue</li>
           </ol>
@@ -114,6 +114,72 @@ export default function EchoNest() {
         </div>
       </div>
 
+      {/* Bender Strategies */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Bender Strategies</h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <p>
+            When the queue runs dry, Bender picks the next track using one of five weighted strategies.
+            The preview appears below the now-playing area — click <strong>Spotify</strong> to open it,{' '}
+            <strong>Queue</strong> to add it, or <strong>Filter</strong> to skip and get a different pick.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="py-2 pr-4 font-medium text-foreground">Strategy</th>
+                  <th className="py-2 pr-4 font-medium text-foreground">Weight</th>
+                  <th className="py-2 font-medium text-foreground">How it picks</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Genre</td>
+                  <td className="py-2 pr-4">35%</td>
+                  <td className="py-2">Samples from the Nest's genre seed or recent play history</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Throwback</td>
+                  <td className="py-2 pr-4">30%</td>
+                  <td className="py-2">Pulls a track that was played on this same day of the week historically</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Artist Search</td>
+                  <td className="py-2 pr-4">25%</td>
+                  <td className="py-2">Finds tracks by artists related to what's been playing</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Top Tracks</td>
+                  <td className="py-2 pr-4">5%</td>
+                  <td className="py-2">Grabs a popular hit from a related artist</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Album</td>
+                  <td className="py-2 pr-4">5%</td>
+                  <td className="py-2">Picks another track from the same album as a recent play</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Nests */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Nests</h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <p>
+            Nests are breakout rooms — each one gets its own queue, voting, and Bender instance.
+            Create a Nest and share its 5-character code to let others join. Seed it with a genre
+            and Bender will auto-fill that Nest with matching tracks when the queue empties.
+          </p>
+          <p>
+            Useful for splitting a party into rooms (chill lounge vs. dance floor) or letting a
+            small group take over without hijacking the main queue.
+          </p>
+        </div>
+      </div>
+
       {/* Quick Reference */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Quick Reference</h2>
@@ -129,24 +195,15 @@ export default function EchoNest() {
             </ul>
           </div>
           <div>
-            <p className="font-medium text-foreground mb-2">Bender Recommendations</p>
-            <p className="mb-2">The last song in the queue is always a Bender recommendation. Click it to see options:</p>
-            <ul className="list-disc list-inside space-y-1 ml-4">
-              <li><strong>Spotify</strong> - Open the track in Spotify</li>
-              <li><strong>Queue</strong> - Add this recommendation to the queue</li>
-              <li><strong>Filter</strong> - Skip this track and get a different recommendation</li>
-            </ul>
-          </div>
-          <div>
             <p className="font-medium text-foreground mb-2">Other Tab</p>
             <ul className="list-disc list-inside space-y-1 ml-4">
-              <li><strong>Play music here</strong> - Authenticate Spotify and start playback on your device</li>
-              <li><strong>Sync audio</strong> - Link your local player before the airhorn tab lights up</li>
+              <li><strong>Sync audio</strong> - Browser-based sync playback across devices</li>
+              <li><strong>Reconnect Spotify</strong> - Re-link your Spotify account if it disconnects</li>
               <li><strong>Change colors</strong> - Rotate through theme colors</li>
               <li><strong>Hide shame</strong> - Hide user gravatars so you don't have to judge friends for bad taste</li>
               <li><strong>Skip playing song</strong> - Skip the current track</li>
               <li><strong>Clear queue</strong> - Remove all songs from the queue</li>
-              <li><strong>Pause everything</strong> - Pause playback for everyone</li>
+              <li><strong>Pause / Unpause</strong> - Pause or resume playback for everyone</li>
             </ul>
           </div>
         </div>
@@ -190,6 +247,34 @@ export default function EchoNest() {
             <li>Carol2 - 11 min</li>
             <li>Carol3 - 18 min</li>
           </ol>
+        </div>
+      </div>
+
+      {/* Troubleshooting */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <AlertTriangle className="h-5 w-5" />
+          Troubleshooting
+        </h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <div className="space-y-3">
+            <div>
+              <p className="font-medium text-foreground">Music isn't playing</p>
+              <p>Make sure Spotify is open and active on your device. Go to the <strong>Other</strong> tab and click <strong>Reconnect Spotify</strong>. If that doesn't work, open Spotify and play any track manually, then reconnect.</p>
+            </div>
+            <div>
+              <p className="font-medium text-foreground">Airhorns don't make sound</p>
+              <p>You need to enable <strong>Sync audio</strong> in the Other tab first. Your browser may also block autoplay — click anywhere on the page to unblock it.</p>
+            </div>
+            <div>
+              <p className="font-medium text-foreground">Songs play out of order</p>
+              <p>Queue position includes vote-based penalties. A song you just added may land behind others if you've already queued several tracks. See the <strong>Queuing and Voting</strong> section above.</p>
+            </div>
+            <div>
+              <p className="font-medium text-foreground">Can't join a Nest</p>
+              <p>Nest codes are case-sensitive and 5 characters long. Make sure you're entering the exact code shared by the Nest creator.</p>
+            </div>
+          </div>
         </div>
       </div>
 
