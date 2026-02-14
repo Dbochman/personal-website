@@ -4332,5 +4332,204 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-02-14T06:13:48.772Z",
+    "date": "2026-02-14",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 546,
+      "users": 506,
+      "pageViews": 509,
+      "averageSessionDuration": 38,
+      "bounceRate": 0.78
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 112,
+        "users": 100,
+        "pageViews": 114
+      },
+      {
+        "page": "/blog/",
+        "sessions": 101,
+        "users": 101,
+        "pageViews": 101
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 37,
+        "users": 37,
+        "pageViews": 37
+      },
+      {
+        "page": "/blog",
+        "sessions": 36,
+        "users": 34,
+        "pageViews": 32
+      },
+      {
+        "page": "/runbook",
+        "sessions": 32,
+        "users": 32,
+        "pageViews": 32
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 18
+      },
+      {
+        "page": "/projects/",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 314,
+        "users": 296
+      },
+      {
+        "device": "mobile",
+        "sessions": 232,
+        "users": 210
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 485,
+          "users": 466
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 10,
+          "users": 7
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 485,
+          "users": 466
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 10,
+          "users": 7
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 236,
+        "average": 371.68220338983053,
+        "unit": "ms",
+        "ratings": {
+          "good": 229,
+          "needs-improvement": 5,
+          "poor": 2
+        },
+        "goodPercent": 97
+      },
+      "FCP": {
+        "count": 179,
+        "average": 966.4301675977654,
+        "unit": "ms",
+        "ratings": {
+          "good": 160,
+          "needs-improvement": 17,
+          "poor": 2
+        },
+        "goodPercent": 89
+      },
+      "LCP": {
+        "count": 43,
+        "average": 654.2790697674419,
+        "unit": "ms",
+        "ratings": {
+          "good": 43,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 31,
+        "average": 181.93548387096774,
+        "unit": "ms",
+        "ratings": {
+          "good": 26,
+          "needs-improvement": 1,
+          "poor": 4
+        },
+        "goodPercent": 84
+      },
+      "CLS": {
+        "count": 28,
+        "average": 0.0315,
+        "unit": "",
+        "ratings": {
+          "good": 25,
+          "needs-improvement": 2,
+          "poor": 1
+        },
+        "goodPercent": 89
+      }
+    },
+    "toolInteractions": {
+      "total": 5,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 5,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 5
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
