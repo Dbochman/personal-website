@@ -136,5 +136,56 @@
       "grossAmount": 0.33
     },
     "status": "valid"
+  },
+  {
+    "timestamp": "2026-02-15T06:12:56.122Z",
+    "date": "2026-02-15",
+    "period": {
+      "start": "2026-02-01",
+      "end": "2026-02-15",
+      "description": "Feb 1 - Feb 15, 2026"
+    },
+    "summary": {
+      "totalMinutes": 6298,
+      "totalGrossAmount": 44.09,
+      "totalDiscountAmount": 44.09,
+      "totalNetAmount": 0
+    },
+    "byRunner": {
+      "linux": {
+        "minutes": 6165,
+        "grossAmount": 36.99
+      },
+      "macos": {
+        "minutes": 111,
+        "grossAmount": 6.88
+      },
+      "windows": {
+        "minutes": 22,
+        "grossAmount": 0.22
+      }
+    },
+    "byRepository": [
+      {
+        "name": "personal-website",
+        "minutes": 4741,
+        "grossAmount": 28.45
+      },
+      {
+        "name": "dbochman.github.io",
+        "minutes": 1286,
+        "grossAmount": 7.72
+      },
+      {
+        "name": "EchoNest",
+        "minutes": 271,
+        "grossAmount": 7.93
+      }
+    ],
+    "storage": {
+      "gbHours": 1103.65,
+      "grossAmount": 0.37
+    },
+    "status": "valid"
   }
 ]
