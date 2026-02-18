@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-17T06:20:57.500Z",
+  "generated": "2026-02-18T06:24:00.066Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,93 +8,93 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-02-17T06:20:57.500Z",
-    "sessions_7d": 499,
-    "users_7d": 473,
-    "pageviews_7d": 467,
-    "avgSessionDuration": 34,
-    "bounceRate": 0.82,
+    "lastCheck": "2026-02-18T06:24:00.066Z",
+    "sessions_7d": 438,
+    "users_7d": 413,
+    "pageviews_7d": 406,
+    "avgSessionDuration": 44,
+    "bounceRate": 0.79,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 111
+        "pageViews": 101
       },
       {
         "page": "/blog/",
-        "pageViews": 85
+        "pageViews": 73
       },
       {
         "page": "/runbook/",
-        "pageViews": 37
+        "pageViews": 30
       },
       {
         "page": "/blog",
-        "pageViews": 28
+        "pageViews": 24
       },
       {
-        "page": "/runbook",
-        "pageViews": 28
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "pageViews": 24
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-02-17T06:20:57.500Z",
+    "lastCheck": "2026-02-18T06:24:00.066Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 216,
-        "average": 398.56018518518516,
+        "count": 197,
+        "average": 255.1979695431472,
         "unit": "ms",
         "ratings": {
-          "good": 207,
-          "needs-improvement": 6,
-          "poor": 3
+          "good": 189,
+          "needs-improvement": 4,
+          "poor": 4
         },
         "goodPercent": 96
       },
       "FCP": {
-        "count": 171,
-        "average": 1153.017543859649,
+        "count": 154,
+        "average": 909.7272727272727,
         "unit": "ms",
         "ratings": {
-          "good": 147,
-          "needs-improvement": 19,
+          "good": 132,
+          "needs-improvement": 17,
           "poor": 5
         },
         "goodPercent": 86
       },
       "LCP": {
-        "count": 35,
-        "average": 1332.6,
+        "count": 40,
+        "average": 1222.125,
         "unit": "ms",
         "ratings": {
-          "good": 32,
-          "needs-improvement": 1,
-          "poor": 2
-        },
-        "goodPercent": 91
-      },
-      "INP": {
-        "count": 33,
-        "average": 133.33333333333334,
-        "unit": "ms",
-        "ratings": {
-          "good": 30,
-          "needs-improvement": 1,
-          "poor": 2
-        },
-        "goodPercent": 91
-      },
-      "CLS": {
-        "count": 31,
-        "average": 0.0322258064516129,
-        "unit": "",
-        "ratings": {
-          "good": 28,
+          "good": 36,
           "needs-improvement": 2,
-          "poor": 1
+          "poor": 2
         },
         "goodPercent": 90
+      },
+      "CLS": {
+        "count": 37,
+        "average": 0.021945945945945948,
+        "unit": "",
+        "ratings": {
+          "good": 34,
+          "needs-improvement": 3,
+          "poor": 0
+        },
+        "goodPercent": 92
+      },
+      "INP": {
+        "count": 37,
+        "average": 120.43243243243244,
+        "unit": "ms",
+        "ratings": {
+          "good": 34,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 92
       }
     }
   }
