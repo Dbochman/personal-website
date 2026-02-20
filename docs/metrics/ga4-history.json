@@ -5570,5 +5570,215 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-02-20T06:20:37.840Z",
+    "date": "2026-02-20",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 191,
+      "users": 184,
+      "pageViews": 171,
+      "averageSessionDuration": 42,
+      "bounceRate": 0.61
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 54,
+        "users": 54,
+        "pageViews": 54
+      },
+      {
+        "page": "/",
+        "sessions": 46,
+        "users": 44,
+        "pageViews": 47
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 12,
+        "users": 11,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog",
+        "sessions": 11,
+        "users": 11,
+        "pageViews": 10
+      },
+      {
+        "page": "/runbook",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 11,
+        "users": 8,
+        "pageViews": 9
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 5,
+        "users": 5,
+        "pageViews": 5
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 81,
+        "users": 80
+      },
+      {
+        "device": "desktop",
+        "sessions": 110,
+        "users": 104
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 163,
+          "users": 157
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 8,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 163,
+          "users": 157
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 8,
+          "users": 7
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 99,
+        "average": 341.5858585858586,
+        "unit": "ms",
+        "ratings": {
+          "good": 91,
+          "needs-improvement": 4,
+          "poor": 4
+        },
+        "goodPercent": 92
+      },
+      "FCP": {
+        "count": 47,
+        "average": 1390.7446808510638,
+        "unit": "ms",
+        "ratings": {
+          "good": 36,
+          "needs-improvement": 6,
+          "poor": 5
+        },
+        "goodPercent": 77
+      },
+      "CLS": {
+        "count": 19,
+        "average": 0.014052631578947369,
+        "unit": "",
+        "ratings": {
+          "good": 18,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "LCP": {
+        "count": 21,
+        "average": 1943.5238095238096,
+        "unit": "ms",
+        "ratings": {
+          "good": 17,
+          "needs-improvement": 2,
+          "poor": 2
+        },
+        "goodPercent": 81
+      },
+      "INP": {
+        "count": 18,
+        "average": 154.22222222222223,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 83
+      }
+    },
+    "toolInteractions": {
+      "total": 4,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 4,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 4
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
