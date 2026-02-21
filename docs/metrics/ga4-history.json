@@ -5780,5 +5780,215 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-02-21T06:14:04.166Z",
+    "date": "2026-02-21",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 148,
+      "users": 143,
+      "pageViews": 134,
+      "averageSessionDuration": 64,
+      "bounceRate": 0.49
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 48,
+        "users": 48,
+        "pageViews": 48
+      },
+      {
+        "page": "/",
+        "sessions": 40,
+        "users": 39,
+        "pageViews": 41
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 12,
+        "users": 9,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 8,
+        "users": 7,
+        "pageViews": 6
+      },
+      {
+        "page": "/blog",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 6
+      },
+      {
+        "page": "/runbook",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/projects/echonest/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 5
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-11-shaving-minutes-off-deploys",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 66,
+        "users": 65
+      },
+      {
+        "device": "desktop",
+        "sessions": 82,
+        "users": 78
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 122,
+          "users": 118
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 8,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 122,
+          "users": 118
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 8,
+          "users": 7
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 83,
+        "average": 383.8313253012048,
+        "unit": "ms",
+        "ratings": {
+          "good": 74,
+          "needs-improvement": 5,
+          "poor": 4
+        },
+        "goodPercent": 89
+      },
+      "FCP": {
+        "count": 36,
+        "average": 1574.638888888889,
+        "unit": "ms",
+        "ratings": {
+          "good": 27,
+          "needs-improvement": 4,
+          "poor": 5
+        },
+        "goodPercent": 75
+      },
+      "LCP": {
+        "count": 24,
+        "average": 1845.3333333333333,
+        "unit": "ms",
+        "ratings": {
+          "good": 20,
+          "needs-improvement": 2,
+          "poor": 2
+        },
+        "goodPercent": 83
+      },
+      "CLS": {
+        "count": 20,
+        "average": 0.0136,
+        "unit": "",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "INP": {
+        "count": 16,
+        "average": 89.5,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 94
+      }
+    },
+    "toolInteractions": {
+      "total": 2,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 2,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
