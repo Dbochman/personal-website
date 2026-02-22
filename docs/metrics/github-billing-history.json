@@ -187,5 +187,61 @@
       "grossAmount": 0.37
     },
     "status": "valid"
+  },
+  {
+    "timestamp": "2026-02-22T06:10:35.813Z",
+    "date": "2026-02-22",
+    "period": {
+      "start": "2026-02-01",
+      "end": "2026-02-22",
+      "description": "Feb 1 - Feb 22, 2026"
+    },
+    "summary": {
+      "totalMinutes": 6436,
+      "totalGrossAmount": 47.32,
+      "totalDiscountAmount": 47.32,
+      "totalNetAmount": 0
+    },
+    "byRunner": {
+      "linux": {
+        "minutes": 6250,
+        "grossAmount": 37.5
+      },
+      "macos": {
+        "minutes": 153,
+        "grossAmount": 9.49
+      },
+      "windows": {
+        "minutes": 33,
+        "grossAmount": 0.33
+      }
+    },
+    "byRepository": [
+      {
+        "name": "personal-website",
+        "minutes": 4787,
+        "grossAmount": 28.72
+      },
+      {
+        "name": "dbochman.github.io",
+        "minutes": 1286,
+        "grossAmount": 7.72
+      },
+      {
+        "name": "EchoNest",
+        "minutes": 357,
+        "grossAmount": 10.79
+      },
+      {
+        "name": "whisper-meeting-minutes",
+        "minutes": 6,
+        "grossAmount": 0.09
+      }
+    ],
+    "storage": {
+      "gbHours": 1244.23,
+      "grossAmount": 0.42
+    },
+    "status": "valid"
   }
 ]

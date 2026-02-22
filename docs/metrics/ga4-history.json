@@ -5990,5 +5990,215 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-02-22T06:13:53.636Z",
+    "date": "2026-02-22",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 144,
+      "users": 138,
+      "pageViews": 132,
+      "averageSessionDuration": 62,
+      "bounceRate": 0.49
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 48,
+        "users": 48,
+        "pageViews": 48
+      },
+      {
+        "page": "/",
+        "sessions": 38,
+        "users": 36,
+        "pageViews": 39
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 11,
+        "users": 8,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 8,
+        "users": 7,
+        "pageViews": 6
+      },
+      {
+        "page": "/blog",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 6
+      },
+      {
+        "page": "/runbook",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/projects/echonest/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 5
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 65,
+        "users": 63
+      },
+      {
+        "device": "desktop",
+        "sessions": 79,
+        "users": 75
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 120,
+          "users": 114
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 5,
+          "users": 5
+        },
+        {
+          "channel": "Referral",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 120,
+          "users": 114
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 5,
+          "users": 5
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 82,
+        "average": 357.1341463414634,
+        "unit": "ms",
+        "ratings": {
+          "good": 74,
+          "needs-improvement": 5,
+          "poor": 3
+        },
+        "goodPercent": 90
+      },
+      "FCP": {
+        "count": 34,
+        "average": 1542.264705882353,
+        "unit": "ms",
+        "ratings": {
+          "good": 26,
+          "needs-improvement": 4,
+          "poor": 4
+        },
+        "goodPercent": 76
+      },
+      "LCP": {
+        "count": 22,
+        "average": 1818.7272727272727,
+        "unit": "ms",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 86
+      },
+      "CLS": {
+        "count": 18,
+        "average": 0.012944444444444444,
+        "unit": "",
+        "ratings": {
+          "good": 17,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 94
+      },
+      "INP": {
+        "count": 13,
+        "average": 78.76923076923077,
+        "unit": "ms",
+        "ratings": {
+          "good": 12,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 92
+      }
+    },
+    "toolInteractions": {
+      "total": 2,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 2,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
