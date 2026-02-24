@@ -1,0 +1,107 @@
+---
+title: "OpenClaw: Building a Personal AI Agent That Runs My Home"
+date: 2026-02-24
+author: Dylan & Claude
+description: "How I wired Claude into a Mac Mini with 27 skills, iMessage, browser automation, and enough cron jobs to book date night every month."
+tags:
+  - AI
+  - Projects
+  - Automation
+category: Technical
+draft: false
+---
+
+I wanted an AI assistant that could do things. Not answer questions about doing things. Actually adjust the thermostat, book a restaurant, triage email, order dish soap--all from an iMessage thread.
+
+OpenClaw is that system. It runs on a Mac Mini in my apartment, talks to me through iMessage, and has 27 skills wired into everything from Nest cameras to 1Password. It's been running since late 2025. The interesting parts are less about the AI and more about the plumbing.
+
+## The architecture
+
+A Node.js gateway process sits behind a macOS LaunchAgent. The gateway wraps Claude (Sonnet 4.6 at the moment) and connects it to iMessage--140+ group chats and DMs. Sessions reset at 4 AM or after two hours idle, which keeps context fresh without breaking continuity mid-conversation.
+
+```
+LaunchAgent (ai.openclaw.gateway.plist)
+    |
+Bash wrapper script
+    |-- Loads cached secrets
+    |-- Applies patches for known bugs
+    |-- Spawns Node.js gateway
+         |-- Claude Sonnet 4.6
+         |-- 27 skills
+         |-- iMessage plugin
+         |-- Browser automation (Chrome CDP)
+         |-- Cron scheduler
+```
+
+The wrapper script is worth calling out. macOS LaunchAgents run in a stripped-down environment where keychain access, 1Password CLI, and GUI interactions all behave differently than a normal terminal session. The wrapper pre-caches secrets, patches third-party library bugs at startup, and wires up the environment so the gateway boots cleanly when the machine restarts.
+
+## What it actually does
+
+The skills fall into a few buckets.
+
+**Smart home.** Nest thermostat control across two locations (a cabin and a city apartment), Hue lights, Samsung TV, Mr Cool minisplit AC through the Cielo Home API. The Nest piece includes a climate dashboard I'm weirdly proud of--a single Python file serving Chart.js over Tailscale, fed by JSONL snapshots a cron job writes every 30 minutes.
+
+**Dining.** Resy and OpenTable search and booking. Monthly cron jobs handle date night automatically: each month gets a cuisine rotation (Italian, then Mediterranean, then Spanish, etc.), the agent finds availability, books, creates a calendar event, and pings the group chat.
+
+**Email triage.** My fiancée's Gmail gets sorted every morning at 7 AM. Unreads get bucketed into labels--Urgent, Action, Financial, Shopping, FYI. Urgent stuff gets starred with draft replies. An evening pass at 8 PM archives stale threads and flags unsubscribe candidates.
+
+**Shopping.** Amazon search and checkout through browser automation against system Chrome. The agent finds and recommends products but won't place an order without explicit approval.
+
+**Everything else.** Google Calendar, Apple Reminders, web search, URL and podcast summarization, and the [EchoNest](/blog/echonest-collaborative-music-queue) music queue.
+
+## The hard parts
+
+### 1Password and the LaunchAgent hang
+
+This one made me want to throw the Mac Mini out the window. `op read` hangs forever when called from a LaunchAgent on macOS Tahoe. The CLI daemon spawns, tries to reach the desktop app over Mach bootstrap, and just... blocks. No timeout. No error. Nothing.
+
+I went through the whole checklist: service account tokens, disabling biometric unlock, isolated config directories, wrapping it in a background process with a kill timer. None of it worked. The Mach port connection fires before any env var gets checked, so you can't opt out from inside the daemon.
+
+What I landed on: the gateway wrapper loads secrets from a cache file that gets populated over SSH. The agent itself can still call `op read` at runtime because it's running inside Node, not the LaunchAgent context. A refresh script keeps the cache current. It's two systems doing one job, which I don't love, but it works.
+
+### Nest camera snapshots
+
+Getting a still frame from a Nest camera means doing a full WebRTC handshake. Already annoying. Nest makes it worse by sending non-standard ICE candidates--no foundation field, and an `ssltcp` protocol that aiortc chokes on. The fix is a Python script that patches the candidates before parsing, completes the handshake, captures a frame, and hands it back to Claude as an image.
+
+### Browser auth persistence
+
+The Amazon skill needs authenticated Chrome sessions. Headless Chrome on macOS crashes with `Trace/BPT trap` when it hits encrypted cookies via Keychain without a user present. So: separate user data directory, re-auth through visible Chrome when tokens rot, and full profile replacement when things get corrupted. Not pretty.
+
+### mDNS crashes on network changes
+
+`@homebridge/ciao` panics whenever a network interface changes, which Starlink does constantly. I wrote a monkey-patch that the gateway wrapper applies on every start. It survives OpenClaw updates. Not elegant, but it hasn't broken in months and I've stopped thinking about it.
+
+## Cron jobs and state management
+
+Cron definitions live in my dotfiles repo, but the gateway decorates them with runtime state--IDs, timestamps, execution history--that shouldn't be committed. A sync script strips the state when saving to dotfiles and merges it back on deploy. I can edit job configs in git, push, and have them picked up on the next gateway restart without clobbering execution history.
+
+```bash
+# Save to dotfiles (strip runtime state)
+./sync-cron-jobs.sh dotfiles
+
+# Deploy from dotfiles (merge with live state)
+./sync-cron-jobs.sh gateway
+```
+
+## Security boundaries
+
+The system touches personal data, so the guardrails have to be right.
+
+- **1Password**: Read-only service account with access scoped to the OpenClaw vault only. No access to personal vaults. Cannot create or modify items.
+- **Shopping**: Explicit human approval required before any purchase. No subscription enrollment. CAPTCHA and 2FA prompts surface to me rather than attempting bypass.
+- **iMessage**: Allowlisted group chats and authorized senders only. Sensitive data like payment details never appear in messages.
+- **Email**: Auth health checks run before sending anything. Token expiry gets detected and surfaced instead of failing silently.
+
+## What I'd do differently
+
+I ran Haiku 4.5 for the first few months, then upgraded to Sonnet 4.6 in February. The jump in multi-step reasoning--restaurant bookings that require comparing three options, email triage that actually understands context--was immediately noticeable. I should have started with the stronger model and dialed down if costs were a problem.
+
+The file-based keyring for Gmail OAuth (`gog` CLI with `GOG_KEYRING_PASSWORD`) works but feels held together with tape. A proper headless OAuth flow would have been worth the upfront investment instead of patching around macOS keychain quirks.
+
+The patch system for third-party bugs does its job, but auditing is manual. When a dependency updates, I have to check whether the diff still applies. Some kind of version-pinned patch verification would save me from finding out the hard way.
+
+## The boring part
+
+The most useful thing about OpenClaw isn't any single skill. It's that the plumbing is boring enough to forget about. The Mac Mini boots, the LaunchAgent fires, secrets load, patches apply, 27 skills come online. Date nights get booked. Email gets sorted. The thermostat does its thing. A weekly cron job sends me an activity report so I catch errors before they catch me.
+
+Most of the engineering here wasn't AI work. It was macOS daemon behavior, WebRTC edge cases, browser automation nonsense, and secrets management. The AI part--handing Claude a bag of tools and watching it figure out how to use them--was the easy part.
