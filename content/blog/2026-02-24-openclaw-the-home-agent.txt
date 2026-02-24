@@ -11,9 +11,15 @@ category: Technical
 draft: false
 ---
 
+[OpenClaw](https://openclaw.ai/) is an open-source framework for building personal AI agents that live on your own hardware. Think of it as the glue between an LLM and the real world--a gateway process that gives Claude (or any model) persistent identity, message routing across channels like iMessage and Slack, browser automation, cron scheduling, and a skill system for wiring up APIs. It's gotten attention because it sits in a sweet spot: more capable than a chatbot, less complex than a full home automation platform, and entirely self-hosted.
+
+I've been running it since late 2025, and this post is a walkthrough of what it looks like in practice--what works, what broke, and what I learned wiring an AI agent into the mundane infrastructure of daily life.
+
+## My setup
+
 I wanted an AI assistant that could do things. Not answer questions about doing things. Actually adjust the thermostat, book a restaurant, triage email, order dish soap--all from an iMessage thread.
 
-OpenClaw is that system. It runs on a Mac Mini in my apartment, talks to me through iMessage, and has 27 skills wired into everything from Nest cameras to 1Password. It's been running since late 2025. The interesting parts are less about the AI and more about the plumbing.
+My OpenClaw instance runs on a Mac Mini in my cabin, talks to me through iMessage, and has 27 skills wired into everything from Nest cameras to 1Password. The interesting parts are less about the AI and more about the plumbing.
 
 ## The architecture
 
