@@ -4,17 +4,51 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      is_content_only: ${{ steps.check.outputs.content_only }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 10
+      - name: Detect content-only changes
+        id: check
+        run: |
+          BEFORE=${{ github.event.before }}
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "content_only=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if ! git cat-file -e "$BEFORE" 2>/dev/null; then
+            echo "content_only=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          CHANGED_FILES=$(git diff --name-only "$BEFORE" HEAD)
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          CONTENT_ONLY=true
+          while IFS= read -r file; do
+            case "$file" in
+              content/blog/*.txt|content/kanban/*.md|content/kanban/**/*.md) ;;
+              src/generated/*) ;;
+              public/rss.xml|public/sitemap.xml|public/atom.xml) ;;
+              public/og-images/*) ;;
+              .claude/*|*.md) ;;
+              *) CONTENT_ONLY=false; break ;;
+            esac
+          done <<< "$CHANGED_FILES"
+          echo "content_only=$CONTENT_ONLY" >> "$GITHUB_OUTPUT"
+
   build-and-test:
     runs-on: ubuntu-latest
+    needs: detect-changes
     steps:
       - name: Checkout source
         uses: actions/checkout@v6
@@ -36,7 +70,16 @@ jobs:
           restore-keys: |
             mdx-
 
+      - name: Build mode
+        run: |
+          if [ "${{ needs.detect-changes.outputs.is_content_only }}" = "true" ]; then
+            echo "::notice::Fast-path content-only deploy"
+          else
+            echo "::notice::Full build and test pipeline"
+          fi
+
       - name: Cache Playwright browsers
+        if: needs.detect-changes.outputs.is_content_only != 'true'
         id: playwright-cache
         uses: actions/cache@v5
         with:
@@ -44,18 +87,20 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        if: needs.detect-changes.outputs.is_content_only != 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install chromium --with-deps
 
       - name: Install Playwright deps only
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        if: needs.detect-changes.outputs.is_content_only != 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
       - name: Security audit
+        if: needs.detect-changes.outputs.is_content_only != 'true'
         run: npm audit --audit-level=high --omit=dev
         continue-on-error: true
 
       - name: Run unit tests
+        if: needs.detect-changes.outputs.is_content_only != 'true'
         run: npm test
 
       - name: Build site
@@ -64,6 +109,7 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
 
       - name: Upload source maps to Sentry
+        if: needs.detect-changes.outputs.is_content_only != 'true'
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
@@ -74,12 +120,14 @@ jobs:
           npx sentry-cli releases finalize ${{ github.sha }}
 
       - name: Remove source maps from build
+        if: needs.detect-changes.outputs.is_content_only != 'true'
         run: find ./dist -name '*.map' -delete
 
       # Bundle size check uses raw (uncompressed) file sizes as a build guard.
       # This catches accidental bloat from new dependencies or unoptimized code.
       # Actual transfer sizes are ~70% smaller due to gzip/brotli compression.
       - name: Check bundle size budget
+        if: needs.detect-changes.outputs.is_content_only != 'true'
         run: |
           node -e "
           const fs = require('fs');
@@ -135,14 +183,17 @@ jobs:
           "
 
       - name: Start preview server
+        if: needs.detect-changes.outputs.is_content_only != 'true'
         run: npm run preview &
         env:
           CI: true
 
       - name: Wait for server to be ready
+        if: needs.detect-changes.outputs.is_content_only != 'true'
         run: npx wait-on http://localhost:4173 --timeout 30000
 
       - name: Run smoke tests
+        if: needs.detect-changes.outputs.is_content_only != 'true'
         run: BASE_URL=http://localhost:4173 npx playwright test --grep @smoke
         env:
           CI: true
@@ -155,7 +206,7 @@ jobs:
           retention-days: 1
 
       - name: Upload test results
-        if: failure()
+        if: failure() && needs.detect-changes.outputs.is_content_only != 'true'
         uses: actions/upload-artifact@v6
         with:
           name: playwright-test-results
