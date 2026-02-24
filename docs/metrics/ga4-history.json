@@ -4332,5 +4332,2265 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-02-14T06:13:48.772Z",
+    "date": "2026-02-14",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 546,
+      "users": 506,
+      "pageViews": 509,
+      "averageSessionDuration": 38,
+      "bounceRate": 0.78
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 112,
+        "users": 100,
+        "pageViews": 114
+      },
+      {
+        "page": "/blog/",
+        "sessions": 101,
+        "users": 101,
+        "pageViews": 101
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 37,
+        "users": 37,
+        "pageViews": 37
+      },
+      {
+        "page": "/blog",
+        "sessions": 36,
+        "users": 34,
+        "pageViews": 32
+      },
+      {
+        "page": "/runbook",
+        "sessions": 32,
+        "users": 32,
+        "pageViews": 32
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 18
+      },
+      {
+        "page": "/projects/",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 314,
+        "users": 296
+      },
+      {
+        "device": "mobile",
+        "sessions": 232,
+        "users": 210
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 485,
+          "users": 466
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 10,
+          "users": 7
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 485,
+          "users": 466
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 10,
+          "users": 7
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 236,
+        "average": 371.68220338983053,
+        "unit": "ms",
+        "ratings": {
+          "good": 229,
+          "needs-improvement": 5,
+          "poor": 2
+        },
+        "goodPercent": 97
+      },
+      "FCP": {
+        "count": 179,
+        "average": 966.4301675977654,
+        "unit": "ms",
+        "ratings": {
+          "good": 160,
+          "needs-improvement": 17,
+          "poor": 2
+        },
+        "goodPercent": 89
+      },
+      "LCP": {
+        "count": 43,
+        "average": 654.2790697674419,
+        "unit": "ms",
+        "ratings": {
+          "good": 43,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 31,
+        "average": 181.93548387096774,
+        "unit": "ms",
+        "ratings": {
+          "good": 26,
+          "needs-improvement": 1,
+          "poor": 4
+        },
+        "goodPercent": 84
+      },
+      "CLS": {
+        "count": 28,
+        "average": 0.0315,
+        "unit": "",
+        "ratings": {
+          "good": 25,
+          "needs-improvement": 2,
+          "poor": 1
+        },
+        "goodPercent": 89
+      }
+    },
+    "toolInteractions": {
+      "total": 5,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 5,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 5
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-15T06:14:06.714Z",
+    "date": "2026-02-15",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 540,
+      "users": 504,
+      "pageViews": 503,
+      "averageSessionDuration": 36,
+      "bounceRate": 0.79
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 112,
+        "users": 101,
+        "pageViews": 114
+      },
+      {
+        "page": "/blog/",
+        "sessions": 97,
+        "users": 97,
+        "pageViews": 97
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 37,
+        "users": 37,
+        "pageViews": 37
+      },
+      {
+        "page": "/blog",
+        "sessions": 36,
+        "users": 34,
+        "pageViews": 32
+      },
+      {
+        "page": "/runbook",
+        "sessions": 32,
+        "users": 32,
+        "pageViews": 32
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 18
+      },
+      {
+        "page": "/projects/",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 315,
+        "users": 296
+      },
+      {
+        "device": "mobile",
+        "sessions": 225,
+        "users": 208
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 477,
+          "users": 461
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 13,
+          "users": 9
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 477,
+          "users": 461
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 13,
+          "users": 9
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 234,
+        "average": 371.36324786324786,
+        "unit": "ms",
+        "ratings": {
+          "good": 228,
+          "needs-improvement": 3,
+          "poor": 3
+        },
+        "goodPercent": 97
+      },
+      "FCP": {
+        "count": 179,
+        "average": 982.1061452513967,
+        "unit": "ms",
+        "ratings": {
+          "good": 159,
+          "needs-improvement": 17,
+          "poor": 3
+        },
+        "goodPercent": 89
+      },
+      "LCP": {
+        "count": 43,
+        "average": 719.1162790697674,
+        "unit": "ms",
+        "ratings": {
+          "good": 42,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 98
+      },
+      "INP": {
+        "count": 32,
+        "average": 159,
+        "unit": "ms",
+        "ratings": {
+          "good": 28,
+          "needs-improvement": 1,
+          "poor": 3
+        },
+        "goodPercent": 88
+      },
+      "CLS": {
+        "count": 30,
+        "average": 0.030699999999999998,
+        "unit": "",
+        "ratings": {
+          "good": 27,
+          "needs-improvement": 2,
+          "poor": 1
+        },
+        "goodPercent": 90
+      }
+    },
+    "toolInteractions": {
+      "total": 5,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 5,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 5
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-16T06:23:47.387Z",
+    "date": "2026-02-16",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 527,
+      "users": 498,
+      "pageViews": 492,
+      "averageSessionDuration": 37,
+      "bounceRate": 0.8
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 113,
+        "users": 103,
+        "pageViews": 115
+      },
+      {
+        "page": "/blog/",
+        "sessions": 90,
+        "users": 90,
+        "pageViews": 90
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 37,
+        "users": 37,
+        "pageViews": 37
+      },
+      {
+        "page": "/blog",
+        "sessions": 36,
+        "users": 34,
+        "pageViews": 32
+      },
+      {
+        "page": "/runbook",
+        "sessions": 32,
+        "users": 32,
+        "pageViews": 32
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 18
+      },
+      {
+        "page": "/projects/",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 316,
+        "users": 298
+      },
+      {
+        "device": "mobile",
+        "sessions": 211,
+        "users": 200
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 469,
+          "users": 457
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 10,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 469,
+          "users": 457
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 10,
+          "users": 7
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 221,
+        "average": 381.59276018099547,
+        "unit": "ms",
+        "ratings": {
+          "good": 214,
+          "needs-improvement": 4,
+          "poor": 3
+        },
+        "goodPercent": 97
+      },
+      "FCP": {
+        "count": 174,
+        "average": 1001.4022988505748,
+        "unit": "ms",
+        "ratings": {
+          "good": 153,
+          "needs-improvement": 18,
+          "poor": 3
+        },
+        "goodPercent": 88
+      },
+      "LCP": {
+        "count": 39,
+        "average": 988.6153846153846,
+        "unit": "ms",
+        "ratings": {
+          "good": 37,
+          "needs-improvement": 1,
+          "poor": 1
+        },
+        "goodPercent": 95
+      },
+      "INP": {
+        "count": 32,
+        "average": 139.5,
+        "unit": "ms",
+        "ratings": {
+          "good": 29,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 91
+      },
+      "CLS": {
+        "count": 29,
+        "average": 0.034413793103448276,
+        "unit": "",
+        "ratings": {
+          "good": 26,
+          "needs-improvement": 2,
+          "poor": 1
+        },
+        "goodPercent": 90
+      }
+    },
+    "toolInteractions": {
+      "total": 5,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 5,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 5
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-17T06:20:57.498Z",
+    "date": "2026-02-17",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 499,
+      "users": 473,
+      "pageViews": 467,
+      "averageSessionDuration": 34,
+      "bounceRate": 0.82
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 109,
+        "users": 100,
+        "pageViews": 111
+      },
+      {
+        "page": "/blog/",
+        "sessions": 85,
+        "users": 85,
+        "pageViews": 85
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 37,
+        "users": 37,
+        "pageViews": 37
+      },
+      {
+        "page": "/blog",
+        "sessions": 32,
+        "users": 30,
+        "pageViews": 28
+      },
+      {
+        "page": "/runbook",
+        "sessions": 28,
+        "users": 28,
+        "pageViews": 28
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 25,
+        "users": 25,
+        "pageViews": 24
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 24,
+        "users": 24,
+        "pageViews": 24
+      },
+      {
+        "page": "/projects/",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 303,
+        "users": 285
+      },
+      {
+        "device": "mobile",
+        "sessions": 196,
+        "users": 188
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 448,
+          "users": 437
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 9,
+          "users": 6
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 448,
+          "users": 437
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 9,
+          "users": 6
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 216,
+        "average": 398.56018518518516,
+        "unit": "ms",
+        "ratings": {
+          "good": 207,
+          "needs-improvement": 6,
+          "poor": 3
+        },
+        "goodPercent": 96
+      },
+      "FCP": {
+        "count": 171,
+        "average": 1153.017543859649,
+        "unit": "ms",
+        "ratings": {
+          "good": 147,
+          "needs-improvement": 19,
+          "poor": 5
+        },
+        "goodPercent": 86
+      },
+      "LCP": {
+        "count": 35,
+        "average": 1332.6,
+        "unit": "ms",
+        "ratings": {
+          "good": 32,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 91
+      },
+      "INP": {
+        "count": 33,
+        "average": 133.33333333333334,
+        "unit": "ms",
+        "ratings": {
+          "good": 30,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 91
+      },
+      "CLS": {
+        "count": 31,
+        "average": 0.0322258064516129,
+        "unit": "",
+        "ratings": {
+          "good": 28,
+          "needs-improvement": 2,
+          "poor": 1
+        },
+        "goodPercent": 90
+      }
+    },
+    "toolInteractions": {
+      "total": 7,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 7,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 7
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-18T06:24:00.064Z",
+    "date": "2026-02-18",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 438,
+      "users": 413,
+      "pageViews": 406,
+      "averageSessionDuration": 44,
+      "bounceRate": 0.79
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 98,
+        "users": 89,
+        "pageViews": 101
+      },
+      {
+        "page": "/blog/",
+        "sessions": 73,
+        "users": 73,
+        "pageViews": 73
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 30,
+        "users": 30,
+        "pageViews": 30
+      },
+      {
+        "page": "/blog",
+        "sessions": 29,
+        "users": 27,
+        "pageViews": 24
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 24
+      },
+      {
+        "page": "/runbook",
+        "sessions": 24,
+        "users": 24,
+        "pageViews": 24
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 20,
+        "users": 20,
+        "pageViews": 20
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/projects/",
+        "sessions": 15,
+        "users": 15,
+        "pageViews": 15
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 14,
+        "users": 14,
+        "pageViews": 14
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 271,
+        "users": 252
+      },
+      {
+        "device": "mobile",
+        "sessions": 167,
+        "users": 161
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 385,
+          "users": 372
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 8,
+          "users": 6
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 385,
+          "users": 372
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 8,
+          "users": 6
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 197,
+        "average": 255.1979695431472,
+        "unit": "ms",
+        "ratings": {
+          "good": 189,
+          "needs-improvement": 4,
+          "poor": 4
+        },
+        "goodPercent": 96
+      },
+      "FCP": {
+        "count": 154,
+        "average": 909.7272727272727,
+        "unit": "ms",
+        "ratings": {
+          "good": 132,
+          "needs-improvement": 17,
+          "poor": 5
+        },
+        "goodPercent": 86
+      },
+      "LCP": {
+        "count": 40,
+        "average": 1222.125,
+        "unit": "ms",
+        "ratings": {
+          "good": 36,
+          "needs-improvement": 2,
+          "poor": 2
+        },
+        "goodPercent": 90
+      },
+      "CLS": {
+        "count": 37,
+        "average": 0.021945945945945948,
+        "unit": "",
+        "ratings": {
+          "good": 34,
+          "needs-improvement": 3,
+          "poor": 0
+        },
+        "goodPercent": 92
+      },
+      "INP": {
+        "count": 37,
+        "average": 120.43243243243244,
+        "unit": "ms",
+        "ratings": {
+          "good": 34,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 92
+      }
+    },
+    "toolInteractions": {
+      "total": 7,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 7,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 7
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-19T06:24:20.754Z",
+    "date": "2026-02-19",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 434,
+      "users": 413,
+      "pageViews": 405,
+      "averageSessionDuration": 39,
+      "bounceRate": 0.8
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 99,
+        "users": 91,
+        "pageViews": 102
+      },
+      {
+        "page": "/blog/",
+        "sessions": 74,
+        "users": 74,
+        "pageViews": 74
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 30,
+        "users": 30,
+        "pageViews": 30
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 27,
+        "users": 26,
+        "pageViews": 24
+      },
+      {
+        "page": "/blog",
+        "sessions": 28,
+        "users": 27,
+        "pageViews": 24
+      },
+      {
+        "page": "/runbook",
+        "sessions": 24,
+        "users": 24,
+        "pageViews": 24
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 20,
+        "users": 20,
+        "pageViews": 20
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/projects/",
+        "sessions": 15,
+        "users": 15,
+        "pageViews": 15
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 14,
+        "users": 14,
+        "pageViews": 14
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 267,
+        "users": 250
+      },
+      {
+        "device": "mobile",
+        "sessions": 167,
+        "users": 163
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 385,
+          "users": 374
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 10,
+          "users": 7
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 385,
+          "users": 374
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 10,
+          "users": 7
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 196,
+        "average": 252.55102040816325,
+        "unit": "ms",
+        "ratings": {
+          "good": 188,
+          "needs-improvement": 4,
+          "poor": 4
+        },
+        "goodPercent": 96
+      },
+      "FCP": {
+        "count": 151,
+        "average": 918.682119205298,
+        "unit": "ms",
+        "ratings": {
+          "good": 129,
+          "needs-improvement": 17,
+          "poor": 5
+        },
+        "goodPercent": 85
+      },
+      "INP": {
+        "count": 36,
+        "average": 117.33333333333333,
+        "unit": "ms",
+        "ratings": {
+          "good": 33,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 92
+      },
+      "LCP": {
+        "count": 37,
+        "average": 1275.6486486486488,
+        "unit": "ms",
+        "ratings": {
+          "good": 33,
+          "needs-improvement": 2,
+          "poor": 2
+        },
+        "goodPercent": 89
+      },
+      "CLS": {
+        "count": 35,
+        "average": 0.0218,
+        "unit": "",
+        "ratings": {
+          "good": 32,
+          "needs-improvement": 3,
+          "poor": 0
+        },
+        "goodPercent": 91
+      }
+    },
+    "toolInteractions": {
+      "total": 7,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 7,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 7
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-20T06:20:37.840Z",
+    "date": "2026-02-20",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 191,
+      "users": 184,
+      "pageViews": 171,
+      "averageSessionDuration": 42,
+      "bounceRate": 0.61
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 54,
+        "users": 54,
+        "pageViews": 54
+      },
+      {
+        "page": "/",
+        "sessions": 46,
+        "users": 44,
+        "pageViews": 47
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 12,
+        "users": 11,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog",
+        "sessions": 11,
+        "users": 11,
+        "pageViews": 10
+      },
+      {
+        "page": "/runbook",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 11,
+        "users": 8,
+        "pageViews": 9
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 5,
+        "users": 5,
+        "pageViews": 5
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 81,
+        "users": 80
+      },
+      {
+        "device": "desktop",
+        "sessions": 110,
+        "users": 104
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 163,
+          "users": 157
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 8,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 163,
+          "users": 157
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 8,
+          "users": 7
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 99,
+        "average": 341.5858585858586,
+        "unit": "ms",
+        "ratings": {
+          "good": 91,
+          "needs-improvement": 4,
+          "poor": 4
+        },
+        "goodPercent": 92
+      },
+      "FCP": {
+        "count": 47,
+        "average": 1390.7446808510638,
+        "unit": "ms",
+        "ratings": {
+          "good": 36,
+          "needs-improvement": 6,
+          "poor": 5
+        },
+        "goodPercent": 77
+      },
+      "CLS": {
+        "count": 19,
+        "average": 0.014052631578947369,
+        "unit": "",
+        "ratings": {
+          "good": 18,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "LCP": {
+        "count": 21,
+        "average": 1943.5238095238096,
+        "unit": "ms",
+        "ratings": {
+          "good": 17,
+          "needs-improvement": 2,
+          "poor": 2
+        },
+        "goodPercent": 81
+      },
+      "INP": {
+        "count": 18,
+        "average": 154.22222222222223,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 83
+      }
+    },
+    "toolInteractions": {
+      "total": 4,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 4,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 4
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-21T06:14:04.166Z",
+    "date": "2026-02-21",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 148,
+      "users": 143,
+      "pageViews": 134,
+      "averageSessionDuration": 64,
+      "bounceRate": 0.49
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 48,
+        "users": 48,
+        "pageViews": 48
+      },
+      {
+        "page": "/",
+        "sessions": 40,
+        "users": 39,
+        "pageViews": 41
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 12,
+        "users": 9,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 8,
+        "users": 7,
+        "pageViews": 6
+      },
+      {
+        "page": "/blog",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 6
+      },
+      {
+        "page": "/runbook",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/projects/echonest/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 5
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-11-shaving-minutes-off-deploys",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 66,
+        "users": 65
+      },
+      {
+        "device": "desktop",
+        "sessions": 82,
+        "users": 78
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 122,
+          "users": 118
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 8,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 122,
+          "users": 118
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 8,
+          "users": 7
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 83,
+        "average": 383.8313253012048,
+        "unit": "ms",
+        "ratings": {
+          "good": 74,
+          "needs-improvement": 5,
+          "poor": 4
+        },
+        "goodPercent": 89
+      },
+      "FCP": {
+        "count": 36,
+        "average": 1574.638888888889,
+        "unit": "ms",
+        "ratings": {
+          "good": 27,
+          "needs-improvement": 4,
+          "poor": 5
+        },
+        "goodPercent": 75
+      },
+      "LCP": {
+        "count": 24,
+        "average": 1845.3333333333333,
+        "unit": "ms",
+        "ratings": {
+          "good": 20,
+          "needs-improvement": 2,
+          "poor": 2
+        },
+        "goodPercent": 83
+      },
+      "CLS": {
+        "count": 20,
+        "average": 0.0136,
+        "unit": "",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "INP": {
+        "count": 16,
+        "average": 89.5,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 94
+      }
+    },
+    "toolInteractions": {
+      "total": 2,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 2,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-22T06:13:53.636Z",
+    "date": "2026-02-22",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 144,
+      "users": 138,
+      "pageViews": 132,
+      "averageSessionDuration": 62,
+      "bounceRate": 0.49
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 48,
+        "users": 48,
+        "pageViews": 48
+      },
+      {
+        "page": "/",
+        "sessions": 38,
+        "users": 36,
+        "pageViews": 39
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 11,
+        "users": 8,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 8,
+        "users": 7,
+        "pageViews": 6
+      },
+      {
+        "page": "/blog",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 6
+      },
+      {
+        "page": "/runbook",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/projects/echonest/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 5
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 65,
+        "users": 63
+      },
+      {
+        "device": "desktop",
+        "sessions": 79,
+        "users": 75
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 120,
+          "users": 114
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 5,
+          "users": 5
+        },
+        {
+          "channel": "Referral",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 120,
+          "users": 114
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 5,
+          "users": 5
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 82,
+        "average": 357.1341463414634,
+        "unit": "ms",
+        "ratings": {
+          "good": 74,
+          "needs-improvement": 5,
+          "poor": 3
+        },
+        "goodPercent": 90
+      },
+      "FCP": {
+        "count": 34,
+        "average": 1542.264705882353,
+        "unit": "ms",
+        "ratings": {
+          "good": 26,
+          "needs-improvement": 4,
+          "poor": 4
+        },
+        "goodPercent": 76
+      },
+      "LCP": {
+        "count": 22,
+        "average": 1818.7272727272727,
+        "unit": "ms",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 86
+      },
+      "CLS": {
+        "count": 18,
+        "average": 0.012944444444444444,
+        "unit": "",
+        "ratings": {
+          "good": 17,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 94
+      },
+      "INP": {
+        "count": 13,
+        "average": 78.76923076923077,
+        "unit": "ms",
+        "ratings": {
+          "good": 12,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 92
+      }
+    },
+    "toolInteractions": {
+      "total": 2,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 2,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-02-23T06:25:59.123Z",
+    "date": "2026-02-23",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 147,
+      "users": 142,
+      "pageViews": 137,
+      "averageSessionDuration": 61,
+      "bounceRate": 0.5
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 53,
+        "users": 53,
+        "pageViews": 53
+      },
+      {
+        "page": "/",
+        "sessions": 38,
+        "users": 36,
+        "pageViews": 38
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 12,
+        "users": 10,
+        "pageViews": 11
+      },
+      {
+        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
+        "sessions": 8,
+        "users": 7,
+        "pageViews": 6
+      },
+      {
+        "page": "/blog",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 6
+      },
+      {
+        "page": "/runbook",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/projects/echonest/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 5
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 70,
+        "users": 68
+      },
+      {
+        "device": "desktop",
+        "sessions": 77,
+        "users": 74
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 125,
+          "users": 120
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 6,
+          "users": 6
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 125,
+          "users": 120
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 6,
+          "users": 6
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 86,
+        "average": 360.19767441860466,
+        "unit": "ms",
+        "ratings": {
+          "good": 78,
+          "needs-improvement": 5,
+          "poor": 3
+        },
+        "goodPercent": 91
+      },
+      "FCP": {
+        "count": 35,
+        "average": 1593.857142857143,
+        "unit": "ms",
+        "ratings": {
+          "good": 28,
+          "needs-improvement": 3,
+          "poor": 4
+        },
+        "goodPercent": 80
+      },
+      "LCP": {
+        "count": 22,
+        "average": 1375.8181818181818,
+        "unit": "ms",
+        "ratings": {
+          "good": 20,
+          "needs-improvement": 1,
+          "poor": 1
+        },
+        "goodPercent": 91
+      },
+      "CLS": {
+        "count": 17,
+        "average": 0.009117647058823529,
+        "unit": "",
+        "ratings": {
+          "good": 16,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 94
+      },
+      "INP": {
+        "count": 12,
+        "average": 82.66666666666667,
+        "unit": "ms",
+        "ratings": {
+          "good": 11,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 92
+      }
+    },
+    "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-02-24T06:23:36.464Z",
+    "date": "2026-02-24",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 114,
+      "users": 109,
+      "pageViews": 104,
+      "averageSessionDuration": 64,
+      "bounceRate": 0.38
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 49,
+        "users": 49,
+        "pageViews": 49
+      },
+      {
+        "page": "/",
+        "sessions": 31,
+        "users": 29,
+        "pageViews": 31
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 12,
+        "users": 10,
+        "pageViews": 11
+      },
+      {
+        "page": "/projects/echonest/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 5
+      },
+      {
+        "page": "/projects/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/projects/oncall-coverage/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/projects/slo-tool/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/projects/statuspage-update/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 66,
+        "users": 64
+      },
+      {
+        "device": "desktop",
+        "sessions": 48,
+        "users": 45
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 91,
+          "users": 86
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 7,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 91,
+          "users": 86
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 7,
+          "users": 7
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 80,
+        "average": 340.5875,
+        "unit": "ms",
+        "ratings": {
+          "good": 74,
+          "needs-improvement": 3,
+          "poor": 3
+        },
+        "goodPercent": 93
+      },
+      "FCP": {
+        "count": 33,
+        "average": 1008.7878787878788,
+        "unit": "ms",
+        "ratings": {
+          "good": 28,
+          "needs-improvement": 3,
+          "poor": 2
+        },
+        "goodPercent": 85
+      },
+      "LCP": {
+        "count": 21,
+        "average": 898.4761904761905,
+        "unit": "ms",
+        "ratings": {
+          "good": 20,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "CLS": {
+        "count": 16,
+        "average": 0.0095625,
+        "unit": "",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 94
+      },
+      "INP": {
+        "count": 12,
+        "average": 80,
+        "unit": "ms",
+        "ratings": {
+          "good": 11,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 92
+      }
+    },
+    "toolInteractions": null
   }
 ]
