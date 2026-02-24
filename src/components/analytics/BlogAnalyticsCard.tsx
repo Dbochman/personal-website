@@ -90,14 +90,11 @@ function matchPost(
   const byStripped = lookups.byStrippedSlug.get(stripped);
   if (byStripped) return byStripped;
 
-  // Fuzzy: normalize slug to title key
+  // Fuzzy: normalize slug to title key (only if key is long enough to avoid false matches)
   const key = stripped.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-  const byTitle = lookups.byTitleKey.get(key);
-  if (byTitle) return byTitle;
-
-  // Partial match: check if any title key contains the slug words or vice versa
-  for (const [titleKey, post] of lookups.byTitleKey) {
-    if (titleKey.includes(key) || key.includes(titleKey)) return post;
+  if (key.length >= 10) {
+    const byTitle = lookups.byTitleKey.get(key);
+    if (byTitle) return byTitle;
   }
 
   return undefined;
@@ -189,8 +186,9 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
         if (existing) {
           existing.totalSessions += stats.sessions;
           existing.totalViews += stats.pageViews;
-          if (entry.date < existing.firstSeen) existing.firstSeen = entry.date;
-          if (entry.date > existing.lastSeen) existing.lastSeen = entry.date;
+          const entryTime = new Date(entry.date).getTime();
+          if (entryTime < new Date(existing.firstSeen).getTime()) existing.firstSeen = entry.date;
+          if (entryTime > new Date(existing.lastSeen).getTime()) existing.lastSeen = entry.date;
         } else {
           cumulative.set(key, {
             totalSessions: stats.sessions,
