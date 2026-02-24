@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-23T06:25:59.125Z",
+  "generated": "2026-02-24T06:23:36.467Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,78 +8,78 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-02-23T06:25:59.125Z",
-    "sessions_7d": 147,
-    "users_7d": 142,
-    "pageviews_7d": 137,
-    "avgSessionDuration": 61,
-    "bounceRate": 0.5,
+    "lastCheck": "2026-02-24T06:23:36.467Z",
+    "sessions_7d": 114,
+    "users_7d": 109,
+    "pageviews_7d": 104,
+    "avgSessionDuration": 64,
+    "bounceRate": 0.38,
     "topPages": [
       {
         "page": "/blog/",
-        "pageViews": 53
+        "pageViews": 49
       },
       {
         "page": "/",
-        "pageViews": 38
+        "pageViews": 31
       },
       {
         "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
         "pageViews": 11
       },
       {
-        "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
-        "pageViews": 6
+        "page": "/projects/echonest/",
+        "pageViews": 5
       },
       {
-        "page": "/blog",
-        "pageViews": 6
+        "page": "/projects/",
+        "pageViews": 2
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-02-23T06:25:59.125Z",
+    "lastCheck": "2026-02-24T06:23:36.467Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 86,
-        "average": 360.19767441860466,
+        "count": 80,
+        "average": 340.5875,
         "unit": "ms",
         "ratings": {
-          "good": 78,
-          "needs-improvement": 5,
+          "good": 74,
+          "needs-improvement": 3,
           "poor": 3
         },
-        "goodPercent": 91
+        "goodPercent": 93
       },
       "FCP": {
-        "count": 35,
-        "average": 1593.857142857143,
+        "count": 33,
+        "average": 1008.7878787878788,
         "unit": "ms",
         "ratings": {
           "good": 28,
           "needs-improvement": 3,
-          "poor": 4
+          "poor": 2
         },
-        "goodPercent": 80
+        "goodPercent": 85
       },
       "LCP": {
-        "count": 22,
-        "average": 1375.8181818181818,
+        "count": 21,
+        "average": 898.4761904761905,
         "unit": "ms",
         "ratings": {
           "good": 20,
           "needs-improvement": 1,
-          "poor": 1
+          "poor": 0
         },
-        "goodPercent": 91
+        "goodPercent": 95
       },
       "CLS": {
-        "count": 17,
-        "average": 0.009117647058823529,
+        "count": 16,
+        "average": 0.0095625,
         "unit": "",
         "ratings": {
-          "good": 16,
+          "good": 15,
           "needs-improvement": 1,
           "poor": 0
         },
@@ -87,7 +87,7 @@
       },
       "INP": {
         "count": 12,
-        "average": 82.66666666666667,
+        "average": 80,
         "unit": "ms",
         "ratings": {
           "good": 11,
