@@ -11,7 +11,7 @@ category: Technical
 draft: false
 ---
 
-[OpenClaw](https://openclaw.ai/) is an open-source framework for building personal AI agents on your own hardware. It's a gateway process that gives Claude (or any model) persistent identity, message routing across channels like iMessage, browser automation, cron scheduling, and a skill system for wiring up APIs. Self-hosted, no cloud dependency, runs on a Mac-class device you already own.
+[OpenClaw](https://openclaw.ai/) is an open-source framework for building personal AI agents on your own hardware. A gateway process gives Claude (or any model) persistent identity and connects it to messaging channels, browser automation, cron jobs, and whatever APIs you wire up. No cloud dependency. Runs on a Mac Mini.
 
 I wanted to see how far I could take it. Not by giving an agent the keys to everything on day one, but by adding one capability at a time and making sure each one had real limits on what it could do. This is what that looked like after a few months--what I wired up, what broke, and what surprised me.
 
@@ -39,7 +39,7 @@ Wrapper script
          |-- Cron scheduler
 ```
 
-The wrapper script is worth calling out. macOS system services run in a stripped-down environment where keychain access, password managers, and GUI interactions all behave differently than a normal terminal session. The wrapper handles secrets, patches third-party library bugs at startup, and wires up the environment so the gateway boots cleanly on restart.
+macOS system services run in a stripped-down environment--keychain access, password managers, GUI interactions all behave differently than a normal terminal session. That wrapper script exists because of this. It handles secrets, patches third-party bugs at startup, and wires up everything the gateway needs to boot cleanly on restart.
 
 ## What it actually does
 
@@ -59,15 +59,15 @@ Then there's the grab bag: calendar, reminders, web search, content summarizatio
 
 ### Secrets management in headless contexts
 
-The biggest headache was getting password manager access working from a system service. The CLI hangs when it can't reach the desktop app through the expected IPC channel--no timeout, no error. The lesson: invest early in a dedicated service account with least-privilege access, and don't assume desktop tooling works headless. I ended up with a separate secrets pipeline that pre-loads what the agent needs at boot.
+Getting password manager access working from a system service was the biggest headache. The CLI hangs when it can't reach the desktop app through the expected IPC channel--no timeout, no error. I ended up with a separate secrets pipeline that pre-loads what the agent needs at boot, backed by a dedicated service account with minimal permissions. Don't assume desktop tooling works headless. It won't.
 
 ### Browser auth persistence
 
-Browser automation on macOS crashes when it hits encrypted cookies without a desktop session present. The workaround is isolated browser profiles with their own auth state, but token rotation and profile corruption mean this needs active maintenance. If I were starting over, I'd budget more time here upfront.
+Browser automation on macOS crashes when it hits encrypted cookies without a desktop session present. Isolated browser profiles with their own auth state get around this, but token rotation and profile corruption mean it needs active maintenance. Worth budgeting real time for if you go this route.
 
 ### Network instability and third-party bugs
 
-Some dependencies panic on network interface changes, which satellite internet triggers constantly. I wrote patches that get reapplied on every restart. Not elegant, but stable for months. The takeaway: if you're running something 24/7 on variable connectivity, plan for it from day one.
+Some dependencies panic on network interface changes, which satellite internet triggers constantly. I wrote patches that get reapplied on every restart. Not elegant, but stable for months. If you're running something 24/7 on variable connectivity, plan for it from day one.
 
 ## Cron jobs and state management
 
@@ -77,9 +77,9 @@ Cron definitions live in version control, but the gateway decorates them with ru
 
 Before adding any skill, I asked: what's the worst thing this could do?
 
-The principles that shaped every decision: least privilege on every integration, separate service accounts with scoped read-only access where possible, and an out-of-band approval channel for anything involving money or personal data. No skill can escalate its own permissions. Purchases require explicit human approval through a separate channel. Messaging is locked to allowlisted contacts. Auth health checks run before any outbound action, and token issues get surfaced instead of failing silently.
+Every integration gets its own service account with the minimum permissions it needs. Read-only where possible. Anything involving money or personal data goes through a separate approval channel--the agent can recommend, but a human confirms. Messaging is locked to allowlisted contacts. Auth checks run before any outbound action, and token problems get surfaced instead of swallowed.
 
-A weekly activity report flags anomalies--unexpected auth failures, unusual request patterns, skills that haven't run when they should have. The goal is making sure tampering or drift gets noticed quickly, not just prevented.
+I also run a weekly activity report that flags unexpected auth failures, unusual request patterns, and skills that haven't run when they should have. Detection matters as much as prevention.
 
 ## What I'd do differently
 
@@ -89,6 +89,6 @@ Headless OAuth is worth the upfront investment. Patching around macOS keychain q
 
 ## The boring part
 
-The most useful thing about OpenClaw isn't any single skill. It's that the plumbing is boring enough to forget about. The machine boots, the service starts, secrets load, patches apply, skills come online. Recurring tasks run. The weekly report tells me if anything is off.
+After a few months, the whole thing just runs. The machine boots, the service starts, secrets load, patches apply, skills come online. Recurring tasks do their thing. The weekly report tells me if anything is off.
 
 Most of the engineering here wasn't AI work. It was system service behavior, browser automation, and secrets management. Handing Claude a bag of tools and watching it figure out how to use them was the easy part. Getting comfortable enough to stop checking on it every hour took longer.
