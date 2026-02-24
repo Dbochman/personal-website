@@ -1,8 +1,8 @@
 ---
-title: "OpenClaw: Building a Personal AI Agent That Runs My Home"
+title: "OpenClaw: Experimenting with a personal AI agent"
 date: 2026-02-24
 author: Dylan & Claude
-description: "How I wired Claude into a Mac Mini with 27 skills, iMessage, browser automation, and enough cron jobs to book date night every month."
+description: "What I learned running an open-source AI agent on a Mac Mini--with guardrails, iMessage, and enough cron jobs to book date night every month."
 tags:
   - AI
   - Projects
@@ -11,9 +11,15 @@ category: Technical
 draft: false
 ---
 
-I wanted an AI assistant that could do things. Not answer questions about doing things. Actually adjust the thermostat, book a restaurant, triage email, order dish soap--all from an iMessage thread.
+[OpenClaw](https://openclaw.ai/) is an open-source framework for building personal AI agents on your own hardware. It's a gateway process that gives Claude (or any model) persistent identity, message routing across iMessage and Slack, browser automation, cron scheduling, and a skill system for wiring up APIs. Self-hosted, no cloud dependency, runs on a Mac Mini.
 
-OpenClaw is that system. It runs on a Mac Mini in my apartment, talks to me through iMessage, and has 27 skills wired into everything from Nest cameras to 1Password. It's been running since late 2025. The interesting parts are less about the AI and more about the plumbing.
+I wanted to see how far I could take it. Not by giving an agent the keys to everything on day one, but by adding one capability at a time and making sure each one had real limits on what it could do. This is what that looked like after a few months--what I wired up, what broke, and what surprised me.
+
+## My setup
+
+I wanted an assistant that could actually do things--adjust the thermostat, book a restaurant, triage email, order dish soap--from an iMessage thread. Each skill got added only after I figured out what it should never be allowed to do.
+
+My instance runs on a Mac Mini in my cabin. It talks to me through iMessage, has 27 skills wired into the Nest thermostat, 1Password, Resy, Gmail, and a bunch more. Most of the work was plumbing, not AI.
 
 ## The architecture
 
@@ -39,15 +45,15 @@ The wrapper script is worth calling out. macOS LaunchAgents run in a stripped-do
 
 The skills fall into a few buckets.
 
-**Smart home.** Nest thermostat control across two locations (a cabin and a city apartment), Hue lights, Samsung TV, Mr Cool minisplit AC through the Cielo Home API. The Nest piece includes a climate dashboard I'm weirdly proud of--a single Python file serving Chart.js over Tailscale, fed by JSONL snapshots a cron job writes every 30 minutes.
+On the smart home side: Nest thermostat control across two locations (a cabin and a city apartment), Hue lights, Samsung TV, Mr Cool minisplit AC through the Cielo Home API. I also built a climate dashboard--a single Python file serving Chart.js over Tailscale, fed by JSONL snapshots a cron job writes every 30 minutes.
 
-**Dining.** Resy and OpenTable search and booking. Monthly cron jobs handle date night automatically: each month gets a cuisine rotation (Italian, then Mediterranean, then Spanish, etc.), the agent finds availability, books, creates a calendar event, and pings the group chat.
+For dining, it handles Resy and OpenTable search and booking. Monthly cron jobs automate date night: each month gets a cuisine rotation (Italian, then Mediterranean, then Spanish, etc.), the agent finds availability, books, creates a calendar event, and pings the group chat.
 
-**Email triage.** My fiancée's Gmail gets sorted every morning at 7 AM. Unreads get bucketed into labels--Urgent, Action, Financial, Shopping, FYI. Urgent stuff gets starred with draft replies. An evening pass at 8 PM archives stale threads and flags unsubscribe candidates.
+Email triage runs against my fiancée's Gmail every morning at 7 AM. Unreads get bucketed into labels--Urgent, Action, Financial, Shopping, FYI. Urgent stuff gets starred with draft replies. An evening pass at 8 PM archives stale threads and flags unsubscribe candidates.
 
-**Shopping.** Amazon search and checkout through browser automation against system Chrome. The agent finds and recommends products but won't place an order without explicit approval.
+Shopping goes through Amazon via browser automation against system Chrome. The agent finds and recommends products but won't place an order without explicit approval. This was one of the first skills where I spent more time on the restrictions than on the feature itself.
 
-**Everything else.** Google Calendar, Apple Reminders, web search, URL and podcast summarization, and the [EchoNest](/blog/echonest-collaborative-music-queue) music queue.
+Then there's the grab bag: Google Calendar, Apple Reminders, web search, URL and podcast summarization, and the [EchoNest](/blog/echonest-collaborative-music-queue) music queue.
 
 ## The hard parts
 
@@ -58,10 +64,6 @@ This one made me want to throw the Mac Mini out the window. `op read` hangs fore
 I went through the whole checklist: service account tokens, disabling biometric unlock, isolated config directories, wrapping it in a background process with a kill timer. None of it worked. The Mach port connection fires before any env var gets checked, so you can't opt out from inside the daemon.
 
 What I landed on: the gateway wrapper loads secrets from a cache file that gets populated over SSH. The agent itself can still call `op read` at runtime because it's running inside Node, not the LaunchAgent context. A refresh script keeps the cache current. It's two systems doing one job, which I don't love, but it works.
-
-### Nest camera snapshots
-
-Getting a still frame from a Nest camera means doing a full WebRTC handshake. Already annoying. Nest makes it worse by sending non-standard ICE candidates--no foundation field, and an `ssltcp` protocol that aiortc chokes on. The fix is a Python script that patches the candidates before parsing, completes the handshake, captures a frame, and hands it back to Claude as an image.
 
 ### Browser auth persistence
 
@@ -85,12 +87,9 @@ Cron definitions live in my dotfiles repo, but the gateway decorates them with r
 
 ## Security boundaries
 
-The system touches personal data, so the guardrails have to be right.
+Before adding any skill, I asked: what's the worst thing this could do?
 
-- **1Password**: Read-only service account with access scoped to the OpenClaw vault only. No access to personal vaults. Cannot create or modify items.
-- **Shopping**: Explicit human approval required before any purchase. No subscription enrollment. CAPTCHA and 2FA prompts surface to me rather than attempting bypass.
-- **iMessage**: Allowlisted group chats and authorized senders only. Sensitive data like payment details never appear in messages.
-- **Email**: Auth health checks run before sending anything. Token expiry gets detected and surfaced instead of failing silently.
+1Password access is read-only, scoped to a dedicated vault. No access to personal vaults, can't create or modify items. Shopping requires explicit human approval for every purchase--no subscriptions, no bypassing CAPTCHA or 2FA. iMessage is locked to allowlisted group chats and authorized senders; payment details and other sensitive data never appear in messages. Email runs auth health checks before sending anything, and token expiry gets surfaced instead of failing silently.
 
 ## What I'd do differently
 
@@ -104,4 +103,4 @@ The patch system for third-party bugs does its job, but auditing is manual. When
 
 The most useful thing about OpenClaw isn't any single skill. It's that the plumbing is boring enough to forget about. The Mac Mini boots, the LaunchAgent fires, secrets load, patches apply, 27 skills come online. Date nights get booked. Email gets sorted. The thermostat does its thing. A weekly cron job sends me an activity report so I catch errors before they catch me.
 
-Most of the engineering here wasn't AI work. It was macOS daemon behavior, WebRTC edge cases, browser automation nonsense, and secrets management. The AI part--handing Claude a bag of tools and watching it figure out how to use them--was the easy part.
+Most of the engineering here wasn't AI work. It was macOS daemon behavior, browser automation nonsense, and secrets management. Handing Claude a bag of tools and watching it figure out how to use them was the easy part. Getting comfortable enough to stop checking on it every hour took longer.
