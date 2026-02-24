@@ -2,7 +2,7 @@
 title: "OpenClaw: Experimenting with a personal AI agent"
 date: 2026-02-24
 author: Dylan & Claude
-description: "What I learned running an open-source AI agent on a Mac Mini--with guardrails, iMessage, and enough cron jobs to book date night every month."
+description: "What I learned running an open-source AI agent on a self-hosted Mac Mini--least privilege, out-of-band approvals, and the boring plumbing that makes it work."
 tags:
   - AI
   - Projects
@@ -11,96 +11,84 @@ category: Technical
 draft: false
 ---
 
-[OpenClaw](https://openclaw.ai/) is an open-source framework for building personal AI agents on your own hardware. It's a gateway process that gives Claude (or any model) persistent identity, message routing across iMessage and Slack, browser automation, cron scheduling, and a skill system for wiring up APIs. Self-hosted, no cloud dependency, runs on a Mac Mini.
+[OpenClaw](https://openclaw.ai/) is an open-source framework for building personal AI agents on your own hardware. A gateway process gives Claude (or any model) persistent identity and connects it to messaging channels, browser automation, cron jobs, and whatever APIs you wire up. No cloud dependency. Runs on a Mac Mini.
 
 I wanted to see how far I could take it. Not by giving an agent the keys to everything on day one, but by adding one capability at a time and making sure each one had real limits on what it could do. This is what that looked like after a few months--what I wired up, what broke, and what surprised me.
 
 ## My setup
 
-I wanted an assistant that could actually do things--adjust the thermostat, book a restaurant, triage email, order dish soap--from an iMessage thread. Each skill got added only after I figured out what it should never be allowed to do.
+I wanted an assistant that could actually do things--adjust the thermostat, book a restaurant, triage email, order household supplies--from an iMessage thread. Each skill got added only after I figured out what it should never be allowed to do.
 
-My instance runs on a Mac Mini in my cabin. It talks to me through iMessage, has 27 skills wired into the Nest thermostat, 1Password, Resy, Gmail, and a bunch more. Most of the work was plumbing, not AI.
+My instance runs on a Mac Mini in my cabin. It talks to me through iMessage with skills across smart home, dining, email, shopping, and productivity. Most of the work was plumbing, not AI.
 
 ## The architecture
 
-A Node.js gateway process sits behind a macOS LaunchAgent. The gateway wraps Claude (Sonnet 4.6 at the moment) and connects it to iMessage--140+ group chats and DMs. Sessions reset at 4 AM or after two hours idle, which keeps context fresh without breaking continuity mid-conversation.
+A Node.js gateway process runs as a system service on macOS. The gateway wraps Claude and connects it to iMessage. Sessions reset periodically, which keeps context fresh without breaking continuity mid-conversation.
 
 ```
-LaunchAgent (ai.openclaw.gateway.plist)
+System service (macOS)
     |
-Bash wrapper script
-    |-- Loads cached secrets
+Wrapper script
+    |-- Loads secrets via separate service account
     |-- Applies patches for known bugs
     |-- Spawns Node.js gateway
-         |-- Claude Sonnet 4.6
-         |-- 27 skills
+         |-- Claude (current model)
+         |-- Skills (smart home, dining, email, shopping, productivity)
          |-- iMessage plugin
-         |-- Browser automation (Chrome CDP)
+         |-- Browser automation
          |-- Cron scheduler
 ```
 
-The wrapper script is worth calling out. macOS LaunchAgents run in a stripped-down environment where keychain access, 1Password CLI, and GUI interactions all behave differently than a normal terminal session. The wrapper pre-caches secrets, patches third-party library bugs at startup, and wires up the environment so the gateway boots cleanly when the machine restarts.
+macOS system services run in a stripped-down environment--keychain access, password managers, GUI interactions all behave differently than a normal terminal session. That wrapper script exists because of this. It handles secrets, patches third-party bugs at startup, and wires up everything the gateway needs to boot cleanly on restart.
 
 ## What it actually does
 
 The skills fall into a few buckets.
 
-On the smart home side: Nest thermostat control across two locations (a cabin and a city apartment), Hue lights, Samsung TV, Mr Cool minisplit AC through the Cielo Home API. I also built a climate dashboard--a single Python file serving Chart.js over Tailscale, fed by JSONL snapshots a cron job writes every 30 minutes.
+On the smart home side: thermostat control across multiple locations, smart lights, and AC. I also built a climate dashboard--a lightweight web app served over a private network, fed by periodic snapshots.
 
-For dining, it handles Resy and OpenTable search and booking. Monthly cron jobs automate date night: each month gets a cuisine rotation (Italian, then Mediterranean, then Spanish, etc.), the agent finds availability, books, creates a calendar event, and pings the group chat.
+For dining, it handles restaurant search and booking. Recurring cron jobs automate date night: the agent finds availability, books, creates a calendar event, and pings the group chat. (My partner knows about and opted into all of this.)
 
-Email triage runs against my fiancée's Gmail every morning at 7 AM. Unreads get bucketed into labels--Urgent, Action, Financial, Shopping, FYI. Urgent stuff gets starred with draft replies. An evening pass at 8 PM archives stale threads and flags unsubscribe candidates.
+Email triage runs with consent against a shared family inbox. Unreads get sorted into categories--urgent, actionable, financial, shopping, informational. Urgent items get flagged with draft replies. A second pass later in the day archives stale threads and flags unsubscribe candidates.
 
-Shopping goes through Amazon via browser automation against system Chrome. The agent finds and recommends products but won't place an order without explicit approval. This was one of the first skills where I spent more time on the restrictions than on the feature itself.
+Shopping goes through browser automation. The agent finds and recommends products but won't place an order without explicit out-of-band approval. This was one of the first skills where I spent more time on the restrictions than on the feature itself.
 
-Then there's the grab bag: Google Calendar, Apple Reminders, web search, URL and podcast summarization, and the [EchoNest](/blog/echonest-collaborative-music-queue) music queue.
+Then there's the grab bag: calendar, reminders, web search, content summarization, and the [EchoNest](/blog/echonest-collaborative-music-queue) music queue.
 
 ## The hard parts
 
-### 1Password and the LaunchAgent hang
+### Secrets management in headless contexts
 
-This one made me want to throw the Mac Mini out the window. `op read` hangs forever when called from a LaunchAgent on macOS Tahoe. The CLI daemon spawns, tries to reach the desktop app over Mach bootstrap, and just... blocks. No timeout. No error. Nothing.
-
-I went through the whole checklist: service account tokens, disabling biometric unlock, isolated config directories, wrapping it in a background process with a kill timer. None of it worked. The Mach port connection fires before any env var gets checked, so you can't opt out from inside the daemon.
-
-What I landed on: the gateway wrapper loads secrets from a cache file that gets populated over SSH. The agent itself can still call `op read` at runtime because it's running inside Node, not the LaunchAgent context. A refresh script keeps the cache current. It's two systems doing one job, which I don't love, but it works.
+Getting password manager access working from a system service was the biggest headache. The CLI hangs when it can't reach the desktop app through the expected IPC channel--no timeout, no error. I ended up with a separate secrets pipeline that pre-loads what the agent needs at boot, backed by a dedicated service account with minimal permissions. Don't assume desktop tooling works headless. It won't.
 
 ### Browser auth persistence
 
-The Amazon skill needs authenticated Chrome sessions. Headless Chrome on macOS crashes with `Trace/BPT trap` when it hits encrypted cookies via Keychain without a user present. So: separate user data directory, re-auth through visible Chrome when tokens rot, and full profile replacement when things get corrupted. Not pretty.
+Browser automation on macOS crashes when it hits encrypted cookies without a desktop session present. Isolated browser profiles with their own auth state get around this, but token rotation and profile corruption mean it needs active maintenance. Worth budgeting real time for if you go this route.
 
-### mDNS crashes on network changes
+### Network instability and third-party bugs
 
-`@homebridge/ciao` panics whenever a network interface changes, which Starlink does constantly. I wrote a monkey-patch that the gateway wrapper applies on every start. It survives OpenClaw updates. Not elegant, but it hasn't broken in months and I've stopped thinking about it.
+Some dependencies panic on network interface changes, which satellite internet triggers constantly. I wrote patches that get reapplied on every restart. Not elegant, but stable for months. If you're running something 24/7 on variable connectivity, plan for it from day one.
 
 ## Cron jobs and state management
 
-Cron definitions live in my dotfiles repo, but the gateway decorates them with runtime state--IDs, timestamps, execution history--that shouldn't be committed. A sync script strips the state when saving to dotfiles and merges it back on deploy. I can edit job configs in git, push, and have them picked up on the next gateway restart without clobbering execution history.
-
-```bash
-# Save to dotfiles (strip runtime state)
-./sync-cron-jobs.sh dotfiles
-
-# Deploy from dotfiles (merge with live state)
-./sync-cron-jobs.sh gateway
-```
+Cron definitions live in version control, but the gateway decorates them with runtime state--IDs, timestamps, execution history--that shouldn't be committed. A sync script strips the state when saving and merges it back on deploy. I can edit job configs in git, push, and have them picked up on the next restart without clobbering execution history.
 
 ## Security boundaries
 
 Before adding any skill, I asked: what's the worst thing this could do?
 
-1Password access is read-only, scoped to a dedicated vault. No access to personal vaults, can't create or modify items. Shopping requires explicit human approval for every purchase--no subscriptions, no bypassing CAPTCHA or 2FA. iMessage is locked to allowlisted group chats and authorized senders; payment details and other sensitive data never appear in messages. Email runs auth health checks before sending anything, and token expiry gets surfaced instead of failing silently.
+Every integration gets its own service account with the minimum permissions it needs. Read-only where possible. Anything involving money or personal data goes through a separate approval channel--the agent can recommend, but a human confirms. Messaging is locked to allowlisted contacts. Auth checks run before any outbound action, and token problems get surfaced instead of swallowed.
+
+I also run a weekly activity report that flags unexpected auth failures, unusual request patterns, and skills that haven't run when they should have. Detection matters as much as prevention.
 
 ## What I'd do differently
 
-I ran Haiku 4.5 for the first few months, then upgraded to Sonnet 4.6 in February. The jump in multi-step reasoning--restaurant bookings that require comparing three options, email triage that actually understands context--was immediately noticeable. I should have started with the stronger model and dialed down if costs were a problem.
+I started with a smaller model and upgraded after a few months. The jump in multi-step reasoning was immediately noticeable. I should have started with the stronger model and dialed down if costs were a problem.
 
-The file-based keyring for Gmail OAuth (`gog` CLI with `GOG_KEYRING_PASSWORD`) works but feels held together with tape. A proper headless OAuth flow would have been worth the upfront investment instead of patching around macOS keychain quirks.
-
-The patch system for third-party bugs does its job, but auditing is manual. When a dependency updates, I have to check whether the diff still applies. Some kind of version-pinned patch verification would save me from finding out the hard way.
+Headless OAuth is worth the upfront investment. Patching around macOS keychain quirks in a system service context gets fragile fast. Same goes for dependency patching--some kind of version-pinned verification would save time over manual auditing.
 
 ## The boring part
 
-The most useful thing about OpenClaw isn't any single skill. It's that the plumbing is boring enough to forget about. The Mac Mini boots, the LaunchAgent fires, secrets load, patches apply, 27 skills come online. Date nights get booked. Email gets sorted. The thermostat does its thing. A weekly cron job sends me an activity report so I catch errors before they catch me.
+After a few months, the whole thing just runs. The machine boots, the service starts, secrets load, patches apply, skills come online. Recurring tasks do their thing. The weekly report tells me if anything is off.
 
-Most of the engineering here wasn't AI work. It was macOS daemon behavior, browser automation nonsense, and secrets management. Handing Claude a bag of tools and watching it figure out how to use them was the easy part. Getting comfortable enough to stop checking on it every hour took longer.
+Most of the engineering here wasn't AI work. It was system service behavior, browser automation, and secrets management. Handing Claude a bag of tools and watching it figure out how to use them was the easy part. Getting comfortable enough to stop checking on it every hour took longer.
