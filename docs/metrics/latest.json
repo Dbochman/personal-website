@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-25T06:24:15.452Z",
+  "generated": "2026-02-26T06:21:23.898Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,20 +8,20 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-02-25T06:24:15.452Z",
-    "sessions_7d": 359,
-    "users_7d": 345,
-    "pageviews_7d": 348,
-    "avgSessionDuration": 39,
-    "bounceRate": 0.75,
+    "lastCheck": "2026-02-26T06:21:23.898Z",
+    "sessions_7d": 376,
+    "users_7d": 360,
+    "pageviews_7d": 357,
+    "avgSessionDuration": 41,
+    "bounceRate": 0.72,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 85
+        "pageViews": 84
       },
       {
         "page": "/blog/",
-        "pageViews": 73
+        "pageViews": 81
       },
       {
         "page": "/blog/2026-02-24-openclaw-the-home-agent",
@@ -38,37 +38,37 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-02-25T06:24:15.452Z",
+    "lastCheck": "2026-02-26T06:21:23.898Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 146,
-        "average": 203.2123287671233,
+        "count": 157,
+        "average": 237.35668789808918,
         "unit": "ms",
         "ratings": {
-          "good": 142,
-          "needs-improvement": 4,
-          "poor": 0
+          "good": 153,
+          "needs-improvement": 3,
+          "poor": 1
         },
         "goodPercent": 97
       },
       "FCP": {
-        "count": 96,
-        "average": 610.0625,
+        "count": 98,
+        "average": 693.4183673469388,
         "unit": "ms",
         "ratings": {
-          "good": 89,
+          "good": 90,
           "needs-improvement": 7,
-          "poor": 0
+          "poor": 1
         },
-        "goodPercent": 93
+        "goodPercent": 92
       },
       "LCP": {
-        "count": 30,
-        "average": 716.3333333333334,
+        "count": 31,
+        "average": 719.3870967741935,
         "unit": "ms",
         "ratings": {
-          "good": 30,
+          "good": 31,
           "needs-improvement": 0,
           "poor": 0
         },
@@ -76,7 +76,7 @@
       },
       "CLS": {
         "count": 25,
-        "average": 0.00164,
+        "average": 0.00172,
         "unit": "",
         "ratings": {
           "good": 25,
@@ -86,15 +86,15 @@
         "goodPercent": 100
       },
       "INP": {
-        "count": 17,
-        "average": 82.3529411764706,
+        "count": 21,
+        "average": 83.80952380952381,
         "unit": "ms",
         "ratings": {
-          "good": 16,
+          "good": 20,
           "needs-improvement": 1,
           "poor": 0
         },
-        "goodPercent": 94
+        "goodPercent": 95
       }
     }
   }

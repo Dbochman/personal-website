@@ -6777,5 +6777,201 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-02-26T06:21:23.895Z",
+    "date": "2026-02-26",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 376,
+      "users": 360,
+      "pageViews": 357,
+      "averageSessionDuration": 41,
+      "bounceRate": 0.72
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 87,
+        "users": 83,
+        "pageViews": 84
+      },
+      {
+        "page": "/blog/",
+        "sessions": 79,
+        "users": 78,
+        "pageViews": 81
+      },
+      {
+        "page": "/blog/2026-02-24-openclaw-the-home-agent",
+        "sessions": 30,
+        "users": 28,
+        "pageViews": 28
+      },
+      {
+        "page": "/blog",
+        "sessions": 30,
+        "users": 28,
+        "pageViews": 24
+      },
+      {
+        "page": "/runbook",
+        "sessions": 23,
+        "users": 23,
+        "pageViews": 23
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 20,
+        "users": 20,
+        "pageViews": 20
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      },
+      {
+        "page": "/blog/2026-02-24-openclaw-the-home-agent/",
+        "sessions": 15,
+        "users": 14,
+        "pageViews": 17
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 11,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/projects/",
+        "sessions": 10,
+        "users": 9,
+        "pageViews": 9
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 240,
+        "users": 227
+      },
+      {
+        "device": "mobile",
+        "sessions": 136,
+        "users": 133
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 334,
+          "users": 325
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 7,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 334,
+          "users": 325
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 7,
+          "users": 7
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 157,
+        "average": 237.35668789808918,
+        "unit": "ms",
+        "ratings": {
+          "good": 153,
+          "needs-improvement": 3,
+          "poor": 1
+        },
+        "goodPercent": 97
+      },
+      "FCP": {
+        "count": 98,
+        "average": 693.4183673469388,
+        "unit": "ms",
+        "ratings": {
+          "good": 90,
+          "needs-improvement": 7,
+          "poor": 1
+        },
+        "goodPercent": 92
+      },
+      "LCP": {
+        "count": 31,
+        "average": 719.3870967741935,
+        "unit": "ms",
+        "ratings": {
+          "good": 31,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 25,
+        "average": 0.00172,
+        "unit": "",
+        "ratings": {
+          "good": 25,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 21,
+        "average": 83.80952380952381,
+        "unit": "ms",
+        "ratings": {
+          "good": 20,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      }
+    },
+    "toolInteractions": null
   }
 ]
