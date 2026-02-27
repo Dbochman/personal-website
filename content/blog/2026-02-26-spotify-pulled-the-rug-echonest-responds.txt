@@ -1,0 +1,75 @@
+---
+title: "EchoNest Sync and the Spotify API Shakeup"
+date: 2026-02-26
+author: Dylan
+description: "We built a desktop sync app for EchoNest. Then Spotify changed its API in ways that made us glad we did."
+tags:
+  - Music
+  - Projects
+  - Python
+  - Spotify
+category: Technical
+draft: false
+---
+
+I wrote about [EchoNest](/blog/echonest-collaborative-music-queue) a few weeks ago, the collaborative office jukebox I've been keeping alive since 2017. One thing I didn't get into was how playback actually works. Everyone sees the same queue on the web app, but each person syncs their own Spotify. The server says "play this track at this position" and your Spotify follows along.
+
+That sync relied on per-user Spotify OAuth tokens. Each person connects their Spotify account, the server gets a token, and it tells their Spotify client what to do. It worked. But it meant every user needed to authenticate through our Spotify developer app, and that's where things recently got interesting.
+
+## EchoNest Sync
+
+Before I get into the API changes, I want to talk about the sync app, because the timing here is almost too good.
+
+EchoNest Sync is a desktop app that sits in your menu bar and keeps your local Spotify playing along with the shared queue. We've been building it since January. It connects to the server over SSE (Server-Sent Events), watches for track changes, and controls your Spotify client directly, AppleScript on macOS, playerctl on Linux, media commands on Windows.
+
+It has a mini player with album art and a progress bar. You can search and add songs from the tray. There's airhorn support, obviously. Automatic reconnection when your network hiccups. An update checker that pulls from GitHub Releases. On macOS it's signed and notarized, zero Gatekeeper warnings. Install it with Homebrew:
+
+```bash
+brew tap dbochman/echonest && brew install echonest-sync
+```
+
+The important thing about the sync app is how it authenticates. It uses a single API token. No per-user Spotify OAuth. The server handles playback timing and the client follows along by talking to your local Spotify directly. Your Spotify account, your Spotify app, your Premium subscription. The server never touches it.
+
+We also added account linking so your songs show up credited to you. Open EchoNest in a browser, generate a 6-character code, paste it into the sync app, done. Your Gravatar shows up next to your picks instead of a generic icon.
+
+## Then Spotify changed its API
+
+A couple weeks after we started shipping the sync app, Spotify published a changelog that made a lot of developers nervous. Effective March 9, 2026, development mode apps are limited to 5 authorized users for per-user endpoints. That means only 5 people can connect their Spotify account through our app for browser-based playback sync.
+
+The path to more users, Extended Quota Mode, requires a registered business and 250K monthly active users. Not happening for a jukebox on a $6 droplet.
+
+But because of how EchoNest is built, most of the app doesn't care. Search, queueing, voting, comments, airhorns, Bender's auto-fill, all of it runs on app-level auth. No per-user token needed. The only thing behind the 5-user wall is browser-based Spotify sync.
+
+And the sync app doesn't use that at all.
+
+We didn't build EchoNest Sync to dodge the API cap. We built it because controlling Spotify from a menu bar app is a better experience than keeping a browser tab open. But the timing worked out nicely. The thing Spotify restricted is the thing we already had an alternative for.
+
+## The endpoint changes
+
+Spotify also removed and changed a bunch of endpoints. Five of them affected us:
+
+`GET /artists/{id}/top-tracks` is gone. Bender used this to find popular tracks by an artist, but that strategy only fires 5% of the time. The replacement, fetching the artist's albums then sampling tracks, works fine.
+
+`GET /tracks` (batch) is gone. Used to fetch 50 tracks in one call, now it's one at a time. We fire them in parallel and the user doesn't notice.
+
+`GET /playlists/{id}/tracks` got renamed to `/items` and only returns data for playlists you own. We handle this by telling the user what happened and suggesting they copy tracks from Spotify and paste the URLs directly into the search box. Spotify copies tracks as a list of URLs, we parse them out and fetch each one individually. It's actually a nicer workflow, you pick exactly what you want.
+
+Search results per page dropped from 50 to 10. We match that limit now. Bender paginates two pages of 10 to keep its recommendation pool about the same size.
+
+The whole migration took an afternoon.
+
+## What's next
+
+A few things we're thinking about for the web app's browser sync:
+
+**Accept the cap.** Five users can sync in the browser. Everyone else uses the sync app or just participates in the queue without local playback.
+
+**BYOA (Bring Your Own App).** Nest creators register their own Spotify developer app when creating a room. Each nest gets its own 5-user allowlist. Scales linearly with the number of nests.
+
+**YouTube fallback.** Match Spotify tracks to YouTube for browser playback. No per-user auth needed. Audio quality varies.
+
+No rush on picking a direction. The app works, the sync client works, Bender keeps filling the queue. We'll see how enforcement actually plays out after March 9.
+
+We built the first version of this jukebox at The Echo Nest in 2014, right before Spotify acquired the company. Twelve years later the API looks different, the office is different, half the people are different. The queue still fills itself, the sync app keeps everyone in lockstep, and someone still hits the airhorn at least once a day.
+
+That's enough.
