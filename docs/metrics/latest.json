@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-24T06:23:36.467Z",
+  "generated": "2026-02-26T06:21:23.898Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,64 +8,86 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-02-24T06:23:36.467Z",
-    "sessions_7d": 114,
-    "users_7d": 109,
-    "pageviews_7d": 104,
-    "avgSessionDuration": 64,
-    "bounceRate": 0.38,
+    "lastCheck": "2026-02-26T06:21:23.898Z",
+    "sessions_7d": 376,
+    "users_7d": 360,
+    "pageviews_7d": 357,
+    "avgSessionDuration": 41,
+    "bounceRate": 0.72,
     "topPages": [
       {
-        "page": "/blog/",
-        "pageViews": 49
-      },
-      {
         "page": "/",
-        "pageViews": 31
+        "pageViews": 84
       },
       {
-        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "pageViews": 11
+        "page": "/blog/",
+        "pageViews": 81
       },
       {
-        "page": "/projects/echonest/",
-        "pageViews": 5
+        "page": "/blog/2026-02-24-openclaw-the-home-agent",
+        "pageViews": 28
       },
       {
-        "page": "/projects/",
-        "pageViews": 2
+        "page": "/blog",
+        "pageViews": 24
+      },
+      {
+        "page": "/runbook",
+        "pageViews": 23
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-02-24T06:23:36.467Z",
+    "lastCheck": "2026-02-26T06:21:23.898Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 80,
-        "average": 340.5875,
+        "count": 157,
+        "average": 237.35668789808918,
         "unit": "ms",
         "ratings": {
-          "good": 74,
+          "good": 153,
           "needs-improvement": 3,
-          "poor": 3
+          "poor": 1
         },
-        "goodPercent": 93
+        "goodPercent": 97
       },
       "FCP": {
-        "count": 33,
-        "average": 1008.7878787878788,
+        "count": 98,
+        "average": 693.4183673469388,
         "unit": "ms",
         "ratings": {
-          "good": 28,
-          "needs-improvement": 3,
-          "poor": 2
+          "good": 90,
+          "needs-improvement": 7,
+          "poor": 1
         },
-        "goodPercent": 85
+        "goodPercent": 92
       },
       "LCP": {
+        "count": 31,
+        "average": 719.3870967741935,
+        "unit": "ms",
+        "ratings": {
+          "good": 31,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 25,
+        "average": 0.00172,
+        "unit": "",
+        "ratings": {
+          "good": 25,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
         "count": 21,
-        "average": 898.4761904761905,
+        "average": 83.80952380952381,
         "unit": "ms",
         "ratings": {
           "good": 20,
@@ -73,28 +95,6 @@
           "poor": 0
         },
         "goodPercent": 95
-      },
-      "CLS": {
-        "count": 16,
-        "average": 0.0095625,
-        "unit": "",
-        "ratings": {
-          "good": 15,
-          "needs-improvement": 1,
-          "poor": 0
-        },
-        "goodPercent": 94
-      },
-      "INP": {
-        "count": 12,
-        "average": 80,
-        "unit": "ms",
-        "ratings": {
-          "good": 11,
-          "needs-improvement": 1,
-          "poor": 0
-        },
-        "goodPercent": 92
       }
     }
   }
