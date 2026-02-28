@@ -15,15 +15,11 @@ Everyone seemed excited about [OpenClaw](https://openclaw.ai/) and I wanted to u
 
 So I set out to make it real. The first step was creating a dedicated iCloud account for the agent, both to realize the iMessage vision and because it felt safer to quarantine it in its own identity. I did the same with a Google account, keeping the agent grounded in accounts I controlled rather than sharing my own. The Apple account creation process was surprisingly arduous. It took over a week for Apple to verify the new account's status before iMessage would even activate.
 
-I used [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) for the initial installation and configuration, and it's still how I adjust the agent's access to tools and accounts. Carving out a dedicated [1Password](https://1password.com/) vault for OpenClaw keeps the agent's secrets isolated from everything else.
-
-Here's where things stand after a few months.
+I used [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) for the initial installation and configuration, and it's still how I adjust the agent's access to tools and accounts. Its secrets live in a dedicated [1Password](https://1password.com/) vault, isolated from everything else. As I added new skills, each one got its own credentials in the vault, so permissions grew incrementally rather than all at once.
 
 ## What it does
 
-Each skill got added only after I figured out what it should never be allowed to do.
-
-On the smart home side: thermostat control across multiple locations, smart lights, and AC. I also built a climate dashboard, a lightweight web app served over a private network and fed by periodic snapshots.
+Once the accounts were set up, I started adding skills one at a time. On the smart home side: thermostat control across multiple locations, smart lights, and AC. I also built a climate dashboard, a lightweight web app served over a private network and fed by periodic snapshots.
 
 For dining, it handles restaurant search and booking. Recurring cron jobs automate date night: the agent finds availability, books, and sends calendar invites.
 
