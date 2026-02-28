@@ -7158,5 +7158,196 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-02-28T06:08:09.485Z",
+    "date": "2026-02-28",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 411,
+      "users": 385,
+      "pageViews": 382,
+      "averageSessionDuration": 32,
+      "bounceRate": 0.73
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 96,
+        "users": 89,
+        "pageViews": 93
+      },
+      {
+        "page": "/blog/",
+        "sessions": 80,
+        "users": 79,
+        "pageViews": 82
+      },
+      {
+        "page": "/blog/2026-02-24-openclaw-the-home-agent",
+        "sessions": 32,
+        "users": 28,
+        "pageViews": 28
+      },
+      {
+        "page": "/blog",
+        "sessions": 36,
+        "users": 31,
+        "pageViews": 26
+      },
+      {
+        "page": "/runbook",
+        "sessions": 25,
+        "users": 25,
+        "pageViews": 25
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 23,
+        "users": 23,
+        "pageViews": 23
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 20,
+        "users": 20,
+        "pageViews": 20
+      },
+      {
+        "page": "/blog/2026-02-24-openclaw-the-home-agent/",
+        "sessions": 16,
+        "users": 14,
+        "pageViews": 18
+      },
+      {
+        "page": "/projects/",
+        "sessions": 11,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 9,
+        "users": 9,
+        "pageViews": 9
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 273,
+        "users": 251
+      },
+      {
+        "device": "mobile",
+        "sessions": 138,
+        "users": 134
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 357,
+          "users": 348
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 6,
+          "users": 6
+        },
+        {
+          "channel": "Referral",
+          "sessions": 5,
+          "users": 2
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 357,
+          "users": 348
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 6,
+          "users": 6
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 4,
+          "users": 1
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 164,
+        "average": 248.890243902439,
+        "unit": "ms",
+        "ratings": {
+          "good": 160,
+          "needs-improvement": 2,
+          "poor": 2
+        },
+        "goodPercent": 98
+      },
+      "FCP": {
+        "count": 106,
+        "average": 639.7264150943396,
+        "unit": "ms",
+        "ratings": {
+          "good": 99,
+          "needs-improvement": 6,
+          "poor": 1
+        },
+        "goodPercent": 93
+      },
+      "LCP": {
+        "count": 33,
+        "average": 589.3939393939394,
+        "unit": "ms",
+        "ratings": {
+          "good": 33,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 29,
+        "average": 0.0023448275862068962,
+        "unit": "",
+        "ratings": {
+          "good": 29,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 25,
+        "average": 81.6,
+        "unit": "ms",
+        "ratings": {
+          "good": 24,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 96
+      }
+    },
+    "toolInteractions": null
   }
 ]
