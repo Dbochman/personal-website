@@ -59,7 +59,13 @@ Some dependencies panic on network interface changes, which satellite internet t
 
 Before adding any skill, I asked: what's the worst thing this could do?
 
-Every integration gets its own service account with the minimum permissions it needs. Read-only where possible. Messaging is locked to allowlisted contacts. Auth checks run before any outbound action, and token problems get surfaced instead of swallowed.
+The agent's secrets live in a dedicated 1Password vault that the service account can only read, never write to. My personal vault is completely inaccessible. Each integration gets its own credentials in that vault, so permissions grew one at a time as I added skills.
+
+Not everything needs the same level of scrutiny. Smart home controls don't need approval. Shopping does: the agent asks for confirmation before every purchase. Messaging runs through a separate iCloud account I created just for the agent, so its iMessage presence has nothing to do with my personal identity.
+
+Some of these guardrails are enforced at the infrastructure level: vault permissions, read-only service accounts, the gateway bound to loopback behind a Tailscale mesh with nothing facing the public internet. Others work because the agent takes its skill instructions at face value. You can tell it the spending limit is $250 and it will respect that, even if the actual card could go higher. It's not cryptographic enforcement. It's closer to social engineering your own agent. Surprisingly effective in practice, but worth being honest about the difference.
+
+Some risks I chose to live with rather than engineer around. The iMessage DM allowlist is wide open, so anyone can message the agent. The quarantined account limits what that's worth, but it's still an open surface. Cron job payloads sit in plaintext JSON, protected by file permissions rather than encryption. I'd rather know where the gaps are than pretend they don't exist.
 
 A weekly activity report flags unexpected auth failures, unusual request patterns, and skills that haven't run when they should have. Detection matters as much as prevention.
 
