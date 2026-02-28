@@ -5,7 +5,7 @@
     <link>https://dylanbochman.com/blog</link>
     <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 Feb 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 26 Feb 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://dylanbochman.com/social-preview.png</url>
@@ -13,10 +13,22 @@
       <link>https://dylanbochman.com/blog</link>
     </image>
     <item>
-      <title>OpenClaw: Building a Personal AI Agent That Runs My Home</title>
+      <title>EchoNest Sync and the Spotify API Shakeup</title>
+      <link>https://dylanbochman.com/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup</guid>
+      <description>We built a desktop sync app for EchoNest. Then Spotify changed its API in ways that made us glad we did.</description>
+      <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan)</author>
+      <category>Music</category>
+      <category>Projects</category>
+      <category>Python</category>
+      <category>Spotify</category>
+    </item>
+    <item>
+      <title>OpenClaw: Experimenting with a personal AI agent</title>
       <link>https://dylanbochman.com/blog/2026-02-24-openclaw-the-home-agent</link>
       <guid isPermaLink="true">https://dylanbochman.com/blog/2026-02-24-openclaw-the-home-agent</guid>
-      <description>How I wired Claude into a Mac Mini with 27 skills, iMessage, browser automation, and enough cron jobs to book date night every month.</description>
+      <description>What I learned running an open-source AI agent on a self-hosted Mac Mini--least privilege, out-of-band approvals, and the boring plumbing that makes it work.</description>
       <pubDate>Tue, 24 Feb 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
       <category>AI</category>

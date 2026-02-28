@@ -2,7 +2,7 @@
 title: "OpenClaw: Experimenting with a personal AI agent"
 date: 2026-02-24
 author: Dylan & Claude
-description: "What I learned running an open-source AI agent on a self-hosted Mac Mini--least privilege, out-of-band approvals, and the boring plumbing that makes it work."
+description: "What I learned running an open-source AI agent on a self-hosted Mac Mini. Least privilege, version-controlled config, and the boring plumbing that makes it work."
 tags:
   - AI
   - Projects
@@ -11,55 +11,45 @@ category: Technical
 draft: false
 ---
 
-[OpenClaw](https://openclaw.ai/) is an open-source framework for building personal AI agents on your own hardware. A gateway process gives Claude (or any model) persistent identity and connects it to messaging channels, browser automation, cron jobs, and whatever APIs you wire up. No cloud dependency. Runs on a Mac Mini.
+Everyone seemed excited about [OpenClaw](https://openclaw.ai/) and I wanted to understand why. It's an open-source framework for building personal AI agents on your own hardware. What hooked me was the prospect of texting my own agent from my phone or laptop over iMessage, no app required. A gateway process gives Claude persistent identity and connects it to messaging channels, browser automation, cron jobs, and whatever APIs you wire up. No cloud dependency. Runs on a Mac Mini.
 
-I wanted to see how far I could take it. Not by giving an agent the keys to everything on day one, but by adding one capability at a time and making sure each one had real limits on what it could do. This is what that looked like after a few months--what I wired up, what broke, and what surprised me.
+So I set out to make it real. The first step was creating a dedicated iCloud account for the agent, both to realize the iMessage vision and because it felt safer to quarantine it in its own identity. I did the same with a Google account, keeping the agent grounded in accounts I controlled rather than sharing my own. The Apple account creation process was surprisingly arduous. It took over a week for Apple to verify the new account's status before iMessage would even activate.
 
-## My setup
+I used [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) for the initial installation and configuration, and it's still how I adjust the agent's access to tools and accounts. Carving out a dedicated [1Password](https://1password.com/) vault for OpenClaw keeps the agent's secrets isolated from everything else.
 
-I wanted an assistant that could actually do things--adjust the thermostat, book a restaurant, triage email, order household supplies--from an iMessage thread. Each skill got added only after I figured out what it should never be allowed to do.
+Here's where things stand after a few months.
 
-My instance runs on a Mac Mini in my cabin. It talks to me through iMessage with skills across smart home, dining, email, shopping, and productivity. Most of the work was plumbing, not AI.
+## What it does
 
-## The architecture
+Each skill got added only after I figured out what it should never be allowed to do.
 
-A Node.js gateway process runs as a system service on macOS. The gateway wraps Claude and connects it to iMessage. Sessions reset periodically, which keeps context fresh without breaking continuity mid-conversation.
+On the smart home side: thermostat control across multiple locations, smart lights, and AC. I also built a climate dashboard, a lightweight web app served over a private network and fed by periodic snapshots.
 
-```
-System service (macOS)
-    |
-Wrapper script
-    |-- Loads secrets via separate service account
-    |-- Applies patches for known bugs
-    |-- Spawns Node.js gateway
-         |-- Claude (current model)
-         |-- Skills (smart home, dining, email, shopping, productivity)
-         |-- iMessage plugin
-         |-- Browser automation
-         |-- Cron scheduler
-```
+For dining, it handles restaurant search and booking. Recurring cron jobs automate date night: the agent finds availability, books, and sends calendar invites.
 
-macOS system services run in a stripped-down environment--keychain access, password managers, GUI interactions all behave differently than a normal terminal session. That wrapper script exists because of this. It handles secrets, patches third-party bugs at startup, and wires up everything the gateway needs to boot cleanly on restart.
+For music, the agent manages the queue on [EchoNest](/blog/echonest-collaborative-music-queue), a collaborative Spotify queue I built as a separate project. OpenClaw talks to it through the REST API we built into the web app, so it can DJ the queue based on what we ask for over iMessage.
 
-## What it actually does
+A lot of this is possible because of the CLI tools [steipete](https://github.com/steipete) has been building. OpenClaw uses [imsg](https://github.com/steipete/imsg) for iMessage, [gog](https://github.com/steipete/gogcli) for Gmail and Google Calendar, [spogo](https://github.com/steipete/spogo) for Spotify, [goplaces](https://github.com/steipete/goplaces) for Google Places lookups, and [sag](https://github.com/steipete/sag) for text-to-speech through ElevenLabs. Each one wraps a messy API into something an agent can actually call from the command line. Between those and the skills I wrote myself, OpenClaw now handles Roombas, TV control, calendar, reminders, web search, content summarization, and shopping.
 
-The skills fall into a few buckets.
+## How it's built
 
-On the smart home side: thermostat control across multiple locations, smart lights, and AC. I also built a climate dashboard--a lightweight web app served over a private network, fed by periodic snapshots.
+A Node.js gateway process runs as a system service on a Mac Mini in my cabin. The gateway wraps Claude and connects it to iMessage. Sessions reset periodically, which keeps context fresh without breaking continuity mid-conversation.
 
-For dining, it handles restaurant search and booking. Recurring cron jobs automate date night: the agent finds availability, books, creates a calendar event, and pings the group chat. (My partner knows about and opted into all of this.)
+macOS system services run in a stripped-down environment. Keychain access, password managers, GUI interactions all behave differently than a normal terminal session. A wrapper script handles this: it loads secrets via a separate service account, patches third-party bugs at startup, and wires up everything the gateway needs to boot cleanly on restart.
 
-Email triage runs with consent against a shared family inbox. Unreads get sorted into categories--urgent, actionable, financial, shopping, informational. Urgent items get flagged with draft replies. A second pass later in the day archives stale threads and flags unsubscribe candidates.
+The whole thing sits on a [Tailscale](https://tailscale.com/) network, which is how I reach the Mac Mini remotely and how services like the climate dashboard get served. Nothing is exposed to the public internet. No port forwarding, no public DNS.
 
-Shopping goes through browser automation. The agent finds and recommends products but won't place an order without explicit out-of-band approval. This was one of the first skills where I spent more time on the restrictions than on the feature itself.
+## Running on its own
 
-Then there's the grab bag: calendar, reminders, web search, content summarization, and the [EchoNest](/blog/echonest-collaborative-music-queue) music queue.
+Most of the skills above are reactive: I text the agent and it does something. But a chunk of the value comes from things it does without being asked. Cron jobs handle date night bookings, climate snapshots, activity reports, and other recurring tasks. Auto-update is enabled, so the gateway pulls new versions and restarts itself. Getting it to survive network interruptions (which satellite internet guarantees) took real work, but at this point it recovers on its own.
 
-## The hard parts
+All of this config, the cron definitions, skill definitions, patches, and environment setup, lives in a [dotfiles repo](/blog/dotfiles-for-ai-assisted-development). The agent's behavior is version-controlled and backed up. I can edit a job config in git, push, and have it picked up on the next restart.
+
+## What made it hard
 
 ### Secrets management in headless contexts
 
-Getting password manager access working from a system service was the biggest headache. The CLI hangs when it can't reach the desktop app through the expected IPC channel--no timeout, no error. I ended up with a separate secrets pipeline that pre-loads what the agent needs at boot, backed by a dedicated service account with minimal permissions. Don't assume desktop tooling works headless. It won't.
+Getting password manager access working from a system service was the biggest headache. The CLI hangs when it can't reach the desktop app through the expected IPC channel. No timeout, no error. I ended up with a separate secrets pipeline that pre-loads what the agent needs at boot, backed by a dedicated service account with minimal permissions. Don't assume desktop tooling works headless. It won't.
 
 ### Browser auth persistence
 
@@ -69,26 +59,14 @@ Browser automation on macOS crashes when it hits encrypted cookies without a des
 
 Some dependencies panic on network interface changes, which satellite internet triggers constantly. I wrote patches that get reapplied on every restart. Not elegant, but stable for months. If you're running something 24/7 on variable connectivity, plan for it from day one.
 
-## Cron jobs and state management
-
-Cron definitions live in version control, but the gateway decorates them with runtime state--IDs, timestamps, execution history--that shouldn't be committed. A sync script strips the state when saving and merges it back on deploy. I can edit job configs in git, push, and have them picked up on the next restart without clobbering execution history.
-
-## Security boundaries
+## Security
 
 Before adding any skill, I asked: what's the worst thing this could do?
 
-Every integration gets its own service account with the minimum permissions it needs. Read-only where possible. Anything involving money or personal data goes through a separate approval channel--the agent can recommend, but a human confirms. Messaging is locked to allowlisted contacts. Auth checks run before any outbound action, and token problems get surfaced instead of swallowed.
+Every integration gets its own service account with the minimum permissions it needs. Read-only where possible. Messaging is locked to allowlisted contacts. Auth checks run before any outbound action, and token problems get surfaced instead of swallowed.
 
-I also run a weekly activity report that flags unexpected auth failures, unusual request patterns, and skills that haven't run when they should have. Detection matters as much as prevention.
+A weekly activity report flags unexpected auth failures, unusual request patterns, and skills that haven't run when they should have. Detection matters as much as prevention.
 
 ## What I'd do differently
 
-I started with a smaller model and upgraded after a few months. The jump in multi-step reasoning was immediately noticeable. I should have started with the stronger model and dialed down if costs were a problem.
-
-Headless OAuth is worth the upfront investment. Patching around macOS keychain quirks in a system service context gets fragile fast. Same goes for dependency patching--some kind of version-pinned verification would save time over manual auditing.
-
-## The boring part
-
-After a few months, the whole thing just runs. The machine boots, the service starts, secrets load, patches apply, skills come online. Recurring tasks do their thing. The weekly report tells me if anything is off.
-
-Most of the engineering here wasn't AI work. It was system service behavior, browser automation, and secrets management. Handing Claude a bag of tools and watching it figure out how to use them was the easy part. Getting comfortable enough to stop checking on it every hour took longer.
+Honestly, not much. I'd create the agent's accounts earlier and worry less about token consumption. Headless OAuth is also worth the upfront investment. Patching around macOS keychain quirks in a system service context gets fragile fast. But after a few months, the whole thing just runs. The machine boots, the service starts, secrets load, patches apply, skills come online. Handing Claude a bag of tools and watching it figure out how to use them was the easy part. Getting the setup stabilized and running reliably through routine updates took closer to a month.
