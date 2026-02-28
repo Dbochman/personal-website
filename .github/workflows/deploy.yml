@@ -79,7 +79,6 @@ jobs:
           fi
 
       - name: Cache Playwright browsers
-        if: needs.detect-changes.outputs.is_content_only != 'true'
         id: playwright-cache
         uses: actions/cache@v5
         with:
@@ -87,11 +86,11 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browsers
-        if: needs.detect-changes.outputs.is_content_only != 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install chromium --with-deps
 
       - name: Install Playwright deps only
-        if: needs.detect-changes.outputs.is_content_only != 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
       - name: Security audit

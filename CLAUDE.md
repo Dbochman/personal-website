@@ -20,7 +20,7 @@ React 18, TypeScript, Vite, Tailwind CSS, Radix UI. Deployed to GitHub Pages.
 
 ## Git Workflow
 
-**Always use feature branches and PRs.** Never commit directly to main.
+**Use feature branches and PRs for code changes.** Blog post edits can be committed directly to main.
 
 ```bash
 git checkout -b feature/name
@@ -66,7 +66,7 @@ Append to `.claude/session-notes.md`:
 ## Patterns to Avoid
 
 - **localStorage**: Use URL params instead
-- **Direct commits to main**: Use PRs
+- **Direct commits to main for code changes**: Use PRs (blog posts are fine)
 
 ## MCP Testing
 
