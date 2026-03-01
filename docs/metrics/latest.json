@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-28T06:08:09.488Z",
+  "generated": "2026-03-01T06:10:44.658Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,93 +8,93 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-02-28T06:08:09.488Z",
-    "sessions_7d": 411,
-    "users_7d": 385,
-    "pageviews_7d": 382,
-    "avgSessionDuration": 32,
-    "bounceRate": 0.73,
+    "lastCheck": "2026-03-01T06:10:44.658Z",
+    "sessions_7d": 547,
+    "users_7d": 506,
+    "pageviews_7d": 510,
+    "avgSessionDuration": 33,
+    "bounceRate": 0.76,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 93
+        "pageViews": 123
       },
       {
         "page": "/blog/",
-        "pageViews": 82
-      },
-      {
-        "page": "/blog/2026-02-24-openclaw-the-home-agent",
-        "pageViews": 28
+        "pageViews": 89
       },
       {
         "page": "/blog",
-        "pageViews": 26
+        "pageViews": 43
       },
       {
         "page": "/runbook",
-        "pageViews": 25
+        "pageViews": 42
+      },
+      {
+        "page": "/blog/2026-02-24-openclaw-the-home-agent",
+        "pageViews": 32
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-02-28T06:08:09.488Z",
+    "lastCheck": "2026-03-01T06:10:44.658Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 164,
-        "average": 248.890243902439,
+        "count": 223,
+        "average": 197.18834080717488,
         "unit": "ms",
         "ratings": {
-          "good": 160,
+          "good": 219,
           "needs-improvement": 2,
           "poor": 2
         },
         "goodPercent": 98
       },
       "FCP": {
-        "count": 106,
-        "average": 639.7264150943396,
+        "count": 164,
+        "average": 609.6219512195122,
         "unit": "ms",
         "ratings": {
-          "good": 99,
-          "needs-improvement": 6,
-          "poor": 1
+          "good": 151,
+          "needs-improvement": 11,
+          "poor": 2
         },
-        "goodPercent": 93
+        "goodPercent": 92
       },
       "LCP": {
-        "count": 33,
-        "average": 589.3939393939394,
+        "count": 44,
+        "average": 586.2954545454545,
         "unit": "ms",
         "ratings": {
-          "good": 33,
+          "good": 44,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "CLS": {
-        "count": 29,
-        "average": 0.0023448275862068962,
+        "count": 40,
+        "average": 0.0021000000000000003,
         "unit": "",
         "ratings": {
-          "good": 29,
+          "good": 40,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "INP": {
-        "count": 25,
-        "average": 81.6,
+        "count": 34,
+        "average": 80.94117647058823,
         "unit": "ms",
         "ratings": {
-          "good": 24,
+          "good": 33,
           "needs-improvement": 1,
           "poor": 0
         },
-        "goodPercent": 96
+        "goodPercent": 97
       }
     }
   }
