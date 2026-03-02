@@ -7534,5 +7534,190 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-03-02T06:18:22.087Z",
+    "date": "2026-03-02",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 549,
+      "users": 504,
+      "pageViews": 510,
+      "averageSessionDuration": 33,
+      "bounceRate": 0.77
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 126,
+        "users": 116,
+        "pageViews": 124
+      },
+      {
+        "page": "/blog/",
+        "sessions": 81,
+        "users": 79,
+        "pageViews": 83
+      },
+      {
+        "page": "/blog",
+        "sessions": 60,
+        "users": 51,
+        "pageViews": 46
+      },
+      {
+        "page": "/runbook",
+        "sessions": 45,
+        "users": 45,
+        "pageViews": 45
+      },
+      {
+        "page": "/blog/2026-02-24-openclaw-the-home-agent",
+        "sessions": 38,
+        "users": 28,
+        "pageViews": 32
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 28,
+        "users": 28,
+        "pageViews": 28
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 25,
+        "users": 25,
+        "pageViews": 25
+      },
+      {
+        "page": "/blog/2026-02-24-openclaw-the-home-agent/",
+        "sessions": 17,
+        "users": 14,
+        "pageViews": 20
+      },
+      {
+        "page": "/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup",
+        "sessions": 18,
+        "users": 17,
+        "pageViews": 16
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 9,
+        "users": 9,
+        "pageViews": 9
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 361,
+        "users": 323
+      },
+      {
+        "device": "mobile",
+        "sessions": 188,
+        "users": 181
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 479,
+          "users": 470
+        },
+        {
+          "channel": "Referral",
+          "sessions": 9,
+          "users": 1
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 5,
+          "users": 5
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 479,
+          "users": 470
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 9,
+          "users": 1
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 5,
+          "users": 5
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 217,
+        "average": 180.57603686635946,
+        "unit": "ms",
+        "ratings": {
+          "good": 214,
+          "needs-improvement": 1,
+          "poor": 2
+        },
+        "goodPercent": 99
+      },
+      "FCP": {
+        "count": 162,
+        "average": 571.4074074074074,
+        "unit": "ms",
+        "ratings": {
+          "good": 150,
+          "needs-improvement": 10,
+          "poor": 2
+        },
+        "goodPercent": 93
+      },
+      "LCP": {
+        "count": 42,
+        "average": 525.5,
+        "unit": "ms",
+        "ratings": {
+          "good": 42,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 41,
+        "average": 0.005585365853658536,
+        "unit": "",
+        "ratings": {
+          "good": 40,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 98
+      },
+      "INP": {
+        "count": 33,
+        "average": 81.93939393939394,
+        "unit": "ms",
+        "ratings": {
+          "good": 32,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 97
+      }
+    },
+    "toolInteractions": null
   }
 ]
