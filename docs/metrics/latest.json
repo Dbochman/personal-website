@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-03T06:16:20.297Z",
+  "generated": "2026-03-04T06:14:53.744Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,93 +8,93 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-03-03T06:16:20.297Z",
-    "sessions_7d": 573,
-    "users_7d": 526,
-    "pageviews_7d": 532,
-    "avgSessionDuration": 33,
-    "bounceRate": 0.77,
+    "lastCheck": "2026-03-04T06:14:53.744Z",
+    "sessions_7d": 318,
+    "users_7d": 285,
+    "pageviews_7d": 281,
+    "avgSessionDuration": 37,
+    "bounceRate": 0.67,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 131
+        "pageViews": 73
       },
       {
         "page": "/blog/",
-        "pageViews": 83
+        "pageViews": 58
       },
       {
         "page": "/blog",
-        "pageViews": 50
+        "pageViews": 26
       },
       {
         "page": "/runbook",
-        "pageViews": 49
+        "pageViews": 26
       },
       {
-        "page": "/blog/2026-02-24-openclaw-the-home-agent",
-        "pageViews": 32
+        "page": "/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup",
+        "pageViews": 20
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-03-03T06:16:20.297Z",
+    "lastCheck": "2026-03-04T06:14:53.744Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 220,
-        "average": 182.1909090909091,
+        "count": 145,
+        "average": 185.8206896551724,
         "unit": "ms",
         "ratings": {
-          "good": 216,
-          "needs-improvement": 2,
+          "good": 142,
+          "needs-improvement": 1,
           "poor": 2
         },
         "goodPercent": 98
       },
       "FCP": {
-        "count": 166,
-        "average": 577.2951807228916,
+        "count": 95,
+        "average": 594.2421052631579,
         "unit": "ms",
         "ratings": {
-          "good": 153,
-          "needs-improvement": 11,
+          "good": 87,
+          "needs-improvement": 6,
           "poor": 2
         },
         "goodPercent": 92
       },
       "LCP": {
-        "count": 46,
-        "average": 587.4130434782609,
+        "count": 31,
+        "average": 630.7096774193549,
         "unit": "ms",
         "ratings": {
-          "good": 46,
+          "good": 31,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "CLS": {
-        "count": 42,
-        "average": 0.0054523809523809525,
+        "count": 26,
+        "average": 0.0075,
         "unit": "",
         "ratings": {
-          "good": 41,
+          "good": 25,
           "needs-improvement": 1,
           "poor": 0
         },
-        "goodPercent": 98
+        "goodPercent": 96
       },
       "INP": {
-        "count": 34,
-        "average": 99.05882352941177,
+        "count": 25,
+        "average": 110.08,
         "unit": "ms",
         "ratings": {
-          "good": 32,
-          "needs-improvement": 1,
+          "good": 24,
+          "needs-improvement": 0,
           "poor": 1
         },
-        "goodPercent": 94
+        "goodPercent": 96
       }
     }
   }
