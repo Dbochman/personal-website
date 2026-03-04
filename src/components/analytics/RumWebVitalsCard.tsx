@@ -78,7 +78,7 @@ export function RumWebVitalsCard({ data }: RumWebVitalsCardProps) {
       <CardHeader>
         <CardTitle>Real User Metrics</CardTitle>
         <p className="text-sm text-muted-foreground">
-          Field data from {data.metrics.LCP?.count || data.metrics.FCP?.count || 0}+ sessions
+          Field data from <span className="tabular-nums">{data.metrics.LCP?.count || data.metrics.FCP?.count || 0}</span>+ sessions
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -94,7 +94,7 @@ export function RumWebVitalsCard({ data }: RumWebVitalsCardProps) {
             <div key={vital.key} className="space-y-1">
               <div className="flex justify-between text-sm">
                 <span className="font-medium">{vital.key}</span>
-                <span className={cn('font-mono', {
+                <span className={cn('font-mono tabular-nums', {
                   'text-emerald-500': status === 'good',
                   'text-amber-500': status === 'warning',
                   'text-red-500': status === 'critical',
@@ -110,7 +110,7 @@ export function RumWebVitalsCard({ data }: RumWebVitalsCardProps) {
                 className="h-2"
                 aria-label={`${vital.key}: ${vital.format(value)}`}
               />
-              <div className="flex justify-between text-xs text-muted-foreground">
+              <div className="flex justify-between text-xs text-muted-foreground tabular-nums">
                 <span>Good: ≤{vital.key === 'CLS' ? vital.thresholds.good : `${vital.thresholds.good}ms`}</span>
                 <span>Poor: &gt;{vital.key === 'CLS' ? vital.thresholds.poor : `${vital.thresholds.poor}ms`}</span>
               </div>

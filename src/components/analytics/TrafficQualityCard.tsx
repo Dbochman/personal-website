@@ -102,7 +102,7 @@ export function TrafficQualityCard({ topPages }: TrafficQualityCardProps) {
         <div className="space-y-1">
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>Traffic Composition</span>
-            <span>{analysis.humanPercentage.toFixed(1)}% human</span>
+            <span className="tabular-nums">{analysis.humanPercentage.toFixed(1)}% human</span>
           </div>
           <div className="h-2 rounded-full bg-muted overflow-hidden flex">
             {analysis.humanSessions > 0 && (

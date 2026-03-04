@@ -98,8 +98,8 @@ export function BurndownTab({ calculation, config, incidents }: BurndownTabProps
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Budget Consumed</p>
-                <p className="text-2xl font-bold">{formatDuration(consumedMinutes)}</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-2xl font-bold tabular-nums">{formatDuration(consumedMinutes)}</p>
+                <p className="text-sm text-muted-foreground tabular-nums">
                   of {formatDuration(totalBudgetMinutes)} ({consumedPercent.toFixed(1)}%)
                 </p>
               </div>
@@ -121,17 +121,17 @@ export function BurndownTab({ calculation, config, incidents }: BurndownTabProps
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Budget Remaining</p>
-                <p className={cn('text-2xl font-bold', remainingMinutes <= 0 && 'text-destructive')}>
+                <p className={cn('text-2xl font-bold tabular-nums', remainingMinutes <= 0 && 'text-destructive')}>
                   {formatDuration(remainingMinutes)}
                 </p>
-                <p className="text-sm text-muted-foreground">{daysRemaining} days left in period</p>
+                <p className="text-sm text-muted-foreground tabular-nums">{daysRemaining} days left in period</p>
               </div>
               <div className="rounded-full p-2 bg-primary/10">
                 <Calendar className="h-5 w-5 text-primary" />
               </div>
             </div>
             <div className="mt-4 flex items-center text-sm text-muted-foreground">
-              <span>
+              <span className="tabular-nums">
                 Day {daysElapsed} of {calculation.periodDays}
               </span>
             </div>
@@ -144,7 +144,7 @@ export function BurndownTab({ calculation, config, incidents }: BurndownTabProps
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Current Burn Rate</p>
-                <p className={cn('text-2xl font-bold', burnRateColor)}>{burnMultiplier.toFixed(1)}x</p>
+                <p className={cn('text-2xl font-bold tabular-nums', burnRateColor)}>{burnMultiplier.toFixed(1)}x</p>
                 <p className="text-sm text-muted-foreground">
                   {burnRateText}
                   {burnMultiplier > 1 ? ' (faster than sustainable)' : ' burn rate'}
@@ -297,7 +297,7 @@ export function BurndownTab({ calculation, config, incidents }: BurndownTabProps
                   {simulatedProjection.isOnTrack ? (
                     <>
                       At {simulatedMultiplier.toFixed(1)}x, you'll use{' '}
-                      <span className="font-medium text-foreground">
+                      <span className="font-medium text-foreground tabular-nums">
                         {simulatedProjection.percentConsumedAtEnd.toFixed(0)}%
                       </span>{' '}
                       of budget by end of period
@@ -305,7 +305,7 @@ export function BurndownTab({ calculation, config, incidents }: BurndownTabProps
                   ) : simulatedProjection.exhaustionDate ? (
                     <>
                       At {simulatedMultiplier.toFixed(1)}x, budget exhausted in{' '}
-                      <span className="font-medium text-foreground">
+                      <span className="font-medium text-foreground tabular-nums">
                         {Math.ceil(simulatedProjection.daysUntilExhaustion!)} days
                       </span>{' '}
                       ({simulatedProjection.exhaustionDate.toLocaleDateString('en-US', {
