@@ -28,7 +28,7 @@ export const MetricCard = memo(function MetricCard({ title, value, icon: Icon, s
         {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}
       </CardHeader>
       <CardContent>
-        <div className={cn('text-2xl font-bold', status && statusColors[status])}>
+        <div className={cn('text-2xl font-bold tabular-nums', status && statusColors[status])}>
           {value}
         </div>
         <div className="flex items-center gap-2 mt-1">
@@ -45,7 +45,7 @@ export const MetricCard = memo(function MetricCard({ title, value, icon: Icon, s
               ) : (
                 <TrendingDown className="h-3 w-3 mr-1" />
               )}
-              {Math.abs(trend).toFixed(0)}%
+              <span className="tabular-nums">{Math.abs(trend).toFixed(0)}%</span>
             </div>
           )}
         </div>

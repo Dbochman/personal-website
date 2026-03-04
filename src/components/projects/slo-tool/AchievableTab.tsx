@@ -151,7 +151,7 @@ export function AchievableTab({ result, period }: AchievableTabProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">{formatDuration(result.mttrMinutes)}</div>
+            <div className="text-xl font-bold tabular-nums">{formatDuration(result.mttrMinutes)}</div>
           </CardContent>
         </Card>
 
@@ -162,7 +162,7 @@ export function AchievableTab({ result, period }: AchievableTabProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">{formatDuration(result.periodDowntimeMinutes)}</div>
+            <div className="text-xl font-bold tabular-nums">{formatDuration(result.periodDowntimeMinutes)}</div>
           </CardContent>
         </Card>
 
@@ -173,7 +173,7 @@ export function AchievableTab({ result, period }: AchievableTabProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">
+            <div className="text-xl font-bold tabular-nums">
               {formatDuration(
                 period === 'yearly'
                   ? result.periodDowntimeMinutes
@@ -192,7 +192,7 @@ export function AchievableTab({ result, period }: AchievableTabProps) {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold text-primary">{formatSlo(result.maxAchievableSlo)}</div>
+            <div className="text-xl font-bold text-primary tabular-nums">{formatSlo(result.maxAchievableSlo)}</div>
           </CardContent>
         </Card>
       </div>

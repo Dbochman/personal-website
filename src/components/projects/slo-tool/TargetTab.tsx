@@ -102,7 +102,7 @@ export function TargetTab({ result, achievableResult, period }: TargetTabProps) 
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">{formatDuration(result.periodBudgetMinutes)}</div>
+            <div className="text-xl font-bold tabular-nums">{formatDuration(result.periodBudgetMinutes)}</div>
           </CardContent>
         </Card>
 
@@ -113,7 +113,7 @@ export function TargetTab({ result, achievableResult, period }: TargetTabProps) 
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">{formatDuration(result.mttrMinutes)}</div>
+            <div className="text-xl font-bold tabular-nums">{formatDuration(result.mttrMinutes)}</div>
           </CardContent>
         </Card>
 
@@ -124,7 +124,7 @@ export function TargetTab({ result, achievableResult, period }: TargetTabProps) 
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">
+            <div className="text-xl font-bold tabular-nums">
               {!isFinite(result.allowedIncidents)
                 ? '∞'
                 : result.allowedIncidents < 1
@@ -144,7 +144,7 @@ export function TargetTab({ result, achievableResult, period }: TargetTabProps) 
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-xl font-bold">
+            <div className="text-xl font-bold tabular-nums">
               {formatDuration(
                 period === 'yearly'
                   ? result.periodBudgetMinutes

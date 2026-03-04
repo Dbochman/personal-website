@@ -11,7 +11,7 @@ function ScoreBadge({ score }: { score: number }) {
 
   return (
     <span className={cn(
-      'inline-flex items-center justify-center w-10 h-6 rounded text-xs font-medium',
+      'inline-flex items-center justify-center w-10 h-6 rounded text-xs font-medium tabular-nums',
       {
         'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400': status === 'good',
         'bg-amber-500/20 text-amber-600 dark:text-amber-400': status === 'warning',
@@ -81,8 +81,8 @@ export function LighthouseScoresTable({ data }: LighthouseScoresTableProps) {
                   <td className="text-center py-2">
                     <ScoreBadge score={page.bestPractices} />
                   </td>
-                  <td className="text-right py-2 font-mono text-xs">{page.lcp}</td>
-                  <td className="text-right py-2 font-mono text-xs">{page.cls}</td>
+                  <td className="text-right py-2 font-mono text-xs tabular-nums">{page.lcp}</td>
+                  <td className="text-right py-2 font-mono text-xs tabular-nums">{page.cls}</td>
                 </tr>
               ))}
             </tbody>

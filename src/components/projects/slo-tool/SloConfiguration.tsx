@@ -165,7 +165,7 @@ export function SloConfiguration({ config, onChange }: SloConfigurationProps) {
             <span className="font-semibold text-foreground">{formatDuration(totalBudget)}</span>
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            {((1 - config.target / 100) * 100).toFixed(3)}% of {config.period} period
+            <span className="tabular-nums">{((1 - config.target / 100) * 100).toFixed(3)}%</span> of {config.period} period
           </p>
         </div>
       </CardContent>
