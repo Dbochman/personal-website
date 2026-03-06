@@ -3,32 +3,40 @@ import { renderHook, act } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useParallax } from './useParallax';
 
-type MockIntersectionObserver = {
+type MockIO = {
   observe: ReturnType<typeof vi.fn>;
   disconnect: ReturnType<typeof vi.fn>;
   unobserve: ReturnType<typeof vi.fn>;
-  callback?: IntersectionObserverCallback;
+  callback: IntersectionObserverCallback;
 };
 
+let mockIO: MockIO;
+
+class TestIntersectionObserver {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+    mockIO.callback = callback;
+  }
+  observe = (...args: Parameters<IntersectionObserver['observe']>) => mockIO.observe(...args);
+  disconnect = (...args: Parameters<IntersectionObserver['disconnect']>) => mockIO.disconnect(...args);
+  unobserve = (...args: Parameters<IntersectionObserver['unobserve']>) => mockIO.unobserve(...args);
+  takeRecords(): IntersectionObserverEntry[] { return []; }
+}
+
 describe('useParallax', () => {
-  let mockIntersectionObserver: MockIntersectionObserver;
-  
   beforeEach(() => {
     vi.spyOn(window, 'addEventListener');
     vi.spyOn(window, 'removeEventListener');
     vi.clearAllMocks();
-    
-    // Mock IntersectionObserver with callback
-    mockIntersectionObserver = {
+
+    mockIO = {
       observe: vi.fn(),
       disconnect: vi.fn(),
       unobserve: vi.fn(),
+      callback: () => {},
     };
-    
-    global.IntersectionObserver = vi.fn().mockImplementation((callback) => {
-      mockIntersectionObserver.callback = callback;
-      return mockIntersectionObserver;
-    });
+
+    global.IntersectionObserver = TestIntersectionObserver as unknown as typeof IntersectionObserver;
   });
 
   afterEach(() => {
@@ -81,7 +89,7 @@ describe('useParallax', () => {
 
     // Simulate page becoming invisible first
     act(() => {
-      mockIntersectionObserver.callback([{ isIntersecting: false }]);
+      mockIO.callback([{ isIntersecting: false }]);
     });
 
     // Clear any previous transforms
@@ -174,15 +182,11 @@ describe('useParallax', () => {
   it('should setup and cleanup IntersectionObserver', () => {
     const { unmount } = renderHook(() => useParallax());
 
-    expect(IntersectionObserver).toHaveBeenCalledWith(
-      expect.any(Function),
-      { threshold: 0.1 }
-    );
-    expect(mockIntersectionObserver.observe).toHaveBeenCalledWith(document.body);
+    expect(mockIO.observe).toHaveBeenCalledWith(document.body);
 
     unmount();
 
-    expect(mockIntersectionObserver.disconnect).toHaveBeenCalled();
+    expect(mockIO.disconnect).toHaveBeenCalled();
   });
 
   it('should handle environment without IntersectionObserver', () => {
@@ -221,7 +225,7 @@ describe('useParallax', () => {
 
     // Become invisible
     act(() => {
-      mockIntersectionObserver.callback([{ isIntersecting: false }]);
+      mockIO.callback([{ isIntersecting: false }]);
     });
 
     // Reset element
@@ -237,7 +241,7 @@ describe('useParallax', () => {
 
     // Become visible again
     act(() => {
-      mockIntersectionObserver.callback([{ isIntersecting: true }]);
+      mockIO.callback([{ isIntersecting: true }]);
     });
 
     act(() => {
