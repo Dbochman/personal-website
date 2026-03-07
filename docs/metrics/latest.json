@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-06T06:14:44.958Z",
+  "generated": "2026-03-07T06:09:45.892Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,93 +8,93 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-03-06T06:14:44.958Z",
-    "sessions_7d": 324,
-    "users_7d": 295,
-    "pageviews_7d": 300,
-    "avgSessionDuration": 35,
-    "bounceRate": 0.76,
+    "lastCheck": "2026-03-07T06:09:45.892Z",
+    "sessions_7d": 427,
+    "users_7d": 406,
+    "pageviews_7d": 407,
+    "avgSessionDuration": 18,
+    "bounceRate": 0.83,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 76
+        "pageViews": 95
       },
       {
         "page": "/blog/",
-        "pageViews": 44
+        "pageViews": 61
       },
       {
         "page": "/blog",
-        "pageViews": 30
+        "pageViews": 38
       },
       {
         "page": "/runbook",
-        "pageViews": 30
+        "pageViews": 38
       },
       {
         "page": "/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup",
-        "pageViews": 22
+        "pageViews": 32
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-03-06T06:14:44.958Z",
+    "lastCheck": "2026-03-07T06:09:45.892Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 144,
-        "average": 128.72222222222223,
+        "count": 166,
+        "average": 164.32530120481928,
         "unit": "ms",
         "ratings": {
-          "good": 141,
+          "good": 163,
           "needs-improvement": 3,
           "poor": 0
         },
         "goodPercent": 98
       },
       "FCP": {
-        "count": 107,
-        "average": 515.2897196261682,
+        "count": 125,
+        "average": 622.648,
         "unit": "ms",
         "ratings": {
-          "good": 98,
-          "needs-improvement": 8,
+          "good": 114,
+          "needs-improvement": 10,
           "poor": 1
         },
-        "goodPercent": 92
+        "goodPercent": 91
       },
       "LCP": {
-        "count": 28,
-        "average": 809.0714285714286,
+        "count": 23,
+        "average": 924.2173913043479,
         "unit": "ms",
         "ratings": {
-          "good": 27,
+          "good": 22,
           "needs-improvement": 1,
           "poor": 0
         },
         "goodPercent": 96
       },
       "CLS": {
-        "count": 22,
-        "average": 0.008318181818181818,
+        "count": 13,
+        "average": 0.013307692307692309,
         "unit": "",
         "ratings": {
-          "good": 21,
+          "good": 12,
           "needs-improvement": 1,
           "poor": 0
         },
-        "goodPercent": 95
+        "goodPercent": 92
       },
       "INP": {
-        "count": 20,
-        "average": 118.8,
+        "count": 14,
+        "average": 148,
         "unit": "ms",
         "ratings": {
-          "good": 19,
-          "needs-improvement": 0,
+          "good": 12,
+          "needs-improvement": 1,
           "poor": 1
         },
-        "goodPercent": 95
+        "goodPercent": 86
       }
     }
   }
