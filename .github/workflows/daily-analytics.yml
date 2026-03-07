@@ -246,17 +246,18 @@ jobs:
           const fs = require('fs');
           const failures = [];
 
-          // Check GA4 data
+          // Check GA4 data using 7-day rolling average to avoid false positives from traffic spikes
           const ga4File = 'docs/metrics/ga4-history.json';
           if (fs.existsSync(ga4File)) {
             const history = JSON.parse(fs.readFileSync(ga4File, 'utf8'));
-            if (history.length >= 2) {
+            if (history.length >= 8) {
               const latest = history[history.length - 1];
-              const previous = history[history.length - 2];
+              const past7 = history.slice(-8, -1);
+              const avgSessions = past7.reduce((sum, e) => sum + e.summary.sessions, 0) / past7.length;
 
-              const sessionsChange = ((latest.summary.sessions - previous.summary.sessions) / previous.summary.sessions) * 100;
-              if (sessionsChange < -30) {
-                failures.push(\`GA4: Sessions dropped by \${Math.abs(Math.round(sessionsChange))}%\`);
+              const sessionsChange = ((latest.summary.sessions - avgSessions) / avgSessions) * 100;
+              if (sessionsChange < -40) {
+                failures.push(\`GA4: Sessions dropped by \${Math.abs(Math.round(sessionsChange))}% vs 7-day avg (\${latest.summary.sessions} vs \${Math.round(avgSessions)})\`);
               }
             }
           }
