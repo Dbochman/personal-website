@@ -8644,5 +8644,190 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-03-08T06:09:00.408Z",
+    "date": "2026-03-08",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 368,
+      "users": 352,
+      "pageViews": 352,
+      "averageSessionDuration": 18,
+      "bounceRate": 0.82
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 80,
+        "users": 76,
+        "pageViews": 82
+      },
+      {
+        "page": "/blog/",
+        "sessions": 62,
+        "users": 62,
+        "pageViews": 62
+      },
+      {
+        "page": "/blog",
+        "sessions": 32,
+        "users": 30,
+        "pageViews": 29
+      },
+      {
+        "page": "/runbook",
+        "sessions": 29,
+        "users": 29,
+        "pageViews": 29
+      },
+      {
+        "page": "/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup",
+        "sessions": 26,
+        "users": 26,
+        "pageViews": 26
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 19
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 19
+      },
+      {
+        "page": "/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup/",
+        "sessions": 12,
+        "users": 12,
+        "pageViews": 12
+      },
+      {
+        "page": "/projects/",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 8
+      },
+      {
+        "page": "/projects/oncall-coverage/",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 8
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 225,
+        "users": 219
+      },
+      {
+        "device": "mobile",
+        "sessions": 143,
+        "users": 133
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 344,
+          "users": 337
+        },
+        {
+          "channel": "Referral",
+          "sessions": 4,
+          "users": 1
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 2,
+          "users": 2
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 344,
+          "users": 337
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 4,
+          "users": 1
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 2,
+          "users": 2
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 142,
+        "average": 202.95070422535213,
+        "unit": "ms",
+        "ratings": {
+          "good": 138,
+          "needs-improvement": 4,
+          "poor": 0
+        },
+        "goodPercent": 97
+      },
+      "FCP": {
+        "count": 100,
+        "average": 621.91,
+        "unit": "ms",
+        "ratings": {
+          "good": 92,
+          "needs-improvement": 8,
+          "poor": 0
+        },
+        "goodPercent": 92
+      },
+      "LCP": {
+        "count": 20,
+        "average": 973.85,
+        "unit": "ms",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "CLS": {
+        "count": 12,
+        "average": 0.01425,
+        "unit": "",
+        "ratings": {
+          "good": 11,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 92
+      },
+      "INP": {
+        "count": 12,
+        "average": 154.66666666666666,
+        "unit": "ms",
+        "ratings": {
+          "good": 10,
+          "needs-improvement": 1,
+          "poor": 1
+        },
+        "goodPercent": 83
+      }
+    },
+    "toolInteractions": null
   }
 ]
