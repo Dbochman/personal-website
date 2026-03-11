@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-10T06:14:43.758Z",
+  "generated": "2026-03-11T06:16:24.250Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,75 +8,75 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-03-10T06:14:43.758Z",
-    "sessions_7d": 394,
-    "users_7d": 376,
-    "pageviews_7d": 377,
+    "lastCheck": "2026-03-11T06:16:24.250Z",
+    "sessions_7d": 351,
+    "users_7d": 336,
+    "pageviews_7d": 332,
     "avgSessionDuration": 14,
-    "bounceRate": 0.79,
+    "bounceRate": 0.77,
     "topPages": [
       {
-        "page": "/",
-        "pageViews": 81
+        "page": "/blog/",
+        "pageViews": 70
       },
       {
-        "page": "/blog/",
-        "pageViews": 68
+        "page": "/",
+        "pageViews": 66
       },
       {
         "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "pageViews": 28
+        "pageViews": 27
       },
       {
         "page": "/blog",
-        "pageViews": 26
+        "pageViews": 20
       },
       {
-        "page": "/runbook",
-        "pageViews": 26
+        "page": "/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup",
+        "pageViews": 20
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-03-10T06:14:43.758Z",
+    "lastCheck": "2026-03-11T06:16:24.250Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 167,
-        "average": 230.37724550898204,
+        "count": 146,
+        "average": 263.47945205479454,
         "unit": "ms",
         "ratings": {
-          "good": 162,
+          "good": 141,
           "needs-improvement": 5,
           "poor": 0
         },
         "goodPercent": 97
       },
       "FCP": {
-        "count": 113,
-        "average": 759,
+        "count": 87,
+        "average": 872.448275862069,
         "unit": "ms",
         "ratings": {
-          "good": 100,
-          "needs-improvement": 10,
+          "good": 75,
+          "needs-improvement": 9,
           "poor": 3
         },
-        "goodPercent": 88
+        "goodPercent": 86
       },
       "LCP": {
-        "count": 30,
-        "average": 1484.4666666666667,
+        "count": 28,
+        "average": 1510.857142857143,
         "unit": "ms",
         "ratings": {
-          "good": 24,
+          "good": 22,
           "needs-improvement": 3,
           "poor": 3
         },
-        "goodPercent": 80
+        "goodPercent": 79
       },
       "CLS": {
         "count": 21,
-        "average": 0.011714285714285714,
+        "average": 0.014380952380952381,
         "unit": "",
         "ratings": {
           "good": 20,
@@ -86,11 +86,11 @@
         "goodPercent": 95
       },
       "INP": {
-        "count": 13,
-        "average": 107.6923076923077,
+        "count": 12,
+        "average": 98,
         "unit": "ms",
         "ratings": {
-          "good": 12,
+          "good": 11,
           "needs-improvement": 1,
           "poor": 0
         },
