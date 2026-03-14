@@ -25,7 +25,7 @@ BlueBubbles runs on macOS and was designed for people sitting at a Mac. We run i
 
 On the gateway side, OpenClaw's BlueBubbles plugin can fail to load after an npm upgrade due to a broken module import. When that happens, BlueBubbles dispatches webhooks into the void. Everything looks healthy from BlueBubbles' perspective, but no messages reach the agent.
 
-None of these failures produce errors. They're silent. The system looks running but isn't working.
+None of these failures produce errors. They're silent. The set up looks healthy but may be silently struggling.
 
 ## The watchdog
 
