@@ -238,6 +238,3 @@ jobs:
           git add .
           git commit -m "Deploy $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push --force "https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/Dbochman/dbochman.github.io.git" main
-          commit_message: "deploy 📦"
-          user_name: "github-actions[bot]"
-          user_email: "41898282+github-actions[bot]@users.noreply.github.com"
