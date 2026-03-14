@@ -9953,5 +9953,231 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-03-14T06:15:13.016Z",
+    "date": "2026-03-14",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 177,
+      "users": 157,
+      "pageViews": 158,
+      "averageSessionDuration": 28,
+      "bounceRate": 0.55
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 60,
+        "users": 60,
+        "pageViews": 60
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 30,
+        "users": 25,
+        "pageViews": 29
+      },
+      {
+        "page": "/",
+        "sessions": 29,
+        "users": 25,
+        "pageViews": 28
+      },
+      {
+        "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide/",
+        "sessions": 7,
+        "users": 7,
+        "pageViews": 7
+      },
+      {
+        "page": "/blog",
+        "sessions": 9,
+        "users": 5,
+        "pageViews": 4
+      },
+      {
+        "page": "/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup",
+        "sessions": 7,
+        "users": 5,
+        "pageViews": 4
+      },
+      {
+        "page": "/runbook",
+        "sessions": 4,
+        "users": 4,
+        "pageViews": 4
+      },
+      {
+        "page": "/projects/incident-command-diagrams/",
+        "sessions": 3,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/projects/changelog/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/projects/k8s-rightsizer/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 72,
+        "users": 72
+      },
+      {
+        "device": "desktop",
+        "sessions": 105,
+        "users": 85
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 139,
+          "users": 137
+        },
+        {
+          "channel": "Referral",
+          "sessions": 11,
+          "users": 5
+        },
+        {
+          "channel": "Organic Social",
+          "sessions": 8,
+          "users": 6
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 4,
+          "users": 3
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 139,
+          "users": 137
+        },
+        {
+          "source": "news.ycombinator.com",
+          "medium": "referral",
+          "sessions": 8,
+          "users": 6
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 6,
+          "users": 1
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 3,
+          "users": 2
+        },
+        {
+          "source": "claude.ai",
+          "medium": "referral",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "source": "daum",
+          "medium": "organic",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "hacker-news.firebaseio.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "hackernewz.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "kaegtcr.online",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 99,
+        "average": 265,
+        "unit": "ms",
+        "ratings": {
+          "good": 95,
+          "needs-improvement": 4,
+          "poor": 0
+        },
+        "goodPercent": 96
+      },
+      "FCP": {
+        "count": 34,
+        "average": 1015.2058823529412,
+        "unit": "ms",
+        "ratings": {
+          "good": 27,
+          "needs-improvement": 4,
+          "poor": 3
+        },
+        "goodPercent": 79
+      },
+      "CLS": {
+        "count": 20,
+        "average": 0.0145,
+        "unit": "",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "LCP": {
+        "count": 23,
+        "average": 1541.5217391304348,
+        "unit": "ms",
+        "ratings": {
+          "good": 18,
+          "needs-improvement": 2,
+          "poor": 3
+        },
+        "goodPercent": 78
+      },
+      "INP": {
+        "count": 11,
+        "average": 69.0909090909091,
+        "unit": "ms",
+        "ratings": {
+          "good": 11,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
   }
 ]
