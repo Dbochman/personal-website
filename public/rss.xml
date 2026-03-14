@@ -5,13 +5,24 @@
     <link>https://dylanbochman.com/blog</link>
     <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 Feb 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 14 Mar 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://dylanbochman.com/social-preview.png</url>
       <title>Dylan Bochman - Blog</title>
       <link>https://dylanbochman.com/blog</link>
     </image>
+    <item>
+      <title>Watchdogs and LaunchAgents: Managing Systems That Want to Break</title>
+      <link>https://dylanbochman.com/blog/2026-03-14-watchdogs-and-launchagents</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-03-14-watchdogs-and-launchagents</guid>
+      <description>What we learned building a watchdog for BlueBubbles and OpenClaw on a headless Mac Mini. Health monitors that cause the instability they&apos;re designed to detect, and how to fix them.</description>
+      <pubDate>Sat, 14 Mar 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>SRE</category>
+      <category>Automation</category>
+      <category>AI</category>
+    </item>
     <item>
       <title>EchoNest Sync and the Spotify API Shakeup</title>
       <link>https://dylanbochman.com/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup</link>
@@ -28,7 +39,7 @@
       <title>OpenClaw: Experimenting with a personal AI agent</title>
       <link>https://dylanbochman.com/blog/2026-02-24-openclaw-the-home-agent</link>
       <guid isPermaLink="true">https://dylanbochman.com/blog/2026-02-24-openclaw-the-home-agent</guid>
-      <description>What I learned running an open-source AI agent on a self-hosted Mac Mini--least privilege, out-of-band approvals, and the boring plumbing that makes it work.</description>
+      <description>What I learned running an open-source AI agent on a self-hosted Mac Mini. Least privilege, version-controlled config, and the boring plumbing that makes it work.</description>
       <pubDate>Tue, 24 Feb 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
       <category>AI</category>

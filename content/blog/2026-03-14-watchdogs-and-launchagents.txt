@@ -1,0 +1,131 @@
+---
+title: "Watchdogs and LaunchAgents: Managing Systems That Want to Break"
+date: 2026-03-14
+author: Dylan & Claude
+description: "What we learned building a watchdog for BlueBubbles and OpenClaw on a headless Mac Mini. Health monitors that cause the instability they're designed to detect, and how to fix them."
+tags:
+  - SRE
+  - Automation
+  - AI
+category: Technical
+draft: false
+---
+
+Running a personal AI agent on a Mac Mini sounds straightforward until you realize how many things can silently break. [OpenClaw](https://openclaw.ai/) connects to iMessage through [BlueBubbles](https://github.com/BlueBubblesApp), an open-source iMessage bridge. BlueBubbles watches the Messages database for new messages, dispatches them as webhooks to the OpenClaw gateway, and the gateway hands them to Claude. When it works, you text your agent and get a response in seconds. When it doesn't, messages vanish into the void and nobody knows until someone wonders why the agent went quiet.
+
+This post is about the watchdog we built to keep that pipeline alive, the false positives that made it worse before it got better, and the general pattern of managing inherently unstable systems with automated recovery.
+
+## Why things break
+
+BlueBubbles runs on macOS and was designed for people sitting at a Mac. We run it headless on a Mac Mini in a closet. That mismatch creates a specific category of failure:
+
+- **The chat.db observer stalls.** BlueBubbles uses a file system observer on `~/Library/Messages/chat.db` to detect new messages. On headless Macs, this observer can stall indefinitely. Messages arrive in the database but BlueBubbles never notices.
+- **The Private API helper disconnects.** BlueBubbles uses a helper process to interface with Messages.app for sending, typing indicators, and reactions. The helper can silently disconnect, leaving the agent able to receive but unable to respond.
+- **The webhook service dies.** BlueBubbles dispatches webhooks to the gateway. The dispatch service can die independently of everything else, often triggered by external factors like a Cloudflare daemon crash-loop corrupting the event loop.
+
+On the gateway side, OpenClaw's BlueBubbles plugin can fail to load after an npm upgrade due to a broken module import. When that happens, BlueBubbles dispatches webhooks into the void. Everything looks healthy from BlueBubbles' perspective, but no messages reach the agent.
+
+None of these failures produce errors. They're silent. The system looks running but isn't working.
+
+## The watchdog
+
+The watchdog runs every minute via a macOS LaunchAgent. Its job is to detect these failures and fix them before anyone notices.
+
+```xml
+<key>StartInterval</key>
+<integer>60</integer>
+```
+
+It checks four things, in order:
+
+**Layer 1: Is BlueBubbles running?** Ping the API. If it's unreachable, start it. This catches crashes and reboots.
+
+**Layer 2: Is the Private API helper connected?** Query BlueBubbles' server info endpoint. If `helper_connected` is false, full-restart BlueBubbles. A soft restart only reconnects the helper but doesn't restart the chat.db observer, which often co-stalls. We learned that the hard way.
+
+**Layer 3: Are new messages being processed?** Track the GUID of the latest message in BlueBubbles' database. If the GUID changes but BlueBubbles hasn't dispatched a webhook, the observer has stalled. If no webhook has been dispatched in 30 minutes despite new messages arriving, the webhook service itself is dead.
+
+**Layer 4: Is the gateway actually receiving?** BlueBubbles can dispatch webhooks successfully while the gateway's plugin is broken. Cross-check the gateway's runtime log for evidence that the BB plugin initialized in the current process.
+
+## Escalate, don't react
+
+Early versions of the watchdog were too aggressive. Detect a stall, restart immediately. This caused its own problems: restart loops during transient issues, gateway restarts that killed in-progress cron jobs, thrashing that looked worse than the original failure.
+
+The current version tries the cheap thing first. Before restarting anything, it runs an AppleScript that nudges Messages.app. This unsticks a stalled file system observer about half the time. If the same message GUID is still unprocessed on the next check, it pokes again. Three chances. Only after three failed pokes does it do a full restart: graceful quit, force-kill if needed, relaunch, wait for initialization, then restart the gateway to re-register the webhook.
+
+A 15-minute cooldown after any restart prevents loops. If a cron job is running, the gateway restart gets deferred rather than risk killing the agent mid-task.
+
+```bash
+# Check for running cron jobs before restarting
+RUNNING_JOBS=$(cron_job_running)
+if [[ $? -eq 0 ]]; then
+  log "DEFER: Gateway restart deferred — cron job(s) running: ${RUNNING_JOBS}"
+fi
+```
+
+## The health monitor that made things worse
+
+Before the watchdog existed, OpenClaw had a built-in health monitor. It tracked the age of the last activity on each channel and restarted the provider if it went stale. The default threshold was 30 minutes.
+
+The problem: during quiet overnight hours, nobody texts the agent. No messages means no activity. No activity means the health monitor sees a "stale socket" and restarts the BlueBubbles provider. The restart re-registers the webhook, which counts as activity, and the 30-minute timer starts over. Next quiet period, same thing. We logged **46 restarts in a single day** during the worst of it, almost all between midnight and 8 AM when the system was perfectly healthy but idle.
+
+```
+2026-03-03T04:59:47 [health-monitor] restarting (reason: stale-socket)
+2026-03-03T05:29:47 [health-monitor] restarting (reason: stale-socket)
+2026-03-03T05:59:47 [health-monitor] restarting (reason: stale-socket)
+2026-03-03T06:29:47 [health-monitor] restarting (reason: stale-socket)
+...
+```
+
+Every 30 minutes, like clockwork. The health monitor was the instability.
+
+We disabled it (`channelHealthCheckMinutes: 0`) and restarts dropped from 46/day to single digits, almost all from intentional config changes or upgrades.
+
+## The same mistake, smaller
+
+The watchdog's own gateway health check fell into a subtler version of the same trap. It scanned the gateway's runtime log for recent BlueBubbles activity (inbound messages, webhook registrations). If nothing appeared in 60 minutes, it flagged the gateway's BB plugin as dead and restarted.
+
+The logic: `gatewayBbDead = gatewayBbAliveMin >= 60`.
+
+The problem: during quiet periods, no messages arrive, so no activity appears in the log. The watchdog couldn't distinguish "plugin loaded but idle" from "plugin failed to load." Same false positive, same unnecessary restarts, just at a lower frequency.
+
+The first fix was switching from time-based to state-based detection. Instead of asking "when was the last activity?" we asked "did the plugin ever load?" by checking for the `webhook listening` log line that the BB plugin emits on successful initialization.
+
+But a code review through [Codex CLI](https://github.com/openai/codex) `exec` mode caught two remaining problems:
+
+1. If the gateway restarted with a broken plugin in the same log file, the old `webhook listening` line from the previous process would mask the failure.
+2. If the gateway ran for multiple days without restart, the startup line could age out of the scan window.
+
+The fix was scoping the check to the current gateway process. The gateway logs its startup with `listening on ws://...`. Find the last occurrence of that line, then check if `webhook listening` appears after it:
+
+```javascript
+// Phase 1: Find the last gateway startup line
+for (let i = gwLines.length - 1; i >= 0; i--) {
+  if (gwLines[i].includes('listening on ws://')) {
+    startupLineIdx = i;
+    break;
+  }
+}
+
+// Phase 2: From startup forward, check if BB plugin loaded
+for (let i = startupLineIdx; i < gwLines.length; i++) {
+  if (gwLines[i].includes('webhook listening')) {
+    gatewayBbPluginLoaded = true;
+  }
+}
+```
+
+Now the decision is simple and correct: the plugin either loaded in this process or it didn't.
+
+## What I'd take away from this
+
+The biggest lesson is embarrassingly simple: silence is not failure. A message queue with no messages, an API with no requests, a webhook listener with no webhooks. They're all working. We made this mistake twice, once with the built-in health monitor and once with our own watchdog, and both times the fix was the same: stop treating idle as broken.
+
+The second thing that bit us was reading log files without caring which process wrote them. Logs accumulate across restarts. An old success marker from a dead process can hide a live failure, and a missing marker from a long-lived process can trigger a false alarm. If your health check reads logs, scope it to the current process. PID, startup timestamp, a sequential marker, something.
+
+Restarts are also more expensive than they feel. They kill in-flight work, reset connection state, and can cascade. We deferred gateway restarts when cron jobs were running because we'd already lost a daily briefing to an ill-timed restart. The cheapest intervention that works is always the right one.
+
+And cooldowns are not optional. Without one, a health monitor that restarts on failure will loop forever if the failure survives the restart. Fifteen minutes has been a reasonable floor for us. If the system can't recover in 15 minutes, restarting it again probably won't help.
+
+The meta-lesson, though, is that health monitors can cause the instability they're supposed to detect. A monitor that restarts a system every 30 minutes during idle periods is actively harmful. Before deploying any automated recovery, I'd ask one question: what does this do when the system is healthy but quiet? We didn't ask that, and we got 46 restarts in a day for it.
+
+The lag summary now reads zero events for the past six days. Down from a 5-minute max during the restart storm.
