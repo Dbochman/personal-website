@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-15T06:16:18.359Z",
+  "generated": "2026-03-16T06:31:17.698Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,89 +8,89 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-03-15T06:16:18.359Z",
-    "sessions_7d": 253,
-    "users_7d": 228,
-    "pageviews_7d": 229,
+    "lastCheck": "2026-03-16T06:31:17.698Z",
+    "sessions_7d": 223,
+    "users_7d": 207,
+    "pageviews_7d": 204,
     "avgSessionDuration": 23,
-    "bounceRate": 0.67,
+    "bounceRate": 0.69,
     "topPages": [
       {
         "page": "/blog/",
-        "pageViews": 62
+        "pageViews": 65
       },
       {
         "page": "/",
         "pageViews": 45
       },
       {
-        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "pageViews": 29
-      },
-      {
         "page": "/blog",
-        "pageViews": 14
+        "pageViews": 15
       },
       {
         "page": "/runbook",
-        "pageViews": 14
+        "pageViews": 15
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "pageViews": 9
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-03-15T06:16:18.359Z",
+    "lastCheck": "2026-03-16T06:31:17.698Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 121,
-        "average": 212.4793388429752,
+        "count": 102,
+        "average": 174.13725490196077,
         "unit": "ms",
         "ratings": {
-          "good": 118,
-          "needs-improvement": 3,
+          "good": 100,
+          "needs-improvement": 2,
           "poor": 0
         },
         "goodPercent": 98
       },
       "FCP": {
-        "count": 57,
-        "average": 785.6140350877193,
+        "count": 42,
+        "average": 545.8571428571429,
         "unit": "ms",
         "ratings": {
-          "good": 49,
-          "needs-improvement": 5,
-          "poor": 3
-        },
-        "goodPercent": 86
-      },
-      "CLS": {
-        "count": 20,
-        "average": 0.015349999999999999,
-        "unit": "",
-        "ratings": {
-          "good": 19,
-          "needs-improvement": 1,
+          "good": 39,
+          "needs-improvement": 3,
           "poor": 0
         },
-        "goodPercent": 95
+        "goodPercent": 93
       },
-      "LCP": {
-        "count": 22,
-        "average": 1492.6363636363637,
-        "unit": "ms",
+      "CLS": {
+        "count": 8,
+        "average": 0.010875,
+        "unit": "",
         "ratings": {
-          "good": 17,
-          "needs-improvement": 2,
-          "poor": 3
+          "good": 8,
+          "needs-improvement": 0,
+          "poor": 0
         },
-        "goodPercent": 77
+        "goodPercent": 100
       },
       "INP": {
-        "count": 12,
-        "average": 68.66666666666667,
+        "count": 9,
+        "average": 118.22222222222223,
         "unit": "ms",
         "ratings": {
-          "good": 12,
+          "good": 8,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 89
+      },
+      "LCP": {
+        "count": 7,
+        "average": 337.2857142857143,
+        "unit": "ms",
+        "ratings": {
+          "good": 7,
           "needs-improvement": 0,
           "poor": 0
         },
