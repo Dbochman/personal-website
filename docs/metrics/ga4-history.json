@@ -10607,5 +10607,207 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-03-17T06:22:44.179Z",
+    "date": "2026-03-17",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 209,
+      "users": 196,
+      "pageViews": 191,
+      "averageSessionDuration": 26,
+      "bounceRate": 0.67
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 65,
+        "users": 65,
+        "pageViews": 65
+      },
+      {
+        "page": "/",
+        "sessions": 46,
+        "users": 44,
+        "pageViews": 45
+      },
+      {
+        "page": "/blog",
+        "sessions": 15,
+        "users": 12,
+        "pageViews": 11
+      },
+      {
+        "page": "/runbook",
+        "sessions": 11,
+        "users": 11,
+        "pageViews": 11
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "sessions": 11,
+        "users": 9,
+        "pageViews": 9
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 5,
+        "users": 5,
+        "pageViews": 5
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 6,
+        "users": 4,
+        "pageViews": 4
+      },
+      {
+        "page": "/projects",
+        "sessions": 7,
+        "users": 5,
+        "pageViews": 3
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects/oncall-coverage",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 99,
+        "users": 98
+      },
+      {
+        "device": "desktop",
+        "sessions": 110,
+        "users": 98
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 188,
+          "users": 185
+        },
+        {
+          "channel": "Referral",
+          "sessions": 5,
+          "users": 1
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 3,
+          "users": 2
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 188,
+          "users": 185
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 5,
+          "users": 1
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "source": "bing",
+          "medium": "organic",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 107,
+        "average": 207.89719626168224,
+        "unit": "ms",
+        "ratings": {
+          "good": 105,
+          "needs-improvement": 1,
+          "poor": 1
+        },
+        "goodPercent": 98
+      },
+      "FCP": {
+        "count": 47,
+        "average": 720.5106382978723,
+        "unit": "ms",
+        "ratings": {
+          "good": 43,
+          "needs-improvement": 3,
+          "poor": 1
+        },
+        "goodPercent": 91
+      },
+      "INP": {
+        "count": 9,
+        "average": 134.22222222222223,
+        "unit": "ms",
+        "ratings": {
+          "good": 8,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 89
+      },
+      "LCP": {
+        "count": 7,
+        "average": 503.85714285714283,
+        "unit": "ms",
+        "ratings": {
+          "good": 7,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 6,
+        "average": 0.013333333333333334,
+        "unit": "",
+        "ratings": {
+          "good": 6,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
   }
 ]
