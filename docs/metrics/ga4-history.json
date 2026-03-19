@@ -11005,5 +11005,207 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-03-19T06:21:04.778Z",
+    "date": "2026-03-19",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 185,
+      "users": 177,
+      "pageViews": 182,
+      "averageSessionDuration": 39,
+      "bounceRate": 0.72
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 53,
+        "users": 53,
+        "pageViews": 64
+      },
+      {
+        "page": "/blog/",
+        "sessions": 45,
+        "users": 45,
+        "pageViews": 45
+      },
+      {
+        "page": "/blog",
+        "sessions": 13,
+        "users": 12,
+        "pageViews": 11
+      },
+      {
+        "page": "/runbook",
+        "sessions": 12,
+        "users": 12,
+        "pageViews": 11
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "sessions": 11,
+        "users": 9,
+        "pageViews": 9
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 5,
+        "users": 5,
+        "pageViews": 5
+      },
+      {
+        "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide/",
+        "sessions": 5,
+        "users": 2,
+        "pageViews": 4
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 6,
+        "users": 5,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 3
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 102,
+        "users": 95
+      },
+      {
+        "device": "mobile",
+        "sessions": 83,
+        "users": 82
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 171,
+          "users": 166
+        },
+        {
+          "channel": "Referral",
+          "sessions": 4,
+          "users": 2
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 171,
+          "users": 166
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 3,
+          "users": 1
+        },
+        {
+          "source": "bing",
+          "medium": "organic",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "sanganzhu.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 109,
+        "average": 226.0091743119266,
+        "unit": "ms",
+        "ratings": {
+          "good": 107,
+          "needs-improvement": 0,
+          "poor": 2
+        },
+        "goodPercent": 98
+      },
+      "FCP": {
+        "count": 67,
+        "average": 1416.1492537313434,
+        "unit": "ms",
+        "ratings": {
+          "good": 47,
+          "needs-improvement": 11,
+          "poor": 9
+        },
+        "goodPercent": 70
+      },
+      "CLS": {
+        "count": 24,
+        "average": 0.004916666666666667,
+        "unit": "",
+        "ratings": {
+          "good": 24,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 22,
+        "average": 261.09090909090907,
+        "unit": "ms",
+        "ratings": {
+          "good": 14,
+          "needs-improvement": 3,
+          "poor": 5
+        },
+        "goodPercent": 64
+      },
+      "LCP": {
+        "count": 20,
+        "average": 2500.3,
+        "unit": "ms",
+        "ratings": {
+          "good": 12,
+          "needs-improvement": 4,
+          "poor": 4
+        },
+        "goodPercent": 60
+      }
+    },
+    "toolInteractions": null
   }
 ]
