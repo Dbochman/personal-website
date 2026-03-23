@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-22T06:13:00.431Z",
+  "generated": "2026-03-23T06:25:32.823Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,93 +8,93 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-03-22T06:13:00.431Z",
-    "sessions_7d": 82,
-    "users_7d": 76,
-    "pageviews_7d": 88,
-    "avgSessionDuration": 79,
-    "bounceRate": 0.65,
+    "lastCheck": "2026-03-23T06:25:32.823Z",
+    "sessions_7d": 69,
+    "users_7d": 64,
+    "pageviews_7d": 76,
+    "avgSessionDuration": 89,
+    "bounceRate": 0.67,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 42
+        "pageViews": 38
       },
       {
         "page": "/blog/",
-        "pageViews": 21
+        "pageViews": 13
       },
       {
         "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "pageViews": 8
+        "pageViews": 9
       },
       {
         "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide/",
         "pageViews": 4
       },
       {
-        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "page": "/projects",
         "pageViews": 1
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-03-22T06:13:00.431Z",
+    "lastCheck": "2026-03-23T06:25:32.823Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 68,
-        "average": 288.38235294117646,
+        "count": 57,
+        "average": 328.3157894736842,
         "unit": "ms",
         "ratings": {
-          "good": 66,
+          "good": 55,
           "needs-improvement": 0,
           "poor": 2
         },
-        "goodPercent": 97
-      },
-      "FCP": {
-        "count": 48,
-        "average": 1837.2291666666667,
-        "unit": "ms",
-        "ratings": {
-          "good": 30,
-          "needs-improvement": 9,
-          "poor": 9
-        },
-        "goodPercent": 63
+        "goodPercent": 96
       },
       "CLS": {
-        "count": 28,
-        "average": 0.005678571428571429,
+        "count": 27,
+        "average": 0.00588888888888889,
         "unit": "",
         "ratings": {
-          "good": 28,
+          "good": 27,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
-      "LCP": {
-        "count": 25,
-        "average": 2320.28,
+      "FCP": {
+        "count": 44,
+        "average": 2023.3636363636363,
         "unit": "ms",
         "ratings": {
-          "good": 17,
+          "good": 24,
+          "needs-improvement": 11,
+          "poor": 9
+        },
+        "goodPercent": 55
+      },
+      "LCP": {
+        "count": 24,
+        "average": 2396.4583333333335,
+        "unit": "ms",
+        "ratings": {
+          "good": 16,
           "needs-improvement": 4,
           "poor": 4
         },
-        "goodPercent": 68
+        "goodPercent": 67
       },
       "INP": {
-        "count": 21,
-        "average": 266.6666666666667,
+        "count": 20,
+        "average": 250.8,
         "unit": "ms",
         "ratings": {
           "good": 13,
           "needs-improvement": 3,
-          "poor": 5
+          "poor": 4
         },
-        "goodPercent": 62
+        "goodPercent": 65
       }
     }
   }

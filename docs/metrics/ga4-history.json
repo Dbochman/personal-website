@@ -11813,5 +11813,190 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-03-23T06:25:32.819Z",
+    "date": "2026-03-23",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 69,
+      "users": 64,
+      "pageViews": 76,
+      "averageSessionDuration": 89,
+      "bounceRate": 0.67
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 25,
+        "users": 26,
+        "pageViews": 38
+      },
+      {
+        "page": "/blog/",
+        "sessions": 13,
+        "users": 13,
+        "pageViews": 13
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 10,
+        "users": 8,
+        "pageViews": 9
+      },
+      {
+        "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide/",
+        "sessions": 5,
+        "users": 2,
+        "pageViews": 4
+      },
+      {
+        "page": "/projects",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 1
+      },
+      {
+        "page": "/projects/analytics",
+        "sessions": 2,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/runbook",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-07-uptime-monitoring-for-a-personal-site",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 39,
+        "users": 35
+      },
+      {
+        "device": "mobile",
+        "sessions": 30,
+        "users": 29
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 64,
+          "users": 58
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 64,
+          "users": 58
+        },
+        {
+          "source": "bing",
+          "medium": "organic",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "sanganzhu.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 57,
+        "average": 328.3157894736842,
+        "unit": "ms",
+        "ratings": {
+          "good": 55,
+          "needs-improvement": 0,
+          "poor": 2
+        },
+        "goodPercent": 96
+      },
+      "CLS": {
+        "count": 27,
+        "average": 0.00588888888888889,
+        "unit": "",
+        "ratings": {
+          "good": 27,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "FCP": {
+        "count": 44,
+        "average": 2023.3636363636363,
+        "unit": "ms",
+        "ratings": {
+          "good": 24,
+          "needs-improvement": 11,
+          "poor": 9
+        },
+        "goodPercent": 55
+      },
+      "LCP": {
+        "count": 24,
+        "average": 2396.4583333333335,
+        "unit": "ms",
+        "ratings": {
+          "good": 16,
+          "needs-improvement": 4,
+          "poor": 4
+        },
+        "goodPercent": 67
+      },
+      "INP": {
+        "count": 20,
+        "average": 250.8,
+        "unit": "ms",
+        "ratings": {
+          "good": 13,
+          "needs-improvement": 3,
+          "poor": 4
+        },
+        "goodPercent": 65
+      }
+    },
+    "toolInteractions": null
   }
 ]
