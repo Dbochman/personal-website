@@ -11998,5 +11998,190 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-03-24T06:23:22.509Z",
+    "date": "2026-03-24",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 59,
+      "users": 55,
+      "pageViews": 67,
+      "averageSessionDuration": 86,
+      "bounceRate": 0.8
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 31
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 10,
+        "users": 9,
+        "pageViews": 9
+      },
+      {
+        "page": "/blog/",
+        "sessions": 5,
+        "users": 5,
+        "pageViews": 5
+      },
+      {
+        "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide/",
+        "sessions": 5,
+        "users": 2,
+        "pageViews": 3
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/blog",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/runbook",
+        "sessions": 4,
+        "users": 4,
+        "pageViews": 3
+      },
+      {
+        "page": "/blog/2026-01-07-uptime-monitoring-for-a-personal-site",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-11-shaving-minutes-off-deploys",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 41,
+        "users": 37
+      },
+      {
+        "device": "mobile",
+        "sessions": 18,
+        "users": 18
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 56,
+          "users": 52
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 56,
+          "users": 52
+        },
+        {
+          "source": "sanganzhu.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 42,
+        "average": 201.42857142857142,
+        "unit": "ms",
+        "ratings": {
+          "good": 42,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 26,
+        "average": 0.0061153846153846145,
+        "unit": "",
+        "ratings": {
+          "good": 26,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "FCP": {
+        "count": 37,
+        "average": 1973.6216216216217,
+        "unit": "ms",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 11,
+          "poor": 7
+        },
+        "goodPercent": 51
+      },
+      "LCP": {
+        "count": 21,
+        "average": 2370.190476190476,
+        "unit": "ms",
+        "ratings": {
+          "good": 14,
+          "needs-improvement": 4,
+          "poor": 3
+        },
+        "goodPercent": 67
+      },
+      "INP": {
+        "count": 19,
+        "average": 253.47368421052633,
+        "unit": "ms",
+        "ratings": {
+          "good": 12,
+          "needs-improvement": 3,
+          "poor": 4
+        },
+        "goodPercent": 63
+      }
+    },
+    "toolInteractions": null
   }
 ]
