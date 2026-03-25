@@ -12183,5 +12183,185 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-03-25T06:22:53.257Z",
+    "date": "2026-03-25",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 55,
+      "users": 54,
+      "pageViews": 51,
+      "averageSessionDuration": 50,
+      "bounceRate": 0.73
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 12,
+        "users": 12,
+        "pageViews": 12
+      },
+      {
+        "page": "/blog/",
+        "sessions": 11,
+        "users": 11,
+        "pageViews": 11
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 9
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/blog",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/runbook",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/blog/2026-01-07-uptime-monitoring-for-a-personal-site",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-11-shaving-minutes-off-deploys",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-21-the-slo-math-most-teams-get-wrong",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 35,
+        "users": 34
+      },
+      {
+        "device": "mobile",
+        "sessions": 20,
+        "users": 20
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 50,
+          "users": 50
+        },
+        {
+          "channel": "Referral",
+          "sessions": 3,
+          "users": 2
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 50,
+          "users": 50
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "source": "sanganzhu.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 27,
+        "average": 128,
+        "unit": "ms",
+        "ratings": {
+          "good": 27,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "FCP": {
+        "count": 17,
+        "average": 1161.235294117647,
+        "unit": "ms",
+        "ratings": {
+          "good": 13,
+          "needs-improvement": 3,
+          "poor": 1
+        },
+        "goodPercent": 76
+      },
+      "CLS": {
+        "count": 7,
+        "average": 0.008571428571428572,
+        "unit": "",
+        "ratings": {
+          "good": 7,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "LCP": {
+        "count": 7,
+        "average": 1212.2857142857142,
+        "unit": "ms",
+        "ratings": {
+          "good": 7,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 4,
+        "average": 38,
+        "unit": "ms",
+        "ratings": {
+          "good": 4,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
   }
 ]
