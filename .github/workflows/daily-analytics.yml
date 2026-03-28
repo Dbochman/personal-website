@@ -318,6 +318,35 @@ jobs:
               anomalies = ['Unknown anomaly - check workflow logs'];
             }
 
+            // Suppress duplicate alerts: if an open analytics anomaly issue exists
+            // from the last 3 days, comment on it instead of creating a new one
+            const recentIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'analytics,automated',
+              state: 'open',
+              sort: 'created',
+              direction: 'desc',
+              per_page: 1
+            });
+
+            const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+            const recentOpen = recentIssues.data.find(
+              i => new Date(i.created_at) > threeDaysAgo
+            );
+
+            if (recentOpen) {
+              // Append today's data as a comment on the existing issue
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: recentOpen.number,
+                body: `### Update (${date})\n${anomalies.map(a => '- ' + a).join('\n')}\n\n[Workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+              });
+              core.info(`Appended to existing issue #${recentOpen.number} instead of creating a new one`);
+              return;
+            }
+
             const body = [
               '## 📉 Daily Analytics Anomaly Alert',
               '',
