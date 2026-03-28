@@ -63,6 +63,17 @@ Append to `.claude/session-notes.md`:
 - Unresolved questions
 - Patterns worth noting
 
+## Blog Quality
+
+Blog posts are checked by [slop-guard](https://github.com/eric-tramel/slop-guard) in CI. All posts must score >= 80/100. Run locally:
+
+```bash
+uvx --from slop-guard sg -v content/blog/my-post.txt  # verbose violations
+uvx --from slop-guard sg -s content/blog/my-post.txt  # score only
+```
+
+See `docs/BLOG_STYLE_GUIDE.md` for voice, tone, and conventions.
+
 ## Patterns to Avoid
 
 - **localStorage**: Use URL params instead
