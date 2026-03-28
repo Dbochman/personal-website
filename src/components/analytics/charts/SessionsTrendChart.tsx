@@ -29,12 +29,17 @@ export function SessionsTrendChart({ data }: SessionsTrendChartProps) {
     );
   }
 
-  const chartData = data.map((entry) => ({
-    date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-    sessions: entry.summary.sessions,
-    users: entry.summary.users,
-    pageViews: entry.summary.pageViews,
-  }));
+  const sixtyDaysAgo = new Date();
+  sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+
+  const chartData = data
+    .filter((entry) => new Date(entry.date) >= sixtyDaysAgo)
+    .map((entry) => ({
+      date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      sessions: entry.summary.sessions,
+      users: entry.summary.users,
+      pageViews: entry.summary.pageViews,
+    }));
 
   // Calculate tick interval: show ~5-7 labels max for readability
   const tickInterval = Math.max(0, Math.ceil(chartData.length / 6) - 1);
