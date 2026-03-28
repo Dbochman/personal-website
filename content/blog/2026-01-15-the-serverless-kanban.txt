@@ -18,24 +18,17 @@ The kanban board worked beautifully. Drag cards between columns. Add new tasks. 
 
 State lived in URL parameters: shareable, bookmarkable, but ephemeral. Dylan wanted something more: the ability to save changes permanently, so updates would persist for anyone loading the board.
 
-The constraint: this is a static site on GitHub Pages. No server. No database. No backend to speak of.
+The constraint was that this is a static site on GitHub Pages. No server. No database. No backend to speak of.
 
 ## The architecture that emerged
 
-After exploring options, we landed on a surprisingly elegant flow:
+After exploring options, we landed on a clean flow:
 
 ```
 Browser → Cloudflare Worker → GitHub API → GitHub Action → Commit to Repo
 ```
 
-Here's how it works:
-
-1. **User clicks "Save"** in the browser
-2. **Cloudflare Worker** receives the request, validates the session
-3. **Worker triggers** a GitHub `repository_dispatch` event
-4. **GitHub Action** receives the dispatch, validates the payload
-5. **Action commits** the board data to the repository
-6. **Site rebuilds** automatically from the new commit
+The user clicks "Save" in the browser. A Cloudflare Worker receives the request, validates the session, and triggers a GitHub `repository_dispatch` event. A GitHub Action picks up the dispatch, validates the payload, and commits the board data to the repository. The site then rebuilds automatically from the new commit.
 
 No database. State lives in Git. The repository *is* the backend.
 
@@ -88,7 +81,7 @@ Login redirect: fine. OAuth callback: fine. Session cookie: *not set*.
 
 Mobile Safari blocks third-party cookies by default. Our worker was running on `kanban-save-worker.dbochman.workers.dev`, but the site lives at `dylanbochman.com`. Different domains. Third-party cookie. Blocked.
 
-The fix: move the worker to a subdomain of the main site.
+The fix was moving the worker to a subdomain of the main site.
 
 ```
 api.dylanbochman.com → Cloudflare Worker (Custom Domain)
@@ -102,7 +95,7 @@ Cloudflare's Custom Domain feature handles this cleanly. No manual DNS records t
 
 The save workflow started failing mysteriously. The GitHub Action would run, then crash with a cryptic shell error.
 
-The culprit: a task titled "Won't Do".
+The culprit was a task titled "Won't Do".
 
 ```yaml
 # This breaks when the JSON contains apostrophes
@@ -111,7 +104,7 @@ The culprit: a task titled "Won't Do".
 
 Shell quoting is treacherous. The apostrophe in "Won't" terminated the single-quoted string mid-JSON, producing invalid syntax.
 
-The fix: use environment variables instead of inline interpolation.
+The fix was using environment variables instead of inline interpolation.
 
 ```yaml
 - name: Update board JSON
@@ -131,13 +124,13 @@ GitHub Actions workflows don't trigger on commits made by the default `GITHUB_TO
 
 But we *wanted* the deploy to trigger. The kanban save should result in a live site update.
 
-The solution: use a Personal Access Token instead.
+The solution was using a Personal Access Token instead.
 
 ```yaml
 - name: Checkout
   uses: actions/checkout@v4
   with:
-    token: ${{ secrets.DEPLOY_TOKEN }}  # PAT, not GITHUB_TOKEN
+    token: ${{ secrets.DEPLOY_TOKEN }}  # Must be a PAT
 ```
 
 Commits made with a PAT are attributed to the token's owner, not `github-actions[bot]`. These commits trigger workflows normally.
@@ -174,7 +167,7 @@ if [[ "$CURRENT_UPDATED" > "$BASE_UPDATED" ]]; then
 fi
 ```
 
-If someone else saved while you were editing, your save fails with a clear message. Reload, re-apply your changes, try again. Not perfect, but safe.
+If someone else saved while you were editing, your save fails with a clear message. Reload, re-apply your changes, try again. It won't merge conflicts for you, but it won't silently drop anyone's work either.
 
 ## The final architecture
 
@@ -205,19 +198,19 @@ If someone else saved while you were editing, your save fails with a clear messa
          │                         │     and triggers deploy  │
 ```
 
-Total infrastructure cost: $0. Cloudflare Workers free tier. GitHub Actions free for public repos. GitHub Pages free hosting.
+Total infrastructure cost is $0. Cloudflare Workers free tier. GitHub Actions free for public repos. GitHub Pages free hosting.
 
 ## What we learned
 
-Git as a database works surprisingly well for low-write, high-read scenarios. Every change is versioned. History is automatic. Rollback is `git revert`.
+Git works well as a database for low-write, high-read scenarios. Every change is versioned, history is automatic, and rollback is `git revert`. The main limitation is write throughput -- concurrent saves need conflict detection, which we solved with optimistic locking.
 
-Cloudflare Workers are capable edge compute. OAuth flows, session management, API proxying, all in a few hundred lines of TypeScript.
+Cloudflare Workers handled more than we expected. OAuth flows, session management, and API proxying all fit in a few hundred lines of TypeScript, and the free tier covers the traffic without any cost.
 
-Third-party cookies are dying. If your architecture relies on cross-origin cookies, test on Mobile Safari early. You'll thank yourself later.
+Third-party cookies bit us on Mobile Safari. If your architecture relies on cross-origin cookies, test on Mobile Safari early. We lost an hour to a problem that would have been obvious if we'd tested there first.
 
 Shell quoting is a minefield. When passing untrusted content through shell commands, use environment variables. Always.
 
-GitHub's token permissions are nuanced. `GITHUB_TOKEN` commits don't trigger workflows. PATs do. Know which you need.
+GitHub's token permissions have a wrinkle worth knowing about. `GITHUB_TOKEN` commits don't trigger downstream workflows. PATs do. We needed the deploy workflow to fire after the kanban save, so we had to use a PAT.
 
 The kanban board now persists. Drag a card, click save, and your changes live in Git forever, no server required.
 

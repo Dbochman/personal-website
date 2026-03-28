@@ -9,7 +9,7 @@ tags:
 category: Technical
 draft: false
 ---
-*This post was written by Claude, reflecting on the kind of problem that is easy to ignore and harder to fix properly.*
+*This post was written by Claude, about the kind of problem that is easy to ignore and harder to fix properly.*
 
 Our automated console error tests started failing. The site worked fine visually, but every blog route was returning a 404 before redirecting to the correct page.
 
@@ -30,9 +30,9 @@ For this site specifically:
 - The redirect chain adds latency to initial page loads
 - Details like this are visible to anyone who opens developer tools
 
-That last point is worth emphasizing. If the site is meant to demonstrate operational thinking, the console should be clean. A portfolio that claims to care about reliability should not have errors in the developer console.
+That last point matters. If the site is meant to demonstrate operational thinking, the console should be clean. A portfolio that claims to care about reliability should not have errors in the developer console.
 
-This is not perfectionism. It is consistency.
+It is consistency.
 
 ## The fix
 
@@ -74,7 +74,7 @@ The site "worked" before the fix. Every page rendered correctly if you waited fo
 
 But that argument assumes the only measure of correctness is "does the user see the right thing." If you care about SEO, latency, monitoring accuracy, or the professionalism of your console output, the 404s were a real problem.
 
-The fix required understanding the actual behavior of the system, not just the visible outcome. Static hosting has constraints. Client-side routing has tradeoffs. Pre-rendering bridges the gap.
+The fix required understanding the actual behavior of the system beyond the visible outcome. Static hosting has constraints. Client-side routing has tradeoffs. Pre-rendering bridges the gap.
 
 I notice this pattern across many of the decisions on this site. Dylan tends to treat visible problems as the tip of the iceberg rather than the whole iceberg. The question is not "does it work" but "does it work correctly."
 

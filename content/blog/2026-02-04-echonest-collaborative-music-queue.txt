@@ -23,11 +23,11 @@ It worked well enough that when Spotify acquired us, a few of us forked it inter
 
 Every new employee (and guest) got a welcome email with the rules. I still have it saved somewhere. The gist:
 
-1. **Put things on the playlist.** We want to hear what you like.
-2. **Variety is fun.** One or two songs by a given artist, a handful in a genre, then give someone else a turn. Weirdness is fine, but short weirdnesses are more readily appreciated than long ones.
-3. **Don't skip a song once it starts playing.** Somebody picked it and has been waiting for it to come on.
-4. **Anyone can lower the volume for any reason.** If it's been down for a while, feel free to turn it back up.
-5. **When in doubt, put on your headphones.**
+1. Put things on the playlist. We want to hear what you like.
+2. Variety is fun. One or two songs by a given artist, a handful in a genre, then give someone else a turn. Weirdness is fine, but short weirdnesses are more readily appreciated than long ones.
+3. Don't skip a song once it starts playing. Somebody picked it and has been waiting for it to come on.
+4. Anyone can lower the volume for any reason. If it's been down for a while, just turn it back up.
+5. When in doubt, put on your headphones.
 
 There were also some "special occasion" buttons that played specific songs. The email always said "you probably shouldn't push those." People pushed them anyway.
 
@@ -43,7 +43,7 @@ The airhorns were inevitable. Every office jukebox eventually gets sound effects
 
 ## The Architecture
 
-One thing that confuses people: EchoNest is a shared queue, but individual playback. Everyone sees the same queue. Everyone can add songs and vote. But each person connects their own Spotify account and plays along on their own device. EchoNest is the DJ, not the speaker.
+One thing that confuses people: EchoNest is a shared queue, but individual playback. Everyone sees the same queue. Everyone can add songs and vote. But each person connects their own Spotify account and plays along on their own device. EchoNest decides what plays and when. Your device handles the audio.
 
 ```
 ┌─────────────────────────────────────┐
@@ -79,29 +79,17 @@ The background worker is the interesting part. It runs continuously, tracking wh
 
 The original codebase was Python 2 with Flask and SQLite, and it showed every year of tech debt.
 
-The resurrection started with the basics:
+The resurrection started with the basics. Everything moved to Python 3 (goodbye `unicode` landmines). SQLite gave way to Redis to match the real-time queue model, and the old polling loops became gevent WebSockets so the UI stays in sync. The Google and Spotify OAuth flows got rebuilt from scratch, the throwback time-capsule feature went into Bender, and the whole stack got containerized on a $6 DigitalOcean box with Caddy handling TLS.
 
-- Migrated everything to Python 3 (goodbye `unicode` landmines)
-- Replaced SQLite with Redis to match the real-time queue model
-- Swapped the old polling loops for gevent WebSockets so the UI stays in sync
-- Rebuilt the Google and Spotify OAuth flows
-- Added the throwback time-capsule feature for Bender
-- Containerized the whole stack and dropped it on a $6 DigitalOcean box with Caddy handling TLS
+Once that foundation held, the recent sprints focused on making it feel modern again. Pasting Spotify albums, playlists, or YouTube playlists now fans out the tracks with one "add all" click. Podcasts have their own search lane and play nicely with the queue, including smarter skip behavior. SoundCloud is back, now authenticated via server-side OAuth so the streams still resolve after their API changes. Syncing audio is clearer with a dedicated button, and local mute/volume controls no longer fight the server settings.
 
-Once that foundation held, the recent sprints have focused on making it feel modern again:
+On the reliability side, Spotify rate-limit handling, WebSocket message flow, and Bender's seed logic all got hardened so a single 429 or long podcast can't stall the party. Redis now runs with auth and protected mode.
 
-- Pasting Spotify albums, playlists, or YouTube playlists now fans out the tracks with one "add all" click (bulk queueing without copy/paste gymnastics)
-- Podcasts have their own search lane and play nicely with the queue, including smarter skip behavior and tests to keep it from regressing
-- SoundCloud is back--now authenticated via server-side OAuth so the streams still resolve after their API changes
-- Syncing audio is clearer with a dedicated button, and local mute/volume controls no longer fight the server settings or other listeners
-- Spotify rate-limit handling, WebSocket message flow, and Bender's seed logic all got hardened so a single 429 or long podcast can't stall the party
-- Redis now runs with auth and protected mode, plus a security checklist to keep the droplet from becoming an open jukebox on the internet
-- Multi-room Nests replace the one-room limit: hit Build a Nest, share a five-character code or slug like `echone.st/friday-vibes`, and every room gets its own queue, voting, jams, and Bender
-- The backend now scopes every Redis key by nest, tracks live listeners with heartbeats, caps pop-up nests at 25 songs, and lets the master player garbage-collect idle rooms without touching the Main Nest
+The biggest new feature is multi-room Nests. Hit Build a Nest, share a five-character code or slug like `echone.st/friday-vibes`, and every room gets its own queue with independent voting, jams, and a separate Bender instance. The backend scopes every Redis key by nest, tracks live listeners with heartbeats, caps pop-up nests at 25 songs, and lets the master player garbage-collect idle rooms without touching the Main Nest.
 
-The UI already has the nest bar, copy-link button, and modal flows for building or joining; the roadmap still has nest history, creator controls, and fine-grained Bender weights waiting in the wings.
+The UI already has the nest bar, copy-link button, and modal flows for building or joining. The roadmap still has nest history, creator controls, and fine-grained Bender weights ahead.
 
-It's still a jukebox, not a SaaS product. But it ships features again, stays online, and keeps the room honest about its music taste.
+It's still a jukebox. But it ships features again, stays online, and keeps the room honest about its music taste.
 
 ## Try It
 

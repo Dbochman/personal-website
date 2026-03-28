@@ -22,7 +22,7 @@ So Claude and I built a hook that does exactly that. Then we realized the hook w
 
 Writing is easy to skip. There's always another feature to build, another bug to fix, another thing that feels more urgent than reflection. The commits pile up, and eventually the work becomes too distant to write about compellingly.
 
-But there's a second problem: even when you remember to write, you need material. Commit messages say what changed, not why. They don't capture the dead ends, the pivots, the moments when a question reframed the entire problem.
+But there's a second problem: even when you remember to write, you need material. Commit messages say what changed. They rarely explain why, and they never capture the dead ends, the pivots, the moments when a question reframed the entire problem.
 
 The interesting parts of a story evaporate if you don't capture them when they happen.
 
@@ -64,11 +64,11 @@ After building the hook, I asked myself: what changes could we make to PRs and c
 
 The hook can only work with what exists. If commit messages are terse and PR descriptions are mechanical, the hook will fire and Claude will have nothing interesting to say. "We made 10 commits that fixed things" is not a blog post.
 
-The insight was that Claude writes the PR descriptions. Claude has context at the moment of writing that won't exist later. If we capture the narrative then, future Claude has material to work with.
+The insight was that Claude writes the PR descriptions. Claude has context at the moment of writing that won't exist later. If we capture the full story then, future Claude has material to work with.
 
 ## The commit message guide
 
-PR descriptions capture the full narrative, but commit messages are still useful signals. I added guidance for writing commits that serve as blog source material.
+PR descriptions capture the full arc of a change, but commit messages are still useful signals. I added guidance for writing commits that serve as blog source material.
 
 The key additions:
 
@@ -103,7 +103,7 @@ When Claude drafts a post about CMS authentication, it can search for all commit
 
 Some context doesn't fit in commits or PRs: the observations, the "we tried X but realized Y" moments, the questions that came up but weren't resolved.
 
-For this, I added `.claude/session-notes.md`. At the end of sessions where something notable happened, Claude appends a brief entry. Less formal than a blog post, more durable than conversation memory.
+For this, I added `.claude/session-notes.md`. At the end of sessions where something worth recording happened, Claude appends a brief entry. Less formal than a blog post, more durable than conversation memory.
 
 The hook now checks session notes for additional context when drafting posts.
 
@@ -117,7 +117,7 @@ Links should feel natural. If one interrupts the flow, skip it. But when a reade
 
 ## The PR style guide
 
-I added a section to `CLAUDE.md` that changes how Claude writes PR descriptions. The key addition is a "Journey" section:
+I added a section to `CLAUDE.md` that changes how Claude writes PR descriptions. The biggest change is a "Problem to Solution" section we call "The Journey":
 
 ```markdown
 ## The Journey
@@ -164,12 +164,7 @@ That PR description is already a blog post outline. When the hook fires, Claude 
 
 ## The blog style guide
 
-The third piece is `docs/BLOG_STYLE_GUIDE.md`, a reference for how Claude should write posts in our voice. It covers:
-
-- **Pronouns**: "I" for Claude's actions (when Claude is the author), "we" for joint work, "Dylan" for my contributions
-- **Tone**: Analytical, honest about limitations, dry humor from observation
-- **Structure**: Opening attribution, engaging titles, "The Journey" arc, pithy takeaways
-- **What to capture**: Dead ends, pivots, the gap between "works visually" and "works correctly"
+The third piece is `docs/BLOG_STYLE_GUIDE.md`, a reference for how Claude should write posts in our voice. It defines pronoun conventions ("I" for Claude's actions when Claude is the author, "we" for joint work, "Dylan" for my contributions) and sets the tone: analytical, honest about limitations, dry humor from observation. It lays out structure expectations -- opening attribution, engaging titles, the problem-to-solution arc, pithy takeaways -- and specifies what to capture: dead ends, pivots, the gap between "works visually" and "works correctly."
 
 When the hook fires, Claude reads this guide first. It keeps the voice consistent even when posts are written weeks apart.
 
@@ -177,15 +172,11 @@ When the hook fires, Claude reads this guide first. It keeps the voice consisten
 
 The pieces work together:
 
-1. **During work**: Claude writes commit messages with context in the body, marks notable ones with `[blog]`, and groups multi-session features with `[blog:tag-name]`
-2. **At PR time**: Claude writes descriptions with "The Journey" section, capturing narrative while context is fresh
-3. **At session end**: Claude adds notes to `.claude/session-notes.md` if something notable happened
-4. **At session end**: The Stop hook checks commit count, significance, `[blog]` tags, and grouped commits
-5. **If threshold met**: Hook prompts Claude to draft a post
-6. **Drafting**: Claude reads the style guide, analyzes commits/PRs/session notes, scans for interlinking opportunities, finds the through-line
-7. **Output**: Auto-committed draft in `content/blog/` with internal links, ready for the next push
+During work, Claude writes commit messages with context in the body, marks interesting ones with `[blog]`, and groups multi-session features with `[blog:tag-name]`. At PR time, Claude writes descriptions with "The Journey" section, capturing the full story while context is fresh. At session end, Claude adds notes to `.claude/session-notes.md` if something worth recording happened, and the Stop hook checks commit count, significance, `[blog]` tags, and grouped commits.
 
-The hook handles attention. The commit messages provide signals. The session notes capture context. The PR template provides narrative. The style guide maintains voice. The interlinking connects the pieces.
+When the threshold is met, the hook prompts Claude to draft a post. Claude reads the style guide, analyzes commits, PRs, and session notes, scans for interlinking opportunities, and finds the through-line. The output is an auto-committed draft in `content/blog/` with internal links, ready for the next push.
+
+The hook handles attention. The commit messages provide signals. The session notes capture context. The PR template provides the story. The style guide maintains voice.
 
 ## Why "Stop" hook?
 
@@ -201,7 +192,7 @@ Running at push-time would be too frequent. Running at session-start would be to
 
 I settled on 10 commits as the fallback, with 2+ significant commits as an earlier trigger.
 
-Why 10? Enough to have substance, not so much that the post becomes a laundry list. A good post has a through-line. Ten commits usually provides one.
+Why 10? Enough to have substance without the post becoming a laundry list. A good post has a through-line. Ten commits usually provides one.
 
 Why significant commits as an override? A single feature might be worth writing about even at 3 commits. The conventional prefixes (`feat:`, `perf:`, `refactor:`) are a reasonable proxy for intentional, scoped work.
 

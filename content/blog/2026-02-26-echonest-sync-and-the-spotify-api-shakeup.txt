@@ -12,7 +12,7 @@ category: Technical
 draft: false
 ---
 
-I wrote about [EchoNest](/blog/echonest-collaborative-music-queue) a few weeks ago, the collaborative office jukebox I've been keeping alive since 2017. One thing I didn't get into was how playback actually works. Everyone sees the same queue on the web app, but each person syncs their own Spotify. The server says "play this track at this position" and your Spotify follows along.
+I wrote about [EchoNest](/blog/echonest-collaborative-music-queue) a few weeks ago, the shared office jukebox I've been keeping alive since 2017. One thing I didn't get into was how playback actually works. Everyone sees the same queue on the web app, but each person syncs their own Spotify. The server says "play this track at this position" and your Spotify follows along.
 
 That sync relied on per-user Spotify OAuth tokens. Each person connects their Spotify account, the server gets a token, and it tells their Spotify client what to do. It worked. But it meant every user needed to authenticate through our Spotify developer app, and that's where things recently got interesting.
 
@@ -60,13 +60,9 @@ Spotify published a [migration guide](https://developer.spotify.com/documentatio
 
 ## What's next
 
-A few things we're thinking about for the web app's browser sync:
+A few things we're thinking about for the web app's browser sync.
 
-**Accept the cap.** Five users can sync in the browser. Everyone else uses the sync app or just participates in the queue without local playback.
-
-**BYOA (Bring Your Own App).** Nest creators register their own Spotify developer app when creating a room. Each nest gets its own 5-user allowlist. Scales linearly with the number of nests.
-
-**YouTube fallback.** Match Spotify tracks to YouTube for browser playback. No per-user auth needed. Audio quality varies.
+The simplest option is to accept the cap. Five users can sync in the browser, everyone else uses the sync app or participates in the queue without local playback. Another option is BYOA (Bring Your Own App): nest creators register their own Spotify developer app when creating a room, giving each nest its own 5-user allowlist that scales linearly with the number of nests. We're also considering a YouTube fallback that matches Spotify tracks to YouTube for browser playback, which would need no per-user auth at the cost of variable audio quality.
 
 No rush on picking a direction. The app works, the sync client works, Bender keeps filling the queue. We'll see how enforcement actually plays out after March 9.
 

@@ -162,13 +162,7 @@ We went with Option B. The CMS is a private admin interface with no SEO value, s
 
 ## Testing
 
-1. Deploy to Netlify
-2. Invite yourself in Netlify Identity
-3. Accept the email invitation
-4. Go to `yoursite.netlify.app/editor/` (or your custom domain if you're not using Cloudflare proxy)
-5. Log in and create a test post
-6. Check that the commit appears in your repo
-7. Confirm the site rebuilds
+Deploy to Netlify, then invite yourself in Netlify Identity and accept the email invitation. Go to `yoursite.netlify.app/editor/` (or your custom domain if you're not using Cloudflare proxy), log in, and create a test post. Check that the commit appears in your repo and confirm the site rebuilds.
 
 ## Troubleshooting
 

@@ -11,7 +11,7 @@ category: Technical
 draft: false
 image: ""
 ---
-*This post was written by Claude, reflecting on the work we did together to add a blog and CMS to this site.*
+*This post was written by Claude, describing the work we did together to add a blog and CMS to this site.*
 
 This site started as a static portfolio. Adding a blog seemed straightforward. Adding a CMS to manage that blog was where things got interesting.
 
@@ -83,16 +83,7 @@ We deployed, navigated to the editor, clicked login, and watched it fail.
 
 The symptom was a 405 error when attempting to log in through the CMS at the custom domain. The Netlify Identity token endpoint was returning "Method Not Allowed." This is the HTTP status code equivalent of a door that looks like it should open but does not.
 
-What followed was a small adventure in configuration archaeology. The fix attempts accumulated:
-
-1. [Update CMS config to use Netlify Git Gateway](https://github.com/Dbochman/personal-website/commit/39e86a34d45939e6c4c602938597fbce9d3a45b2)
-2. [Add Netlify build config](https://github.com/Dbochman/personal-website/commit/a118e698dff42e2585acfb623b3b07f39a50b877)
-3. [Add Netlify Identity widget to handle password recovery](https://github.com/Dbochman/personal-website/commit/2a632395fca2cda0f9282bdbaa89e03648c1178f)
-4. [Configure CMS to use Netlify site for authentication](https://github.com/Dbochman/personal-website/commit/f2d4c784f3bc0b125dd53e137618c8973acdf668)
-5. [Add Netlify Identity widget with API URL to editor](https://github.com/Dbochman/personal-website/commit/5657392d0a7889e4db8e8adcced922e10140c2c6)
-6. [Revert CMS config to simple git-gateway setup](https://github.com/Dbochman/personal-website/commit/da6e407ee52b8d6299e4a14a907c66d460e3c256)
-
-Six commits. Each one a hypothesis I suggested. Each one wrong.
+What followed was a small adventure in configuration archaeology. Over six commits, I tried [updating the CMS config to use Git Gateway](https://github.com/Dbochman/personal-website/commit/39e86a34d45939e6c4c602938597fbce9d3a45b2), [adding a Netlify build config](https://github.com/Dbochman/personal-website/commit/a118e698dff42e2585acfb623b3b07f39a50b877), [adding the Identity widget for password recovery](https://github.com/Dbochman/personal-website/commit/2a632395fca2cda0f9282bdbaa89e03648c1178f), [pointing the CMS at the Netlify site for auth](https://github.com/Dbochman/personal-website/commit/f2d4c784f3bc0b125dd53e137618c8973acdf668), [adding the Identity widget with an explicit API URL](https://github.com/Dbochman/personal-website/commit/5657392d0a7889e4db8e8adcced922e10140c2c6), and finally [reverting to a simple git-gateway setup](https://github.com/Dbochman/personal-website/commit/da6e407ee52b8d6299e4a14a907c66d460e3c256). Each commit was a hypothesis. Each one was wrong.
 
 The actual problem was not in the code at all. It was infrastructure.
 
@@ -110,7 +101,7 @@ The CMS is a private admin interface with no SEO value. The redirect costs nothi
 
 Three different problems. Three different solutions. One common pattern.
 
-The MDX loading issue was solved by using `.txt` files that no plugin would touch. The bundle splitting issue was solved by not splitting. The authentication issue was solved by redirecting to a different domain.
+We fixed the MDX loading issue by using `.txt` files that no plugin would touch. The bundle splitting issue went away when we stopped splitting. The authentication problem disappeared once we redirected to a different domain.
 
 None of these were the solutions we would have chosen upfront. They emerged from hitting walls and looking for doors nearby. Each required stepping back and questioning whether the original approach was the right frame.
 
@@ -128,4 +119,4 @@ Sometimes the right solution is the one that works, even when it is not the one 
 
 ---
 
-*If you want to set up Decap CMS yourself without reading about our debugging journey, see [Decap CMS with Netlify: Git Gateway, Build Hooks, and the Cloudflare Gotcha](/blog/2026-01-15-decap-cms-netlify-setup-guide).*
+*If you want to set up Decap CMS yourself without the debugging backstory, see [Decap CMS with Netlify: Git Gateway, Build Hooks, and the Cloudflare Gotcha](/blog/2026-01-15-decap-cms-netlify-setup-guide).*

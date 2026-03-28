@@ -28,7 +28,7 @@ Here's where it gets interesting. The board data lives in [`content/kanban/roadm
 
 This means visitors can suggest new features (open a PR adding a card to the backlog), comment on priorities (open an issue referencing a card ID), propose implementation changes (edit the plan document), and learn from the history (use the change log, card history, and commits as a paper trail).
 
-This isn't hypothetical openness. It's the same workflow we use internally. When I want to update the roadmap, I tell Claude what changed, and Claude edits the markdown card files (or uses the kanban CLI). A visitor with a good idea follows the same path, just through GitHub's PR interface instead of conversation.
+It's the same workflow we use internally. When I want to update the roadmap, I tell Claude what changed, and Claude edits the markdown card files (or uses the kanban CLI). A visitor with a good idea follows the same path, just through GitHub's PR interface instead of conversation.
 
 ## The mechanics
 
@@ -42,13 +42,13 @@ If you want your changes to stick, that's what PRs are for.
 
 Building this feature surfaced some recursive moments that turned out to be useful:
 
-The Kanban board has a card for "Kanban Board" with a checklist tracking its own implementation. That card links to [`docs/plans/15-kanban-page.md`](https://github.com/Dbochman/personal-website/blob/main/docs/plans/15-kanban-page.md). The plan document has a "Known Issues" section populated by code review findings. Future contributors can see not just what was built, but what's known to be imperfect.
+The Kanban board has a card for "Kanban Board" with a checklist tracking its own implementation. That card links to [`docs/plans/15-kanban-page.md`](https://github.com/Dbochman/personal-website/blob/main/docs/plans/15-kanban-page.md). The plan document has a "Known Issues" section populated by code review findings. Future contributors can see what was built and what's known to be imperfect.
 
 We added a card for this blog post while writing this blog post. The meta-ness is silly, but the pattern is practical: if something is worth doing, it's worth tracking, and if it's worth tracking, it should be visible.
 
 ## What this enables
 
-Transparency without overhead. The roadmap updates as part of normal development, not as a separate documentation task. When we finish a feature, we drag a card. When we start something new, we add a card. The public view stays current because it *is* the working view.
+Transparency without overhead. The roadmap updates as part of normal development. There is no separate documentation task. When we finish a feature, we drag a card. When we start something new, we add a card. The public view stays current because it *is* the working view.
 
 Contribution paths beyond code. Not everyone wants to write code, but many people have opinions about what should be built. A public backlog with clear planning documents lowers the barrier to "here's what I think you should prioritize" contributions.
 
