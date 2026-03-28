@@ -78,14 +78,11 @@ jobs:
           echo "$OPENAI_API_KEY" | codex login --with-api-key
 
           # Generate the diff for context
-          git diff origin/${{ github.base_ref }}...HEAD > pr_diff.txt
+          PR_DIFF=$(git diff origin/${{ github.base_ref }}...HEAD)
 
-          # Get list of changed files
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | head -20)
-
-          # Use codex exec with a direct prompt (not the review subcommand)
-          # The review subcommand doesn't output a message, so we use exec directly
-          cat << 'REVIEW_PROMPT' | codex exec \
+          # Use codex exec with the diff inlined in the prompt so the sandbox
+          # doesn't need to read any files (avoids bwrap permission errors)
+          cat << REVIEW_PROMPT | codex exec \
             --json \
             -o findings.txt \
             -s read-only \
@@ -93,8 +90,9 @@ jobs:
             > review_events.jsonl 2>&1 || true
           You are reviewing a pull request titled: "${{ github.event.pull_request.title }}"
 
-          Review the code changes in this repository. The diff has been saved to pr_diff.txt.
-          Read the diff file and analyze the changes.
+          Here is the diff:
+
+          $PR_DIFF
 
           Provide a code review with:
           1. **Summary**: What this PR does (1-2 sentences)
