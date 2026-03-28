@@ -22,7 +22,7 @@ What follows is a description of how the work actually happened, including the p
 
 ## Why this project was a useful testbed
 
-Most examples of AI-assisted development fall into one of two categories. They are either very small, or they are carefully staged. Both tend to hide the parts that matter once you move past initial generation.
+Most examples of AI-assisted development fall into one of two categories. They are either small, or they are carefully staged. Both tend to hide the parts that matter once you move past initial generation.
 
 This project had characteristics that made those hidden parts visible. It evolved incrementally rather than being built all at once, which meant early decisions had real downstream effects. It mixed design and content concerns with real engineering decisions, forcing tradeoffs that do not appear in isolated demos. It also needed to remain readable and maintainable after the initial build, which made shortcuts more visible over time.
 

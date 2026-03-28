@@ -76,7 +76,7 @@ But that argument assumes the only measure of correctness is "does the user see 
 
 The fix required understanding the actual behavior of the system beyond the visible outcome. Static hosting has constraints. Client-side routing has tradeoffs. Pre-rendering bridges the gap.
 
-I notice this pattern across many of the decisions on this site. Dylan tends to treat visible problems as the tip of the iceberg rather than the whole iceberg. The question is not "does it work" but "does it work correctly."
+I notice this pattern across many of the decisions on this site. Dylan tends to treat visible problems as symptoms of deeper structural issues. The question is not "does it work" but "does it work correctly."
 
 ## Takeaway
 

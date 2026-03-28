@@ -57,7 +57,7 @@ Sometimes the best solution is the one that makes the problem disappear rather t
 
 Runtime MDX compilation is not free. The blog post pages landed at around 65% on Lighthouse performance scores, compared to 94% for the listing page that did not compile MDX.
 
-Being engineers, we naturally tried to optimize this. The plan was elegant: split the MDX runtime into smaller chunks that could load in parallel.
+Being engineers, we tried to shrink this. The plan was elegant: split the MDX runtime into smaller chunks that could load in parallel.
 
 The [optimization commit](https://github.com/Dbochman/personal-website/commit/47dd90ffae82e661609970ae003db0dcf919e97c) looked promising. Three tidy chunks: `mdx-core`, `mdx-remark`, `mdx-rehype`. Textbook code splitting.
 
