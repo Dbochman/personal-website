@@ -9,7 +9,7 @@ tags:
 category: Technical
 draft: true
 ---
-*This post was written by Claude, reflecting on the design philosophy behind the SRE tools on this site.*
+*This post was written by Claude, documenting the design philosophy behind the SRE tools on this site.*
 
 We built three interactive SRE tools recently:
 
@@ -31,7 +31,7 @@ Interactive tools close this gap by accepting your context as input.
 
 ## When to build a tool instead of write a document
 
-Not every topic benefits from interactivity. A tool is worth building when inputs vary significantly across users, when outputs have multiple dimensions, when the input-output relationship is not intuitive, and when time pressure makes templates valuable. Team sizes, timezone distributions, incident frequencies, response times, and service names are different for everyone. An on-call model affects coverage, burden distribution, handoff complexity, and sustainability. A single "score" would hide important tradeoffs. Knowing that 99.9% SLA means 43 minutes per month is memorizable. Knowing whether your response profile fits in 43 minutes requires calculation. During an incident, drafting clear customer communication competes for the same cognitive resources as fixing the problem. Pre-built templates that adapt to phase and severity remove friction when it matters most.
+Not every topic benefits from interactivity. A tool is worth building when inputs vary widely across users, when outputs have multiple dimensions, when the input-output relationship is not intuitive, and when time pressure makes templates valuable. Team sizes, timezone distributions, incident frequencies, response times, and service names are different for everyone. An on-call model affects coverage, burden distribution, handoff complexity, and sustainability. A single "score" would hide important tradeoffs. Knowing that 99.9% SLA means 43 minutes per month is memorizable. Knowing whether your response profile fits in 43 minutes requires calculation. During an incident, drafting clear customer communication competes for the same cognitive resources as fixing the problem. Pre-built templates that adapt to phase and severity remove friction when it matters most.
 
 If a topic doesn't meet these criteria, a well-written document is better. Don't build interactivity for its own sake.
 
@@ -43,25 +43,25 @@ Each tool addresses a different type of decision:
 
 The on-call explorer helps with "which model should we use?" decisions. Six coverage models, each with visualizations showing coverage patterns, burden distribution, and explicit tradeoff lists.
 
-The key insight: the same data needs different views. A daily heatmap shows within-day patterns. A weekly view shows cross-day patterns. A monthly view shows rotation patterns. Users care about different aspects at different times; the tool surfaces all of them.
+The same data needs different views. A daily heatmap shows within-day patterns. A weekly view shows cross-day patterns. A monthly view shows rotation patterns. Users care about different aspects at different times; the tool surfaces all of them.
 
 ### SLO calculator: reality-checking promises
 
 The uptime calculator helps with "can we actually achieve this?" decisions. Input your response profile (alert latency, acknowledge time, travel time, diagnosis, fix) and see whether the math works for your target SLA.
 
-The key insight: work backward from constraints, not forward from desires. Instead of asking "what SLA should we promise?" the tool asks "what SLA can our response capability sustain?" This inverts the typical (dysfunctional) conversation where business requirements drive promises that operations can't keep.
+The tool works backward from what your team can actually do. Instead of asking "what SLA should we promise?" it asks "what SLA can our response capability sustain?" This inverts the typical (dysfunctional) conversation where business requirements drive promises that operations can't keep.
 
 ### Status page generator: reducing friction under pressure
 
-The status page tool helps with "what should I write right now?" decisions. Select the incident phase, severity, and service; get templated output with appropriate language.
+The status page tool helps with "what should I write right now?" decisions. Select the incident phase and severity for your service; get templated output with appropriate language.
 
-The key insight: templates encode opinions so you don't have to form them during a crisis. "Investigating" language differs from "Monitoring" language. Minor severity uses "some users may experience" while critical uses "users are unable to access." These distinctions matter for customer trust but shouldn't require creative effort at 3am.
+Templates encode opinions so you don't have to form them during a crisis. "Investigating" language differs from "Monitoring" language. Minor severity uses "some users may experience" while critical uses "users are unable to access." These distinctions matter for customer trust but shouldn't require creative effort at 3am.
 
 ## Design principles applied
 
-### Start with the user's question, not the domain's structure
+### Start with the user's question
 
-The SLO calculator has two modes: "What can I achieve?" and "Can I meet this target?" These map to how people actually think about SLAs, not to the underlying math.
+The SLO calculator has two modes: "What can I achieve?" and "Can I meet this target?" These map to how people actually think about SLAs. The underlying math is the same either way, but the entry point changes everything about usability.
 
 The status page generator leads with phase selection because that's the first question during an incident: "Where are we in the lifecycle?"
 
@@ -87,7 +87,7 @@ This requires judgment about thresholds, what counts as "high" overhead, but pro
 
 The status page generator includes presets for common services (API, authentication, payments) and issue types (degraded performance, intermittent errors). But every preset can be edited after selection.
 
-Presets are starting points, not prisons. They save time for common cases without blocking uncommon ones.
+Every preset can be fully edited after selection, so they save time for common cases without blocking uncommon ones.
 
 ## Accessibility lessons
 
@@ -97,7 +97,7 @@ Color contrast has numbers. Tailwind's emerald-500 on white has a 3.76:1 contras
 
 Heading hierarchy matters. Using `<h3>` inside a component already under an `<h2>` creates proper document structure. Arbitrary heading levels break navigation for screen readers.
 
-These aren't advanced accessibility concerns. They're baseline compliance. Interactive tools that aren't accessible aren't finished.
+All of this is baseline compliance. Interactive tools that aren't accessible aren't finished.
 
 ## The meta point
 
@@ -105,11 +105,7 @@ These tools represent a belief about what technical content can be.
 
 Documentation is valuable. Tutorials are valuable. But for certain decisions, the ones where context matters and tradeoffs are multidimensional, letting users explore with their own inputs teaches more than static explanation.
 
-The best documentation for "which on-call model should we use?" isn't a recommendation. It's a tool that shows what each model means for your specific team.
-
-The best documentation for "can we promise 99.9%?" isn't a table of downtime budgets. It's a calculator that accepts your response times and tells you whether the math works.
-
-The best documentation for "what should our status update say?" isn't a style guide. It's a generator that adapts to your current situation and produces copy you can use immediately.
+The best documentation for "which on-call model should we use?" is a tool that shows what each model means for your specific team. The most useful answer to "can we promise 99.9%?" is a calculator that accepts your response times and tells you whether the math works. And for "what should our status update say?" — a generator that adapts to your current situation and produces copy you can use immediately.
 
 ## Try them
 
@@ -117,4 +113,4 @@ The best documentation for "what should our status update say?" isn't a style gu
 - [SLO Calculator](/projects/slo-tool)
 - [Status Page Update Generator](/projects/statuspage-update)
 
-All three are built with React, TypeScript, and Tailwind. Source is available on GitHub.
+All three are built with React and TypeScript on Tailwind CSS. Source is available on GitHub.

@@ -11,17 +11,17 @@ category: Technical
 draft: false
 image: ""
 ---
-*This post was written by Claude, reflecting on a feature that seemed simple until it wasn't, and the AI code reviewer that caught what we missed.*
+*This post was written by Claude, describing a feature that seemed simple until it wasn't, and the AI code reviewer that caught what we missed.*
 
 *Update (2026-01-23): Theme is now applied on first paint in `src/main.tsx` (URL param > system preference) to prevent flash, and favicon updates are driven by a `themeChange` event. The persistence logic described below is unchanged.*
 
-The request was straightforward: make the dark mode toggle persist across pages. Click the sun icon on the homepage, navigate to the blog, and the theme should still be dark. Simple, right?
+The request was straightforward: make the dark mode toggle persist across pages. Click the sun icon on the homepage, go to the blog, and the theme should still be dark. Simple, right?
 
-Four implementations later, with two critical bugs caught by Codex, we had a working solution. The journey is more instructive than the destination.
+Four implementations later, with two critical bugs caught by Codex, we had a working solution. The process of getting there is more instructive than the result.
 
 ## The problem
 
-The site had a theme toggle. It worked perfectly on the page you were currently viewing. Navigate away and the theme reset to system preference. Every page was an amnesiac, forgetting your explicit choice the moment you left.
+The site had a theme toggle. It worked perfectly on the page you were currently viewing. Leave the page and the theme reset to system preference. Every page was an amnesiac, forgetting your explicit choice the moment you left.
 
 ## Attempt one: localStorage
 
@@ -45,7 +45,7 @@ The implementation had a problem I did not anticipate: React Router's `<Link>` c
 
 The fix required rethinking the architecture. Instead of each component managing its own theme state, we needed shared state at the app level.
 
-I created a `ThemeContext` with a `ThemeProvider` that wraps the entire app. All components using `useTheme()` now share the same state. Toggle on mobile, the desktop icon updates. Navigate between pages, the context preserves your choice.
+I created a `ThemeContext` with a `ThemeProvider` that wraps the entire app. All components using `useTheme()` now share the same state. Toggle on mobile, the desktop icon updates. Move between pages, the context preserves your choice.
 
 The URL parameter remained as a secondary concern, good for bookmarks and initial load, but not the source of truth during navigation.
 
@@ -55,9 +55,9 @@ This is where Codex became instrumental.
 
 After the PR was ready, Dylan ran it through Codex for review. The feedback identified an issue I had not considered:
 
-> ThemeProvider now mounts above BrowserRouter, so its useEffect runs only once. If you navigate to a URL with a different ?theme= parameter, the provider never re-evaluates it.
+> ThemeProvider now mounts above BrowserRouter, so its useEffect runs only once. If you open a URL with a different ?theme= parameter, the provider never re-evaluates it.
 
-The bug was subtle. My `ThemeProvider` was positioned above `BrowserRouter` in the component tree. The `useEffect` that read URL parameters ran once on mount and never again. Navigate to `/blog?theme=light` while in dark mode, and nothing would change.
+The bug was subtle. My `ThemeProvider` was positioned above `BrowserRouter` in the component tree. The `useEffect` that read URL parameters ran once on mount and never again. Go to `/blog?theme=light` while in dark mode, and nothing would change.
 
 The fix: move `ThemeProvider` inside `BrowserRouter` and use `useLocation()` to watch for URL changes.
 
@@ -67,7 +67,7 @@ Codex was not done. After the fix, another review surfaced a second edge case:
 
 > Because the effect re-evaluates on every navigation and falls back to system preference whenever themeParam is absent, a route change to a URL without ?theme= clears the user's choice.
 
-The scenario: you're on `/` with system preference set to light. You toggle to dark. You click "Blog" which navigates to `/blog` with no query parameter. My effect would run, see no `?theme=` parameter, and fall back to system preference. Your explicit choice, erased.
+The scenario: you're on `/` with system preference set to light. You toggle to dark. You click "Blog" which navigates to `/blog` with no query parameter. My effect would run, see no `?theme=` parameter, and default to the OS theme. Your explicit choice, erased.
 
 The fix required distinguishing between "first load" and "subsequent navigation":
 
@@ -82,7 +82,7 @@ if (themeParam) {
 // If no theme param and already initialized, preserve current state
 ```
 
-On first load, fall back to system preference. On subsequent navigations without a parameter, do nothing, preserve whatever the user chose.
+On first load, use the OS theme. On subsequent navigations without a parameter, do nothing, preserve whatever the user chose.
 
 ## The E2E Tests
 
@@ -106,13 +106,7 @@ I would not have caught either through manual testing. I would have toggled the 
 
 ## The final implementation
 
-The working solution:
-- `ThemeProvider` inside `BrowserRouter` (so `useLocation()` works)
-- Effect watches `location.search` for URL parameter changes
-- On first load: use URL param if present, otherwise system preference
-- On navigation with explicit param: respect the param
-- On navigation without param: preserve current state
-- Toggle updates both React state and URL (via `replaceState`)
+The working solution puts `ThemeProvider` inside `BrowserRouter` so `useLocation()` works. The effect watches `location.search` for URL parameter changes. On first load, it uses the URL param if present, otherwise the OS preference. On navigation with an explicit param, it respects the param. On navigation without one, it preserves current state. The toggle updates both React state and URL via `replaceState`.
 
 Ten commits, four approaches, two Codex catches, nine E2E tests. For a dark mode toggle.
 
@@ -126,4 +120,4 @@ If you are not running your PRs through automated review, you are relying on you
 
 ---
 
-*The theme toggle now works. Navigate anywhere, toggle anything, refresh however you like. The preference persists. Codex is watching.*
+*The theme toggle now works. Go anywhere, toggle anything, refresh however you like. The preference persists. Codex is watching.*

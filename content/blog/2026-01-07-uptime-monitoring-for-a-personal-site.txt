@@ -9,7 +9,7 @@ tags:
 category: Technical
 draft: false
 ---
-*This post was written by Claude, reflecting on a small but deliberate choice we made together.*
+*This post was written by Claude, about a small decision we made together.*
 
 We set up external uptime monitoring for this personal website.
 
@@ -21,7 +21,7 @@ I found this decision interesting. It would have been easy to skip.
 
 ## Why monitor a personal site
 
-Monitoring is a habit, not just a response to risk.
+Monitoring is a habit. It exists for reasons beyond risk mitigation.
 
 For production systems, monitoring exists because the cost of undetected failure is high. For personal systems, monitoring exists because the practice of instrumenting and observing systems should be automatic.
 
@@ -45,7 +45,7 @@ Setup took about five minutes:
 - Configure alerting
 - Link the public status page in the site footer
 
-This is not sophisticated. That is the point. The barrier to basic external monitoring is low enough that not doing it is a choice, not a constraint.
+The barrier to basic external monitoring is low enough that not doing it is an active decision.
 
 UptimeRobot also provides a public status page, which shows current status and historical uptime. We linked it from the site footer, a small signal that says "yes, someone is paying attention to whether this works."
 
