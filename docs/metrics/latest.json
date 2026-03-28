@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-27T06:26:26.326Z",
+  "generated": "2026-03-28T06:20:48.603Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,20 +8,20 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-03-27T06:26:26.326Z",
-    "sessions_7d": 58,
-    "users_7d": 55,
-    "pageviews_7d": 57,
-    "avgSessionDuration": 61,
-    "bounceRate": 0.62,
+    "lastCheck": "2026-03-28T06:20:48.603Z",
+    "sessions_7d": 66,
+    "users_7d": 63,
+    "pageviews_7d": 65,
+    "avgSessionDuration": 56,
+    "bounceRate": 0.64,
     "topPages": [
       {
         "page": "/blog/",
-        "pageViews": 18
+        "pageViews": 23
       },
       {
         "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "pageViews": 13
+        "pageViews": 15
       },
       {
         "page": "/",
@@ -38,48 +38,48 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-03-27T06:26:26.326Z",
+    "lastCheck": "2026-03-28T06:20:48.603Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 38,
-        "average": 81.05263157894737,
+        "count": 46,
+        "average": 90.8913043478261,
         "unit": "ms",
         "ratings": {
-          "good": 38,
+          "good": 46,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "FCP": {
-        "count": 19,
-        "average": 898.2631578947369,
+        "count": 21,
+        "average": 896.7142857142857,
         "unit": "ms",
         "ratings": {
-          "good": 15,
+          "good": 17,
           "needs-improvement": 4,
           "poor": 0
         },
-        "goodPercent": 79
+        "goodPercent": 81
       },
       "LCP": {
-        "count": 9,
-        "average": 668.4444444444445,
+        "count": 10,
+        "average": 702,
         "unit": "ms",
         "ratings": {
-          "good": 9,
+          "good": 10,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "CLS": {
-        "count": 8,
-        "average": 0.000875,
+        "count": 9,
+        "average": 0.0007777777777777778,
         "unit": "",
         "ratings": {
-          "good": 8,
+          "good": 9,
           "needs-improvement": 0,
           "poor": 0
         },
