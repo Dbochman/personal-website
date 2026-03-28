@@ -29,11 +29,16 @@ export function SearchPerformanceChart({ data }: SearchPerformanceChartProps) {
     );
   }
 
-  const chartData = data.map((entry) => ({
-    date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-    clicks: entry.summary.totalClicks,
-    impressions: entry.summary.totalImpressions,
-  }));
+  const sixtyDaysAgo = new Date();
+  sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+
+  const chartData = data
+    .filter((entry) => new Date(entry.date) >= sixtyDaysAgo)
+    .map((entry) => ({
+      date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      clicks: entry.summary.totalClicks,
+      impressions: entry.summary.totalImpressions,
+    }));
 
   return (
     <div className="h-64 w-full">

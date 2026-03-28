@@ -1,4 +1,4 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip, TooltipProps } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, TooltipProps } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
 interface DeviceData {
@@ -69,11 +69,6 @@ export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
             ))}
           </Pie>
           <Tooltip content={<CustomTooltip total={total} />} />
-          <Legend
-            verticalAlign="bottom"
-            height={36}
-            formatter={(value) => <span className="text-sm">{value}</span>}
-          />
         </PieChart>
       </ResponsiveContainer>
     </div>

@@ -47,9 +47,13 @@ export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficCh
     );
   }
 
+  const sixtyDaysAgo = new Date();
+  sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
+  const recentData = data.filter((entry) => new Date(entry.date) >= sixtyDaysAgo);
+
   // First pass: accumulate total sessions per canonical slug across all entries
   const cumulativeBySlug = new Map<string, number>();
-  for (const entry of data) {
+  for (const entry of recentData) {
     for (const p of entry.topPages ?? []) {
       if (!p.page.startsWith('/blog/') || p.page === '/blog/' || p.page === '/blog') continue;
       const normalized = p.page.replace(/\/$/, '');
@@ -78,7 +82,7 @@ export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficCh
   }
 
   // Build chart data: one row per history entry
-  const chartData = data.map((entry) => {
+  const chartData = recentData.map((entry) => {
     const merged = new Map<string, number>();
     for (const p of entry.topPages ?? []) {
       if (!p.page.startsWith('/blog/') || p.page === '/blog/' || p.page === '/blog') continue;

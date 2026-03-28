@@ -90,6 +90,10 @@ export default defineConfig(({ mode }) => ({
             if (id.includes('next-themes')) {
               return 'theme';
             }
+            // Bundle mermaid + dagre together to prevent stale chunk hash errors
+            if (id.includes('mermaid') || id.includes('dagre')) {
+              return 'mermaid';
+            }
           }
         },
       },
