@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-29T06:19:48.914Z",
+  "generated": "2026-03-30T06:37:09.582Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,20 +8,20 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-03-29T06:19:48.914Z",
-    "sessions_7d": 293,
-    "users_7d": 285,
-    "pageviews_7d": 282,
-    "avgSessionDuration": 19,
-    "bounceRate": 0.85,
+    "lastCheck": "2026-03-30T06:37:09.582Z",
+    "sessions_7d": 296,
+    "users_7d": 288,
+    "pageviews_7d": 284,
+    "avgSessionDuration": 20,
+    "bounceRate": 0.84,
     "topPages": [
       {
-        "page": "/",
+        "page": "/blog/",
         "pageViews": 49
       },
       {
-        "page": "/blog/",
-        "pageViews": 45
+        "page": "/",
+        "pageViews": 48
       },
       {
         "page": "/blog",
@@ -33,20 +33,20 @@
       },
       {
         "page": "/blog/2026-03-14-watchdogs-and-launchagents",
-        "pageViews": 25
+        "pageViews": 24
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-03-29T06:19:48.914Z",
+    "lastCheck": "2026-03-30T06:37:09.582Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 119,
-        "average": 94.82352941176471,
+        "count": 124,
+        "average": 95.49193548387096,
         "unit": "ms",
         "ratings": {
-          "good": 119,
+          "good": 124,
           "needs-improvement": 0,
           "poor": 0
         },
@@ -54,7 +54,7 @@
       },
       "FCP": {
         "count": 90,
-        "average": 606.2,
+        "average": 615.6222222222223,
         "unit": "ms",
         "ratings": {
           "good": 82,
@@ -86,11 +86,11 @@
         "goodPercent": 92
       },
       "INP": {
-        "count": 9,
-        "average": 85.33333333333333,
+        "count": 10,
+        "average": 82.4,
         "unit": "ms",
         "ratings": {
-          "good": 9,
+          "good": 10,
           "needs-improvement": 0,
           "poor": 0
         },
