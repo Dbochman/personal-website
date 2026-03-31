@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-30T06:37:09.582Z",
+  "generated": "2026-03-31T06:29:11.736Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,45 +8,45 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-03-30T06:37:09.582Z",
-    "sessions_7d": 296,
-    "users_7d": 288,
-    "pageviews_7d": 284,
+    "lastCheck": "2026-03-31T06:29:11.736Z",
+    "sessions_7d": 320,
+    "users_7d": 312,
+    "pageviews_7d": 308,
     "avgSessionDuration": 20,
-    "bounceRate": 0.84,
+    "bounceRate": 0.83,
     "topPages": [
       {
         "page": "/blog/",
-        "pageViews": 49
+        "pageViews": 56
       },
       {
         "page": "/",
-        "pageViews": 48
+        "pageViews": 52
       },
       {
         "page": "/blog",
-        "pageViews": 27
+        "pageViews": 31
       },
       {
         "page": "/runbook",
-        "pageViews": 27
+        "pageViews": 31
       },
       {
         "page": "/blog/2026-03-14-watchdogs-and-launchagents",
-        "pageViews": 24
+        "pageViews": 28
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-03-30T06:37:09.582Z",
+    "lastCheck": "2026-03-31T06:29:11.736Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 124,
-        "average": 95.49193548387096,
+        "count": 131,
+        "average": 96.52671755725191,
         "unit": "ms",
         "ratings": {
-          "good": 124,
+          "good": 131,
           "needs-improvement": 0,
           "poor": 0
         },
@@ -54,36 +54,36 @@
       },
       "FCP": {
         "count": 90,
-        "average": 615.6222222222223,
+        "average": 635.3888888888889,
         "unit": "ms",
         "ratings": {
-          "good": 82,
-          "needs-improvement": 8,
+          "good": 81,
+          "needs-improvement": 9,
           "poor": 0
         },
-        "goodPercent": 91
+        "goodPercent": 90
       },
       "LCP": {
-        "count": 15,
-        "average": 632.3333333333334,
+        "count": 16,
+        "average": 781.8125,
         "unit": "ms",
         "ratings": {
           "good": 15,
-          "needs-improvement": 0,
-          "poor": 0
-        },
-        "goodPercent": 100
-      },
-      "CLS": {
-        "count": 13,
-        "average": 0.012153846153846154,
-        "unit": "",
-        "ratings": {
-          "good": 12,
           "needs-improvement": 1,
           "poor": 0
         },
-        "goodPercent": 92
+        "goodPercent": 94
+      },
+      "CLS": {
+        "count": 14,
+        "average": 0.011285714285714286,
+        "unit": "",
+        "ratings": {
+          "good": 13,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 93
       },
       "INP": {
         "count": 10,

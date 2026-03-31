@@ -13292,5 +13292,214 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-03-31T06:29:11.732Z",
+    "date": "2026-03-31",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 320,
+      "users": 312,
+      "pageViews": 308,
+      "averageSessionDuration": 20,
+      "bounceRate": 0.83
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 56,
+        "users": 55,
+        "pageViews": 56
+      },
+      {
+        "page": "/",
+        "sessions": 51,
+        "users": 49,
+        "pageViews": 52
+      },
+      {
+        "page": "/blog",
+        "sessions": 34,
+        "users": 34,
+        "pageViews": 31
+      },
+      {
+        "page": "/runbook",
+        "sessions": 31,
+        "users": 31,
+        "pageViews": 31
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "sessions": 28,
+        "users": 28,
+        "pageViews": 28
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 19
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 16,
+        "users": 16,
+        "pageViews": 16
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 10,
+        "users": 8,
+        "pageViews": 12
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents/",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/projects/statuspage-update/",
+        "sessions": 7,
+        "users": 7,
+        "pageViews": 7
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 116,
+        "users": 115
+      },
+      {
+        "device": "desktop",
+        "sessions": 204,
+        "users": 197
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 299,
+          "users": 297
+        },
+        {
+          "channel": "Referral",
+          "sessions": 5,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 299,
+          "users": 297
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 5,
+          "users": 1
+        },
+        {
+          "source": "chatgpt.com",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 131,
+        "average": 96.52671755725191,
+        "unit": "ms",
+        "ratings": {
+          "good": 131,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "FCP": {
+        "count": 90,
+        "average": 635.3888888888889,
+        "unit": "ms",
+        "ratings": {
+          "good": 81,
+          "needs-improvement": 9,
+          "poor": 0
+        },
+        "goodPercent": 90
+      },
+      "LCP": {
+        "count": 16,
+        "average": 781.8125,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 94
+      },
+      "CLS": {
+        "count": 14,
+        "average": 0.011285714285714286,
+        "unit": "",
+        "ratings": {
+          "good": 13,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 93
+      },
+      "INP": {
+        "count": 10,
+        "average": 82.4,
+        "unit": "ms",
+        "ratings": {
+          "good": 10,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": {
+      "total": 8,
+      "byTool": [
+        {
+          "name": "k8s_rightsizer",
+          "total": 5,
+          "actions": [
+            {
+              "action": "preset_change",
+              "count": 5
+            }
+          ]
+        },
+        {
+          "name": "oncall_coverage",
+          "total": 3,
+          "actions": [
+            {
+              "action": "model_select",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
