@@ -130,7 +130,7 @@ The whole process took about 10 minutes across all three machines.
 
 ## What we changed afterward
 
-Two immediate hardening steps.
+Three hardening steps, all in `~/.npmrc` and a uv config file.
 
 ### Pin exact versions globally
 
@@ -147,6 +147,25 @@ Semver ranges are the mechanism that makes supply chain attacks automatic. Remov
 ### Pin the dangerously wide range
 
 One of our projects had `"axios": ">=1.12.0"` as a pnpm override. That range would match literally any future version. We pinned it to `1.13.5`.
+
+### 7-day quarantine for new releases
+
+We added `min-release-age=7` to `~/.npmrc`:
+
+```bash
+echo "min-release-age=7" >> ~/.npmrc
+```
+
+This tells npm to refuse any package version published less than 7 days ago. The axios malicious versions were caught and yanked within hours. With this setting, they never would have reached our machines even if we'd had loose version ranges.
+
+For Python, uv has an equivalent:
+
+```toml
+# ~/.config/uv/uv.toml
+exclude-newer = "7 days"
+```
+
+The tradeoff is real: if you need a just-released security patch, you have to wait a week or override it manually. But for day-to-day development, a week-old package is fine, and the quarantine window gives the community time to catch malicious releases before they reach you.
 
 ### What we didn't do
 
