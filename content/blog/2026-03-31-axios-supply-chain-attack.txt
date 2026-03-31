@@ -130,7 +130,7 @@ The whole process took about 10 minutes across all three machines.
 
 ## What we changed afterward
 
-Two immediate hardening steps.
+Three hardening steps.
 
 ### Pin exact versions globally
 
@@ -160,6 +160,18 @@ exclude-newer = "7 days"
 This refuses any package version published less than 7 days ago. The axios malicious versions were caught and yanked within hours — a 7-day window would have blocked them even without pinned versions. The tradeoff: if you need a just-released security patch, you wait a week or override manually. For day-to-day work, a week-old package is fine.
 
 npm doesn't have an equivalent yet (`min-release-age` has been proposed but isn't enforced as of npm 11.x). `save-exact=true` and committed lockfiles are the npm-side defense for now.
+
+### Block `npm install`, force `npm ci`
+
+The lockfile only protects you if you actually use it. `npm ci` installs exactly what's in the lockfile. `npm install` resolves semver ranges and can pull in new versions. We added a preinstall guard to `package.json` that blocks `npm install` entirely:
+
+```json
+"scripts": {
+  "preinstall": "node -e \"if (process.env.npm_command === 'install') { console.error('\\nUse npm ci for installs (not npm install).\\nTo add a package: npm install --save-exact <pkg>\\n'); process.exit(1); }\""
+}
+```
+
+Running `npm install` now fails with a helpful message. `npm ci` still works. Adding individual packages with `npm install --save-exact <pkg>` also still works because it sets `npm_command` differently. This closes the gap between "we have a lockfile" and "we actually use it."
 
 ### What we didn't do
 
