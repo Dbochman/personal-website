@@ -12885,5 +12885,621 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-03-29T06:19:48.909Z",
+    "date": "2026-03-29",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 293,
+      "users": 285,
+      "pageViews": 282,
+      "averageSessionDuration": 19,
+      "bounceRate": 0.85
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 48,
+        "users": 46,
+        "pageViews": 49
+      },
+      {
+        "page": "/blog/",
+        "sessions": 45,
+        "users": 44,
+        "pageViews": 45
+      },
+      {
+        "page": "/blog",
+        "sessions": 29,
+        "users": 29,
+        "pageViews": 27
+      },
+      {
+        "page": "/runbook",
+        "sessions": 27,
+        "users": 27,
+        "pageViews": 27
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "sessions": 25,
+        "users": 25,
+        "pageViews": 25
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 16,
+        "users": 16,
+        "pageViews": 16
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 12,
+        "users": 10,
+        "pageViews": 14
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents/",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/projects/statuspage-update/",
+        "sessions": 7,
+        "users": 7,
+        "pageViews": 7
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 187,
+        "users": 180
+      },
+      {
+        "device": "mobile",
+        "sessions": 106,
+        "users": 105
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 273,
+          "users": 272
+        },
+        {
+          "channel": "Referral",
+          "sessions": 5,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 273,
+          "users": 272
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 5,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 119,
+        "average": 94.82352941176471,
+        "unit": "ms",
+        "ratings": {
+          "good": 119,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "FCP": {
+        "count": 90,
+        "average": 606.2,
+        "unit": "ms",
+        "ratings": {
+          "good": 82,
+          "needs-improvement": 8,
+          "poor": 0
+        },
+        "goodPercent": 91
+      },
+      "LCP": {
+        "count": 15,
+        "average": 632.3333333333334,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 13,
+        "average": 0.012153846153846154,
+        "unit": "",
+        "ratings": {
+          "good": 12,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 92
+      },
+      "INP": {
+        "count": 9,
+        "average": 85.33333333333333,
+        "unit": "ms",
+        "ratings": {
+          "good": 9,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": {
+      "total": 8,
+      "byTool": [
+        {
+          "name": "k8s_rightsizer",
+          "total": 5,
+          "actions": [
+            {
+              "action": "preset_change",
+              "count": 5
+            }
+          ]
+        },
+        {
+          "name": "oncall_coverage",
+          "total": 3,
+          "actions": [
+            {
+              "action": "model_select",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-30T06:37:09.578Z",
+    "date": "2026-03-30",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 296,
+      "users": 288,
+      "pageViews": 284,
+      "averageSessionDuration": 20,
+      "bounceRate": 0.84
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 49,
+        "users": 48,
+        "pageViews": 49
+      },
+      {
+        "page": "/",
+        "sessions": 47,
+        "users": 45,
+        "pageViews": 48
+      },
+      {
+        "page": "/blog",
+        "sessions": 30,
+        "users": 30,
+        "pageViews": 27
+      },
+      {
+        "page": "/runbook",
+        "sessions": 27,
+        "users": 27,
+        "pageViews": 27
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "sessions": 24,
+        "users": 24,
+        "pageViews": 24
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 16,
+        "users": 16,
+        "pageViews": 16
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 11,
+        "users": 9,
+        "pageViews": 13
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents/",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/projects/statuspage-update/",
+        "sessions": 7,
+        "users": 7,
+        "pageViews": 7
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 186,
+        "users": 179
+      },
+      {
+        "device": "mobile",
+        "sessions": 110,
+        "users": 109
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 274,
+          "users": 273
+        },
+        {
+          "channel": "Referral",
+          "sessions": 5,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 274,
+          "users": 273
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 5,
+          "users": 1
+        },
+        {
+          "source": "chatgpt.com",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 124,
+        "average": 95.49193548387096,
+        "unit": "ms",
+        "ratings": {
+          "good": 124,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "FCP": {
+        "count": 90,
+        "average": 615.6222222222223,
+        "unit": "ms",
+        "ratings": {
+          "good": 82,
+          "needs-improvement": 8,
+          "poor": 0
+        },
+        "goodPercent": 91
+      },
+      "LCP": {
+        "count": 15,
+        "average": 632.3333333333334,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 13,
+        "average": 0.012153846153846154,
+        "unit": "",
+        "ratings": {
+          "good": 12,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 92
+      },
+      "INP": {
+        "count": 10,
+        "average": 82.4,
+        "unit": "ms",
+        "ratings": {
+          "good": 10,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": {
+      "total": 8,
+      "byTool": [
+        {
+          "name": "k8s_rightsizer",
+          "total": 5,
+          "actions": [
+            {
+              "action": "preset_change",
+              "count": 5
+            }
+          ]
+        },
+        {
+          "name": "oncall_coverage",
+          "total": 3,
+          "actions": [
+            {
+              "action": "model_select",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-03-31T06:29:11.732Z",
+    "date": "2026-03-31",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 320,
+      "users": 312,
+      "pageViews": 308,
+      "averageSessionDuration": 20,
+      "bounceRate": 0.83
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 56,
+        "users": 55,
+        "pageViews": 56
+      },
+      {
+        "page": "/",
+        "sessions": 51,
+        "users": 49,
+        "pageViews": 52
+      },
+      {
+        "page": "/blog",
+        "sessions": 34,
+        "users": 34,
+        "pageViews": 31
+      },
+      {
+        "page": "/runbook",
+        "sessions": 31,
+        "users": 31,
+        "pageViews": 31
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "sessions": 28,
+        "users": 28,
+        "pageViews": 28
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 19
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 16,
+        "users": 16,
+        "pageViews": 16
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 10,
+        "users": 8,
+        "pageViews": 12
+      },
+      {
+        "page": "/blog/2026-03-14-watchdogs-and-launchagents/",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/projects/statuspage-update/",
+        "sessions": 7,
+        "users": 7,
+        "pageViews": 7
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 116,
+        "users": 115
+      },
+      {
+        "device": "desktop",
+        "sessions": 204,
+        "users": 197
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 299,
+          "users": 297
+        },
+        {
+          "channel": "Referral",
+          "sessions": 5,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 299,
+          "users": 297
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 5,
+          "users": 1
+        },
+        {
+          "source": "chatgpt.com",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 131,
+        "average": 96.52671755725191,
+        "unit": "ms",
+        "ratings": {
+          "good": 131,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "FCP": {
+        "count": 90,
+        "average": 635.3888888888889,
+        "unit": "ms",
+        "ratings": {
+          "good": 81,
+          "needs-improvement": 9,
+          "poor": 0
+        },
+        "goodPercent": 90
+      },
+      "LCP": {
+        "count": 16,
+        "average": 781.8125,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 94
+      },
+      "CLS": {
+        "count": 14,
+        "average": 0.011285714285714286,
+        "unit": "",
+        "ratings": {
+          "good": 13,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 93
+      },
+      "INP": {
+        "count": 10,
+        "average": 82.4,
+        "unit": "ms",
+        "ratings": {
+          "good": 10,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": {
+      "total": 8,
+      "byTool": [
+        {
+          "name": "k8s_rightsizer",
+          "total": 5,
+          "actions": [
+            {
+              "action": "preset_change",
+              "count": 5
+            }
+          ]
+        },
+        {
+          "name": "oncall_coverage",
+          "total": 3,
+          "actions": [
+            {
+              "action": "model_select",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
