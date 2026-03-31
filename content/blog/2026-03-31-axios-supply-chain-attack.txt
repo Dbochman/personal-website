@@ -1,0 +1,171 @@
+---
+title: "Anatomy of the axios Supply Chain Attack (and How We Checked Our Machines in 10 Minutes)"
+date: 2026-03-31
+author: Dylan & Claude
+description: "A compromised npm maintainer account pushed malware into axios. Here's how the attack worked, what it installed, and how we checked our machines in 10 minutes."
+tags:
+  - Security
+  - Node.js
+  - Supply Chain
+category: Technical
+draft: false
+---
+
+On March 31, 2026, someone compromised the npm maintainer account for [axios](https://github.com/axios/axios) and pushed two malicious versions. axios gets tens of millions of weekly downloads. [Joe DeSimone](https://gist.github.com/joe-desimone/36061dabd2bc2513705e0d083a9673e7) documented the attack within hours.
+
+We run Node.js projects across three Macs. When we saw the advisory, the first question was: are we already compromised? Here's what the attack did, how we checked, and what we changed afterward.
+
+## What happened
+
+The maintainer account `jasonsaayman` was compromised. Two malicious versions were published:
+
+- `axios@1.14.1`, tagged as `latest`
+- `axios@0.30.4`, tagged as `legacy`
+
+Both added a dependency on a package called `plain-crypto-js`, which contained the actual payload.
+
+Anyone who ran `npm install` in a project using axios with a loose version range (like `^1.x` or `>=1.12.0`) would have pulled 1.14.1 automatically. Semver ranges trust that minor version bumps are safe. This attack exploited that trust.
+
+npm has since removed both malicious versions.
+
+## How the payload worked
+
+The `plain-crypto-js` package used a `postinstall` script, a hook that npm runs automatically after installing a package. The script was obfuscated with string reversal, base64, and XOR encryption with the key `"OrDeR_7077"`.
+
+Once decoded, it downloaded platform-specific second-stage payloads:
+
+| Platform | Payload location | Disguise |
+|----------|-----------------|----------|
+| macOS | `/Library/Caches/com.apple.act.mond` | Apple daemon naming convention |
+| Windows | `%PROGRAMDATA%\wt.exe` | Windows Terminal lookalike |
+| Linux | `/tmp/ld.py` | Linker-style naming |
+
+The C2 (command and control) server was at `sfrclak.com:8000` with campaign ID `6202033`.
+
+After installation, the payload self-deleted and overwrote `package.json` with a clean version. If you only checked your package.json after the fact, you wouldn't see the malicious version. It had already cleaned up after itself.
+
+Two additional packages carried the same payloads:
+
+- `@shadanai/openclaw` had malware hidden in a vendored dependency path
+- `@qqbrowser/openclaw-qbot` shipped with pre-populated `node_modules` containing the compromised axios baked in
+
+Both used the same C2 and stage-2 payloads.
+
+## How we checked our machines
+
+We have three machines: a MacBook Pro for development, a Mac Mini running our home automation agent, and a second MacBook Pro at our house. Here's what we checked on each.
+
+### 1. Lockfile versions
+
+The most important check. If your lockfile pins axios to a version below 1.14.1, you were never at risk.
+
+```bash
+find ~/repos -name "package-lock.json" -o -name "yarn.lock" \
+  -o -name "pnpm-lock.yaml" 2>/dev/null | while read f; do
+  for ver in "1.14.1" "0.30.4"; do
+    if grep -q "axios.*$ver" "$f" 2>/dev/null; then
+      echo "COMPROMISED: $f contains axios@$ver"
+    fi
+  done
+done
+```
+
+Our results: all axios versions were 1.12.x or 1.13.x. Safe.
+
+### 2. Filesystem IOCs
+
+Check for the stage-2 binary that the payload installs:
+
+```bash
+# macOS
+ls -la /Library/Caches/com.apple.act.mond 2>/dev/null
+
+# Linux
+ls -la /tmp/ld.py 2>/dev/null
+
+# Dropper artifact (all platforms)
+ls -la /tmp/6202033 2>/dev/null
+```
+
+Nothing found on any machine.
+
+### 3. Malicious packages
+
+Check for the additional attack vectors:
+
+```bash
+find ~/repos /usr/local/lib/node_modules -type d \
+  \( -name "plain-crypto-js" -o -name "@shadanai" -o -name "@qqbrowser" \) \
+  2>/dev/null
+```
+
+Clean.
+
+### 4. Active C2 connections
+
+```bash
+lsof -i -n 2>/dev/null | grep -iE "sfrclak|142\.11\.206\.73|packages\.npm\.org"
+```
+
+No active connections to any C2 addresses.
+
+### 5. npm cache
+
+Even if you've since updated, the malicious package might still be in your npm cache:
+
+```bash
+find ~/.npm/_cacache -type f 2>/dev/null | \
+  xargs grep -l "plain-crypto-js" 2>/dev/null
+```
+
+Our caches were clean.
+
+### 6. Global installs
+
+```bash
+npm ls -g axios 2>/dev/null | grep axios
+```
+
+Our global axios versions were 1.13.5 and 1.13.6. Safe.
+
+The whole process took about 10 minutes across all three machines.
+
+## What we changed afterward
+
+Two immediate hardening steps.
+
+### Pin exact versions globally
+
+We added `save-exact=true` to `~/.npmrc` on all three machines:
+
+```bash
+echo "save-exact=true" >> ~/.npmrc
+```
+
+This changes npm's default behavior. Without it, `npm install axios` saves `^1.13.5` in your package.json — a semver range that would happily resolve to 1.14.1. With `save-exact=true`, it saves `1.13.5` — the exact version you tested, nothing else.
+
+Semver ranges are the mechanism that makes supply chain attacks automatic. Remove the range, and a compromised minor version can't sneak in through a routine `npm install`.
+
+### Pin the dangerously wide range
+
+One of our projects had `"axios": ">=1.12.0"` as a pnpm override. That range would match literally any future version. We pinned it to `1.13.5`.
+
+### What we didn't do
+
+We considered adding `ignore-scripts=true` to `.npmrc` to block postinstall scripts entirely, since that's how the payload was delivered. But blanket-disabling install scripts breaks legitimate packages like sharp, esbuild, and biome that need native compilation.
+
+We also considered blocking the C2 domain in `/etc/hosts`, but since we were never compromised, it was unnecessary.
+
+## What I keep thinking about
+
+Lockfiles saved us here. We commit ours and use `npm ci` for installs, which means a compromised `latest` tag can't reach us. If we'd been running `npm install` in CI, we might be rotating credentials right now.
+
+I'm genuinely surprised `save-exact=true` isn't npm's default. Semver ranges exist because updating dependencies used to be painful and manual. But the convenience comes with a tradeoff: any compromised patch or minor version propagates automatically to every project that uses a caret range. After this week, the convenience doesn't feel worth it.
+
+The thing that unsettles me most is the transitive dependency angle. Nobody would deliberately install `plain-crypto-js`. It came in through axios, which itself is usually a dependency of something else. The attack surface isn't the packages you chose, it's the packages your packages chose.
+
+## Resources
+
+- [Joe DeSimone's original analysis](https://gist.github.com/joe-desimone/36061dabd2bc2513705e0d083a9673e7) (detailed technical breakdown)
+- [axios-compromise-scanner](https://github.com/morph13nd/axios-compromise-scanner) (automated scanner script)
+- [npm security advisories](https://github.com/advisories)
