@@ -15214,5 +15214,190 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-04-09T06:32:46.680Z",
+    "date": "2026-04-09",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 105,
+      "users": 101,
+      "pageViews": 98,
+      "averageSessionDuration": 39,
+      "bounceRate": 0.53
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 37,
+        "users": 37,
+        "pageViews": 37
+      },
+      {
+        "page": "/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 15,
+        "users": 12,
+        "pageViews": 15
+      },
+      {
+        "page": "/blog",
+        "sessions": 8,
+        "users": 7,
+        "pageViews": 4
+      },
+      {
+        "page": "/runbook",
+        "sessions": 4,
+        "users": 4,
+        "pageViews": 4
+      },
+      {
+        "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-01-getting-started-with-sre",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/projects",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2025-01-07-adventures-in-ai-assisted-web-development",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 45,
+        "users": 45
+      },
+      {
+        "device": "desktop",
+        "sessions": 60,
+        "users": 56
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 92,
+          "users": 89
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 5,
+          "users": 4
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 92,
+          "users": 89
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 5,
+          "users": 4
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 61,
+        "average": 246.54098360655738,
+        "unit": "ms",
+        "ratings": {
+          "good": 60,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 98
+      },
+      "FCP": {
+        "count": 23,
+        "average": 954.0434782608696,
+        "unit": "ms",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 2,
+          "poor": 2
+        },
+        "goodPercent": 83
+      },
+      "CLS": {
+        "count": 11,
+        "average": 0.016545454545454547,
+        "unit": "",
+        "ratings": {
+          "good": 10,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 91
+      },
+      "INP": {
+        "count": 9,
+        "average": 79.11111111111111,
+        "unit": "ms",
+        "ratings": {
+          "good": 9,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "LCP": {
+        "count": 11,
+        "average": 1189.7272727272727,
+        "unit": "ms",
+        "ratings": {
+          "good": 9,
+          "needs-improvement": 2,
+          "poor": 0
+        },
+        "goodPercent": 82
+      }
+    },
+    "toolInteractions": null
   }
 ]
