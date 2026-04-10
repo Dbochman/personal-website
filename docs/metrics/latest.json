@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-09T06:32:46.684Z",
+  "generated": "2026-04-10T06:36:17.856Z",
   "searchConsole": {
     "lastCheck": "2026-01-12T11:03:07.421Z",
     "clicks": 0,
@@ -8,16 +8,16 @@
     "averagePosition": 1
   },
   "analytics": {
-    "lastCheck": "2026-04-09T06:32:46.684Z",
-    "sessions_7d": 105,
-    "users_7d": 101,
-    "pageviews_7d": 98,
+    "lastCheck": "2026-04-10T06:36:17.856Z",
+    "sessions_7d": 109,
+    "users_7d": 104,
+    "pageviews_7d": 102,
     "avgSessionDuration": 39,
-    "bounceRate": 0.53,
+    "bounceRate": 0.51,
     "topPages": [
       {
         "page": "/blog/",
-        "pageViews": 37
+        "pageViews": 40
       },
       {
         "page": "/",
@@ -25,7 +25,7 @@
       },
       {
         "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "pageViews": 15
+        "pageViews": 16
       },
       {
         "page": "/blog",
@@ -38,41 +38,52 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-04-09T06:32:46.684Z",
+    "lastCheck": "2026-04-10T06:36:17.856Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 61,
-        "average": 246.54098360655738,
+        "count": 64,
+        "average": 248.9375,
         "unit": "ms",
         "ratings": {
-          "good": 60,
+          "good": 63,
           "needs-improvement": 1,
           "poor": 0
         },
         "goodPercent": 98
       },
       "FCP": {
-        "count": 23,
-        "average": 954.0434782608696,
+        "count": 24,
+        "average": 938.7916666666666,
         "unit": "ms",
         "ratings": {
-          "good": 19,
+          "good": 20,
           "needs-improvement": 2,
           "poor": 2
         },
         "goodPercent": 83
       },
       "CLS": {
-        "count": 11,
-        "average": 0.016545454545454547,
+        "count": 12,
+        "average": 0.015166666666666667,
         "unit": "",
         "ratings": {
-          "good": 10,
+          "good": 11,
           "needs-improvement": 1,
           "poor": 0
         },
-        "goodPercent": 91
+        "goodPercent": 92
+      },
+      "LCP": {
+        "count": 12,
+        "average": 1150.5833333333333,
+        "unit": "ms",
+        "ratings": {
+          "good": 10,
+          "needs-improvement": 2,
+          "poor": 0
+        },
+        "goodPercent": 83
       },
       "INP": {
         "count": 9,
@@ -84,17 +95,6 @@
           "poor": 0
         },
         "goodPercent": 100
-      },
-      "LCP": {
-        "count": 11,
-        "average": 1189.7272727272727,
-        "unit": "ms",
-        "ratings": {
-          "good": 9,
-          "needs-improvement": 2,
-          "poor": 0
-        },
-        "goodPercent": 82
       }
     }
   }
