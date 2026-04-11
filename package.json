@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "engines": {
-    "node": ">=20.17.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "preinstall": "node -e \"if (process.env.npm_command === 'install') { console.error('\\nUse npm ci for installs (not npm install).\\nTo add a package: npm install --save-exact <pkg>\\n'); process.exit(1); }\"",
