@@ -117,15 +117,17 @@ jobs:
         run: node scripts/fetch-search-console-data.js
 
       - name: Upload search data
+        if: success()
         uses: actions/upload-artifact@v7
         with:
           name: search-console-data
           path: docs/metrics/search-console-history.json
           retention-days: 7
+          if-no-files-found: error
 
   ga4:
-    # Run daily - depends on search-console for sequential execution
-    needs: search-console
+    # Run daily - independent from Search Console so one integration failure
+    # doesn't block the rest of analytics collection.
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

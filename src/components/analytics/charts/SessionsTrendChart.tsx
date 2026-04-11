@@ -1,7 +1,7 @@
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { GA4HistoryEntry } from '../types';
-import { getRecentHistory } from './recentHistory';
+import { formatHistoryDate, getRecentHistory } from './recentHistory';
 
 function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
@@ -32,7 +32,7 @@ export function SessionsTrendChart({ data }: SessionsTrendChartProps) {
 
   const chartData = getRecentHistory(data, 60)
     .map((entry) => ({
-      date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      date: formatHistoryDate(entry.date),
       sessions: entry.summary.sessions,
       users: entry.summary.users,
       pageViews: entry.summary.pageViews,

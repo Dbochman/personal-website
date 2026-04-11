@@ -1,7 +1,7 @@
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps, Legend } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { GA4HistoryEntry } from '../types';
-import { getRecentHistory } from './recentHistory';
+import { formatHistoryDate, getRecentHistory } from './recentHistory';
 
 const COLORS = [
   'hsl(var(--chart-1))',
@@ -101,7 +101,7 @@ export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficCh
     }
 
     const row: Record<string, string | number> = {
-      date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      date: formatHistoryDate(entry.date),
     };
 
     let otherSessions = 0;

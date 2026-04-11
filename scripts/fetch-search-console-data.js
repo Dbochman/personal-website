@@ -32,9 +32,7 @@ async function fetchSearchConsoleData() {
   try {
     // Check for credentials
     if (!process.env.SEARCH_CONSOLE_CREDENTIALS) {
-      console.log('⚠️  No Search Console credentials found, skipping');
-      console.log('💡 To enable: Set SEARCH_CONSOLE_CREDENTIALS environment variable');
-      return;
+      throw new Error('Missing SEARCH_CONSOLE_CREDENTIALS environment variable');
     }
 
     // Decode and parse credentials
@@ -156,11 +154,17 @@ async function fetchSearchConsoleData() {
 
   } catch (error) {
     console.error('❌ Error fetching Search Console data:', error.message);
-    if (error.code === 404) {
-      console.error('💡 Make sure the site is verified in Search Console and the service account has access');
+
+    if (error.code === 401 || error.code === 403) {
+      console.error(`💡 Re-add the service account from SEARCH_CONSOLE_CREDENTIALS to the Search Console property ${SITE_URL}`);
+      console.error('💡 In Search Console: Settings > Users and permissions > Add user');
+    } else if (error.code === 404) {
+      console.error(`💡 Make sure the property ${SITE_URL} exists in Search Console and the service account has access`);
+    } else if (error instanceof SyntaxError) {
+      console.error('💡 SEARCH_CONSOLE_CREDENTIALS is not valid base64-encoded JSON');
     }
-    // Don't fail the build if Search Console fetch fails
-    process.exit(0);
+
+    process.exit(1);
   }
 }
 

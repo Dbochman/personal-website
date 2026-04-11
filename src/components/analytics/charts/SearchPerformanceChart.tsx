@@ -1,7 +1,7 @@
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, TooltipProps } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { SearchConsoleHistoryEntry } from '../types';
-import { getRecentHistory } from './recentHistory';
+import { formatHistoryDate, getRecentHistory } from './recentHistory';
 
 function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
@@ -30,9 +30,14 @@ export function SearchPerformanceChart({ data }: SearchPerformanceChartProps) {
     );
   }
 
-  const chartData = getRecentHistory(data, 60)
+  const recentHistory = getRecentHistory(data, 60);
+  const displayHistory = recentHistory.length >= 6
+    ? recentHistory
+    : data.slice(-Math.min(data.length, 8));
+
+  const chartData = displayHistory
     .map((entry) => ({
-      date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      date: formatHistoryDate(entry.date),
       clicks: entry.summary.totalClicks,
       impressions: entry.summary.totalImpressions,
     }));

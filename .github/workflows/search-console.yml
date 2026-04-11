@@ -41,12 +41,13 @@ jobs:
           git push
 
       - name: Upload search data
-        if: always()
+        if: success()
         uses: actions/upload-artifact@v7
         with:
           name: search-console-data
           path: docs/metrics/search-console-history.json
           retention-days: 30
+          if-no-files-found: error
 
       - name: Check for significant ranking drops
         run: |

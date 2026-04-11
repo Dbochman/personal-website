@@ -2,9 +2,16 @@ function startOfDay(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
-function parseEntryDate(date: string) {
+export function parseEntryDate(date: string) {
   const [year, month, day] = date.split('-').map(Number);
   return new Date(year, month - 1, day);
+}
+
+export function formatHistoryDate(date: string) {
+  return parseEntryDate(date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
 }
 
 export function getRecentHistory<T extends { date: string }>(
