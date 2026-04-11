@@ -1992,5 +1992,113 @@
         "impressions": 2
       }
     ]
+  },
+  {
+    "timestamp": "2026-04-11T01:52:11.780Z",
+    "date": "2026-04-11",
+    "period": {
+      "start": "2026-04-04",
+      "end": "2026-04-11"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 186,
+      "averageCTR": 0,
+      "averagePosition": 3.7
+    },
+    "topQueries": [
+      {
+        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 1.4285714285714286
+      },
+      {
+        "query": "\"hook\" \"netlify-build\" \"decap\"",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 1
+      },
+      {
+        "query": "\"hook:\" \"decap cms\"",
+        "clicks": 0,
+        "impressions": 9,
+        "ctr": 0,
+        "position": 4.555555555555555
+      },
+      {
+        "query": "\"hook:\" \"decap cms\" config",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 2.5
+      },
+      {
+        "query": "\"hook:\" \"netlify-build\" \"cms\"",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 6
+      },
+      {
+        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 1.7142857142857144
+      },
+      {
+        "query": "\"hook:\" \"netlify-build\" \"decap\"",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 1
+      },
+      {
+        "query": "\"hook:\" \"netlify-build\" cms",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 6
+      },
+      {
+        "query": "\"hook:\" \"netlify-build\" decap cms config",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 2
+      },
+      {
+        "query": "\"hook:\" \"netlify-build\" netlify cms",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 6
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
+        "clicks": 0,
+        "impressions": 171
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://dylanbochman.com/projects/incident-command-diagrams",
+        "clicks": 0,
+        "impressions": 2
+      },
+      {
+        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
+        "clicks": 0,
+        "impressions": 12
+      }
+    ]
   }
 ]
