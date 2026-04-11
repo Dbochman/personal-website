@@ -1,6 +1,7 @@
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps, Legend } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { GA4HistoryEntry } from '../types';
+import { getRecentHistory } from './recentHistory';
 
 const COLORS = [
   'hsl(var(--chart-1))',
@@ -47,9 +48,15 @@ export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficCh
     );
   }
 
-  const sixtyDaysAgo = new Date();
-  sixtyDaysAgo.setDate(sixtyDaysAgo.getDate() - 60);
-  const recentData = data.filter((entry) => new Date(entry.date) >= sixtyDaysAgo);
+  const recentData = getRecentHistory(data, 60);
+
+  if (recentData.length === 0) {
+    return (
+      <div className="h-64 flex items-center justify-center text-muted-foreground">
+        No chart data available
+      </div>
+    );
+  }
 
   // First pass: accumulate total sessions per canonical slug across all entries
   const cumulativeBySlug = new Map<string, number>();
