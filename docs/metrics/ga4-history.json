@@ -1,39 +1,5 @@
 [
   {
-    "timestamp": "2026-01-06T16:03:21.442Z",
-    "date": "2026-01-06",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 51,
-      "users": 42,
-      "pageViews": 205,
-      "averageSessionDuration": 355,
-      "bounceRate": 0.75
-    },
-    "topPages": [
-      {
-        "page": "/",
-        "sessions": 51,
-        "users": 42,
-        "pageViews": 205
-      }
-    ],
-    "deviceBreakdown": [
-      {
-        "device": "desktop",
-        "sessions": 44,
-        "users": 39
-      },
-      {
-        "device": "mobile",
-        "sessions": 7,
-        "users": 3
-      }
-    ]
-  },
-  {
     "timestamp": "2026-01-12T12:07:36.711Z",
     "date": "2026-01-12",
     "period": {
@@ -15947,6 +15913,216 @@
         "unit": "ms",
         "ratings": {
           "good": 16,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": {
+      "total": 8,
+      "byTool": [
+        {
+          "name": "k8s_rightsizer",
+          "total": 8,
+          "actions": [
+            {
+              "action": "preset_change",
+              "count": 8
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-04-13T06:42:35.104Z",
+    "date": "2026-04-13",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 235,
+      "users": 228,
+      "pageViews": 228,
+      "averageSessionDuration": 53,
+      "bounceRate": 0.72
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 61,
+        "users": 61,
+        "pageViews": 60
+      },
+      {
+        "page": "/",
+        "sessions": 45,
+        "users": 44,
+        "pageViews": 46
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 15,
+        "users": 15,
+        "pageViews": 15
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 11,
+        "users": 8,
+        "pageViews": 11
+      },
+      {
+        "page": "/blog",
+        "sessions": 15,
+        "users": 14,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/runbook",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 9,
+        "users": 9,
+        "pageViews": 9
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack/",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 8
+      },
+      {
+        "page": "/projects/oncall-coverage/",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 8
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 102,
+        "users": 102
+      },
+      {
+        "device": "desktop",
+        "sessions": 133,
+        "users": 126
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 212,
+          "users": 208
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 5,
+          "users": 4
+        },
+        {
+          "channel": "Referral",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 212,
+          "users": 208
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 5,
+          "users": 4
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 123,
+        "average": 212.14634146341464,
+        "unit": "ms",
+        "ratings": {
+          "good": 121,
+          "needs-improvement": 1,
+          "poor": 1
+        },
+        "goodPercent": 98
+      },
+      "FCP": {
+        "count": 76,
+        "average": 725.3684210526316,
+        "unit": "ms",
+        "ratings": {
+          "good": 71,
+          "needs-improvement": 3,
+          "poor": 2
+        },
+        "goodPercent": 93
+      },
+      "CLS": {
+        "count": 22,
+        "average": 0.01790909090909091,
+        "unit": "",
+        "ratings": {
+          "good": 21,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "LCP": {
+        "count": 20,
+        "average": 622.2,
+        "unit": "ms",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "INP": {
+        "count": 17,
+        "average": 60.23529411764706,
+        "unit": "ms",
+        "ratings": {
+          "good": 17,
           "needs-improvement": 0,
           "poor": 0
         },
