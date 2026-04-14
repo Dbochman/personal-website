@@ -1,98 +1,5 @@
 [
   {
-    "timestamp": "2026-01-12T12:07:36.711Z",
-    "date": "2026-01-12",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 5719,
-      "users": 5628,
-      "pageViews": 6003,
-      "averageSessionDuration": 10,
-      "bounceRate": 0.94
-    },
-    "topPages": [
-      {
-        "page": "/",
-        "sessions": 1648,
-        "users": 1616,
-        "pageViews": 1866
-      },
-      {
-        "page": "/blog/adventures-in-ai-assisted-web-development",
-        "sessions": 797,
-        "users": 797,
-        "pageViews": 797
-      },
-      {
-        "page": "/runbook",
-        "sessions": 669,
-        "users": 667,
-        "pageViews": 678
-      },
-      {
-        "page": "/blog/",
-        "sessions": 552,
-        "users": 537,
-        "pageViews": 593
-      },
-      {
-        "page": "/blog",
-        "sessions": 454,
-        "users": 439,
-        "pageViews": 467
-      },
-      {
-        "page": "/blog/2026-01-getting-started-with-sre",
-        "sessions": 291,
-        "users": 288,
-        "pageViews": 288
-      },
-      {
-        "page": "/blog/2026-01-getting-started-with-sre/",
-        "sessions": 163,
-        "users": 161,
-        "pageViews": 167
-      },
-      {
-        "page": "/blog/2025-01-07-adventures-in-ai-assisted-web-development",
-        "sessions": 133,
-        "users": 125,
-        "pageViews": 138
-      },
-      {
-        "page": "/blog/2025-01-08-fixing-404-errors-on-github-pages-spas/",
-        "sessions": 119,
-        "users": 118,
-        "pageViews": 121
-      },
-      {
-        "page": "/blog/2025-01-07-uptime-monitoring-for-a-personal-site",
-        "sessions": 88,
-        "users": 88,
-        "pageViews": 86
-      }
-    ],
-    "deviceBreakdown": [
-      {
-        "device": "desktop",
-        "sessions": 5156,
-        "users": 5101
-      },
-      {
-        "device": "mobile",
-        "sessions": 557,
-        "users": 523
-      },
-      {
-        "device": "tablet",
-        "sessions": 6,
-        "users": 4
-      }
-    ]
-  },
-  {
     "timestamp": "2026-01-15T06:16:40.729Z",
     "date": "2026-01-15",
     "period": {
@@ -16123,6 +16030,216 @@
         "unit": "ms",
         "ratings": {
           "good": 17,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": {
+      "total": 8,
+      "byTool": [
+        {
+          "name": "k8s_rightsizer",
+          "total": 8,
+          "actions": [
+            {
+              "action": "preset_change",
+              "count": 8
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-04-14T06:35:58.794Z",
+    "date": "2026-04-14",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 254,
+      "users": 249,
+      "pageViews": 245,
+      "averageSessionDuration": 48,
+      "bounceRate": 0.74
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 60,
+        "users": 60,
+        "pageViews": 59
+      },
+      {
+        "page": "/",
+        "sessions": 50,
+        "users": 49,
+        "pageViews": 51
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 15,
+        "users": 15,
+        "pageViews": 15
+      },
+      {
+        "page": "/blog",
+        "sessions": 19,
+        "users": 18,
+        "pageViews": 14
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack",
+        "sessions": 14,
+        "users": 14,
+        "pageViews": 14
+      },
+      {
+        "page": "/runbook",
+        "sessions": 14,
+        "users": 14,
+        "pageViews": 14
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 11,
+        "users": 11,
+        "pageViews": 11
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 9,
+        "users": 8,
+        "pageViews": 9
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack/",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 8
+      },
+      {
+        "page": "/projects/oncall-coverage/",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 8
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 104,
+        "users": 104
+      },
+      {
+        "device": "desktop",
+        "sessions": 150,
+        "users": 145
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 228,
+          "users": 226
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 6,
+          "users": 5
+        },
+        {
+          "channel": "Referral",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 228,
+          "users": 226
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 6,
+          "users": 5
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 122,
+        "average": 201.31147540983608,
+        "unit": "ms",
+        "ratings": {
+          "good": 121,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 99
+      },
+      "FCP": {
+        "count": 75,
+        "average": 687.4666666666667,
+        "unit": "ms",
+        "ratings": {
+          "good": 71,
+          "needs-improvement": 3,
+          "poor": 1
+        },
+        "goodPercent": 95
+      },
+      "CLS": {
+        "count": 21,
+        "average": 0.018714285714285715,
+        "unit": "",
+        "ratings": {
+          "good": 20,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "INP": {
+        "count": 19,
+        "average": 64,
+        "unit": "ms",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "LCP": {
+        "count": 19,
+        "average": 422.3157894736842,
+        "unit": "ms",
+        "ratings": {
+          "good": 19,
           "needs-improvement": 0,
           "poor": 0
         },
