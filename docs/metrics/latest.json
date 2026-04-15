@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-14T06:35:58.799Z",
+  "generated": "2026-04-15T06:36:12.956Z",
   "searchConsole": {
     "lastCheck": "2026-04-11T01:52:11.781Z",
     "clicks": 0,
@@ -8,20 +8,20 @@
     "averagePosition": 3.7
   },
   "analytics": {
-    "lastCheck": "2026-04-14T06:35:58.799Z",
-    "sessions_7d": 254,
-    "users_7d": 249,
-    "pageviews_7d": 245,
-    "avgSessionDuration": 48,
+    "lastCheck": "2026-04-15T06:36:12.956Z",
+    "sessions_7d": 250,
+    "users_7d": 246,
+    "pageviews_7d": 242,
+    "avgSessionDuration": 934,
     "bounceRate": 0.74,
     "topPages": [
       {
         "page": "/blog/",
-        "pageViews": 59
+        "pageViews": 63
       },
       {
         "page": "/",
-        "pageViews": 51
+        "pageViews": 50
       },
       {
         "page": "/runbook/",
@@ -38,12 +38,12 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-04-14T06:35:58.799Z",
+    "lastCheck": "2026-04-15T06:36:12.956Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
         "count": 122,
-        "average": 201.31147540983608,
+        "average": 206.672131147541,
         "unit": "ms",
         "ratings": {
           "good": 121,
@@ -53,44 +53,44 @@
         "goodPercent": 99
       },
       "FCP": {
-        "count": 75,
-        "average": 687.4666666666667,
+        "count": 72,
+        "average": 702.6111111111111,
         "unit": "ms",
         "ratings": {
-          "good": 71,
+          "good": 68,
           "needs-improvement": 3,
           "poor": 1
         },
-        "goodPercent": 95
+        "goodPercent": 94
       },
       "CLS": {
-        "count": 21,
-        "average": 0.018714285714285715,
+        "count": 19,
+        "average": 0.022105263157894735,
         "unit": "",
         "ratings": {
-          "good": 20,
+          "good": 18,
           "needs-improvement": 1,
           "poor": 0
         },
         "goodPercent": 95
       },
       "INP": {
-        "count": 19,
-        "average": 64,
+        "count": 18,
+        "average": 56.44444444444444,
         "unit": "ms",
         "ratings": {
-          "good": 19,
+          "good": 18,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "LCP": {
-        "count": 19,
-        "average": 422.3157894736842,
+        "count": 17,
+        "average": 438.8235294117647,
         "unit": "ms",
         "ratings": {
-          "good": 19,
+          "good": 17,
           "needs-improvement": 0,
           "poor": 0
         },
