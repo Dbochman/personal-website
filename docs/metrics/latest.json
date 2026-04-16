@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-15T06:36:12.956Z",
+  "generated": "2026-04-16T06:36:49.139Z",
   "searchConsole": {
     "lastCheck": "2026-04-11T01:52:11.781Z",
     "clicks": 0,
@@ -8,16 +8,16 @@
     "averagePosition": 3.7
   },
   "analytics": {
-    "lastCheck": "2026-04-15T06:36:12.956Z",
+    "lastCheck": "2026-04-16T06:36:49.139Z",
     "sessions_7d": 250,
-    "users_7d": 246,
-    "pageviews_7d": 242,
-    "avgSessionDuration": 934,
-    "bounceRate": 0.74,
+    "users_7d": 239,
+    "pageviews_7d": 244,
+    "avgSessionDuration": 978,
+    "bounceRate": 0.76,
     "topPages": [
       {
         "page": "/blog/",
-        "pageViews": 63
+        "pageViews": 62
       },
       {
         "page": "/",
@@ -38,59 +38,59 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-04-15T06:36:12.956Z",
+    "lastCheck": "2026-04-16T06:36:49.139Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 122,
-        "average": 206.672131147541,
+        "count": 123,
+        "average": 199.82926829268294,
         "unit": "ms",
         "ratings": {
-          "good": 121,
+          "good": 122,
           "needs-improvement": 0,
           "poor": 1
         },
         "goodPercent": 99
       },
       "FCP": {
-        "count": 72,
-        "average": 702.6111111111111,
+        "count": 71,
+        "average": 693,
         "unit": "ms",
         "ratings": {
-          "good": 68,
+          "good": 67,
           "needs-improvement": 3,
           "poor": 1
         },
         "goodPercent": 94
       },
       "CLS": {
-        "count": 19,
-        "average": 0.022105263157894735,
+        "count": 17,
+        "average": 0.014294117647058823,
         "unit": "",
         "ratings": {
-          "good": 18,
-          "needs-improvement": 1,
+          "good": 17,
+          "needs-improvement": 0,
           "poor": 0
         },
-        "goodPercent": 95
+        "goodPercent": 100
       },
       "INP": {
-        "count": 18,
-        "average": 56.44444444444444,
+        "count": 16,
+        "average": 55,
         "unit": "ms",
         "ratings": {
-          "good": 18,
+          "good": 16,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "LCP": {
-        "count": 17,
-        "average": 438.8235294117647,
+        "count": 16,
+        "average": 379.6875,
         "unit": "ms",
         "ratings": {
-          "good": 17,
+          "good": 16,
           "needs-improvement": 0,
           "poor": 0
         },
