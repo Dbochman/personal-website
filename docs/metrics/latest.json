@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-16T06:36:49.139Z",
+  "generated": "2026-04-17T06:36:31.972Z",
   "searchConsole": {
     "lastCheck": "2026-04-11T01:52:11.781Z",
     "clicks": 0,
@@ -8,20 +8,20 @@
     "averagePosition": 3.7
   },
   "analytics": {
-    "lastCheck": "2026-04-16T06:36:49.139Z",
-    "sessions_7d": 250,
-    "users_7d": 239,
-    "pageviews_7d": 244,
-    "avgSessionDuration": 978,
+    "lastCheck": "2026-04-17T06:36:31.971Z",
+    "sessions_7d": 247,
+    "users_7d": 236,
+    "pageviews_7d": 242,
+    "avgSessionDuration": 990,
     "bounceRate": 0.76,
     "topPages": [
       {
         "page": "/blog/",
-        "pageViews": 62
+        "pageViews": 59
       },
       {
         "page": "/",
-        "pageViews": 50
+        "pageViews": 52
       },
       {
         "page": "/runbook/",
@@ -38,15 +38,15 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-04-16T06:36:49.139Z",
+    "lastCheck": "2026-04-17T06:36:31.972Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 123,
-        "average": 199.82926829268294,
+        "count": 121,
+        "average": 196.80165289256198,
         "unit": "ms",
         "ratings": {
-          "good": 122,
+          "good": 120,
           "needs-improvement": 0,
           "poor": 1
         },
@@ -54,7 +54,7 @@
       },
       "FCP": {
         "count": 71,
-        "average": 693,
+        "average": 709.1971830985915,
         "unit": "ms",
         "ratings": {
           "good": 67,
@@ -64,11 +64,11 @@
         "goodPercent": 94
       },
       "CLS": {
-        "count": 17,
-        "average": 0.014294117647058823,
+        "count": 16,
+        "average": 0.0151875,
         "unit": "",
         "ratings": {
-          "good": 17,
+          "good": 16,
           "needs-improvement": 0,
           "poor": 0
         },
@@ -87,7 +87,7 @@
       },
       "LCP": {
         "count": 16,
-        "average": 379.6875,
+        "average": 444.3125,
         "unit": "ms",
         "ratings": {
           "good": 16,
