@@ -1,182 +1,5 @@
 [
   {
-    "timestamp": "2026-01-18T06:15:59.157Z",
-    "date": "2026-01-18",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 7854,
-      "users": 7544,
-      "pageViews": 8684,
-      "averageSessionDuration": 36,
-      "bounceRate": 0.93
-    },
-    "topPages": [
-      {
-        "page": "/",
-        "sessions": 2083,
-        "users": 2002,
-        "pageViews": 2469
-      },
-      {
-        "page": "/blog/",
-        "sessions": 1279,
-        "users": 1272,
-        "pageViews": 1288
-      },
-      {
-        "page": "/runbook",
-        "sessions": 959,
-        "users": 953,
-        "pageViews": 965
-      },
-      {
-        "page": "/blog",
-        "sessions": 632,
-        "users": 603,
-        "pageViews": 526
-      },
-      {
-        "page": "/projects/kanban",
-        "sessions": 53,
-        "users": 6,
-        "pageViews": 376
-      },
-      {
-        "page": "/this-page-does-not-exist",
-        "sessions": 374,
-        "users": 373,
-        "pageViews": 373
-      },
-      {
-        "page": "/projects/uptime-calculator",
-        "sessions": 274,
-        "users": 267,
-        "pageViews": 300
-      },
-      {
-        "page": "/projects",
-        "sessions": 219,
-        "users": 130,
-        "pageViews": 253
-      },
-      {
-        "page": "/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai",
-        "sessions": 238,
-        "users": 238,
-        "pageViews": 240
-      },
-      {
-        "page": "/blog/2026-01-14-the-site-that-plans-itself/",
-        "sessions": 165,
-        "users": 165,
-        "pageViews": 165
-      }
-    ],
-    "deviceBreakdown": [
-      {
-        "device": "desktop",
-        "sessions": 6687,
-        "users": 6420
-      },
-      {
-        "device": "mobile",
-        "sessions": 1167,
-        "users": 1124
-      }
-    ],
-    "trafficSources": {
-      "channels": [
-        {
-          "channel": "Direct",
-          "sessions": 7344,
-          "users": 7305
-        },
-        {
-          "channel": "Organic Search",
-          "sessions": 37,
-          "users": 7
-        },
-        {
-          "channel": "Referral",
-          "sessions": 23,
-          "users": 2
-        },
-        {
-          "channel": "Unassigned",
-          "sessions": 4,
-          "users": 3
-        }
-      ],
-      "sources": [
-        {
-          "source": "(direct)",
-          "medium": "(none)",
-          "sessions": 7344,
-          "users": 7305
-        },
-        {
-          "source": "google",
-          "medium": "organic",
-          "sessions": 36,
-          "users": 6
-        },
-        {
-          "source": "github.com",
-          "medium": "referral",
-          "sessions": 13,
-          "users": 1
-        },
-        {
-          "source": "dashboard.uptimerobot.com",
-          "medium": "referral",
-          "sessions": 10,
-          "users": 1
-        },
-        {
-          "source": "(not set)",
-          "medium": "(not set)",
-          "sessions": 4,
-          "users": 3
-        },
-        {
-          "source": "bing",
-          "medium": "organic",
-          "sessions": 1,
-          "users": 1
-        }
-      ]
-    },
-    "webVitals": {
-      "FCP": {
-        "count": 1599,
-        "average": 533.447779862414,
-        "unit": "ms"
-      },
-      "TTFB": {
-        "count": 1514,
-        "average": 121.71598414795244,
-        "unit": "ms"
-      },
-      "LCP": {
-        "count": 715,
-        "average": 333.87552447552446,
-        "unit": "ms"
-      },
-      "CLS": {
-        "count": 331,
-        "average": 0.009172205438066464,
-        "unit": ""
-      },
-      "INP": {
-        "count": 232,
-        "average": 39.86206896551724,
-        "unit": "ms"
-      }
-    }
-  },
-  {
     "timestamp": "2026-01-19T06:19:44.360Z",
     "date": "2026-01-19",
     "period": {
@@ -16363,5 +16186,201 @@
         }
       ]
     }
+  },
+  {
+    "timestamp": "2026-04-18T06:25:35.261Z",
+    "date": "2026-04-18",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 116,
+      "users": 106,
+      "pageViews": 107,
+      "averageSessionDuration": 2199,
+      "bounceRate": 0.53
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 46,
+        "users": 46,
+        "pageViews": 45
+      },
+      {
+        "page": "/",
+        "sessions": 20,
+        "users": 19,
+        "pageViews": 20
+      },
+      {
+        "page": "/projects",
+        "sessions": 11,
+        "users": 3,
+        "pageViews": 9
+      },
+      {
+        "page": "/blog",
+        "sessions": 8,
+        "users": 7,
+        "pageViews": 6
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/runbook",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/blog/2025-01-05-notes-on-building-this-site-together",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 55,
+        "users": 55
+      },
+      {
+        "device": "desktop",
+        "sessions": 61,
+        "users": 51
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 100,
+          "users": 93
+        },
+        {
+          "channel": "Referral",
+          "sessions": 3,
+          "users": 1
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 100,
+          "users": 93
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 3,
+          "users": 1
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 66,
+        "average": 225.57575757575756,
+        "unit": "ms",
+        "ratings": {
+          "good": 65,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 98
+      },
+      "FCP": {
+        "count": 15,
+        "average": 451.46666666666664,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 7,
+        "average": 75.42857142857143,
+        "unit": "ms",
+        "ratings": {
+          "good": 7,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "LCP": {
+        "count": 7,
+        "average": 668,
+        "unit": "ms",
+        "ratings": {
+          "good": 7,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 6,
+        "average": 0.0075,
+        "unit": "",
+        "ratings": {
+          "good": 6,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
   }
 ]
