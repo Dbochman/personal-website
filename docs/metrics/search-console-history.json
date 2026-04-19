@@ -2879,5 +2879,59 @@
         "impressions": 2
       }
     ]
+  },
+  {
+    "timestamp": "2026-04-19T06:28:26.867Z",
+    "date": "2026-04-19",
+    "period": {
+      "start": "2026-04-12",
+      "end": "2026-04-19"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 3,
+      "averageCTR": 0,
+      "averagePosition": 26.7
+    },
+    "topQueries": [
+      {
+        "query": "bochman",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 60
+      },
+      {
+        "query": "dotfiles claude",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 10
+      },
+      {
+        "query": "sre incident response workflow diagram",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 10
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://dylanbochman.com/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
+        "clicks": 0,
+        "impressions": 1
+      }
+    ]
   }
 ]
