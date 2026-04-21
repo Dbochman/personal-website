@@ -1,181 +1,5 @@
 [
   {
-    "timestamp": "2026-01-21T06:18:08.085Z",
-    "date": "2026-01-21",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 8109,
-      "users": 7870,
-      "pageViews": 8871,
-      "averageSessionDuration": 28,
-      "bounceRate": 0.94
-    },
-    "topPages": [
-      {
-        "page": "/",
-        "sessions": 2134,
-        "users": 2073,
-        "pageViews": 2490
-      },
-      {
-        "page": "/blog/",
-        "sessions": 1271,
-        "users": 1268,
-        "pageViews": 1273
-      },
-      {
-        "page": "/runbook",
-        "sessions": 950,
-        "users": 946,
-        "pageViews": 945
-      },
-      {
-        "page": "/blog",
-        "sessions": 687,
-        "users": 670,
-        "pageViews": 587
-      },
-      {
-        "page": "/this-page-does-not-exist",
-        "sessions": 388,
-        "users": 387,
-        "pageViews": 387
-      },
-      {
-        "page": "/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai",
-        "sessions": 358,
-        "users": 356,
-        "pageViews": 358
-      },
-      {
-        "page": "/projects/kanban",
-        "sessions": 56,
-        "users": 6,
-        "pageViews": 355
-      },
-      {
-        "page": "/projects",
-        "sessions": 281,
-        "users": 211,
-        "pageViews": 301
-      },
-      {
-        "page": "/projects/uptime-calculator",
-        "sessions": 261,
-        "users": 258,
-        "pageViews": 277
-      },
-      {
-        "page": "/blog/2026-01-16-using-a-kanban-board-to-talk-to-my-ai/",
-        "sessions": 216,
-        "users": 216,
-        "pageViews": 216
-      }
-    ],
-    "deviceBreakdown": [
-      {
-        "device": "desktop",
-        "sessions": 6893,
-        "users": 6690
-      },
-      {
-        "device": "mobile",
-        "sessions": 1214,
-        "users": 1178
-      },
-      {
-        "device": "tablet",
-        "sessions": 2,
-        "users": 2
-      }
-    ],
-    "trafficSources": {
-      "channels": [
-        {
-          "channel": "Direct",
-          "sessions": 7773,
-          "users": 7621
-        },
-        {
-          "channel": "Organic Search",
-          "sessions": 20,
-          "users": 5
-        },
-        {
-          "channel": "Referral",
-          "sessions": 10,
-          "users": 1
-        },
-        {
-          "channel": "Unassigned",
-          "sessions": 4,
-          "users": 3
-        }
-      ],
-      "sources": [
-        {
-          "source": "(direct)",
-          "medium": "(none)",
-          "sessions": 7773,
-          "users": 7621
-        },
-        {
-          "source": "google",
-          "medium": "organic",
-          "sessions": 18,
-          "users": 3
-        },
-        {
-          "source": "dashboard.uptimerobot.com",
-          "medium": "referral",
-          "sessions": 10,
-          "users": 1
-        },
-        {
-          "source": "(not set)",
-          "medium": "(not set)",
-          "sessions": 4,
-          "users": 3
-        },
-        {
-          "source": "bing",
-          "medium": "organic",
-          "sessions": 2,
-          "users": 2
-        }
-      ]
-    },
-    "webVitals": {
-      "FCP": {
-        "count": 1474,
-        "average": 548.6377204884668,
-        "unit": "ms"
-      },
-      "TTFB": {
-        "count": 1423,
-        "average": 104.33450456781448,
-        "unit": "ms"
-      },
-      "LCP": {
-        "count": 632,
-        "average": 350.5901898734177,
-        "unit": "ms"
-      },
-      "CLS": {
-        "count": 305,
-        "average": 0.009898360655737704,
-        "unit": ""
-      },
-      "INP": {
-        "count": 171,
-        "average": 48.70175438596491,
-        "unit": "ms"
-      }
-    }
-  },
-  {
     "timestamp": "2026-01-22T06:15:00.000Z",
     "date": "2026-01-22",
     "period": {
@@ -16381,6 +16205,191 @@
         "unit": "",
         "ratings": {
           "good": 5,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-04-21T06:37:14.552Z",
+    "date": "2026-04-21",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 88,
+      "users": 80,
+      "pageViews": 85,
+      "averageSessionDuration": 2844,
+      "bounceRate": 0.5
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 43,
+        "users": 43,
+        "pageViews": 43
+      },
+      {
+        "page": "/",
+        "sessions": 17,
+        "users": 17,
+        "pageViews": 17
+      },
+      {
+        "page": "/projects",
+        "sessions": 10,
+        "users": 2,
+        "pageViews": 8
+      },
+      {
+        "page": "/blog",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/runbook",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/projects/statuspage-update/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      },
+      {
+        "page": "/contact-us",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 50,
+        "users": 50
+      },
+      {
+        "device": "desktop",
+        "sessions": 38,
+        "users": 30
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 83,
+          "users": 75
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 83,
+          "users": 75
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 60,
+        "average": 233.18333333333334,
+        "unit": "ms",
+        "ratings": {
+          "good": 59,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 98
+      },
+      "FCP": {
+        "count": 12,
+        "average": 967,
+        "unit": "ms",
+        "ratings": {
+          "good": 11,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 92
+      },
+      "INP": {
+        "count": 6,
+        "average": 58.666666666666664,
+        "unit": "ms",
+        "ratings": {
+          "good": 6,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "LCP": {
+        "count": 4,
+        "average": 958,
+        "unit": "ms",
+        "ratings": {
+          "good": 4,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 2,
+        "average": 0,
+        "unit": "",
+        "ratings": {
+          "good": 2,
           "needs-improvement": 0,
           "poor": 0
         },
