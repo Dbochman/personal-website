@@ -1,22 +1,5 @@
 [
   {
-    "timestamp": "2026-01-23T06:15:00.000Z",
-    "date": "2026-01-23",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 4100,
-      "users": 4100,
-      "pageViews": 4305,
-      "averageSessionDuration": 9,
-      "bounceRate": 0.94
-    },
-    "topPages": [],
-    "deviceBreakdown": [],
-    "_backfilled": true
-  },
-  {
     "timestamp": "2026-01-24T06:15:00.000Z",
     "date": "2026-01-24",
     "period": {
@@ -16558,6 +16541,191 @@
         "unit": "ms",
         "ratings": {
           "good": 7,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-04-23T06:37:16.689Z",
+    "date": "2026-04-23",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 88,
+      "users": 86,
+      "pageViews": 80,
+      "averageSessionDuration": 207,
+      "bounceRate": 0.48
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 40,
+        "users": 40,
+        "pageViews": 40
+      },
+      {
+        "page": "/",
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 18
+      },
+      {
+        "page": "/projects/slo-tool/",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects",
+        "sessions": 5,
+        "users": 3,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/runbook",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/projects/statuspage-update/",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 2
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "sessions": 1,
+        "users": 1,
+        "pageViews": 1
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 47,
+        "users": 47
+      },
+      {
+        "device": "desktop",
+        "sessions": 41,
+        "users": 39
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 77,
+          "users": 75
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 77,
+          "users": 75
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 54,
+        "average": 223.9814814814815,
+        "unit": "ms",
+        "ratings": {
+          "good": 53,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 98
+      },
+      "FCP": {
+        "count": 15,
+        "average": 897.1333333333333,
+        "unit": "ms",
+        "ratings": {
+          "good": 14,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 93
+      },
+      "LCP": {
+        "count": 7,
+        "average": 823.5714285714286,
+        "unit": "ms",
+        "ratings": {
+          "good": 7,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 6,
+        "average": 0.011,
+        "unit": "",
+        "ratings": {
+          "good": 6,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 6,
+        "average": 61.333333333333336,
+        "unit": "ms",
+        "ratings": {
+          "good": 6,
           "needs-improvement": 0,
           "poor": 0
         },

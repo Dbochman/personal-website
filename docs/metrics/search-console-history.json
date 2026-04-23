@@ -3128,5 +3128,83 @@
         "impressions": 1
       }
     ]
+  },
+  {
+    "timestamp": "2026-04-23T06:36:42.036Z",
+    "date": "2026-04-23",
+    "period": {
+      "start": "2026-04-16",
+      "end": "2026-04-23"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 6,
+      "averageCTR": 0,
+      "averagePosition": 29.7
+    },
+    "topQueries": [
+      {
+        "query": "bochman",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 60
+      },
+      {
+        "query": "claude code dotfiles",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 5
+      },
+      {
+        "query": "decap cms hooks netlify-build",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 2
+      },
+      {
+        "query": "monitor search engine rank free github",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 74.5
+      },
+      {
+        "query": "sre incident management workflow diagram",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 7
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://dylanbochman.com/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-15-free-observability-for-a-static-site",
+        "clicks": 0,
+        "impressions": 2
+      },
+      {
+        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
+        "clicks": 0,
+        "impressions": 1
+      }
+    ]
   }
 ]
