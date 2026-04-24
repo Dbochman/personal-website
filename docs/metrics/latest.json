@@ -1,5 +1,5 @@
 {
-  "generated": "2026-04-23T06:37:16.692Z",
+  "generated": "2026-04-24T06:38:17.274Z",
   "searchConsole": {
     "lastCheck": "2026-04-11T01:52:11.781Z",
     "clicks": 0,
@@ -8,12 +8,12 @@
     "averagePosition": 3.7
   },
   "analytics": {
-    "lastCheck": "2026-04-23T06:37:16.692Z",
-    "sessions_7d": 88,
-    "users_7d": 86,
-    "pageviews_7d": 80,
+    "lastCheck": "2026-04-24T06:38:17.274Z",
+    "sessions_7d": 87,
+    "users_7d": 85,
+    "pageviews_7d": 78,
     "avgSessionDuration": 207,
-    "bounceRate": 0.48,
+    "bounceRate": 0.47,
     "topPages": [
       {
         "page": "/blog/",
@@ -21,7 +21,7 @@
       },
       {
         "page": "/",
-        "pageViews": 18
+        "pageViews": 16
       },
       {
         "page": "/projects/slo-tool/",
@@ -38,34 +38,34 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-04-23T06:37:16.692Z",
+    "lastCheck": "2026-04-24T06:38:17.274Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 54,
-        "average": 223.9814814814815,
+        "count": 53,
+        "average": 215.96226415094338,
         "unit": "ms",
         "ratings": {
-          "good": 53,
+          "good": 52,
           "needs-improvement": 1,
           "poor": 0
         },
         "goodPercent": 98
       },
       "FCP": {
-        "count": 15,
-        "average": 897.1333333333333,
+        "count": 14,
+        "average": 837.0714285714286,
         "unit": "ms",
         "ratings": {
-          "good": 14,
+          "good": 13,
           "needs-improvement": 1,
           "poor": 0
         },
         "goodPercent": 93
       },
-      "LCP": {
+      "INP": {
         "count": 7,
-        "average": 823.5714285714286,
+        "average": 54.857142857142854,
         "unit": "ms",
         "ratings": {
           "good": 7,
@@ -85,9 +85,9 @@
         },
         "goodPercent": 100
       },
-      "INP": {
+      "LCP": {
         "count": 6,
-        "average": 61.333333333333336,
+        "average": 668.5,
         "unit": "ms",
         "ratings": {
           "good": 6,
