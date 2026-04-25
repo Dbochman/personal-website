@@ -3291,5 +3291,90 @@
         "impressions": 1
       }
     ]
+  },
+  {
+    "timestamp": "2026-04-25T06:30:15.811Z",
+    "date": "2026-04-25",
+    "period": {
+      "start": "2026-04-18",
+      "end": "2026-04-25"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 8,
+      "averageCTR": 0,
+      "averagePosition": 17.5
+    },
+    "topQueries": [
+      {
+        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
+      },
+      {
+        "query": "claude code dotfiles",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 5
+      },
+      {
+        "query": "decap cms hooks netlify-build",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 2.5
+      },
+      {
+        "query": "github pages static hosting only no server-side code",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
+      },
+      {
+        "query": "monitor search engine rank free github",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 74.5
+      },
+      {
+        "query": "sre incident management workflow diagram",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 7
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
+        "clicks": 0,
+        "impressions": 3
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-10-architecture-of-a-free-website/",
+        "clicks": 0,
+        "impressions": 1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-15-free-observability-for-a-static-site",
+        "clicks": 0,
+        "impressions": 2
+      },
+      {
+        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
+        "clicks": 0,
+        "impressions": 1
+      }
+    ]
   }
 ]
