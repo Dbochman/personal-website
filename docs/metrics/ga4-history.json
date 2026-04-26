@@ -1,22 +1,5 @@
 [
   {
-    "timestamp": "2026-01-26T06:15:00.000Z",
-    "date": "2026-01-26",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 2900,
-      "users": 2900,
-      "pageViews": 3045,
-      "averageSessionDuration": 5,
-      "bounceRate": 0.95
-    },
-    "topPages": [],
-    "deviceBreakdown": [],
-    "_backfilled": true
-  },
-  {
     "timestamp": "2026-01-27T06:15:00.000Z",
     "date": "2026-01-27",
     "period": {
@@ -17069,5 +17052,204 @@
       }
     },
     "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-04-26T06:32:43.674Z",
+    "date": "2026-04-26",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 204,
+      "users": 196,
+      "pageViews": 191,
+      "averageSessionDuration": 30,
+      "bounceRate": 0.74
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 53,
+        "users": 53,
+        "pageViews": 53
+      },
+      {
+        "page": "/",
+        "sessions": 45,
+        "users": 42,
+        "pageViews": 43
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 11,
+        "users": 11,
+        "pageViews": 11
+      },
+      {
+        "page": "/blog",
+        "sessions": 11,
+        "users": 11,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/runbook",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 8
+      },
+      {
+        "page": "/projects/slo-tool/",
+        "sessions": 7,
+        "users": 7,
+        "pageViews": 7
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack/",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/projects/oncall-coverage/",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 82,
+        "users": 82
+      },
+      {
+        "device": "desktop",
+        "sessions": 122,
+        "users": 114
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 183,
+          "users": 181
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 4,
+          "users": 4
+        },
+        {
+          "channel": "Referral",
+          "sessions": 3,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 183,
+          "users": 181
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 4,
+          "users": 4
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 3,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 95,
+        "average": 197.9578947368421,
+        "unit": "ms",
+        "ratings": {
+          "good": 93,
+          "needs-improvement": 2,
+          "poor": 0
+        },
+        "goodPercent": 98
+      },
+      "FCP": {
+        "count": 54,
+        "average": 588.6296296296297,
+        "unit": "ms",
+        "ratings": {
+          "good": 53,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 98
+      },
+      "CLS": {
+        "count": 14,
+        "average": 0.01,
+        "unit": "",
+        "ratings": {
+          "good": 14,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "LCP": {
+        "count": 14,
+        "average": 626.4285714285714,
+        "unit": "ms",
+        "ratings": {
+          "good": 14,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 11,
+        "average": 66.18181818181819,
+        "unit": "ms",
+        "ratings": {
+          "good": 11,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": {
+      "total": 3,
+      "byTool": [
+        {
+          "name": "oncall_coverage",
+          "total": 3,
+          "actions": [
+            {
+              "action": "model_select",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    }
   }
 ]
