@@ -22,9 +22,9 @@ const LighthouseHistoryChart = lazy(() => import('./charts/LighthouseHistoryChar
 const SearchPerformanceChart = lazy(() => import('./charts/SearchPerformanceChart').then(m => ({ default: m.SearchPerformanceChart })));
 
 const ANALYTICS_TABS: TabItem[] = [
+  { value: 'blog', label: 'Blog' },
   { value: 'search', label: 'Search' },
   { value: 'traffic', label: 'Traffic' },
-  { value: 'blog', label: 'Blog' },
   { value: 'performance', label: 'Performance', mobileLabel: 'Perf' },
   { value: 'tools', label: 'Tools' },
   { value: 'cicd', label: 'CI/CD' },
@@ -32,7 +32,7 @@ const ANALYTICS_TABS: TabItem[] = [
 
 export function AnalyticsDashboard() {
   const { latest, ga4History, searchHistory, lighthouseSummary, billingHistory, isLoading, error, warning } = useAnalyticsData();
-  const [activeTab, setActiveTab] = useState('search');
+  const [activeTab, setActiveTab] = useState('blog');
 
   if (isLoading) {
     return (
@@ -394,7 +394,7 @@ export function AnalyticsDashboard() {
             />
             <MetricCard
               title="CTR"
-              value={latestSearch?.summary?.averageCTR != null ? `${(latestSearch.summary.averageCTR * 100).toFixed(1)}%` : '—'}
+              value={latestSearch?.summary?.averageCTR != null ? `${latestSearch.summary.averageCTR.toFixed(1)}%` : '—'}
               icon={Activity}
             />
             <MetricCard
@@ -509,4 +509,3 @@ export function AnalyticsDashboard() {
     </div>
   );
 }
-
