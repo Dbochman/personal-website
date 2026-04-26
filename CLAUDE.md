@@ -55,7 +55,7 @@ gh pr merge --squash --delete-branch
 1. Skips noise (dependabot, daily analytics, `chore`/`deps`/`docs`/`ci`/`build`/`style`/`test`/`refactor` without `[changelog]`).
 2. For each remaining commit, looks for an existing roadmap card by `PR #N` label or slug match. If found, moves it to the `changelog` column.
 3. Otherwise, creates a new card directly in `changelog` (only for `feat`/`fix`/`perf`/freeform commits, or anything tagged `[changelog]`).
-4. Bot commits with `[skip ci]` to avoid retriggering workflows.
+4. Bot commits without `[skip ci]` so deploy.yml's content-only fast path runs and the new card lands on the live site within ~2 minutes. The sync workflow itself doesn't re-trigger because of the `paths-ignore` filter on `content/kanban/**` and `src/generated/kanban/**`.
 
 Backfill or test via `Actions → Sync Changelog → Run workflow` (supports `since` SHA and dry-run).
 

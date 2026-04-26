@@ -28,6 +28,14 @@ jobs:
     if: ${{ !contains(github.event.head_commit.message, '[skip-changelog]') && !contains(github.event.head_commit.message, '[skip ci]') }}
     permissions:
       contents: write
+    env:
+      # Pull user-controlled inputs into env so they reach shell as $VARS
+      # instead of being interpolated into the script body (no command
+      # injection if a malicious value contains shell metacharacters).
+      INPUT_SINCE: ${{ inputs.since }}
+      EVENT_BEFORE: ${{ github.event.before }}
+      EVENT_NAME: ${{ github.event_name }}
+      DRY_RUN: ${{ inputs.dry_run }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -48,36 +56,49 @@ jobs:
       - name: Resolve commit range
         id: range
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            SINCE="${{ inputs.since }}"
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            SINCE="$INPUT_SINCE"
             if [ -z "$SINCE" ]; then
               SINCE="HEAD~1"
             fi
           else
-            SINCE="${{ github.event.before }}"
+            SINCE="$EVENT_BEFORE"
           fi
           # Handle initial push / branch creation (all-zeros SHA).
           if [ "$SINCE" = "0000000000000000000000000000000000000000" ] || [ -z "$SINCE" ]; then
             echo "Initial push detected — using HEAD~1 as fallback."
             SINCE="HEAD~1"
           fi
+          # Reject anything that doesn't look like a safe revision before
+          # passing it into other commands.
+          if ! printf '%s' "$SINCE" | grep -Eq '^[A-Za-z0-9._/~^@-]+$'; then
+            echo "Refusing unsafe SINCE value: $SINCE" >&2
+            exit 1
+          fi
+          # Verify the SHA exists in the repo.
+          if ! git rev-parse --verify "$SINCE^{commit}" >/dev/null 2>&1; then
+            echo "SINCE ($SINCE) is not a valid commit in this repo" >&2
+            exit 1
+          fi
           echo "since=$SINCE" >> "$GITHUB_OUTPUT"
           echo "Using since=$SINCE"
 
       - name: Sync changelog
+        env:
+          SINCE: ${{ steps.range.outputs.since }}
         run: |
-          ARGS="--range=${{ steps.range.outputs.since }}..HEAD"
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
-            ARGS="$ARGS --dry-run"
+          ARGS=("--range=${SINCE}..HEAD")
+          if [ "$DRY_RUN" = "true" ]; then
+            ARGS+=("--dry-run")
           fi
-          node scripts/sync-changelog.js $ARGS
+          node scripts/sync-changelog.js "${ARGS[@]}"
 
       - name: Precompile kanban
-        if: ${{ inputs.dry_run != 'true' }}
+        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.dry_run }}
         run: npm run precompile-kanban
 
       - name: Commit if changed
-        if: ${{ inputs.dry_run != 'true' }}
+        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.dry_run }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

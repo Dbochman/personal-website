@@ -20,7 +20,7 @@
  * Exits 0 on success even when no actions are taken.
  */
 
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import { existsSync } from 'fs';
 import { mkdir, readdir, readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
@@ -65,26 +65,47 @@ function slugify(title) {
     .slice(0, 50);
 }
 
-function git(cmd) {
-  return execSync(`git ${cmd}`, { encoding: 'utf-8' }).trim();
+function git(args) {
+  // execFileSync with an argv array — no shell interpolation, so user-provided
+  // SHAs/ranges from workflow_dispatch can't expand into command injection.
+  return execFileSync('git', args, { encoding: 'utf-8' }).trim();
+}
+
+// Validate a string looks like a git revision/range. Allows SHAs, refs,
+// `a..b`, `a...b`, `HEAD`, `HEAD~N`, etc. Rejects shell metacharacters.
+function assertSafeRevish(value, label) {
+  if (typeof value !== 'string' || !value) {
+    throw new Error(`${label}: missing value`);
+  }
+  if (!/^[A-Za-z0-9._/~^@\-]+(\.{2,3}[A-Za-z0-9._/~^@\-]+)?$/.test(value)) {
+    throw new Error(`${label}: refusing to use unsafe value ${JSON.stringify(value)}`);
+  }
+  return value;
 }
 
 function resolveCommitRange(opts) {
-  if (opts.commits) return opts.commits.split(',').filter(Boolean);
+  if (opts.commits) {
+    return opts.commits
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .map((s) => assertSafeRevish(s, 'commits'));
+  }
 
   let range;
-  if (opts.range) range = opts.range;
-  else if (opts.since) range = `${opts.since}..HEAD`;
+  if (opts.range) range = assertSafeRevish(opts.range, 'range');
+  else if (opts.since) range = `${assertSafeRevish(opts.since, 'since')}..HEAD`;
   else range = 'HEAD~1..HEAD';
 
-  const out = git(`log --format=%H --no-merges ${range}`);
+  const out = git(['log', '--format=%H', '--no-merges', range]);
   return out.split('\n').filter(Boolean);
 }
 
 function getCommitInfo(sha) {
+  assertSafeRevish(sha, 'sha');
   // %an = author name, %ae = author email, %s = subject, %b = body, %aI = author date ISO
   const fmt = '%an%x09%ae%x09%aI%x09%s%x1e%b';
-  const out = execSync(`git log -1 --format=${JSON.stringify(fmt)} ${sha}`, { encoding: 'utf-8' });
+  const out = execFileSync('git', ['log', '-1', `--format=${fmt}`, sha], { encoding: 'utf-8' });
   const [meta, body = ''] = out.split('\x1e');
   const [authorName, authorEmail, rawDate, subject] = meta.split('\t');
   // Normalize to UTC ISO so the kanban schema's date validator (which
@@ -96,22 +117,18 @@ function getCommitInfo(sha) {
 // Lazily-built map: historical-blog-path → current-slug. Populated on first
 // call by walking each current blog post's --follow history backward.
 let _blogRenameMap = null;
-function getBlogRenameMap() {
+async function getBlogRenameMap() {
   if (_blogRenameMap) return _blogRenameMap;
   _blogRenameMap = new Map();
   try {
-    const currentFiles = execSync('ls content/blog/*.txt 2>/dev/null', { encoding: 'utf-8' })
-      .trim()
-      .split('\n')
-      .filter(Boolean);
-    for (const currentPath of currentFiles) {
+    const entries = await readdir('./content/blog', { withFileTypes: true });
+    const blogFiles = entries
+      .filter((e) => e.isFile() && e.name.endsWith('.txt'))
+      .map((e) => `content/blog/${e.name}`);
+    for (const currentPath of blogFiles) {
       const slug = currentPath.replace(/^content\/blog\//, '').replace(/\.txt$/, '');
       try {
-        const paths = execSync(
-          `git log --follow --format= --name-only -- "${currentPath}"`,
-          { encoding: 'utf-8' }
-        )
-          .trim()
+        const paths = git(['log', '--follow', '--format=', '--name-only', '--', currentPath])
           .split('\n')
           .filter(Boolean);
         for (const p of new Set(paths)) {
@@ -127,27 +144,25 @@ function getBlogRenameMap() {
   return _blogRenameMap;
 }
 
-function resolveCurrentBlogSlug(originalSlug) {
+async function resolveCurrentBlogSlug(originalSlug) {
   const file = `content/blog/${originalSlug}.txt`;
   if (existsSync(file)) return originalSlug;
-  const map = getBlogRenameMap();
+  const map = await getBlogRenameMap();
   return map.get(file) || originalSlug;
 }
 
-function getAddedBlogPosts(sha) {
+async function getAddedBlogPosts(sha) {
   // List files added in this commit under content/blog/*.txt
+  assertSafeRevish(sha, 'sha');
   try {
     // -M detects renames so a rename isn't counted as an add.
-    const out = execSync(
-      `git diff-tree --no-commit-id --name-only --diff-filter=A -M -r ${sha}`,
-      { encoding: 'utf-8' }
-    ).trim();
+    const out = git(['diff-tree', '--no-commit-id', '--name-only', '--diff-filter=A', '-M', '-r', sha]);
     if (!out) return [];
-    return out
+    const slugs = out
       .split('\n')
       .filter((f) => /^content\/blog\/[^/]+\.txt$/.test(f))
-      .map((f) => f.replace(/^content\/blog\//, '').replace(/\.txt$/, ''))
-      .map(resolveCurrentBlogSlug);
+      .map((f) => f.replace(/^content\/blog\//, '').replace(/\.txt$/, ''));
+    return Promise.all(slugs.map(resolveCurrentBlogSlug));
   } catch {
     return [];
   }
@@ -165,6 +180,15 @@ function extractPrNumber(subject) {
   return m ? parseInt(m[1], 10) : null;
 }
 
+function hasHardSkipFlag(commit) {
+  // Skips that should bypass everything, including blog-post detection.
+  const text = `${commit.subject}\n${commit.body}`;
+  if (/\[skip[- ]?changelog\]/i.test(text)) return 'flag:skip-changelog';
+  if (/\[skip ci\]/i.test(text)) return 'flag:skip-ci';
+  if (/^chore\(changelog\)/i.test(commit.subject)) return 'self-commit';
+  return null;
+}
+
 function classifyCommit(commit) {
   const { authorName, authorEmail, subject, body } = commit;
   const text = `${subject}\n${body}`;
@@ -172,14 +196,12 @@ function classifyCommit(commit) {
   if (authorName === 'dependabot[bot]' || authorEmail.includes('dependabot')) {
     return { action: 'skip', reason: 'dependabot' };
   }
-  if (/\[skip[- ]?changelog\]/i.test(text) || /\[skip ci\]/i.test(text)) {
-    return { action: 'skip', reason: 'flag' };
+  const hardSkip = hasHardSkipFlag(commit);
+  if (hardSkip) {
+    return { action: 'skip', reason: hardSkip };
   }
   if (/^chore:\s*daily analytics/i.test(subject) || /^chore:\s*weekly/i.test(subject)) {
     return { action: 'skip', reason: 'automated-update' };
-  }
-  if (/^chore\(changelog\)/i.test(subject)) {
-    return { action: 'skip', reason: 'self-commit' };
   }
 
   const conv = parseConventional(subject);
@@ -367,8 +389,15 @@ async function main() {
     const commit = getCommitInfo(sha);
 
     // Blog posts: any commit that adds a content/blog/*.txt file gets a card
-    // per added post, regardless of commit type or skip rules.
-    const addedPosts = getAddedBlogPosts(sha);
+    // per added post, regardless of commit type — except when the commit
+    // carries an explicit hard-skip flag ([skip-changelog], [skip ci], or is
+    // a chore(changelog) self-commit).
+    const hardSkip = hasHardSkipFlag(commit);
+    if (hardSkip) {
+      actions.push({ sha, subject: commit.subject, action: 'skip', reason: hardSkip });
+      continue;
+    }
+    const addedPosts = await getAddedBlogPosts(sha);
     if (addedPosts.length > 0) {
       for (const slug of addedPosts) {
         if (cardsById.has(slug)) {
