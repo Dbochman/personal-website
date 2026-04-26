@@ -1,0 +1,116 @@
+name: Sync Changelog
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'content/kanban/**'
+      - 'src/generated/kanban/**'
+  workflow_dispatch:
+    inputs:
+      since:
+        description: 'Commit SHA to backfill from (exclusive). Leave blank to use HEAD~1.'
+        required: false
+        default: ''
+      dry_run:
+        description: 'Print actions without writing'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: sync-changelog
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: ${{ !contains(github.event.head_commit.message, '[skip-changelog]') && !contains(github.event.head_commit.message, '[skip ci]') }}
+    permissions:
+      contents: write
+    env:
+      # Pull user-controlled inputs into env so they reach shell as $VARS
+      # instead of being interpolated into the script body (no command
+      # injection if a malicious value contains shell metacharacters).
+      INPUT_SINCE: ${{ inputs.since }}
+      EVENT_BEFORE: ${{ github.event.before }}
+      EVENT_NAME: ${{ github.event_name }}
+      DRY_RUN: ${{ inputs.dry_run }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.DEPLOY_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve commit range
+        id: range
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            SINCE="$INPUT_SINCE"
+            if [ -z "$SINCE" ]; then
+              SINCE="HEAD~1"
+            fi
+          else
+            SINCE="$EVENT_BEFORE"
+          fi
+          # Handle initial push / branch creation (all-zeros SHA).
+          if [ "$SINCE" = "0000000000000000000000000000000000000000" ] || [ -z "$SINCE" ]; then
+            echo "Initial push detected — using HEAD~1 as fallback."
+            SINCE="HEAD~1"
+          fi
+          # Reject anything that doesn't look like a safe revision before
+          # passing it into other commands.
+          if ! printf '%s' "$SINCE" | grep -Eq '^[A-Za-z0-9._/~^@-]+$'; then
+            echo "Refusing unsafe SINCE value: $SINCE" >&2
+            exit 1
+          fi
+          # Verify the SHA exists in the repo.
+          if ! git rev-parse --verify "$SINCE^{commit}" >/dev/null 2>&1; then
+            echo "SINCE ($SINCE) is not a valid commit in this repo" >&2
+            exit 1
+          fi
+          echo "since=$SINCE" >> "$GITHUB_OUTPUT"
+          echo "Using since=$SINCE"
+
+      - name: Sync changelog
+        env:
+          SINCE: ${{ steps.range.outputs.since }}
+        run: |
+          ARGS=("--range=${SINCE}..HEAD")
+          if [ "$DRY_RUN" = "true" ]; then
+            ARGS+=("--dry-run")
+          fi
+          node scripts/sync-changelog.js "${ARGS[@]}"
+
+      - name: Precompile kanban
+        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.dry_run }}
+        run: npm run precompile-kanban
+
+      - name: Commit if changed
+        if: ${{ github.event_name != 'workflow_dispatch' || !inputs.dry_run }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/kanban/ src/generated/kanban/
+          if git diff --staged --quiet; then
+            echo "No changelog changes."
+          else
+            # Intentionally NOT using [skip ci]: deploy.yml's detect-changes
+            # job classifies kanban-only changes as content-only and runs the
+            # fast (~2min) deploy path so the new card appears on the site.
+            # The sync-changelog workflow won't re-trigger on this commit
+            # because of the paths-ignore filter above.
+            git commit -m "chore(changelog): sync from recent commits"
+            git push
+          fi

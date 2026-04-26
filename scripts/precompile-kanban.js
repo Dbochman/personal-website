@@ -161,7 +161,7 @@ async function processBoard(boardDir) {
   // Validate board metadata
   const boardResult = KanbanBoardMetaSchema.safeParse(boardMeta);
   if (!boardResult.success) {
-    stats.errors.push(...formatZodErrors(boardResult.error.errors, `${boardId}/_board.md`));
+    stats.errors.push(...formatZodErrors(boardResult.error.issues, `${boardId}/_board.md`));
     return null;
   }
 
@@ -183,7 +183,7 @@ async function processBoard(boardDir) {
     // Validate card frontmatter
     const cardResult = KanbanCardFrontmatterSchema.safeParse(frontmatter);
     if (!cardResult.success) {
-      stats.errors.push(...formatZodErrors(cardResult.error.errors, `${boardId}/${file}`));
+      stats.errors.push(...formatZodErrors(cardResult.error.issues, `${boardId}/${file}`));
       continue;
     }
 
