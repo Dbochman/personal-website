@@ -399,3 +399,32 @@ The `AnimatedMermaidDiagram` component steps through nodes sequentially (`curren
 - Link nodes (which pause for user interaction) are especially prone to this since "Continue" resumes linear play
 
 ---
+
+## 2026-03-06: Dependabot Cleanup, Test Fixes, Analytics Anomaly Detection
+
+### Dependabot PRs
+Merged 3 passing dependabot PRs (#251 GitHub Actions, #252 @types/node, #253 googleapis). Closed #254 (@vitest/coverage-v8 4.x) because it has a peer dependency on vitest 4.x — bumped both together in PR #257.
+
+### IntersectionObserver Mock Fix (vitest-setup.ts)
+The global `IntersectionObserver` mock used `vi.fn(() => ({...}))` — an arrow function, not a constructor. `new IntersectionObserver()` calls from framer-motion and useParallax threw `TypeError: ... is not a constructor`. Fixed by replacing with a proper class that implements the `IntersectionObserver` interface. This was a pre-existing failure affecting 22 tests across 3 files.
+
+**Pattern:** Always mock browser APIs that are called with `new` using a class, not `vi.fn()` with an arrow function. Vitest 4 made this stricter but the underlying issue existed before.
+
+### Analytics Anomaly Detection (PR #258, merged)
+Issue #256 was a false positive — sessions "dropped 45%" but it was just a traffic spike (573/day) ending and returning to baseline (~333/day). The detection compared consecutive days only.
+
+**Fix:** Compare against 7-day rolling average with -40% threshold instead of day-over-day with -30%. This prevents spikes from triggering false alarms on the way back down.
+
+---
+
+## 2026-02-27: OpenClaw Security Plan + Blog Post Security Section
+
+### Security Plan Document
+Created `/Users/dylanbochman/repos/dotfiles/openclaw/SECURITY.md` — a comprehensive security plan for the OpenClaw Mac Mini agent. Covers threat model, access controls, file permissions audit, credential lifecycle, operational procedures, known risks, and incident response. Written from actual runtime state, not aspirational.
+
+### Blog Post Security Section Expanded
+Drew from the security plan to flesh out the blog post's security section. Added concrete details on vault isolation, shopping approval gates, network posture, and accepted risks.
+
+Key addition: a paragraph about the two layers of guardrails (infrastructure vs instruction) and being honest about the difference in the blog post.
+
+---
