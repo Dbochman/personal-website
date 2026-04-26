@@ -27,6 +27,89 @@ const __dirname = path.dirname(__filename);
 
 const HISTORY_FILE = path.join(__dirname, '../docs/metrics/search-console-history.json');
 const SITE_URL = 'sc-domain:dylanbochman.com'; // or 'https://dylanbochman.com'
+const DATA_STATE = 'all'; // fresher data, may include low-volume queries hidden by 'final'
+
+function round(value, decimals) {
+  const multiplier = 10 ** decimals;
+  return Math.round(value * multiplier) / multiplier;
+}
+
+function asPercent(ctrRatio) {
+  return round((ctrRatio || 0) * 100, 2);
+}
+
+function weightedAveragePosition(entries) {
+  const weightedTotal = entries.reduce((sum, entry) => {
+    const impressions = entry.impressions || 0;
+    return sum + ((entry.position || 0) * impressions);
+  }, 0);
+  const impressionsTotal = entries.reduce((sum, entry) => sum + (entry.impressions || 0), 0);
+
+  return impressionsTotal > 0
+    ? round(weightedTotal / impressionsTotal, 1)
+    : 0;
+}
+
+function summarizeRows(rows) {
+  const clicks = rows.reduce((sum, row) => sum + (row.clicks || 0), 0);
+  const impressions = rows.reduce((sum, row) => sum + (row.impressions || 0), 0);
+
+  return {
+    clicks,
+    impressions,
+    ctr: impressions > 0 ? clicks / impressions : 0,
+    position: weightedAveragePosition(rows),
+  };
+}
+
+function aggregateRows(rows, keyIndex, label) {
+  const byKey = new Map();
+
+  for (const row of rows) {
+    const key = row.keys?.[keyIndex];
+    if (!key) continue;
+
+    const current = byKey.get(key) ?? {
+      [label]: key,
+      clicks: 0,
+      impressions: 0,
+      weightedPosition: 0,
+    };
+
+    current.clicks += row.clicks || 0;
+    current.impressions += row.impressions || 0;
+    current.weightedPosition += (row.position || 0) * (row.impressions || 0);
+    byKey.set(key, current);
+  }
+
+  return Array.from(byKey.values())
+    .map(({ weightedPosition, ...entry }) => ({
+      ...entry,
+      ctr: entry.impressions > 0 ? entry.clicks / entry.impressions : 0,
+      position: entry.impressions > 0 ? round(weightedPosition / entry.impressions, 1) : 0,
+    }))
+    .sort((a, b) => (
+      b.clicks - a.clicks ||
+      b.impressions - a.impressions ||
+      a.position - b.position
+    ));
+}
+
+function readHistory() {
+  if (!fs.existsSync(HISTORY_FILE)) {
+    return [];
+  }
+
+  return JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8'));
+}
+
+function writeHistory(history) {
+  fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
+}
+
+function updateMetricsSummaryFromEntry(dataEntry) {
+  updateMetricsSummary(dataEntry.summary, dataEntry.timestamp);
+}
 
 async function fetchSearchConsoleData() {
   try {
@@ -60,55 +143,40 @@ async function fetchSearchConsoleData() {
 
     console.log(`📊 Fetching Search Console data from ${formatDate(startDate)} to ${formatDate(endDate)}...`);
 
-    // Fetch search analytics data
-    const response = await searchconsole.searchanalytics.query({
+    const commonRequest = {
+      startDate: formatDate(startDate),
+      endDate: formatDate(endDate),
+      dataState: DATA_STATE,
+    };
+
+    // Fetch authoritative summary metrics separately from dimensional rows.
+    const summaryResponse = await searchconsole.searchanalytics.query({
+      siteUrl: SITE_URL,
+      requestBody: commonRequest,
+    });
+
+    // Fetch dimensional rows for top queries/pages.
+    const detailResponse = await searchconsole.searchanalytics.query({
       siteUrl: SITE_URL,
       requestBody: {
-        startDate: formatDate(startDate),
-        endDate: formatDate(endDate),
+        ...commonRequest,
         dimensions: ['query', 'page'],
         rowLimit: 100,
-        dataState: 'all', // fresher data, may include low-volume queries hidden by 'final'
       },
     });
 
     // Extract metrics
-    const rows = response.data.rows || [];
-    const totalClicks = rows.reduce((sum, row) => sum + (row.clicks || 0), 0);
-    const totalImpressions = rows.reduce((sum, row) => sum + (row.impressions || 0), 0);
-    const avgPosition = rows.length > 0
-      ? rows.reduce((sum, row) => sum + (row.position || 0), 0) / rows.length
-      : 0;
-    const avgCTR = totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
+    const rows = detailResponse.data.rows || [];
+    const summaryRow = summaryResponse.data.rows?.[0];
+    const rowSummary = summarizeRows(rows);
+    const totalClicks = summaryRow?.clicks ?? rowSummary.clicks;
+    const totalImpressions = summaryRow?.impressions ?? rowSummary.impressions;
+    const avgCTR = summaryRow?.ctr ?? rowSummary.ctr;
+    const avgPosition = summaryRow?.position ?? rowSummary.position;
 
     // Get top queries and pages
-    const topQueries = rows
-      .filter(row => row.keys && row.keys[0])
-      .sort((a, b) => (b.clicks || 0) - (a.clicks || 0))
-      .slice(0, 10)
-      .map(row => ({
-        query: row.keys[0],
-        clicks: row.clicks || 0,
-        impressions: row.impressions || 0,
-        ctr: row.ctr || 0,
-        position: row.position || 0,
-      }));
-
-    const topPages = rows
-      .filter(row => row.keys && row.keys[1])
-      .reduce((acc, row) => {
-        const page = row.keys[1];
-        if (!acc[page]) {
-          acc[page] = { page, clicks: 0, impressions: 0 };
-        }
-        acc[page].clicks += row.clicks || 0;
-        acc[page].impressions += row.impressions || 0;
-        return acc;
-      }, {});
-
-    const topPagesArray = Object.values(topPages)
-      .sort((a, b) => b.clicks - a.clicks)
-      .slice(0, 10);
+    const topQueries = aggregateRows(rows, 0, 'query').slice(0, 10);
+    const topPagesArray = aggregateRows(rows, 1, 'page').slice(0, 10);
 
     // Create data entry
     const dataEntry = {
@@ -121,21 +189,23 @@ async function fetchSearchConsoleData() {
       summary: {
         totalClicks,
         totalImpressions,
-        averageCTR: Math.round(avgCTR * 100) / 100,
-        averagePosition: Math.round(avgPosition * 10) / 10,
+        averageCTR: asPercent(avgCTR),
+        averagePosition: round(avgPosition, 1),
       },
       topQueries,
       topPages: topPagesArray,
     };
 
     // Read existing history
-    let history = [];
-    if (fs.existsSync(HISTORY_FILE)) {
-      history = JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8'));
-    }
+    let history = readHistory();
 
-    // Append new data
-    history.push(dataEntry);
+    const existingIndex = history.findIndex(entry => entry.date === dataEntry.date);
+    if (existingIndex !== -1) {
+      history[existingIndex] = dataEntry;
+      console.log(`📝 Updated existing entry for ${dataEntry.date}`);
+    } else {
+      history.push(dataEntry);
+    }
 
     // Keep only last 52 entries (1 year of weekly data)
     if (history.length > 52) {
@@ -143,14 +213,14 @@ async function fetchSearchConsoleData() {
     }
 
     // Write updated history
-    fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
+    writeHistory(history);
 
     console.log('✅ Search Console data saved to history');
-    console.log(`📈 Clicks: ${totalClicks}, Impressions: ${totalImpressions}, Avg Position: ${Math.round(avgPosition * 10) / 10}`);
+    console.log(`📈 Clicks: ${totalClicks}, Impressions: ${totalImpressions}, Avg Position: ${round(avgPosition, 1)}`);
     console.log(`📊 Total historical entries: ${history.length}`);
 
     // Update the metrics summary
-    updateMetricsSummary(dataEntry.summary);
+    updateMetricsSummaryFromEntry(dataEntry);
 
   } catch (error) {
     console.error('❌ Error fetching Search Console data:', error.message);
@@ -168,7 +238,7 @@ async function fetchSearchConsoleData() {
   }
 }
 
-function updateMetricsSummary(searchData) {
+function updateMetricsSummary(searchData, lastCheck = new Date().toISOString()) {
   const SUMMARY_FILE = path.join(__dirname, '../docs/metrics/latest.json');
 
   try {
@@ -179,7 +249,7 @@ function updateMetricsSummary(searchData) {
     }
 
     summary.searchConsole = {
-      lastCheck: new Date().toISOString(),
+      lastCheck,
       clicks: searchData.totalClicks,
       impressions: searchData.totalImpressions,
       averageCTR: searchData.averageCTR,
@@ -195,4 +265,24 @@ function updateMetricsSummary(searchData) {
   }
 }
 
-fetchSearchConsoleData();
+function updateMetricsSummaryOnly() {
+  const history = readHistory();
+  const latest = history[history.length - 1];
+
+  if (!latest) {
+    throw new Error('No Search Console history entries found');
+  }
+
+  updateMetricsSummaryFromEntry(latest);
+}
+
+if (process.argv.includes('--update-summary-only')) {
+  try {
+    updateMetricsSummaryOnly();
+  } catch (error) {
+    console.error('❌ Error updating Search Console summary:', error.message);
+    process.exit(1);
+  }
+} else {
+  fetchSearchConsoleData();
+}

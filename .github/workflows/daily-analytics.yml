@@ -230,8 +230,10 @@ jobs:
           GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
           SEARCH_CONSOLE_CREDENTIALS: ${{ secrets.SEARCH_CONSOLE_CREDENTIALS }}
         run: |
-          # Re-run GA4 script to regenerate latest.json with all data
+          # Re-run GA4 script to regenerate latest.json with GA4/RUM data.
           node scripts/fetch-ga4-data.js
+          # Restore Search Console summary from the freshly merged history artifact.
+          node scripts/fetch-search-console-data.js --update-summary-only
 
       - name: Commit all metrics
         run: |
