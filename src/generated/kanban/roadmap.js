@@ -275,6 +275,284 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "refactor-search-console-fetch-and-add-summary-only",
+          "title": "refactor Search Console fetch and add summary-only mode",
+          "labels": [
+            "Feature"
+          ],
+          "checklist": [],
+          "createdAt": "2026-04-26T01:46:01.000Z",
+          "updatedAt": "2026-04-26T01:46:01.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-04-26T01:46:01.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "- Split Search Console query into two calls: an authoritative\n  no-dimension summary and a dimensional rows fetch. Previously the\n  summary was derived by summing rows, which under-counted clicks/\n  impressions because the row response is capped and aggregated by\n  (query, page) — a single page can split across many rows.\n- Replace ad-hoc reductions with summarizeRows / aggregateRows /\n  weightedAveragePosition helpers; impression-weighted positions\n  replace simple averages.\n- Make the daily history write idempotent (update existing date entry\n  instead of appending a duplicate).\n- Add --update-summary-only mode that re-reads the latest history\n  entry and rewrites docs/metrics/latest.json, preserving the original\n  timestamp. The daily workflow now invokes this after fetch-ga4-data.js\n  so the GA4 step's latest.json overwrite doesn't drop fresh Search\n  Console numbers.\n- updateMetricsSummary now takes a lastCheck override so the summary-\n  only path doesn't bump the timestamp to \"now\".\n\nCo-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
+        },
+        {
+          "id": "make-blog-the-first-and-default-tab",
+          "title": "make Blog the first and default tab",
+          "labels": [
+            "Feature"
+          ],
+          "checklist": [],
+          "createdAt": "2026-04-26T01:39:01.000Z",
+          "updatedAt": "2026-04-26T01:39:01.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-04-26T01:39:01.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Reorders ANALYTICS_TABS so Blog is first and sets it as the initial\nactiveTab. Also fixes the Search CTR display (averageCTR is already a\npercentage; the extra *100 was double-scaling it).\n\nCo-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
+        },
+        {
+          "id": "add-preinstall-guard-section",
+          "title": "add preinstall guard section",
+          "labels": [],
+          "checklist": [],
+          "createdAt": "2026-03-31T13:31:10.000Z",
+          "updatedAt": "2026-03-31T13:31:10.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-31T13:31:10.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Documents the npm install blocker that forces npm ci usage,\nclosing the gap between having a lockfile and actually using it.\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+        },
+        {
+          "id": "fix-quarantine-section-min-release-age-not-enforce",
+          "title": "fix quarantine section — min-release-age not enforced in npm 11",
+          "labels": [],
+          "checklist": [],
+          "createdAt": "2026-03-31T13:26:04.000Z",
+          "updatedAt": "2026-03-31T13:26:04.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-31T13:26:04.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "npm warns \"Unknown user config\" for min-release-age, so it's not\nactually protecting anything. Kept uv exclude-newer (which works)\nand noted npm doesn't have an equivalent yet.\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+        },
+        {
+          "id": "add-7-day-quarantine-hardening-section",
+          "title": "add 7-day quarantine hardening section",
+          "labels": [],
+          "checklist": [],
+          "createdAt": "2026-03-31T13:23:16.000Z",
+          "updatedAt": "2026-03-31T13:23:16.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-31T13:23:16.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Added min-release-age=7 (npm) and exclude-newer (uv) as a third\nhardening measure alongside save-exact and version pinning.\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+        },
+        {
+          "id": "consolidate-tags-remove-8-singletons",
+          "title": "consolidate tags — remove 8 singletons",
+          "labels": [],
+          "checklist": [],
+          "createdAt": "2026-03-31T11:28:33.000Z",
+          "updatedAt": "2026-03-31T11:28:33.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-31T11:28:33.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Merged low-use tags into existing ones:\n- Observability, Automation → SRE\n- CMS, SEO, Node.js → Web Dev (or removed)\n- Spotify → Projects (removed)\n- Supply Chain → Security (removed)\n\n21 tags → 13.\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+        },
+        {
+          "id": "2026-03-31-axios-supply-chain-attack",
+          "title": "Blog: Anatomy of the axios Supply Chain Attack (and How We Checked Our Machines in 10 Minutes)",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-03-31T11:14:35.000Z",
+          "updatedAt": "2026-03-31T11:14:35.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-31T11:14:35.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "A compromised npm maintainer account pushed malware into axios. Here's how the attack worked, what it installed, and how we checked our machines in 10 minutes."
+        },
+        {
+          "id": "eliminate-ai-slop-patterns-across-24-posts",
+          "title": "eliminate AI slop patterns across 24 posts",
+          "labels": [
+            "PR #272"
+          ],
+          "checklist": [],
+          "createdAt": "2026-03-28T18:25:48.000Z",
+          "updatedAt": "2026-03-28T18:25:48.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-28T18:25:48.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* blog: eliminate AI slop patterns across 24 posts\n\nRun slop-guard (https://github.com/eric-tramel/slop-guard) across all\nblog posts and rewrite flagged patterns. All 30 posts now score >= 81/100\n(up from a low of 8/100).\n\nChanges across all posts:\n- Replaced slop words (reflecting, narrative, leverage, significantly,\n  surprisingly, navigate, collaborative, comprehensive, notable)\n- Rewrote \"X, not Y\" contrast pairs as direct claims\n- Removed \"This is not X. It is Y\" setup-resolution patterns\n- Expanded or cut pithy one-liner fragments\n- Converted bold-bullet listicle blocks to prose paragraphs\n- Reduced excessive bullet runs and triadic list cadences\n- Varied repeated phrases\n- Cut slop phrases (\"the key insight\", \"deliberate choice\", \"feel free to\")\n\nAll frontmatter, code blocks, React components, internal links, and\nASCII diagrams preserved unchanged.\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>\n\n* blog: fix writing quality violations from proposed slop-guard rules\n\nAddress violations from proposed writing quality rules (eric-tramel/slop-guard#9):\n- \"tip of the iceberg\" cliche → \"symptoms of deeper structural issues\"\n- \"deep dive\" cliche → \"full technical breakdown\"\n- \"best practices\" cliche → \"web standards\"\n- \"very\" qualifier → cut\n- \"wonderful\" ecstatic adjective → \"disarming\"\n- \"naturally tried to optimize\" (over-explanation + pretentious) → \"tried to shrink\"\n\nIntentionally kept:\n- \"obviously\" in echonest-sync (intentional humor about airhorns)\n- \"## The Journey\" headings (inside code blocks, referencing template name)\n- \"subsequent\" in theme-persistence (technical term: \"subsequent navigation\")\n- \"rather\" in \"rather than\" comparisons (conjunction, not hedging qualifier)\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+        },
+        {
+          "id": "inline-diff-in-codex-review-prompt-to-avoid-sandbo",
+          "title": "inline diff in codex review prompt to avoid sandbox errors",
+          "labels": [
+            "Bugfix",
+            "PR #271"
+          ],
+          "checklist": [],
+          "createdAt": "2026-03-28T16:26:04.000Z",
+          "updatedAt": "2026-03-28T16:26:04.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-28T16:26:04.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "The Codex CLI read-only sandbox (bwrap) blocks file reads with\n\"RTM_NEWADDR: Operation not permitted\". Fix by passing the diff\ndirectly in the prompt instead of writing to pr_diff.txt and\nasking Codex to read it.\n\nCo-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+        },
+        {
+          "id": "add-60-day-rolling-window-and-remove-redundant-leg",
+          "title": "add 60-day rolling window and remove redundant legend",
+          "labels": [
+            "Bugfix",
+            "PR #270"
+          ],
+          "checklist": [],
+          "createdAt": "2026-03-28T16:19:25.000Z",
+          "updatedAt": "2026-03-28T16:19:25.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-28T16:19:25.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* fix(analytics): add 60-day rolling window and remove redundant legend\n\n- Filter Sessions Over Time, Search Performance, and Blog Traffic charts\n  to show only the last 60 days instead of all historical data\n- Remove redundant legend from Device Breakdown donut chart (labels\n  already display device name and percentage)\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>\n\n* fix: bundle mermaid+dagre together and add missing react-is dep\n\n- Add manualChunks rule to bundle mermaid and dagre into a single chunk,\n  preventing stale hash errors when cached mermaid chunks reference\n  old dagre chunk filenames after redeployment\n- Add react-is as a direct dependency (required by recharts at build\n  time but only present as a transitive dev dependency)\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+        },
+        {
+          "id": "deduplicate-anomaly-alerts-for-sustained-trends",
+          "title": "deduplicate anomaly alerts for sustained trends",
+          "labels": [
+            "Bugfix"
+          ],
+          "checklist": [],
+          "createdAt": "2026-03-28T15:57:22.000Z",
+          "updatedAt": "2026-03-28T15:57:22.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-28T15:57:22.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Instead of creating a new issue every day during a prolonged traffic\ndecline, append updates as comments on the most recent open anomaly\nissue (within 3 days). New issues are still created for fresh incidents.\n\nCo-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>"
+        },
+        {
+          "id": "tweak-wording-in-watchdogs-post",
+          "title": "tweak wording in watchdogs post",
+          "labels": [],
+          "checklist": [],
+          "createdAt": "2026-03-14T15:15:46.000Z",
+          "updatedAt": "2026-03-14T15:15:46.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-14T15:15:46.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+        },
+        {
+          "id": "2026-03-14-watchdogs-and-launchagents",
+          "title": "Blog: Watchdogs and LaunchAgents: Managing Systems That Want to Break",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-03-14T14:57:07.000Z",
+          "updatedAt": "2026-03-14T14:57:07.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-14T14:57:07.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "What we learned building a watchdog for BlueBubbles and OpenClaw on a headless Mac Mini. Health monitors that cause the instability they're designed to detect, and how to fix them."
+        },
+        {
+          "id": "use-7-day-rolling-average-for-analytics-anomaly-de",
+          "title": "use 7-day rolling average for analytics anomaly detection",
+          "labels": [
+            "Bugfix",
+            "PR #258"
+          ],
+          "checklist": [],
+          "createdAt": "2026-03-07T00:50:55.000Z",
+          "updatedAt": "2026-03-07T00:50:55.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-03-07T00:50:55.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "The previous day-over-day comparison triggered false positives when traffic\nreturned to baseline after a spike (e.g. 573→318 = -45%, but 318 is normal).\n\nNow compares against the 7-day rolling average with a -40% threshold, which\nis more resilient to natural traffic fluctuations.\n\nCloses #256\n\nCo-authored-by: Claude Opus 4.6 <noreply@anthropic.com>"
+        },
+        {
+          "id": "2026-02-26-echonest-sync-and-the-spotify-api-shakeup",
+          "title": "Blog: EchoNest Sync and the Spotify API Shakeup",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-02-27T00:26:38.000Z",
+          "updatedAt": "2026-02-27T00:26:38.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-02-27T00:26:38.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "We built a desktop sync app for EchoNest. Then Spotify changed its API in ways that made us glad we did."
+        },
+        {
           "id": "streamline-blog-post-build-deploy-pipeline",
           "title": "Streamline blog post build/deploy pipeline",
           "labels": [
@@ -298,6 +576,103 @@ export const board = {
             }
           ],
           "description": "Added a `detect-changes` job to `deploy.yml` that classifies pushes as content-only or full-build. Content-only deploys skip Playwright tests, unit tests, Sentry source maps, security audit, and bundle size checks. Deployed in PR #249. Full pipeline: ~10min → Content-only: ~2min."
+        },
+        {
+          "id": "harden-openclaw-post-security-posture",
+          "title": "harden OpenClaw post security posture",
+          "labels": [
+            "PR #248"
+          ],
+          "checklist": [],
+          "createdAt": "2026-02-24T22:56:10.000Z",
+          "updatedAt": "2026-02-24T22:56:10.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-02-24T22:56:10.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* blog: harden OpenClaw post security posture\n\n- Remove specific locations, chat counts, plist names, exact schedules\n- Generalize infrastructure to \"Mac-class device\" / \"system service\"\n- Describe guardrails as principles (least privilege, separate service\n  accounts, out-of-band approval) rather than exact mechanisms\n- Reframe hard parts as lessons learned, not precise failure modes\n- Remove personal schedule details; add consent language for shared data\n- Add monitoring/detection section (weekly activity report, anomaly alerts)\n- Remove GOG_KEYRING_PASSWORD and other implementation specifics\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n* blog: humanizer pass on OpenClaw post\n\n- Remove formulaic openers (\"The lesson:\", \"The takeaway:\", \"The goal\")\n- Break up rule-of-three/five feature lists into shorter sentences\n- Rewrite security paragraph from brochure tone to plain language\n- Cut negative parallelism (\"not just X, but Y\")\n- Vary sentence structure and rhythm throughout\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 4.6 <noreply@anthropic.com>"
+        },
+        {
+          "id": "improve-openclaw-post-intro-and-link",
+          "title": "improve OpenClaw post intro and link",
+          "labels": [
+            "PR #247"
+          ],
+          "checklist": [],
+          "createdAt": "2026-02-24T21:39:52.000Z",
+          "updatedAt": "2026-02-24T21:39:52.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-02-24T21:39:52.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* blog: improve OpenClaw post intro with context and link\n\n- Link OpenClaw to https://openclaw.ai/\n- Frame as exploration of an open-source AI agent framework\n- Add context on what OpenClaw is and why it's notable\n- Fix location: Mac Mini is in the cabin, not apartment\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n* blog: reframe OpenClaw post and run humanizer pass\n\n- Reframe as experimentation with safety-first approach\n- Remove camera snapshot section\n- Link OpenClaw to https://openclaw.ai/\n- Fix Mac Mini location (cabin not apartment)\n- Humanizer pass: remove bolded inline headers, reduce AI\n  vocabulary, vary sentence structure, cut promotional tone\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 4.6 <noreply@anthropic.com>"
+        },
+        {
+          "id": "rework-blog-analytics-dashboard",
+          "title": "rework blog analytics dashboard",
+          "labels": [
+            "Feature",
+            "PR #246"
+          ],
+          "checklist": [],
+          "createdAt": "2026-02-24T21:33:28.000Z",
+          "updatedAt": "2026-02-24T21:33:28.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-02-24T21:33:28.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* feat(analytics): rework blog analytics dashboard\n\n- Add all-time leaderboard aggregating GA4 history across all entries\n- Fix slug matching for renamed posts via alias map + year normalization\n- Replace single-line blog traffic chart with stacked area (top 5 posts)\n- Replace avg reading time metric with all-time views; add WoW trend\n- Switch tag breakdown to all-time data; remove sparse category pie chart\n- Trim 7d table to top 5, streamline columns\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n* fix(analytics): address Codex review feedback\n\n- Remove risky partial substring matching in slug resolver to prevent\n  silent data misattribution; add min key length guard (>=10 chars)\n- Use Date.getTime() for firstSeen/lastSeen comparisons instead of\n  string comparison to handle non-ISO date formats safely\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 4.6 <noreply@anthropic.com>"
+        },
+        {
+          "id": "make-security-audit-non-blocking-in-deploy-workflo",
+          "title": "make security audit non-blocking in deploy workflow",
+          "labels": [
+            "Bugfix",
+            "PR #245"
+          ],
+          "checklist": [],
+          "createdAt": "2026-02-24T21:24:15.000Z",
+          "updatedAt": "2026-02-24T21:24:15.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-02-24T21:24:15.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "The deploy workflow's npm audit step was failing the entire build due to\ntransitive dependency vulnerabilities in dev tools (eslint, minimatch, glob).\nThese are not exploitable in production.\n\nAligns with pr-checks.yml which already has continue-on-error: true and\n--omit=dev for the audit step.\n\nCo-authored-by: Claude Opus 4.6 <noreply@anthropic.com>"
+        },
+        {
+          "id": "2026-02-24-openclaw-the-home-agent",
+          "title": "Blog: OpenClaw: Experimenting with a personal AI agent",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-02-24T20:53:10.000Z",
+          "updatedAt": "2026-02-24T20:53:10.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-02-24T20:53:10.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "What I learned running an open-source AI agent on a self-hosted Mac Mini. Least privilege, version-controlled config, and the boring plumbing that makes it work."
         },
         {
           "id": "rework-tablist-mobile-selector",
@@ -2554,5 +2929,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-01-23T15:59:45.003Z"
+  "updatedAt": "2026-04-26T02:20:54.616Z"
 };
