@@ -1,22 +1,5 @@
 [
   {
-    "timestamp": "2026-01-27T06:15:00.000Z",
-    "date": "2026-01-27",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 2100,
-      "users": 2000,
-      "pageViews": 2205,
-      "averageSessionDuration": 8,
-      "bounceRate": 0.94
-    },
-    "topPages": [],
-    "deviceBreakdown": [],
-    "_backfilled": true
-  },
-  {
     "timestamp": "2026-01-28T06:15:00.000Z",
     "date": "2026-01-28",
     "period": {
@@ -17234,6 +17217,205 @@
           "poor": 0
         },
         "goodPercent": 100
+      }
+    },
+    "toolInteractions": {
+      "total": 3,
+      "byTool": [
+        {
+          "name": "oncall_coverage",
+          "total": 3,
+          "actions": [
+            {
+              "action": "model_select",
+              "count": 3
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-04-27T06:51:50.242Z",
+    "date": "2026-04-27",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 208,
+      "users": 200,
+      "pageViews": 194,
+      "averageSessionDuration": 31,
+      "bounceRate": 0.74
+    },
+    "topPages": [
+      {
+        "page": "/blog/",
+        "sessions": 51,
+        "users": 51,
+        "pageViews": 51
+      },
+      {
+        "page": "/",
+        "sessions": 46,
+        "users": 43,
+        "pageViews": 44
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 11,
+        "users": 11,
+        "pageViews": 11
+      },
+      {
+        "page": "/blog",
+        "sessions": 11,
+        "users": 11,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/runbook",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 8
+      },
+      {
+        "page": "/projects/slo-tool/",
+        "sessions": 7,
+        "users": 7,
+        "pageViews": 7
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack/",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/projects/oncall-coverage/",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 84,
+        "users": 84
+      },
+      {
+        "device": "desktop",
+        "sessions": 124,
+        "users": 116
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 186,
+          "users": 184
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "channel": "Referral",
+          "sessions": 3,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 186,
+          "users": 184
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 3,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 97,
+        "average": 226.4020618556701,
+        "unit": "ms",
+        "ratings": {
+          "good": 92,
+          "needs-improvement": 5,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "FCP": {
+        "count": 58,
+        "average": 645.8620689655172,
+        "unit": "ms",
+        "ratings": {
+          "good": 56,
+          "needs-improvement": 2,
+          "poor": 0
+        },
+        "goodPercent": 97
+      },
+      "CLS": {
+        "count": 16,
+        "average": 0.008875,
+        "unit": "",
+        "ratings": {
+          "good": 16,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "LCP": {
+        "count": 15,
+        "average": 726.8,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 11,
+        "average": 81.45454545454545,
+        "unit": "ms",
+        "ratings": {
+          "good": 10,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 91
       }
     },
     "toolInteractions": {
