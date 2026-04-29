@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2026-01-06T15:56:13.379Z",
-    "date": "2026-01-06",
-    "period": {
-      "start": "2025-12-30",
-      "end": "2026-01-06"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
     "timestamp": "2026-01-12T11:03:07.420Z",
     "date": "2026-01-12",
     "period": {
@@ -3694,6 +3678,115 @@
         "impressions": 2,
         "ctr": 0,
         "position": 74.5
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-10-architecture-of-a-free-website/",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-04-29T06:49:03.931Z",
+    "date": "2026-04-29",
+    "period": {
+      "start": "2026-04-22",
+      "end": "2026-04-29"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 771,
+      "averageCTR": 0.26,
+      "averagePosition": 5.3
+    },
+    "topQueries": [
+      {
+        "query": "decap cms hook netlify-build",
+        "clicks": 0,
+        "impressions": 39,
+        "ctr": 0,
+        "position": 1.7
+      },
+      {
+        "query": "decap cms config hook netlify-build",
+        "clicks": 0,
+        "impressions": 19,
+        "ctr": 0,
+        "position": 3.2
+      },
+      {
+        "query": "decap cms hook netlify-build config.yml",
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 3.7
+      },
+      {
+        "query": "decap cms hook netlify-build config",
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 3.5
+      },
+      {
+        "query": "decap cms hook type netlify-build",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 1.7
+      },
+      {
+        "query": "\"netlify-build\" hook cms config",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 6.3
+      },
+      {
+        "query": "decap cms hooks netlify-build",
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 2
+      },
+      {
+        "query": "decap cms collection hook netlify-build",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 2
+      },
+      {
+        "query": "decap cms hook netlify-build config docs",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 7.8
+      },
+      {
+        "query": "\"hook:\" \"netlify-build\" cms",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 8
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
+        "clicks": 0,
+        "impressions": 126,
+        "ctr": 0,
+        "position": 3.3
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 4.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-10-architecture-of-a-free-website/",
