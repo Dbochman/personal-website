@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Mail, Linkedin, MapPin, Activity } from "lucide-react";
+import { Mail, MapPin, Activity } from "lucide-react";
 import { GitHubMark } from "@/components/icons/GitHubMark";
+import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
 import ErrorRateChart from "@/components/icons/ErrorRateChart";
 import LatencyHistogram from "@/components/icons/LatencyHistogram";
 import AlertCounter from "@/components/icons/AlertCounter";
@@ -63,7 +64,7 @@ const HeroSection = () => {
             </Button>
             <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 hover-lift font-medium" asChild>
               <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer" aria-label="Visit Dylan Bochman's LinkedIn profile">
-                <Linkedin className="w-4 h-4 mr-2" />
+                <LinkedinIcon className="w-4 h-4 mr-2" />
                 LinkedIn
               </a>
             </Button>

@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { LucideIcon, TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, type LucideIcon } from 'lucide-react';
 
 interface MetricCardProps {
   title: string;
