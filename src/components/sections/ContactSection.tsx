@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { Mail, Linkedin } from "lucide-react";
+import { Mail } from "lucide-react";
+import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
 import SloGauge from "@/components/icons/SloGauge";
 import UptimeTimeline from "@/components/icons/UptimeTimeline";
 import { Footer } from "@/components/layout/Footer";
@@ -50,7 +51,7 @@ const ContactSection = () => {
                 });
               }
             }}>
-              <Linkedin className="w-4 h-4 mr-2" />
+              <LinkedinIcon className="w-4 h-4 mr-2" />
               LinkedIn
             </a>
           </Button>
