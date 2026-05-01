@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "migrate-to-lucide-react-1-x",
+          "title": "migrate to lucide-react 1.x",
+          "labels": [
+            "Bugfix",
+            "PR #293"
+          ],
+          "checklist": [],
+          "createdAt": "2026-05-01T00:55:12.000Z",
+          "updatedAt": "2026-05-01T00:55:12.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-05-01T00:55:12.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* deps(deps): bump lucide-react from 0.563.0 to 1.8.0\n\nBumps [lucide-react](https://github.com/lucide-icons/lucide/tree/HEAD/packages/lucide-react) from 0.563.0 to 1.8.0.\n- [Release notes](https://github.com/lucide-icons/lucide/releases)\n- [Commits](https://github.com/lucide-icons/lucide/commits/1.8.0/packages/lucide-react)\n\n---\nupdated-dependencies:\n- dependency-name: lucide-react\n  dependency-version: 1.8.0\n  dependency-type: direct:production\n  update-type: version-update:semver-major\n...\n\nSigned-off-by: dependabot[bot] <support@github.com>\n\n* fix(deps): migrate to lucide-react 1.x\n\nLucide 1.x dropped brand icons (no Linkedin) and made LucideIcon\ntype-only. This bundles the major bump with the source-side fixes\nso the dependabot PR #292 can be replaced cleanly.\n\n- Add src/components/icons/LinkedinIcon.tsx as a small inline-SVG\n  component matching the GitHubMark pattern. Uses currentColor so\n  it inherits text color the same way the lucide icon did.\n- Switch HeroSection and ContactSection to import LinkedinIcon\n  instead of Linkedin from lucide-react.\n- Fix the value-import of LucideIcon in MetricCard.tsx — it's a\n  type now, not a runtime export.\n\nAll 215 tests pass; typecheck clean.\n\nCloses #292\n\nCo-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>\n\n---------\n\nSigned-off-by: dependabot[bot] <support@github.com>\nCo-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>\nCo-authored-by: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
+        },
+        {
           "id": "2026-04-30-two-supply-chain-attacks-in-one-day",
           "title": "Blog: Two Supply Chain Attacks in One Day (and a Setting I Used to Argue Against)",
           "labels": [
@@ -2948,5 +2968,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-05-01T00:33:21.426Z"
+  "updatedAt": "2026-05-01T00:55:45.912Z"
 };
