@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "2026-04-30-two-supply-chain-attacks-in-one-day",
+          "title": "Blog: Two Supply Chain Attacks in One Day (and a Setting I Used to Argue Against)",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-05-01T00:32:02.000Z",
+          "updatedAt": "2026-05-01T00:32:02.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-05-01T00:32:02.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Lightning on PyPI and intercom-client on npm got compromised the same morning by what looks like the same attacker. We weren't exposed, but the threat shape changed enough that I walked back a position I took a month ago."
+        },
+        {
           "id": "refactor-search-console-fetch-and-add-summary-only",
           "title": "refactor Search Console fetch and add summary-only mode",
           "labels": [
@@ -2929,5 +2948,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-04-26T02:20:54.616Z"
+  "updatedAt": "2026-05-01T00:33:21.426Z"
 };
