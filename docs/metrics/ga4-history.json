@@ -1,177 +1,5 @@
 [
   {
-    "timestamp": "2026-02-02T16:10:55.739Z",
-    "date": "2026-02-02",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 1121,
-      "users": 1051,
-      "pageViews": 1088,
-      "averageSessionDuration": 32,
-      "bounceRate": 0.85
-    },
-    "topPages": [
-      {
-        "page": "/",
-        "sessions": 238,
-        "users": 215,
-        "pageViews": 247
-      },
-      {
-        "page": "/blog/",
-        "sessions": 138,
-        "users": 135,
-        "pageViews": 140
-      },
-      {
-        "page": "/runbook/",
-        "sessions": 80,
-        "users": 80,
-        "pageViews": 80
-      },
-      {
-        "page": "/blog",
-        "sessions": 86,
-        "users": 79,
-        "pageViews": 75
-      },
-      {
-        "page": "/runbook",
-        "sessions": 76,
-        "users": 76,
-        "pageViews": 75
-      },
-      {
-        "page": "/blog/2026-01-27-the-404s-came-back",
-        "sessions": 64,
-        "users": 64,
-        "pageViews": 63
-      },
-      {
-        "page": "/this-page-does-not-exist",
-        "sessions": 57,
-        "users": 57,
-        "pageViews": 57
-      },
-      {
-        "page": "/projects/",
-        "sessions": 42,
-        "users": 42,
-        "pageViews": 42
-      },
-      {
-        "page": "/projects/slo-tool/",
-        "sessions": 42,
-        "users": 42,
-        "pageViews": 42
-      },
-      {
-        "page": "/projects/oncall-coverage/",
-        "sessions": 41,
-        "users": 41,
-        "pageViews": 41
-      }
-    ],
-    "deviceBreakdown": [
-      {
-        "device": "desktop",
-        "sessions": 700,
-        "users": 646
-      },
-      {
-        "device": "mobile",
-        "sessions": 421,
-        "users": 405
-      }
-    ],
-    "trafficSources": {
-      "channels": [
-        {
-          "channel": "Direct",
-          "sessions": 999,
-          "users": 983
-        },
-        {
-          "channel": "Organic Search",
-          "sessions": 22,
-          "users": 7
-        },
-        {
-          "channel": "Referral",
-          "sessions": 9,
-          "users": 2
-        },
-        {
-          "channel": "Organic Social",
-          "sessions": 1,
-          "users": 1
-        }
-      ],
-      "sources": [
-        {
-          "source": "(direct)",
-          "medium": "(none)",
-          "sessions": 999,
-          "users": 983
-        },
-        {
-          "source": "google",
-          "medium": "organic",
-          "sessions": 22,
-          "users": 7
-        },
-        {
-          "source": "github.com",
-          "medium": "referral",
-          "sessions": 7,
-          "users": 1
-        },
-        {
-          "source": "perplexity.ai",
-          "medium": "referral",
-          "sessions": 2,
-          "users": 1
-        },
-        {
-          "source": "linkedin.com",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        }
-      ]
-    },
-    "webVitals": {
-      "TTFB": {
-        "count": 433,
-        "average": 340.83602771362587,
-        "unit": "ms"
-      },
-      "FCP": {
-        "count": 395,
-        "average": 798.506329113924,
-        "unit": "ms"
-      },
-      "LCP": {
-        "count": 61,
-        "average": 435.2950819672131,
-        "unit": "ms"
-      },
-      "INP": {
-        "count": 57,
-        "average": 546.6666666666666,
-        "unit": "ms"
-      },
-      "CLS": {
-        "count": 18,
-        "average": 0.012555555555555556,
-        "unit": ""
-      }
-    },
-    "toolInteractions": null
-  },
-  {
     "timestamp": "2026-02-03T06:17:37.251Z",
     "date": "2026-02-03",
     "period": {
@@ -17889,6 +17717,220 @@
             }
           ]
         },
+        {
+          "name": "slo_calculator",
+          "total": 3,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 2
+            },
+            {
+              "action": "calculate",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-05-03T06:46:24.574Z",
+    "date": "2026-05-03",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 302,
+      "users": 291,
+      "pageViews": 294,
+      "averageSessionDuration": 20,
+      "bounceRate": 0.8
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 67,
+        "users": 63,
+        "pageViews": 66
+      },
+      {
+        "page": "/blog/",
+        "sessions": 58,
+        "users": 58,
+        "pageViews": 58
+      },
+      {
+        "page": "/blog",
+        "sessions": 29,
+        "users": 29,
+        "pageViews": 28
+      },
+      {
+        "page": "/runbook",
+        "sessions": 28,
+        "users": 28,
+        "pageViews": 28
+      },
+      {
+        "page": "/blog/2026-03-31-axios-supply-chain-attack",
+        "sessions": 18,
+        "users": 18,
+        "pageViews": 18
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 16,
+        "users": 16,
+        "pageViews": 16
+      },
+      {
+        "page": "/runbook/",
+        "sessions": 11,
+        "users": 11,
+        "pageViews": 11
+      },
+      {
+        "page": "/blog/2026-04-30-two-supply-chain-attacks-in-one-day",
+        "sessions": 8,
+        "users": 8,
+        "pageViews": 8
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "sessions": 5,
+        "users": 5,
+        "pageViews": 6
+      },
+      {
+        "page": "/projects/changelog/",
+        "sessions": 3,
+        "users": 2,
+        "pageViews": 6
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 190,
+        "users": 183
+      },
+      {
+        "device": "mobile",
+        "sessions": 112,
+        "users": 108
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 279,
+          "users": 277
+        },
+        {
+          "channel": "Referral",
+          "sessions": 4,
+          "users": 1
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "channel": "Organic Social",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 279,
+          "users": 277
+        },
+        {
+          "source": "giscus.app",
+          "medium": "referral",
+          "sessions": 4,
+          "users": 1
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "source": "t.co",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 124,
+        "average": 212.3951612903226,
+        "unit": "ms",
+        "ratings": {
+          "good": 119,
+          "needs-improvement": 5,
+          "poor": 0
+        },
+        "goodPercent": 96
+      },
+      "FCP": {
+        "count": 81,
+        "average": 854.9876543209876,
+        "unit": "ms",
+        "ratings": {
+          "good": 75,
+          "needs-improvement": 5,
+          "poor": 1
+        },
+        "goodPercent": 93
+      },
+      "LCP": {
+        "count": 21,
+        "average": 1261.1904761904761,
+        "unit": "ms",
+        "ratings": {
+          "good": 20,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 95
+      },
+      "CLS": {
+        "count": 19,
+        "average": 0.00531578947368421,
+        "unit": "",
+        "ratings": {
+          "good": 19,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "INP": {
+        "count": 16,
+        "average": 90,
+        "unit": "ms",
+        "ratings": {
+          "good": 15,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 94
+      }
+    },
+    "toolInteractions": {
+      "total": 3,
+      "byTool": [
         {
           "name": "slo_calculator",
           "total": 3,

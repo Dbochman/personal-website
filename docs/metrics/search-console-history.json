@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2026-01-17T06:14:14.409Z",
-    "date": "2026-01-17",
-    "period": {
-      "start": "2026-01-10",
-      "end": "2026-01-17"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
     "timestamp": "2026-01-18T06:14:54.681Z",
     "date": "2026-01-18",
     "period": {
@@ -4052,6 +4036,122 @@
         "impressions": 203,
         "ctr": 0,
         "position": 3.6
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 6
+      },
+      {
+        "page": "https://dylanbochman.com/",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 67
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-05-03T06:45:38.163Z",
+    "date": "2026-05-03",
+    "period": {
+      "start": "2026-04-26",
+      "end": "2026-05-03"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1239,
+      "averageCTR": 0.24,
+      "averagePosition": 5.2
+    },
+    "topQueries": [
+      {
+        "query": "decap cms hook netlify-build",
+        "clicks": 0,
+        "impressions": 58,
+        "ctr": 0,
+        "position": 1.9
+      },
+      {
+        "query": "decap cms config hook netlify-build",
+        "clicks": 0,
+        "impressions": 49,
+        "ctr": 0,
+        "position": 3.3
+      },
+      {
+        "query": "decap cms hook netlify-build config.yml",
+        "clicks": 0,
+        "impressions": 18,
+        "ctr": 0,
+        "position": 3.7
+      },
+      {
+        "query": "decap cms hook type netlify-build",
+        "clicks": 0,
+        "impressions": 17,
+        "ctr": 0,
+        "position": 2
+      },
+      {
+        "query": "\"hook:\" \"netlify-build\" \"config.yml\" \"netlify cms\"",
+        "clicks": 0,
+        "impressions": 12,
+        "ctr": 0,
+        "position": 3.4
+      },
+      {
+        "query": "decap cms collection hook netlify-build",
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 1.5
+      },
+      {
+        "query": "\"netlify-build\" hook cms config",
+        "clicks": 0,
+        "impressions": 9,
+        "ctr": 0,
+        "position": 6.1
+      },
+      {
+        "query": "git gateway",
+        "clicks": 0,
+        "impressions": 9,
+        "ctr": 0,
+        "position": 7.7
+      },
+      {
+        "query": "decap cms hooks netlify-build",
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 1.9
+      },
+      {
+        "query": "decap cms hook netlify-build config",
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 3.8
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
+        "clicks": 0,
+        "impressions": 235,
+        "ctr": 0,
+        "position": 3.3
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 7.7
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
