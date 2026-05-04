@@ -1,19 +1,19 @@
 {
-  "generated": "2026-05-03T06:46:25.291Z",
+  "generated": "2026-05-04T07:00:19.192Z",
   "searchConsole": {
-    "lastCheck": "2026-05-03T06:45:38.163Z",
-    "clicks": 3,
-    "impressions": 1239,
-    "averageCTR": 0.24,
-    "averagePosition": 5.2
+    "lastCheck": "2026-05-04T06:59:36.155Z",
+    "clicks": 2,
+    "impressions": 1246,
+    "averageCTR": 0.16,
+    "averagePosition": 5.1
   },
   "analytics": {
-    "lastCheck": "2026-05-03T06:46:24.579Z",
-    "sessions_7d": 302,
-    "users_7d": 291,
-    "pageviews_7d": 294,
+    "lastCheck": "2026-05-04T07:00:18.469Z",
+    "sessions_7d": 296,
+    "users_7d": 288,
+    "pageviews_7d": 289,
     "avgSessionDuration": 20,
-    "bounceRate": 0.8,
+    "bounceRate": 0.81,
     "topPages": [
       {
         "page": "/",
@@ -21,15 +21,15 @@
       },
       {
         "page": "/blog/",
-        "pageViews": 58
+        "pageViews": 59
       },
       {
         "page": "/blog",
-        "pageViews": 28
+        "pageViews": 29
       },
       {
         "page": "/runbook",
-        "pageViews": 28
+        "pageViews": 29
       },
       {
         "page": "/blog/2026-03-31-axios-supply-chain-attack",
@@ -38,63 +38,63 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-05-03T06:46:24.579Z",
+    "lastCheck": "2026-05-04T07:00:18.469Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 124,
-        "average": 212.3951612903226,
+        "count": 121,
+        "average": 166.67768595041323,
         "unit": "ms",
         "ratings": {
           "good": 119,
-          "needs-improvement": 5,
+          "needs-improvement": 2,
           "poor": 0
         },
-        "goodPercent": 96
+        "goodPercent": 98
       },
       "FCP": {
-        "count": 81,
-        "average": 854.9876543209876,
+        "count": 76,
+        "average": 775.9736842105264,
         "unit": "ms",
         "ratings": {
-          "good": 75,
-          "needs-improvement": 5,
+          "good": 71,
+          "needs-improvement": 4,
           "poor": 1
         },
         "goodPercent": 93
       },
       "LCP": {
-        "count": 21,
-        "average": 1261.1904761904761,
+        "count": 18,
+        "average": 1226.111111111111,
         "unit": "ms",
         "ratings": {
-          "good": 20,
+          "good": 17,
           "needs-improvement": 0,
           "poor": 1
         },
-        "goodPercent": 95
+        "goodPercent": 94
       },
       "CLS": {
-        "count": 19,
-        "average": 0.00531578947368421,
+        "count": 16,
+        "average": 0.0061875,
         "unit": "",
         "ratings": {
-          "good": 19,
+          "good": 16,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "INP": {
-        "count": 16,
-        "average": 90,
+        "count": 14,
+        "average": 140.57142857142858,
         "unit": "ms",
         "ratings": {
-          "good": 15,
-          "needs-improvement": 1,
-          "poor": 0
+          "good": 13,
+          "needs-improvement": 0,
+          "poor": 1
         },
-        "goodPercent": 94
+        "goodPercent": 93
       }
     }
   }
