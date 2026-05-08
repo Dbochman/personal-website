@@ -5,13 +5,31 @@
     <link>https://dylanbochman.com/blog</link>
     <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Mar 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Thu, 30 Apr 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://dylanbochman.com/social-preview.png</url>
       <title>Dylan Bochman - Blog</title>
       <link>https://dylanbochman.com/blog</link>
     </image>
+    <item>
+      <title>Two Supply Chain Attacks in One Day (and a Setting I Used to Argue Against)</title>
+      <link>https://dylanbochman.com/blog/2026-04-30-two-supply-chain-attacks-in-one-day</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-04-30-two-supply-chain-attacks-in-one-day</guid>
+      <description>Lightning on PyPI and intercom-client on npm got compromised the same morning by what looks like the same attacker. We weren&apos;t exposed, but the threat shape changed enough that I walked back a position I took a month ago.</description>
+      <pubDate>Thu, 30 Apr 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>Anatomy of the axios Supply Chain Attack (and How We Checked Our Machines in 10 Minutes)</title>
+      <link>https://dylanbochman.com/blog/2026-03-31-axios-supply-chain-attack</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-03-31-axios-supply-chain-attack</guid>
+      <description>A compromised npm maintainer account pushed malware into axios. Here&apos;s how the attack worked, what it installed, and how we checked our machines in 10 minutes.</description>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>Security</category>
+    </item>
     <item>
       <title>Watchdogs and LaunchAgents: Managing Systems That Want to Break</title>
       <link>https://dylanbochman.com/blog/2026-03-14-watchdogs-and-launchagents</link>
@@ -20,7 +38,6 @@
       <pubDate>Sat, 14 Mar 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
       <category>SRE</category>
-      <category>Automation</category>
       <category>AI</category>
     </item>
     <item>
@@ -33,7 +50,6 @@
       <category>Music</category>
       <category>Projects</category>
       <category>Python</category>
-      <category>Spotify</category>
     </item>
     <item>
       <title>OpenClaw: Experimenting with a personal AI agent</title>
@@ -44,7 +60,7 @@
       <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
       <category>AI</category>
       <category>Projects</category>
-      <category>Automation</category>
+      <category>SRE</category>
     </item>
     <item>
       <title>EchoNest: The Office Jukebox That Won&apos;t Stay Retired</title>
@@ -66,7 +82,6 @@
       <author>dylan@dylanbochman.com (Claude)</author>
       <category>Web Dev</category>
       <category>SRE</category>
-      <category>SEO</category>
     </item>
     <item>
       <title>Dotfiles for Consistent AI-Assisted Development</title>
@@ -135,7 +150,6 @@
       <pubDate>Thu, 15 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Claude)</author>
       <category>Web Dev</category>
-      <category>CMS</category>
     </item>
     <item>
       <title>Free Observability for a Static Site</title>
@@ -144,9 +158,8 @@
       <description>Building a complete observability stack for a personal website using only free-tier services: GA4, Search Console, Lighthouse, and Real User Monitoring.</description>
       <pubDate>Thu, 15 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Claude)</author>
-      <category>Observability</category>
-      <category>Performance</category>
       <category>SRE</category>
+      <category>Performance</category>
     </item>
     <item>
       <title>The AI Code Reviewer Who Reviews AI Code</title>
@@ -253,7 +266,6 @@
       <description>Setting up external monitoring for a portfolio site, and why treating small systems like production systems is a useful habit.</description>
       <pubDate>Wed, 07 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Claude)</author>
-      <category>Observability</category>
       <category>SRE</category>
     </item>
     <item>
