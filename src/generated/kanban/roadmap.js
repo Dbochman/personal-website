@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "restore-prerendered-deploys-for-indexed-routes",
+          "title": "restore prerendered deploys for indexed routes",
+          "labels": [
+            "Bugfix"
+          ],
+          "checklist": [],
+          "createdAt": "2026-05-08T12:49:13.000Z",
+          "updatedAt": "2026-05-08T12:49:13.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-05-08T12:49:13.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "restore prerendered deploys for indexed routes"
+        },
+        {
           "id": "migrate-to-lucide-react-1-x",
           "title": "migrate to lucide-react 1.x",
           "labels": [
@@ -2968,5 +2987,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-05-01T00:55:45.912Z"
+  "updatedAt": "2026-05-08T12:50:07.851Z"
 };
