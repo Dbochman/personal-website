@@ -1,100 +1,100 @@
 {
-  "generated": "2026-05-10T06:48:50.642Z",
+  "generated": "2026-05-11T07:09:28.839Z",
   "searchConsole": {
-    "lastCheck": "2026-05-10T06:48:18.666Z",
-    "clicks": 1,
-    "impressions": 1024,
-    "averageCTR": 0.1,
-    "averagePosition": 5.4
+    "lastCheck": "2026-05-11T07:08:59.723Z",
+    "clicks": 2,
+    "impressions": 993,
+    "averageCTR": 0.2,
+    "averagePosition": 5.6
   },
   "analytics": {
-    "lastCheck": "2026-05-10T06:48:49.912Z",
-    "sessions_7d": 126,
+    "lastCheck": "2026-05-11T07:09:28.128Z",
+    "sessions_7d": 130,
     "users_7d": 117,
-    "pageviews_7d": 116,
-    "avgSessionDuration": 28,
-    "bounceRate": 0.6,
+    "pageviews_7d": 119,
+    "avgSessionDuration": 26,
+    "bounceRate": 0.58,
     "topPages": [
       {
         "page": "/blog/",
-        "pageViews": 42
+        "pageViews": 45
       },
       {
         "page": "/",
-        "pageViews": 28
+        "pageViews": 29
       },
       {
         "page": "/blog",
-        "pageViews": 7
-      },
-      {
-        "page": "/runbook",
-        "pageViews": 7
+        "pageViews": 6
       },
       {
         "page": "/blog/2026-04-30-two-supply-chain-attacks-in-one-day",
+        "pageViews": 6
+      },
+      {
+        "page": "/runbook",
         "pageViews": 6
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-05-10T06:48:49.912Z",
+    "lastCheck": "2026-05-11T07:09:28.128Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 67,
-        "average": 142,
+        "count": 70,
+        "average": 175.42857142857142,
         "unit": "ms",
         "ratings": {
-          "good": 67,
+          "good": 70,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "FCP": {
-        "count": 30,
-        "average": 1116.4666666666667,
+        "count": 31,
+        "average": 1256.9354838709678,
         "unit": "ms",
         "ratings": {
-          "good": 27,
+          "good": 28,
           "needs-improvement": 1,
           "poor": 2
         },
         "goodPercent": 90
       },
       "CLS": {
-        "count": 12,
-        "average": 0.0014166666666666668,
+        "count": 14,
+        "average": 0.0012142857142857142,
         "unit": "",
         "ratings": {
-          "good": 12,
+          "good": 14,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "LCP": {
-        "count": 11,
-        "average": 881.5454545454545,
+        "count": 13,
+        "average": 835.1538461538462,
         "unit": "ms",
         "ratings": {
-          "good": 10,
+          "good": 12,
           "needs-improvement": 0,
           "poor": 1
         },
-        "goodPercent": 91
+        "goodPercent": 92
       },
       "INP": {
         "count": 9,
-        "average": 173.33333333333334,
+        "average": 85.33333333333333,
         "unit": "ms",
         "ratings": {
-          "good": 8,
+          "good": 9,
           "needs-improvement": 0,
-          "poor": 1
+          "poor": 0
         },
-        "goodPercent": 89
+        "goodPercent": 100
       }
     }
   }
