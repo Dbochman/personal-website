@@ -1,96 +1,96 @@
 {
-  "generated": "2026-05-11T07:09:28.839Z",
+  "generated": "2026-05-12T06:56:54.630Z",
   "searchConsole": {
-    "lastCheck": "2026-05-11T07:08:59.723Z",
-    "clicks": 2,
-    "impressions": 993,
-    "averageCTR": 0.2,
-    "averagePosition": 5.6
+    "lastCheck": "2026-05-12T06:56:21.688Z",
+    "clicks": 3,
+    "impressions": 914,
+    "averageCTR": 0.33,
+    "averagePosition": 5.8
   },
   "analytics": {
-    "lastCheck": "2026-05-11T07:09:28.128Z",
-    "sessions_7d": 130,
-    "users_7d": 117,
-    "pageviews_7d": 119,
-    "avgSessionDuration": 26,
-    "bounceRate": 0.58,
+    "lastCheck": "2026-05-12T06:56:53.915Z",
+    "sessions_7d": 101,
+    "users_7d": 87,
+    "pageviews_7d": 91,
+    "avgSessionDuration": 37,
+    "bounceRate": 0.45,
     "topPages": [
       {
         "page": "/blog/",
-        "pageViews": 45
+        "pageViews": 44
       },
       {
         "page": "/",
-        "pageViews": 29
+        "pageViews": 23
       },
       {
-        "page": "/blog",
-        "pageViews": 6
+        "page": "/runbook/",
+        "pageViews": 4
       },
       {
-        "page": "/blog/2026-04-30-two-supply-chain-attacks-in-one-day",
-        "pageViews": 6
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "pageViews": 3
       },
       {
-        "page": "/runbook",
-        "pageViews": 6
+        "page": "/blog/2025-01-05-notes-on-building-this-site-together",
+        "pageViews": 2
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-05-11T07:09:28.128Z",
+    "lastCheck": "2026-05-12T06:56:53.915Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 70,
-        "average": 175.42857142857142,
+        "count": 71,
+        "average": 263.3521126760563,
         "unit": "ms",
         "ratings": {
           "good": 70,
           "needs-improvement": 0,
-          "poor": 0
+          "poor": 1
         },
-        "goodPercent": 100
+        "goodPercent": 99
       },
       "FCP": {
-        "count": 31,
-        "average": 1256.9354838709678,
+        "count": 32,
+        "average": 914.875,
         "unit": "ms",
         "ratings": {
-          "good": 28,
+          "good": 30,
           "needs-improvement": 1,
-          "poor": 2
+          "poor": 1
         },
-        "goodPercent": 90
+        "goodPercent": 94
       },
       "CLS": {
-        "count": 14,
-        "average": 0.0012142857142857142,
+        "count": 17,
+        "average": 0.0034705882352941177,
         "unit": "",
         "ratings": {
-          "good": 14,
+          "good": 17,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "LCP": {
-        "count": 13,
-        "average": 835.1538461538462,
+        "count": 15,
+        "average": 814.6666666666666,
         "unit": "ms",
         "ratings": {
-          "good": 12,
+          "good": 14,
           "needs-improvement": 0,
           "poor": 1
         },
-        "goodPercent": 92
+        "goodPercent": 93
       },
       "INP": {
-        "count": 9,
-        "average": 85.33333333333333,
+        "count": 10,
+        "average": 76,
         "unit": "ms",
         "ratings": {
-          "good": 9,
+          "good": 10,
           "needs-improvement": 0,
           "poor": 0
         },
