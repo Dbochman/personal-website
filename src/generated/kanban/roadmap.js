@@ -275,6 +275,23 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "restore-supply-chain-in-title",
+          "title": "restore \"Supply Chain\" in title",
+          "labels": [],
+          "checklist": [],
+          "createdAt": "2026-05-18T01:16:22.000Z",
+          "updatedAt": "2026-05-18T01:16:22.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-05-18T01:16:22.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "\"Two Attacks in One Day\" was too generic without the security framing."
+        },
+        {
           "id": "retitle-and-tighten-voice",
           "title": "retitle and tighten voice",
           "labels": [],
@@ -3024,5 +3041,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-05-18T01:09:02.302Z"
+  "updatedAt": "2026-05-18T01:17:19.753Z"
 };
