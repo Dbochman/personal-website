@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "prerender-root-route-to-eliminate-soft-404-reports",
+          "title": "prerender root route to eliminate Soft 404 reports",
+          "labels": [
+            "Bugfix",
+            "PR #299"
+          ],
+          "checklist": [],
+          "createdAt": "2026-05-18T00:37:08.000Z",
+          "updatedAt": "2026-05-18T00:37:08.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-05-18T00:37:08.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Google Search Console flagged http://dylanbochman.com/index.html (and\nwww variant) as Soft 404. The prerender script generated content for\n/blog, /projects, etc., but not for /, so dist/index.html shipped as\nthe empty Vite SPA shell. Googlebot's no-JS pass saw an empty body and\nclassified it as Soft 404.\n\nAdding / to the prerender routes overwrites dist/index.html with the\nfully rendered homepage (~120KB vs. 10KB shell), matching the pattern\nused for every other route. Both / and /index.html serve the same\nfile on GitHub Pages, so this fixes both reported URLs.\n\nCo-authored-by: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
+        },
+        {
           "id": "restore-prerendered-deploys-for-indexed-routes",
           "title": "restore prerendered deploys for indexed routes",
           "labels": [
@@ -2987,5 +3007,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-05-08T12:50:07.851Z"
+  "updatedAt": "2026-05-18T00:37:40.976Z"
 };
