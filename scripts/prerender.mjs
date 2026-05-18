@@ -55,6 +55,7 @@ async function prerender() {
     ];
 
     const routes = [
+      '/',
       '/projects',
       ...projectSlugs.map(slug => `/projects/${slug}`),
       '/runbook',
