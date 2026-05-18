@@ -275,6 +275,23 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "retitle-and-tighten-voice",
+          "title": "retitle and tighten voice",
+          "labels": [],
+          "checklist": [],
+          "createdAt": "2026-05-18T01:08:04.000Z",
+          "updatedAt": "2026-05-18T01:08:04.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-05-18T01:08:04.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "- Retitle to \"Two Attacks in One Day\"; the previous parenthetical was\n  the AI-flavored part\n- Break the rule-of-three opener\n- Replace five em dashes with periods or parens\n- Vary the engineered subheader parallelism in \"What we changed\"\n- Rewrite \"What I keep thinking about\" as \"What stuck\"; cut the\n  meta-introspection and the prior-post callback that restated points\n  already made in the body\n- Drop dramatic flourishes (\"The economics changed\", \"the most\n  underestimated attack vector\")\n\nslop-guard score unchanged at 100/100; em dashes 5 -> 0."
+        },
+        {
           "id": "prerender-root-route-to-eliminate-soft-404-reports",
           "title": "prerender root route to eliminate Soft 404 reports",
           "labels": [
@@ -3007,5 +3024,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-05-18T00:37:40.976Z"
+  "updatedAt": "2026-05-18T01:09:02.302Z"
 };

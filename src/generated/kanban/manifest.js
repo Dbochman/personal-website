@@ -13,6 +13,6 @@ export const kanbanManifest = {
   "roadmap": {
     "file": "roadmap.js",
     "title": "Site Roadmap",
-    "cardCount": 83
+    "cardCount": 84
   }
 };
