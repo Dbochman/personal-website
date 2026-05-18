@@ -7,7 +7,10 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Cancel superseded runs on feature branches, but let main runs finish — each
+  # push to main publishes distinct content (e.g. PR merge + sync-changelog bot
+  # commit) and cancelling mid-deploy just delays the prior content from landing.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   detect-changes:
