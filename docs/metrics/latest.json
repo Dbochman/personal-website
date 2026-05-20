@@ -1,27 +1,27 @@
 {
-  "generated": "2026-05-19T07:10:58.467Z",
+  "generated": "2026-05-20T07:10:49.058Z",
   "searchConsole": {
-    "lastCheck": "2026-05-19T07:10:26.533Z",
+    "lastCheck": "2026-05-20T07:10:20.557Z",
     "clicks": 2,
-    "impressions": 1000,
-    "averageCTR": 0.2,
-    "averagePosition": 6.4
+    "impressions": 973,
+    "averageCTR": 0.21,
+    "averagePosition": 6.9
   },
   "analytics": {
-    "lastCheck": "2026-05-19T07:10:57.857Z",
-    "sessions_7d": 227,
-    "users_7d": 219,
-    "pageviews_7d": 242,
-    "avgSessionDuration": 29,
-    "bounceRate": 0.7,
+    "lastCheck": "2026-05-20T07:10:48.434Z",
+    "sessions_7d": 220,
+    "users_7d": 215,
+    "pageviews_7d": 237,
+    "avgSessionDuration": 28,
+    "bounceRate": 0.73,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 82
+        "pageViews": 81
       },
       {
         "page": "/blog/",
-        "pageViews": 69
+        "pageViews": 64
       },
       {
         "page": "/runbook/",
@@ -38,23 +38,23 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-05-19T07:10:57.857Z",
+    "lastCheck": "2026-05-20T07:10:48.434Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 152,
-        "average": 405.50657894736844,
+        "count": 145,
+        "average": 405.33103448275864,
         "unit": "ms",
         "ratings": {
-          "good": 141,
+          "good": 135,
           "needs-improvement": 3,
-          "poor": 8
+          "poor": 7
         },
         "goodPercent": 93
       },
       "FCP": {
         "count": 103,
-        "average": 2686.3883495145633,
+        "average": 2688.9126213592235,
         "unit": "ms",
         "ratings": {
           "good": 63,
@@ -76,7 +76,7 @@
       },
       "LCP": {
         "count": 41,
-        "average": 5031.243902439024,
+        "average": 5037.585365853659,
         "unit": "ms",
         "ratings": {
           "good": 14,
@@ -86,15 +86,15 @@
         "goodPercent": 34
       },
       "INP": {
-        "count": 33,
-        "average": 1065.6969696969697,
+        "count": 32,
+        "average": 1095.5,
         "unit": "ms",
         "ratings": {
-          "good": 14,
+          "good": 13,
           "needs-improvement": 12,
           "poor": 7
         },
-        "goodPercent": 42
+        "goodPercent": 41
       }
     }
   }
