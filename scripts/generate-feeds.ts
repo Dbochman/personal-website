@@ -36,6 +36,7 @@ interface BlogPostForFeed {
 
 interface ProjectForSitemap {
   slug: string;
+  status?: string;
 }
 
 /**
@@ -81,7 +82,8 @@ function loadProjects(): ProjectForSitemap[] {
     process.exit(1);
   }
 
-  return JSON.parse(fs.readFileSync(projectsPath, 'utf8')) as ProjectForSitemap[];
+  return (JSON.parse(fs.readFileSync(projectsPath, 'utf8')) as ProjectForSitemap[])
+    .filter(project => project.status !== 'draft');
 }
 
 /**
