@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { chromium } from '@playwright/test';
-import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
@@ -10,8 +10,39 @@ const execAsync = promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const distDir = join(__dirname, '..', 'dist');
-const blogContentDir = join(__dirname, '..', 'content', 'blog');
+const blogManifestPath = join(__dirname, '..', 'src', 'generated', 'blog', 'manifest.json');
 const projectsMetaPath = join(__dirname, '..', 'src', 'data', 'projects-meta.json');
+
+function routeToOutputPath(route) {
+  if (route === '/') {
+    return join(distDir, 'index.html');
+  }
+
+  const cleanRoute = route.replace(/^\/+|\/+$/g, '');
+  if (route.endsWith('/')) {
+    return join(distDir, cleanRoute, 'index.html');
+  }
+
+  return join(distDir, `${cleanRoute}.html`);
+}
+
+function loadBlogRoutes() {
+  const manifest = JSON.parse(readFileSync(blogManifestPath, 'utf-8'));
+
+  return Object.entries(manifest)
+    .filter(([, entry]) => !entry.frontmatter.draft)
+    .map(([filenameSlug, entry]) => ({
+      route: `/blog/${entry.frontmatter.slug ?? filenameSlug}`,
+      legacyRoute: entry.frontmatter.slug && entry.frontmatter.slug !== filenameSlug
+        ? `/blog/${filenameSlug}`
+        : null,
+    }));
+}
+
+function loadPublicProjects() {
+  const projectsMeta = JSON.parse(readFileSync(projectsMetaPath, 'utf-8'));
+  return projectsMeta.filter(project => project.status !== 'draft');
+}
 
 /**
  * Pre-render routes to static HTML files for GitHub Pages
@@ -37,13 +68,9 @@ async function prerender() {
     const browser = await chromium.launch();
     const page = await browser.newPage();
 
-    // Get list of blog posts
-    const blogFiles = readdirSync(blogContentDir).filter(f => f.endsWith('.txt'));
-    const blogSlugs = blogFiles.map(f => f.replace('.txt', ''));
-
-    // Get list of projects
-    const projectsMeta = JSON.parse(readFileSync(projectsMetaPath, 'utf-8'));
-    const projectSlugs = projectsMeta.map(p => p.slug);
+    // Get indexable content from the same generated data used by the sitemap.
+    const blogRoutes = loadBlogRoutes();
+    const projectSlugs = loadPublicProjects().map(p => p.slug);
 
     // Old routes that redirect to new ones — must be prerendered so GitHub Pages
     // serves the SPA shell which performs the client-side redirect
@@ -52,6 +79,11 @@ async function prerender() {
       '/projects/andre/',
       '/blog/2026-02-04-andre-collaborative-music-queue',
       '/blog/2026-02-04-andre-collaborative-music-queue/',
+      ...blogRoutes
+        .flatMap(blogRoute => blogRoute.legacyRoute
+          ? [blogRoute.legacyRoute, `${blogRoute.legacyRoute}/`]
+          : []
+        )
     ];
 
     const routes = [
@@ -61,7 +93,7 @@ async function prerender() {
       '/runbook',
       '/analytics',
       '/blog',
-      ...blogSlugs.map(slug => `/blog/${slug}`),
+      ...blogRoutes.map(blogRoute => blogRoute.route),
       ...redirectRoutes,
     ];
 
@@ -85,10 +117,9 @@ async function prerender() {
       // Get the rendered HTML
       const html = await page.content();
 
-      // Determine output path
-      const outputPath = route === '/blog'
-        ? join(distDir, 'blog', 'index.html')
-        : join(distDir, route.slice(1), 'index.html');
+      // Determine output path. GitHub Pages serves /foo from foo.html without
+      // redirecting to /foo/, which keeps sitemap and canonical URLs aligned.
+      const outputPath = routeToOutputPath(route);
 
       // Create directory if it doesn't exist
       mkdirSync(dirname(outputPath), { recursive: true });

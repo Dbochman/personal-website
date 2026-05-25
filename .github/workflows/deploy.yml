@@ -110,6 +110,9 @@ jobs:
         env:
           GITHUB_SHA: ${{ github.sha }}
 
+      - name: Verify SEO route artifacts
+        run: npm run verify-seo-routes
+
       - name: Upload source maps to Sentry
         if: needs.detect-changes.outputs.is_content_only != 'true'
         env:
