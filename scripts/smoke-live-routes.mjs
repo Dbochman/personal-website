@@ -9,108 +9,177 @@
 // that GitHub Pages prefers `foo.html` over `foo/index.html` for `/foo` when
 // both exist — is verified against real Pages behavior. If GitHub ever
 // changes that precedence, this check fails the deploy workflow loudly.
+//
+// Sample routes are derived from dist/sitemap.xml so a renamed or drafted
+// post doesn't become a deploy blocker. Legacy redirect routes come from
+// src/data/seo-redirects.json — the same source prerender.mjs and
+// verify-seo-routes.mjs read, so the three stay aligned.
 
 import { readFileSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 
-const SITE_URL = process.argv[2];
+const SITE_URL = (process.argv[2] ?? '').replace(/\/+$/, '');
+const distDir = resolve(process.argv[3] ?? 'dist');
+const redirectsPath = resolve(process.argv[4] ?? join('src', 'data', 'seo-redirects.json'));
+
 if (!SITE_URL) {
-  console.error('Usage: smoke-live-routes.mjs <base-url>');
+  console.error('Usage: smoke-live-routes.mjs <base-url> [dist-dir] [redirects-json]');
   process.exit(1);
 }
 
-const seoRedirectsPath = join(process.cwd(), 'src', 'data', 'seo-redirects.json');
-const { legacyRedirects } = JSON.parse(readFileSync(seoRedirectsPath, 'utf8'));
+// Polling budgets. The propagation wait covers GitHub Pages rebuilding plus
+// any CDN cache replacement. Per-route timeouts handle cache lag on
+// individual URLs after propagation has otherwise completed.
+const PROPAGATION_TIMEOUT_MS = 5 * 60 * 1000;
+const ROUTE_TIMEOUT_MS = 90 * 1000;
+const POLL_INTERVAL_MS = 8 * 1000;
 
-// A representative sample is enough — the GH Pages precedence rule applies
-// uniformly. Spot-check a section root, a content page, and one legacy entry.
-const CANONICAL_ROUTES = [
+const REDIRECT_META_REGEX = /<meta\s+http-equiv=["']refresh["']/i;
+
+const sitemap = readFileSync(join(distDir, 'sitemap.xml'), 'utf8');
+const sitemapPaths = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(
+  match => new URL(match[1]).pathname
+);
+
+const sectionRoots = sitemapPaths.filter(p => /^\/[^/]+$/.test(p));
+const blogPosts = sitemapPaths.filter(p => p.startsWith('/blog/'));
+const projectPages = sitemapPaths.filter(p => p.startsWith('/projects/'));
+
+if (blogPosts.length === 0) {
+  console.error('No /blog/<slug> entries in sitemap to sample from');
+  process.exit(1);
+}
+
+// Alphabetical pick is stable across renames/drafts of unrelated posts.
+const sampleBlogRoute = [...blogPosts].sort()[0];
+const sampleProjectRoute = projectPages.length > 0 ? [...projectPages].sort()[0] : null;
+
+const canonicalRoutes = Array.from(new Set([
   '/',
-  '/blog',
-  '/projects',
-  '/runbook',
-  '/blog/hello-world',
-];
+  ...sectionRoots,
+  sampleBlogRoute,
+  ...(sampleProjectRoute ? [sampleProjectRoute] : []),
+]));
 
-const REDIRECT_ROUTES = [
-  { from: '/blog/', to: '/blog' },
-  { from: '/projects/', to: '/projects' },
-  { from: '/runbook/', to: '/runbook' },
-  { from: '/blog/hello-world/', to: '/blog/hello-world' },
+const { legacyRedirects } = JSON.parse(readFileSync(redirectsPath, 'utf8'));
+
+const redirectRoutes = [
+  ...sectionRoots.map(r => ({ from: `${r}/`, to: r })),
+  { from: `${sampleBlogRoute}/`, to: sampleBlogRoute },
+  ...(sampleProjectRoute ? [{ from: `${sampleProjectRoute}/`, to: sampleProjectRoute }] : []),
   ...legacyRedirects.flatMap(({ from, to }) => [
     { from, to },
     { from: `${from}/`, to },
   ]),
 ];
 
-const RETRY_ATTEMPTS = 8;
-const RETRY_DELAY_MS = 15_000;
-
-async function fetchOnce(url) {
-  // redirect: 'manual' so we observe any GH Pages-issued 3xx instead of
-  // following it silently. Our static redirect artifacts return 200 with
-  // meta-refresh, not 3xx, so a 3xx here means something went wrong.
-  return fetch(url, { redirect: 'manual', headers: { 'cache-control': 'no-cache' } });
+async function fetchRoute(url) {
+  // redirect: 'manual' surfaces any GH Pages-issued 3xx instead of following
+  // it silently. cache: no-store + cache-control headers reduce the chance
+  // of seeing a stale edge-cached body during a deploy.
+  return fetch(url, {
+    redirect: 'manual',
+    cache: 'no-store',
+    headers: { 'cache-control': 'no-cache', pragma: 'no-cache' },
+  });
 }
 
-async function fetchWithRetry(url) {
-  let lastErr;
-  for (let i = 0; i < RETRY_ATTEMPTS; i++) {
-    try {
-      const res = await fetchOnce(url);
-      if (res.status >= 500) {
-        lastErr = new Error(`status ${res.status}`);
-      } else {
-        return res;
-      }
-    } catch (err) {
-      lastErr = err;
-    }
-    if (i < RETRY_ATTEMPTS - 1) {
-      await new Promise(r => setTimeout(r, RETRY_DELAY_MS));
-    }
+function canonicalPredicate(res, body) {
+  if (res.status !== 200) {
+    const loc = res.headers.get('location');
+    return { ok: false, reason: `status ${res.status}${loc ? ` → ${loc}` : ''}` };
   }
-  throw new Error(`${url}: ${lastErr?.message ?? 'unknown error'}`);
+  if (REDIRECT_META_REGEX.test(body)) {
+    return { ok: false, reason: 'returned meta-refresh template (expected real prerendered page)' };
+  }
+  return { ok: true };
 }
+
+function makeRedirectPredicate(target) {
+  const expectedCanonical = `https://dylanbochman.com${target}`;
+  return (res, body) => {
+    if (res.status !== 200) {
+      const loc = res.headers.get('location');
+      return { ok: false, reason: `status ${res.status}${loc ? ` → ${loc}` : ''}` };
+    }
+    if (!REDIRECT_META_REGEX.test(body)) {
+      return { ok: false, reason: 'expected meta-refresh redirect, got real page content' };
+    }
+    if (!body.includes(`url=${target}`) || !body.includes(expectedCanonical)) {
+      return { ok: false, reason: `body does not redirect to ${target}` };
+    }
+    return { ok: true };
+  };
+}
+
+// Polls a URL with no-cache headers until the predicate accepts the response
+// or the timeout elapses. Any error (network, 4xx, 5xx, stale body) triggers
+// another poll rather than an immediate fail — exactly what's needed while
+// GitHub Pages and any CDN edge swap in the new deploy.
+async function pollUntil(url, predicate, timeoutMs) {
+  const start = Date.now();
+  let last = { ok: false, reason: 'no response yet' };
+  while (Date.now() - start < timeoutMs) {
+    try {
+      const res = await fetchRoute(url);
+      const body = res.status === 200 ? await res.text() : '';
+      last = predicate(res, body);
+      if (last.ok) return last;
+    } catch (err) {
+      last = { ok: false, reason: err.message };
+    }
+    const remaining = timeoutMs - (Date.now() - start);
+    if (remaining <= 0) break;
+    await new Promise(r => setTimeout(r, Math.min(POLL_INTERVAL_MS, remaining)));
+  }
+  return last;
+}
+
+console.log(`🔎 Probing ${SITE_URL}`);
+console.log(`   sample blog post:    ${sampleBlogRoute}`);
+if (sampleProjectRoute) console.log(`   sample project page: ${sampleProjectRoute}`);
+
+// Step 1: wait for propagation by polling `/` until it returns the real page.
+// Once `/` is good, the rest of the deploy is almost certainly visible too.
+console.log('⏳ Waiting for propagation...');
+const propagation = await pollUntil(`${SITE_URL}/`, canonicalPredicate, PROPAGATION_TIMEOUT_MS);
+if (!propagation.ok) {
+  console.error(`❌ Propagation timeout: / never returned canonical content (${propagation.reason})`);
+  process.exit(1);
+}
+console.log('✅ Propagation observed at /');
+
+// Step 2: check every route in parallel with a shorter per-route budget.
+// Parallel keeps total wall time bounded even with many routes.
+const canonicalResults = await Promise.all(
+  canonicalRoutes.map(route =>
+    pollUntil(`${SITE_URL}${route}`, canonicalPredicate, ROUTE_TIMEOUT_MS)
+      .then(r => ({ route, r }))
+  )
+);
+const redirectResults = await Promise.all(
+  redirectRoutes.map(({ from, to }) =>
+    pollUntil(`${SITE_URL}${from}`, makeRedirectPredicate(to), ROUTE_TIMEOUT_MS)
+      .then(r => ({ route: from, to, r }))
+  )
+);
 
 let failures = 0;
-function fail(msg) {
-  console.error(`❌ ${msg}`);
-  failures += 1;
+for (const { route, r } of canonicalResults) {
+  if (r.ok) {
+    console.log(`✅ ${route} → canonical content`);
+  } else {
+    console.error(`❌ ${route} → ${r.reason}`);
+    failures += 1;
+  }
 }
-
-console.log(`🔎 Probing ${SITE_URL} ...`);
-
-for (const route of CANONICAL_ROUTES) {
-  const url = `${SITE_URL}${route}`;
-  const res = await fetchWithRetry(url);
-  if (res.status !== 200) {
-    const loc = res.headers.get('location');
-    fail(`${route} expected 200, got ${res.status}${loc ? ` → ${loc}` : ''}`);
-    continue;
+for (const { route, to, r } of redirectResults) {
+  if (r.ok) {
+    console.log(`✅ ${route} → redirect to ${to}`);
+  } else {
+    console.error(`❌ ${route} → ${r.reason}`);
+    failures += 1;
   }
-  const body = await res.text();
-  if (/<meta\s+http-equiv=["']refresh["']/i.test(body)) {
-    fail(`${route} returned the redirect template; canonical should serve the real prerendered page`);
-    continue;
-  }
-  console.log(`✅ ${route} → 200 (canonical content)`);
-}
-
-for (const { from, to } of REDIRECT_ROUTES) {
-  const url = `${SITE_URL}${from}`;
-  const res = await fetchWithRetry(url);
-  if (res.status !== 200) {
-    const loc = res.headers.get('location');
-    fail(`${from} expected 200 (meta-refresh redirect file), got ${res.status}${loc ? ` → ${loc}` : ''}`);
-    continue;
-  }
-  const body = await res.text();
-  if (!body.includes(`url=${to}`) || !body.includes(`https://dylanbochman.com${to}`)) {
-    fail(`${from} returned 200 but the body does not redirect to ${to}`);
-    continue;
-  }
-  console.log(`✅ ${from} → 200 (redirect to ${to})`);
 }
 
 if (failures) {
