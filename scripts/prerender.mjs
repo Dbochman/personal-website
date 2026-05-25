@@ -12,13 +12,12 @@ const __dirname = dirname(__filename);
 const distDir = join(__dirname, '..', 'dist');
 const blogManifestPath = join(__dirname, '..', 'src', 'generated', 'blog', 'manifest.json');
 const projectsMetaPath = join(__dirname, '..', 'src', 'data', 'projects-meta.json');
+const seoRedirectsPath = join(__dirname, '..', 'src', 'data', 'seo-redirects.json');
 
 // Hardcoded legacy redirects that aren't derivable from the blog manifest.
-// Keep this list small; manifest-driven redirects are preferred.
-const LEGACY_REDIRECTS = [
-  { from: '/projects/andre', to: '/projects/echonest' },
-  { from: '/blog/2026-02-04-andre-collaborative-music-queue', to: '/blog/2026-02-04-echonest-collaborative-music-queue' },
-];
+// Single source of truth: src/data/seo-redirects.json (also read by
+// scripts/verify-seo-routes.mjs and scripts/smoke-live-routes.mjs).
+const { legacyRedirects: LEGACY_REDIRECTS } = JSON.parse(readFileSync(seoRedirectsPath, 'utf-8'));
 
 function routeToOutputPath(route) {
   if (route === '/') {

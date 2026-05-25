@@ -6,12 +6,11 @@ const SITE_URL = 'https://dylanbochman.com';
 const distDir = join(process.cwd(), 'dist');
 const sitemapPath = join(distDir, 'sitemap.xml');
 const blogManifestPath = join(process.cwd(), 'src', 'generated', 'blog', 'manifest.json');
+const seoRedirectsPath = join(process.cwd(), 'src', 'data', 'seo-redirects.json');
 
-// Must stay in sync with LEGACY_REDIRECTS in scripts/prerender.mjs.
-const HARDCODED_LEGACY_REDIRECTS = [
-  { from: '/projects/andre', to: '/projects/echonest' },
-  { from: '/blog/2026-02-04-andre-collaborative-music-queue', to: '/blog/2026-02-04-echonest-collaborative-music-queue' },
-];
+const { legacyRedirects: HARDCODED_LEGACY_REDIRECTS } = JSON.parse(
+  readFileSync(seoRedirectsPath, 'utf8')
+);
 
 const MIN_CANONICAL_SIZE = 10_000;
 

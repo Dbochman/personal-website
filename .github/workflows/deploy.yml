@@ -222,6 +222,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-test
     steps:
+      - name: Checkout source
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: '24'
+
       - name: Download build artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -238,3 +246,14 @@ jobs:
           git add .
           git commit -m "Deploy $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           git push --force "https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/Dbochman/dbochman.github.io.git" main
+
+      - name: Verify live route artifacts
+        # Verifies actual GitHub Pages serving behavior — specifically that
+        # /foo is served from foo.html (not 3xx-redirected to /foo/) when
+        # both foo.html and foo/index.html exist. Static dist checks alone
+        # can't catch a host-level precedence regression. The script only
+        # uses Node stdlib, so no npm install is needed.
+        run: |
+          echo "Waiting for GitHub Pages to propagate..."
+          sleep 45
+          node scripts/smoke-live-routes.mjs https://dylanbochman.com

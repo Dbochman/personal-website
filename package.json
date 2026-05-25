@@ -29,6 +29,7 @@
     "preview": "vite preview",
     "prerender": "node scripts/prerender.mjs",
     "verify-seo-routes": "node scripts/verify-seo-routes.mjs",
+    "smoke-live-routes": "node scripts/smoke-live-routes.mjs",
     "test": "vitest",
     "test:watch": "vitest",
     "test:coverage": "vitest --coverage",
