@@ -187,6 +187,17 @@ async function prerender() {
       console.log(`    ✓ ${redirect.from} → ${redirect.to}`);
     }
 
+    // Build marker the post-deploy smoke check uses to confirm the live site
+    // is actually serving THIS build (and not an older artifact that happens
+    // to satisfy the route shape). The smoke check polls /build-info.json
+    // until the live `sha` matches the local one.
+    const buildInfo = {
+      sha: process.env.GITHUB_SHA ?? 'local',
+      builtAt: new Date().toISOString(),
+    };
+    writeFileSync(join(distDir, 'build-info.json'), `${JSON.stringify(buildInfo, null, 2)}\n`);
+    console.log(`📌 Wrote dist/build-info.json (sha=${buildInfo.sha})`);
+
     console.log('✅ Pre-rendering complete!');
   } catch (error) {
     console.error('❌ Pre-rendering failed:', error);

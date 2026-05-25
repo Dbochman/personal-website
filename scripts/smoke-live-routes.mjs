@@ -37,9 +37,20 @@ const POLL_INTERVAL_MS = 8 * 1000;
 const REDIRECT_META_REGEX = /<meta\s+http-equiv=["']refresh["']/i;
 
 const sitemap = readFileSync(join(distDir, 'sitemap.xml'), 'utf8');
-const sitemapPaths = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(
-  match => new URL(match[1]).pathname
-);
+const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
+const sitemapPaths = sitemapUrls.map(u => new URL(u).pathname);
+
+// Canonical host is whatever the sitemap advertises. Same value all our
+// artifacts hardcode for canonical / og:url tags, so probing localhost
+// (or any non-prod host) still works — we're checking that artifact
+// content points at the canonical, not that SITE_URL equals canonical.
+const expectedCanonicalOrigin = new URL(sitemapUrls[0]).origin;
+
+// Local build marker. The propagation gate below polls the live URL until
+// its build-info.json `sha` matches this value, which guarantees we're
+// checking the artifact this run produced and not a leftover from a
+// previous deploy that happens to satisfy the same route shape.
+const localBuildInfo = JSON.parse(readFileSync(join(distDir, 'build-info.json'), 'utf8'));
 
 const sectionRoots = sitemapPaths.filter(p => /^\/[^/]+$/.test(p));
 const blogPosts = sitemapPaths.filter(p => p.startsWith('/blog/'));
@@ -96,7 +107,7 @@ function canonicalPredicate(res, body) {
 }
 
 function makeRedirectPredicate(target) {
-  const expectedCanonical = `https://dylanbochman.com${target}`;
+  const expectedCanonical = `${expectedCanonicalOrigin}${target}`;
   return (res, body) => {
     if (res.status !== 200) {
       const loc = res.headers.get('location');
@@ -136,18 +147,40 @@ async function pollUntil(url, predicate, timeoutMs) {
 }
 
 console.log(`🔎 Probing ${SITE_URL}`);
+console.log(`   expected build sha:  ${localBuildInfo.sha}`);
+console.log(`   canonical origin:    ${expectedCanonicalOrigin}`);
 console.log(`   sample blog post:    ${sampleBlogRoute}`);
 if (sampleProjectRoute) console.log(`   sample project page: ${sampleProjectRoute}`);
 
-// Step 1: wait for propagation by polling `/` until it returns the real page.
-// Once `/` is good, the rest of the deploy is almost certainly visible too.
-console.log('⏳ Waiting for propagation...');
-const propagation = await pollUntil(`${SITE_URL}/`, canonicalPredicate, PROPAGATION_TIMEOUT_MS);
+// Step 1: gate on /build-info.json reporting THIS build's SHA. Polling for
+// SHA match (rather than "did / return some real page") catches the case
+// where Pages still serves the previous deploy, which would otherwise pass
+// a content-shape check on stable routes.
+console.log('⏳ Waiting for new build to propagate...');
+const propagation = await pollUntil(
+  `${SITE_URL}/build-info.json`,
+  (res, body) => {
+    if (res.status !== 200) {
+      return { ok: false, reason: `build-info.json status ${res.status}` };
+    }
+    let parsed;
+    try {
+      parsed = JSON.parse(body);
+    } catch (err) {
+      return { ok: false, reason: `build-info.json is not valid JSON: ${err.message}` };
+    }
+    if (parsed.sha !== localBuildInfo.sha) {
+      return { ok: false, reason: `live sha=${parsed.sha} (expected ${localBuildInfo.sha})` };
+    }
+    return { ok: true };
+  },
+  PROPAGATION_TIMEOUT_MS
+);
 if (!propagation.ok) {
-  console.error(`❌ Propagation timeout: / never returned canonical content (${propagation.reason})`);
+  console.error(`❌ Propagation timeout: live build never matched local sha (${propagation.reason})`);
   process.exit(1);
 }
-console.log('✅ Propagation observed at /');
+console.log(`✅ Live build matches local sha ${localBuildInfo.sha}`);
 
 // Step 2: check every route in parallel with a shorter per-route budget.
 // Parallel keeps total wall time bounded even with many routes.
