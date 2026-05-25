@@ -13,17 +13,47 @@ const distDir = join(__dirname, '..', 'dist');
 const blogManifestPath = join(__dirname, '..', 'src', 'generated', 'blog', 'manifest.json');
 const projectsMetaPath = join(__dirname, '..', 'src', 'data', 'projects-meta.json');
 
+// Hardcoded legacy redirects that aren't derivable from the blog manifest.
+// Keep this list small; manifest-driven redirects are preferred.
+const LEGACY_REDIRECTS = [
+  { from: '/projects/andre', to: '/projects/echonest' },
+  { from: '/blog/2026-02-04-andre-collaborative-music-queue', to: '/blog/2026-02-04-echonest-collaborative-music-queue' },
+];
+
 function routeToOutputPath(route) {
   if (route === '/') {
     return join(distDir, 'index.html');
   }
 
   const cleanRoute = route.replace(/^\/+|\/+$/g, '');
-  if (route.endsWith('/')) {
-    return join(distDir, cleanRoute, 'index.html');
-  }
-
   return join(distDir, `${cleanRoute}.html`);
+}
+
+function trailingSlashOutputPath(route) {
+  const cleanRoute = route.replace(/^\/+|\/+$/g, '');
+  return join(distDir, cleanRoute, 'index.html');
+}
+
+function writeRedirectArtifact(outputPath, destination) {
+  // Meta-refresh redirect with canonical link so search engines consolidate
+  // signals on the destination URL. window.location.replace() avoids adding
+  // a history entry so the back button doesn't bounce.
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting…</title>
+  <link rel="canonical" href="https://dylanbochman.com${destination}">
+  <meta http-equiv="refresh" content="0; url=${destination}">
+  <script>window.location.replace(${JSON.stringify(destination)});</script>
+</head>
+<body>
+  <p>Redirecting to <a href="${destination}">dylanbochman.com${destination}</a>…</p>
+</body>
+</html>
+`;
+  mkdirSync(dirname(outputPath), { recursive: true });
+  writeFileSync(outputPath, html);
 }
 
 function loadBlogRoutes() {
@@ -72,20 +102,6 @@ async function prerender() {
     const blogRoutes = loadBlogRoutes();
     const projectSlugs = loadPublicProjects().map(p => p.slug);
 
-    // Old routes that redirect to new ones — must be prerendered so GitHub Pages
-    // serves the SPA shell which performs the client-side redirect
-    const redirectRoutes = [
-      '/projects/andre',
-      '/projects/andre/',
-      '/blog/2026-02-04-andre-collaborative-music-queue',
-      '/blog/2026-02-04-andre-collaborative-music-queue/',
-      ...blogRoutes
-        .flatMap(blogRoute => blogRoute.legacyRoute
-          ? [blogRoute.legacyRoute, `${blogRoute.legacyRoute}/`]
-          : []
-        )
-    ];
-
     const routes = [
       '/',
       '/projects',
@@ -94,7 +110,6 @@ async function prerender() {
       '/analytics',
       '/blog',
       ...blogRoutes.map(blogRoute => blogRoute.route),
-      ...redirectRoutes,
     ];
 
     // Routes with persistent network activity (auth, polling) that prevent networkidle
@@ -132,10 +147,35 @@ async function prerender() {
 
     await browser.close();
 
-    // Create redirect files for legacy URLs (Google Search Console 404s)
-    // These are .html files that existed on the old site
-    console.log('🔄 Creating legacy URL redirects...');
-    const legacyRedirects = [
+    // Trailing-slash redirects for every prerendered route. GitHub Pages
+    // serves /foo from foo.html but /foo/ requires foo/index.html — without
+    // these stubs, old indexed or externally-linked trailing-slash URLs 404.
+    console.log('↩  Creating trailing-slash redirects to canonical URLs...');
+    for (const route of routes) {
+      if (route === '/') continue;
+      const outputPath = trailingSlashOutputPath(route);
+      writeRedirectArtifact(outputPath, route);
+      console.log(`    ✓ ${route}/ → ${route}`);
+    }
+
+    // Legacy slug redirects derived from the blog manifest plus a small
+    // hardcoded list for cases the manifest doesn't cover (e.g. project renames).
+    // Both slashless and trailing-slash variants are written so any inbound
+    // shape resolves without a GitHub Pages redirect.
+    console.log('🔄 Creating legacy slug redirects...');
+    const manifestRedirects = blogRoutes
+      .filter(b => b.legacyRoute)
+      .map(b => ({ from: b.legacyRoute, to: b.route }));
+
+    for (const redirect of [...manifestRedirects, ...LEGACY_REDIRECTS]) {
+      writeRedirectArtifact(routeToOutputPath(redirect.from), redirect.to);
+      writeRedirectArtifact(trailingSlashOutputPath(redirect.from), redirect.to);
+      console.log(`    ✓ ${redirect.from} → ${redirect.to}`);
+    }
+
+    // Legacy .html files from the pre-SPA site (Google Search Console 404s).
+    console.log('🔄 Creating legacy .html redirects...');
+    const legacyHtmlRedirects = [
       { from: 'contactme.html', to: '/' },
       { from: 'bretton-woods.html', to: '/' },
       { from: 'eurotrip.html', to: '/' },
@@ -143,23 +183,9 @@ async function prerender() {
       { from: 'golden-gloves.html', to: '/' },
     ];
 
-    for (const redirect of legacyRedirects) {
-      const redirectHtml = `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Redirecting...</title>
-  <link rel="canonical" href="https://dylanbochman.com${redirect.to}">
-  <meta http-equiv="refresh" content="0; url=${redirect.to}">
-  <script>window.location.href = "${redirect.to}";</script>
-</head>
-<body>
-  <p>Redirecting to <a href="${redirect.to}">dylanbochman.com${redirect.to}</a>...</p>
-</body>
-</html>`;
-      const outputPath = join(distDir, redirect.from);
-      writeFileSync(outputPath, redirectHtml);
-      console.log(`    ✓ Created redirect: ${redirect.from} → ${redirect.to}`);
+    for (const redirect of legacyHtmlRedirects) {
+      writeRedirectArtifact(join(distDir, redirect.from), redirect.to);
+      console.log(`    ✓ ${redirect.from} → ${redirect.to}`);
     }
 
     console.log('✅ Pre-rendering complete!');
