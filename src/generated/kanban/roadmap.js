@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "redirect-stale-2025-blog-urls-align-home-canonical",
+          "title": "redirect stale 2025 blog URLs + align home canonical [skip-review]",
+          "labels": [
+            "Bugfix",
+            "PR #302"
+          ],
+          "checklist": [],
+          "createdAt": "2026-05-25T22:37:40.000Z",
+          "updatedAt": "2026-05-25T22:37:40.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-05-25T22:37:40.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Search Console flagged real issues uncovered after PR #301 deployed:\n\n- 5 blog posts with legacy 2025-MM-DD URLs were renamed to 2026-MM-DD\n  without redirects, so Google was hitting genuine 404s. Add explicit\n  static redirects to their canonical 2026 counterparts (or their\n  custom-slug canonical for the two posts that have one).\n- Home page <Seo> didn't pass a url prop, so the canonical rendered\n  as https://dylanbochman.com (no trailing slash) while the sitemap\n  advertises https://dylanbochman.com/. The mismatch likely triggered\n  the Soft 404 classification on home-page URL variants. Pass url=\"/\"\n  so the canonical exactly matches the sitemap entry.\n\nAfter deploy, the Not Found (404) bucket should validate cleanly and\nthe Soft 404 bucket should converge once Enforce HTTPS is also on in\nthe repo Pages settings.\n\nCo-authored-by: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
+        },
+        {
           "id": "align-prerender-sitemap-add-trailing-slash-and-leg",
           "title": "align prerender + sitemap, add trailing-slash and legacy redirects",
           "labels": [
@@ -3060,5 +3080,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-05-25T22:14:52.236Z"
+  "updatedAt": "2026-05-25T22:38:11.190Z"
 };
