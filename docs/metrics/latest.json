@@ -1,67 +1,56 @@
 {
-  "generated": "2026-05-24T06:59:07.411Z",
+  "generated": "2026-05-25T07:31:41.903Z",
   "searchConsole": {
-    "lastCheck": "2026-05-24T06:58:39.098Z",
-    "clicks": 2,
-    "impressions": 797,
-    "averageCTR": 0.25,
-    "averagePosition": 8.4
+    "lastCheck": "2026-05-25T07:31:15.466Z",
+    "clicks": 1,
+    "impressions": 817,
+    "averageCTR": 0.12,
+    "averagePosition": 8.7
   },
   "analytics": {
-    "lastCheck": "2026-05-24T06:59:06.705Z",
-    "sessions_7d": 239,
-    "users_7d": 238,
-    "pageviews_7d": 278,
-    "avgSessionDuration": 26,
-    "bounceRate": 0.68,
+    "lastCheck": "2026-05-25T07:31:41.199Z",
+    "sessions_7d": 102,
+    "users_7d": 102,
+    "pageviews_7d": 144,
+    "avgSessionDuration": 41,
+    "bounceRate": 0.35,
     "topPages": [
       {
         "page": "/",
-        "pageViews": 111
+        "pageViews": 80
       },
       {
         "page": "/blog/",
-        "pageViews": 72
+        "pageViews": 50
       },
       {
-        "page": "/runbook/",
-        "pageViews": 20
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
+        "pageViews": 6
       },
       {
-        "page": "/blog/2026-04-30-two-supply-chain-attacks-in-one-day/",
-        "pageViews": 12
+        "page": "/projects",
+        "pageViews": 1
       },
       {
-        "page": "/this-page-does-not-exist",
-        "pageViews": 8
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas/",
+        "pageViews": 1
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-05-24T06:59:06.705Z",
+    "lastCheck": "2026-05-25T07:31:41.199Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 187,
-        "average": 546.3422459893048,
+        "count": 132,
+        "average": 713.5757575757576,
         "unit": "ms",
         "ratings": {
-          "good": 175,
-          "needs-improvement": 4,
+          "good": 121,
+          "needs-improvement": 3,
           "poor": 8
         },
-        "goodPercent": 94
-      },
-      "FCP": {
-        "count": 136,
-        "average": 2493.5588235294117,
-        "unit": "ms",
-        "ratings": {
-          "good": 70,
-          "needs-improvement": 22,
-          "poor": 44
-        },
-        "goodPercent": 51
+        "goodPercent": 92
       },
       "CLS": {
         "count": 64,
@@ -74,27 +63,38 @@
         },
         "goodPercent": 100
       },
-      "LCP": {
-        "count": 70,
-        "average": 3146.885714285714,
+      "FCP": {
+        "count": 86,
+        "average": 3520.7558139534885,
         "unit": "ms",
         "ratings": {
-          "good": 31,
+          "good": 25,
+          "needs-improvement": 17,
+          "poor": 44
+        },
+        "goodPercent": 29
+      },
+      "LCP": {
+        "count": 68,
+        "average": 3214.029411764706,
+        "unit": "ms",
+        "ratings": {
+          "good": 29,
           "needs-improvement": 21,
           "poor": 18
         },
-        "goodPercent": 44
+        "goodPercent": 43
       },
       "INP": {
-        "count": 58,
-        "average": 661.2413793103449,
+        "count": 57,
+        "average": 671.859649122807,
         "unit": "ms",
         "ratings": {
-          "good": 19,
+          "good": 18,
           "needs-improvement": 15,
           "poor": 24
         },
-        "goodPercent": 33
+        "goodPercent": 32
       }
     }
   }
