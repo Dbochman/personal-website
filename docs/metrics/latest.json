@@ -1,27 +1,27 @@
 {
-  "generated": "2026-05-30T06:59:34.076Z",
+  "generated": "2026-05-31T07:11:40.892Z",
   "searchConsole": {
-    "lastCheck": "2026-05-30T06:59:05.973Z",
+    "lastCheck": "2026-05-31T07:10:46.204Z",
     "clicks": 3,
-    "impressions": 947,
-    "averageCTR": 0.32,
-    "averagePosition": 8.2
+    "impressions": 982,
+    "averageCTR": 0.31,
+    "averagePosition": 8.1
   },
   "analytics": {
-    "lastCheck": "2026-05-30T06:59:33.369Z",
-    "sessions_7d": 322,
-    "users_7d": 314,
-    "pageviews_7d": 312,
-    "avgSessionDuration": 23,
-    "bounceRate": 0.79,
+    "lastCheck": "2026-05-31T07:11:40.192Z",
+    "sessions_7d": 317,
+    "users_7d": 309,
+    "pageviews_7d": 307,
+    "avgSessionDuration": 21,
+    "bounceRate": 0.8,
     "topPages": [
       {
         "page": "/blog",
-        "pageViews": 70
+        "pageViews": 73
       },
       {
         "page": "/",
-        "pageViews": 61
+        "pageViews": 63
       },
       {
         "page": "/runbook",
@@ -32,23 +32,23 @@
         "pageViews": 26
       },
       {
-        "page": "/blog/",
-        "pageViews": 24
+        "page": "/this-page-does-not-exist",
+        "pageViews": 15
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-05-30T06:59:33.369Z",
+    "lastCheck": "2026-05-31T07:11:40.192Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 143,
-        "average": 224.04895104895104,
+        "count": 135,
+        "average": 210.21481481481482,
         "unit": "ms",
         "ratings": {
-          "good": 137,
+          "good": 130,
           "needs-improvement": 3,
-          "poor": 3
+          "poor": 2
         },
         "goodPercent": 96
       },
