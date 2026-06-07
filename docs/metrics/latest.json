@@ -1,23 +1,23 @@
 {
-  "generated": "2026-06-06T07:03:04.447Z",
+  "generated": "2026-06-07T07:16:15.196Z",
   "searchConsole": {
-    "lastCheck": "2026-06-06T07:02:35.870Z",
+    "lastCheck": "2026-06-07T07:15:39.090Z",
     "clicks": 4,
-    "impressions": 896,
-    "averageCTR": 0.45,
-    "averagePosition": 7.1
+    "impressions": 821,
+    "averageCTR": 0.49,
+    "averagePosition": 7.3
   },
   "analytics": {
-    "lastCheck": "2026-06-06T07:03:03.738Z",
-    "sessions_7d": 79,
-    "users_7d": 75,
-    "pageviews_7d": 75,
-    "avgSessionDuration": 1780,
-    "bounceRate": 0.44,
+    "lastCheck": "2026-06-07T07:16:14.458Z",
+    "sessions_7d": 84,
+    "users_7d": 80,
+    "pageviews_7d": 79,
+    "avgSessionDuration": 1681,
+    "bounceRate": 0.42,
     "topPages": [
       {
         "page": "/blog",
-        "pageViews": 39
+        "pageViews": 44
       },
       {
         "page": "/",
@@ -38,41 +38,41 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-06-06T07:03:03.738Z",
+    "lastCheck": "2026-06-07T07:16:14.458Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 62,
-        "average": 376.4032258064516,
+        "count": 67,
+        "average": 376.2985074626866,
         "unit": "ms",
         "ratings": {
-          "good": 59,
-          "needs-improvement": 2,
+          "good": 63,
+          "needs-improvement": 3,
           "poor": 1
         },
-        "goodPercent": 95
+        "goodPercent": 94
       },
       "FCP": {
-        "count": 21,
-        "average": 924.5238095238095,
+        "count": 22,
+        "average": 943.1818181818181,
         "unit": "ms",
         "ratings": {
-          "good": 19,
+          "good": 20,
           "needs-improvement": 1,
           "poor": 1
         },
-        "goodPercent": 90
+        "goodPercent": 91
       },
       "LCP": {
-        "count": 11,
-        "average": 1589.1818181818182,
+        "count": 12,
+        "average": 1585.75,
         "unit": "ms",
         "ratings": {
-          "good": 10,
+          "good": 11,
           "needs-improvement": 0,
           "poor": 1
         },
-        "goodPercent": 91
+        "goodPercent": 92
       },
       "CLS": {
         "count": 9,
@@ -86,11 +86,11 @@
         "goodPercent": 100
       },
       "INP": {
-        "count": 4,
-        "average": 66,
+        "count": 5,
+        "average": 57.6,
         "unit": "ms",
         "ratings": {
-          "good": 4,
+          "good": 5,
           "needs-improvement": 0,
           "poor": 0
         },
