@@ -93,8 +93,10 @@ async function prerender() {
     // Wait for server to start
     await new Promise(resolve => setTimeout(resolve, 3000));
 
-    // Launch browser
-    const browser = await chromium.launch();
+    // Launch browser (CI uses the runner's preinstalled Chrome — no download)
+    const browser = await chromium.launch({
+      channel: process.env.CI ? 'chrome' : undefined,
+    });
     const page = await browser.newPage();
 
     // Get indexable content from the same generated data used by the sitemap.
