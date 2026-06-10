@@ -62,6 +62,13 @@ export default defineConfig(({ mode }) => ({
       output: {
         // Manual chunk splitting for better caching
         manualChunks(id) {
+          // Vite's preload helper is a virtual module shared by every chunk that
+          // dynamic-imports anything. Left unassigned, Rollup may place it inside
+          // a lazy chunk (it landed in `mermaid`), which makes the entry statically
+          // import that chunk and modulepreload ~700KB of mermaid on every page.
+          if (id.includes('vite/preload-helper') || id.includes('vite/modulepreload-polyfill')) {
+            return 'vendor';
+          }
           // Core vendor chunks
           if (id.includes('node_modules')) {
             if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
