@@ -102,6 +102,12 @@ No manual steps needed. Check [Actions tab](https://github.com/Dbochman/personal
   - CNAME `@` → dbochman.github.io (main site)
   - (api subdomain managed automatically by Worker Custom Domain)
 
+**SSL/TLS (zone dylanbochman.com → SSL/TLS):**
+- **Encryption mode:** Full (strict) — Cloudflare connects to the GitHub Pages origin over HTTPS with a validated cert (set 2026-05-25; was "Flexible" before that)
+- **Always Use HTTPS:** On (Edge Certificates) — safe only because the mode is Full (strict)
+- **Order matters:** enabling Always Use HTTPS while the mode is "Flexible" causes a redirect loop and takes the site down (Flexible means Cloudflare hits origin over plain HTTP, which GitHub Pages redirects back to HTTPS). If both ever need re-enabling, set Full (strict) first, confirm the site loads, then turn on Always Use HTTPS.
+- GitHub Pages' own "Enforce HTTPS" checkbox stays grayed out because the Cloudflare proxy hides DNS from GitHub's verification — expected, Cloudflare enforces HTTPS at the edge instead.
+
 **Redirect Rules (zone dylanbochman.com → Rules → Redirect Rules):**
 - **Rule:** "Legacy .html → home (soft 404 fix)" (created 2026-06-10)
 - 301-redirects `/index.html`, `/contactme.html`, `/bretton-woods.html`, `/eurotrip.html`, `/photography.html`, `/golden-gloves.html` → `https://dylanbochman.com/`
