@@ -52,10 +52,19 @@ jobs:
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install chromium --with-deps
+        timeout-minutes: 10
+        # A stalled browser download hangs indefinitely (2x on 2026-06-10, 14+ and
+        # 30+ min). Cap each attempt; a fresh connection usually recovers.
+        run: |
+          for i in 1 2 3; do
+            timeout 180 npx playwright install chromium --with-deps && exit 0
+            echo "::warning::Playwright install attempt $i failed or timed out; retrying"
+          done
+          exit 1
 
       - name: Install Playwright deps only
         if: steps.playwright-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 5
         run: npx playwright install-deps chromium
 
       - name: Lint
