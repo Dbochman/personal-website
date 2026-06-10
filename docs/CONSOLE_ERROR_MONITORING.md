@@ -80,6 +80,11 @@ Automated console error checks run after every deployment to production.
 
 ### How It Works
 
+CI does not download Playwright browsers. All workflows run the runner's
+preinstalled Google Chrome (`channel: 'chrome'` is set in `playwright.config.ts`
+and `scripts/prerender.mjs` when `CI=true`) after Playwright's CDN repeatedly
+hung browser installs (2026-06-10).
+
 After every successful deployment:
 1. GitHub Actions waits 30 seconds for deployment to propagate
 2. Playwright loads production (`https://dylanbochman.com`)
@@ -195,8 +200,17 @@ const IGNORED_PATTERNS = [
    BASE_URL=http://localhost:4173 npm run test:e2e
    ```
 2. Check workflow artifacts for detailed error logs
+3. Remember CI runs branded Google Chrome (`channel: 'chrome'`), not the
+   bundled Chromium used locally. To reproduce CI exactly:
+   ```bash
+   CI=true BASE_URL=http://localhost:4173 npm run test:e2e
+   ```
+   (uses your locally installed Google Chrome)
 
 ### Playwright: Browsers Not Installed
+
+Local dev only — CI uses the runner's preinstalled Chrome and never downloads
+browsers.
 
 ```bash
 npx playwright install chromium
