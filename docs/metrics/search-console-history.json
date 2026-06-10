@@ -1,59 +1,5 @@
 [
   {
-    "timestamp": "2026-04-19T06:28:26.867Z",
-    "date": "2026-04-19",
-    "period": {
-      "start": "2026-04-12",
-      "end": "2026-04-19"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 3,
-      "averageCTR": 0,
-      "averagePosition": 26.7
-    },
-    "topQueries": [
-      {
-        "query": "bochman",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 60
-      },
-      {
-        "query": "dotfiles claude",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 10
-      },
-      {
-        "query": "sre incident response workflow diagram",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 10
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/",
-        "clicks": 0,
-        "impressions": 1
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 1
-      },
-      {
-        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
-        "clicks": 0,
-        "impressions": 1
-      }
-    ]
-  },
-  {
     "timestamp": "2026-04-20T06:43:06.546Z",
     "date": "2026-04-20",
     "period": {
@@ -5202,6 +5148,115 @@
         "impressions": 1,
         "ctr": 0,
         "position": 9
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-06-10T07:26:24.587Z",
+    "date": "2026-06-10",
+    "period": {
+      "start": "2026-06-03",
+      "end": "2026-06-10"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 955,
+      "averageCTR": 0.42,
+      "averagePosition": 7.5
+    },
+    "topQueries": [
+      {
+        "query": "git gateway",
+        "clicks": 1,
+        "impressions": 3,
+        "ctr": 0.3333333333333333,
+        "position": 8
+      },
+      {
+        "query": "decap cms hook netlify-build config",
+        "clicks": 0,
+        "impressions": 13,
+        "ctr": 0,
+        "position": 7.4
+      },
+      {
+        "query": "decap cms hooks config netlify-build docs",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 10.1
+      },
+      {
+        "query": "decap cms hook netlify-build config.yml docs",
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 10.2
+      },
+      {
+        "query": "decap cms hook netlify-build config.yml",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 5.3
+      },
+      {
+        "query": "netlify identity git gateway decap cms official docs",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 8
+      },
+      {
+        "query": "netlify identity git gateway decap cms docs",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 8.8
+      },
+      {
+        "query": "decap cms netlify identity git gateway documentation",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 4.7
+      },
+      {
+        "query": "decap cms netlify identity git gateway official docs",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 6
+      },
+      {
+        "query": "decap cms hook netlify-build config docs",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 7.3
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
+        "clicks": 1,
+        "impressions": 67,
+        "ctr": 0.014925373134328358,
+        "position": 8.4
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 4.5
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 6
       }
     ]
   }
