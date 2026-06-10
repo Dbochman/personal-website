@@ -81,20 +81,11 @@ jobs:
             echo "::notice::Full build and test pipeline"
           fi
 
-      - name: Cache Playwright browsers
-        id: playwright-cache
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install chromium --with-deps
-
-      - name: Install Playwright deps only
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
+      # Playwright runs the runner's preinstalled Chrome (channel: 'chrome' in
+      # playwright.config.ts and scripts/prerender.mjs when CI=true) — browser
+      # downloads from Playwright's CDN hung indefinitely on 2026-06-10.
+      - name: Verify system Chrome
+        run: google-chrome --version
 
       - name: Security audit
         if: needs.detect-changes.outputs.is_content_only != 'true'
