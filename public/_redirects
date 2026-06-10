@@ -1,5 +1,11 @@
-# Cloudflare Pages redirects
-# Redirect /index.html to / (canonical URL) to fix soft 404s
+# Cloudflare Pages redirects — PREVIEW DEPLOYMENTS ONLY
+#
+# Production (dylanbochman.com) is GitHub Pages behind the Cloudflare proxy,
+# so this file has NO effect there. The production redirects for these paths
+# live in a Cloudflare Redirect Rule named "Legacy .html → home (soft 404 fix)"
+# (zone dylanbochman.com → Rules → Redirect Rules). This file only keeps
+# branch previews (*.personal-website-adg.pages.dev) consistent with prod.
+
 /index.html / 301
 
 # Legacy .html files from old site - redirect to homepage

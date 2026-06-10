@@ -102,6 +102,11 @@ No manual steps needed. Check [Actions tab](https://github.com/Dbochman/personal
   - CNAME `@` → dbochman.github.io (main site)
   - (api subdomain managed automatically by Worker Custom Domain)
 
+**Redirect Rules (zone dylanbochman.com → Rules → Redirect Rules):**
+- **Rule:** "Legacy .html → home (soft 404 fix)" (created 2026-06-10)
+- 301-redirects `/index.html`, `/contactme.html`, `/bretton-woods.html`, `/eurotrip.html`, `/photography.html`, `/golden-gloves.html` → `https://dylanbochman.com/`
+- This is the **production** fix for soft 404s on legacy URLs. `public/_redirects` does NOT apply to production (it's a Cloudflare Pages feature, so it only affects branch previews on `*.personal-website-adg.pages.dev`); it mirrors this rule to keep previews consistent.
+
 **Pages Project (Preview Deployments):**
 - **Project name:** personal-website-adg
 - **URL:** https://personal-website-adg.pages.dev
