@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "drop-duplicate-meta-descriptions-from-prerendered-",
+          "title": "drop duplicate meta descriptions from prerendered pages [blog]",
+          "labels": [
+            "Bugfix",
+            "PR #309"
+          ],
+          "checklist": [],
+          "createdAt": "2026-06-11T03:17:24.000Z",
+          "updatedAt": "2026-06-11T03:17:24.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-11T03:17:24.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Every blog post shipped two meta description tags: the site-wide bio\nhardcoded in index.html first, then the correct per-post one from\nreact-helmet. Crawlers take the first, so Google's snippet for every\npost was an SRE bio — a direct CTR hit (0.42% at avg position 7.5,\nwhere 2-4% is typical). Same duplication affected og:/twitter: tags.\n\nThe prerender step now removes static template tags whenever helmet\nrendered the same key (data-rh), so exactly one value ships per tag.\n\nAlso: retargeted the Decap CMS post description toward the dominant\nquery cluster from Search Console data (build hooks + config.yml,\n~98% of site impressions), and documented where unsanitized query\ndata lives (docs/metrics) vs the public copy that strips it.\n\nCo-authored-by: Claude Fable 5 <noreply@anthropic.com>"
+        },
+        {
           "id": "2026-05-25-the-indexing-audit-that-found-a-redirect-loop",
           "title": "Blog: The Indexing Audit That Found a Redirect Loop",
           "labels": [
@@ -3099,5 +3119,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-05-25T23:23:33.539Z"
+  "updatedAt": "2026-06-11T03:17:56.139Z"
 };
