@@ -130,6 +130,23 @@ async function prerender() {
       // Wait for React to render (longer wait for polling routes since we don't wait for network)
       await page.waitForTimeout(routesWithPolling.includes(route) ? 2000 : 500);
 
+      // react-helmet appends its meta tags without removing the static ones
+      // from index.html, so pages end up with two description/og tags and
+      // crawlers take the first (the site-wide default). Where helmet rendered
+      // a tag (data-rh), drop the static duplicate so exactly one value ships.
+      await page.evaluate(() => {
+        for (const tag of document.head.querySelectorAll('meta[data-rh]')) {
+          const name = tag.getAttribute('name');
+          const property = tag.getAttribute('property');
+          const selector = name
+            ? `meta[name="${name}"]:not([data-rh])`
+            : property
+              ? `meta[property="${property}"]:not([data-rh])`
+              : null;
+          if (selector) document.head.querySelectorAll(selector).forEach((dup) => dup.remove());
+        }
+      });
+
       // Get the rendered HTML
       const html = await page.content();
 
