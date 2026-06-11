@@ -103,6 +103,16 @@ Create `netlify.toml` in your project root:
 
 Saving in Decap CMS commits to your repo, which triggers a rebuild. But sometimes you want to trigger rebuilds from elsewhere—scheduled posts, external services, whatever.
 
+A point of confusion worth settling first: the build hook does not go in `config.yml`. Decap's config has no hook field. The `git-gateway` backend from earlier is the whole editor-to-rebuild loop—Decap commits through Git Gateway, Netlify sees the commit, Netlify rebuilds:
+
+```yaml
+backend:
+  name: git-gateway
+  branch: main
+```
+
+Nothing else to wire up for normal saves. A build hook is a separate Netlify-side URL for the rebuilds that don't start with a commit.
+
 Create a build hook in Netlify:
 
 1. Site settings → Build & deploy → Build hooks
