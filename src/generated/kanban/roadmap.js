@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "2026-06-10-the-day-every-fix-uncovered-the-next-bug",
+          "title": "Blog: The Day Every Fix Uncovered the Next Bug",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-06-11T03:34:55.000Z",
+          "updatedAt": "2026-06-11T03:34:55.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-11T03:34:55.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "A failed Search Console validation turned into four production fixes: a redirect file that did nothing, 700KB of diagram library on every page, a CI step hung on a CDN, and the wrong snippet on our best-ranking query."
+        },
+        {
           "id": "clarify-build-hook-vs-config-yml-feature-the-dotfi",
           "title": "clarify build hook vs config.yml; feature the dotfiles post",
           "labels": [],
@@ -3136,5 +3155,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-11T03:30:31.722Z"
+  "updatedAt": "2026-06-11T03:35:46.627Z"
 };
