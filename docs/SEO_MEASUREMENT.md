@@ -95,6 +95,20 @@ if (!isPageSpeedError(result)) {
 
 Google Search Console API provides search performance data: queries, impressions, clicks, CTR, and average position.
 
+### Where the data lives in this repo
+
+The weekly fetch (`scripts/fetch-search-console-data.js`, run by the daily
+analytics workflow) writes `docs/metrics/search-console-history.json` —
+**including `topQueries`** (the actual search terms, with per-query
+impressions/clicks/position). Use that file when tuning titles and meta
+descriptions for CTR.
+
+The copy published to the live site
+(`public/metrics/search-console-history.json`) is sanitized by
+`scripts/copy-metrics-to-public.js`, which strips `topQueries` so visitor
+search terms are never exposed publicly. Only `topPages` and summary stats
+ship to the browser.
+
 **Free**: Unlimited for verified site owners
 **Authentication**: OAuth 2.0 or Service Account
 

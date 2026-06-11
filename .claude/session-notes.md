@@ -428,3 +428,29 @@ Drew from the security plan to flesh out the blog post's security section. Added
 Key addition: a paragraph about the two layers of guardrails (infrastructure vs instruction) and being honest about the difference in the blog post.
 
 ---
+
+---
+
+## 2026-06-10: GSC Indexing Audit — _redirects Doesn't Apply to Production
+
+**Key realization:** `public/_redirects` (added to fix the `/index.html` soft 404) is a Cloudflare Pages convention — but production is GitHub Pages behind the Cloudflare proxy. The file only affects branch previews. `https://dylanbochman.com/index.html` still returns 200 with homepage content, which is why GSC's Soft 404 validation failed on 6/1/26.
+
+**Fix requires a Cloudflare Redirect Rule** (dashboard → Rules → Redirect Rules), not a repo change. Single rule can cover /index.html + the 5 legacy .html paths.
+
+**Other findings:**
+- All 42 sitemap URLs: 200, prerendered, correct self-canonicals. On-page SEO is healthy.
+- Indexed-page drop ~5/5→5/8 matches the prerender deploy regression fixed in 4c051b0 (May 8). Recovery is organic, weeks-scale.
+- Legacy/trailing-slash stubs (meta-refresh + canonical) verified working live.
+**Resolution (same day):** Cloudflare Redirect Rule "Legacy .html → home (soft 404 fix)" created and verified live — /index.html + 5 legacy .html paths all 301 → / in one hop, on apex and www, no loop. New GSC Soft 404 validation kicked off and sitemap resubmitted 6/10/26.
+
+---
+
+## 2026-06-10 (cont): Mermaid Preload Fix + Playwright CDN Incident
+
+**Perf (PR #307):** Homepage was modulepreloading the 697KB-compressed mermaid chunk on every page despite mermaid being dynamically imported. Root cause: Rollup placed Vite's virtual preload-helper module inside the manualChunks 'mermaid' chunk, so the entry statically imported mermaid just to reach the helper. Fix: pin `vite/preload-helper` to 'vendor' in manualChunks. Live result: 917KB → 215KB compressed JS on homepage (-77%). Watch RUM FCP/LCP (was 29% good / 3.2s avg) over the next week.
+
+**Pattern:** With a manualChunks function, ALWAYS handle Vite's virtual helper modules (`\0vite/preload-helper`) explicitly — unassigned, Rollup can drop them into any chunk and chain it into the entry graph.
+
+**CI incident:** Playwright CDN hung browser installs at 100% download (zip completes, stream never closes) — deterministic, retries useless. Hit the #305 deploy at 14:08 and every CI run after. The hung deploy silently blocked the main deploy queue for 2.5h (deploy.yml queues, doesn't cancel) — deploys for #306/#307 got superseded while waiting. Fix: switched all CI to the runner's preinstalled Chrome (`channel: 'chrome'` when CI=true in playwright.config.ts + scripts/prerender.mjs), deleted browser download/cache steps from all 3 workflows. CI back to 2m30s. Docs updated in #308.
+
+**Gotcha:** `gh` CLI token intermittently 401'd on GraphQL/DELETE endpoints while REST reads worked — merge succeeded but branch delete failed; used `git push origin --delete` over SSH instead.
