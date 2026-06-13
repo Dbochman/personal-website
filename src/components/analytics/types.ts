@@ -129,6 +129,11 @@ export interface LighthousePageScore {
   fcp: string;
   cls: string;
   tbt: string;
+  // Sampling metadata (added when the audit runs multiple times and keeps the
+  // median). Optional so older summary.json files still parse.
+  runs?: number;
+  performanceRange?: [number, number];
+  tbtRangeMs?: [number, number] | null;
 }
 
 // GitHub Actions billing data types

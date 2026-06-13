@@ -71,6 +71,12 @@ export function LighthouseScoresTable({ data }: LighthouseScoresTableProps) {
                   </td>
                   <td className="text-center py-2">
                     <ScoreBadge score={page.performance} />
+                    {page.performanceRange &&
+                      page.performanceRange[0] !== page.performanceRange[1] && (
+                        <div className="text-[10px] text-muted-foreground tabular-nums mt-0.5">
+                          {page.performanceRange[0]}&ndash;{page.performanceRange[1]}
+                        </div>
+                      )}
                   </td>
                   <td className="text-center py-2">
                     <ScoreBadge score={page.accessibility} />
