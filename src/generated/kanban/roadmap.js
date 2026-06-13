@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "serve-fresh-lighthouse-scores-on-projects-analytic",
+          "title": "serve fresh Lighthouse scores on /projects/analytics",
+          "labels": [
+            "Bugfix",
+            "PR #311"
+          ],
+          "checklist": [],
+          "createdAt": "2026-06-13T01:56:03.000Z",
+          "updatedAt": "2026-06-13T01:56:03.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-13T01:56:03.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* fix(analytics): pull fresh Lighthouse summary from lighthouse-metrics branch at build time\n\nThe /projects/analytics dashboard served lighthouse-reports/summary.json\nfrom main, last updated 2026-01-13 (home perf 95 vs ~52-75 measured now).\nLighthouse CI commits fresh results only to the lighthouse-metrics branch,\nso the deployed copy never updated.\n\ncopy-metrics-to-public.js now fetches summary.json from the\nlighthouse-metrics branch via raw.githubusercontent.com during\nbuild:content, falling back to the tracked copy when offline. Also\nrefreshes the tracked fallback to the 2026-06-11 run (project-uptime\npage replaced by project-slo in the audit set).\n\nCo-Authored-By: Claude Fable 5 <noreply@anthropic.com>\n\n* perf: stop shipping mermaid to chartless pages, defer gtag.js [blog:perf]\n\nThree compounding fixes for the Lighthouse regressions surfaced by the\nfresh dashboard data:\n\n1. vite.config.ts: d3 modules (shared by recharts via victory-vendor and\n   by mermaid) had no manualChunks assignment, so Rollup inlined them\n   into the mermaid chunk — every chart chunk then statically imported\n   ~700KB of mermaid. Pin d3/victory-vendor to their own 'd3' chunk so\n   the mermaid chunk is reachable only via dynamic import again.\n\n2. prerender.mjs: DOM snapshots captured the modulepreload links Vite's\n   runtime preload helper inserted for lazy chunks, baking them into the\n   static HTML. Keep only the template's own preloads.\n\n3. index.html: load gtag.js (152KB, 470ms script eval) after window load\n   + idle instead of at startup; gtag() calls queue in dataLayer\n   meanwhile. Prerender strips the runtime-injected tag from snapshots.\n\nLocal Lighthouse (throttled, preview server):\n  blog-post-404: perf 57 -> 79 (FCP 8.0s -> 2.6s, LCP 9.0s -> 4.7s)\n  home:          perf 52 -> 92 (TBT 690ms -> 20ms)\nVerified mermaid still renders on /projects/incident-command-diagrams.\n\nCo-Authored-By: Claude Fable 5 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Fable 5 <noreply@anthropic.com>"
+        },
+        {
           "id": "2026-06-10-the-day-every-fix-uncovered-the-next-bug",
           "title": "Blog: The Day Every Fix Uncovered the Next Bug",
           "labels": [
@@ -3155,5 +3175,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-11T03:35:46.627Z"
+  "updatedAt": "2026-06-13T01:56:38.943Z"
 };
