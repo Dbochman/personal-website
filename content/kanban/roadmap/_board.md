@@ -3,7 +3,7 @@ schemaVersion: 1
 id: roadmap
 title: Site Roadmap
 createdAt: '2026-01-16T14:45:27.429Z'
-updatedAt: '2026-06-13T01:56:38.943Z'
+updatedAt: '2026-06-13T02:08:11.873Z'
 columns:
   - id: ideas
     title: Ideas
