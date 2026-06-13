@@ -116,6 +116,16 @@ async function prerender() {
     // Routes with persistent network activity (auth, polling) that prevent networkidle
     const routesWithPolling = ['/projects/kanban'];
 
+    // Modulepreload links Vite bakes into the built template (entry deps).
+    // Vite's runtime preload helper inserts additional modulepreload links
+    // into <head> as routes lazy-load chunks; snapshotting the DOM bakes
+    // those into the prerendered HTML, making every visitor download lazy
+    // chunks (e.g. ~700KB of mermaid) the page may never use. Keep only the
+    // template's own preloads in the snapshot.
+    const templateHtml = readFileSync(join(distDir, 'index.html'), 'utf-8');
+    const templatePreloads = [...templateHtml.matchAll(/<link[^>]+rel="modulepreload"[^>]+href="([^"]+)"/g)]
+      .map(match => match[1]);
+
     console.log(`📄 Pre-rendering ${routes.length} routes...`);
 
     for (const route of routes) {
@@ -146,6 +156,20 @@ async function prerender() {
           if (selector) document.head.querySelectorAll(selector).forEach((dup) => dup.remove());
         }
       });
+
+      // Strip head tags inserted at runtime that must not ship in the
+      // static HTML: modulepreloads for lazy chunks (see templatePreloads
+      // above) and the gtag.js script tag injected by the deferred loader
+      // in index.html (each page load re-injects it after window load).
+      await page.evaluate((keepPreloads) => {
+        for (const link of document.head.querySelectorAll('link[rel="modulepreload"]')) {
+          const href = link.getAttribute('href');
+          if (!keepPreloads.includes(href)) link.remove();
+        }
+        document.head
+          .querySelectorAll('script[src^="https://www.googletagmanager.com/gtag/js"]')
+          .forEach((tag) => tag.remove());
+      }, templatePreloads);
 
       // Get the rendered HTML
       const html = await page.content();
