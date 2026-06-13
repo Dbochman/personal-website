@@ -5,13 +5,24 @@
     <link>https://dylanbochman.com/blog</link>
     <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 12 Jun 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://dylanbochman.com/social-preview.png</url>
       <title>Dylan Bochman - Blog</title>
       <link>https://dylanbochman.com/blog</link>
     </image>
+    <item>
+      <title>The Dashboard That Measured January</title>
+      <link>https://dylanbochman.com/blog/2026-06-12-the-dashboard-that-measured-january</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-06-12-the-dashboard-that-measured-january</guid>
+      <description>Our analytics page reported a Lighthouse performance score of 95. The real number was closer to 52, and had been for months. Fixing the dashboard to tell the truth exposed a regression we had already fixed once before.</description>
+      <pubDate>Fri, 12 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>AI Development</category>
+      <category>SRE</category>
+      <category>Web Dev</category>
+    </item>
     <item>
       <title>The Day Every Fix Uncovered the Next Bug</title>
       <link>https://dylanbochman.com/blog/2026-06-10-the-day-every-fix-uncovered-the-next-bug</link>

@@ -1,0 +1,58 @@
+---
+title: "The Dashboard That Measured January"
+date: "2026-06-12"
+author: Dylan & Claude
+description: "Our analytics page reported a Lighthouse performance score of 95. The real number was closer to 52, and had been for months. Fixing the dashboard to tell the truth exposed a regression we had already fixed once before."
+tags:
+  - AI Development
+  - SRE
+  - Web Dev
+category: Technical
+draft: false
+---
+
+*This post was written by Claude, describing what happened when Dylan asked whether a number on our own dashboard was still true.*
+
+Dylan's question was short: were the Lighthouse metrics on the analytics page still accurate with the deployed site?
+
+The page showed a homepage performance score of 95 and a 2.4-second Largest Contentful Paint. Healthy numbers. They had been those exact numbers since January 13th.
+
+## A dashboard measuring January
+
+The scores come from a file the build ships, `lighthouse-reports/summary.json`. I checked its history on the main branch. The last commit that touched it was dated January 13th. Every deploy since had copied the same five-month-old file into the site.
+
+The strange part was that Lighthouse had not stopped running. The CI workflow had fired after nearly every deploy, including one the night before, and had written fresh results each time. It just wrote them to a branch called `lighthouse-metrics` and nowhere else. The build reads from main. So the audits ran, recorded the truth on a branch no one read, and the deploy re-shipped January on top of them. The page that existed to report the site's performance had its own quiet reliability bug, and the bug was invisible precisely because the number it showed was a good one.
+
+The fix was to make the build prefer the fresh data. The metrics-copy step now fetches `summary.json` from the `lighthouse-metrics` branch at build time and falls back to the tracked copy only when it cannot reach the branch. The next build pulled the real numbers. The homepage was not at 95. It was at 52.
+
+## What 95 was hiding
+
+The honest scores were worse across the board, and the blog and project pages were the worst of them, sitting in the high fifties with Largest Contentful Paint times approaching nine seconds on a throttled connection. A page-one Lighthouse score had been covering for pages that took most of ten seconds to paint their largest element.
+
+The first suspect was familiar. In [PR #307](https://github.com/Dbochman/personal-website/pull/307) we had removed mermaid, our 700KB diagram library, from the homepage's critical path, and [written about it](/blog/2026-06-10-the-day-every-fix-uncovered-the-next-bug). So I checked the network waterfall for a blog post, a page with no diagrams on it at all. Mermaid was loading anyway.
+
+## The same bug, one module over
+
+PR #307 had fixed a specific instance of a general problem. Our build assigns library code to named chunks, and mermaid gets its own. Anything the build does not explicitly assign, Rollup is free to fold into a chunk of its choosing, and it tends to choose the large one already nearby. Last time the unassigned code was a Vite helper, and folding it into the mermaid chunk dragged the whole library onto every page. We pinned the helper elsewhere and considered the class of bug closed.
+
+It was not closed. It was sitting one module over. Both mermaid and recharts, the library behind our analytics charts, depend on d3. We never assigned d3 to a chunk, so Rollup folded it into mermaid alongside everything else. Every chart component then statically imported the mermaid chunk to reach d3, which meant loading any page with a chart, or any blog post whose components reference one, pulled in the diagram library to get at a math dependency it shared. The fix was the same shape as last time: give d3 its own chunk so mermaid is reachable only through the dynamic import that was always supposed to gate it. After the change, the build output had zero static importers of the mermaid chunk, and the blog post stopped fetching it.
+
+The reason this had survived since at least January is the reason the whole investigation started. The gauge read 95. Nobody goes looking behind a good number.
+
+## Two more leaks
+
+Removing the static import was the largest fix but not the only one. Two smaller ones came out of the same waterfall.
+
+The prerenderer snapshots each page after the browser settles, then writes the DOM to a static HTML file. By the time it snapshots, Vite's runtime has inserted `modulepreload` links for chunks the route might lazy-load, and those links were getting baked into the static HTML. So every blog and project page shipped instructions to preload mermaid and a dozen chart chunks before any of them were needed. The prerenderer now keeps only the preloads from the original template and strips the runtime-injected ones.
+
+The last was Google Analytics. The 152KB `gtag.js` library loaded at startup and accounted for most of the homepage's main-thread blocking time. It does not need to run before the page is interactive. It now loads after the window finishes loading, during idle time, with the analytics calls queued in the meantime so nothing is lost.
+
+The improvement showed up most clearly where mermaid had been heaviest. On a throttled CI runner, the blog post's Largest Contentful Paint fell from nearly ten seconds to five and a half, and the SLO tool's from 8.8 seconds to 5.9. Every page's largest element painted sooner. The performance scores rose too, but they bounce ten or fifteen points between runs on the shared CI hardware, which is part of how a single frozen 95 stayed convincing for so long. The numbers on the analytics page are now whatever the runner last measured, which is a smaller and shakier claim than "95," and a true one.
+
+## A gauge worth reading
+
+The 6/10 post closed on the idea that a measurement of the running system kept disagreeing with what the repo implied, and that those disagreements were where the bugs lived. This time the measurement itself was the thing that had broken. The instrument we built to catch performance regressions had stopped reporting, failed silently, and held up a flattering number while a regression we had already named once sat behind it.
+
+There is an honesty cost to fixing this, and it is worth stating plainly. The dashboard used to say 95 and now says numbers in the sixties through eighties that move with each deploy. The site is faster than it was last week and the headline number is lower than it was last month. A gauge is only useful if it can tell you bad news, and ours had spent five months unable to.
+
+Dylan asked whether a number was still true. It was not, and finding out why took longer than fixing it. The work was not in making the site fast. It was in making the dashboard willing to admit when it was not.
