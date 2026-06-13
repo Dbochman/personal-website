@@ -1,457 +1,5 @@
 [
   {
-    "timestamp": "2026-03-13T06:16:37.140Z",
-    "date": "2026-03-13",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 354,
-      "users": 332,
-      "pageViews": 332,
-      "averageSessionDuration": 15,
-      "bounceRate": 0.76
-    },
-    "topPages": [
-      {
-        "page": "/blog/",
-        "sessions": 76,
-        "users": 76,
-        "pageViews": 76
-      },
-      {
-        "page": "/",
-        "sessions": 67,
-        "users": 62,
-        "pageViews": 67
-      },
-      {
-        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "sessions": 29,
-        "users": 24,
-        "pageViews": 28
-      },
-      {
-        "page": "/blog",
-        "sessions": 26,
-        "users": 21,
-        "pageViews": 20
-      },
-      {
-        "page": "/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup",
-        "sessions": 23,
-        "users": 21,
-        "pageViews": 20
-      },
-      {
-        "page": "/runbook",
-        "sessions": 20,
-        "users": 20,
-        "pageViews": 20
-      },
-      {
-        "page": "/runbook/",
-        "sessions": 17,
-        "users": 17,
-        "pageViews": 17
-      },
-      {
-        "page": "/this-page-does-not-exist",
-        "sessions": 15,
-        "users": 15,
-        "pageViews": 15
-      },
-      {
-        "page": "/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup/",
-        "sessions": 10,
-        "users": 10,
-        "pageViews": 10
-      },
-      {
-        "page": "/projects/oncall-coverage/",
-        "sessions": 8,
-        "users": 8,
-        "pageViews": 8
-      }
-    ],
-    "deviceBreakdown": [
-      {
-        "device": "mobile",
-        "sessions": 124,
-        "users": 124
-      },
-      {
-        "device": "desktop",
-        "sessions": 230,
-        "users": 208
-      }
-    ],
-    "trafficSources": {
-      "channels": [
-        {
-          "channel": "Direct",
-          "sessions": 310,
-          "users": 308
-        },
-        {
-          "channel": "Referral",
-          "sessions": 12,
-          "users": 5
-        },
-        {
-          "channel": "Organic Social",
-          "sessions": 8,
-          "users": 6
-        },
-        {
-          "channel": "Organic Search",
-          "sessions": 4,
-          "users": 3
-        }
-      ],
-      "sources": [
-        {
-          "source": "(direct)",
-          "medium": "(none)",
-          "sessions": 310,
-          "users": 308
-        },
-        {
-          "source": "news.ycombinator.com",
-          "medium": "referral",
-          "sessions": 8,
-          "users": 6
-        },
-        {
-          "source": "giscus.app",
-          "medium": "referral",
-          "sessions": 7,
-          "users": 1
-        },
-        {
-          "source": "google",
-          "medium": "organic",
-          "sessions": 3,
-          "users": 2
-        },
-        {
-          "source": "claude.ai",
-          "medium": "referral",
-          "sessions": 2,
-          "users": 1
-        },
-        {
-          "source": "daum",
-          "medium": "organic",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "source": "hacker-news.firebaseio.com",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "source": "hackernewz.com",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "source": "kaegtcr.online",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        }
-      ]
-    },
-    "webVitals": {
-      "TTFB": {
-        "count": 149,
-        "average": 241.16107382550337,
-        "unit": "ms",
-        "ratings": {
-          "good": 145,
-          "needs-improvement": 4,
-          "poor": 0
-        },
-        "goodPercent": 97
-      },
-      "FCP": {
-        "count": 85,
-        "average": 838.1411764705882,
-        "unit": "ms",
-        "ratings": {
-          "good": 74,
-          "needs-improvement": 8,
-          "poor": 3
-        },
-        "goodPercent": 87
-      },
-      "LCP": {
-        "count": 26,
-        "average": 1391.3846153846155,
-        "unit": "ms",
-        "ratings": {
-          "good": 21,
-          "needs-improvement": 2,
-          "poor": 3
-        },
-        "goodPercent": 81
-      },
-      "CLS": {
-        "count": 21,
-        "average": 0.01480952380952381,
-        "unit": "",
-        "ratings": {
-          "good": 20,
-          "needs-improvement": 1,
-          "poor": 0
-        },
-        "goodPercent": 95
-      },
-      "INP": {
-        "count": 13,
-        "average": 81.84615384615384,
-        "unit": "ms",
-        "ratings": {
-          "good": 12,
-          "needs-improvement": 1,
-          "poor": 0
-        },
-        "goodPercent": 92
-      }
-    },
-    "toolInteractions": null
-  },
-  {
-    "timestamp": "2026-03-14T06:15:13.016Z",
-    "date": "2026-03-14",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 177,
-      "users": 157,
-      "pageViews": 158,
-      "averageSessionDuration": 28,
-      "bounceRate": 0.55
-    },
-    "topPages": [
-      {
-        "page": "/blog/",
-        "sessions": 60,
-        "users": 60,
-        "pageViews": 60
-      },
-      {
-        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "sessions": 30,
-        "users": 25,
-        "pageViews": 29
-      },
-      {
-        "page": "/",
-        "sessions": 29,
-        "users": 25,
-        "pageViews": 28
-      },
-      {
-        "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "sessions": 7,
-        "users": 7,
-        "pageViews": 7
-      },
-      {
-        "page": "/blog",
-        "sessions": 9,
-        "users": 5,
-        "pageViews": 4
-      },
-      {
-        "page": "/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup",
-        "sessions": 7,
-        "users": 5,
-        "pageViews": 4
-      },
-      {
-        "page": "/runbook",
-        "sessions": 4,
-        "users": 4,
-        "pageViews": 4
-      },
-      {
-        "page": "/projects/incident-command-diagrams/",
-        "sessions": 3,
-        "users": 2,
-        "pageViews": 2
-      },
-      {
-        "page": "/projects/changelog/",
-        "sessions": 2,
-        "users": 2,
-        "pageViews": 2
-      },
-      {
-        "page": "/projects/k8s-rightsizer/",
-        "sessions": 2,
-        "users": 2,
-        "pageViews": 2
-      }
-    ],
-    "deviceBreakdown": [
-      {
-        "device": "mobile",
-        "sessions": 72,
-        "users": 72
-      },
-      {
-        "device": "desktop",
-        "sessions": 105,
-        "users": 85
-      }
-    ],
-    "trafficSources": {
-      "channels": [
-        {
-          "channel": "Direct",
-          "sessions": 139,
-          "users": 137
-        },
-        {
-          "channel": "Referral",
-          "sessions": 11,
-          "users": 5
-        },
-        {
-          "channel": "Organic Social",
-          "sessions": 8,
-          "users": 6
-        },
-        {
-          "channel": "Organic Search",
-          "sessions": 4,
-          "users": 3
-        }
-      ],
-      "sources": [
-        {
-          "source": "(direct)",
-          "medium": "(none)",
-          "sessions": 139,
-          "users": 137
-        },
-        {
-          "source": "news.ycombinator.com",
-          "medium": "referral",
-          "sessions": 8,
-          "users": 6
-        },
-        {
-          "source": "giscus.app",
-          "medium": "referral",
-          "sessions": 6,
-          "users": 1
-        },
-        {
-          "source": "google",
-          "medium": "organic",
-          "sessions": 3,
-          "users": 2
-        },
-        {
-          "source": "claude.ai",
-          "medium": "referral",
-          "sessions": 2,
-          "users": 1
-        },
-        {
-          "source": "daum",
-          "medium": "organic",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "source": "hacker-news.firebaseio.com",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "source": "hackernewz.com",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "source": "kaegtcr.online",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        }
-      ]
-    },
-    "webVitals": {
-      "TTFB": {
-        "count": 99,
-        "average": 265,
-        "unit": "ms",
-        "ratings": {
-          "good": 95,
-          "needs-improvement": 4,
-          "poor": 0
-        },
-        "goodPercent": 96
-      },
-      "FCP": {
-        "count": 34,
-        "average": 1015.2058823529412,
-        "unit": "ms",
-        "ratings": {
-          "good": 27,
-          "needs-improvement": 4,
-          "poor": 3
-        },
-        "goodPercent": 79
-      },
-      "CLS": {
-        "count": 20,
-        "average": 0.0145,
-        "unit": "",
-        "ratings": {
-          "good": 19,
-          "needs-improvement": 1,
-          "poor": 0
-        },
-        "goodPercent": 95
-      },
-      "LCP": {
-        "count": 23,
-        "average": 1541.5217391304348,
-        "unit": "ms",
-        "ratings": {
-          "good": 18,
-          "needs-improvement": 2,
-          "poor": 3
-        },
-        "goodPercent": 78
-      },
-      "INP": {
-        "count": 11,
-        "average": 69.0909090909091,
-        "unit": "ms",
-        "ratings": {
-          "good": 11,
-          "needs-improvement": 0,
-          "poor": 0
-        },
-        "goodPercent": 100
-      }
-    },
-    "toolInteractions": null
-  },
-  {
     "timestamp": "2026-03-15T06:16:18.356Z",
     "date": "2026-03-15",
     "period": {
@@ -17874,6 +17422,376 @@
           "poor": 0
         },
         "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-06-11T07:38:14.990Z",
+    "date": "2026-06-11",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 127,
+      "users": 119,
+      "pageViews": 122,
+      "averageSessionDuration": 67,
+      "bounceRate": 0.62
+    },
+    "topPages": [
+      {
+        "page": "/blog",
+        "sessions": 53,
+        "users": 53,
+        "pageViews": 52
+      },
+      {
+        "page": "/",
+        "sessions": 24,
+        "users": 23,
+        "pageViews": 24
+      },
+      {
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "sessions": 9,
+        "users": 4,
+        "pageViews": 9
+      },
+      {
+        "page": "/runbook",
+        "sessions": 7,
+        "users": 7,
+        "pageViews": 7
+      },
+      {
+        "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide",
+        "sessions": 5,
+        "users": 5,
+        "pageViews": 6
+      },
+      {
+        "page": "/blog/2026-05-25-the-indexing-audit-that-found-a-redirect-loop",
+        "sessions": 5,
+        "users": 5,
+        "pageViews": 5
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects",
+        "sessions": 5,
+        "users": 5,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects/oncall-coverage",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      },
+      {
+        "page": "/projects/slo-tool",
+        "sessions": 3,
+        "users": 3,
+        "pageViews": 3
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 70,
+        "users": 70
+      },
+      {
+        "device": "desktop",
+        "sessions": 57,
+        "users": 49
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 109,
+          "users": 109
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 12,
+          "users": 4
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 109,
+          "users": 109
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 12,
+          "users": 4
+        },
+        {
+          "source": "perplexity.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 103,
+        "average": 398.3883495145631,
+        "unit": "ms",
+        "ratings": {
+          "good": 92,
+          "needs-improvement": 7,
+          "poor": 4
+        },
+        "goodPercent": 89
+      },
+      "FCP": {
+        "count": 57,
+        "average": 642,
+        "unit": "ms",
+        "ratings": {
+          "good": 52,
+          "needs-improvement": 4,
+          "poor": 1
+        },
+        "goodPercent": 91
+      },
+      "LCP": {
+        "count": 32,
+        "average": 992.15625,
+        "unit": "ms",
+        "ratings": {
+          "good": 29,
+          "needs-improvement": 2,
+          "poor": 1
+        },
+        "goodPercent": 91
+      },
+      "CLS": {
+        "count": 33,
+        "average": 0.030484848484848483,
+        "unit": "",
+        "ratings": {
+          "good": 27,
+          "needs-improvement": 6,
+          "poor": 0
+        },
+        "goodPercent": 82
+      },
+      "INP": {
+        "count": 10,
+        "average": 68,
+        "unit": "ms",
+        "ratings": {
+          "good": 10,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-06-12T07:35:58.637Z",
+    "date": "2026-06-12",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 250,
+      "users": 239,
+      "pageViews": 240,
+      "averageSessionDuration": 42,
+      "bounceRate": 0.8
+    },
+    "topPages": [
+      {
+        "page": "/blog",
+        "sessions": 68,
+        "users": 68,
+        "pageViews": 65
+      },
+      {
+        "page": "/",
+        "sessions": 54,
+        "users": 51,
+        "pageViews": 54
+      },
+      {
+        "page": "/runbook",
+        "sessions": 29,
+        "users": 29,
+        "pageViews": 29
+      },
+      {
+        "page": "/blog/2026-05-25-the-indexing-audit-that-found-a-redirect-loop",
+        "sessions": 15,
+        "users": 15,
+        "pageViews": 15
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+        "sessions": 9,
+        "users": 9,
+        "pageViews": 9
+      },
+      {
+        "page": "/blog/2026-06-10-the-day-every-fix-uncovered-the-next-bug",
+        "sessions": 9,
+        "users": 9,
+        "pageViews": 9
+      },
+      {
+        "page": "/projects",
+        "sessions": 12,
+        "users": 11,
+        "pageViews": 9
+      },
+      {
+        "page": "/projects/oncall-coverage",
+        "sessions": 9,
+        "users": 9,
+        "pageViews": 9
+      },
+      {
+        "page": "/projects/slo-tool",
+        "sessions": 9,
+        "users": 9,
+        "pageViews": 9
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 109,
+        "users": 109
+      },
+      {
+        "device": "desktop",
+        "sessions": 141,
+        "users": 130
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 225,
+          "users": 225
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 13,
+          "users": 4
+        },
+        {
+          "channel": "Referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 225,
+          "users": 225
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 13,
+          "users": 4
+        },
+        {
+          "source": "perplexity.ai",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 213,
+        "average": 289.1737089201878,
+        "unit": "ms",
+        "ratings": {
+          "good": 201,
+          "needs-improvement": 6,
+          "poor": 6
+        },
+        "goodPercent": 94
+      },
+      "FCP": {
+        "count": 175,
+        "average": 535.32,
+        "unit": "ms",
+        "ratings": {
+          "good": 167,
+          "needs-improvement": 5,
+          "poor": 3
+        },
+        "goodPercent": 95
+      },
+      "LCP": {
+        "count": 106,
+        "average": 860.2547169811321,
+        "unit": "ms",
+        "ratings": {
+          "good": 101,
+          "needs-improvement": 3,
+          "poor": 2
+        },
+        "goodPercent": 95
+      },
+      "CLS": {
+        "count": 109,
+        "average": 0.0381651376146789,
+        "unit": "",
+        "ratings": {
+          "good": 85,
+          "needs-improvement": 24,
+          "poor": 0
+        },
+        "goodPercent": 78
+      },
+      "INP": {
+        "count": 13,
+        "average": 142.15384615384616,
+        "unit": "ms",
+        "ratings": {
+          "good": 12,
+          "needs-improvement": 0,
+          "poor": 1
+        },
+        "goodPercent": 92
       }
     },
     "toolInteractions": null
