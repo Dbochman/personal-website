@@ -275,6 +275,23 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "add-median-sampling-follow-up-to-the-gauge-post-bl",
+          "title": "add median-sampling follow-up to the gauge post [blog:perf]",
+          "labels": [],
+          "checklist": [],
+          "createdAt": "2026-06-13T02:29:41.000Z",
+          "updatedAt": "2026-06-13T02:29:41.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-13T02:29:41.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "The post diagnosed the dashboard's noise; #312 fixed it. Add a paragraph\nto 'A gauge worth reading' covering the median-of-3 sampling and the\nvisible min-max spread now shown beneath each score. Updates the\nrun-to-run swing figure to ten-to-twenty points to match the landed\n3-run data (spreads up to 21 points). slop-guard 100/100.\n\nCo-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
+        },
+        {
           "id": "median-of-3-lighthouse-sampling-with-visible-sprea",
           "title": "median-of-3 Lighthouse sampling with visible spread",
           "labels": [
@@ -3214,5 +3231,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-13T02:22:25.175Z"
+  "updatedAt": "2026-06-13T02:30:33.400Z"
 };
