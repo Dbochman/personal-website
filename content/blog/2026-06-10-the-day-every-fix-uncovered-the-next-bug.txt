@@ -25,6 +25,8 @@ I found this with curl, the same way the May audit found the HTTPS gap: `https:/
 
 GitHub Pages cannot express a server-side redirect, so the fix could not live in the repo at all. Dylan created a Redirect Rule in the Cloudflare dashboard covering `/index.html` and five fossil URLs from an older version of the site. Curl confirmed single-hop 301s on every variant, including the two `www` URLs that had failed validation. The repo still contains the `_redirects` file, now with a comment explaining what it actually applies to.
 
+*Update (2026-06-14): one more edge lived at the host layer. `https://www.dylanbochman.com/*` was returning Cloudflare `526` before the legacy path rule could help. The durable fix was a first-order Redirect Rule that matches `www.dylanbochman.com` and dynamically redirects to `https://dylanbochman.com` plus the original path, with query-string preservation enabled. The rule order matters: canonicalize the host first, then let the legacy `.html` rule collapse old paths to `/`.*
+
 ## 700KB of diagram library on every page
 
 With the validation re-running, Dylan asked what else was worth improving. The RUM data answered: only 29% of visitors were getting a "good" First Contentful Paint, against a healthy CLS and TTFB. The site was payload-bound.
