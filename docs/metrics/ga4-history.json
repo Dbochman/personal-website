@@ -1,207 +1,5 @@
 [
   {
-    "timestamp": "2026-03-22T06:13:00.428Z",
-    "date": "2026-03-22",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 82,
-      "users": 76,
-      "pageViews": 88,
-      "averageSessionDuration": 79,
-      "bounceRate": 0.65
-    },
-    "topPages": [
-      {
-        "page": "/",
-        "sessions": 29,
-        "users": 30,
-        "pageViews": 42
-      },
-      {
-        "page": "/blog/",
-        "sessions": 21,
-        "users": 21,
-        "pageViews": 21
-      },
-      {
-        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "sessions": 9,
-        "users": 7,
-        "pageViews": 8
-      },
-      {
-        "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "sessions": 5,
-        "users": 2,
-        "pageViews": 4
-      },
-      {
-        "page": "/blog/2026-03-14-watchdogs-and-launchagents",
-        "sessions": 2,
-        "users": 1,
-        "pageViews": 1
-      },
-      {
-        "page": "/projects",
-        "sessions": 3,
-        "users": 3,
-        "pageViews": 1
-      },
-      {
-        "page": "/projects/analytics",
-        "sessions": 2,
-        "users": 1,
-        "pageViews": 1
-      },
-      {
-        "page": "/runbook",
-        "sessions": 2,
-        "users": 2,
-        "pageViews": 1
-      },
-      {
-        "page": "/blog",
-        "sessions": 1,
-        "users": 1,
-        "pageViews": 1
-      },
-      {
-        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
-        "sessions": 1,
-        "users": 1,
-        "pageViews": 1
-      }
-    ],
-    "deviceBreakdown": [
-      {
-        "device": "desktop",
-        "sessions": 44,
-        "users": 39
-      },
-      {
-        "device": "mobile",
-        "sessions": 38,
-        "users": 37
-      }
-    ],
-    "trafficSources": {
-      "channels": [
-        {
-          "channel": "Direct",
-          "sessions": 75,
-          "users": 69
-        },
-        {
-          "channel": "Referral",
-          "sessions": 2,
-          "users": 2
-        },
-        {
-          "channel": "Organic Search",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "channel": "Unassigned",
-          "sessions": 1,
-          "users": 1
-        }
-      ],
-      "sources": [
-        {
-          "source": "(direct)",
-          "medium": "(none)",
-          "sessions": 75,
-          "users": 69
-        },
-        {
-          "source": "bing",
-          "medium": "organic",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "source": "giscus.app",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "source": "sanganzhu.com",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "source": "(not set)",
-          "medium": "(not set)",
-          "sessions": 1,
-          "users": 1
-        }
-      ]
-    },
-    "webVitals": {
-      "TTFB": {
-        "count": 68,
-        "average": 288.38235294117646,
-        "unit": "ms",
-        "ratings": {
-          "good": 66,
-          "needs-improvement": 0,
-          "poor": 2
-        },
-        "goodPercent": 97
-      },
-      "FCP": {
-        "count": 48,
-        "average": 1837.2291666666667,
-        "unit": "ms",
-        "ratings": {
-          "good": 30,
-          "needs-improvement": 9,
-          "poor": 9
-        },
-        "goodPercent": 63
-      },
-      "CLS": {
-        "count": 28,
-        "average": 0.005678571428571429,
-        "unit": "",
-        "ratings": {
-          "good": 28,
-          "needs-improvement": 0,
-          "poor": 0
-        },
-        "goodPercent": 100
-      },
-      "LCP": {
-        "count": 25,
-        "average": 2320.28,
-        "unit": "ms",
-        "ratings": {
-          "good": 17,
-          "needs-improvement": 4,
-          "poor": 4
-        },
-        "goodPercent": 68
-      },
-      "INP": {
-        "count": 21,
-        "average": 266.6666666666667,
-        "unit": "ms",
-        "ratings": {
-          "good": 13,
-          "needs-improvement": 3,
-          "poor": 5
-        },
-        "goodPercent": 62
-      }
-    },
-    "toolInteractions": null
-  },
-  {
     "timestamp": "2026-03-23T06:25:32.819Z",
     "date": "2026-03-23",
     "period": {
@@ -17713,6 +17511,222 @@
         "unit": "ms",
         "ratings": {
           "good": 39,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": {
+      "total": 2,
+      "byTool": [
+        {
+          "name": "slo_calculator",
+          "total": 2,
+          "actions": [
+            {
+              "action": "tab_switch",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "timestamp": "2026-06-20T07:18:54.350Z",
+    "date": "2026-06-20",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 219,
+      "users": 200,
+      "pageViews": 324,
+      "averageSessionDuration": 29,
+      "bounceRate": 0.71
+    },
+    "topPages": [
+      {
+        "page": "/",
+        "sessions": 83,
+        "users": 79,
+        "pageViews": 177
+      },
+      {
+        "page": "/blog",
+        "sessions": 43,
+        "users": 43,
+        "pageViews": 42
+      },
+      {
+        "page": "/runbook",
+        "sessions": 9,
+        "users": 9,
+        "pageViews": 12
+      },
+      {
+        "page": "/projects",
+        "sessions": 14,
+        "users": 9,
+        "pageViews": 9
+      },
+      {
+        "page": "/projects/slo-tool",
+        "sessions": 8,
+        "users": 7,
+        "pageViews": 9
+      },
+      {
+        "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide",
+        "sessions": 7,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/projects/oncall-coverage",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/projects/statuspage-update",
+        "sessions": 6,
+        "users": 6,
+        "pageViews": 6
+      },
+      {
+        "page": "/analytics.html",
+        "sessions": 2,
+        "users": 2,
+        "pageViews": 6
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "desktop",
+        "sessions": 119,
+        "users": 114
+      },
+      {
+        "device": "mobile",
+        "sessions": 100,
+        "users": 86
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 164,
+          "users": 163
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 17,
+          "users": 7
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "channel": "Organic Social",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 164,
+          "users": 163
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 15,
+          "users": 6
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "source": "bing",
+          "medium": "organic",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "source": "t.co",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 182,
+        "average": 176.51098901098902,
+        "unit": "ms",
+        "ratings": {
+          "good": 177,
+          "needs-improvement": 4,
+          "poor": 1
+        },
+        "goodPercent": 97
+      },
+      "FCP": {
+        "count": 104,
+        "average": 392.74038461538464,
+        "unit": "ms",
+        "ratings": {
+          "good": 99,
+          "needs-improvement": 5,
+          "poor": 0
+        },
+        "goodPercent": 95
+      },
+      "LCP": {
+        "count": 52,
+        "average": 728.0769230769231,
+        "unit": "ms",
+        "ratings": {
+          "good": 51,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 98
+      },
+      "CLS": {
+        "count": 44,
+        "average": 0.00675,
+        "unit": "",
+        "ratings": {
+          "good": 43,
+          "needs-improvement": 1,
+          "poor": 0
+        },
+        "goodPercent": 98
+      },
+      "INP": {
+        "count": 34,
+        "average": 48,
+        "unit": "ms",
+        "ratings": {
+          "good": 34,
           "needs-improvement": 0,
           "poor": 0
         },
