@@ -1,0 +1,156 @@
+---
+title: "Disk Utility said it fixed my Mac. fsck_apfs disagreed."
+date: "2026-06-21"
+author: Dylan & Claude
+description: "macOS Tahoe's Disk Utility reported a successful APFS repair, but the same four inode warnings survived Recovery. The difference was hiding in fsck_apfs flags and one misleading exit code."
+tags:
+  - SRE
+  - Tooling
+category: Technical
+draft: false
+---
+
+*This post was written with Claude after a routine maintenance session turned into a filesystem investigation and an unexpected trip through macOS Recovery.*
+
+I was finishing some maintenance on my M4 Pro MacBook when I ran a verification against its Data volume:
+
+```bash
+diskutil verifyVolume /System/Volumes/Data
+```
+
+The result managed to be alarming and reassuring in the same screenful. `fsck_apfs` found four inode warnings, declared the volume corrupt, performed what Disk Utility called deferred repairs, then said the volume appeared to be OK. The command exited with status 0 and ended with this sentence:
+
+```text
+A repair action has been taken on your disk.
+```
+
+That sounded conclusive. It was not.
+
+## The output contradicted itself
+
+The important lines from the first run looked like this:
+
+```text
+Performing fsck_apfs -n -l -x /dev/rdisk3s1
+
+warning: inode (id 9511085): Resource Fork xattr is missing or empty for compressed file
+warning: inode (id 18982417): xf 1/3: INO_EXT_TYPE_PURGEABLE_FLAGS: found purgeable flags xfield even though the file is marked as purgeable
+warning: inode (id 23577853): Resource Fork xattr is missing or empty for compressed file
+warning: inode (id 34250893): Resource Fork xattr is missing or empty for compressed file
+
+The volume /dev/rdisk3s1 was found to be corrupt and needs to be repaired.
+The volume /dev/rdisk3s1 appears to be OK.
+File system check exit code is 0.
+A repair action has been taken on your disk.
+```
+
+"Corrupt and needs to be repaired" and "appears to be OK" are not useful conclusions when they arrive a few lines apart. The exit code did not settle the question either. I needed to know what had actually run.
+
+## The flags told the real story
+
+The local Tahoe man page for `fsck_apfs` explained the command line:
+
+- `-n` means never attempt a repair.
+- `-l` performs a live check against a mounted, read-write volume. Repairs are not possible in this mode.
+- `-y` permits repairs.
+- `-W` treats warnings as fatal. Without it, warnings can survive while the process still exits successfully.
+
+The first verification had run with `-n -l`. Whatever "deferred repairs" meant in Disk Utility's wrapper output, this invocation could not have changed the mounted Data volume. `/var/log/fsck_apfs_error.log` confirmed it with `repairs=0`.
+
+This distinction matters because `diskutil` is presenting at least three layers at once: its own friendly status text, the output from `fsck_apfs`, and a process exit code whose definition of success does not require a warning-free filesystem. Reading only the last line collapses those layers into a claim they do not support.
+
+## A reboot changed nothing
+
+I rebooted before doing anything invasive. The same live verification then returned the same four warnings with the same four inode IDs.
+
+The rest of the evidence was less dramatic:
+
+- The SSD reported SMART status as verified.
+- The read-only system volume verified cleanly.
+- APFS checks of the container superblock, space manager, object map, encryption structures, extent references, and allocated space completed.
+- The machine showed no physical I/O or media errors after boot.
+- The Data volume had about 104 GiB free and no Data-volume snapshots.
+
+That did not prove the SSD was perfect. It did narrow the failure. This looked like a small set of persistent filesystem metadata records, not a disk that was broadly failing to read or write data.
+
+## The files that did not exist
+
+The next idea was to identify the files behind those inode numbers. A normal `find` could not search every protected part of the Data volume, so I repeated the search as root. None of the four IDs resolved to a path. Direct `/.vol` inode lookups failed too.
+
+That result changed the available options. If an inode has no reachable directory entry, there is no ordinary pathname to inspect, decompress, copy, or delete. Running `rm` against a guessed file was never going to be a repair strategy because there was no file path to give it.
+
+The best explanation was that these were orphaned or otherwise unreachable metadata records, or records visible to the filesystem verifier but not exposed through normal namespace lookup. That was an inference, not a diagnosis, but it fit the evidence better than four damaged user files hiding somewhere in the tree.
+
+## Recovery did the right thing
+
+Apple's [First Aid instructions](https://support.apple.com/102611) recommend starting in macOS Recovery when repairing the startup disk. On Apple silicon, Recovery is also the supported environment for repairing internal storage, as described in the [macOS Tahoe Recovery guide](https://support.apple.com/guide/mac-help/intro-to-macos-recovery-mchl46d531d6/26/mac/26).
+
+I shut down, held the power button, entered Options, opened Disk Utility, enabled Show All Devices, and ran First Aid against `Macintosh HD - Data`.
+
+The visible Recovery output read:
+
+```text
+Volume was successfully unmounted.
+Performing fsck_apfs -y -x /dev/rdisk3s1
+Checking the container superblock.
+Checking the checkpoint with transaction ID 9013470.
+Checking the space manager.
+Checking the space manager free queue trees.
+Checking the object map.
+Checking the encryption key structures.
+Checking volume /dev/rdisk3s1.
+Checking the APFS volume superblock.
+The volume Macintosh HD - Data was formatted by newfs_apfs (2317.81.2)
+and last modified by apfs_kext (2811.120.14.0.1).
+Checking the object map.
+Checking the snapshot metadata tree.
+Checking the snapshot metadata.
+Checking the document ID tree.
+Checking the fsroot tree.
+warning: inode (id 9511085): Resource Fork xattr is missing or empty for compressed file
+warning: inode (id 18982417): xf 1/3: INO_EXT_TYPE_PURGEABLE_FLAGS: found purgeable flags xfield even though the file is marked as purgeable
+warning: inode (id 23577853): Resource Fork xattr is missing or empty for compressed file
+warning: inode (id 34250893): Resource Fork xattr is missing or empty for compressed file
+Checking the extent ref tree.
+Checking the file key rolling tree.
+Verifying volume object map space.
+The volume /dev/rdisk3s1 with UUID 0CAA24B1-8C24-4EF5-8654-6BE35BF1B683
+was found to be corrupt and needs to be repaired.
+Verifying allocated space.
+```
+
+This run was materially different. Disk Utility successfully unmounted the volume and invoked:
+
+```text
+fsck_apfs -y -x /dev/rdisk3s1
+```
+
+The live check had used `-n`; Recovery used `-y`. It had exclusive access to the Data volume and permission to repair it. The same four warnings appeared during the scan, followed by the same statement that the volume was corrupt and needed repair. First Aid completed without a hard failure, and I rebooted.
+
+At that point I expected the warnings to be gone. We had used the right environment, the volume had been unmounted, and the repair-capable mode had run.
+
+## Success was not the same as clean
+
+Back in macOS, I ran one more verification. All four inode IDs returned. The Resource Fork warnings were unchanged. The purgeable-flag warning was unchanged. `fsck_apfs` again called the volume corrupt, then Disk Utility again said it appeared to be OK and returned exit code 0.
+
+Recovery had not durably cleared the condition.
+
+The apparent contradiction now had a concrete explanation. `-y` allows `fsck_apfs` to make repairs, but it does not promise that every warning has a supported repair. Without `-W`, those warnings are nonfatal for exit-status purposes. Disk Utility can therefore complete a repair-capable pass successfully even when the next verification finds the same warning records.
+
+The UI's success state answered "Did First Aid finish?" It did not answer "Is the next verification clean?" We had treated those as the same question.
+
+## Where I stopped
+
+Apple's support guidance says that if Disk Utility finds errors it cannot repair, the next definitive step is to erase the disk. That would rebuild the filesystem metadata, but it is a disproportionate response for a machine with no user-visible symptoms, verified storage hardware, a clean system volume, and four stable warnings that Recovery First Aid could not resolve.
+
+I also could not find these exact diagnostics documented in Apple's public support material or the [macOS Tahoe 26 release notes](https://developer.apple.com/documentation/macos-release-notes/macos-26-release-notes). The sensible next escalation is Apple Support or Feedback Assistant with the evidence already collected:
+
+- macOS Tahoe 26.5.1, build 25F80
+- `fsck_apfs` version 2811.120.14.0.1
+- the four persistent inode IDs
+- the Recovery screenshot showing an unmounted `-y` run
+- a post-Recovery verification reproducing the condition
+
+Until there are symptoms or evidence of broader damage, I am not repeating First Aid and I am not erasing a working machine to make four warnings disappear. I am keeping current backups and watching for changes.
+
+The useful lesson was not a clever APFS repair command. It was a verification habit. When a filesystem tool says it repaired something, rerun the check from a clean boot and compare the exact diagnostics. A successful process exit tells you the process completed under its rules. It does not always tell you the condition you cared about is gone.

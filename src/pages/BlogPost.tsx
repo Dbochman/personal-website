@@ -12,6 +12,7 @@ import {
 import { Comments } from '@/components/blog/Comments';
 import { RelatedPosts } from '@/components/blog/RelatedPosts';
 import { TransitionLink } from '@/hooks/useViewTransition';
+import { formatBlogDate } from '@/lib/blog-utils';
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -169,11 +170,7 @@ export default function BlogPost() {
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4" />
                   <time dateTime={post.date}>
-                    {new Date(post.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
+                    {formatBlogDate(post.date)}
                   </time>
                 </div>
 
@@ -184,11 +181,7 @@ export default function BlogPost() {
 
                 {post.updated && (
                   <div className="text-xs">
-                    Updated: {new Date(post.updated).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
+                    Updated: {formatBlogDate(post.updated)}
                   </div>
                 )}
               </div>

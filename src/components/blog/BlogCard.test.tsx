@@ -39,9 +39,7 @@ describe('BlogCard', () => {
 
   it('displays formatted date', () => {
     renderWithRouter(<BlogCard post={mockPost} />);
-    // Date might be off by one day due to timezone, so just check for 2026
-    const dateElement = screen.getByText(/2026/i);
-    expect(dateElement).toBeInTheDocument();
+    expect(screen.getByText('January 7, 2026')).toBeInTheDocument();
   });
 
   it('displays reading time', () => {

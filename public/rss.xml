@@ -5,13 +5,23 @@
     <link>https://dylanbochman.com/blog</link>
     <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Jun 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jun 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://dylanbochman.com/social-preview.png</url>
       <title>Dylan Bochman - Blog</title>
       <link>https://dylanbochman.com/blog</link>
     </image>
+    <item>
+      <title>Disk Utility said it fixed my Mac. fsck_apfs disagreed.</title>
+      <link>https://dylanbochman.com/blog/2026-06-21-disk-utility-said-it-fixed-my-mac</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-06-21-disk-utility-said-it-fixed-my-mac</guid>
+      <description>macOS Tahoe&apos;s Disk Utility reported a successful APFS repair, but the same four inode warnings survived Recovery. The difference was hiding in fsck_apfs flags and one misleading exit code.</description>
+      <pubDate>Sun, 21 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>SRE</category>
+      <category>Tooling</category>
+    </item>
     <item>
       <title>The Dashboard That Measured January</title>
       <link>https://dylanbochman.com/blog/2026-06-12-the-dashboard-that-measured-january</link>
