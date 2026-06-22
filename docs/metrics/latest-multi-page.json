@@ -2,22 +2,22 @@
   {
     "page": "home",
     "url": "https://dylanbochman.com",
-    "performance": 84,
+    "performance": 83,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
     "lcp": "3.5 s",
-    "fcp": "3.1 s",
+    "fcp": "3.0 s",
     "cls": "0",
-    "tbt": "120 ms",
+    "tbt": "200 ms",
     "runs": 3,
     "performanceRange": [
-      70,
+      64,
       85
     ],
     "tbtRangeMs": [
-      122,
-      590
+      178,
+      839
     ]
   },
   {
@@ -28,143 +28,143 @@
     "seo": 100,
     "bestPractices": 100,
     "lcp": "5.0 s",
-    "fcp": "3.0 s",
+    "fcp": "2.9 s",
     "cls": "0",
     "tbt": "170 ms",
     "runs": 3,
     "performanceRange": [
-      62,
-      75
+      63,
+      74
     ],
     "tbtRangeMs": [
-      155,
-      485
+      157,
+      561
     ]
   },
   {
     "page": "blog-post-404",
     "url": "https://dylanbochman.com/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
-    "performance": 72,
+    "performance": 71,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "6.0 s",
+    "lcp": "6.1 s",
     "fcp": "2.9 s",
     "cls": "0",
-    "tbt": "130 ms",
+    "tbt": "170 ms",
     "runs": 3,
     "performanceRange": [
-      69,
-      72
+      71,
+      71
     ],
     "tbtRangeMs": [
-      132,
-      174
+      159,
+      171
     ]
   },
   {
     "page": "projects",
     "url": "https://dylanbochman.com/projects",
-    "performance": 85,
+    "performance": 86,
     "accessibility": 98,
     "seo": 100,
     "bestPractices": 100,
     "lcp": "3.3 s",
-    "fcp": "3.1 s",
+    "fcp": "2.8 s",
     "cls": "0",
     "tbt": "140 ms",
     "runs": 3,
     "performanceRange": [
-      80,
-      86
+      82,
+      88
     ],
     "tbtRangeMs": [
-      124,
-      144
+      139,
+      145
     ]
   },
   {
     "page": "project-slo",
     "url": "https://dylanbochman.com/projects/slo-tool",
-    "performance": 73,
+    "performance": 72,
     "accessibility": 92,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "5.5 s",
+    "lcp": "5.6 s",
     "fcp": "2.9 s",
     "cls": "0",
     "tbt": "150 ms",
     "runs": 3,
     "performanceRange": [
-      73,
-      92
+      72,
+      73
     ],
     "tbtRangeMs": [
-      84,
-      145
+      142,
+      152
     ]
   },
   {
     "page": "project-statuspage",
     "url": "https://dylanbochman.com/projects/statuspage-update",
-    "performance": 78,
-    "accessibility": 96,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "4.3 s",
-    "fcp": "3.1 s",
-    "cls": "0",
-    "tbt": "130 ms",
-    "runs": 3,
-    "performanceRange": [
-      73,
-      82
-    ],
-    "tbtRangeMs": [
-      74,
-      137
-    ]
-  },
-  {
-    "page": "project-oncall",
-    "url": "https://dylanbochman.com/projects/oncall-coverage",
     "performance": 80,
     "accessibility": 96,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.2 s",
+    "lcp": "4.1 s",
     "fcp": "2.9 s",
     "cls": "0",
     "tbt": "130 ms",
     "runs": 3,
     "performanceRange": [
-      79,
+      73,
       83
     ],
     "tbtRangeMs": [
-      117,
-      133
+      135,
+      142
+    ]
+  },
+  {
+    "page": "project-oncall",
+    "url": "https://dylanbochman.com/projects/oncall-coverage",
+    "performance": 77,
+    "accessibility": 96,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "4.5 s",
+    "fcp": "2.9 s",
+    "cls": "0",
+    "tbt": "140 ms",
+    "runs": 3,
+    "performanceRange": [
+      74,
+      84
+    ],
+    "tbtRangeMs": [
+      132,
+      138
     ]
   },
   {
     "page": "runbook",
     "url": "https://dylanbochman.com/runbook",
-    "performance": 81,
+    "performance": 79,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
     "lcp": "4.4 s",
-    "fcp": "2.1 s",
+    "fcp": "2.9 s",
     "cls": "0",
-    "tbt": "150 ms",
+    "tbt": "130 ms",
     "runs": 3,
     "performanceRange": [
-      73,
-      98
+      76,
+      88
     ],
     "tbtRangeMs": [
-      140,
-      229
+      132,
+      147
     ]
   }
 ]
