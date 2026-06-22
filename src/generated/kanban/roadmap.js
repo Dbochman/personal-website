@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "2026-06-21-decap-cms-hook-netlify-build-config-yml",
+          "title": "Blog: Decap CMS hook: netlify-build does not belong in config.yml",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-06-22T00:49:05.000Z",
+          "updatedAt": "2026-06-22T00:49:05.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-22T00:49:05.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "There is no hook: netlify-build setting in Decap CMS. Here is the correct config.yml for Git Gateway, when Netlify rebuilds automatically, and when to use a Netlify build hook."
+        },
+        {
           "id": "remove-duplicate-apfs-transcript",
           "title": "remove duplicate APFS transcript",
           "labels": [
@@ -3288,5 +3307,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-22T00:14:10.998Z"
+  "updatedAt": "2026-06-22T00:49:47.454Z"
 };
