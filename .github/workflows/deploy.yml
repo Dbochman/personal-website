@@ -131,9 +131,10 @@ jobs:
 
           // Budgets: raw file sizes with ~15% headroom to catch regressions
           // Transfer sizes are ~70% smaller due to gzip compression
-          // Note: Mermaid adds ~2MB for diagram support (flowchart, sequence, etc.)
+          // Total JS includes eagerly precompiled blog content, so each post adds to it.
+          // Mermaid adds ~2MB for diagram support (flowchart, sequence, etc.)
           const BUDGETS = {
-            totalJS: 4900 * 1024,     // 4.9MB raw (current ~4.6MB - Mermaid/cytoscape/katex are lazy-loaded)
+            totalJS: 5700 * 1024,     // 5.7MB raw (current ~4.95MB including precompiled posts)
             totalCSS: 150 * 1024,     // 150KB raw (current ~114KB after Tailwind v4 upgrade)
             largestChunk: 600 * 1024, // 600KB raw (current ~552KB)
           };
