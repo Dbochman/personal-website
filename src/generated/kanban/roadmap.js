@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "use-valid-profilepage-datetimes",
+          "title": "use valid ProfilePage datetimes",
+          "labels": [
+            "Bugfix"
+          ],
+          "checklist": [],
+          "createdAt": "2026-06-22T01:06:54.000Z",
+          "updatedAt": "2026-06-22T01:06:54.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-22T01:06:54.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "use valid ProfilePage datetimes"
+        },
+        {
           "id": "2026-06-21-decap-cms-hook-netlify-build-config-yml",
           "title": "Blog: Decap CMS hook: netlify-build does not belong in config.yml",
           "labels": [
@@ -3307,5 +3326,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-22T00:49:47.454Z"
+  "updatedAt": "2026-06-22T01:07:33.586Z"
 };
