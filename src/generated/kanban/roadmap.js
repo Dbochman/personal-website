@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "2026-06-21-disk-utility-said-it-fixed-my-mac",
+          "title": "Blog: Disk Utility said it fixed my Mac. fsck_apfs disagreed.",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-06-22T00:04:31.000Z",
+          "updatedAt": "2026-06-22T00:04:31.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-22T00:04:31.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "macOS Tahoe's Disk Utility reported a successful APFS repair, but the same four inode warnings survived Recovery. The difference was hiding in fsck_apfs flags and one misleading exit code."
+        },
+        {
           "id": "add-median-sampling-follow-up-to-the-gauge-post-bl",
           "title": "add median-sampling follow-up to the gauge post [blog:perf]",
           "labels": [],
@@ -3231,5 +3250,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-13T02:30:33.400Z"
+  "updatedAt": "2026-06-22T00:06:38.504Z"
 };
