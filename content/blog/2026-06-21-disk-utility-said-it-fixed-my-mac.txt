@@ -33,10 +33,7 @@ The important lines from the first run looked like this:
 ```text
 Performing fsck_apfs -n -l -x /dev/rdisk3s1
 
-warning: inode (id 9511085): Resource Fork xattr is missing or empty for compressed file
-warning: inode (id 18982417): xf 1/3: INO_EXT_TYPE_PURGEABLE_FLAGS: found purgeable flags xfield even though the file is marked as purgeable
-warning: inode (id 23577853): Resource Fork xattr is missing or empty for compressed file
-warning: inode (id 34250893): Resource Fork xattr is missing or empty for compressed file
+[the four inode warnings]
 
 The volume /dev/rdisk3s1 was found to be corrupt and needs to be repaired.
 The volume /dev/rdisk3s1 appears to be OK.
@@ -71,7 +68,7 @@ The rest of the evidence was less dramatic:
 - The machine showed no physical I/O or media errors after boot.
 - The Data volume had about 104 GiB free and no Data-volume snapshots.
 
-That did not prove the SSD was perfect. It did narrow the failure. This looked like a small set of persistent filesystem metadata records, not a disk that was broadly failing to read or write data.
+That did not prove the SSD was perfect. It did narrow the failure. The evidence pointed to a small set of persistent filesystem metadata records. Nothing suggested that disk reads or writes were failing broadly.
 
 ## The files that did not exist
 
@@ -79,7 +76,7 @@ The next idea was to identify the files behind those inode numbers. A normal `fi
 
 That result changed the available options. If an inode has no reachable directory entry, there is no ordinary pathname to inspect, decompress, copy, or delete. Running `rm` against a guessed file was never going to be a repair strategy because there was no file path to give it.
 
-The best explanation was that these were orphaned or otherwise unreachable metadata records, or records visible to the filesystem verifier but not exposed through normal namespace lookup. That was an inference, not a diagnosis, but it fit the evidence better than four damaged user files hiding somewhere in the tree.
+The best explanation was that these were orphaned or otherwise unreachable metadata records, or records visible to the filesystem verifier but not exposed through normal namespace lookup. I could not prove that with the available tools, but it fit the evidence better than four damaged user files hiding somewhere in the tree.
 
 ## Recovery did the right thing
 
