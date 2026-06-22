@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "restore-bundle-budget-headroom",
+          "title": "restore bundle budget headroom",
+          "labels": [
+            "Bugfix"
+          ],
+          "checklist": [],
+          "createdAt": "2026-06-22T00:12:05.000Z",
+          "updatedAt": "2026-06-22T00:12:05.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-22T00:12:05.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "restore bundle budget headroom"
+        },
+        {
           "id": "2026-06-21-disk-utility-said-it-fixed-my-mac",
           "title": "Blog: Disk Utility said it fixed my Mac. fsck_apfs disagreed.",
           "labels": [
@@ -3250,5 +3269,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-22T00:06:38.504Z"
+  "updatedAt": "2026-06-22T00:12:44.150Z"
 };
