@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "scope-profilepage-schema-to-homepage",
+          "title": "scope ProfilePage schema to homepage",
+          "labels": [
+            "Bugfix"
+          ],
+          "checklist": [],
+          "createdAt": "2026-06-22T02:17:39.000Z",
+          "updatedAt": "2026-06-22T02:17:39.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-22T02:17:39.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "scope ProfilePage schema to homepage"
+        },
+        {
           "id": "use-valid-profilepage-datetimes",
           "title": "use valid ProfilePage datetimes",
           "labels": [
@@ -3326,5 +3345,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-22T01:07:33.586Z"
+  "updatedAt": "2026-06-22T02:18:19.938Z"
 };
