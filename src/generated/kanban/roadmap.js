@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "remove-duplicate-apfs-transcript",
+          "title": "remove duplicate APFS transcript",
+          "labels": [
+            "Bugfix"
+          ],
+          "checklist": [],
+          "createdAt": "2026-06-22T00:13:30.000Z",
+          "updatedAt": "2026-06-22T00:13:30.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-22T00:13:30.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "remove duplicate APFS transcript"
+        },
+        {
           "id": "restore-bundle-budget-headroom",
           "title": "restore bundle budget headroom",
           "labels": [
@@ -3269,5 +3288,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-22T00:12:44.150Z"
+  "updatedAt": "2026-06-22T00:14:10.998Z"
 };
