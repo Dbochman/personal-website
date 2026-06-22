@@ -13,6 +13,7 @@ const { legacyRedirects: HARDCODED_LEGACY_REDIRECTS } = JSON.parse(
 );
 
 const MIN_CANONICAL_SIZE = 10_000;
+const ISO_DATETIME_WITH_TIMEZONE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/;
 
 function fail(message) {
   console.error(`❌ ${message}`);
@@ -57,6 +58,55 @@ function assertCanonicalArtifact(artifactPath, label) {
   }
 }
 
+function extractJsonLd(contents, label) {
+  const items = [];
+  const scripts = contents.matchAll(
+    /<script\b[^>]*type=["']application\/ld\+json["'][^>]*>\s*([\s\S]*?)\s*<\/script>/gi
+  );
+
+  for (const match of scripts) {
+    try {
+      const parsed = JSON.parse(match[1]);
+      if (Array.isArray(parsed)) {
+        items.push(...parsed);
+      } else if (Array.isArray(parsed?.['@graph'])) {
+        items.push(...parsed['@graph']);
+      } else {
+        items.push(parsed);
+      }
+    } catch (error) {
+      fail(`${label} contains invalid JSON-LD: ${error.message}`);
+    }
+  }
+
+  return items;
+}
+
+function assertProfilePageScope(artifactPath, pathname) {
+  const contents = readFileSync(artifactPath, 'utf8');
+  const profilePages = extractJsonLd(contents, artifactPath)
+    .filter(item => item?.['@type'] === 'ProfilePage');
+
+  if (pathname !== '/') {
+    if (profilePages.length > 0) {
+      fail(`ProfilePage JSON-LD must only appear on the homepage, found on ${pathname}`);
+    }
+    return;
+  }
+
+  if (profilePages.length !== 1) {
+    fail(`Homepage must contain exactly one ProfilePage JSON-LD block, found ${profilePages.length}`);
+    return;
+  }
+
+  for (const property of ['dateCreated', 'dateModified']) {
+    const value = profilePages[0][property];
+    if (!ISO_DATETIME_WITH_TIMEZONE.test(value) || Number.isNaN(Date.parse(value))) {
+      fail(`Homepage ProfilePage ${property} must be an ISO 8601 DateTime with timezone: ${value}`);
+    }
+  }
+}
+
 function manifestLegacyRedirects() {
   if (!existsSync(blogManifestPath)) return [];
 
@@ -94,7 +144,9 @@ if (!existsSync(sitemapPath)) {
       fail(`Sitemap URL should be slashless to avoid GitHub Pages directory redirects: ${url}`);
     }
 
-    assertCanonicalArtifact(canonicalArtifactPath(pathname), `Sitemap canonical artifact for ${url}`);
+    const artifactPath = canonicalArtifactPath(pathname);
+    assertCanonicalArtifact(artifactPath, `Sitemap canonical artifact for ${url}`);
+    assertProfilePageScope(artifactPath, pathname);
 
     // Every non-root sitemap route also needs a trailing-slash redirect artifact.
     // Without it, GitHub Pages returns 404 for inbound /foo/ URLs (it serves
@@ -125,7 +177,7 @@ if (!existsSync(sitemapPath)) {
 
   if (!process.exitCode) {
     console.log(
-      `✅ Verified ${urls.length} sitemap canonicals, ${trailingSlashChecks} trailing-slash redirects, and ${legacyRedirects.length} legacy slug redirects`
+      `✅ Verified ${urls.length} sitemap canonicals, homepage-only ProfilePage JSON-LD, ${trailingSlashChecks} trailing-slash redirects, and ${legacyRedirects.length} legacy slug redirects`
     );
   }
 }

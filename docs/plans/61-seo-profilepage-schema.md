@@ -4,7 +4,7 @@ Add ProfilePage schema to the homepage to improve Google's understanding of the 
 
 ## Goal
 
-Implement ProfilePage structured data on the homepage (`index.html`) to:
+Implement ProfilePage structured data on the homepage route (`src/pages/Index.tsx`) to:
 - Help Google understand Dylan as the creator/owner of the site
 - Enable potential "Perspectives" filter appearances in search
 - Link to external profiles (LinkedIn, GitHub) for identity verification
@@ -25,8 +25,8 @@ The homepage already has a `Person` schema. ProfilePage wraps it with additional
 {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
-  "dateCreated": "2026-01-04",
-  "dateModified": "2026-01-28",
+  "dateCreated": "2026-01-04T00:00:00-05:00",
+  "dateModified": "2026-01-28T20:28:24-05:00",
   "mainEntity": {
     "@type": "Person",
     "name": "Dylan Bochman",
@@ -71,8 +71,8 @@ The homepage already has a `Person` schema. ProfilePage wraps it with additional
 
 | Property | Value | Notes |
 |----------|-------|-------|
-| `dateCreated` | 2026-01-04 | Site launch date |
-| `dateModified` | Dynamic or build date | Last content update |
+| `dateCreated` | 2026-01-04T00:00:00-05:00 | Site launch date and time |
+| `dateModified` | 2026-01-28T20:28:24-05:00 | Last human-edited profile metadata change |
 | `mainEntity.alternateName` | Dbochman, @dylanbochman | Social handles |
 | `mainEntity.identifier` | dylanbochman | Site-specific ID |
 | `mainEntity.description` | Job title + specialty | Credentials/byline |
@@ -81,17 +81,17 @@ The homepage already has a `Person` schema. ProfilePage wraps it with additional
 
 ## Implementation
 
-### Option A: Enhance index.html (Recommended)
+### Option A: Add route-specific metadata in Index.tsx (Recommended)
 
-Replace the existing Person schema with ProfilePage that wraps Person:
+Render ProfilePage through Helmet on the homepage route so it does not leak into blog, project, or tool pages:
 
 ```html
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
-  "dateCreated": "2026-01-04",
-  "dateModified": "2026-01-28",
+  "dateCreated": "2026-01-04T00:00:00-05:00",
+  "dateModified": "2026-01-28T20:28:24-05:00",
   "mainEntity": {
     "@type": "Person",
     "name": "Dylan Bochman",
@@ -113,7 +113,8 @@ Keep existing Person schema and add a separate ProfilePage schema. Less clean bu
 
 | File | Change |
 |------|--------|
-| `index.html` | Update Person schema → ProfilePage wrapper |
+| `src/pages/Index.tsx` | Add homepage-only ProfilePage JSON-LD through Helmet |
+| `index.html` | Keep the shared HTML shell free of route-specific JSON-LD |
 
 ## Verification
 
@@ -133,4 +134,4 @@ Keep existing Person schema and add a separate ProfilePage schema. Less clean bu
 
 - [ProfilePage Structured Data](https://developers.google.com/search/docs/appearance/structured-data/profile-page)
 - [Rich Results Test](https://search.google.com/test/rich-results)
-- Existing schema: `index.html` lines 75-120
+- Homepage schema: `src/pages/Index.tsx`

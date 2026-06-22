@@ -9,6 +9,68 @@ import Sidebar from "@/components/Sidebar";
 import { NavigationContext } from "@/context/NavigationContext";
 import Seo from "@/components/Seo";
 import { coreExpertise } from "@/data/expertise";
+import { Helmet } from "react-helmet-async";
+
+const profilePageStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  dateCreated: "2026-01-04T00:00:00-05:00",
+  dateModified: "2026-01-28T20:28:24-05:00",
+  mainEntity: {
+    "@type": "Person",
+    name: "Dylan Bochman",
+    givenName: "Dylan",
+    familyName: "Bochman",
+    alternateName: ["Dbochman"],
+    identifier: "dylanbochman",
+    url: "https://dylanbochman.com",
+    image: "https://dylanbochman.com/social-preview.webp",
+    description: "Site Reliability Engineer and Technical Incident Manager specializing in reliability, incident management, and SLO monitoring. Currently at Groq, previously at HashiCorp and Spotify.",
+    jobTitle: "Site Reliability Engineer & Technical Incident Manager",
+    worksFor: {
+      "@type": "Organization",
+      name: "Groq",
+      url: "https://groq.com",
+    },
+    alumniOf: [
+      {
+        "@type": "Organization",
+        name: "HashiCorp",
+        url: "https://hashicorp.com",
+      },
+      {
+        "@type": "Organization",
+        name: "Spotify",
+        url: "https://spotify.com",
+      },
+    ],
+    knowsAbout: [
+      "Site Reliability Engineering",
+      "Incident Management",
+      "DevOps",
+      "System Reliability",
+      "Post-Incident Analysis",
+      "SLO Monitoring",
+      "Infrastructure Reliability",
+      "Operational Readiness",
+      "Service Level Objectives",
+      "On-Call Management",
+    ],
+    hasOccupation: {
+      "@type": "Occupation",
+      name: "Site Reliability Engineer",
+      occupationLocation: {
+        "@type": "Country",
+        name: "United States",
+      },
+      skills: "SRE, Incident Management, SLO Monitoring, Infrastructure Reliability, DevOps",
+    },
+    sameAs: [
+      "https://www.linkedin.com/in/dbochman",
+      "https://github.com/Dbochman",
+    ],
+  },
+};
 
 const Index = () => {
   const [openAccordion, setOpenAccordion] = useState("");
@@ -25,6 +87,11 @@ const Index = () => {
         keywords={coreExpertise.map(item => item.title)}
         url="/"
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(profilePageStructuredData)}
+        </script>
+      </Helmet>
       <PageLayout>
         {/* Hero Section */}
         <HeroSection />
