@@ -40,6 +40,7 @@ jobs:
           while IFS= read -r file; do
             case "$file" in
               content/blog/*.txt|content/kanban/*.md|content/kanban/**/*.md) ;;
+              docs/metrics/*.json) ;;
               src/generated/*) ;;
               public/rss.xml|public/sitemap.xml|public/atom.xml) ;;
               public/og-images/*) ;;

@@ -175,7 +175,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # A PAT is required here because pushes made with GITHUB_TOKEN do not
+          # trigger the push-based deployment workflow.
+          token: ${{ secrets.DEPLOY_TOKEN }}
 
       - name: Download all artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -240,7 +242,7 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add docs/metrics/
-          git diff --staged --quiet || git commit -m "chore: daily analytics update"
+          git diff --staged --quiet || git commit -m "chore: daily analytics update [skip-changelog]"
           git push
 
       - name: Check for anomalies
