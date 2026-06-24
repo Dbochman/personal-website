@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "correct-search-console-collection",
+          "title": "correct Search Console collection",
+          "labels": [
+            "Bugfix"
+          ],
+          "checklist": [],
+          "createdAt": "2026-06-24T00:11:28.000Z",
+          "updatedAt": "2026-06-24T00:11:28.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-06-24T00:11:28.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "correct Search Console collection"
+        },
+        {
           "id": "deploy-daily-analytics-updates",
           "title": "deploy daily analytics updates",
           "labels": [
@@ -3364,5 +3383,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-23T23:42:33.353Z"
+  "updatedAt": "2026-06-24T00:12:12.213Z"
 };
