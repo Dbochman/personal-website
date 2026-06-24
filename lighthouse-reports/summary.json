@@ -2,64 +2,64 @@
   {
     "page": "home",
     "url": "https://dylanbochman.com",
-    "performance": 85,
+    "performance": 84,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "3.2 s",
-    "fcp": "2.9 s",
+    "lcp": "3.4 s",
+    "fcp": "3.0 s",
     "cls": "0",
-    "tbt": "190 ms",
+    "tbt": "180 ms",
     "runs": 3,
     "performanceRange": [
-      83,
-      87
+      59,
+      84
     ],
     "tbtRangeMs": [
-      190,
-      207
+      178,
+      709
     ]
   },
   {
     "page": "blog",
     "url": "https://dylanbochman.com/blog",
-    "performance": 74,
+    "performance": 75,
     "accessibility": 96,
     "seo": 100,
     "bestPractices": 100,
     "lcp": "5.0 s",
     "fcp": "2.9 s",
     "cls": "0",
-    "tbt": "180 ms",
+    "tbt": "170 ms",
     "runs": 3,
     "performanceRange": [
-      74,
-      74
+      63,
+      75
     ],
     "tbtRangeMs": [
-      175,
-      180
+      148,
+      497
     ]
   },
   {
     "page": "blog-post-404",
     "url": "https://dylanbochman.com/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
-    "performance": 71,
+    "performance": 73,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "6.0 s",
+    "lcp": "5.5 s",
     "fcp": "3.0 s",
     "cls": "0",
-    "tbt": "150 ms",
+    "tbt": "140 ms",
     "runs": 3,
     "performanceRange": [
-      71,
-      73
+      72,
+      74
     ],
     "tbtRangeMs": [
-      148,
-      155
+      139,
+      154
     ]
   },
   {
@@ -72,99 +72,99 @@
     "lcp": "3.2 s",
     "fcp": "2.8 s",
     "cls": "0",
-    "tbt": "150 ms",
+    "tbt": "130 ms",
     "runs": 3,
     "performanceRange": [
-      86,
-      87
+      83,
+      88
     ],
     "tbtRangeMs": [
-      139,
-      156
+      126,
+      135
     ]
   },
   {
     "page": "project-slo",
     "url": "https://dylanbochman.com/projects/slo-tool",
-    "performance": 72,
+    "performance": 73,
     "accessibility": 92,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "5.7 s",
-    "fcp": "3.0 s",
+    "lcp": "5.6 s",
+    "fcp": "2.9 s",
     "cls": "0",
-    "tbt": "140 ms",
+    "tbt": "150 ms",
     "runs": 3,
     "performanceRange": [
-      70,
+      72,
       73
     ],
     "tbtRangeMs": [
-      137,
-      220
+      139,
+      149
     ]
   },
   {
     "page": "project-statuspage",
     "url": "https://dylanbochman.com/projects/statuspage-update",
-    "performance": 79,
+    "performance": 80,
     "accessibility": 96,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.2 s",
-    "fcp": "3.0 s",
-    "cls": "0",
-    "tbt": "150 ms",
-    "runs": 3,
-    "performanceRange": [
-      78,
-      82
-    ],
-    "tbtRangeMs": [
-      140,
-      153
-    ]
-  },
-  {
-    "page": "project-oncall",
-    "url": "https://dylanbochman.com/projects/oncall-coverage",
-    "performance": 83,
-    "accessibility": 96,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "3.7 s",
-    "fcp": "2.9 s",
-    "cls": "0",
-    "tbt": "130 ms",
-    "runs": 3,
-    "performanceRange": [
-      76,
-      83
-    ],
-    "tbtRangeMs": [
-      133,
-      143
-    ]
-  },
-  {
-    "page": "runbook",
-    "url": "https://dylanbochman.com/runbook",
-    "performance": 79,
-    "accessibility": 100,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "4.3 s",
+    "lcp": "4.1 s",
     "fcp": "2.9 s",
     "cls": "0",
     "tbt": "140 ms",
     "runs": 3,
     "performanceRange": [
-      78,
+      79,
+      85
+    ],
+    "tbtRangeMs": [
+      132,
+      151
+    ]
+  },
+  {
+    "page": "project-oncall",
+    "url": "https://dylanbochman.com/projects/oncall-coverage",
+    "performance": 79,
+    "accessibility": 96,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "4.4 s",
+    "fcp": "2.9 s",
+    "cls": "0",
+    "tbt": "130 ms",
+    "runs": 3,
+    "performanceRange": [
+      73,
+      80
+    ],
+    "tbtRangeMs": [
+      131,
+      151
+    ]
+  },
+  {
+    "page": "runbook",
+    "url": "https://dylanbochman.com/runbook",
+    "performance": 80,
+    "accessibility": 100,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "4.3 s",
+    "fcp": "2.8 s",
+    "cls": "0",
+    "tbt": "130 ms",
+    "runs": 3,
+    "performanceRange": [
+      79,
       81
     ],
     "tbtRangeMs": [
-      136,
-      155
+      132,
+      153
     ]
   }
 ]
