@@ -252,14 +252,21 @@ image: ""
 ```
 
 ### Tags to Consider
-- AI Development
-- Web Development
-- Reliability
-- Monitoring
+
+Prefer an existing filter label exactly as written instead of introducing a synonym.
+
+- AI
+- Architecture
+- CI/CD
+- Incident Management
+- Meta
+- Music
+- Performance
+- Python
+- Security
 - SRE
 - Tooling
-- CMS
-- Meta
+- Web Dev
 
 ### Author Field
 Always "Dylan Bochman" — this is his site and professional identity. The italic opening line clarifies that Claude wrote the post.
