@@ -21,79 +21,26 @@ import { google } from 'googleapis';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import {
+  FRESHNESS_LOOKBACK_DAYS,
+  HISTORY_RETENTION_DAYS,
+  SEARCH_ANALYTICS_PAGE_SIZE,
+  SEARCH_WINDOW_DAYS,
+  addDays,
+  aggregateRows,
+  buildDateRange,
+  buildDetailCoverage,
+  buildRollingHistory,
+  fetchAllRows,
+  formatDateInTimeZone,
+  resolveLatestFinalDate,
+} from './search-console-utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const HISTORY_FILE = path.join(__dirname, '../docs/metrics/search-console-history.json');
 const SITE_URL = 'sc-domain:dylanbochman.com'; // or 'https://dylanbochman.com'
-const DATA_STATE = 'all'; // fresher data, may include low-volume queries hidden by 'final'
-
-function round(value, decimals) {
-  const multiplier = 10 ** decimals;
-  return Math.round(value * multiplier) / multiplier;
-}
-
-function asPercent(ctrRatio) {
-  return round((ctrRatio || 0) * 100, 2);
-}
-
-function weightedAveragePosition(entries) {
-  const weightedTotal = entries.reduce((sum, entry) => {
-    const impressions = entry.impressions || 0;
-    return sum + ((entry.position || 0) * impressions);
-  }, 0);
-  const impressionsTotal = entries.reduce((sum, entry) => sum + (entry.impressions || 0), 0);
-
-  return impressionsTotal > 0
-    ? round(weightedTotal / impressionsTotal, 1)
-    : 0;
-}
-
-function summarizeRows(rows) {
-  const clicks = rows.reduce((sum, row) => sum + (row.clicks || 0), 0);
-  const impressions = rows.reduce((sum, row) => sum + (row.impressions || 0), 0);
-
-  return {
-    clicks,
-    impressions,
-    ctr: impressions > 0 ? clicks / impressions : 0,
-    position: weightedAveragePosition(rows),
-  };
-}
-
-function aggregateRows(rows, keyIndex, label) {
-  const byKey = new Map();
-
-  for (const row of rows) {
-    const key = row.keys?.[keyIndex];
-    if (!key) continue;
-
-    const current = byKey.get(key) ?? {
-      [label]: key,
-      clicks: 0,
-      impressions: 0,
-      weightedPosition: 0,
-    };
-
-    current.clicks += row.clicks || 0;
-    current.impressions += row.impressions || 0;
-    current.weightedPosition += (row.position || 0) * (row.impressions || 0);
-    byKey.set(key, current);
-  }
-
-  return Array.from(byKey.values())
-    .map(({ weightedPosition, ...entry }) => ({
-      ...entry,
-      ctr: entry.impressions > 0 ? entry.clicks / entry.impressions : 0,
-      position: entry.impressions > 0 ? round(weightedPosition / entry.impressions, 1) : 0,
-    }))
-    .sort((a, b) => (
-      b.clicks - a.clicks ||
-      b.impressions - a.impressions ||
-      a.position - b.position
-    ));
-}
 
 function readHistory() {
   if (!fs.existsSync(HISTORY_FILE)) {
@@ -108,7 +55,7 @@ function writeHistory(history) {
 }
 
 function updateMetricsSummaryFromEntry(dataEntry) {
-  updateMetricsSummary(dataEntry.summary, dataEntry.timestamp);
+  updateMetricsSummary(dataEntry.summary, dataEntry.collectedAt ?? dataEntry.timestamp);
 }
 
 async function fetchSearchConsoleData() {
@@ -134,89 +81,102 @@ async function fetchSearchConsoleData() {
       auth: await auth.getClient(),
     });
 
-    // Get data for last 7 days
-    const endDate = new Date();
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 7);
+    const query = (params) => searchconsole.searchanalytics.query(params);
+    const collectedAt = new Date().toISOString();
+    const todayInPacific = formatDateInTimeZone(new Date());
+    const freshnessRange = buildDateRange(todayInPacific, FRESHNESS_LOOKBACK_DAYS);
 
-    const formatDate = (date) => date.toISOString().split('T')[0];
-
-    console.log(`📊 Fetching Search Console data from ${formatDate(startDate)} to ${formatDate(endDate)}...`);
-
-    const commonRequest = {
-      startDate: formatDate(startDate),
-      endDate: formatDate(endDate),
-      dataState: DATA_STATE,
-    };
-
-    // Fetch authoritative summary metrics separately from dimensional rows.
-    const summaryResponse = await searchconsole.searchanalytics.query({
-      siteUrl: SITE_URL,
-      requestBody: commonRequest,
-    });
-
-    // Fetch dimensional rows for top queries/pages.
-    const detailResponse = await searchconsole.searchanalytics.query({
+    // Search Console exposes the first incomplete date only for fresh data
+    // grouped by date. Use it to choose the newest fully finalized day.
+    const freshnessResponse = await query({
       siteUrl: SITE_URL,
       requestBody: {
-        ...commonRequest,
-        dimensions: ['query', 'page'],
-        rowLimit: 100,
+        startDate: freshnessRange.start,
+        endDate: freshnessRange.end,
+        dataState: 'all',
+        dimensions: ['date'],
+        rowLimit: SEARCH_ANALYTICS_PAGE_SIZE,
       },
     });
+    const latestFinalDate = resolveLatestFinalDate(freshnessResponse.data);
+    const reportingPeriod = buildDateRange(latestFinalDate, SEARCH_WINDOW_DAYS);
 
-    // Extract metrics
-    const rows = detailResponse.data.rows || [];
-    const summaryRow = summaryResponse.data.rows?.[0];
-    const rowSummary = summarizeRows(rows);
-    const totalClicks = summaryRow?.clicks ?? rowSummary.clicks;
-    const totalImpressions = summaryRow?.impressions ?? rowSummary.impressions;
-    const avgCTR = summaryRow?.ctr ?? rowSummary.ctr;
-    const avgPosition = summaryRow?.position ?? rowSummary.position;
+    console.log(
+      `📊 Fetching finalized Search Console data from ${reportingPeriod.start} to ${reportingPeriod.end}...`
+    );
 
-    // Get top queries and pages
-    const topQueries = aggregateRows(rows, 0, 'query').slice(0, 10);
-    const topPagesArray = aggregateRows(rows, 1, 'page').slice(0, 10);
-
-    // Create data entry
-    const dataEntry = {
-      timestamp: new Date().toISOString(),
-      date: new Date().toISOString().split('T')[0],
-      period: {
-        start: formatDate(startDate),
-        end: formatDate(endDate),
+    // Fetch enough finalized daily totals to rebuild one year of exact rolling
+    // seven-day summaries. Date-only grouping provides authoritative totals.
+    const firstHistoryEndDate = addDays(latestFinalDate, -(HISTORY_RETENTION_DAYS - 1));
+    const dailyHistoryStartDate = addDays(firstHistoryEndDate, -(SEARCH_WINDOW_DAYS - 1));
+    const dailyRowsPromise = fetchAllRows({
+      query,
+      siteUrl: SITE_URL,
+      requestBody: {
+        startDate: dailyHistoryStartDate,
+        endDate: latestFinalDate,
+        dataState: 'final',
       },
-      summary: {
-        totalClicks,
-        totalImpressions,
-        averageCTR: asPercent(avgCTR),
-        averagePosition: round(avgPosition, 1),
-      },
-      topQueries,
-      topPages: topPagesArray,
+      dimensions: ['date'],
+    });
+
+    // Query and page dimensions must be fetched independently. Combining them
+    // makes each row a query/page pair and biases both top-ten lists.
+    const detailRequest = {
+      startDate: reportingPeriod.start,
+      endDate: reportingPeriod.end,
+      dataState: 'final',
     };
+    const queryRowsPromise = fetchAllRows({
+      query,
+      siteUrl: SITE_URL,
+      requestBody: detailRequest,
+      dimensions: ['query'],
+    });
+    const pageRowsPromise = fetchAllRows({
+      query,
+      siteUrl: SITE_URL,
+      requestBody: detailRequest,
+      dimensions: ['page'],
+    });
 
-    // Read existing history
-    let history = readHistory();
+    const [dailyRows, queryRows, pageRows] = await Promise.all([
+      dailyRowsPromise,
+      queryRowsPromise,
+      pageRowsPromise,
+    ]);
+    const history = buildRollingHistory({
+      dailyRows,
+      latestFinalDate,
+    });
+    const dataEntry = history[history.length - 1];
 
-    const existingIndex = history.findIndex(entry => entry.date === dataEntry.date);
-    if (existingIndex !== -1) {
-      history[existingIndex] = dataEntry;
-      console.log(`📝 Updated existing entry for ${dataEntry.date}`);
-    } else {
-      history.push(dataEntry);
+    if (!dataEntry) {
+      throw new Error('Could not build Search Console history from finalized data');
     }
 
-    // Keep only last 52 entries (1 year of weekly data)
-    if (history.length > 52) {
-      history = history.slice(-52);
-    }
+    dataEntry.collectedAt = collectedAt;
+    dataEntry.detailCoverage = {
+      queries: buildDetailCoverage(queryRows, dataEntry.summary.totalImpressions),
+      pages: buildDetailCoverage(pageRows, dataEntry.summary.totalImpressions),
+    };
+    dataEntry.topQueries = aggregateRows(queryRows, 0, 'query').slice(0, 10);
+    dataEntry.topPages = aggregateRows(pageRows, 0, 'page').slice(0, 10);
 
-    // Write updated history
+    // Replace the legacy fresh/eight-day snapshots with a deterministic year
+    // of finalized, exact seven-day windows.
     writeHistory(history);
 
     console.log('✅ Search Console data saved to history');
-    console.log(`📈 Clicks: ${totalClicks}, Impressions: ${totalImpressions}, Avg Position: ${round(avgPosition, 1)}`);
+    console.log(
+      `📈 Clicks: ${dataEntry.summary.totalClicks}, ` +
+      `Impressions: ${dataEntry.summary.totalImpressions}, ` +
+      `Avg Position: ${dataEntry.summary.averagePosition}`
+    );
+    console.log(
+      `🔎 Detail coverage: ${dataEntry.detailCoverage.queries.impressionShare}% queries, ` +
+      `${dataEntry.detailCoverage.pages.impressionShare}% pages`
+    );
     console.log(`📊 Total historical entries: ${history.length}`);
 
     // Update the metrics summary

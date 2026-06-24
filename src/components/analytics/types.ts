@@ -91,7 +91,10 @@ export interface GA4HistoryEntry {
 
 export interface SearchConsoleHistoryEntry {
   timestamp: string;
+  collectedAt?: string;
   date: string;
+  dataState?: 'final';
+  windowDays?: number;
   period: {
     start: string;
     end: string;
@@ -101,6 +104,10 @@ export interface SearchConsoleHistoryEntry {
     totalImpressions: number;
     averageCTR: number;
     averagePosition: number;
+  };
+  detailCoverage?: {
+    queries: SearchConsoleDetailCoverage;
+    pages: SearchConsoleDetailCoverage;
   };
   topQueries?: Array<{
     query: string;
@@ -116,6 +123,13 @@ export interface SearchConsoleHistoryEntry {
     ctr: number;
     position: number;
   }>;
+}
+
+interface SearchConsoleDetailCoverage {
+  rowCount: number;
+  clicks: number;
+  impressions: number;
+  impressionShare: number;
 }
 
 export interface LighthousePageScore {
