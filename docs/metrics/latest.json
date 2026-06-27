@@ -1,93 +1,93 @@
 {
-  "generated": "2026-06-26T07:16:28.988Z",
+  "generated": "2026-06-27T07:03:36.295Z",
   "searchConsole": {
-    "lastCheck": "2026-06-26T07:15:46.833Z",
+    "lastCheck": "2026-06-27T07:02:58.493Z",
     "clicks": 3,
-    "impressions": 1806,
+    "impressions": 1792,
     "averageCTR": 0.17,
-    "averagePosition": 8.8
+    "averagePosition": 8.7
   },
   "analytics": {
-    "lastCheck": "2026-06-26T07:16:28.282Z",
-    "sessions_7d": 810,
-    "users_7d": 784,
-    "pageviews_7d": 797,
-    "avgSessionDuration": 19,
+    "lastCheck": "2026-06-27T07:03:35.583Z",
+    "sessions_7d": 822,
+    "users_7d": 796,
+    "pageviews_7d": 809,
+    "avgSessionDuration": 18,
     "bounceRate": 0.88,
     "topPages": [
       {
-        "page": "/",
-        "pageViews": 150
+        "page": "/blog",
+        "pageViews": 144
       },
       {
-        "page": "/blog",
-        "pageViews": 143
+        "page": "/",
+        "pageViews": 139
       },
       {
         "page": "/runbook",
-        "pageViews": 97
+        "pageViews": 102
       },
       {
         "page": "/projects",
-        "pageViews": 63
+        "pageViews": 66
       },
       {
         "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
-        "pageViews": 63
+        "pageViews": 66
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-06-26T07:16:28.282Z",
+    "lastCheck": "2026-06-27T07:03:35.583Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 1240,
-        "average": 56.8491935483871,
+        "count": 1292,
+        "average": 54.97445820433437,
         "unit": "ms",
         "ratings": {
-          "good": 1235,
+          "good": 1287,
           "needs-improvement": 4,
           "poor": 1
         },
         "goodPercent": 100
       },
       "FCP": {
-        "count": 694,
-        "average": 300.44236311239194,
+        "count": 723,
+        "average": 297.3651452282158,
         "unit": "ms",
         "ratings": {
-          "good": 677,
+          "good": 706,
           "needs-improvement": 16,
           "poor": 1
         },
         "goodPercent": 98
       },
       "LCP": {
-        "count": 187,
-        "average": 682.3262032085562,
+        "count": 192,
+        "average": 672.7447916666666,
         "unit": "ms",
         "ratings": {
-          "good": 186,
+          "good": 191,
           "needs-improvement": 1,
           "poor": 0
         },
         "goodPercent": 99
       },
       "CLS": {
-        "count": 179,
-        "average": 0.022849162011173183,
+        "count": 185,
+        "average": 0.023156756756756755,
         "unit": "",
         "ratings": {
-          "good": 157,
-          "needs-improvement": 22,
+          "good": 162,
+          "needs-improvement": 23,
           "poor": 0
         },
         "goodPercent": 88
       },
       "INP": {
         "count": 20,
-        "average": 60,
+        "average": 57.6,
         "unit": "ms",
         "ratings": {
           "good": 20,
