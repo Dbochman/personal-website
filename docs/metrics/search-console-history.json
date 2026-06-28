@@ -1,37 +1,5 @@
 [
   {
-    "timestamp": "2025-06-25T00:00:00.000Z",
-    "date": "2025-06-25",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-06-19",
-      "end": "2025-06-25"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
-    "timestamp": "2025-06-26T00:00:00.000Z",
-    "date": "2025-06-26",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-06-20",
-      "end": "2025-06-26"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-06-27T00:00:00.000Z",
     "date": "2025-06-27",
     "dataState": "final",
@@ -5837,19 +5805,51 @@
       "totalImpressions": 1792,
       "averageCTR": 0.17,
       "averagePosition": 8.7
+    }
+  },
+  {
+    "timestamp": "2026-06-25T00:00:00.000Z",
+    "date": "2026-06-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-19",
+      "end": "2026-06-25"
     },
-    "collectedAt": "2026-06-27T07:02:58.493Z",
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 2040,
+      "averageCTR": 0.2,
+      "averagePosition": 8.6
+    }
+  },
+  {
+    "timestamp": "2026-06-26T00:00:00.000Z",
+    "date": "2026-06-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-20",
+      "end": "2026-06-26"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 2245,
+      "averageCTR": 0.13,
+      "averagePosition": 8.4
+    },
+    "collectedAt": "2026-06-28T07:13:33.430Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 27,
+        "rowCount": 31,
         "clicks": 1,
-        "impressions": 132,
-        "impressionShare": 7.4
+        "impressions": 155,
+        "impressionShare": 6.9
       },
       "pages": {
         "rowCount": 9,
         "clicks": 3,
-        "impressions": 1798,
+        "impressions": 2251,
         "impressionShare": 100.3
       }
     },
@@ -5859,107 +5859,107 @@
         "clicks": 1,
         "impressions": 11,
         "ctr": 0.09090909090909091,
-        "position": 7.9
+        "position": 7.5
       },
       {
         "query": "decap cms netlify identity git gateway docs",
         "clicks": 0,
-        "impressions": 19,
+        "impressions": 18,
         "ctr": 0,
         "position": 9.4
       },
       {
         "query": "decap cms git gateway netlify identity official docs",
         "clicks": 0,
-        "impressions": 16,
+        "impressions": 13,
         "ctr": 0,
-        "position": 7.1
+        "position": 7.3
+      },
+      {
+        "query": "netlify identity git gateway decap cms docs",
+        "clicks": 0,
+        "impressions": 12,
+        "ctr": 0,
+        "position": 8.6
+      },
+      {
+        "query": "decap cms registereventlistener presave throw error blocks save",
+        "clicks": 0,
+        "impressions": 12,
+        "ctr": 0,
+        "position": 9.1
       },
       {
         "query": "decap cms netlify identity git gateway official docs",
         "clicks": 0,
-        "impressions": 14,
+        "impressions": 11,
         "ctr": 0,
-        "position": 8.5
+        "position": 8.6
+      },
+      {
+        "query": "netlify identity git gateway decap cms official docs",
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 6.5
       },
       {
         "query": "decap cms netlify identity git gateway documentation",
         "clicks": 0,
         "impressions": 10,
         "ctr": 0,
-        "position": 8.5
-      },
-      {
-        "query": "netlify identity git gateway decap cms official docs",
-        "clicks": 0,
-        "impressions": 9,
-        "ctr": 0,
-        "position": 6.4
-      },
-      {
-        "query": "netlify identity git gateway decap cms docs",
-        "clicks": 0,
-        "impressions": 8,
-        "ctr": 0,
-        "position": 9.5
+        "position": 8.8
       },
       {
         "query": "decap cms hook netlify-build config docs",
         "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 4.9
+      },
+      {
+        "query": "decap cms netlify identity git gateway setup official docs",
+        "clicks": 0,
         "impressions": 6,
         "ctr": 0,
-        "position": 5.2
-      },
-      {
-        "query": "decap cms hook netlify-build config",
-        "clicks": 0,
-        "impressions": 5,
-        "ctr": 0,
-        "position": 4.8
-      },
-      {
-        "query": "decap cms config hook netlify-build",
-        "clicks": 0,
-        "impressions": 4,
-        "ctr": 0,
-        "position": 5
+        "position": 7.8
       }
     ],
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 2,
-        "impressions": 1369,
-        "ctr": 0.0014609203798392988,
-        "position": 8.1
-      },
-      {
-        "page": "https://dylanbochman.com/",
-        "clicks": 1,
-        "impressions": 12,
-        "ctr": 0.08333333333333333,
-        "position": 8.9
+        "impressions": 1676,
+        "ctr": 0.0011933174224343676,
+        "position": 7.9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
-        "clicks": 0,
-        "impressions": 225,
-        "ctr": 0,
-        "position": 9.7
+        "clicks": 1,
+        "impressions": 177,
+        "ctr": 0.005649717514124294,
+        "position": 9.2
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 152,
+        "impressions": 349,
         "ctr": 0,
-        "position": 7.4
+        "position": 7.9
       },
       {
         "page": "https://dylanbochman.com/runbook/",
         "clicks": 0,
-        "impressions": 31,
+        "impressions": 30,
         "ctr": 0,
-        "position": 34
+        "position": 34.7
+      },
+      {
+        "page": "https://dylanbochman.com/",
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 9.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps/",
