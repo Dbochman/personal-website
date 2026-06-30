@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-06-28T00:00:00.000Z",
-    "date": "2025-06-28",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-06-22",
-      "end": "2025-06-28"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-06-29T00:00:00.000Z",
     "date": "2025-06-29",
     "dataState": "final",
@@ -5837,57 +5821,80 @@
       "totalImpressions": 2592,
       "averageCTR": 0.12,
       "averagePosition": 7.7
+    }
+  },
+  {
+    "timestamp": "2026-06-28T00:00:00.000Z",
+    "date": "2026-06-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-22",
+      "end": "2026-06-28"
     },
-    "collectedAt": "2026-06-29T07:38:48.829Z",
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 2651,
+      "averageCTR": 0.08,
+      "averagePosition": 7.6
+    },
+    "collectedAt": "2026-06-30T07:15:57.320Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 33,
         "clicks": 0,
-        "impressions": 166,
-        "impressionShare": 6.4
+        "impressions": 172,
+        "impressionShare": 6.5
       },
       "pages": {
         "rowCount": 8,
-        "clicks": 3,
-        "impressions": 2599,
+        "clicks": 2,
+        "impressions": 2660,
         "impressionShare": 100.3
       }
     },
     "topQueries": [
       {
-        "query": "decap cms netlify identity git gateway docs",
-        "clicks": 0,
-        "impressions": 25,
-        "ctr": 0,
-        "position": 8.8
-      },
-      {
         "query": "decap cms registereventlistener presave throw error blocks save",
         "clicks": 0,
-        "impressions": 17,
+        "impressions": 23,
         "ctr": 0,
-        "position": 8.9
+        "position": 8.3
       },
       {
-        "query": "decap cms git gateway netlify identity official docs",
+        "query": "decap cms netlify identity git gateway docs",
         "clicks": 0,
-        "impressions": 14,
-        "ctr": 0,
-        "position": 7.1
-      },
-      {
-        "query": "decap cms netlify identity git gateway official docs",
-        "clicks": 0,
-        "impressions": 11,
+        "impressions": 22,
         "ctr": 0,
         "position": 8.6
       },
       {
         "query": "decap cms netlify identity git gateway documentation",
         "clicks": 0,
+        "impressions": 12,
+        "ctr": 0,
+        "position": 8.5
+      },
+      {
+        "query": "decap cms git gateway netlify identity official docs",
+        "clicks": 0,
         "impressions": 10,
         "ctr": 0,
-        "position": 8.8
+        "position": 7.4
+      },
+      {
+        "query": "netlify identity git gateway decap cms docs",
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 7.8
+      },
+      {
+        "query": "decap cms netlify identity git gateway official docs",
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 8.2
       },
       {
         "query": "netlify identity git gateway decap cms official docs",
@@ -5897,90 +5904,83 @@
         "position": 6.3
       },
       {
-        "query": "netlify identity git gateway decap cms docs",
+        "query": "decap cms registereventlistener presave throw error",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 8,
         "ctr": 0,
-        "position": 7.9
+        "position": 5.5
       },
       {
-        "query": "decap cms hook netlify-build config docs",
-        "clicks": 0,
-        "impressions": 7,
-        "ctr": 0,
-        "position": 4.9
-      },
-      {
-        "query": "git gateway",
+        "query": "decap cms registereventlistener presave throw error block save docs",
         "clicks": 0,
         "impressions": 7,
         "ctr": 0,
         "position": 7.3
       },
       {
-        "query": "decap cms netlify identity git gateway setup official docs",
+        "query": "git gateway",
         "clicks": 0,
         "impressions": 6,
         "ctr": 0,
-        "position": 7.8
+        "position": 7.5
       }
     ],
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 2,
-        "impressions": 197,
-        "ctr": 0.01015228426395939,
-        "position": 7.5
+        "impressions": 205,
+        "ctr": 0.00975609756097561,
+        "position": 7.9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
-        "clicks": 1,
-        "impressions": 1845,
-        "ctr": 0.0005420054200542005,
-        "position": 7.6
+        "clicks": 0,
+        "impressions": 1799,
+        "ctr": 0,
+        "position": 7.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 537,
+        "impressions": 636,
         "ctr": 0,
-        "position": 7.9
+        "position": 8
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 7,
         "ctr": 0,
-        "position": 9.7
+        "position": 6.1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps/",
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 5.5
       },
       {
         "page": "https://dylanbochman.com/runbook/",
         "clicks": 0,
         "impressions": 5,
         "ctr": 0,
-        "position": 26.2
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps/",
-        "clicks": 0,
-        "impressions": 3,
-        "ctr": 0,
-        "position": 1.7
+        "position": 14.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-free-observability-for-a-static-site/",
         "clicks": 0,
-        "impressions": 2,
+        "impressions": 1,
         "ctr": 0,
-        "position": 29
+        "position": 9
       },
       {
-        "page": "http://dylanbochman.com/runbook/",
+        "page": "https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
-        "position": 28
+        "position": 10
       }
     ]
   }
