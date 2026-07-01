@@ -18,7 +18,7 @@ jobs:
     outputs:
       is_content_only: ${{ steps.check.outputs.content_only }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
         with:
           fetch-depth: 10
       - name: Detect content-only changes
@@ -55,7 +55,7 @@ jobs:
     needs: detect-changes
     steps:
       - name: Checkout source
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
 
       - name: Set up Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
@@ -67,7 +67,7 @@ jobs:
         run: npm ci
 
       - name: Cache MDX compilation
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: .cache/mdx
           key: mdx-${{ hashFiles('package-lock.json', 'scripts/precompile-mdx.ts', 'src/content/blog/schema.ts', 'content/blog/**/*.txt') }}
@@ -246,7 +246,7 @@ jobs:
     needs: deploy
     steps:
       - name: Checkout source
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v6
 
       - name: Set up Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
