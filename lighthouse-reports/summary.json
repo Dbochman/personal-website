@@ -6,18 +6,18 @@
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "3.1 s",
+    "lcp": "3.2 s",
     "fcp": "2.8 s",
     "cls": "0",
     "tbt": "200 ms",
     "runs": 3,
     "performanceRange": [
-      54,
+      53,
       87
     ],
     "tbtRangeMs": [
-      135,
-      899
+      142,
+      968
     ]
   },
   {
@@ -27,39 +27,39 @@
     "accessibility": 96,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.9 s",
-    "fcp": "2.8 s",
-    "cls": "0",
-    "tbt": "200 ms",
-    "runs": 3,
-    "performanceRange": [
-      62,
-      75
-    ],
-    "tbtRangeMs": [
-      170,
-      518
-    ]
-  },
-  {
-    "page": "blog-post-404",
-    "url": "https://dylanbochman.com/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
-    "performance": 70,
-    "accessibility": 100,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "6.1 s",
+    "lcp": "5.0 s",
     "fcp": "2.9 s",
     "cls": "0",
     "tbt": "200 ms",
     "runs": 3,
     "performanceRange": [
-      68,
-      70
+      62,
+      74
     ],
     "tbtRangeMs": [
-      185,
-      217
+      190,
+      505
+    ]
+  },
+  {
+    "page": "blog-post-404",
+    "url": "https://dylanbochman.com/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+    "performance": 71,
+    "accessibility": 100,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "5.9 s",
+    "fcp": "2.8 s",
+    "cls": "0",
+    "tbt": "160 ms",
+    "runs": 3,
+    "performanceRange": [
+      68,
+      72
+    ],
+    "tbtRangeMs": [
+      158,
+      224
     ]
   },
   {
@@ -75,12 +75,12 @@
     "tbt": "160 ms",
     "runs": 3,
     "performanceRange": [
-      76,
-      88
+      77,
+      89
     ],
     "tbtRangeMs": [
-      151,
-      161
+      135,
+      157
     ]
   },
   {
@@ -91,17 +91,17 @@
     "seo": 100,
     "bestPractices": 100,
     "lcp": "5.7 s",
-    "fcp": "2.8 s",
+    "fcp": "2.9 s",
     "cls": "0",
-    "tbt": "170 ms",
+    "tbt": "150 ms",
     "runs": 3,
     "performanceRange": [
       72,
-      73
+      72
     ],
     "tbtRangeMs": [
-      154,
-      169
+      146,
+      161
     ]
   },
   {
@@ -111,18 +111,18 @@
     "accessibility": 96,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.3 s",
+    "lcp": "4.2 s",
     "fcp": "2.8 s",
     "cls": "0",
-    "tbt": "150 ms",
+    "tbt": "170 ms",
     "runs": 3,
     "performanceRange": [
-      75,
-      87
+      74,
+      79
     ],
     "tbtRangeMs": [
       150,
-      175
+      176
     ]
   },
   {
@@ -142,29 +142,29 @@
       84
     ],
     "tbtRangeMs": [
-      147,
-      173
+      150,
+      152
     ]
   },
   {
     "page": "runbook",
     "url": "https://dylanbochman.com/runbook",
-    "performance": 80,
+    "performance": 79,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.1 s",
+    "lcp": "4.2 s",
     "fcp": "2.8 s",
     "cls": "0",
     "tbt": "160 ms",
     "runs": 3,
     "performanceRange": [
-      73,
+      74,
       88
     ],
     "tbtRangeMs": [
-      145,
-      160
+      147,
+      162
     ]
   }
 ]
