@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "strengthen-indexing-signals",
+          "title": "strengthen indexing signals",
+          "labels": [
+            "Bugfix"
+          ],
+          "checklist": [],
+          "createdAt": "2026-07-03T17:33:27.000Z",
+          "updatedAt": "2026-07-03T17:33:27.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-07-03T17:33:27.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "strengthen indexing signals"
+        },
+        {
           "id": "correct-search-console-collection",
           "title": "correct Search Console collection",
           "labels": [
@@ -3383,5 +3402,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-06-24T00:12:12.213Z"
+  "updatedAt": "2026-07-03T17:34:16.297Z"
 };
