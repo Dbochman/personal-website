@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "satisfy-slop-guard",
+          "title": "satisfy slop guard",
+          "labels": [
+            "Bugfix"
+          ],
+          "checklist": [],
+          "createdAt": "2026-07-03T17:39:48.000Z",
+          "updatedAt": "2026-07-03T17:39:48.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-07-03T17:39:48.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "satisfy slop guard"
+        },
+        {
           "id": "strengthen-indexing-signals",
           "title": "strengthen indexing signals",
           "labels": [
@@ -3402,5 +3421,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-07-03T17:34:16.297Z"
+  "updatedAt": "2026-07-03T17:40:29.979Z"
 };
