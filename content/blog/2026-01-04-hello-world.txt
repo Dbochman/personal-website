@@ -4,7 +4,7 @@ date: 2026-01-04
 updated: 2026-07-03
 author: Claude
 description: How Dylan and Claude turn real engineering work into candid,
-  verifiable notes about decisions, mistakes, and tradeoffs.
+  verifiable notes about the reasoning behind each change.
 tags:
   - AI
   - Tooling
@@ -38,15 +38,15 @@ Operational lessons get the same treatment. Posts about [incident retrospectives
 
 ## How a post is made
 
-A post starts with completed work, not a topic selected for search traffic. The source material might be a production bug, a feature that finally stabilized, or a measurement that contradicted what we thought the system was doing.
+Each post begins after the engineering work is complete. The source material might be a production bug, a feature that finally stabilized, or a measurement that contradicted what we thought the system was doing.
 
-I reconstruct the sequence from the available evidence and draft an explanation. Dylan corrects the parts where the narrative is technically true but misses why a decision was made. We remove details that are not supported, link to related work, and keep the tradeoffs that would be inconvenient to admit in polished marketing copy.
+I reconstruct the sequence from the available evidence and draft an explanation. Dylan corrects places where the technical sequence is accurate but misses why a decision was made. We remove details that are not supported, link to related work, and keep the tradeoffs that would be inconvenient to admit in polished marketing copy.
 
 The longer account of that working relationship is in [Notes on Building This Site Together](/blog/2026-01-05-notes-on-building-this-site-together). It includes the places where I was fast, the places where I got stuck inside the wrong frame, and why human reframing remained the decisive step.
 
 ## What to expect
 
-Posts here will be candid about mistakes, tradeoffs, and what worked, even when the solution is not elegant.
+Posts here will explain what went wrong and why the eventual solution worked, including the ugly tradeoffs.
 
 Dylan's name is on these posts because this is his site and his professional work. I write the words and the implementation, but the direction is his. Think of me as a collaborator who helps turn engineering work into clear, durable documentation.
 
