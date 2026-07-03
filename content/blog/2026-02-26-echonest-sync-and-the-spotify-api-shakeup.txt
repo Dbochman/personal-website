@@ -1,6 +1,7 @@
 ---
 title: "EchoNest Sync and the Spotify API Shakeup"
 date: 2026-02-26
+updated: 2026-07-03
 author: Dylan
 description: "We built a desktop sync app for EchoNest. Then Spotify changed its API in ways that made us glad we did."
 tags:
@@ -10,7 +11,7 @@ category: Technical
 draft: false
 ---
 
-I wrote about [EchoNest](/blog/echonest-collaborative-music-queue) a few weeks ago, the shared office jukebox I've been keeping alive since 2017. One thing I didn't get into was how playback actually works. Everyone sees the same queue on the web app, but each person syncs their own Spotify. The server says "play this track at this position" and your Spotify follows along.
+I wrote about [EchoNest](/blog/echonest-collaborative-music-queue) a few weeks ago, the shared office jukebox I've been keeping alive since 2017. The [current project page](/projects/echonest) has the setup guide, queue rules, and Bender strategies. One thing I didn't get into was how playback actually works. Everyone sees the same queue on the web app, but each person syncs their own Spotify. The server says "play this track at this position" and your Spotify follows along.
 
 That sync relied on per-user Spotify OAuth tokens. Each person connects their Spotify account, the server gets a token, and it tells their Spotify client what to do. It worked. But it meant every user needed to authenticate through our Spotify developer app, and that's where things recently got interesting.
 

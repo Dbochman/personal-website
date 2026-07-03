@@ -6,6 +6,7 @@ const SITE_URL = 'https://dylanbochman.com';
 const distDir = join(process.cwd(), 'dist');
 const sitemapPath = join(distDir, 'sitemap.xml');
 const blogManifestPath = join(process.cwd(), 'src', 'generated', 'blog', 'manifest.json');
+const projectsMetaPath = join(process.cwd(), 'src', 'data', 'projects-meta.json');
 const seoRedirectsPath = join(process.cwd(), 'src', 'data', 'seo-redirects.json');
 
 const { legacyRedirects: HARDCODED_LEGACY_REDIRECTS } = JSON.parse(
@@ -13,7 +14,9 @@ const { legacyRedirects: HARDCODED_LEGACY_REDIRECTS } = JSON.parse(
 );
 
 const MIN_CANONICAL_SIZE = 10_000;
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const ISO_DATETIME_WITH_TIMEZONE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/;
+const STATIC_SITEMAP_PATHS = new Set(['/', '/blog', '/projects', '/runbook']);
 
 function fail(message) {
   console.error(`❌ ${message}`);
@@ -121,15 +124,121 @@ function manifestLegacyRedirects() {
   return redirects;
 }
 
+function expectedSitemapLastmods() {
+  const expected = new Map();
+
+  if (existsSync(blogManifestPath)) {
+    const manifest = JSON.parse(readFileSync(blogManifestPath, 'utf8'));
+    for (const [filenameSlug, entry] of Object.entries(manifest)) {
+      if (entry.frontmatter.draft) continue;
+      const slug = entry.frontmatter.slug ?? filenameSlug;
+      expected.set(`/blog/${slug}`, entry.frontmatter.updated ?? entry.frontmatter.date);
+    }
+  }
+
+  const projects = JSON.parse(readFileSync(projectsMetaPath, 'utf8'));
+  for (const project of projects) {
+    if (project.status === 'draft') continue;
+    expected.set(`/projects/${project.slug}`, project.updatedAt ?? null);
+  }
+
+  return expected;
+}
+
+function parseSitemapEntries(sitemap) {
+  return [...sitemap.matchAll(/<url>\s*([\s\S]*?)\s*<\/url>/g)].map(([, block]) => ({
+    loc: block.match(/<loc>(.*?)<\/loc>/)?.[1],
+    lastmod: block.match(/<lastmod>(.*?)<\/lastmod>/)?.[1],
+  }));
+}
+
+function assertSitemapMetadata(entries) {
+  const expectedLastmods = expectedSitemapLastmods();
+  const seen = new Set();
+  const seenPaths = new Set();
+  const today = new Date().toISOString().slice(0, 10);
+
+  for (const { loc, lastmod } of entries) {
+    if (!loc) {
+      fail('Sitemap contains a URL entry without <loc>.');
+      continue;
+    }
+    if (seen.has(loc)) {
+      fail(`Sitemap contains duplicate URL: ${loc}`);
+    }
+    seen.add(loc);
+
+    const { pathname } = new URL(loc);
+    seenPaths.add(pathname);
+    if (STATIC_SITEMAP_PATHS.has(pathname)) {
+      if (lastmod) {
+        fail(`Static route ${pathname} must omit untracked lastmod instead of using the build date.`);
+      }
+      continue;
+    }
+
+    if (!expectedLastmods.has(pathname)) {
+      fail(`Sitemap route ${pathname} has no source-backed lastmod.`);
+      continue;
+    }
+    const expected = expectedLastmods.get(pathname);
+    if (expected === null) {
+      if (lastmod) {
+        fail(`Sitemap route ${pathname} must omit lastmod until updatedAt is tracked.`);
+      }
+      continue;
+    }
+    if (lastmod !== expected) {
+      fail(`Sitemap route ${pathname} has lastmod ${lastmod ?? 'missing'}; expected ${expected}.`);
+    }
+    if (!ISO_DATE.test(lastmod) || Number.isNaN(Date.parse(`${lastmod}T00:00:00Z`))) {
+      fail(`Sitemap route ${pathname} has invalid lastmod: ${lastmod}`);
+    } else if (lastmod > today) {
+      fail(`Sitemap route ${pathname} has future lastmod: ${lastmod}`);
+    }
+  }
+
+  for (const pathname of [...STATIC_SITEMAP_PATHS, ...expectedLastmods.keys()]) {
+    if (!seenPaths.has(pathname)) {
+      fail(`Source-backed canonical route is missing from sitemap: ${pathname}`);
+    }
+  }
+}
+
+function assertDraftProjectsExcluded(entries) {
+  const sitemapPaths = new Set(entries.map(({ loc }) => loc && new URL(loc).pathname));
+  const projects = JSON.parse(readFileSync(projectsMetaPath, 'utf8'));
+  const drafts = projects.filter(project => project.status === 'draft');
+
+  for (const project of drafts) {
+    const pathname = `/projects/${project.slug}`;
+    if (sitemapPaths.has(pathname)) {
+      fail(`Draft project must not appear in sitemap: ${pathname}`);
+    }
+    if (existsSync(canonicalArtifactPath(pathname))) {
+      fail(`Draft project must not have a canonical prerender artifact: ${pathname}`);
+    }
+    if (existsSync(trailingSlashArtifactPath(pathname))) {
+      fail(`Draft project must not have a trailing-slash artifact: ${pathname}/`);
+    }
+  }
+
+  return drafts.length;
+}
+
 if (!existsSync(sitemapPath)) {
   fail('dist/sitemap.xml is missing. Run npm run build first.');
 } else {
   const sitemap = readFileSync(sitemapPath, 'utf8');
-  const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
+  const sitemapEntries = parseSitemapEntries(sitemap);
+  const urls = sitemapEntries.map(entry => entry.loc).filter(Boolean);
 
   if (urls.length === 0) {
     fail('dist/sitemap.xml does not contain any <loc> entries.');
   }
+
+  assertSitemapMetadata(sitemapEntries);
+  const draftExclusionChecks = assertDraftProjectsExcluded(sitemapEntries);
 
   let trailingSlashChecks = 0;
   for (const url of urls) {
@@ -177,7 +286,7 @@ if (!existsSync(sitemapPath)) {
 
   if (!process.exitCode) {
     console.log(
-      `✅ Verified ${urls.length} sitemap canonicals, homepage-only ProfilePage JSON-LD, ${trailingSlashChecks} trailing-slash redirects, and ${legacyRedirects.length} legacy slug redirects`
+      `✅ Verified ${urls.length} sitemap canonicals, homepage-only ProfilePage JSON-LD, ${trailingSlashChecks} trailing-slash redirects, ${legacyRedirects.length} legacy slug redirects, and ${draftExclusionChecks} intentional draft exclusion${draftExclusionChecks === 1 ? '' : 's'}`
     );
   }
 }

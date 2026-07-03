@@ -37,6 +37,8 @@ interface BlogPostForFeed {
 interface ProjectForSitemap {
   slug: string;
   status?: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 /**
@@ -149,9 +151,8 @@ ${items}
  * Generate sitemap XML including blog posts
  */
 function generateSitemap(posts: BlogPostForFeed[], projects: ProjectForSitemap[]): string {
-  const currentDate = new Date().toISOString().split('T')[0];
-
-  // Static routes
+  // Static route modification dates are not tracked in structured content.
+  // Omit lastmod instead of claiming every deploy changed these pages.
   const staticRoutes = [
     { url: '/', changefreq: 'monthly', priority: '1.0' },
     { url: '/blog', changefreq: 'weekly', priority: '0.9' },
@@ -161,6 +162,9 @@ function generateSitemap(posts: BlogPostForFeed[], projects: ProjectForSitemap[]
 
   const projectRoutes = projects.map(project => ({
     url: `/projects/${project.slug}`,
+    // Only publish an explicitly maintained significant-update date. A
+    // creation date is not a truthful substitute for the last modification.
+    lastmod: formatDateISO(project.updatedAt),
     changefreq: 'monthly',
     priority: '0.7',
   }));
@@ -175,12 +179,14 @@ function generateSitemap(posts: BlogPostForFeed[], projects: ProjectForSitemap[]
 
   const allRoutes = [...staticRoutes, ...projectRoutes, ...blogRoutes];
 
-  const urls = allRoutes.map(route => `  <url>
-    <loc>${BASE_URL}${route.url}</loc>
-    <lastmod>${route.lastmod || currentDate}</lastmod>
+  const urls = allRoutes.map(route => {
+    const lastmod = route.lastmod ? `\n    <lastmod>${route.lastmod}</lastmod>` : '';
+    return `  <url>
+    <loc>${BASE_URL}${route.url}</loc>${lastmod}
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
-  </url>`).join('\n');
+  </url>`;
+  }).join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

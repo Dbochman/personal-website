@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { ExternalLink, Vote, Music, History, Mic, BookOpen, Headphones, Volume2, AlertTriangle } from 'lucide-react';
+import { ExternalLink, Vote, Music, History, Mic, BookOpen, Headphones, Volume2, AlertTriangle, Laptop } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { GitHubMark } from '@/components/icons/GitHubMark';
 
 const FEATURES = [
   {
@@ -111,6 +112,46 @@ export default function EchoNest() {
             <li>Watch the queue update in real-time via WebSockets</li>
             <li>When the queue empties, Bender kicks in with auto-fill suggestions</li>
           </ol>
+        </div>
+      </div>
+
+      {/* Playback Sync */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Playback Sync</h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <p>
+            EchoNest coordinates a shared queue, but it does not stream one shared audio feed.
+            The server publishes the current track and playback position; each listener's device
+            follows that timeline with its own Spotify session. Queue state, votes, comments, and
+            Bender recommendations stay on the Flask and Redis backend while the audio remains on
+            the listener's device.
+          </p>
+          <p>
+            Browser playback uses a connected Spotify Premium account. The optional EchoNest Sync
+            desktop client follows the same queue over server-sent events and controls the local
+            Spotify app directly. That keeps Spotify credentials on the listener's machine and
+            avoids requiring a browser tab for playback.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild variant="outline" className="gap-2">
+              <a href="https://github.com/Dbochman/EchoNest" target="_blank" rel="noopener noreferrer">
+                <GitHubMark className="h-4 w-4" />
+                View source
+              </a>
+            </Button>
+            <Button asChild variant="outline" className="gap-2">
+              <a href="https://github.com/Dbochman/EchoNest/releases" target="_blank" rel="noopener noreferrer">
+                <Laptop className="h-4 w-4" />
+                Desktop releases
+              </a>
+            </Button>
+            <Button asChild variant="outline" className="gap-2">
+              <Link to="/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup">
+                <BookOpen className="h-4 w-4" />
+                Read the sync architecture
+              </Link>
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -283,7 +324,7 @@ export default function EchoNest() {
         <Button asChild variant="outline" className="gap-2">
           <Link to="/blog/2026-02-04-echonest-collaborative-music-queue">
             <BookOpen className="h-4 w-4" />
-            Read the full history
+            Read the origin story
           </Link>
         </Button>
         <p className="text-sm text-muted-foreground mt-2">
