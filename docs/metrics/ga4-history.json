@@ -1,196 +1,5 @@
 [
   {
-    "timestamp": "2026-04-08T06:31:59.771Z",
-    "date": "2026-04-08",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 107,
-      "users": 103,
-      "pageViews": 102,
-      "averageSessionDuration": 35,
-      "bounceRate": 0.61
-    },
-    "topPages": [
-      {
-        "page": "/blog/",
-        "sessions": 35,
-        "users": 35,
-        "pageViews": 35
-      },
-      {
-        "page": "/",
-        "sessions": 19,
-        "users": 19,
-        "pageViews": 19
-      },
-      {
-        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "sessions": 12,
-        "users": 9,
-        "pageViews": 12
-      },
-      {
-        "page": "/blog",
-        "sessions": 10,
-        "users": 9,
-        "pageViews": 6
-      },
-      {
-        "page": "/runbook",
-        "sessions": 6,
-        "users": 6,
-        "pageViews": 6
-      },
-      {
-        "page": "/blog/2026-03-31-axios-supply-chain-attack",
-        "sessions": 4,
-        "users": 4,
-        "pageViews": 4
-      },
-      {
-        "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "sessions": 2,
-        "users": 2,
-        "pageViews": 2
-      },
-      {
-        "page": "/blog/2026-01-getting-started-with-sre",
-        "sessions": 2,
-        "users": 2,
-        "pageViews": 2
-      },
-      {
-        "page": "/this-page-does-not-exist",
-        "sessions": 2,
-        "users": 2,
-        "pageViews": 2
-      },
-      {
-        "page": "/blog/2025-01-07-adventures-in-ai-assisted-web-development",
-        "sessions": 1,
-        "users": 1,
-        "pageViews": 1
-      }
-    ],
-    "deviceBreakdown": [
-      {
-        "device": "mobile",
-        "sessions": 43,
-        "users": 43
-      },
-      {
-        "device": "desktop",
-        "sessions": 64,
-        "users": 60
-      }
-    ],
-    "trafficSources": {
-      "channels": [
-        {
-          "channel": "Direct",
-          "sessions": 98,
-          "users": 95
-        },
-        {
-          "channel": "Organic Search",
-          "sessions": 3,
-          "users": 2
-        },
-        {
-          "channel": "Referral",
-          "sessions": 2,
-          "users": 2
-        }
-      ],
-      "sources": [
-        {
-          "source": "(direct)",
-          "medium": "(none)",
-          "sessions": 98,
-          "users": 95
-        },
-        {
-          "source": "google",
-          "medium": "organic",
-          "sessions": 3,
-          "users": 2
-        },
-        {
-          "source": "giscus.app",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        },
-        {
-          "source": "github.com",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        }
-      ]
-    },
-    "webVitals": {
-      "TTFB": {
-        "count": 57,
-        "average": 223.50877192982455,
-        "unit": "ms",
-        "ratings": {
-          "good": 56,
-          "needs-improvement": 1,
-          "poor": 0
-        },
-        "goodPercent": 98
-      },
-      "FCP": {
-        "count": 22,
-        "average": 935.0909090909091,
-        "unit": "ms",
-        "ratings": {
-          "good": 18,
-          "needs-improvement": 2,
-          "poor": 2
-        },
-        "goodPercent": 82
-      },
-      "CLS": {
-        "count": 9,
-        "average": 0.0007777777777777778,
-        "unit": "",
-        "ratings": {
-          "good": 9,
-          "needs-improvement": 0,
-          "poor": 0
-        },
-        "goodPercent": 100
-      },
-      "LCP": {
-        "count": 10,
-        "average": 1171.6,
-        "unit": "ms",
-        "ratings": {
-          "good": 8,
-          "needs-improvement": 2,
-          "poor": 0
-        },
-        "goodPercent": 80
-      },
-      "INP": {
-        "count": 7,
-        "average": 81.14285714285714,
-        "unit": "ms",
-        "ratings": {
-          "good": 7,
-          "needs-improvement": 0,
-          "poor": 0
-        },
-        "goodPercent": 100
-      }
-    },
-    "toolInteractions": null
-  },
-  {
     "timestamp": "2026-04-09T06:32:46.680Z",
     "date": "2026-04-09",
     "period": {
@@ -17788,6 +17597,214 @@
         "unit": "ms",
         "ratings": {
           "good": 5,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-07-07T09:29:06.181Z",
+    "date": "2026-07-07",
+    "period": {
+      "description": "Last 7 days"
+    },
+    "summary": {
+      "sessions": 469,
+      "users": 466,
+      "pageViews": 466,
+      "averageSessionDuration": 12,
+      "bounceRate": 0.9
+    },
+    "topPages": [
+      {
+        "page": "/blog",
+        "sessions": 94,
+        "users": 93,
+        "pageViews": 92
+      },
+      {
+        "page": "/",
+        "sessions": 70,
+        "users": 70,
+        "pageViews": 70
+      },
+      {
+        "page": "/runbook",
+        "sessions": 57,
+        "users": 57,
+        "pageViews": 57
+      },
+      {
+        "page": "/projects/slo-tool",
+        "sessions": 38,
+        "users": 38,
+        "pageViews": 38
+      },
+      {
+        "page": "/projects/oncall-coverage",
+        "sessions": 37,
+        "users": 37,
+        "pageViews": 37
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+        "sessions": 36,
+        "users": 36,
+        "pageViews": 36
+      },
+      {
+        "page": "/projects",
+        "sessions": 36,
+        "users": 36,
+        "pageViews": 36
+      },
+      {
+        "page": "/projects/statuspage-update",
+        "sessions": 36,
+        "users": 36,
+        "pageViews": 36
+      },
+      {
+        "page": "/blog/2026-06-21-disk-utility-said-it-fixed-my-mac",
+        "sessions": 27,
+        "users": 27,
+        "pageViews": 26
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 12,
+        "users": 12,
+        "pageViews": 12
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 331,
+        "users": 330
+      },
+      {
+        "device": "desktop",
+        "sessions": 138,
+        "users": 136
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 450,
+          "users": 451
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 10,
+          "users": 7
+        },
+        {
+          "channel": "Referral",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "channel": "AI Assistant",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 450,
+          "users": 451
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 9,
+          "users": 6
+        },
+        {
+          "source": "claude.ai",
+          "medium": "ai-assistant",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "duckduckgo",
+          "medium": "organic",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "github.com",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "zeyao.net",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 730,
+        "average": 71.81643835616438,
+        "unit": "ms",
+        "ratings": {
+          "good": 720,
+          "needs-improvement": 8,
+          "poor": 2
+        },
+        "goodPercent": 99
+      },
+      "FCP": {
+        "count": 404,
+        "average": 376.7920792079208,
+        "unit": "ms",
+        "ratings": {
+          "good": 389,
+          "needs-improvement": 13,
+          "poor": 2
+        },
+        "goodPercent": 96
+      },
+      "LCP": {
+        "count": 105,
+        "average": 806.952380952381,
+        "unit": "ms",
+        "ratings": {
+          "good": 103,
+          "needs-improvement": 0,
+          "poor": 2
+        },
+        "goodPercent": 98
+      },
+      "CLS": {
+        "count": 105,
+        "average": 0.029847619047619046,
+        "unit": "",
+        "ratings": {
+          "good": 88,
+          "needs-improvement": 17,
+          "poor": 0
+        },
+        "goodPercent": 84
+      },
+      "INP": {
+        "count": 8,
+        "average": 50,
+        "unit": "ms",
+        "ratings": {
+          "good": 8,
           "needs-improvement": 0,
           "poor": 0
         },

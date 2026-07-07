@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-07-05T00:00:00.000Z",
-    "date": "2025-07-05",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-06-29",
-      "end": "2025-07-05"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-07-06T00:00:00.000Z",
     "date": "2025-07-06",
     "dataState": "final",
@@ -5837,30 +5821,39 @@
       "totalImpressions": 2018,
       "averageCTR": 0.2,
       "averagePosition": 7.1
+    }
+  },
+  {
+    "timestamp": "2026-07-05T00:00:00.000Z",
+    "date": "2026-07-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-29",
+      "end": "2026-07-05"
     },
-    "collectedAt": "2026-07-06T10:00:29.607Z",
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1924,
+      "averageCTR": 0.21,
+      "averagePosition": 7.1
+    },
+    "collectedAt": "2026-07-07T09:28:27.787Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 34,
+        "rowCount": 32,
         "clicks": 0,
-        "impressions": 142,
-        "impressionShare": 7
+        "impressions": 122,
+        "impressionShare": 6.3
       },
       "pages": {
-        "rowCount": 11,
+        "rowCount": 9,
         "clicks": 4,
-        "impressions": 2038,
+        "impressions": 1943,
         "impressionShare": 101
       }
     },
     "topQueries": [
-      {
-        "query": "decap cms registereventlistener presave throw error",
-        "clicks": 0,
-        "impressions": 14,
-        "ctr": 0,
-        "position": 6.1
-      },
       {
         "query": "netlify identity git gateway decap cms official docs",
         "clicks": 0,
@@ -5878,30 +5871,23 @@
       {
         "query": "decap cms hook netlify-build config docs",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 10,
         "ctr": 0,
-        "position": 2.1
-      },
-      {
-        "query": "decap cms netlify identity git gateway official docs",
-        "clicks": 0,
-        "impressions": 7,
-        "ctr": 0,
-        "position": 6.6
+        "position": 2.3
       },
       {
         "query": "netlify identity git gateway decap cms docs",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 8,
         "ctr": 0,
         "position": 6.9
       },
       {
-        "query": "decap cms netlify identity git gateway setup docs",
+        "query": "decap cms registereventlistener presave throw error",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 8,
         "ctr": 0,
-        "position": 7
+        "position": 7.5
       },
       {
         "query": "netlify git gateway deprecated official docs",
@@ -5911,11 +5897,11 @@
         "position": 8.4
       },
       {
-        "query": "decap cms registereventlistener presave throw error blocks save",
+        "query": "decap cms netlify identity git gateway official docs",
         "clicks": 0,
         "impressions": 6,
         "ctr": 0,
-        "position": 6.7
+        "position": 6.2
       },
       {
         "query": "decap cms hook netlify-build config",
@@ -5923,29 +5909,43 @@
         "impressions": 5,
         "ctr": 0,
         "position": 2
+      },
+      {
+        "query": "decap cms netlify identity git gateway docs",
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 7.6
+      },
+      {
+        "query": "decap cms netlify identity git gateway setup docs",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 7.3
       }
     ],
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 2,
-        "impressions": 1450,
-        "ctr": 0.001379310344827586,
+        "impressions": 1434,
+        "ctr": 0.001394700139470014,
         "position": 7.1
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 2,
-        "impressions": 196,
-        "ctr": 0.01020408163265306,
-        "position": 7.3
+        "impressions": 186,
+        "ctr": 0.010752688172043012,
+        "position": 7
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 354,
+        "impressions": 290,
         "ctr": 0,
-        "position": 7.1
+        "position": 6.8
       },
       {
         "page": "https://dylanbochman.com/",
@@ -5957,37 +5957,23 @@
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 8,
         "ctr": 0,
-        "position": 3.6
+        "position": 3.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 6,
         "ctr": 0,
-        "position": 8.7
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps/",
-        "clicks": 0,
-        "impressions": 3,
-        "ctr": 0,
-        "position": 9.3
-      },
-      {
-        "page": "https://dylanbochman.com/runbook/",
-        "clicks": 0,
-        "impressions": 3,
-        "ctr": 0,
-        "position": 22
+        "position": 8.5
       },
       {
         "page": "https://dylanbochman.com/projects/echonest",
         "clicks": 0,
-        "impressions": 3,
+        "impressions": 4,
         "ctr": 0,
-        "position": 24.3
+        "position": 23.3
       },
       {
         "page": "https://dylanbochman.com/blog/hello-world",
@@ -5995,6 +5981,13 @@
         "impressions": 1,
         "ctr": 0,
         "position": 8
+      },
+      {
+        "page": "http://dylanbochman.com/runbook/",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 52
       }
     ]
   }
