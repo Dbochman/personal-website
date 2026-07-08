@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-07-06T00:00:00.000Z",
-    "date": "2025-07-06",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-06-30",
-      "end": "2025-07-06"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-07-07T00:00:00.000Z",
     "date": "2025-07-07",
     "dataState": "final",
@@ -5837,50 +5821,52 @@
       "totalImpressions": 1924,
       "averageCTR": 0.21,
       "averagePosition": 7.1
+    }
+  },
+  {
+    "timestamp": "2026-07-06T00:00:00.000Z",
+    "date": "2026-07-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-30",
+      "end": "2026-07-06"
     },
-    "collectedAt": "2026-07-07T09:28:27.787Z",
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1819,
+      "averageCTR": 0.22,
+      "averagePosition": 7.2
+    },
+    "collectedAt": "2026-07-08T08:12:31.538Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 32,
+        "rowCount": 30,
         "clicks": 0,
-        "impressions": 122,
-        "impressionShare": 6.3
+        "impressions": 103,
+        "impressionShare": 5.7
       },
       "pages": {
         "rowCount": 9,
         "clicks": 4,
-        "impressions": 1943,
-        "impressionShare": 101
+        "impressions": 1831,
+        "impressionShare": 100.7
       }
     },
     "topQueries": [
       {
-        "query": "netlify identity git gateway decap cms official docs",
-        "clicks": 0,
-        "impressions": 13,
-        "ctr": 0,
-        "position": 6.8
-      },
-      {
         "query": "decap cms git gateway netlify identity official docs",
         "clicks": 0,
-        "impressions": 13,
+        "impressions": 11,
         "ctr": 0,
-        "position": 7.5
+        "position": 7.7
       },
       {
-        "query": "decap cms hook netlify-build config docs",
-        "clicks": 0,
-        "impressions": 10,
-        "ctr": 0,
-        "position": 2.3
-      },
-      {
-        "query": "netlify identity git gateway decap cms docs",
+        "query": "netlify identity git gateway decap cms official docs",
         "clicks": 0,
         "impressions": 8,
         "ctr": 0,
-        "position": 6.9
+        "position": 7
       },
       {
         "query": "decap cms registereventlistener presave throw error",
@@ -5892,30 +5878,37 @@
       {
         "query": "netlify git gateway deprecated official docs",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 8,
         "ctr": 0,
-        "position": 8.4
+        "position": 8.5
       },
       {
-        "query": "decap cms netlify identity git gateway official docs",
+        "query": "decap cms hook netlify-build config docs",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 2.3
+      },
+      {
+        "query": "netlify identity git gateway decap cms docs",
         "clicks": 0,
         "impressions": 6,
         "ctr": 0,
         "position": 6.2
       },
       {
-        "query": "decap cms hook netlify-build config",
+        "query": "decap cms netlify identity git gateway official docs",
         "clicks": 0,
-        "impressions": 5,
+        "impressions": 6,
         "ctr": 0,
-        "position": 2
+        "position": 6.3
       },
       {
-        "query": "decap cms netlify identity git gateway docs",
+        "query": "decap cms netlify identity git gateway documentation",
         "clicks": 0,
-        "impressions": 5,
+        "impressions": 4,
         "ctr": 0,
-        "position": 7.6
+        "position": 6.3
       },
       {
         "query": "decap cms netlify identity git gateway setup docs",
@@ -5923,50 +5916,50 @@
         "impressions": 4,
         "ctr": 0,
         "position": 7.3
+      },
+      {
+        "query": "decap cms git gateway netlify identity docs",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 7.5
       }
     ],
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 2,
-        "impressions": 1434,
-        "ctr": 0.001394700139470014,
+        "impressions": 1339,
+        "ctr": 0.0014936519790888724,
         "position": 7.1
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 2,
-        "impressions": 186,
-        "ctr": 0.010752688172043012,
-        "position": 7
+        "impressions": 197,
+        "ctr": 0.01015228426395939,
+        "position": 7.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 290,
+        "impressions": 262,
         "ctr": 0,
-        "position": 6.8
-      },
-      {
-        "page": "https://dylanbochman.com/",
-        "clicks": 0,
-        "impressions": 13,
-        "ctr": 0,
-        "position": 3.4
+        "position": 7.3
       },
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 8,
+        "impressions": 14,
         "ctr": 0,
-        "position": 3.5
+        "position": 3.8
       },
       {
-        "page": "https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself",
+        "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 6,
+        "impressions": 10,
         "ctr": 0,
-        "position": 8.5
+        "position": 4.1
       },
       {
         "page": "https://dylanbochman.com/projects/echonest",
@@ -5974,6 +5967,13 @@
         "impressions": 4,
         "ctr": 0,
         "position": 23.3
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 11
       },
       {
         "page": "https://dylanbochman.com/blog/hello-world",
