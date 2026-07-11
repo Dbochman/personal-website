@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-07-09T00:00:00.000Z",
-    "date": "2025-07-09",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-07-03",
-      "end": "2025-07-09"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-07-10T00:00:00.000Z",
     "date": "2025-07-10",
     "dataState": "final",
@@ -5837,43 +5821,73 @@
       "totalImpressions": 1660,
       "averageCTR": 0.24,
       "averagePosition": 7.4
+    }
+  },
+  {
+    "timestamp": "2026-07-09T00:00:00.000Z",
+    "date": "2026-07-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-03",
+      "end": "2026-07-09"
     },
-    "collectedAt": "2026-07-10T09:21:45.715Z",
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1514,
+      "averageCTR": 0.13,
+      "averagePosition": 7.4
+    },
+    "collectedAt": "2026-07-11T07:43:22.381Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 34,
+        "rowCount": 35,
         "clicks": 0,
-        "impressions": 134,
-        "impressionShare": 8.1
+        "impressions": 138,
+        "impressionShare": 9.1
       },
       "pages": {
-        "rowCount": 10,
-        "clicks": 4,
-        "impressions": 1667,
-        "impressionShare": 100.4
+        "rowCount": 9,
+        "clicks": 2,
+        "impressions": 1521,
+        "impressionShare": 100.5
       }
     },
     "topQueries": [
       {
         "query": "decap cms hook netlify-build config docs",
         "clicks": 0,
-        "impressions": 16,
+        "impressions": 15,
         "ctr": 0,
-        "position": 7.7
+        "position": 8
       },
       {
         "query": "netlify identity git gateway decap cms official docs",
         "clicks": 0,
-        "impressions": 15,
+        "impressions": 14,
         "ctr": 0,
-        "position": 7.5
+        "position": 7
       },
       {
         "query": "decap cms git gateway netlify identity official docs",
         "clicks": 0,
+        "impressions": 12,
+        "ctr": 0,
+        "position": 7.3
+      },
+      {
+        "query": "netlify git gateway deprecated official docs",
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 8.8
+      },
+      {
+        "query": "git gateway",
+        "clicks": 0,
         "impressions": 9,
         "ctr": 0,
-        "position": 7.8
+        "position": 6.1
       },
       {
         "query": "decap cms registereventlistener presave throw error",
@@ -5883,39 +5897,25 @@
         "position": 7.5
       },
       {
-        "query": "netlify git gateway deprecated official docs",
-        "clicks": 0,
-        "impressions": 8,
-        "ctr": 0,
-        "position": 8.8
-      },
-      {
-        "query": "netlify identity git gateway decap cms docs",
-        "clicks": 0,
-        "impressions": 7,
-        "ctr": 0,
-        "position": 6.9
-      },
-      {
         "query": "decap cms netlify identity git gateway official docs",
         "clicks": 0,
         "impressions": 7,
         "ctr": 0,
-        "position": 7.7
+        "position": 7.3
       },
       {
-        "query": "git gateway",
-        "clicks": 0,
-        "impressions": 6,
-        "ctr": 0,
-        "position": 6.3
-      },
-      {
-        "query": "decap cms netlify identity git gateway docs",
+        "query": "netlify identity git gateway decap cms docs",
         "clicks": 0,
         "impressions": 6,
         "ctr": 0,
         "position": 7.5
+      },
+      {
+        "query": "decap cms netlify identity git gateway documentation",
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 6
       },
       {
         "query": "decap cms hooks netlify-build config docs",
@@ -5928,45 +5928,52 @@
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
-        "clicks": 2,
-        "impressions": 1275,
-        "ctr": 0.001568627450980392,
+        "clicks": 1,
+        "impressions": 1166,
+        "ctr": 0.0008576329331046312,
         "position": 7.3
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
-        "clicks": 2,
-        "impressions": 189,
-        "ctr": 0.010582010582010581,
-        "position": 7.6
+        "clicks": 1,
+        "impressions": 182,
+        "ctr": 0.005494505494505495,
+        "position": 7.7
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 165,
+        "impressions": 126,
         "ctr": 0,
-        "position": 7.6
+        "position": 7.7
       },
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 20,
+        "impressions": 25,
         "ctr": 0,
-        "position": 3.8
+        "position": 3.9
       },
       {
         "page": "https://dylanbochman.com/projects/echonest",
         "clicks": 0,
-        "impressions": 8,
+        "impressions": 12,
         "ctr": 0,
-        "position": 20.9
+        "position": 21.6
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
         "impressions": 6,
         "ctr": 0,
-        "position": 3.8
+        "position": 4
+      },
+      {
+        "page": "https://dylanbochman.com/blog/hello-world",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
@@ -5981,20 +5988,6 @@
         "impressions": 1,
         "ctr": 0,
         "position": 6
-      },
-      {
-        "page": "https://dylanbochman.com/blog/hello-world",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 8
-      },
-      {
-        "page": "http://dylanbochman.com/runbook/",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 52
       }
     ]
   }
