@@ -1,6 +1,12 @@
 /* eslint-disable react-refresh/only-export-components -- vendored context intentionally colocates providers and hooks */
 import type { ScaleLinear } from "d3-scale"
-import { createContext, useCallback, useContext, useState } from "react"
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react"
 import type { CommonChart } from "./common-context"
 import type { BloomInput } from "./dither-paint"
 import type { DitherColor, Seed } from "./palette"
@@ -207,7 +213,7 @@ export function useChartController({
   defaultSelectedDataKey?: string | null
   onSelectionChange?: (key: string | null) => void
 }): ChartContextValue {
-  const configKeys = Object.keys(config)
+  const configKeys = useMemo(() => Object.keys(config), [config])
   const revision = useRevision(data, replayToken)
 
   const [selectedDataKey, setSelectedDataKey] = useState<string | null>(
@@ -262,11 +268,21 @@ export function useChartController({
   const entranceDone = entrance.revision === revision ? entrance.done : !animate
   const markEntranceDone = () => setEntrance({ revision, done: true })
 
-  const { bands, max } = computeBands(data, configKeys, stackType)
+  const { bands, max } = useMemo(
+    () => computeBands(data, configKeys, stackType),
+    [configKeys, data, stackType]
+  )
 
   const isBar = chartType === "bar"
-  const xPoint = buildXScale(data.length, plotWidth)
-  const xBand = buildBandScale(data.length, plotWidth)
+  const dataLength = data.length
+  const xPoint = useMemo(
+    () => buildXScale(dataLength, plotWidth),
+    [dataLength, plotWidth]
+  )
+  const xBand = useMemo(
+    () => buildBandScale(dataLength, plotWidth),
+    [dataLength, plotWidth]
+  )
   const bandwidth = isBar ? xBand.bandwidth() : 0
   const xCenter = (i: number) =>
     isBar ? (xBand(i) ?? 0) + xBand.bandwidth() / 2 : (xPoint(i) ?? 0)
@@ -287,9 +303,18 @@ export function useChartController({
       width: slot * 0.84,
     }
   }
-  const y = buildYScale(max, plotHeight)
+  const y = useMemo(() => buildYScale(max, plotHeight), [max, plotHeight])
 
   const seedOf = (key: string) => seedOfColor(config[key]?.color ?? "grey")
+  const tooltipHalfWidth = Math.min(
+    112,
+    Math.max(0, (dimensions.width - 16) / 2)
+  )
+  const tooltipMinLeft = tooltipHalfWidth + 8
+  const tooltipMaxLeft = Math.max(
+    tooltipMinLeft,
+    dimensions.width - tooltipHalfWidth - 8
+  )
 
   const common: CommonChart = {
     names: configKeys,
@@ -301,7 +326,10 @@ export function useChartController({
     setFocusDataKey,
     hoverIndex,
     ready,
-    tooltipLeft: Math.max(48, Math.min(plotWidth + margins.left - 48, cursorX)),
+    tooltipLeft: Math.max(
+      tooltipMinLeft,
+      Math.min(tooltipMaxLeft, cursorX)
+    ),
     // Follow the highest hovered node so the card rides the data path, but
     // keep enough headroom that the upward-lifted card never clips the top.
     tooltipTop: (() => {

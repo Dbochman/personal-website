@@ -33,6 +33,8 @@ export type CartesianChartProps<TData extends Row> = {
   stackType?: StackType
   margins?: Partial<Margins>
   className?: string
+  /** Accessible summary for the chart's SVG interaction layer. */
+  ariaLabel?: string
   animate?: boolean
   animationDuration?: number
   replayToken?: number // change to re-play the entrance without remounting
@@ -66,8 +68,8 @@ function layerOf(node: ReactNode): "back" | "dom" | "svg" {
  * composed as children. Back chrome (grid) sits behind the dither canvas; the
  * canvas paints the fill/line/bars + stars; front chrome (axes, dots) and DOM
  * legend/tooltip layer on top. `chartType` drives the scales/interaction and the
- * `Canvas` prop supplies the family's painter (continuous for area/line, bars for
- * bar) — so each chart ships only its own canvas.
+ * `Canvas` prop supplies the family's painter (event-driven for area/line, bars
+ * for bar) — so each chart ships only its own canvas.
  */
 export function CartesianRoot<TData extends Row>({
   chartType,
@@ -78,6 +80,7 @@ export function CartesianRoot<TData extends Row>({
   stackType = "default",
   margins: marginsProp,
   className,
+  ariaLabel = "Chart",
   animate = true,
   animationDuration = 900,
   replayToken = 0,
@@ -169,7 +172,7 @@ export function CartesianRoot<TData extends Row>({
               height={size.height}
               className="absolute inset-0 overflow-visible"
               role="img"
-              aria-label="Chart"
+              aria-label={ariaLabel}
             >
               <g transform={`translate(${margins.left},${margins.top})`}>
                 {svgChildren}

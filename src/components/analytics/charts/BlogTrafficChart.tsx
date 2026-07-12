@@ -1,31 +1,14 @@
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps, Legend } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { Area } from '@/components/dither-kit/area';
+import { AreaChart } from '@/components/dither-kit/area-chart';
+import type { AreaVariant, ChartConfig } from '@/components/dither-kit/chart-context';
+import { Grid } from '@/components/dither-kit/grid';
+import { Legend } from '@/components/dither-kit/legend';
+import { rgb, seedOfColor, type DitherColor } from '@/components/dither-kit/palette';
+import { Tooltip } from '@/components/dither-kit/tooltip';
+import { XAxis } from '@/components/dither-kit/x-axis';
+import { YAxis } from '@/components/dither-kit/y-axis';
 import type { GA4HistoryEntry } from '../types';
 import { formatHistoryDate, getRecentHistory } from './recentHistory';
-
-const COLORS = [
-  'hsl(var(--chart-1))',
-  'hsl(var(--chart-2))',
-  'hsl(var(--chart-3))',
-  'hsl(var(--chart-4))',
-  'hsl(var(--chart-5, var(--primary)))',
-  'hsl(var(--muted-foreground))',
-];
-
-function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
-  if (!active || !payload || !payload.length) return null;
-  return (
-    <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md max-w-xs">
-      <p className="font-medium mb-1">{label}</p>
-      {payload.filter(e => Number(e.value) > 0).map((entry, i) => (
-        <p key={i} className="truncate">
-          <span className="inline-block w-2 h-2 rounded-full mr-1.5" style={{ backgroundColor: entry.color }} />
-          {entry.name}: {Number(entry.value).toLocaleString()}
-        </p>
-      ))}
-    </div>
-  );
-}
 
 interface PostLookups {
   bySlug: Map<string, { title: string; slug: string }>;
@@ -37,6 +20,45 @@ interface BlogTrafficChartProps {
   data: GA4HistoryEntry[];
   postLookups: PostLookups;
   matchPost: (slug: string, lookups: PostLookups) => { title: string; slug: string } | undefined;
+}
+
+type BlogTrafficRow = Record<string, unknown> & { date: string };
+
+interface SeriesStyle {
+  color: DitherColor;
+  variant: AreaVariant;
+}
+
+interface BlogSeries extends SeriesStyle {
+  key: string;
+  slug: string | null;
+  label: string;
+  rank: number | null;
+}
+
+interface SeriesSummary extends BlogSeries {
+  latest: number;
+  peak: number;
+  peakDate: string;
+}
+
+const SERIES_STYLES: readonly SeriesStyle[] = [
+  { color: 'blue', variant: 'gradient' },
+  { color: 'purple', variant: 'dotted' },
+  { color: 'green', variant: 'hatched' },
+  { color: 'orange', variant: 'gradient' },
+  { color: 'pink', variant: 'dotted' },
+];
+
+const OTHER_STYLE: SeriesStyle = { color: 'grey', variant: 'solid' };
+
+function safeMetric(value: number) {
+  return Number.isFinite(value) ? Math.max(0, value) : 0;
+}
+
+function blogSlug(page: string) {
+  if (!page.startsWith('/blog/') || page === '/blog/' || page === '/blog') return null;
+  return page.replace(/\/$/, '').replace('/blog/', '');
 }
 
 export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficChartProps) {
@@ -58,124 +80,206 @@ export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficCh
     );
   }
 
-  // First pass: accumulate total sessions per canonical slug across all entries
-  const cumulativeBySlug = new Map<string, number>();
+  // These are overlapping rolling snapshots, so this score is used only to
+  // choose stable leading series. It is not displayed as a traffic total.
+  const rankingScoreBySlug = new Map<string, number>();
   for (const entry of recentData) {
-    for (const p of entry.topPages ?? []) {
-      if (!p.page.startsWith('/blog/') || p.page === '/blog/' || p.page === '/blog') continue;
-      const normalized = p.page.replace(/\/$/, '');
-      const slug = normalized.replace('/blog/', '');
+    for (const page of entry.topPages ?? []) {
+      const slug = blogSlug(page.page);
+      const sessions = safeMetric(page.sessions);
+      if (!slug || sessions === 0) continue;
       const post = matchPost(slug, postLookups);
-      const key = post?.slug ?? slug;
-      cumulativeBySlug.set(key, (cumulativeBySlug.get(key) ?? 0) + p.sessions);
+      const canonicalSlug = post?.slug ?? slug;
+      rankingScoreBySlug.set(
+        canonicalSlug,
+        (rankingScoreBySlug.get(canonicalSlug) ?? 0) + sessions,
+      );
     }
   }
 
-  // Pick top 5 by cumulative sessions
-  const top5 = [...cumulativeBySlug.entries()]
-    .sort((a, b) => b[1] - a[1])
+  const topSlugs = [...rankingScoreBySlug.entries()]
+    .sort((left, right) => right[1] - left[1])
     .slice(0, 5)
     .map(([slug]) => slug);
 
-  const top5Set = new Set(top5);
-
-  // Resolve display names
-  const displayNames = new Map<string, string>();
-  for (const slug of top5) {
-    const post = matchPost(slug, postLookups);
-    const title = post?.title ?? slug;
-    // Truncate long titles for legend
-    displayNames.set(slug, title.length > 30 ? title.slice(0, 28) + '…' : title);
+  if (topSlugs.length === 0) {
+    return (
+      <div className="h-64 flex items-center justify-center text-muted-foreground">
+        No blog traffic available
+      </div>
+    );
   }
 
-  // Build chart data: one row per history entry
-  const chartData = recentData.map((entry) => {
-    const merged = new Map<string, number>();
-    for (const p of entry.topPages ?? []) {
-      if (!p.page.startsWith('/blog/') || p.page === '/blog/' || p.page === '/blog') continue;
-      const normalized = p.page.replace(/\/$/, '');
-      const slug = normalized.replace('/blog/', '');
-      const post = matchPost(slug, postLookups);
-      const key = post?.slug ?? slug;
-      merged.set(key, (merged.get(key) ?? 0) + p.sessions);
-    }
-
-    const row: Record<string, string | number> = {
-      date: formatHistoryDate(entry.date),
+  const topSlugSet = new Set(topSlugs);
+  const series: BlogSeries[] = topSlugs.map((slug, index) => {
+    const post = matchPost(slug, postLookups);
+    return {
+      key: `post-${index + 1}`,
+      slug,
+      label: post?.title ?? slug,
+      rank: index + 1,
+      ...SERIES_STYLES[index],
     };
+  });
 
-    let otherSessions = 0;
-    for (const [slug, sessions] of merged) {
-      if (top5Set.has(slug)) {
-        row[slug] = sessions;
-      } else {
-        otherSessions += sessions;
-      }
-    }
-    // Ensure all top5 keys exist
-    for (const slug of top5) {
-      if (!(slug in row)) row[slug] = 0;
-    }
-    row['Other'] = otherSessions;
+  if ([...rankingScoreBySlug.keys()].some((slug) => !topSlugSet.has(slug))) {
+    series.push({
+      key: 'other',
+      slug: null,
+      label: 'Other tracked posts',
+      rank: null,
+      ...OTHER_STYLE,
+    });
+  }
 
+  const keyBySlug = new Map(
+    series.filter((item) => item.slug).map((item) => [item.slug as string, item.key]),
+  );
+  const hasOther = series.some((item) => item.key === 'other');
+
+  const chartData: BlogTrafficRow[] = recentData.map((entry) => {
+    const row: BlogTrafficRow = { date: formatHistoryDate(entry.date) };
+    for (const item of series) row[item.key] = 0;
+
+    for (const page of entry.topPages ?? []) {
+      const slug = blogSlug(page.page);
+      const sessions = safeMetric(page.sessions);
+      if (!slug || sessions === 0) continue;
+      const post = matchPost(slug, postLookups);
+      const canonicalSlug = post?.slug ?? slug;
+      const key = keyBySlug.get(canonicalSlug) ?? (hasOther ? 'other' : null);
+      if (key) row[key] = Number(row[key] ?? 0) + sessions;
+    }
     return row;
   });
 
-  const tickInterval = Math.max(0, Math.ceil(chartData.length / 6) - 1);
+  const latestRow = chartData[chartData.length - 1];
+  const summaries: SeriesSummary[] = series.map((item) => {
+    let peak = 0;
+    let peakDate = chartData[0].date;
+    for (const row of chartData) {
+      const value = Number(row[item.key] ?? 0);
+      if (value > peak) {
+        peak = value;
+        peakDate = row.date;
+      }
+    }
+    return {
+      ...item,
+      latest: Number(latestRow[item.key] ?? 0),
+      peak,
+      peakDate,
+    };
+  });
 
-  const allKeys = [...top5, 'Other'];
+  const config: ChartConfig = Object.fromEntries(
+    series.map((item) => [item.key, { label: item.label, color: item.color }]),
+  );
+  const seriesByKey = new Map(series.map((item) => [item.key, item]));
+  const chartLabel = `Blog traffic across ${chartData.length} rolling seven-day snapshots from ${chartData[0].date} to ${latestRow.date}. ${summaries
+    .map(
+      (item) =>
+        `${item.label}: latest ${item.latest.toLocaleString()} sessions, high ${item.peak.toLocaleString()} on ${item.peakDate}`,
+    )
+    .join('; ')}.`;
 
   return (
-    <div className="h-72 w-full">
-      <ResponsiveContainer width="100%" height={288}>
-        <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-          <defs>
-            {allKeys.map((key, i) => (
-              <linearGradient key={key} id={`blogGrad-${i}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={COLORS[i % COLORS.length]} stopOpacity={0.3} />
-                <stop offset="95%" stopColor={COLORS[i % COLORS.length]} stopOpacity={0} />
-              </linearGradient>
-            ))}
-          </defs>
-          <XAxis
-            dataKey="date"
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            interval={tickInterval}
-            className="text-muted-foreground"
-          />
-          <YAxis
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(value) => value.toLocaleString()}
-            className="text-muted-foreground"
-          />
-          <Tooltip content={<CustomTooltip />} />
-          <Legend
-            verticalAlign="bottom"
-            height={36}
-            formatter={(value: string) => {
-              if (value === 'Other') return 'Other';
-              return displayNames.get(value) ?? value;
-            }}
-            wrapperStyle={{ fontSize: '11px' }}
-          />
-          {allKeys.map((key, i) => (
+    <div className="w-full space-y-3">
+      <div className="h-80">
+        <AreaChart
+          data={chartData}
+          config={config}
+          stackType="stacked"
+          margins={{ top: 48, right: 8, bottom: 24, left: 42 }}
+          animationDuration={750}
+          bloom="off"
+          ariaLabel={chartLabel}
+        >
+          <Grid />
+          <XAxis dataKey="date" maxTicks={6} minTickSpacing={64} />
+          <YAxis tickFormatter={(value) => value.toLocaleString()} />
+          {series.map((item) => (
             <Area
-              key={key}
-              type="monotone"
-              dataKey={key}
-              name={key}
-              stackId="1"
-              stroke={COLORS[i % COLORS.length]}
-              fill={`url(#blogGrad-${i})`}
-              strokeWidth={1.5}
+              key={item.key}
+              dataKey={item.key}
+              variant={item.variant}
+              isClickable
             />
           ))}
+          <Legend
+            isClickable
+            align="center"
+            labelFormatter={(name) => {
+              const item = seriesByKey.get(name);
+              return item?.rank ? `#${item.rank}` : 'Other';
+            }}
+            ariaLabelFormatter={(_, label) => `Toggle ${label}`}
+          />
+          <Tooltip
+            labelKey="date"
+            hideZero
+            itemLabelFormatter={(name) => {
+              const item = seriesByKey.get(name);
+              return item?.rank ? `#${item.rank}` : 'Other';
+            }}
+            valueFormatter={(value) => `${value.toLocaleString()} sessions`}
+          />
         </AreaChart>
-      </ResponsiveContainer>
+      </div>
+
+      <ul
+        aria-label="Blog traffic latest and high values"
+        className="grid gap-x-5 gap-y-2 text-xs sm:grid-cols-2 xl:grid-cols-3"
+      >
+        {summaries.map((item) => (
+          <li
+            key={item.key}
+            className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-t border-border/50 pt-2"
+          >
+            <span className="flex min-w-0 items-center gap-2">
+              <span
+                aria-hidden="true"
+                className="size-2.5 shrink-0 rounded-sm"
+                style={{ backgroundColor: rgb(seedOfColor(item.color).fill) }}
+              />
+              <span className="break-words leading-tight" title={item.label}>
+                {item.rank ? `#${item.rank} ` : ''}
+                {item.label}
+              </span>
+            </span>
+            <span className="text-right tabular-nums">
+              <span className="block font-medium">{item.latest.toLocaleString()} latest</span>
+              <span className="block text-muted-foreground">
+                {item.peak.toLocaleString()} high
+              </span>
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <table className="sr-only">
+        <caption>Rolling seven-day blog traffic snapshots</caption>
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            {series.map((item) => (
+              <th key={item.key} scope="col">
+                {item.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {chartData.map((row, index) => (
+            <tr key={`${row.date}-${index}`}>
+              <td>{row.date}</td>
+              {series.map((item) => (
+                <td key={item.key}>{Number(row[item.key] ?? 0)}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

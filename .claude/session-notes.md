@@ -468,4 +468,10 @@ Drafted a privacy-scoped post about the new local home-event system, emphasizing
 - A 320 px browser check caught the initial side-by-side legend squeezing the donut. The narrow layout now stacks the chart and compact numeric legend; desktop keeps the side-by-side treatment.
 - Full lint, 228 Vitest tests, production build, and scoped TypeScript checks pass. The repository-wide app TypeScript check still exposes numerous unrelated pre-existing errors, so it is not currently a usable green gate.
 
+### Dither Kit analytics expansion
+
+- Extended the pinned Dither Kit source with an event-driven area renderer for Sessions Trend and stacked Blog Traffic. GA4 history points are overlapping seven-day snapshots, so visible summaries use latest/high/change rather than summing points into a misleading total.
+- Multi-series mobile charts need compact rank labels in the chart/tooltip plus a separate wrapped full-title summary. Hover-only `title` attributes and truncated labels are not sufficient on touch devices.
+- Reduced motion must still mark the entrance complete even when animation is skipped; otherwise SVG elements gated on `entranceDone` remain hidden. Area integration coverage now checks both idle RAF behavior and this reduced-motion path.
+
 ---

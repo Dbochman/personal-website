@@ -1,24 +1,32 @@
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { Area } from '@/components/dither-kit/area';
+import { AreaChart } from '@/components/dither-kit/area-chart';
+import type { ChartConfig } from '@/components/dither-kit/chart-context';
+import { Grid } from '@/components/dither-kit/grid';
+import { Tooltip } from '@/components/dither-kit/tooltip';
+import { XAxis } from '@/components/dither-kit/x-axis';
+import { YAxis } from '@/components/dither-kit/y-axis';
 import type { GA4HistoryEntry } from '../types';
 import { formatHistoryDate, getRecentHistory } from './recentHistory';
 
-function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
-  if (!active || !payload || !payload.length) return null;
-  return (
-    <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md">
-      <p className="font-medium">{label}</p>
-      {payload.map((entry, i) => (
-        <p key={i}>
-          {String(entry.name).charAt(0).toUpperCase() + String(entry.name).slice(1)}: {Number(entry.value).toLocaleString()}
-        </p>
-      ))}
-    </div>
-  );
-}
-
 interface SessionsTrendChartProps {
   data: GA4HistoryEntry[];
+}
+
+type SessionsRow = Record<string, unknown> & {
+  date: string;
+  sessions: number;
+};
+
+const CONFIG: ChartConfig = {
+  sessions: { label: 'Sessions', color: 'blue' },
+};
+
+function safeMetric(value: number) {
+  return Number.isFinite(value) ? Math.max(0, value) : 0;
+}
+
+function signedNumber(value: number) {
+  return `${value > 0 ? '+' : ''}${value.toLocaleString()}`;
 }
 
 export function SessionsTrendChart({ data }: SessionsTrendChartProps) {
@@ -30,13 +38,10 @@ export function SessionsTrendChart({ data }: SessionsTrendChartProps) {
     );
   }
 
-  const chartData = getRecentHistory(data, 60)
-    .map((entry) => ({
-      date: formatHistoryDate(entry.date),
-      sessions: entry.summary.sessions,
-      users: entry.summary.users,
-      pageViews: entry.summary.pageViews,
-    }));
+  const chartData: SessionsRow[] = getRecentHistory(data, 60).map((entry) => ({
+    date: formatHistoryDate(entry.date),
+    sessions: safeMetric(entry.summary.sessions),
+  }));
 
   if (chartData.length === 0) {
     return (
@@ -46,44 +51,73 @@ export function SessionsTrendChart({ data }: SessionsTrendChartProps) {
     );
   }
 
-  // Calculate tick interval: show ~5-7 labels max for readability
-  const tickInterval = Math.max(0, Math.ceil(chartData.length / 6) - 1);
+  const first = chartData[0];
+  const latest = chartData[chartData.length - 1];
+  const peak = chartData.reduce((highest, row) =>
+    row.sessions > highest.sessions ? row : highest,
+  );
+  const change = latest.sessions - first.sessions;
+  const chartLabel = `${chartData.length} rolling seven-day session snapshots from ${first.date} to ${latest.date}. Latest: ${latest.sessions.toLocaleString()} sessions. High: ${peak.sessions.toLocaleString()} sessions on ${peak.date}. Change across the displayed snapshots: ${signedNumber(change)} sessions.`;
 
   return (
     <div className="h-64 w-full">
-      <ResponsiveContainer width="100%" height={256}>
-        <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-          <defs>
-            <linearGradient id="sessionGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <XAxis
-            dataKey="date"
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            interval={tickInterval}
-            className="text-muted-foreground"
-          />
-          <YAxis
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(value) => value.toLocaleString()}
-            className="text-muted-foreground"
-          />
-          <Tooltip content={<CustomTooltip />} />
-          <Area
-            type="monotone"
-            dataKey="sessions"
-            stroke="hsl(var(--primary))"
-            fill="url(#sessionGradient)"
-            strokeWidth={2}
+      <div className="h-52">
+        <AreaChart
+          data={chartData}
+          config={CONFIG}
+          margins={{ top: 8, right: 8, bottom: 24, left: 42 }}
+          animationDuration={700}
+          bloom="off"
+          ariaLabel={chartLabel}
+        >
+          <Grid />
+          <XAxis dataKey="date" maxTicks={6} minTickSpacing={62} />
+          <YAxis tickFormatter={(value) => value.toLocaleString()} />
+          <Area dataKey="sessions" variant="gradient" />
+          <Tooltip
+            labelKey="date"
+            valueFormatter={(value) => `${value.toLocaleString()} sessions`}
           />
         </AreaChart>
-      </ResponsiveContainer>
+      </div>
+
+      <dl
+        aria-label="Session trend summary"
+        className="grid h-12 grid-cols-3 items-center gap-2 border-t border-border/50 pt-2 text-xs"
+      >
+        <div>
+          <dt className="text-muted-foreground">Latest 7d</dt>
+          <dd className="font-medium tabular-nums">{latest.sessions.toLocaleString()}</dd>
+        </div>
+        <div>
+          <dt className="text-muted-foreground">
+            High<span className="hidden sm:inline"> · {peak.date}</span>
+          </dt>
+          <dd className="font-medium tabular-nums">{peak.sessions.toLocaleString()}</dd>
+        </div>
+        <div className="text-right">
+          <dt className="text-muted-foreground">Change</dt>
+          <dd className="font-medium tabular-nums">{signedNumber(change)}</dd>
+        </div>
+      </dl>
+
+      <table className="sr-only">
+        <caption>Rolling seven-day session snapshots</caption>
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Sessions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {chartData.map((row, index) => (
+            <tr key={`${row.date}-${index}`}>
+              <td>{row.date}</td>
+              <td>{row.sessions}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -7,9 +7,13 @@ import { rgb } from "./palette"
 export function Legend({
   isClickable = false,
   align = "right",
+  labelFormatter,
+  ariaLabelFormatter,
 }: {
   isClickable?: boolean
   align?: "left" | "center" | "right"
+  labelFormatter?: (name: string, label: string) => string
+  ariaLabelFormatter?: (name: string, label: string) => string
 }) {
   const chart = useCommonChart()
 
@@ -24,6 +28,7 @@ export function Legend({
     >
       {chart.names.map((name) => {
         const seed = chart.seedOf(name)
+        const label = chart.labelOf(name)
         const emphasis = chart.selectedDataKey ?? chart.focusDataKey
         const dimmed = emphasis !== null && emphasis !== name
         return (
@@ -31,6 +36,9 @@ export function Legend({
             key={name}
             type="button"
             disabled={!isClickable}
+            aria-pressed={isClickable ? chart.selectedDataKey === name : undefined}
+            aria-label={ariaLabelFormatter?.(name, label)}
+            title={label}
             onClick={() =>
               chart.selectDataKey(chart.selectedDataKey === name ? null : name)
             }
@@ -51,7 +59,7 @@ export function Legend({
               className="size-2 rounded-[1px]"
               style={{ backgroundColor: rgb(seed.fill) }}
             />
-            {chart.labelOf(name)}
+            {labelFormatter ? labelFormatter(name, label) : label}
           </button>
         )
       })}

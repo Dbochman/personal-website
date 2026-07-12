@@ -21,11 +21,15 @@ const VARIANT: Record<TooltipVariant, string> = {
 export function Tooltip({
   labelKey,
   valueFormatter,
+  itemLabelFormatter,
   variant = "default",
+  hideZero = false,
 }: {
   labelKey?: string
   valueFormatter?: (value: number, name: string) => string
+  itemLabelFormatter?: (name: string, label: string) => string
   variant?: TooltipVariant
+  hideZero?: boolean
 }) {
   const chart = useCommonChart()
   const reduceMotion = useReducedMotion()
@@ -40,7 +44,9 @@ export function Tooltip({
   const index = chart.hoverIndex ?? lastIndex
 
   const heading = chart.heading(index, labelKey)
-  const items = chart.itemsAt(index)
+  const items = chart
+    .itemsAt(index)
+    .filter((item) => !hideZero || item.value !== 0)
 
   return (
     <AnimatePresence>
@@ -73,7 +79,7 @@ export function Tooltip({
                 }
           }
           className={cn(
-            "pointer-events-none absolute z-10 rounded-md border px-2 py-1 shadow-sm",
+            "pointer-events-none absolute z-10 w-max max-w-[calc(100%-1rem)] rounded-md border px-2 py-1 shadow-sm",
             VARIANT[variant]
           )}
         >
@@ -86,15 +92,19 @@ export function Tooltip({
             {items.map((item) => (
               <div
                 key={item.name}
-                className="flex items-center gap-1.5 font-mono text-[11px] text-popover-foreground tabular-nums"
+                className="flex min-w-0 items-center gap-1.5 font-mono text-[11px] text-popover-foreground tabular-nums"
                 style={{ opacity: item.dimmed ? 0.4 : 1 }}
               >
                 <span
                   className="size-2 rounded-[1px]"
                   style={{ backgroundColor: rgb(item.seed.fill) }}
                 />
-                <span className="text-muted-foreground">{item.label}</span>
-                <span className="ml-auto pl-2 text-foreground">
+                <span className="min-w-0 truncate text-muted-foreground">
+                  {itemLabelFormatter
+                    ? itemLabelFormatter(item.name, item.label)
+                    : item.label}
+                </span>
+                <span className="ml-auto shrink-0 whitespace-nowrap pl-2 text-foreground">
                   {valueFormatter
                     ? valueFormatter(item.value, item.name)
                     : item.value.toLocaleString()}
