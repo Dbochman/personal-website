@@ -1,6 +1,6 @@
 import { useCommonChart } from "./common-context"
+import { ditherPatternStyle } from "./dither-pattern"
 import { cn } from "./lib"
-import { rgb } from "./palette"
 
 /** Series/slice legend. With `isClickable`, each entry toggles its selection.
  * Works in every chart family via the shared common context. */
@@ -27,7 +27,6 @@ export function Legend({
       )}
     >
       {chart.names.map((name) => {
-        const seed = chart.seedOf(name)
         const label = chart.labelOf(name)
         const emphasis = chart.selectedDataKey ?? chart.focusDataKey
         const dimmed = emphasis !== null && emphasis !== name
@@ -57,7 +56,10 @@ export function Legend({
           >
             <span
               className="size-2 rounded-[1px]"
-              style={{ backgroundColor: rgb(seed.fill) }}
+              style={ditherPatternStyle(
+                chart.colorOf(name),
+                chart.variantOf(name)
+              )}
             />
             {labelFormatter ? labelFormatter(name, label) : label}
           </button>

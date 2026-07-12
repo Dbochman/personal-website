@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DitherComposition } from '@/components/dither-kit/meter';
 import { Bot, Monitor, AlertTriangle, Users, Info } from 'lucide-react';
 import {
   analyzeTrafficQuality,
@@ -75,8 +76,8 @@ export function TrafficQualityCard({ topPages }: TrafficQualityCardProps) {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-md bg-orange-100 dark:bg-orange-900/30">
-              <Bot className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+            <div className="p-1.5 rounded-md bg-red-100 dark:bg-red-900/30">
+              <Bot className="h-4 w-4 text-red-600 dark:text-red-400" />
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Bot</p>
@@ -86,8 +87,8 @@ export function TrafficQualityCard({ topPages }: TrafficQualityCardProps) {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-md bg-yellow-100 dark:bg-yellow-900/30">
-              <AlertTriangle className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+            <div className="p-1.5 rounded-md bg-orange-100 dark:bg-orange-900/30">
+              <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
             </div>
             <div>
               <p className="text-xs text-muted-foreground">Synthetic</p>
@@ -98,46 +99,22 @@ export function TrafficQualityCard({ topPages }: TrafficQualityCardProps) {
           </div>
         </div>
 
-        {/* Progress Bar */}
+        {/* Dithered traffic composition */}
         <div className="space-y-1">
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>Traffic Composition</span>
             <span className="tabular-nums">{analysis.humanPercentage.toFixed(1)}% human</span>
           </div>
-          <div className="h-2 rounded-full bg-muted overflow-hidden flex">
-            {analysis.humanSessions > 0 && (
-              <div
-                className="bg-green-500 h-full"
-                style={{
-                  width: `${(analysis.humanSessions / analysis.totalSessions) * 100}%`,
-                }}
-              />
-            )}
-            {analysis.ciSessions > 0 && (
-              <div
-                className="bg-blue-500 h-full"
-                style={{
-                  width: `${(analysis.ciSessions / analysis.totalSessions) * 100}%`,
-                }}
-              />
-            )}
-            {analysis.botSessions > 0 && (
-              <div
-                className="bg-orange-500 h-full"
-                style={{
-                  width: `${(analysis.botSessions / analysis.totalSessions) * 100}%`,
-                }}
-              />
-            )}
-            {analysis.syntheticSessions > 0 && (
-              <div
-                className="bg-yellow-500 h-full"
-                style={{
-                  width: `${(analysis.syntheticSessions / analysis.totalSessions) * 100}%`,
-                }}
-              />
-            )}
-          </div>
+          <DitherComposition
+            total={analysis.totalSessions}
+            ariaLabel={`Tracked traffic composition: ${analysis.humanSessions.toLocaleString()} human, ${analysis.ciSessions.toLocaleString()} CI, ${analysis.botSessions.toLocaleString()} bot, ${analysis.syntheticSessions.toLocaleString()} synthetic sessions`}
+            segments={[
+              { key: 'human', label: 'Human', value: analysis.humanSessions, color: 'green', variant: 'gradient' },
+              { key: 'ci', label: 'CI', value: analysis.ciSessions, color: 'blue', variant: 'dotted' },
+              { key: 'bot', label: 'Bot', value: analysis.botSessions, color: 'red', variant: 'hatched' },
+              { key: 'synthetic', label: 'Synthetic', value: analysis.syntheticSessions, color: 'orange', variant: 'dotted' },
+            ]}
+          />
         </div>
 
         {/* Flagged Pages */}

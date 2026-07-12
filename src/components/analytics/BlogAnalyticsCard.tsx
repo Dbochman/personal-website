@@ -220,25 +220,19 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
     return { rows, totalAllTimeViews };
   }, [ga4History, lookups]);
 
-  // --- All-time tag breakdown ---
-  const allTimeTagData = useMemo(() => {
+  // --- Latest 7d tag breakdown ---
+  const latestTagData = useMemo(() => {
     const tagMap = new Map<string, number>();
-    for (const entry of ga4History) {
-      const blogPages = extractBlogPages(entry);
-      for (const [path, stats] of blogPages) {
-        const slug = extractSlug(path);
-        const post = matchPost(slug, lookups);
-        if (post) {
-          for (const tag of post.tags) {
-            tagMap.set(tag, (tagMap.get(tag) ?? 0) + stats.sessions);
-          }
-        }
+    for (const row of enrichedData.rows) {
+      const sessions = Number.isFinite(row.sessions) ? Math.max(0, row.sessions) : 0;
+      for (const tag of new Set(row.tags.map((value) => value.trim()).filter(Boolean))) {
+        tagMap.set(tag, (tagMap.get(tag) ?? 0) + sessions);
       }
     }
     return Array.from(tagMap.entries())
       .map(([tag, sessions]) => ({ tag, sessions }))
       .sort((a, b) => b.sessions - a.sessions);
-  }, [ga4History, lookups]);
+  }, [enrichedData.rows]);
 
   // --- Sorted 7d rows ---
   const sortedRows = useMemo(() => {
@@ -333,11 +327,11 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
 
       <Card>
         <CardHeader>
-          <CardTitle>Tag Breakdown (All-Time)</CardTitle>
+          <CardTitle>Tag Breakdown (Latest 7d)</CardTitle>
         </CardHeader>
         <CardContent>
           <Suspense fallback={<div className="h-64 bg-muted rounded animate-pulse" />}>
-            <BlogTagBreakdownChart tagData={allTimeTagData} />
+            <BlogTagBreakdownChart tagData={latestTagData} />
           </Suspense>
         </CardContent>
       </Card>

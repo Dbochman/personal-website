@@ -241,7 +241,7 @@ describe('BlogTrafficChart', () => {
       'hatched',
       'gradient',
       'dotted',
-      'solid',
+      'hatched',
     ]);
     expect(areas.every((area) => area.dataset.clickable === 'true')).toBe(true);
     expect(screen.getByTestId('chart-tooltip').dataset.hideZero).toBe('true');

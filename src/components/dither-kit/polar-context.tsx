@@ -170,7 +170,8 @@ export function usePolarController({
   const centerX = plotWidth / 2
   const centerY = plotHeight / 2
 
-  const seedOf = (key: string) => seedOfColor(config[key]?.color ?? "grey")
+  const colorOf = (key: string) => config[key]?.color ?? "grey"
+  const seedOf = (key: string) => seedOfColor(colorOf(key))
   // "*" is the pie-wide variant set by <Pie>; radar registers per series key.
   const variantOf = (key: string) =>
     variants[key] ?? variants["*"] ?? "gradient"
@@ -202,7 +203,9 @@ export function usePolarController({
         names,
         tooltipTop,
         labelOf: (n) => config[n]?.label ?? n,
+        colorOf,
         seedOf,
+        variantOf,
         selectedDataKey,
         selectDataKey,
         focusDataKey,
@@ -231,7 +234,9 @@ export function usePolarController({
       names: configKeys,
       tooltipTop,
       labelOf: (n) => config[n]?.label ?? n,
+      colorOf,
       seedOf,
+      variantOf,
       selectedDataKey,
       selectDataKey,
       focusDataKey,

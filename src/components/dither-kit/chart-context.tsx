@@ -305,7 +305,9 @@ export function useChartController({
   }
   const y = useMemo(() => buildYScale(max, plotHeight), [max, plotHeight])
 
-  const seedOf = (key: string) => seedOfColor(config[key]?.color ?? "grey")
+  const colorOf = (key: string) => config[key]?.color ?? "grey"
+  const seedOf = (key: string) => seedOfColor(colorOf(key))
+  const variantOf = (key: string) => seriesSpecs[key]?.variant ?? "gradient"
   const tooltipHalfWidth = Math.min(
     112,
     Math.max(0, (dimensions.width - 16) / 2)
@@ -319,7 +321,9 @@ export function useChartController({
   const common: CommonChart = {
     names: configKeys,
     labelOf: (n) => config[n]?.label ?? n,
+    colorOf,
     seedOf,
+    variantOf,
     selectedDataKey,
     selectDataKey,
     focusDataKey,

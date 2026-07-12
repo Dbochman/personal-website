@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+import { DitherMeter } from '@/components/dither-kit/meter';
 import { cn } from '@/lib/utils';
 import type { WebVitalsData } from './types';
 
@@ -88,7 +88,11 @@ export function RumWebVitalsCard({ data }: RumWebVitalsCardProps) {
 
           const value = metric.average;
           const status = getStatus(value, vital.thresholds);
-          const progressValue = Math.min((value / vital.thresholds.poor) * 100, 100);
+          const meterStyle = {
+            good: { color: 'green', variant: 'gradient' },
+            warning: { color: 'orange', variant: 'dotted' },
+            critical: { color: 'red', variant: 'hatched' },
+          } as const;
 
           return (
             <div key={vital.key} className="space-y-1">
@@ -105,10 +109,14 @@ export function RumWebVitalsCard({ data }: RumWebVitalsCardProps) {
                   </span>
                 </span>
               </div>
-              <Progress
-                value={progressValue}
-                className="h-2"
-                aria-label={`${vital.key}: ${vital.format(value)}`}
+              <DitherMeter
+                value={value}
+                max={vital.thresholds.poor}
+                marker={vital.thresholds.good}
+                color={meterStyle[status].color}
+                variant={meterStyle[status].variant}
+                ariaLabel={`${vital.key}: ${vital.format(value)}`}
+                ariaValueText={`${vital.format(value)}, ${statusText[status]}`}
               />
               <div className="flex justify-between text-xs text-muted-foreground tabular-nums">
                 <span>Good: ≤{vital.key === 'CLS' ? vital.thresholds.good : `${vital.thresholds.good}ms`}</span>

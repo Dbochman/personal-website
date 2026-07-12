@@ -1,7 +1,8 @@
 "use client"
 
 import { createContext, useContext } from "react"
-import type { Seed } from "./palette"
+import type { DitherColor, Seed } from "./palette"
+import type { AreaVariant } from "./chart-context"
 
 /** A single tooltip row — one series (cartesian/radar) or one slice (pie). */
 export type TooltipItem = {
@@ -20,7 +21,9 @@ export type TooltipItem = {
 export type CommonChart = {
   names: string[] // legend entries — series keys (cartesian) or slice names (pie)
   labelOf: (name: string) => string
+  colorOf: (name: string) => DitherColor
   seedOf: (name: string) => Seed
+  variantOf: (name: string) => AreaVariant
   selectedDataKey: string | null
   selectDataKey: (key: string | null) => void
   /** Transient legend-hover emphasis — spotlights one series (others dim)

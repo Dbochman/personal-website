@@ -1,27 +1,48 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine, TooltipProps } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { DitherBarList, type DitherBarDatum } from '@/components/dither-kit/bar-list';
+import type { AreaVariant } from '@/components/dither-kit/chart-context';
+import type { DitherColor } from '@/components/dither-kit/palette';
 import type { LighthousePageScore } from '../types';
 
 interface LighthouseHistoryChartProps {
   data: LighthousePageScore[];
 }
 
-// Color based on score
-function getScoreColor(score: number): string {
-  if (score >= 90) return 'hsl(142, 76%, 36%)'; // emerald-600
-  if (score >= 70) return 'hsl(45, 93%, 47%)';  // amber-500
-  return 'hsl(0, 72%, 51%)';                     // red-500
+interface ScorePresentation {
+  status: 'Good' | 'Needs improvement' | 'Poor';
+  color: DitherColor;
+  variant: AreaVariant;
 }
 
-function CustomTooltip({ active, payload }: TooltipProps<ValueType, NameType>) {
-  if (!active || !payload || !payload.length) return null;
-  const data = payload[0];
-  return (
-    <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md">
-      <p className="font-medium">{data.payload.page}</p>
-      <p>Score: {data.value}</p>
-    </div>
-  );
+const SCORE_TARGET = 90;
+
+function safeScore(score: number) {
+  return Number.isFinite(score) ? Math.min(100, Math.max(0, score)) : 0;
+}
+
+function scorePresentation(score: number): ScorePresentation {
+  if (score >= 90) {
+    return { status: 'Good', color: 'green', variant: 'gradient' };
+  }
+  if (score >= 70) {
+    return { status: 'Needs improvement', color: 'orange', variant: 'dotted' };
+  }
+  return { status: 'Poor', color: 'red', variant: 'hatched' };
+}
+
+function pageLabel(page: string) {
+  const cleaned = page.trim().replace(/[-_]+/g, ' ').replace(/\s+/g, ' ');
+  if (!cleaned) return 'Unknown page';
+
+  return cleaned
+    .split(' ')
+    .map((word) => {
+      const normalized = word.toLocaleLowerCase('en-US');
+      if (['slo', 'seo', 'a11y', 'api'].includes(normalized)) {
+        return normalized.toLocaleUpperCase('en-US');
+      }
+      return `${word.charAt(0).toLocaleUpperCase('en-US')}${word.slice(1)}`;
+    })
+    .join(' ');
 }
 
 export function LighthouseHistoryChart({ data }: LighthouseHistoryChartProps) {
@@ -33,43 +54,37 @@ export function LighthouseHistoryChart({ data }: LighthouseHistoryChartProps) {
     );
   }
 
-  // Show performance scores by page
-  const chartData = data.map((page) => ({
-    page: page.page,
-    performance: page.performance,
-    accessibility: page.accessibility,
-    seo: page.seo,
-    bestPractices: page.bestPractices,
-  }));
+  const chartData: DitherBarDatum[] = data.map((page, index) => {
+    const value = safeScore(page.performance);
+    const presentation = scorePresentation(value);
+    return {
+      key: `${page.page || 'page'}-${index}`,
+      label: pageLabel(page.page),
+      value,
+      color: presentation.color,
+      variant: presentation.variant,
+      detail: presentation.status,
+    };
+  });
+  const chartLabel = `Lighthouse performance scores by page. Target: ${SCORE_TARGET} or higher. ${chartData
+    .map(
+      (page) =>
+        `${page.label}: ${page.value.toLocaleString()} out of 100, ${page.detail}`,
+    )
+    .join('; ')}.`;
 
   return (
-    <div className="h-64 w-full">
-      <ResponsiveContainer width="100%" height={256}>
-        <BarChart data={chartData} layout="vertical" margin={{ top: 10, right: 10, left: 60, bottom: 0 }}>
-          <XAxis
-            type="number"
-            domain={[0, 100]}
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-          />
-          <YAxis
-            type="category"
-            dataKey="page"
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            width={60}
-          />
-          <ReferenceLine x={90} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" />
-          <Tooltip content={<CustomTooltip />} />
-          <Bar dataKey="performance" radius={[0, 4, 4, 0]}>
-            {chartData.map((entry) => (
-              <Cell key={entry.page} fill={getScoreColor(entry.performance)} />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="min-h-64 w-full space-y-2">
+      <p className="text-right text-xs text-muted-foreground">
+        Target: <span className="font-medium text-foreground">90 or higher</span>
+      </p>
+      <DitherBarList
+        data={chartData}
+        max={100}
+        marker={SCORE_TARGET}
+        ariaLabel={chartLabel}
+        valueFormatter={(value) => `${value.toLocaleString()}/100`}
+      />
     </div>
   );
 }

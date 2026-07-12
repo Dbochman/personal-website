@@ -14,7 +14,7 @@ import { GitHubBillingCard } from './GitHubBillingCard';
 import { BlogAnalyticsCard } from './BlogAnalyticsCard';
 import { staggerContainer, staggerItem, tabContent } from '@/lib/motion';
 
-// Lazy load Recharts-dependent components (heaviest)
+// Lazy load chart components so inactive tabs stay lightweight.
 const SessionsTrendChart = lazy(() => import('./charts/SessionsTrendChart').then(m => ({ default: m.SessionsTrendChart })));
 const DeviceBreakdownChart = lazy(() => import('./charts/DeviceBreakdownChart').then(m => ({ default: m.DeviceBreakdownChart })));
 const TrafficSourcesChart = lazy(() => import('./charts/TrafficSourcesChart').then(m => ({ default: m.TrafficSourcesChart })));

@@ -1,8 +1,9 @@
 import { PieChart } from '@/components/dither-kit/pie-chart';
 import { Pie } from '@/components/dither-kit/pie';
 import { Tooltip } from '@/components/dither-kit/tooltip';
+import { ditherPatternStyle } from '@/components/dither-kit/dither-pattern';
 import type { AreaVariant, ChartConfig } from '@/components/dither-kit/chart-context';
-import { rgb, seedOfColor, type DitherColor } from '@/components/dither-kit/palette';
+import type { DitherColor } from '@/components/dither-kit/palette';
 
 interface DeviceData {
   device: string;
@@ -105,7 +106,7 @@ export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
       key: label,
       label,
       value: safeSessions(device.sessions),
-      style: styleForDevice(device.device),
+      style: styleForDevice(label),
     });
   }
   const chartData = Array.from(devicesByLabel.values());
@@ -146,6 +147,7 @@ export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
       </div>
 
       <ul
+        role="list"
         aria-label="Device session totals"
         className="grid max-h-20 min-w-0 grid-cols-1 gap-1 overflow-y-auto text-sm sm:block sm:max-h-56 sm:space-y-3"
       >
@@ -155,7 +157,7 @@ export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
               <span
                 aria-hidden="true"
                 className="size-2.5 shrink-0 rounded-sm"
-                style={{ backgroundColor: rgb(seedOfColor(device.style.color).fill) }}
+                style={ditherPatternStyle(device.style.color, device.style.variant)}
               />
               <span className="truncate">{device.label}</span>
             </span>

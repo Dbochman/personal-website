@@ -113,6 +113,22 @@ describe('DeviceBreakdownChart', () => {
     expect(screen.getByRole('img', { name: /smart tv/i }).dataset.config).toBe(firstConfig);
   });
 
+  it('assigns equivalent aliases the same style regardless of input order', () => {
+    const aliases = [
+      { device: 'smart_tv', sessions: 15, users: 10 },
+      { device: 'smart-tv', sessions: 10, users: 8 },
+    ];
+    const { rerender } = render(<DeviceBreakdownChart data={aliases} />);
+
+    const firstConfig = screen.getByRole('img', { name: /smart tv/i }).dataset.config;
+    const firstVariants = screen.getByTestId('pie-textures').dataset.variants;
+
+    rerender(<DeviceBreakdownChart data={[...aliases].reverse()} />);
+
+    expect(screen.getByRole('img', { name: /smart tv/i }).dataset.config).toBe(firstConfig);
+    expect(screen.getByTestId('pie-textures').dataset.variants).toBe(firstVariants);
+  });
+
   it('treats non-finite session values as zero', () => {
     render(
       <DeviceBreakdownChart

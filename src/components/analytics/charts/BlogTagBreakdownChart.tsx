@@ -1,18 +1,6 @@
-import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  TooltipProps,
-} from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
-
-function BarTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
-  if (!active || !payload || !payload.length) return null;
-  return (
-    <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md">
-      <p className="font-medium">{label}</p>
-      <p>Sessions: {Number(payload[0].value).toLocaleString()}</p>
-    </div>
-  );
-}
+import { DitherBarList, type DitherBarDatum } from '@/components/dither-kit/bar-list';
+import type { AreaVariant } from '@/components/dither-kit/chart-context';
+import type { DitherColor } from '@/components/dither-kit/palette';
 
 interface TagData {
   tag: string;
@@ -23,8 +11,43 @@ interface BlogTagBreakdownChartProps {
   tagData: TagData[];
 }
 
+interface TagStyle {
+  color: DitherColor;
+  variant: AreaVariant;
+}
+
+const TAG_STYLES: readonly TagStyle[] = [
+  { color: 'blue', variant: 'gradient' },
+  { color: 'purple', variant: 'dotted' },
+  { color: 'orange', variant: 'hatched' },
+  { color: 'pink', variant: 'dotted' },
+  { color: 'red', variant: 'hatched' },
+  { color: 'grey', variant: 'dotted' },
+  { color: 'blue', variant: 'dotted' },
+  { color: 'purple', variant: 'hatched' },
+  { color: 'orange', variant: 'dotted' },
+  { color: 'grey', variant: 'hatched' },
+];
+
+function safeSessions(value: number) {
+  return Number.isFinite(value) ? Math.max(0, value) : 0;
+}
+
 export function BlogTagBreakdownChart({ tagData }: BlogTagBreakdownChartProps) {
-  if (tagData.length === 0) {
+  const sessionsByTag = new Map<string, number>();
+  for (const row of tagData) {
+    const tag = row.tag.trim();
+    if (!tag) continue;
+    sessionsByTag.set(tag, (sessionsByTag.get(tag) ?? 0) + safeSessions(row.sessions));
+  }
+
+  const rankedTags = [...sessionsByTag.entries()]
+    .map(([tag, sessions]) => ({ tag, sessions }))
+    .filter((row) => row.sessions > 0)
+    .sort((left, right) => right.sessions - left.sessions || left.tag.localeCompare(right.tag))
+    .slice(0, 10);
+
+  if (rankedTags.length === 0) {
     return (
       <div className="h-64 flex items-center justify-center text-muted-foreground">
         No tag data available
@@ -32,27 +55,23 @@ export function BlogTagBreakdownChart({ tagData }: BlogTagBreakdownChartProps) {
     );
   }
 
+  const bars: DitherBarDatum[] = rankedTags.map((row, index) => ({
+    key: row.tag,
+    label: `#${index + 1} ${row.tag}`,
+    value: row.sessions,
+    ...TAG_STYLES[index],
+  }));
+
   return (
-    <div className="h-64 w-full">
-      <ResponsiveContainer width="100%" height={256}>
-        <BarChart
-          data={tagData.slice(0, 10)}
-          layout="vertical"
-          margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
-        >
-          <XAxis type="number" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-          <YAxis
-            type="category"
-            dataKey="tag"
-            tick={{ fontSize: 11 }}
-            tickLine={false}
-            axisLine={false}
-            width={100}
-          />
-          <Tooltip content={<BarTooltip />} />
-          <Bar dataKey="sessions" fill="hsl(var(--chart-1))" radius={[0, 4, 4, 0]} />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="w-full space-y-3">
+      <DitherBarList
+        data={bars}
+        ariaLabel="Latest seven-day blog sessions by tag"
+        valueFormatter={(value) => `${value.toLocaleString()} sessions`}
+      />
+      <p className="text-xs text-muted-foreground">
+        A post can contribute its sessions to more than one tag.
+      </p>
     </div>
   );
 }

@@ -176,9 +176,9 @@ export function getTrafficTypeColor(type: TrafficType): string {
     case 'ci':
       return 'text-blue-600 dark:text-blue-400';
     case 'bot':
-      return 'text-orange-600 dark:text-orange-400';
+      return 'text-red-600 dark:text-red-400';
     case 'synthetic':
-      return 'text-yellow-600 dark:text-yellow-400';
+      return 'text-orange-600 dark:text-orange-400';
   }
 }
 
@@ -192,8 +192,8 @@ export function getTrafficTypeBadge(type: TrafficType): string {
     case 'ci':
       return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
     case 'bot':
-      return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
+      return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
     case 'synthetic':
-      return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
+      return 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400';
   }
 }

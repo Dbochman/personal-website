@@ -1,5 +1,6 @@
 import { memo, lazy, Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { DitherMeter } from '@/components/dither-kit/meter';
 import { GitHubBillingEntry } from './types';
 import { DollarSign, Clock, Database, Server } from 'lucide-react';
 
@@ -144,7 +145,7 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
             <div className="space-y-3">
               {byRepository.slice(0, 5).map((repo) => {
                 const percentage = summary.totalMinutes > 0
-                  ? ((repo.minutes / summary.totalMinutes) * 100).toFixed(0)
+                  ? (repo.minutes / summary.totalMinutes) * 100
                   : 0;
                 return (
                   <div key={repo.name} className="space-y-1">
@@ -152,12 +153,15 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
                       <span className="text-sm font-mono truncate max-w-[180px]">{repo.name}</span>
                       <span className="text-sm tabular-nums">{repo.minutes.toLocaleString()} min</span>
                     </div>
-                    <div className="w-full bg-muted rounded-full h-1.5">
-                      <div
-                        className="bg-primary rounded-full h-1.5 transition-all"
-                        style={{ width: `${percentage}%` }}
-                      />
-                    </div>
+                    <DitherMeter
+                      value={repo.minutes}
+                      max={summary.totalMinutes}
+                      color="purple"
+                      variant="dotted"
+                      ariaLabel={`${repo.name} Actions usage`}
+                      ariaValueText={`${repo.minutes.toLocaleString()} minutes, ${percentage.toFixed(0)}% of total`}
+                      className="h-1.5"
+                    />
                   </div>
                 );
               })}

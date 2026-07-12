@@ -3,7 +3,8 @@ import { AreaChart } from '@/components/dither-kit/area-chart';
 import type { AreaVariant, ChartConfig } from '@/components/dither-kit/chart-context';
 import { Grid } from '@/components/dither-kit/grid';
 import { Legend } from '@/components/dither-kit/legend';
-import { rgb, seedOfColor, type DitherColor } from '@/components/dither-kit/palette';
+import { ditherPatternStyle } from '@/components/dither-kit/dither-pattern';
+import type { DitherColor } from '@/components/dither-kit/palette';
 import { Tooltip } from '@/components/dither-kit/tooltip';
 import { XAxis } from '@/components/dither-kit/x-axis';
 import { YAxis } from '@/components/dither-kit/y-axis';
@@ -50,7 +51,7 @@ const SERIES_STYLES: readonly SeriesStyle[] = [
   { color: 'pink', variant: 'dotted' },
 ];
 
-const OTHER_STYLE: SeriesStyle = { color: 'grey', variant: 'solid' };
+const OTHER_STYLE: SeriesStyle = { color: 'grey', variant: 'hatched' };
 
 function safeMetric(value: number) {
   return Number.isFinite(value) ? Math.max(0, value) : 0;
@@ -228,6 +229,7 @@ export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficCh
       </div>
 
       <ul
+        role="list"
         aria-label="Blog traffic latest and high values"
         className="grid gap-x-5 gap-y-2 text-xs sm:grid-cols-2 xl:grid-cols-3"
       >
@@ -240,7 +242,7 @@ export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficCh
               <span
                 aria-hidden="true"
                 className="size-2.5 shrink-0 rounded-sm"
-                style={{ backgroundColor: rgb(seedOfColor(item.color).fill) }}
+                style={ditherPatternStyle(item.color, item.variant)}
               />
               <span className="break-words leading-tight" title={item.label}>
                 {item.rank ? `#${item.rank} ` : ''}

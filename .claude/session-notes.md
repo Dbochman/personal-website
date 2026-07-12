@@ -474,4 +474,11 @@ Drafted a privacy-scoped post about the new local home-event system, emphasizing
 - Multi-series mobile charts need compact rank labels in the chart/tooltip plus a separate wrapped full-title summary. Hover-only `title` attributes and truncated labels are not sufficient on touch devices.
 - Reduced motion must still mark the entrance complete even when animation is skipped; otherwise SVG elements gated on `entranceDone` remain hidden. Area integration coverage now checks both idle RAF behavior and this reduced-motion path.
 
+### Cohesive analytics dither language
+
+- Converted the remaining analytics Recharts views to the pinned Dither Kit: independent small-multiple areas for Search, a cumulative area for GitHub Actions minutes, a Traffic Sources donut, and patterned horizontal meters for Lighthouse and blog tags. No Recharts imports remain under `src/components/analytics`.
+- Compact status/rank graphics should use DOM/CSS dither meters instead of forcing the canvas bar chart into horizontal layouts. The shared `DitherMeter`, `DitherComposition`, and `DitherBarList` keep exact values visible, expose native progress/list semantics, and do not schedule animation frames.
+- Keep snapshot semantics explicit: Search/GA4 points are rolling seven-day observations, GitHub billing points are cumulative reported snapshots, and blog tags come from the latest seven-day GA4 entry rather than summing overlapping history.
+- Repeat texture in legends and summaries, not only in the canvas. On mobile, budget enough height for every visible legend row; an 80 px Traffic Sources legend clipped the fifth two-line row, while 96 px plus a 288 px chart root fits the full top-five set.
+
 ---
