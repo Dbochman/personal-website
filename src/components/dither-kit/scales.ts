@@ -1,5 +1,9 @@
 import { scaleBand, scaleLinear, scalePoint } from "d3-scale"
-import { stack as d3Stack, stackOffsetExpand } from "d3-shape"
+import {
+  stack as d3Stack,
+  stackOffsetExpand,
+  stackOffsetNone,
+} from "d3-shape"
 
 export type StackType = "default" | "stacked" | "percent"
 
@@ -35,9 +39,7 @@ export function computeBands(
   const series = d3Stack<Row>()
     .keys(keys)
     .value((row, key) => num(row[key]))
-    .offset(stackType === "percent" ? stackOffsetExpand : (undefined as never))(
-    data
-  )
+    .offset(stackType === "percent" ? stackOffsetExpand : stackOffsetNone)(data)
 
   const bands: Record<string, [number, number][]> = {}
   let max = 0
