@@ -79,6 +79,10 @@ function percentage(value: number, total: number) {
   return `${(total > 0 ? (value / total) * 100 : 0).toFixed(1)}%`;
 }
 
+function safeSessions(value: number) {
+  return Number.isFinite(value) ? Math.max(0, value) : 0;
+}
+
 export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
   if (data.length === 0) {
     return (
@@ -93,14 +97,14 @@ export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
     const label = deviceLabel(device.device);
     const existingDevice = devicesByLabel.get(label);
     if (existingDevice) {
-      existingDevice.value += Math.max(0, device.sessions);
+      existingDevice.value += safeSessions(device.sessions);
       continue;
     }
 
     devicesByLabel.set(label, {
       key: label,
       label,
-      value: Math.max(0, device.sessions),
+      value: safeSessions(device.sessions),
       style: styleForDevice(device.device),
     });
   }

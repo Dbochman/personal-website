@@ -113,6 +113,23 @@ describe('DeviceBreakdownChart', () => {
     expect(screen.getByRole('img', { name: /smart tv/i }).dataset.config).toBe(firstConfig);
   });
 
+  it('treats non-finite session values as zero', () => {
+    render(
+      <DeviceBreakdownChart
+        data={[
+          { device: 'desktop', sessions: Number.NaN, users: 1 },
+          { device: 'desktop', sessions: Number.POSITIVE_INFINITY, users: 1 },
+          { device: 'desktop', sessions: Number.NEGATIVE_INFINITY, users: 1 },
+        ]}
+      />,
+    );
+
+    expect(
+      screen.getByRole('img', { name: /device session distribution/i }).getAttribute('aria-label'),
+    ).toBe('Device session distribution: Desktop, 0 sessions, 0.0%.');
+    expect(screen.getByRole('list', { name: 'Device session totals' }).textContent).toContain('0.0%');
+  });
+
   it('shows the existing empty state without mounting a chart', () => {
     render(<DeviceBreakdownChart data={[]} />);
 
