@@ -3,7 +3,7 @@ export const kanbanManifest = {
   "house": {
     "file": "house.js",
     "title": "House Projects",
-    "cardCount": 14
+    "cardCount": 15
   },
   "julias-gardens": {
     "file": "julias-gardens.js",
@@ -13,6 +13,6 @@ export const kanbanManifest = {
   "roadmap": {
     "file": "roadmap.js",
     "title": "Site Roadmap",
-    "cardCount": 105
+    "cardCount": 106
   }
 };

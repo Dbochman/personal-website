@@ -86,6 +86,25 @@ export const board = {
               "columnTitle": "To Do"
             }
           ]
+        },
+        {
+          "id": "a0sfm8h",
+          "title": "Shed",
+          "summary": "Projects near the shed",
+          "description": "- finish install\n- sweep and set up floor\n- install shelves\n- install pegboard\n- garden around the slab\n- ramp for mower\n- wood chip pile\n- set up cafe table/ umbrella\n",
+          "labels": [],
+          "checklist": [],
+          "color": "pink",
+          "createdAt": "2026-07-12T16:31:00.258Z",
+          "updatedAt": "2026-07-12T16:31:00.258Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-07-12T16:31:00.258Z",
+              "columnId": "todo",
+              "columnTitle": "To Do"
+            }
+          ]
         }
       ]
     },
@@ -215,5 +234,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-15T23:17:50.056Z",
-  "updatedAt": "2026-07-12T16:25:55.246Z"
+  "updatedAt": "2026-07-12T16:31:05.750Z"
 };

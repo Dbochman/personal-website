@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "2026-07-12-the-home-automation-system-that-is-not-allowed-to-automate",
+          "title": "Blog: The Home Event System That Is Not Allowed to Automate",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-07-12T16:31:31.000Z",
+          "updatedAt": "2026-07-12T16:31:31.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-07-12T16:31:31.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "We built a durable local event bus for doorbell activity and presence, with read-only lock observations alongside a separate camera path. Its correlator can record and explain decisions, but it cannot notify or operate a device."
+        },
+        {
           "id": "satisfy-slop-guard",
           "title": "satisfy slop guard",
           "labels": [
@@ -3421,5 +3440,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-07-03T17:40:29.979Z"
+  "updatedAt": "2026-07-12T16:32:04.570Z"
 };
