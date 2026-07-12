@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { TagList } from '@/components/blog/TagList';
+import { formatDate } from '@/lib/date';
 import type { BlogPost } from '@/types/blog';
 
 interface FeaturedHeroProps {
@@ -56,11 +57,7 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
           </Link>
           <span>•</span>
           <time dateTime={post.date}>
-            {new Date(post.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
+            {formatDate(post.date)}
           </time>
           <span>•</span>
           <span>{post.readingTime}</span>

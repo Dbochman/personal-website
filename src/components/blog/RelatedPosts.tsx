@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Calendar } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { formatDate } from '@/lib/date';
 import type { BlogPost } from '@/types/blog';
 
 interface RelatedPostsProps {
@@ -52,11 +53,7 @@ export function RelatedPosts({ currentPost, allPosts, maxPosts = 3 }: RelatedPos
             <div className="flex items-center gap-2 text-xs text-muted-foreground mb-3">
               <Calendar className="w-3 h-3" />
               <time dateTime={post.date}>
-                {new Date(post.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                })}
+                {formatDate(post.date, 'MMM d, yyyy')}
               </time>
             </div>
             <div className="flex flex-wrap gap-1">

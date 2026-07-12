@@ -284,3 +284,11 @@ This is a nice example of Codex catching real bugs when given structured output 
 4. Explore multi-turn conversations with `codex-reply`
 
 ---
+
+## 2026-07-12
+
+Drafted a privacy-scoped post about the new local home-event system, emphasizing durable evidence, read-only correlation, and staged permission rather than household specifics.
+
+The post exposed a date display bug: date-only frontmatter was parsed as UTC and could render as the previous day in Eastern time. Moved display formatting into a browser-safe date helper and added a regression test so calendar dates remain stable across timezones.
+
+---
