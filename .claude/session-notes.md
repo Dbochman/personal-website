@@ -454,3 +454,11 @@ Key addition: a paragraph about the two layers of guardrails (infrastructure vs 
 **CI incident:** Playwright CDN hung browser installs at 100% download (zip completes, stream never closes) — deterministic, retries useless. Hit the #305 deploy at 14:08 and every CI run after. The hung deploy silently blocked the main deploy queue for 2.5h (deploy.yml queues, doesn't cancel) — deploys for #306/#307 got superseded while waiting. Fix: switched all CI to the runner's preinstalled Chrome (`channel: 'chrome'` when CI=true in playwright.config.ts + scripts/prerender.mjs), deleted browser download/cache steps from all 3 workflows. CI back to 2m30s. Docs updated in #308.
 
 **Gotcha:** `gh` CLI token intermittently 401'd on GraphQL/DELETE endpoints while REST reads worked — merge succeeded but branch delete failed; used `git push origin --delete` over SSH instead.
+
+---
+
+## 2026-07-12
+
+Drafted a privacy-scoped post about the new local home-event system, emphasizing durable evidence, read-only correlation, and staged permission rather than household specifics.
+
+---

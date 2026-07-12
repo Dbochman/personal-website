@@ -95,9 +95,9 @@ Now a new push cancels any in-progress run for the same branch. Fast iterations 
 
 ## The numbers
 
-Before: **3 minutes 9 seconds** (3 jobs: build, smoke-tests, deploy)
+Before: 3 minutes 9 seconds (3 jobs: build, smoke-tests, deploy)
 
-After: **1 minute 52 seconds** (2 jobs: build-and-test, deploy)
+After: 1 minute 52 seconds (2 jobs: build-and-test, deploy)
 
 That is 77 seconds saved per deploy, or 41% faster.
 
@@ -111,11 +111,7 @@ Concurrency cancellation loses history. If you push three times, only the last r
 
 ## Why this matters
 
-Seventy-seven seconds sounds small. But deploy time affects behavior:
-
-- Faster feedback loops mean more willingness to push small changes
-- Less waiting means less context-switching
-- Cancelled stale runs mean cleaner Actions history
+Seventy-seven seconds sounds small. But deploy time affects behavior. Faster feedback loops make small changes easier to push. Less waiting reduces context-switching, while cancelled stale runs keep the Actions history cleaner.
 
 The compound effect matters more than the absolute number. A deploy that feels instant encourages a different workflow than one that feels like a coffee break.
 
