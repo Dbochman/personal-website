@@ -127,11 +127,24 @@ export function CartesianRoot<TData extends Row>({
     else svgChildren.push(child)
   })
 
-  const onMove = (clientX: number) => {
+  const onMove = (clientX: number, clientY: number) => {
     const el = ref.current
     if (!el) return
     const rect = el.getBoundingClientRect()
     const px = clientX - rect.left - margins.left
+    const py = clientY - rect.top - margins.top
+    const insidePlot =
+      px >= 0 &&
+      px <= ctx.plot.width &&
+      py >= 0 &&
+      py <= ctx.plot.height
+    if (!insidePlot) {
+      if (ctx.hoverIndex !== null) {
+        ctx.setHoverIndex(null)
+        onHoverChange?.(null)
+      }
+      return
+    }
     const index = ctx.indexAtX(px)
     ctx.setHoverIndex(index)
     ctx.setCursorX(clientX - rect.left)
@@ -145,7 +158,9 @@ export function CartesianRoot<TData extends Row>({
           ref={ref}
           className={cn("relative h-full w-full", className)}
           onPointerEnter={() => ctx.setMouseInChart(true)}
-          onPointerMove={interactive ? (e) => onMove(e.clientX) : undefined}
+          onPointerMove={
+            interactive ? (e) => onMove(e.clientX, e.clientY) : undefined
+          }
           onPointerLeave={() => {
             ctx.setMouseInChart(false)
             ctx.setHoverIndex(null)

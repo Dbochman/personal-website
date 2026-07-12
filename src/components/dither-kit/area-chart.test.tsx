@@ -1,4 +1,10 @@
-import { cleanup, render, screen, waitFor } from "@testing-library/react"
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { Area } from "./area"
 import { AreaChart } from "./area-chart"
@@ -39,6 +45,17 @@ function EntranceProbe() {
   )
 }
 
+function InteractionProbe() {
+  const chart = useChart()
+
+  return (
+    <g
+      data-testid="interaction-probe"
+      data-hover-index={chart.hoverIndex ?? "none"}
+    />
+  )
+}
+
 describe("Dither AreaChart integration", () => {
   beforeEach(() => {
     vi.stubGlobal(
@@ -51,6 +68,17 @@ describe("Dither AreaChart integration", () => {
     )
     vi.spyOn(HTMLElement.prototype, "clientWidth", "get").mockReturnValue(320)
     vi.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(220)
+    vi.spyOn(HTMLElement.prototype, "getBoundingClientRect").mockReturnValue({
+      bottom: 220,
+      height: 220,
+      left: 0,
+      right: 320,
+      top: 0,
+      width: 320,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    })
     vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue({
       clearRect: vi.fn(),
       drawImage: vi.fn(),
@@ -125,5 +153,35 @@ describe("Dither AreaChart integration", () => {
     await waitFor(() => {
       expect(probe.getAttribute("data-entrance-done")).toBe("true")
     })
+  })
+
+  it("scrubs only inside the plot, not over legends or chart margins", async () => {
+    render(
+      <div style={{ height: 220, width: 320 }}>
+        <AreaChart data={DATA} config={CONFIG} ariaLabel="Bounded hover chart">
+          <Area dataKey="sessions" />
+          <InteractionProbe />
+        </AreaChart>
+      </div>
+    )
+
+    const svg = await screen.findByRole("img", { name: "Bounded hover chart" })
+    const root = svg.parentElement
+    const probe = screen.getByTestId("interaction-probe")
+    expect(root).not.toBeNull()
+
+    // Default margins put the plot at x=36..308 and y=10..198.
+    fireEvent.pointerMove(root as HTMLElement, { clientX: 170, clientY: 100 })
+    await waitFor(() => {
+      expect(probe.getAttribute("data-hover-index")).not.toBe("none")
+    })
+
+    fireEvent.pointerMove(root as HTMLElement, { clientX: 170, clientY: 5 })
+    await waitFor(() => {
+      expect(probe.getAttribute("data-hover-index")).toBe("none")
+    })
+
+    fireEvent.pointerMove(root as HTMLElement, { clientX: 10, clientY: 100 })
+    expect(probe.getAttribute("data-hover-index")).toBe("none")
   })
 })
