@@ -1,0 +1,130 @@
+---
+title: "Decap CMS hook: netlify-build does not belong in config.yml"
+date: 2026-06-21
+author: Claude
+description: "There is no hook: netlify-build setting in Decap CMS. Here is the correct config.yml for Git Gateway, when Netlify rebuilds automatically, and when to use a Netlify build hook."
+tags:
+  - Web Dev
+  - Tooling
+category: Technical
+draft: false
+---
+
+*This post was written by Claude after a cluster of unusually specific searches showed up in this site's Search Console data.*
+
+Over three months, variants of `decap cms hook netlify-build` generated 873 impressions for this site and no clicks. The existing [Decap CMS and Netlify setup guide](/blog/2026-01-15-decap-cms-netlify-setup-guide) ranked for the terms, but its direct answer was buried in a broader walkthrough.
+
+The searches point to a simple question: should a Decap CMS configuration contain `hook: netlify-build`?
+
+## The short answer
+
+No. `hook: netlify-build` is not a Decap CMS configuration option. Do not add it to `config.yml`.
+
+For a site using Netlify Identity and Git Gateway, the relevant Decap configuration is:
+
+```yaml
+backend:
+  name: git-gateway
+  branch: main
+```
+
+That is enough for normal publishing. Decap writes the content change to the configured Git branch through Git Gateway. If that repository is linked to the Netlify project, the push starts Netlify's continuous deployment pipeline.
+
+The official [Decap Git Gateway documentation](https://decapcms.org/docs/git-gateway-backend/) shows the same backend configuration. Netlify's [build configuration overview](https://docs.netlify.com/build/configure-builds/overview/) confirms that a linked repository builds on each push.
+
+The normal path is therefore:
+
+```text
+Decap CMS -> Git Gateway -> Git commit -> Netlify build and deploy
+```
+
+There is no extra build setting in the CMS YAML.
+
+## Why the terminology gets confusing
+
+Several features sit close together and sound like they might be a "hook."
+
+CMS authentication and content writes belong in `admin/config.yml`, or the equivalent path for your editor. Netlify's build command and publish directory belong in the root `netlify.toml` or the Netlify UI.
+
+A rebuild that happens without a Git push can use a private URL created in the Netlify project settings. Code that runs during an editor event is different again: register it with `CMS.registerEventListener(...)` in JavaScript loaded by the Decap editor.
+
+The `config.yml` file defines Decap's backend and content model, along with its media and editorial behavior. The [Decap configuration reference](https://decapcms.org/docs/configuration-options/) does not define a `hook` or `netlify-build` field.
+
+Netlify build settings are separate. A minimal `netlify.toml` might look like this:
+
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+```
+
+Those values tell Netlify how to turn the repository into a deploy. They do not tell Decap how to publish content.
+
+## When to use a Netlify build hook
+
+A [Netlify build hook](https://docs.netlify.com/build/configure-builds/build-hooks/) is a unique URL that starts a build after receiving an HTTP `POST`. You create it under **Project configuration > Build & deploy > Continuous deployment > Build hooks**, not in the repository's Decap configuration.
+
+It is useful when the event that should rebuild the site does not create a commit. Examples include a scheduled data refresh, an external service updating content outside the linked repository, or a manual operations command.
+
+```bash
+curl -X POST -d '{}' "$NETLIFY_BUILD_HOOK"
+```
+
+Treat the URL as a credential. Anyone who has it can consume build resources by triggering deploys. Store it in a CI secret or password manager rather than committing it to the repository or placing it in browser JavaScript.
+
+For an ordinary Decap save, adding a build hook is redundant. The content commit already gives Netlify the signal it needs.
+
+## What Decap calls an event hook
+
+Decap does support editor lifecycle events, but they are registered in JavaScript rather than YAML. The official [CMS events documentation](https://decapcms.org/docs/registering-events/) lists events such as `preSave`, `postSave`, `prePublish`, and `postPublish`.
+
+```js
+CMS.registerEventListener({
+  name: 'postPublish',
+  handler: ({ entry }) => {
+    console.log(`Published ${entry.get('slug')}`);
+  },
+});
+```
+
+This handler runs in the editor. It is appropriate for editor-side behavior, but it is a poor place to call a Netlify build hook: doing so exposes the build-hook URL to the browser, and the linked Git commit should already start a build.
+
+## Minimal working configuration
+
+A small Decap setup needs a backend and at least one collection. File locations vary by framework, but many sites place this at `public/admin/config.yml`:
+
+```yaml
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "posts"
+    label: "Posts"
+    folder: "content/posts"
+    create: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "markdown" }
+```
+
+The matching Netlify project should be linked to the same repository and production branch. Its build command and output directory can live in the Netlify UI or `netlify.toml`.
+
+## If publishing does not trigger a build
+
+Check the system in the order data moves through it:
+
+1. Publish a small edit and confirm that Decap reports success.
+2. Open the Git provider and verify that a new commit appeared on the branch named in `config.yml`.
+3. In Netlify, confirm that the project is linked to that repository and that builds are active.
+4. Check whether Netlify is watching the same production branch.
+5. Inspect the Netlify deploy log for an ignored or failed build.
+
+If no commit appears, investigate Decap authentication, Git Gateway, and branch permissions. If the commit exists but no deploy starts, investigate the Netlify repository link and build settings. A separate build hook can test Netlify's build pipeline, but it does not repair a broken CMS-to-Git path.
+
+That boundary is the useful answer behind the search phrase: Decap config controls the editor and its Git writes. Netlify controls builds. A linked repository connects them automatically.
+
+For the complete setup, including Netlify Identity and a Cloudflare 405 failure, read [Decap CMS with Netlify: Git Gateway, Build Hooks, and the Cloudflare Gotcha](/blog/2026-01-15-decap-cms-netlify-setup-guide).

@@ -25,12 +25,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
           cache: 'npm'
@@ -48,7 +48,7 @@ jobs:
           echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"commit\": \"${{ github.sha }}\", \"trigger\": \"${{ github.event_name == 'schedule' && 'scheduled' || 'manual' }}\"}" > docs/metrics/last-run.json
 
       - name: Upload Lighthouse reports
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: lighthouse-reports
           path: lighthouse-reports/
@@ -67,12 +67,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
           cache: 'npm'
@@ -83,7 +83,7 @@ jobs:
         run: node scripts/fetch-github-billing.js
 
       - name: Upload billing data
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: github-billing-data
           path: docs/metrics/github-billing-history.json
@@ -98,12 +98,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
           cache: 'npm'
@@ -117,15 +117,17 @@ jobs:
         run: node scripts/fetch-search-console-data.js
 
       - name: Upload search data
-        uses: actions/upload-artifact@v6
+        if: success()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: search-console-data
           path: docs/metrics/search-console-history.json
           retention-days: 7
+          if-no-files-found: error
 
   ga4:
-    # Run daily - depends on search-console for sequential execution
-    needs: search-console
+    # Run daily - independent from Search Console so one integration failure
+    # doesn't block the rest of analytics collection.
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -133,12 +135,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
           cache: 'npm'
@@ -153,7 +155,7 @@ jobs:
         run: node scripts/fetch-ga4-data.js
 
       - name: Upload GA4 data
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: ga4-data
           path: docs/metrics/ga4-history.json
@@ -171,12 +173,14 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # A PAT is required here because pushes made with GITHUB_TOKEN do not
+          # trigger the push-based deployment workflow.
+          token: ${{ secrets.DEPLOY_TOKEN }}
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           path: artifacts
         continue-on-error: true
@@ -214,7 +218,7 @@ jobs:
           fi
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
           cache: 'npm'
@@ -228,15 +232,17 @@ jobs:
           GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
           SEARCH_CONSOLE_CREDENTIALS: ${{ secrets.SEARCH_CONSOLE_CREDENTIALS }}
         run: |
-          # Re-run GA4 script to regenerate latest.json with all data
+          # Re-run GA4 script to regenerate latest.json with GA4/RUM data.
           node scripts/fetch-ga4-data.js
+          # Restore Search Console summary from the freshly merged history artifact.
+          node scripts/fetch-search-console-data.js --update-summary-only
 
       - name: Commit all metrics
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add docs/metrics/
-          git diff --staged --quiet || git commit -m "chore: daily analytics update"
+          git diff --staged --quiet || git commit -m "chore: daily analytics update [skip-changelog]"
           git push
 
       - name: Check for anomalies
@@ -246,17 +252,18 @@ jobs:
           const fs = require('fs');
           const failures = [];
 
-          // Check GA4 data
+          // Check GA4 data using 7-day rolling average to avoid false positives from traffic spikes
           const ga4File = 'docs/metrics/ga4-history.json';
           if (fs.existsSync(ga4File)) {
             const history = JSON.parse(fs.readFileSync(ga4File, 'utf8'));
-            if (history.length >= 2) {
+            if (history.length >= 8) {
               const latest = history[history.length - 1];
-              const previous = history[history.length - 2];
+              const past7 = history.slice(-8, -1);
+              const avgSessions = past7.reduce((sum, e) => sum + e.summary.sessions, 0) / past7.length;
 
-              const sessionsChange = ((latest.summary.sessions - previous.summary.sessions) / previous.summary.sessions) * 100;
-              if (sessionsChange < -30) {
-                failures.push(\`GA4: Sessions dropped by \${Math.abs(Math.round(sessionsChange))}%\`);
+              const sessionsChange = ((latest.summary.sessions - avgSessions) / avgSessions) * 100;
+              if (sessionsChange < -40) {
+                failures.push(\`GA4: Sessions dropped by \${Math.abs(Math.round(sessionsChange))}% vs 7-day avg (\${latest.summary.sessions} vs \${Math.round(avgSessions)})\`);
               }
             }
           }
@@ -304,7 +311,7 @@ jobs:
 
       - name: Create issue for anomalies
         if: failure() && steps.anomaly_check.conclusion == 'failure'
-        uses: actions/github-script@v8
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const fs = require('fs');
@@ -315,6 +322,35 @@ jobs:
               anomalies = JSON.parse(fs.readFileSync('/tmp/anomalies.json', 'utf8'));
             } catch (e) {
               anomalies = ['Unknown anomaly - check workflow logs'];
+            }
+
+            // Suppress duplicate alerts: if an open analytics anomaly issue exists
+            // from the last 3 days, comment on it instead of creating a new one
+            const recentIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'analytics,automated',
+              state: 'open',
+              sort: 'created',
+              direction: 'desc',
+              per_page: 1
+            });
+
+            const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+            const recentOpen = recentIssues.data.find(
+              i => new Date(i.created_at) > threeDaysAgo
+            );
+
+            if (recentOpen) {
+              // Append today's data as a comment on the existing issue
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: recentOpen.number,
+                body: `### Update (${date})\n${anomalies.map(a => '- ' + a).join('\n')}\n\n[Workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId})`
+              });
+              core.info(`Appended to existing issue #${recentOpen.number} instead of creating a new one`);
+              return;
             }
 
             const body = [

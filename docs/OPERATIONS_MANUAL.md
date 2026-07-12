@@ -102,6 +102,32 @@ No manual steps needed. Check [Actions tab](https://github.com/Dbochman/personal
   - CNAME `@` → dbochman.github.io (main site)
   - (api subdomain managed automatically by Worker Custom Domain)
 
+**SSL/TLS (zone dylanbochman.com → SSL/TLS):**
+- **Encryption mode:** Full (strict) — Cloudflare connects to the GitHub Pages origin over HTTPS with a validated cert (set 2026-05-25; was "Flexible" before that)
+- **Always Use HTTPS:** On (Edge Certificates) — safe only because the mode is Full (strict)
+- **Order matters:** enabling Always Use HTTPS while the mode is "Flexible" causes a redirect loop and takes the site down (Flexible means Cloudflare hits origin over plain HTTP, which GitHub Pages redirects back to HTTPS). If both ever need re-enabling, set Full (strict) first, confirm the site loads, then turn on Always Use HTTPS.
+- GitHub Pages' own "Enforce HTTPS" checkbox stays grayed out because the Cloudflare proxy hides DNS from GitHub's verification — expected, Cloudflare enforces HTTPS at the edge instead.
+
+**Redirect Rules (zone dylanbochman.com → Rules → Redirect Rules):**
+- Rules run in order. Keep host canonicalization first so `www` requests never reach the GitHub Pages origin, which can return Cloudflare `526` for `https://www.dylanbochman.com/*`.
+- **Rule 1:** "www → apex canonical host" (created 2026-06-14)
+  - Match: `Hostname equals www.dylanbochman.com` (`http.host eq "www.dylanbochman.com"`)
+  - Action: dynamic `301 - Permanent Redirect`
+  - Expression: `concat("https://dylanbochman.com", http.request.uri.path)`
+  - Preserve query string: enabled
+  - Expected: `https://www.dylanbochman.com/blog?x=1` → `https://dylanbochman.com/blog?x=1`
+- **Rule 2:** "Legacy .html → home (soft 404 fix)" (created 2026-06-10)
+  - 301-redirects `/index.html`, `/contactme.html`, `/bretton-woods.html`, `/eurotrip.html`, `/photography.html`, `/golden-gloves.html` → `https://dylanbochman.com/`
+- This is the **production** fix for soft 404s on legacy URLs. `public/_redirects` does NOT apply to production (it's a Cloudflare Pages feature, so it only affects branch previews on `*.personal-website-adg.pages.dev`); it mirrors this rule to keep previews consistent.
+
+**Cloudflare redirect validation:**
+```bash
+curl -I https://www.dylanbochman.com/
+curl -I https://www.dylanbochman.com/blog
+curl -I 'https://www.dylanbochman.com/blog?x=1'
+curl -L -o /dev/null -w 'final=%{http_code} redirects=%{num_redirects} effective=%{url_effective}\n' 'https://www.dylanbochman.com/contactme.html?utm_source=test'
+```
+
 **Pages Project (Preview Deployments):**
 - **Project name:** personal-website-adg
 - **URL:** https://personal-website-adg.pages.dev

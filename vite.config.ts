@@ -62,6 +62,13 @@ export default defineConfig(({ mode }) => ({
       output: {
         // Manual chunk splitting for better caching
         manualChunks(id) {
+          // Vite's preload helper is a virtual module shared by every chunk that
+          // dynamic-imports anything. Left unassigned, Rollup may place it inside
+          // a lazy chunk (it landed in `mermaid`), which makes the entry statically
+          // import that chunk and modulepreload ~700KB of mermaid on every page.
+          if (id.includes('vite/preload-helper') || id.includes('vite/modulepreload-polyfill')) {
+            return 'vendor';
+          }
           // Core vendor chunks
           if (id.includes('node_modules')) {
             if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
@@ -89,6 +96,17 @@ export default defineConfig(({ mode }) => ({
             }
             if (id.includes('next-themes')) {
               return 'theme';
+            }
+            // d3 is shared by recharts (via victory-vendor) and mermaid.
+            // Without an explicit assignment Rollup inlines it into the
+            // mermaid chunk, making every chart chunk statically import
+            // ~700KB of mermaid. Must precede the mermaid/dagre rule.
+            if (/node_modules\/(d3|d3-[^/]+|victory-vendor|internmap|delaunator|robust-predicates)\//.test(id)) {
+              return 'd3';
+            }
+            // Bundle mermaid + dagre together to prevent stale chunk hash errors
+            if (id.includes('mermaid') || id.includes('dagre')) {
+              return 'mermaid';
             }
           }
         },

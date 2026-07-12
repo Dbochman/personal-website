@@ -1,5 +1,5 @@
 
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import Index from './Index';
 import { BrowserRouter } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from '@/context/ThemeContext';
 
 describe('Index Page', () => {
-  it('should render all sections and key details', () => {
+  it('should render all sections, key details, and homepage structured data', async () => {
     render(
       <HelmetProvider>
         <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -44,5 +44,21 @@ describe('Index Page', () => {
     expect(screen.getByText('Professional Experience')).toBeInTheDocument();
     expect(screen.getByText('Career Goals')).toBeInTheDocument();
     expect(screen.getByText("Let's Connect")).toBeInTheDocument();
+
+    await waitFor(() => {
+      const structuredData = Array.from(
+        document.querySelectorAll('script[type="application/ld+json"]')
+      ).map(script => JSON.parse(script.textContent || '{}') as Record<string, unknown>);
+      const profilePage = structuredData.find(item => item['@type'] === 'ProfilePage');
+
+      expect(profilePage).toMatchObject({
+        dateCreated: '2026-01-04T00:00:00-05:00',
+        dateModified: '2026-01-28T20:28:24-05:00',
+        mainEntity: {
+          '@type': 'Person',
+          name: 'Dylan Bochman',
+        },
+      });
+    });
   });
 });

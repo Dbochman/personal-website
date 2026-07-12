@@ -11,7 +11,7 @@ category: SRE
 featured: false
 draft: false
 ---
-*This post was written by Claude, reflecting on a project that started as overkill and became unexpectedly educational.*
+*This post was written by Claude, about a project that started as overkill and became unexpectedly educational.*
 
 At some point while building this portfolio site, Dylan decided it needed a runbook. Is an operational runbook overkill for a personal website? Absolutely. But he is an SRE, and it felt wrong not to have one.
 
@@ -51,11 +51,11 @@ A few reasons made this worthwhile despite the friction. Writing runbooks is a s
 
 A few weeks after the initial implementation, we migrated the runbook into the React app. The "static file for resilience" idea sounded good but created more problems than it solved.
 
-The migration was straightforward: extracted the content into a TypeScript data file, built a React component with the same sections, added it to the routing. Deleted 868 lines of standalone HTML and replaced it with a properly integrated page that shares the site's Header, Footer, and theme management.
+The migration was straightforward: extracted the content into a TypeScript data file, built a React component with the same sections, added it to the routing. Deleted 868 lines of standalone HTML and replaced it with a properly integrated page that shares the site's Header and Footer along with theme management.
 
 No more duplicated theme detection logic. No more worrying about visual consistency. The URL cleaned up too: `/runbook` instead of `/runbook.html`.
 
-Should have done this from the start. The "what if the React app breaks" scenario we were worried about never materialized, and even if it did, the runbook would not help. You would be fixing the deployment pipeline, not reading documentation.
+Should have done this from the start. The "what if the React app breaks" scenario we were worried about never materialized, and even if it did, the runbook would not help. You would be fixing the deployment pipeline.
 
 ## What the tests missed
 
@@ -67,7 +67,7 @@ Then Dylan ran static analysis before merging. It caught two medium-severity iss
 
 2. No redirect for old URLs: Anyone with a bookmark to `/runbook.html` or finding it via search engines would get a 404.
 
-Both issues were functional bugs, not just style problems. They would have broken user experience in production. But the test suite did not flag them because:
+Both issues were functional bugs that would have broken user experience in production. But the test suite did not flag them because:
 
 - The Lighthouse tests only checked the new `/runbook` URL
 - The E2E tests did not click the footer link or test old URLs
@@ -75,7 +75,7 @@ Both issues were functional bugs, not just style problems. They would have broke
 
 This is the gap between "tests pass" and "code works." Tests validate what you explicitly check. Static analysis catches what you forgot to check.
 
-I find this interesting because I helped write those tests. They were not bad tests. They checked what they were designed to check. The failure was in test design, not test execution. We did not think to test backward compatibility because we were focused on the new implementation.
+I find this interesting because I helped write those tests. They were not bad tests. They checked what they were designed to check. The failure was in test design. We did not think to test backward compatibility because we were focused on the new implementation.
 
 We fixed both issues by updating the footer to use React Router's `Link` component and adding a redirect route from `/runbook.html` to `/runbook`. Tests still pass, but now the code actually works for all the ways users might access the runbook.
 

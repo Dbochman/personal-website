@@ -21,6 +21,20 @@ import { google } from 'googleapis';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import {
+  FRESHNESS_LOOKBACK_DAYS,
+  HISTORY_RETENTION_DAYS,
+  SEARCH_ANALYTICS_PAGE_SIZE,
+  SEARCH_WINDOW_DAYS,
+  addDays,
+  aggregateRows,
+  buildDateRange,
+  buildDetailCoverage,
+  buildRollingHistory,
+  fetchAllRows,
+  formatDateInTimeZone,
+  resolveLatestFinalDate,
+} from './search-console-utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,13 +42,27 @@ const __dirname = path.dirname(__filename);
 const HISTORY_FILE = path.join(__dirname, '../docs/metrics/search-console-history.json');
 const SITE_URL = 'sc-domain:dylanbochman.com'; // or 'https://dylanbochman.com'
 
+function readHistory() {
+  if (!fs.existsSync(HISTORY_FILE)) {
+    return [];
+  }
+
+  return JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8'));
+}
+
+function writeHistory(history) {
+  fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
+}
+
+function updateMetricsSummaryFromEntry(dataEntry) {
+  updateMetricsSummary(dataEntry.summary, dataEntry.collectedAt ?? dataEntry.timestamp);
+}
+
 async function fetchSearchConsoleData() {
   try {
     // Check for credentials
     if (!process.env.SEARCH_CONSOLE_CREDENTIALS) {
-      console.log('⚠️  No Search Console credentials found, skipping');
-      console.log('💡 To enable: Set SEARCH_CONSOLE_CREDENTIALS environment variable');
-      return;
+      throw new Error('Missing SEARCH_CONSOLE_CREDENTIALS environment variable');
     }
 
     // Decode and parse credentials
@@ -53,118 +81,124 @@ async function fetchSearchConsoleData() {
       auth: await auth.getClient(),
     });
 
-    // Get data for last 7 days
-    const endDate = new Date();
-    const startDate = new Date();
-    startDate.setDate(startDate.getDate() - 7);
+    const query = (params) => searchconsole.searchanalytics.query(params);
+    const collectedAt = new Date().toISOString();
+    const todayInPacific = formatDateInTimeZone(new Date());
+    const freshnessRange = buildDateRange(todayInPacific, FRESHNESS_LOOKBACK_DAYS);
 
-    const formatDate = (date) => date.toISOString().split('T')[0];
-
-    console.log(`📊 Fetching Search Console data from ${formatDate(startDate)} to ${formatDate(endDate)}...`);
-
-    // Fetch search analytics data
-    const response = await searchconsole.searchanalytics.query({
+    // Search Console exposes the first incomplete date only for fresh data
+    // grouped by date. Use it to choose the newest fully finalized day.
+    const freshnessResponse = await query({
       siteUrl: SITE_URL,
       requestBody: {
-        startDate: formatDate(startDate),
-        endDate: formatDate(endDate),
-        dimensions: ['query', 'page'],
-        rowLimit: 100,
-        dataState: 'all', // fresher data, may include low-volume queries hidden by 'final'
+        startDate: freshnessRange.start,
+        endDate: freshnessRange.end,
+        dataState: 'all',
+        dimensions: ['date'],
+        rowLimit: SEARCH_ANALYTICS_PAGE_SIZE,
       },
     });
+    const latestFinalDate = resolveLatestFinalDate(freshnessResponse.data);
+    const reportingPeriod = buildDateRange(latestFinalDate, SEARCH_WINDOW_DAYS);
 
-    // Extract metrics
-    const rows = response.data.rows || [];
-    const totalClicks = rows.reduce((sum, row) => sum + (row.clicks || 0), 0);
-    const totalImpressions = rows.reduce((sum, row) => sum + (row.impressions || 0), 0);
-    const avgPosition = rows.length > 0
-      ? rows.reduce((sum, row) => sum + (row.position || 0), 0) / rows.length
-      : 0;
-    const avgCTR = totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
+    console.log(
+      `📊 Fetching finalized Search Console data from ${reportingPeriod.start} to ${reportingPeriod.end}...`
+    );
 
-    // Get top queries and pages
-    const topQueries = rows
-      .filter(row => row.keys && row.keys[0])
-      .sort((a, b) => (b.clicks || 0) - (a.clicks || 0))
-      .slice(0, 10)
-      .map(row => ({
-        query: row.keys[0],
-        clicks: row.clicks || 0,
-        impressions: row.impressions || 0,
-        ctr: row.ctr || 0,
-        position: row.position || 0,
-      }));
-
-    const topPages = rows
-      .filter(row => row.keys && row.keys[1])
-      .reduce((acc, row) => {
-        const page = row.keys[1];
-        if (!acc[page]) {
-          acc[page] = { page, clicks: 0, impressions: 0 };
-        }
-        acc[page].clicks += row.clicks || 0;
-        acc[page].impressions += row.impressions || 0;
-        return acc;
-      }, {});
-
-    const topPagesArray = Object.values(topPages)
-      .sort((a, b) => b.clicks - a.clicks)
-      .slice(0, 10);
-
-    // Create data entry
-    const dataEntry = {
-      timestamp: new Date().toISOString(),
-      date: new Date().toISOString().split('T')[0],
-      period: {
-        start: formatDate(startDate),
-        end: formatDate(endDate),
+    // Fetch enough finalized daily totals to rebuild one year of exact rolling
+    // seven-day summaries. Date-only grouping provides authoritative totals.
+    const firstHistoryEndDate = addDays(latestFinalDate, -(HISTORY_RETENTION_DAYS - 1));
+    const dailyHistoryStartDate = addDays(firstHistoryEndDate, -(SEARCH_WINDOW_DAYS - 1));
+    const dailyRowsPromise = fetchAllRows({
+      query,
+      siteUrl: SITE_URL,
+      requestBody: {
+        startDate: dailyHistoryStartDate,
+        endDate: latestFinalDate,
+        dataState: 'final',
       },
-      summary: {
-        totalClicks,
-        totalImpressions,
-        averageCTR: Math.round(avgCTR * 100) / 100,
-        averagePosition: Math.round(avgPosition * 10) / 10,
-      },
-      topQueries,
-      topPages: topPagesArray,
+      dimensions: ['date'],
+    });
+
+    // Query and page dimensions must be fetched independently. Combining them
+    // makes each row a query/page pair and biases both top-ten lists.
+    const detailRequest = {
+      startDate: reportingPeriod.start,
+      endDate: reportingPeriod.end,
+      dataState: 'final',
     };
+    const queryRowsPromise = fetchAllRows({
+      query,
+      siteUrl: SITE_URL,
+      requestBody: detailRequest,
+      dimensions: ['query'],
+    });
+    const pageRowsPromise = fetchAllRows({
+      query,
+      siteUrl: SITE_URL,
+      requestBody: detailRequest,
+      dimensions: ['page'],
+    });
 
-    // Read existing history
-    let history = [];
-    if (fs.existsSync(HISTORY_FILE)) {
-      history = JSON.parse(fs.readFileSync(HISTORY_FILE, 'utf8'));
+    const [dailyRows, queryRows, pageRows] = await Promise.all([
+      dailyRowsPromise,
+      queryRowsPromise,
+      pageRowsPromise,
+    ]);
+    const history = buildRollingHistory({
+      dailyRows,
+      latestFinalDate,
+    });
+    const dataEntry = history[history.length - 1];
+
+    if (!dataEntry) {
+      throw new Error('Could not build Search Console history from finalized data');
     }
 
-    // Append new data
-    history.push(dataEntry);
+    dataEntry.collectedAt = collectedAt;
+    dataEntry.detailCoverage = {
+      queries: buildDetailCoverage(queryRows, dataEntry.summary.totalImpressions),
+      pages: buildDetailCoverage(pageRows, dataEntry.summary.totalImpressions),
+    };
+    dataEntry.topQueries = aggregateRows(queryRows, 0, 'query').slice(0, 10);
+    dataEntry.topPages = aggregateRows(pageRows, 0, 'page').slice(0, 10);
 
-    // Keep only last 52 entries (1 year of weekly data)
-    if (history.length > 52) {
-      history = history.slice(-52);
-    }
-
-    // Write updated history
-    fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
+    // Replace the legacy fresh/eight-day snapshots with a deterministic year
+    // of finalized, exact seven-day windows.
+    writeHistory(history);
 
     console.log('✅ Search Console data saved to history');
-    console.log(`📈 Clicks: ${totalClicks}, Impressions: ${totalImpressions}, Avg Position: ${Math.round(avgPosition * 10) / 10}`);
+    console.log(
+      `📈 Clicks: ${dataEntry.summary.totalClicks}, ` +
+      `Impressions: ${dataEntry.summary.totalImpressions}, ` +
+      `Avg Position: ${dataEntry.summary.averagePosition}`
+    );
+    console.log(
+      `🔎 Detail coverage: ${dataEntry.detailCoverage.queries.impressionShare}% queries, ` +
+      `${dataEntry.detailCoverage.pages.impressionShare}% pages`
+    );
     console.log(`📊 Total historical entries: ${history.length}`);
 
     // Update the metrics summary
-    updateMetricsSummary(dataEntry.summary);
+    updateMetricsSummaryFromEntry(dataEntry);
 
   } catch (error) {
     console.error('❌ Error fetching Search Console data:', error.message);
-    if (error.code === 404) {
-      console.error('💡 Make sure the site is verified in Search Console and the service account has access');
+
+    if (error.code === 401 || error.code === 403) {
+      console.error(`💡 Re-add the service account from SEARCH_CONSOLE_CREDENTIALS to the Search Console property ${SITE_URL}`);
+      console.error('💡 In Search Console: Settings > Users and permissions > Add user');
+    } else if (error.code === 404) {
+      console.error(`💡 Make sure the property ${SITE_URL} exists in Search Console and the service account has access`);
+    } else if (error instanceof SyntaxError) {
+      console.error('💡 SEARCH_CONSOLE_CREDENTIALS is not valid base64-encoded JSON');
     }
-    // Don't fail the build if Search Console fetch fails
-    process.exit(0);
+
+    process.exit(1);
   }
 }
 
-function updateMetricsSummary(searchData) {
+function updateMetricsSummary(searchData, lastCheck = new Date().toISOString()) {
   const SUMMARY_FILE = path.join(__dirname, '../docs/metrics/latest.json');
 
   try {
@@ -175,7 +209,7 @@ function updateMetricsSummary(searchData) {
     }
 
     summary.searchConsole = {
-      lastCheck: new Date().toISOString(),
+      lastCheck,
       clicks: searchData.totalClicks,
       impressions: searchData.totalImpressions,
       averageCTR: searchData.averageCTR,
@@ -191,4 +225,24 @@ function updateMetricsSummary(searchData) {
   }
 }
 
-fetchSearchConsoleData();
+function updateMetricsSummaryOnly() {
+  const history = readHistory();
+  const latest = history[history.length - 1];
+
+  if (!latest) {
+    throw new Error('No Search Console history entries found');
+  }
+
+  updateMetricsSummaryFromEntry(latest);
+}
+
+if (process.argv.includes('--update-summary-only')) {
+  try {
+    updateMetricsSummaryOnly();
+  } catch (error) {
+    console.error('❌ Error updating Search Console summary:', error.message);
+    process.exit(1);
+  }
+} else {
+  fetchSearchConsoleData();
+}

@@ -1,6 +1,21 @@
 import type { BlogPost } from '@/types/blog';
 
 /**
+ * Format a date-only frontmatter value without shifting it across time zones.
+ */
+export function formatBlogDate(
+  dateString: string,
+  month: 'long' | 'short' = 'long'
+): string {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month,
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
+}
+
+/**
  * Sort blog posts by date
  */
 export function sortPostsByDate(

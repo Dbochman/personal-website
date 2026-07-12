@@ -149,6 +149,8 @@ export default function Project() {
               name: project.title,
               description: project.description,
               url: `https://dylanbochman.com/projects/${project.slug}`,
+              dateCreated: project.createdAt,
+              dateModified: project.updatedAt || project.createdAt,
               applicationCategory: 'UtilityApplication',
               operatingSystem: 'Any',
               offers: {

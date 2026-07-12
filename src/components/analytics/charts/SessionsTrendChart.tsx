@@ -1,6 +1,7 @@
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { GA4HistoryEntry } from '../types';
+import { formatHistoryDate, getRecentHistory } from './recentHistory';
 
 function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
@@ -29,12 +30,21 @@ export function SessionsTrendChart({ data }: SessionsTrendChartProps) {
     );
   }
 
-  const chartData = data.map((entry) => ({
-    date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-    sessions: entry.summary.sessions,
-    users: entry.summary.users,
-    pageViews: entry.summary.pageViews,
-  }));
+  const chartData = getRecentHistory(data, 60)
+    .map((entry) => ({
+      date: formatHistoryDate(entry.date),
+      sessions: entry.summary.sessions,
+      users: entry.summary.users,
+      pageViews: entry.summary.pageViews,
+    }));
+
+  if (chartData.length === 0) {
+    return (
+      <div className="h-64 flex items-center justify-center text-muted-foreground">
+        No chart data available
+      </div>
+    );
+  }
 
   // Calculate tick interval: show ~5-7 labels max for readability
   const tickInterval = Math.max(0, Math.ceil(chartData.length / 6) - 1);

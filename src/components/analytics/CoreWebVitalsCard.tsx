@@ -96,7 +96,7 @@ export function CoreWebVitalsCard({ data }: CoreWebVitalsCardProps) {
             <div key={vital.key} className="space-y-1">
               <div className="flex justify-between text-sm">
                 <span className="font-medium">{vital.label}</span>
-                <span className={cn('font-mono', {
+                <span className={cn('font-mono tabular-nums', {
                   'text-emerald-500': status === 'good',
                   'text-amber-500': status === 'warning',
                   'text-red-500': status === 'critical',
@@ -112,7 +112,7 @@ export function CoreWebVitalsCard({ data }: CoreWebVitalsCardProps) {
                 className="h-2"
                 aria-label={`${vital.label}: ${rawValue}`}
               />
-              <div className="flex justify-between text-xs text-muted-foreground">
+              <div className="flex justify-between text-xs text-muted-foreground tabular-nums">
                 <span>Good: ≤{vital.thresholds.good}{vital.unit}</span>
                 <span>Poor: &gt;{vital.thresholds.poor}{vital.unit}</span>
               </div>

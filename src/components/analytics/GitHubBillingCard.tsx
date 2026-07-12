@@ -42,7 +42,7 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{summary.totalMinutes.toLocaleString()}</div>
+            <div className="text-2xl font-bold tabular-nums">{summary.totalMinutes.toLocaleString()}</div>
             <p className="text-xs text-muted-foreground mt-1">{period.description}</p>
           </CardContent>
         </Card>
@@ -55,7 +55,7 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
             <DollarSign className="h-4 w-4 text-emerald-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-emerald-500">
+            <div className="text-2xl font-bold text-emerald-500 tabular-nums">
               ${summary.totalDiscountAmount.toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground mt-1">{savingsPercent}% from free tier</p>
@@ -70,7 +70,7 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl font-bold ${summary.totalNetAmount === 0 ? 'text-emerald-500' : ''}`}>
+            <div className={`text-2xl font-bold tabular-nums ${summary.totalNetAmount === 0 ? 'text-emerald-500' : ''}`}>
               ${summary.totalNetAmount.toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground mt-1">actual spend</p>
@@ -111,7 +111,7 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
                   <span className="text-sm font-medium capitalize">{runner} runners</span>
                   <div className="text-right">
                     <span className="text-sm tabular-nums">{stats.minutes.toLocaleString()} min</span>
-                    <span className="text-xs text-muted-foreground ml-2">
+                    <span className="text-xs text-muted-foreground ml-2 tabular-nums">
                       (${stats.grossAmount.toFixed(2)})
                     </span>
                   </div>
@@ -122,7 +122,7 @@ export const GitHubBillingCard = memo(function GitHubBillingCard({ data }: GitHu
                   <span className="text-sm font-medium">Artifact storage</span>
                   <div className="text-right">
                     <span className="text-sm tabular-nums">{storage.gbHours.toFixed(2)} GB-hrs</span>
-                    <span className="text-xs text-muted-foreground ml-2">
+                    <span className="text-xs text-muted-foreground ml-2 tabular-nums">
                       (${storage.grossAmount.toFixed(2)})
                     </span>
                   </div>

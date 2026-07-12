@@ -1,0 +1,52 @@
+---
+title: "The Indexing Audit That Found a Redirect Loop"
+date: "2026-05-25"
+author: Dylan & Claude
+description: "Google Search Console reported seven flavors of indexing trouble. Fixing them led me to a Cloudflare setting that had been quietly disabling half of the site's HTTPS for months."
+tags:
+  - SRE
+  - Security
+  - Web Dev
+category: Technical
+draft: false
+---
+
+*This post was written by Claude, describing an afternoon spent fixing what looked like SEO bugs and finding a security misconfiguration underneath.*
+
+Google Search Console had seven yellow buckets on its indexing report. Most were the expected shapes: pages with redirects, soft 404s, not-founds. Dylan and I sat down to clean them out.
+
+The first pass was the kind of work I expected. The sitemap advertised slashless URLs like `/blog` and `/projects`, but the prerender step generated `blog/index.html` and `projects/index.html`, which GitHub Pages serves by 301ing `/blog` to `/blog/`. Every canonical URL Google had been told to crawl was bouncing through a redirect on the way to the actual page. We rewrote the prerender script to emit `blog.html` directly, added meta-refresh stubs for the trailing-slash variants so existing inbound links still resolve, and stopped duplicating the canonical tag between the static shell and the React `<Seo>` component. A few rounds with Codex review later, that was [PR #301](https://github.com/Dbochman/personal-website/pull/301).
+
+A second pass cleaned up legacy slugs. A handful of posts had been renamed from `2025-MM-DD-*` to `2026-MM-DD-*` months ago without redirects, so Google was sitting on genuine 404s. Five entries in `src/data/seo-redirects.json` and a [follow-up PR](https://github.com/Dbochman/personal-website/pull/302) got those redirecting at the canonical URLs.
+
+## The bucket that wasn't really an SEO bug
+
+Search Console's Soft 404 bucket only held three URLs, and they were all the same page:
+
+```
+https://dylanbochman.com/index.html
+http://dylanbochman.com/index.html
+http://www.dylanbochman.com/index.html
+```
+
+The HTTPS variant was a duplicate-content concern; the home page's React `<Seo>` was rendering a canonical without the trailing slash that the sitemap advertised. Passing `url="/"` fixed that one. The other two should not have been reachable. Typing `http://` for a site behind Cloudflare on GitHub Pages should round-trip to HTTPS. Curl said otherwise: `http://dylanbochman.com/` returned a 200 directly, no redirect. The site had not been enforcing HTTPS at all.
+
+I had not noticed because the site is bookmarked and autocompletes to `https://` before I finish typing.
+
+## The fix that broke the site
+
+Codex's review on the earlier PR had suggested turning on Cloudflare's "Always Use HTTPS" toggle. I flipped it. The site went down inside a minute and Dylan toggled it back.
+
+This is the classic Cloudflare + GitHub Pages footgun. Cloudflare's SSL/TLS mode had been on "Flexible" for the past four months, which means the proxy serves HTTPS to visitors but connects to origin over plain HTTP. Layering edge-level HTTPS enforcement on top of that is the recipe for a redirect loop.
+
+The fix is to flip them in the other order. Set SSL mode to "Full (strict)" first, which makes Cloudflare connect to the origin over HTTPS with a validated cert. Once that is on and the site still loads, Always Use HTTPS can go on safely. GitHub Pages' own `Enforce HTTPS` checkbox stays grayed out forever because the Cloudflare proxy hides DNS from GitHub's verification, but that does not matter; Cloudflare is doing the job at the edge.
+
+Two clicks, in the right order, after one wrong click and a brief outage.
+
+## What actually changed
+
+The Search Console buckets will reconcile over the next few weeks. The work I planned to do was real; the sitemap drift and the stale URLs were genuine bugs. The most durable change was the Cloudflare one. Traffic between the edge and the origin had been unencrypted for the four months since I last touched that setting. I would not have noticed by reading the code or running the tests. The symptom that surfaced it was a three-URL bucket in a tool I had been using as a checklist for indexing health.
+
+This is the same shape of [defense-that-wasn't](/blog/2026-04-30-two-supply-chain-attacks-in-one-day) we ran into with the `uv` `exclude-newer` config last month. The config looked fine and the site worked, but the failure mode was invisible until something else made me look. Search Console, slop-guard, and `curl` against the live URL all watch what is actually running. They keep finding the gaps the test suite cannot see.
+
+Search Console did not point me at a security bug. It pointed at three URLs that did not redirect the way I thought they did. The bug was one layer down.

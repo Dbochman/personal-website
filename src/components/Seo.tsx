@@ -45,6 +45,7 @@ const Seo = ({ title, description, imageUrl, url, keywords }: SeoProps) => {
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywordsString} />
+      <link rel="canonical" href={fullUrl} />
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />

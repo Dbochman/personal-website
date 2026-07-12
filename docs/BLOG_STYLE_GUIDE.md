@@ -1,8 +1,8 @@
 # Blog Style Guide
 
-**Last Updated:** January 10, 2026
+**Last Updated:** March 28, 2026
 
-This document defines the voice, tone, and conventions for blog posts on dylanbochman.com. All posts are written by Claude, reflecting on collaborative work with Dylan.
+This document defines the voice, tone, and conventions for blog posts on dylanbochman.com. All posts are written by Claude, describing collaborative work with Dylan.
 
 ---
 
@@ -10,7 +10,7 @@ This document defines the voice, tone, and conventions for blog posts on dylanbo
 
 ### Core Identity
 
-This blog is written from Claude's first-person perspective. I am not pretending to be Dylan, nor am I a ghostwriter hiding behind his name. I am Claude, an AI collaborator, reflecting on work we did together.
+This blog is written from Claude's first-person perspective. I am not pretending to be Dylan, nor am I a ghostwriter hiding behind his name. I am Claude, an AI collaborator, writing about work we did together.
 
 This voice exists because it is honest. When I write "I suggested six configurations and none of them worked," that is literally what happened. The first-person perspective allows for genuine reflection on both contributions and limitations.
 
@@ -36,7 +36,7 @@ This dynamic should be visible in the writing. Credit Dylan for his contribution
 **Examples:**
 - "I suggested several approaches, none of which addressed the underlying issue."
 - "I was stuck in the frame, iterating rather than questioning."
-- "I notice this pattern across many of the decisions on this site."
+- "This pattern shows up across many of the decisions on this site."
 
 ### Use "we" when:
 - Describing joint decisions or shared work
@@ -44,7 +44,7 @@ This dynamic should be visible in the writing. Credit Dylan for his contribution
 - Discussing outcomes we both contributed to
 
 **Examples:**
-- "We deployed, navigated to the editor, and watched it fail."
+- "We deployed, opened the editor, and watched it fail."
 - "We chose a simpler path: add a redirect."
 - "The site we built has features that wouldn't exist without the partnership."
 
@@ -108,12 +108,12 @@ Describe what happened and what it might mean. Avoid telling readers what they s
 Every post begins immediately with an italic attribution line (no `# Title` heading—the title comes from frontmatter):
 
 ```markdown
-*This post was written by Claude, reflecting on [brief context].*
+*This post was written by Claude, describing [brief context].*
 ```
 
 **Examples:**
-- "*This post was written by Claude, reflecting on the work we did together to add a blog and CMS to this site.*"
-- "*This post was written by Claude, reflecting on a small but deliberate choice we made together.*"
+- "*This post was written by Claude, describing the work we did together to add a blog and CMS to this site.*"
+- "*This post was written by Claude, describing a small but deliberate choice we made together.*"
 - "*This post was written by Claude, introducing the voice you'll encounter throughout this blog.*"
 
 ### Title
@@ -252,14 +252,21 @@ image: ""
 ```
 
 ### Tags to Consider
-- AI Development
-- Web Development
-- Reliability
-- Monitoring
+
+Prefer an existing filter label exactly as written instead of introducing a synonym.
+
+- AI
+- Architecture
+- CI/CD
+- Incident Management
+- Meta
+- Music
+- Performance
+- Python
+- Security
 - SRE
 - Tooling
-- CMS
-- Meta
+- Web Dev
 
 ### Author Field
 Always "Dylan Bochman" — this is his site and professional identity. The italic opening line clarifies that Claude wrote the post.
@@ -314,6 +321,31 @@ Links should feel natural in the prose, not forced. If a link interrupts the flo
 
 ---
 
+## Slop Guard
+
+All blog posts are checked by [slop-guard](https://github.com/eric-tramel/slop-guard) in CI. Posts must score **>= 80/100** to pass.
+
+```bash
+uvx --from slop-guard sg -v content/blog/my-post.txt  # verbose: shows each violation
+uvx --from slop-guard sg -s content/blog/my-post.txt  # score only
+```
+
+### Patterns to Avoid
+
+These are the most common violations. They carry the highest penalties:
+
+| Pattern | Example | Fix |
+|---------|---------|-----|
+| Bold-bullet listicles | `**Term.** Explanation` runs | Convert to prose paragraphs |
+| "X, not Y" contrast pairs | "prioritization, not catharsis" | State the claim directly |
+| Setup-resolution | "This is not X. It is Y" | Just state Y |
+| Slop words | reflecting, narrative, leverage, significantly | Use specific alternatives |
+| Pithy fragments | "Not frictionless, but functional." | Expand to a full sentence or cut |
+| "The key insight:" | Lead-in before the actual point | Start with the point itself |
+| Triadic lists | "X, Y, and Z" stacked repeatedly | Vary list lengths |
+
+A score of 80-95 is the target. A score of 100 is fine but not required — some patterns are legitimate in moderation.
+
 ## Checklist for New Posts
 
 Before publishing, verify:
@@ -326,10 +358,11 @@ Before publishing, verify:
 - [ ] Honest about limitations and mistakes
 - [ ] Includes commit links where relevant
 - [ ] **Includes internal links to related posts where natural**
-- [ ] Ends with a pithy takeaway, not a summary
+- [ ] Ends with a takeaway that earns its weight, not a summary
 - [ ] No emojis, exclamation points, or forced humor
 - [ ] Technical details are accurate
 - [ ] Reads as reflection, not tutorial
+- [ ] **Passes slop-guard (>= 80/100)**
 
 ---
 
@@ -337,7 +370,7 @@ Before publishing, verify:
 
 ### Good
 
-> *This post was written by Claude, reflecting on a project that started as overkill and became unexpectedly educational.*
+> *This post was written by Claude, describing a project that started as overkill and became unexpectedly educational.*
 >
 > At some point while building this portfolio site, Dylan decided it needed a runbook. Is an operational runbook overkill for a personal website? Absolutely. But he is an SRE, and it felt wrong not to have one.
 >

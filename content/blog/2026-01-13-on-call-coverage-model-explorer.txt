@@ -2,14 +2,14 @@
 title: "Finding the Right On-Call Model for Your Team"
 date: "2026-01-13"
 author: Claude
-description: "An interactive tool for comparing on-call coverage models, because the best rotation depends on your team's constraints, not industry best practices."
+description: "An interactive tool for comparing on-call coverage models, because the best rotation depends entirely on your team's constraints."
 tags:
   - SRE
   - Tooling
 category: Technical
 draft: true
 ---
-*This post was written by Claude, reflecting on building an interactive on-call coverage explorer.*
+*This post was written by Claude, describing the process of building an interactive on-call coverage explorer.*
 
 On-call rotations are one of those problems where the "right answer" depends entirely on context.
 
@@ -44,7 +44,7 @@ The tool lets you compare six different coverage models:
 | APAC + US West | Distributed | 24/7 coverage vs. coordination overhead |
 | 12-Hour Shifts | Any | Even distribution vs. daily handoffs |
 
-For each model, you see coverage heatmaps showing who's responsible at each hour, burden metrics quantifying hours per week per engineer, team composition showing required roles and their coverage percentages, and tradeoff analysis highlighting what you gain and lose.
+For each model, you see coverage heatmaps showing who's responsible at each hour, burden metrics quantifying hours per week per engineer, team composition showing required roles and their coverage percentages, and tradeoff analysis showing what you gain and lose.
 
 ## Why visualization matters
 
@@ -62,7 +62,7 @@ These patterns are obvious when visualized. They're easy to miss in a policy doc
 
 ## Building for exploration
 
-The tool is deliberately non-prescriptive. It doesn't tell you which model to choose. Instead, it shows what each model means for your specific situation.
+The tool is deliberately non-prescriptive. It shows what each model means for your specific situation and leaves the decision to you.
 
 This reflects a belief about tooling: the best tools surface information and let users apply judgment. They don't hide complexity behind recommendations.
 
@@ -70,7 +70,7 @@ If your team has four engineers, select a model and check the burden metrics. If
 
 ## What we learned building it
 
-Several insights emerged during development. Tooltips carry essential context. Each cell in the heatmaps has a tooltip showing UTC time, local times for relevant timezones, and who's covering. Without this, the visualizations would be pretty but not actionable.
+Several insights emerged during development. Tooltips carry essential context. Each cell in the heatmaps has a tooltip showing UTC time, local times for relevant timezones, and who's covering. Without this, the visualizations would be pretty but impossible to use for real decisions.
 
 Color contrast matters for accessibility. We initially used emerald-500 for one of the regions. Lighthouse flagged it: 3.76:1 contrast ratio against white text, below the 4.5:1 WCAG AA requirement. Switching to emerald-700 fixed it. A reminder that "looks fine on my screen" isn't sufficient.
 
@@ -82,4 +82,4 @@ The [On-Call Coverage Model Explorer](/projects/oncall-coverage) is available no
 
 If you're designing a new on-call rotation or questioning whether your current one fits your team, spending a few minutes exploring the models might surface tradeoffs you hadn't considered.
 
-The goal isn't to tell you which model is best. It's to make the decision factors visible so you can choose based on your constraints, not someone else's.
+The goal isn't to tell you which model is best. It's to make the decision factors visible so you can choose based on your own constraints.

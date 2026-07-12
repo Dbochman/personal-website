@@ -34,6 +34,13 @@ interface BlogPostForFeed {
   tags: string[];
 }
 
+interface ProjectForSitemap {
+  slug: string;
+  status?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
+
 /**
  * Load blog posts from the precompiled manifest
  */
@@ -64,6 +71,21 @@ function loadBlogPosts(): BlogPostForFeed[] {
 
   // Sort by date, newest first
   return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+/**
+ * Load public project routes from the project registry metadata
+ */
+function loadProjects(): ProjectForSitemap[] {
+  const projectsPath = path.join(process.cwd(), 'src/data/projects-meta.json');
+
+  if (!fs.existsSync(projectsPath)) {
+    console.error('❌ Projects metadata not found at', projectsPath);
+    process.exit(1);
+  }
+
+  return (JSON.parse(fs.readFileSync(projectsPath, 'utf8')) as ProjectForSitemap[])
+    .filter(project => project.status !== 'draft');
 }
 
 /**
@@ -128,15 +150,24 @@ ${items}
 /**
  * Generate sitemap XML including blog posts
  */
-function generateSitemap(posts: BlogPostForFeed[]): string {
-  const currentDate = new Date().toISOString().split('T')[0];
-
-  // Static routes
+function generateSitemap(posts: BlogPostForFeed[], projects: ProjectForSitemap[]): string {
+  // Static route modification dates are not tracked in structured content.
+  // Omit lastmod instead of claiming every deploy changed these pages.
   const staticRoutes = [
     { url: '/', changefreq: 'monthly', priority: '1.0' },
     { url: '/blog', changefreq: 'weekly', priority: '0.9' },
     { url: '/projects', changefreq: 'weekly', priority: '0.8' },
+    { url: '/runbook', changefreq: 'monthly', priority: '0.7' },
   ];
+
+  const projectRoutes = projects.map(project => ({
+    url: `/projects/${project.slug}`,
+    // Only publish an explicitly maintained significant-update date. A
+    // creation date is not a truthful substitute for the last modification.
+    lastmod: formatDateISO(project.updatedAt),
+    changefreq: 'monthly',
+    priority: '0.7',
+  }));
 
   // Blog post routes
   const blogRoutes = posts.map(post => ({
@@ -146,14 +177,16 @@ function generateSitemap(posts: BlogPostForFeed[]): string {
     priority: '0.7',
   }));
 
-  const allRoutes = [...staticRoutes, ...blogRoutes];
+  const allRoutes = [...staticRoutes, ...projectRoutes, ...blogRoutes];
 
-  const urls = allRoutes.map(route => `  <url>
-    <loc>${BASE_URL}${route.url}</loc>
-    <lastmod>${route.lastmod || currentDate}</lastmod>
+  const urls = allRoutes.map(route => {
+    const lastmod = route.lastmod ? `\n    <lastmod>${route.lastmod}</lastmod>` : '';
+    return `  <url>
+    <loc>${BASE_URL}${route.url}</loc>${lastmod}
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
-  </url>`).join('\n');
+  </url>`;
+  }).join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -179,6 +212,8 @@ function main(): void {
   console.log('🔄 Loading blog posts from manifest...');
   const posts = loadBlogPosts();
   console.log(`📝 Found ${posts.length} published blog posts`);
+  const projects = loadProjects();
+  console.log(`🧰 Found ${projects.length} public projects`);
 
   const publicDir = path.join(process.cwd(), 'public');
 
@@ -189,7 +224,7 @@ function main(): void {
   console.log('✅ RSS feed generated at public/rss.xml');
 
   // Generate sitemap
-  const sitemap = generateSitemap(posts);
+  const sitemap = generateSitemap(posts, projects);
   const sitemapPath = path.join(publicDir, 'sitemap.xml');
   fs.writeFileSync(sitemapPath, sitemap, 'utf8');
   console.log('✅ Sitemap generated at public/sitemap.xml');
@@ -202,7 +237,7 @@ function main(): void {
 
   console.log('\n📊 Summary:');
   console.log(`   - ${posts.length} blog posts in RSS feed`);
-  console.log(`   - ${posts.length + 3} URLs in sitemap (${posts.length} posts + 3 static pages)`);
+  console.log(`   - ${posts.length + projects.length + 4} URLs in sitemap (${posts.length} posts + ${projects.length} projects + 4 static pages)`);
 }
 
 main();

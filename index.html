@@ -41,12 +41,10 @@
       })();
     </script>
     <title>Dylan Bochman - Site Reliability Engineer & Incident Manager</title>
-    <link rel="canonical" href="https://dylanbochman.com" />
     <link rel="icon" id="favicon" href="/favicon-light.ico" />
     <link rel="icon" id="favicon-16" type="image/png" sizes="16x16" href="/favicon-16x16-light.png" />
     <link rel="icon" id="favicon-32" type="image/png" sizes="32x32" href="/favicon-32x32-light.png" />
     <link rel="apple-touch-icon" id="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-light.png" />
-    <meta property="og:url" content="https://dylanbochman.com" />
     <meta name="description" content="Site Reliability Engineer (SRE) and Technical Incident Manager specializing in reliability, incident management, and SLO monitoring. Experience at Groq, HashiCorp, and Spotify." />
     <meta name="keywords" content="Site Reliability Engineering, SRE, Technical Incident Manager, Incident Management, Groq, HashiCorp, Spotify, Post-Incident Analysis, SLO Monitoring, Operational Readiness, Infrastructure Reliability, DevOps, System Reliability, Incident Response, Dylan Bochman" />
     <meta name="author" content="Dylan Bochman" />
@@ -72,69 +70,6 @@
 
     <!-- Using system fonts (San Francisco, Segoe UI, Roboto) - zero web font requests for instant rendering -->
     
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfilePage",
-      "dateCreated": "2026-01-04",
-      "dateModified": "2026-01-28",
-      "mainEntity": {
-        "@type": "Person",
-        "name": "Dylan Bochman",
-        "givenName": "Dylan",
-        "familyName": "Bochman",
-        "alternateName": ["Dbochman"],
-        "identifier": "dylanbochman",
-        "url": "https://dylanbochman.com",
-        "image": "https://dylanbochman.com/social-preview.webp",
-        "description": "Site Reliability Engineer and Technical Incident Manager specializing in reliability, incident management, and SLO monitoring. Currently at Groq, previously at HashiCorp and Spotify.",
-        "jobTitle": "Site Reliability Engineer & Technical Incident Manager",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Groq",
-          "url": "https://groq.com"
-        },
-        "alumniOf": [
-          {
-            "@type": "Organization",
-            "name": "HashiCorp",
-            "url": "https://hashicorp.com"
-          },
-          {
-            "@type": "Organization",
-            "name": "Spotify",
-            "url": "https://spotify.com"
-          }
-        ],
-        "knowsAbout": [
-          "Site Reliability Engineering",
-          "Incident Management",
-          "DevOps",
-          "System Reliability",
-          "Post-Incident Analysis",
-          "SLO Monitoring",
-          "Infrastructure Reliability",
-          "Operational Readiness",
-          "Service Level Objectives",
-          "On-Call Management"
-        ],
-        "hasOccupation": {
-          "@type": "Occupation",
-          "name": "Site Reliability Engineer",
-          "occupationLocation": {
-            "@type": "Country",
-            "name": "United States"
-          },
-          "skills": "SRE, Incident Management, SLO Monitoring, Infrastructure Reliability, DevOps"
-        },
-        "sameAs": [
-          "https://www.linkedin.com/in/dbochman",
-          "https://github.com/Dbochman"
-        ]
-      }
-    }
-    </script>
-
     <script>
       if (location.hostname === "dbochman.github.io") {
       location.href = location.href.replace("dbochman.github.io", "dylanbochman.com");
@@ -240,8 +175,9 @@
   })();
 </script>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-VDM15EMJN2"></script>
+<!-- Google tag (gtag.js) — loaded after window load so the 152KB library
+     doesn't compete with app chunks for startup bandwidth/CPU. gtag() calls
+     made before the library arrives queue in dataLayer and flush on load. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -255,6 +191,30 @@
     cookie_expires: 63072000, // 2 years
     sample_rate: 100
   });
+
+  (function () {
+    var loaded = false;
+    function loadGtag() {
+      if (loaded) return;
+      loaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VDM15EMJN2';
+      document.head.appendChild(s);
+    }
+    function onLoad() {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadGtag, { timeout: 4000 });
+      } else {
+        setTimeout(loadGtag, 1500);
+      }
+    }
+    if (document.readyState === 'complete') {
+      onLoad();
+    } else {
+      window.addEventListener('load', onLoad);
+    }
+  })();
 </script>
 
   <body>

@@ -20,7 +20,7 @@ React 18, TypeScript, Vite, Tailwind CSS, Radix UI. Deployed to GitHub Pages.
 
 ## Git Workflow
 
-**Always use feature branches and PRs.** Never commit directly to main.
+**Use feature branches and PRs for code changes.** Blog post edits can be committed directly to main.
 
 ```bash
 git checkout -b feature/name
@@ -43,8 +43,21 @@ gh pr merge --squash --delete-branch
 |------|--------|
 | `[skip ci]` | Skip all GitHub Actions |
 | `[skip-review]` | Skip Codex PR review |
+| `[skip-changelog]` | Skip changelog sync for this commit |
 | `[blog]` | Mark commit as blog-worthy |
 | `[blog:tag]` | Group related commits |
+| `[changelog]` | Force-include in changelog (overrides type filter) |
+
+### Changelog sync
+
+`.github/workflows/sync-changelog.yml` runs on every push to `main` and:
+
+1. Skips noise (dependabot, daily analytics, `chore`/`deps`/`docs`/`ci`/`build`/`style`/`test`/`refactor` without `[changelog]`).
+2. For each remaining commit, looks for an existing roadmap card by `PR #N` label or slug match. If found, moves it to the `changelog` column.
+3. Otherwise, creates a new card directly in `changelog` (only for `feat`/`fix`/`perf`/freeform commits, or anything tagged `[changelog]`).
+4. Bot commits without `[skip ci]` so deploy.yml's content-only fast path runs and the new card lands on the live site within ~2 minutes. The sync workflow itself doesn't re-trigger because of the `paths-ignore` filter on `content/kanban/**` and `src/generated/kanban/**`.
+
+Backfill or test via `Actions → Sync Changelog → Run workflow` (supports `since` SHA and dry-run).
 
 ## Kanban
 
@@ -63,10 +76,21 @@ Append to `.claude/session-notes.md`:
 - Unresolved questions
 - Patterns worth noting
 
+## Blog Quality
+
+Blog posts are checked by [slop-guard](https://github.com/eric-tramel/slop-guard) in CI. All posts must score >= 80/100. Run locally:
+
+```bash
+uvx --from slop-guard sg -v content/blog/my-post.txt  # verbose violations
+uvx --from slop-guard sg -s content/blog/my-post.txt  # score only
+```
+
+See `docs/BLOG_STYLE_GUIDE.md` for voice, tone, and conventions.
+
 ## Patterns to Avoid
 
 - **localStorage**: Use URL params instead
-- **Direct commits to main**: Use PRs
+- **Direct commits to main for code changes**: Use PRs (blog posts are fine)
 
 ## MCP Testing
 

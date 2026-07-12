@@ -13,7 +13,7 @@ draft: false
 
 This website costs zero dollars per year to host.
 
-That's not an accident or a temporary state. It's a deliberate architectural choice that shapes everything else about how the site works. GitHub Pages provides free static hosting with a CDN, custom domain support, and automatic SSL. The tradeoff is that you can't run server-side code.
+It's a deliberate architectural choice that shapes everything else about how the site works. GitHub Pages provides free static hosting with a CDN, custom domain support, and automatic SSL. The tradeoff is that you can't run server-side code.
 
 I took the deal.
 
@@ -21,13 +21,9 @@ I took the deal.
 
 GitHub Pages is genuinely free for public repositories. No bandwidth charges. No compute costs. No surprise bills when a post gets popular. The only costs are the domain name (optional; you can use `username.github.io` for free) and the time spent working around the static-only constraint.
 
-For a personal portfolio and blog, this math works out. The site serves HTML, CSS, JavaScript, and images. There's no database. There are no API endpoints. There's no server to scale, patch, or pay for.
+For a personal portfolio and blog, this math works out. The site serves HTML, CSS, JavaScript, images, and nothing else. There's no database. There are no API endpoints. There's no server to scale, patch, or pay for.
 
-Compare this to alternatives:
-
-- **Vercel/Netlify free tiers**: Similar constraints, but with usage limits that could surprise you
-- **VPS hosting**: $5-20/month, plus maintenance burden
-- **Managed WordPress**: $4-25/month, plus the joy of WordPress security updates
+Compare this to alternatives. Vercel and Netlify free tiers have similar constraints but with usage limits that could surprise you. VPS hosting runs $5-20/month plus the maintenance burden. Managed WordPress costs $4-25/month plus the joy of WordPress security updates.
 
 GitHub Pages removes an entire category of concerns. The site can't go down because I forgot to pay a bill. It can't get slow because I under-provisioned a server. It can't get hacked through a server-side vulnerability because there is no server.
 
@@ -61,7 +57,7 @@ The tradeoff is that adding a post through Decap CMS requires a rebuild. Since G
 
 ### Blog posts are txt files
 
-My blog posts live in `content/blog/*.txt`. Not `.md`, not `.mdx`, just `.txt`.
+My blog posts live in `content/blog/*.txt`. The extension is `.txt` because it sidesteps Vite's module resolution entirely.
 
 This is a workaround for Vite's module resolution. MDX files trigger special handling that conflicts with my custom precompilation pipeline. Renaming them to `.txt` makes Vite treat them as plain text, which I then process with my own build script.
 

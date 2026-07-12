@@ -1,6 +1,7 @@
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { GitHubBillingEntry } from '../types';
+import { formatHistoryDate } from './recentHistory';
 
 function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
@@ -34,7 +35,7 @@ export function BillingTrendChart({ data }: BillingTrendChartProps) {
   }
 
   const chartData = data.map((entry) => ({
-    date: new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+    date: formatHistoryDate(entry.date),
     minutes: entry.summary.totalMinutes,
     savings: entry.summary.totalDiscountAmount,
   }));

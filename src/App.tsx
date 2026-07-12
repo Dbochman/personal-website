@@ -65,6 +65,11 @@ const App = () => (
                     <Route path="/photography.html" element={<Navigate to="/" replace />} />
                     <Route path="/golden-gloves.html" element={<Navigate to="/" replace />} />
                     <Route path="/uploads/*" element={<Navigate to="/" replace />} />
+                    <Route path="/projects/andre" element={<Navigate to="/projects/echonest" replace />} />
+                    <Route path="/projects/andre/" element={<Navigate to="/projects/echonest" replace />} />
+                    <Route path="/blog/2026-02-04-andre-collaborative-music-queue" element={<Navigate to="/blog/2026-02-04-echonest-collaborative-music-queue" replace />} />
+                    <Route path="/blog/2026-02-04-andre-collaborative-music-queue/" element={<Navigate to="/blog/2026-02-04-echonest-collaborative-music-queue" replace />} />
+                    {/* Manifest-driven legacy blog-slug aliases are handled by static meta-refresh files written in scripts/prerender.mjs — don't add per-post entries here. */}
                     {/* Unlisted routes - accessible via URL but not in nav */}
                     <Route path="/projects/house" element={<HouseKanban />} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

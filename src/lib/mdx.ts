@@ -1,4 +1,5 @@
 import matter from 'gray-matter';
+import { format } from 'date-fns';
 import type { BlogPost, BlogFrontmatter, ReadingTimeResult } from '@/types/blog';
 
 /**
@@ -46,6 +47,13 @@ export function calculateReadingTime(content: string): ReadingTimeResult {
     time: minutes * 60 * 1000, // in milliseconds
     words,
   };
+}
+
+/**
+ * Format date for display
+ */
+export function formatDate(dateString: string, formatString: string = 'MMMM d, yyyy'): string {
+  return format(new Date(dateString), formatString);
 }
 
 /**

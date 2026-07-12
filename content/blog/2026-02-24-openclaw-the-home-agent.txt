@@ -1,0 +1,75 @@
+---
+title: "OpenClaw: Experimenting with a personal AI agent"
+date: 2026-02-24
+author: Dylan & Claude
+description: "What I learned running an open-source AI agent on a self-hosted Mac Mini. Least privilege, version-controlled config, and the boring plumbing that makes it work."
+tags:
+  - AI
+  - SRE
+category: Technical
+draft: false
+---
+
+Everyone seemed excited about [OpenClaw](https://openclaw.ai/) and I wanted to understand why. It's an open-source framework for building personal AI agents on your own hardware. What hooked me was the prospect of texting my own agent from my phone or laptop over iMessage, no app required. A gateway process gives Claude persistent identity and connects it to messaging channels, browser automation, cron jobs, and whatever APIs you wire up. No cloud dependency. Runs on a Mac Mini.
+
+So I set out to make it real. The first step was creating a dedicated iCloud account for the agent, both to realize the iMessage vision and because it felt safer to quarantine it in its own identity. I did the same with a Google account, keeping the agent grounded in accounts I controlled rather than sharing my own. The Apple account creation process was slow. It took over a week for Apple to verify the new account's status before iMessage would even activate.
+
+I used [Claude Code](https://docs.anthropic.com/en/docs/claude-code/overview) for the initial installation and configuration, and it's still how I adjust the agent's access to tools and accounts. Its secrets live in a dedicated [1Password](https://1password.com/) vault, isolated from everything else. As I added new skills, each one got its own credentials in the vault, so permissions grew incrementally rather than all at once.
+
+## What it does
+
+Once the accounts were set up, I started adding skills one at a time. On the smart home side: thermostat control across multiple locations, smart lights, and AC. I also built a climate dashboard, a lightweight web app served over a private network and fed by periodic snapshots.
+
+For dining, it handles restaurant search and booking. Recurring cron jobs automate date night: the agent finds availability, books a table, then sends calendar invites.
+
+For music, the agent manages the queue on [EchoNest](/blog/echonest-collaborative-music-queue), a shared Spotify queue I built as a separate project. OpenClaw talks to it through the REST API we built into the web app, so it can DJ the queue based on what we ask for over iMessage.
+
+A lot of this is possible because of the CLI tools [steipete](https://github.com/steipete) has been building. OpenClaw uses [imsg](https://github.com/steipete/imsg) for iMessage, [gog](https://github.com/steipete/gogcli) for Gmail and Google Calendar, [spogo](https://github.com/steipete/spogo) for Spotify, [goplaces](https://github.com/steipete/goplaces) for Google Places lookups, and [sag](https://github.com/steipete/sag) for text-to-speech through ElevenLabs. Each one wraps a messy API into something an agent can actually call from the command line. Between those and the skills I wrote myself, OpenClaw now handles Roombas, TV control, calendar, reminders, web search, content summarization, and shopping.
+
+## How it's built
+
+A Node.js gateway process runs as a system service on a Mac Mini in my cabin. The gateway wraps Claude and connects it to iMessage. Sessions reset periodically, which keeps context fresh without breaking continuity mid-conversation.
+
+macOS system services run in a stripped-down environment. Keychain access, password managers, GUI interactions all behave differently than a normal terminal session. A wrapper script handles this: it loads secrets via a separate service account, patches third-party bugs at startup, and wires up everything the gateway needs to boot cleanly on restart.
+
+The whole thing sits on a [Tailscale](https://tailscale.com/) network, which is how I reach the Mac Mini remotely and how services like the climate dashboard get served. Nothing is exposed to the public internet. No port forwarding, no public DNS.
+
+## Running on its own
+
+Most of the skills above are reactive: I text the agent and it does something. But a chunk of the value comes from things it does without being asked. Cron jobs handle date night bookings, climate snapshots, activity reports, and other recurring tasks. Auto-update is enabled, so the gateway pulls new versions and restarts itself. Getting it to survive network interruptions (which satellite internet guarantees) took real work, but at this point it recovers on its own.
+
+All of this config -- cron definitions, skill definitions, patches, environment setup -- lives in a [dotfiles repo](/blog/dotfiles-for-ai-assisted-development). The agent's behavior is version-controlled and backed up. I can edit a job config in git and push, and it gets picked up on the next restart.
+
+## What made it hard
+
+### Secrets management in headless contexts
+
+Getting password manager access working from a system service was the biggest headache. The CLI hangs when it can't reach the desktop app through the expected IPC channel. No timeout, no error. I ended up with a separate secrets pipeline that pre-loads what the agent needs at boot, backed by a dedicated service account with minimal permissions. Don't assume desktop tooling works headless. It won't.
+
+### Browser auth persistence
+
+Browser automation on macOS crashes when it hits encrypted cookies without a desktop session present. Isolated browser profiles with their own auth state get around this, but token rotation and profile corruption mean it needs active maintenance. Worth budgeting real time for if you go this route.
+
+### Network instability and third-party bugs
+
+Some dependencies panic on network interface changes, which satellite internet triggers constantly. I wrote patches that get reapplied on every restart. The approach is ugly, but it has been stable for months. If you're running something 24/7 on variable connectivity, plan for it from day one.
+
+## Security
+
+Before adding any skill, I asked: what's the worst thing this could do?
+
+The agent's secrets live in a dedicated 1Password vault that the service account can only read, never write to. My personal vault is completely inaccessible. Each integration gets its own credentials in that vault, so permissions grew one at a time as I added skills.
+
+Not everything needs the same level of scrutiny. Smart home controls don't need approval. Shopping does: the agent asks for confirmation before every purchase. Messaging runs through a separate iCloud account I created just for the agent, so its iMessage presence has nothing to do with my personal identity.
+
+Some of these guardrails are enforced at the infrastructure level: vault permissions, read-only service accounts, the gateway bound to loopback behind a Tailscale mesh with nothing facing the public internet. Others work because the agent takes its skill instructions at face value. An LLM will respect boundaries you set in its instructions even when nothing technically prevents it from crossing them. It's closer to policy compliance than access control. Effective in practice so far, but worth being honest about the difference. The interesting design question is deciding which guardrails need to be infrastructure-enforced and which can rely on instruction compliance.
+
+Some risks I chose to live with rather than engineer around. The iMessage DM allowlist is wide open, so anyone can message the agent. The quarantined account limits what that's worth, but it's still an open surface. Cron job payloads sit in plaintext JSON, protected by file permissions rather than encryption. I'd rather know where the gaps are than pretend they don't exist.
+
+A weekly activity report flags unexpected auth failures, unusual request patterns, and skills that haven't run when they should have. Detection matters as much as prevention.
+
+Once I started being honest about which guardrails were hard walls and which were just instructions, I figured I should write it all down. So I built a small audit practice around it: an enforcement map that classifies every guardrail by how it's actually enforced, a log of accepted risks with structured entries for each gap I've chosen to live with, and playbooks for when things go wrong. Each accepted risk gets a review trigger, some concrete condition that would make me revisit the decision, so the docs don't just sit there gathering dust. Automated audits run on a recurring schedule, walking through the checklist, verifying infrastructure guardrails still hold, and flagging anything that's drifted.
+
+## What I'd do differently
+
+Very little. I'd create the agent's accounts earlier and worry less about token consumption. Headless OAuth is also worth the upfront investment. Patching around macOS keychain quirks in a system service context gets fragile fast. But after a few months, the whole thing just runs. The machine boots, the service starts, secrets load, patches apply, skills come online. Handing Claude a bag of tools and watching it figure out how to use them was the easy part. Getting the setup stabilized and running reliably through routine updates took closer to a month.

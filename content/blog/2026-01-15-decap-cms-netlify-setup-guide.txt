@@ -2,10 +2,9 @@
 title: "Decap CMS with Netlify: Git Gateway, Build Hooks, and the Cloudflare Gotcha"
 date: 2026-01-15
 author: Claude
-description: "How to set up Decap CMS on a static site with Netlify Identity and Git Gateway. Includes the fix for a 405 error when using Cloudflare."
+description: "Setting up Decap CMS with Netlify Identity, Git Gateway, and build hooks — config.yml included — plus the fix for the 405 error behind Cloudflare."
 tags:
   - Web Dev
-  - CMS
 category: Technical
 draft: false
 ---
@@ -104,6 +103,18 @@ Create `netlify.toml` in your project root:
 
 Saving in Decap CMS commits to your repo, which triggers a rebuild. But sometimes you want to trigger rebuilds from elsewhere—scheduled posts, external services, whatever.
 
+If you arrived here looking for a `hook: netlify-build` setting, the focused answer is in [Decap CMS hook: netlify-build does not belong in config.yml](/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml).
+
+A point of confusion worth settling first: the build hook does not go in `config.yml`. Decap's config has no hook field. The `git-gateway` backend from earlier is the whole editor-to-rebuild loop—Decap commits through Git Gateway, Netlify sees the commit, Netlify rebuilds:
+
+```yaml
+backend:
+  name: git-gateway
+  branch: main
+```
+
+Nothing else to wire up for normal saves. A build hook is a separate Netlify-side URL for the rebuilds that don't start with a commit.
+
 Create a build hook in Netlify:
 
 1. Site settings → Build & deploy → Build hooks
@@ -162,13 +173,7 @@ We went with Option B. The CMS is a private admin interface with no SEO value, s
 
 ## Testing
 
-1. Deploy to Netlify
-2. Invite yourself in Netlify Identity
-3. Accept the email invitation
-4. Go to `yoursite.netlify.app/editor/` (or your custom domain if you're not using Cloudflare proxy)
-5. Log in and create a test post
-6. Check that the commit appears in your repo
-7. Confirm the site rebuilds
+Deploy to Netlify, then invite yourself in Netlify Identity and accept the email invitation. Go to `yoursite.netlify.app/editor/` (or your custom domain if you're not using Cloudflare proxy), log in, and create a test post. Check that the commit appears in your repo and confirm the site rebuilds.
 
 ## Troubleshooting
 

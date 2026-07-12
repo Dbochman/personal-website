@@ -1,0 +1,55 @@
+name: Slop Guard
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'content/blog/**'
+  push:
+    branches: [main]
+    paths:
+      - 'content/blog/**'
+
+jobs:
+  slop-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - name: Setup Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
+        with:
+          python-version: '3.12'
+
+      - name: Install slop-guard
+        run: pip install slop-guard
+
+      - name: Run slop-guard on all blog posts
+        run: |
+          FAILED=0
+          echo "## Slop Guard Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Post | Score | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|-------|--------|" >> $GITHUB_STEP_SUMMARY
+
+          for f in content/blog/*.txt; do
+            SCORE=$(sg -s "$f" 2>/dev/null)
+            NAME=$(basename "$f" .txt)
+            if [ "$SCORE" -lt 80 ]; then
+              echo "| $NAME | $SCORE | :x: FAIL |" >> $GITHUB_STEP_SUMMARY
+              echo "::error file=$f::Slop score $SCORE/100 (minimum 80). Run: uvx --from slop-guard sg -v $f"
+              FAILED=1
+            else
+              echo "| $NAME | $SCORE | :white_check_mark: |" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+
+          if [ "$FAILED" -eq 1 ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "> Fix: run \`uvx --from slop-guard sg -v <file>\` to see violations, then rewrite flagged lines." >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "> All posts score >= 80/100 :tada:" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,66 @@
+---
+title: "The Day Every Fix Uncovered the Next Bug"
+date: "2026-06-10"
+author: Dylan & Claude
+description: "A failed Search Console validation turned into four production fixes: a redirect file that did nothing, 700KB of diagram library on every page, a CI step hung on a CDN, and the wrong snippet on our best-ranking query."
+tags:
+  - AI
+  - SRE
+  - Web Dev
+category: Technical
+draft: false
+---
+
+*This post was written by Claude, describing a day that started with two Search Console screenshots and ended four bugs later.*
+
+Dylan pasted two screenshots into a session: the Page indexing report showing 61 pages not indexed, and a Soft 404 validation that had failed on June 1st. The validation was supposed to confirm a fix we shipped in May. Google re-crawled, found the problem still there, and marked it failed.
+
+We had written about that fix in [the indexing audit post](/blog/2026-05-25-the-indexing-audit-that-found-a-redirect-loop), which ended with the observation that the bug was one layer down from where the symptom pointed. It turned out there was another layer.
+
+## The redirect file that redirected nothing
+
+The May fix included a `_redirects` file that maps `/index.html` to `/` with a 301. The file is well-formed, checked into the repo, and ships with every deploy. It also does nothing in production, because `_redirects` is a Cloudflare Pages convention and the production site is GitHub Pages behind Cloudflare's proxy. Cloudflare Pages only builds our branch previews. The comment in the file says it fixes the soft 404s. It fixes them on URLs nobody visits.
+
+I found this with curl, the same way the May audit found the HTTPS gap: `https://dylanbochman.com/index.html` returned a 200 with a full copy of the homepage. Google's re-crawl saw the same thing and failed the validation honestly.
+
+GitHub Pages cannot express a server-side redirect, so the fix could not live in the repo at all. Dylan created a Redirect Rule in the Cloudflare dashboard covering `/index.html` and five fossil URLs from an older version of the site. Curl confirmed single-hop 301s on every variant, including the two `www` URLs that had failed validation. The repo still contains the `_redirects` file, now with a comment explaining what it actually applies to.
+
+*Update (2026-06-14): one more edge lived at the host layer. `https://www.dylanbochman.com/*` was returning Cloudflare `526` before the legacy path rule could help. The durable fix was a first-order Redirect Rule that matches `www.dylanbochman.com` and dynamically redirects to `https://dylanbochman.com` plus the original path, with query-string preservation enabled. The rule order matters: canonicalize the host first, then let the legacy `.html` rule collapse old paths to `/`.*
+
+## 700KB of diagram library on every page
+
+With the validation re-running, Dylan asked what else was worth improving. The RUM data answered: only 29% of visitors were getting a "good" First Contentful Paint, against a healthy CLS and TTFB. The site was payload-bound.
+
+The homepage was preloading 917KB of compressed JavaScript, and 697KB of it was mermaid, the diagram library. One page on the site renders diagrams. Mermaid is dynamically imported in both components that use it, which is exactly what you would write to keep it out of the critical path, and it had been on the critical path anyway.
+
+The mechanism took some digging. Vite generates a small helper function that every chunk uses to perform dynamic imports. Our build config assigns library code to named chunks but says nothing about Vite's own virtual modules, so Rollup placed the helper wherever it liked. It liked the mermaid chunk. The entry chunk then had to statically import the mermaid chunk to reach a one-kilobyte helper, which meant every page preloaded the whole library to enable the mechanism designed to avoid loading it.
+
+The fix is one line: pin the helper to the vendor chunk. [PR #307](https://github.com/Dbochman/personal-website/pull/307) took the homepage from 917KB to 215KB of compressed JavaScript.
+
+## The CI step that would not die
+
+Shipping that one-line fix took four hours, none of them spent on the fix.
+
+The PR's CI run hung on "Install Playwright browsers," a step that normally takes seconds. I diagnosed a stalled download, called it transient, and pushed a retry wrapper with per-attempt timeouts. This was a wrong hypothesis dressed up as a remediation. The next run failed after exactly three timed-out attempts, and the logs showed each one stalling at the same place: the browser zip downloads at full speed, reaches 100%, and then nothing. The bytes had all arrived. The installer was waiting for a connection-close event that never came. Retrying a deterministic failure three times produces the same failure three times, slightly later.
+
+Dylan, meanwhile, had been asking the right question from the start. His first message about CI was "is 14 minutes too short to call it hung?" It was not too short. His second was a link to a different run stuck on the same step: the morning's production deploy, hung for two and a half hours. Our deploy workflow queues runs rather than cancelling them, so every deploy that day had been waiting behind a zombie. Three merges' worth of changes were sitting undeployed and nothing had alerted us, because a hung queue looks identical to a quiet one.
+
+The durable fix deleted the problem rather than retrying it. GitHub's runners ship with Chrome preinstalled, and Playwright will use it if you ask. CI now passes `channel: 'chrome'` and the browser download step no longer exists in any workflow. The runs went from fourteen-plus minutes of hanging to two and a half minutes of working, and a whole category of external dependency is gone.
+
+## The snippet Google was showing
+
+The last thread came from asking why 955 weekly impressions were producing 4 clicks. A page-one position like ours should convert ten times better than it was.
+
+Every blog post on the site was serving two meta description tags. The static HTML template hardcodes a site-wide description, and react-helmet appends the per-post one without removing the static tag. Crawlers take the first. So for every post, on every query, Google's snippet was Dylan's professional bio. Someone searching for Decap CMS build hook configuration saw three lines about site reliability engineering at Groq and Spotify.
+
+The query data made the cost concrete. Search Console history, which the site already collects, showed Google had trialed our Decap post at position 2 for its head query for about three weeks in early May, serving hundreds of impressions. Zero clicks. The trial ended and the page settled around position 7. We cannot prove the snippet caused the demotion, but a bio shown to people asking a how-to question is not a strong case for keeping a page at position 2.
+
+[PR #309](https://github.com/Dbochman/personal-website/pull/309) fixed the duplication in the prerender step: wherever helmet rendered a tag, the static duplicate is removed before the HTML is written. The post's description now describes the post.
+
+## Four bugs, zero diffs that would have caught them
+
+Reading the source would not have found any of this. The redirect file parses cleanly and expresses the right intent for the wrong platform. The chunk assignment was a decision Rollup made on its own, visible only in build output. The CDN stall only manifests from a CI runner mid-download. The duplicate meta tag exists in the rendered DOM, where the test suite does not look.
+
+Each one surfaced the same way: a measurement of the running system disagreed with what the repo implied. Curl disagreed with the `_redirects` file. RUM disagreed with the dynamic imports. The CI logs disagreed with my retry theory. The click count disagreed with the ranking. The May post closed by noting that Search Console, slop-guard, and curl keep finding gaps the test suite cannot see. This time they found four, stacked, each one revealed by fixing the one above it.
+
+The session also recorded who caught what. I found the mechanisms. Dylan noticed the things that were taking too long.

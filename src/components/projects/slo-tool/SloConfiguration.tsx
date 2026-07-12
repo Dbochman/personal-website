@@ -162,10 +162,10 @@ export function SloConfiguration({ config, onChange }: SloConfigurationProps) {
         <div className="rounded-lg bg-muted/50 p-4">
           <p className="text-sm text-muted-foreground">
             Total Error Budget:{' '}
-            <span className="font-semibold text-foreground">{formatDuration(totalBudget)}</span>
+            <span className="font-semibold text-foreground tabular-nums">{formatDuration(totalBudget)}</span>
           </p>
           <p className="text-xs text-muted-foreground mt-1">
-            {((1 - config.target / 100) * 100).toFixed(3)}% of {config.period} period
+            <span className="tabular-nums">{((1 - config.target / 100) * 100).toFixed(3)}%</span> of {config.period} period
           </p>
         </div>
       </CardContent>

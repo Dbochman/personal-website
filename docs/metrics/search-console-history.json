@@ -1,1583 +1,6000 @@
 [
   {
-    "timestamp": "2026-01-06T15:56:13.379Z",
-    "date": "2026-01-06",
+    "timestamp": "2025-07-11T00:00:00.000Z",
+    "date": "2025-07-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-05",
+      "end": "2025-07-11"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-12T00:00:00.000Z",
+    "date": "2025-07-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-06",
+      "end": "2025-07-12"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-13T00:00:00.000Z",
+    "date": "2025-07-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-07",
+      "end": "2025-07-13"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-14T00:00:00.000Z",
+    "date": "2025-07-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-08",
+      "end": "2025-07-14"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-15T00:00:00.000Z",
+    "date": "2025-07-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-09",
+      "end": "2025-07-15"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-16T00:00:00.000Z",
+    "date": "2025-07-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-10",
+      "end": "2025-07-16"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-17T00:00:00.000Z",
+    "date": "2025-07-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-11",
+      "end": "2025-07-17"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-18T00:00:00.000Z",
+    "date": "2025-07-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-12",
+      "end": "2025-07-18"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-19T00:00:00.000Z",
+    "date": "2025-07-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-13",
+      "end": "2025-07-19"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-20T00:00:00.000Z",
+    "date": "2025-07-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-14",
+      "end": "2025-07-20"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-21T00:00:00.000Z",
+    "date": "2025-07-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-15",
+      "end": "2025-07-21"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-22T00:00:00.000Z",
+    "date": "2025-07-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-16",
+      "end": "2025-07-22"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-23T00:00:00.000Z",
+    "date": "2025-07-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-17",
+      "end": "2025-07-23"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-24T00:00:00.000Z",
+    "date": "2025-07-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-18",
+      "end": "2025-07-24"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-25T00:00:00.000Z",
+    "date": "2025-07-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-19",
+      "end": "2025-07-25"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-26T00:00:00.000Z",
+    "date": "2025-07-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-20",
+      "end": "2025-07-26"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-27T00:00:00.000Z",
+    "date": "2025-07-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-21",
+      "end": "2025-07-27"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-28T00:00:00.000Z",
+    "date": "2025-07-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-22",
+      "end": "2025-07-28"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-29T00:00:00.000Z",
+    "date": "2025-07-29",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-23",
+      "end": "2025-07-29"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-30T00:00:00.000Z",
+    "date": "2025-07-30",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-24",
+      "end": "2025-07-30"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-07-31T00:00:00.000Z",
+    "date": "2025-07-31",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-25",
+      "end": "2025-07-31"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-01T00:00:00.000Z",
+    "date": "2025-08-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-26",
+      "end": "2025-08-01"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-02T00:00:00.000Z",
+    "date": "2025-08-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-27",
+      "end": "2025-08-02"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-03T00:00:00.000Z",
+    "date": "2025-08-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-28",
+      "end": "2025-08-03"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-04T00:00:00.000Z",
+    "date": "2025-08-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-29",
+      "end": "2025-08-04"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-05T00:00:00.000Z",
+    "date": "2025-08-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-30",
+      "end": "2025-08-05"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-06T00:00:00.000Z",
+    "date": "2025-08-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-07-31",
+      "end": "2025-08-06"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-07T00:00:00.000Z",
+    "date": "2025-08-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-01",
+      "end": "2025-08-07"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-08T00:00:00.000Z",
+    "date": "2025-08-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-02",
+      "end": "2025-08-08"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-09T00:00:00.000Z",
+    "date": "2025-08-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-03",
+      "end": "2025-08-09"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-10T00:00:00.000Z",
+    "date": "2025-08-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-04",
+      "end": "2025-08-10"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-11T00:00:00.000Z",
+    "date": "2025-08-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-05",
+      "end": "2025-08-11"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-12T00:00:00.000Z",
+    "date": "2025-08-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-06",
+      "end": "2025-08-12"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-13T00:00:00.000Z",
+    "date": "2025-08-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-07",
+      "end": "2025-08-13"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-14T00:00:00.000Z",
+    "date": "2025-08-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-08",
+      "end": "2025-08-14"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-15T00:00:00.000Z",
+    "date": "2025-08-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-09",
+      "end": "2025-08-15"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-16T00:00:00.000Z",
+    "date": "2025-08-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-10",
+      "end": "2025-08-16"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-17T00:00:00.000Z",
+    "date": "2025-08-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-11",
+      "end": "2025-08-17"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-18T00:00:00.000Z",
+    "date": "2025-08-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-12",
+      "end": "2025-08-18"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-19T00:00:00.000Z",
+    "date": "2025-08-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-13",
+      "end": "2025-08-19"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-20T00:00:00.000Z",
+    "date": "2025-08-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-14",
+      "end": "2025-08-20"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-21T00:00:00.000Z",
+    "date": "2025-08-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-15",
+      "end": "2025-08-21"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-22T00:00:00.000Z",
+    "date": "2025-08-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-16",
+      "end": "2025-08-22"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-23T00:00:00.000Z",
+    "date": "2025-08-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-17",
+      "end": "2025-08-23"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-24T00:00:00.000Z",
+    "date": "2025-08-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-18",
+      "end": "2025-08-24"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-25T00:00:00.000Z",
+    "date": "2025-08-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-19",
+      "end": "2025-08-25"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-26T00:00:00.000Z",
+    "date": "2025-08-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-20",
+      "end": "2025-08-26"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-27T00:00:00.000Z",
+    "date": "2025-08-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-21",
+      "end": "2025-08-27"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-28T00:00:00.000Z",
+    "date": "2025-08-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-22",
+      "end": "2025-08-28"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-29T00:00:00.000Z",
+    "date": "2025-08-29",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-23",
+      "end": "2025-08-29"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-30T00:00:00.000Z",
+    "date": "2025-08-30",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-24",
+      "end": "2025-08-30"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-08-31T00:00:00.000Z",
+    "date": "2025-08-31",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-25",
+      "end": "2025-08-31"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-01T00:00:00.000Z",
+    "date": "2025-09-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-26",
+      "end": "2025-09-01"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-02T00:00:00.000Z",
+    "date": "2025-09-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-27",
+      "end": "2025-09-02"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-03T00:00:00.000Z",
+    "date": "2025-09-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-28",
+      "end": "2025-09-03"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-04T00:00:00.000Z",
+    "date": "2025-09-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-29",
+      "end": "2025-09-04"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-05T00:00:00.000Z",
+    "date": "2025-09-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-30",
+      "end": "2025-09-05"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-06T00:00:00.000Z",
+    "date": "2025-09-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-08-31",
+      "end": "2025-09-06"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-07T00:00:00.000Z",
+    "date": "2025-09-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-01",
+      "end": "2025-09-07"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-08T00:00:00.000Z",
+    "date": "2025-09-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-02",
+      "end": "2025-09-08"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-09T00:00:00.000Z",
+    "date": "2025-09-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-03",
+      "end": "2025-09-09"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-10T00:00:00.000Z",
+    "date": "2025-09-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-04",
+      "end": "2025-09-10"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-11T00:00:00.000Z",
+    "date": "2025-09-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-05",
+      "end": "2025-09-11"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-12T00:00:00.000Z",
+    "date": "2025-09-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-06",
+      "end": "2025-09-12"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-13T00:00:00.000Z",
+    "date": "2025-09-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-07",
+      "end": "2025-09-13"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-14T00:00:00.000Z",
+    "date": "2025-09-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-08",
+      "end": "2025-09-14"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-15T00:00:00.000Z",
+    "date": "2025-09-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-09",
+      "end": "2025-09-15"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-16T00:00:00.000Z",
+    "date": "2025-09-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-10",
+      "end": "2025-09-16"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-17T00:00:00.000Z",
+    "date": "2025-09-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-11",
+      "end": "2025-09-17"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-18T00:00:00.000Z",
+    "date": "2025-09-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-12",
+      "end": "2025-09-18"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-19T00:00:00.000Z",
+    "date": "2025-09-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-13",
+      "end": "2025-09-19"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-20T00:00:00.000Z",
+    "date": "2025-09-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-14",
+      "end": "2025-09-20"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-21T00:00:00.000Z",
+    "date": "2025-09-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-15",
+      "end": "2025-09-21"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-22T00:00:00.000Z",
+    "date": "2025-09-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-16",
+      "end": "2025-09-22"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-23T00:00:00.000Z",
+    "date": "2025-09-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-17",
+      "end": "2025-09-23"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-24T00:00:00.000Z",
+    "date": "2025-09-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-18",
+      "end": "2025-09-24"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-25T00:00:00.000Z",
+    "date": "2025-09-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-19",
+      "end": "2025-09-25"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-26T00:00:00.000Z",
+    "date": "2025-09-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-20",
+      "end": "2025-09-26"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-27T00:00:00.000Z",
+    "date": "2025-09-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-21",
+      "end": "2025-09-27"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-28T00:00:00.000Z",
+    "date": "2025-09-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-22",
+      "end": "2025-09-28"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-29T00:00:00.000Z",
+    "date": "2025-09-29",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-23",
+      "end": "2025-09-29"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-09-30T00:00:00.000Z",
+    "date": "2025-09-30",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-24",
+      "end": "2025-09-30"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-01T00:00:00.000Z",
+    "date": "2025-10-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-25",
+      "end": "2025-10-01"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-02T00:00:00.000Z",
+    "date": "2025-10-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-26",
+      "end": "2025-10-02"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-03T00:00:00.000Z",
+    "date": "2025-10-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-27",
+      "end": "2025-10-03"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-04T00:00:00.000Z",
+    "date": "2025-10-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-28",
+      "end": "2025-10-04"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-05T00:00:00.000Z",
+    "date": "2025-10-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-29",
+      "end": "2025-10-05"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-06T00:00:00.000Z",
+    "date": "2025-10-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-09-30",
+      "end": "2025-10-06"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-07T00:00:00.000Z",
+    "date": "2025-10-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-01",
+      "end": "2025-10-07"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-08T00:00:00.000Z",
+    "date": "2025-10-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-02",
+      "end": "2025-10-08"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-09T00:00:00.000Z",
+    "date": "2025-10-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-03",
+      "end": "2025-10-09"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-10T00:00:00.000Z",
+    "date": "2025-10-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-04",
+      "end": "2025-10-10"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-11T00:00:00.000Z",
+    "date": "2025-10-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-05",
+      "end": "2025-10-11"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-12T00:00:00.000Z",
+    "date": "2025-10-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-06",
+      "end": "2025-10-12"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-13T00:00:00.000Z",
+    "date": "2025-10-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-07",
+      "end": "2025-10-13"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-14T00:00:00.000Z",
+    "date": "2025-10-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-08",
+      "end": "2025-10-14"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-15T00:00:00.000Z",
+    "date": "2025-10-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-09",
+      "end": "2025-10-15"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-16T00:00:00.000Z",
+    "date": "2025-10-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-10",
+      "end": "2025-10-16"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-17T00:00:00.000Z",
+    "date": "2025-10-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-11",
+      "end": "2025-10-17"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-18T00:00:00.000Z",
+    "date": "2025-10-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-12",
+      "end": "2025-10-18"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-19T00:00:00.000Z",
+    "date": "2025-10-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-13",
+      "end": "2025-10-19"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-20T00:00:00.000Z",
+    "date": "2025-10-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-14",
+      "end": "2025-10-20"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-21T00:00:00.000Z",
+    "date": "2025-10-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-15",
+      "end": "2025-10-21"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-22T00:00:00.000Z",
+    "date": "2025-10-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-16",
+      "end": "2025-10-22"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-23T00:00:00.000Z",
+    "date": "2025-10-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-17",
+      "end": "2025-10-23"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-24T00:00:00.000Z",
+    "date": "2025-10-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-18",
+      "end": "2025-10-24"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-25T00:00:00.000Z",
+    "date": "2025-10-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-19",
+      "end": "2025-10-25"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-26T00:00:00.000Z",
+    "date": "2025-10-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-20",
+      "end": "2025-10-26"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-27T00:00:00.000Z",
+    "date": "2025-10-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-21",
+      "end": "2025-10-27"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-28T00:00:00.000Z",
+    "date": "2025-10-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-22",
+      "end": "2025-10-28"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-29T00:00:00.000Z",
+    "date": "2025-10-29",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-23",
+      "end": "2025-10-29"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-30T00:00:00.000Z",
+    "date": "2025-10-30",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-24",
+      "end": "2025-10-30"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-10-31T00:00:00.000Z",
+    "date": "2025-10-31",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-25",
+      "end": "2025-10-31"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-01T00:00:00.000Z",
+    "date": "2025-11-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-26",
+      "end": "2025-11-01"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-02T00:00:00.000Z",
+    "date": "2025-11-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-27",
+      "end": "2025-11-02"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-03T00:00:00.000Z",
+    "date": "2025-11-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-28",
+      "end": "2025-11-03"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-04T00:00:00.000Z",
+    "date": "2025-11-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-29",
+      "end": "2025-11-04"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-05T00:00:00.000Z",
+    "date": "2025-11-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-30",
+      "end": "2025-11-05"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-06T00:00:00.000Z",
+    "date": "2025-11-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-10-31",
+      "end": "2025-11-06"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-07T00:00:00.000Z",
+    "date": "2025-11-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-01",
+      "end": "2025-11-07"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-08T00:00:00.000Z",
+    "date": "2025-11-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-02",
+      "end": "2025-11-08"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-09T00:00:00.000Z",
+    "date": "2025-11-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-03",
+      "end": "2025-11-09"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-10T00:00:00.000Z",
+    "date": "2025-11-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-04",
+      "end": "2025-11-10"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-11T00:00:00.000Z",
+    "date": "2025-11-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-05",
+      "end": "2025-11-11"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-12T00:00:00.000Z",
+    "date": "2025-11-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-06",
+      "end": "2025-11-12"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-13T00:00:00.000Z",
+    "date": "2025-11-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-07",
+      "end": "2025-11-13"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-14T00:00:00.000Z",
+    "date": "2025-11-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-08",
+      "end": "2025-11-14"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-15T00:00:00.000Z",
+    "date": "2025-11-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-09",
+      "end": "2025-11-15"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-16T00:00:00.000Z",
+    "date": "2025-11-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-10",
+      "end": "2025-11-16"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-17T00:00:00.000Z",
+    "date": "2025-11-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-11",
+      "end": "2025-11-17"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-18T00:00:00.000Z",
+    "date": "2025-11-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-12",
+      "end": "2025-11-18"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-19T00:00:00.000Z",
+    "date": "2025-11-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-13",
+      "end": "2025-11-19"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-20T00:00:00.000Z",
+    "date": "2025-11-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-14",
+      "end": "2025-11-20"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-21T00:00:00.000Z",
+    "date": "2025-11-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-15",
+      "end": "2025-11-21"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-22T00:00:00.000Z",
+    "date": "2025-11-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-16",
+      "end": "2025-11-22"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-23T00:00:00.000Z",
+    "date": "2025-11-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-17",
+      "end": "2025-11-23"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-24T00:00:00.000Z",
+    "date": "2025-11-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-18",
+      "end": "2025-11-24"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-25T00:00:00.000Z",
+    "date": "2025-11-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-19",
+      "end": "2025-11-25"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-26T00:00:00.000Z",
+    "date": "2025-11-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-20",
+      "end": "2025-11-26"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-27T00:00:00.000Z",
+    "date": "2025-11-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-21",
+      "end": "2025-11-27"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-28T00:00:00.000Z",
+    "date": "2025-11-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-22",
+      "end": "2025-11-28"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-29T00:00:00.000Z",
+    "date": "2025-11-29",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-23",
+      "end": "2025-11-29"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-11-30T00:00:00.000Z",
+    "date": "2025-11-30",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-24",
+      "end": "2025-11-30"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-01T00:00:00.000Z",
+    "date": "2025-12-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-25",
+      "end": "2025-12-01"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-02T00:00:00.000Z",
+    "date": "2025-12-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-26",
+      "end": "2025-12-02"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-03T00:00:00.000Z",
+    "date": "2025-12-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-27",
+      "end": "2025-12-03"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-04T00:00:00.000Z",
+    "date": "2025-12-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-28",
+      "end": "2025-12-04"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-05T00:00:00.000Z",
+    "date": "2025-12-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-29",
+      "end": "2025-12-05"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-06T00:00:00.000Z",
+    "date": "2025-12-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-11-30",
+      "end": "2025-12-06"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-07T00:00:00.000Z",
+    "date": "2025-12-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-01",
+      "end": "2025-12-07"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-08T00:00:00.000Z",
+    "date": "2025-12-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-02",
+      "end": "2025-12-08"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-09T00:00:00.000Z",
+    "date": "2025-12-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-03",
+      "end": "2025-12-09"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-10T00:00:00.000Z",
+    "date": "2025-12-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-04",
+      "end": "2025-12-10"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-11T00:00:00.000Z",
+    "date": "2025-12-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-05",
+      "end": "2025-12-11"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-12T00:00:00.000Z",
+    "date": "2025-12-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-06",
+      "end": "2025-12-12"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-13T00:00:00.000Z",
+    "date": "2025-12-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-07",
+      "end": "2025-12-13"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-14T00:00:00.000Z",
+    "date": "2025-12-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-08",
+      "end": "2025-12-14"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-15T00:00:00.000Z",
+    "date": "2025-12-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-09",
+      "end": "2025-12-15"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-16T00:00:00.000Z",
+    "date": "2025-12-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-10",
+      "end": "2025-12-16"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-17T00:00:00.000Z",
+    "date": "2025-12-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-11",
+      "end": "2025-12-17"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-18T00:00:00.000Z",
+    "date": "2025-12-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-12",
+      "end": "2025-12-18"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-19T00:00:00.000Z",
+    "date": "2025-12-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-13",
+      "end": "2025-12-19"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-20T00:00:00.000Z",
+    "date": "2025-12-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-14",
+      "end": "2025-12-20"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-21T00:00:00.000Z",
+    "date": "2025-12-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-15",
+      "end": "2025-12-21"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-22T00:00:00.000Z",
+    "date": "2025-12-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-16",
+      "end": "2025-12-22"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-23T00:00:00.000Z",
+    "date": "2025-12-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-17",
+      "end": "2025-12-23"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-24T00:00:00.000Z",
+    "date": "2025-12-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-18",
+      "end": "2025-12-24"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-25T00:00:00.000Z",
+    "date": "2025-12-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-19",
+      "end": "2025-12-25"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-26T00:00:00.000Z",
+    "date": "2025-12-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-20",
+      "end": "2025-12-26"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-27T00:00:00.000Z",
+    "date": "2025-12-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-21",
+      "end": "2025-12-27"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-28T00:00:00.000Z",
+    "date": "2025-12-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-22",
+      "end": "2025-12-28"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-29T00:00:00.000Z",
+    "date": "2025-12-29",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-23",
+      "end": "2025-12-29"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-30T00:00:00.000Z",
+    "date": "2025-12-30",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-24",
+      "end": "2025-12-30"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2025-12-31T00:00:00.000Z",
+    "date": "2025-12-31",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-25",
+      "end": "2025-12-31"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2026-01-01T00:00:00.000Z",
+    "date": "2026-01-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-26",
+      "end": "2026-01-01"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2026-01-02T00:00:00.000Z",
+    "date": "2026-01-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-27",
+      "end": "2026-01-02"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2026-01-03T00:00:00.000Z",
+    "date": "2026-01-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-28",
+      "end": "2026-01-03"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2026-01-04T00:00:00.000Z",
+    "date": "2026-01-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-29",
+      "end": "2026-01-04"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 0,
+      "averageCTR": 0,
+      "averagePosition": 0
+    }
+  },
+  {
+    "timestamp": "2026-01-05T00:00:00.000Z",
+    "date": "2026-01-05",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
       "start": "2025-12-30",
+      "end": "2026-01-05"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 3,
+      "averageCTR": 0,
+      "averagePosition": 1
+    }
+  },
+  {
+    "timestamp": "2026-01-06T00:00:00.000Z",
+    "date": "2026-01-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2025-12-31",
       "end": "2026-01-06"
     },
     "summary": {
       "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
-    "timestamp": "2026-01-12T11:03:07.420Z",
-    "date": "2026-01-12",
-    "period": {
-      "start": "2026-01-05",
-      "end": "2026-01-12"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 1,
+      "totalImpressions": 4,
       "averageCTR": 0,
       "averagePosition": 1
-    },
-    "topQueries": [
-      {
-        "query": "bochman",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 1
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/",
-        "clicks": 0,
-        "impressions": 1
-      }
-    ]
+    }
   },
   {
-    "timestamp": "2026-01-15T06:15:50.207Z",
-    "date": "2026-01-15",
+    "timestamp": "2026-01-07T00:00:00.000Z",
+    "date": "2026-01-07",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
-      "start": "2026-01-08",
-      "end": "2026-01-15"
+      "start": "2026-01-01",
+      "end": "2026-01-07"
     },
     "summary": {
       "totalClicks": 0,
-      "totalImpressions": 0,
+      "totalImpressions": 5,
       "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
+      "averagePosition": 1
+    }
   },
   {
-    "timestamp": "2026-01-16T06:15:59.853Z",
-    "date": "2026-01-16",
+    "timestamp": "2026-01-08T00:00:00.000Z",
+    "date": "2026-01-08",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
-      "start": "2026-01-09",
-      "end": "2026-01-16"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
-    "timestamp": "2026-01-17T06:14:14.409Z",
-    "date": "2026-01-17",
-    "period": {
-      "start": "2026-01-10",
-      "end": "2026-01-17"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
-    "timestamp": "2026-01-18T06:14:54.681Z",
-    "date": "2026-01-18",
-    "period": {
-      "start": "2026-01-11",
-      "end": "2026-01-18"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
-    "timestamp": "2026-01-19T06:18:42.803Z",
-    "date": "2026-01-19",
-    "period": {
-      "start": "2026-01-12",
-      "end": "2026-01-19"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
-    "timestamp": "2026-01-20T06:17:02.221Z",
-    "date": "2026-01-20",
-    "period": {
-      "start": "2026-01-13",
-      "end": "2026-01-20"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
-    "timestamp": "2026-01-21T06:17:12.248Z",
-    "date": "2026-01-21",
-    "period": {
-      "start": "2026-01-14",
-      "end": "2026-01-21"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
-    "timestamp": "2026-01-22T02:32:00.318Z",
-    "date": "2026-01-22",
-    "period": {
-      "start": "2026-01-15",
-      "end": "2026-01-22"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
-    "timestamp": "2026-01-22T06:14:02.123Z",
-    "date": "2026-01-22",
-    "period": {
-      "start": "2026-01-15",
-      "end": "2026-01-22"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    },
-    "topQueries": [],
-    "topPages": []
-  },
-  {
-    "timestamp": "2026-01-23T06:13:31.026Z",
-    "date": "2026-01-23",
-    "period": {
-      "start": "2026-01-16",
-      "end": "2026-01-23"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 2,
-      "averageCTR": 0,
-      "averagePosition": 6
-    },
-    "topQueries": [
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 6
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 2
-      }
-    ]
-  },
-  {
-    "timestamp": "2026-01-24T06:12:21.976Z",
-    "date": "2026-01-24",
-    "period": {
-      "start": "2026-01-17",
-      "end": "2026-01-24"
+      "start": "2026-01-02",
+      "end": "2026-01-08"
     },
     "summary": {
       "totalClicks": 0,
       "totalImpressions": 7,
       "averageCTR": 0,
-      "averagePosition": 6.1
-    },
-    "topQueries": [
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 7,
-        "ctr": 0,
-        "position": 6.142857142857143
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 7
-      }
-    ]
+      "averagePosition": 1
+    }
   },
   {
-    "timestamp": "2026-01-25T06:12:43.168Z",
-    "date": "2026-01-25",
+    "timestamp": "2026-01-09T00:00:00.000Z",
+    "date": "2026-01-09",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
-      "start": "2026-01-18",
-      "end": "2026-01-25"
+      "start": "2026-01-03",
+      "end": "2026-01-09"
     },
     "summary": {
       "totalClicks": 0,
+      "totalImpressions": 13,
+      "averageCTR": 0,
+      "averagePosition": 1.1
+    }
+  },
+  {
+    "timestamp": "2026-01-10T00:00:00.000Z",
+    "date": "2026-01-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-04",
+      "end": "2026-01-10"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 19,
+      "averageCTR": 0,
+      "averagePosition": 1.1
+    }
+  },
+  {
+    "timestamp": "2026-01-11T00:00:00.000Z",
+    "date": "2026-01-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-05",
+      "end": "2026-01-11"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 19,
+      "averageCTR": 0,
+      "averagePosition": 1.1
+    }
+  },
+  {
+    "timestamp": "2026-01-12T00:00:00.000Z",
+    "date": "2026-01-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-06",
+      "end": "2026-01-12"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 17,
+      "averageCTR": 5.88,
+      "averagePosition": 1.1
+    }
+  },
+  {
+    "timestamp": "2026-01-13T00:00:00.000Z",
+    "date": "2026-01-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-07",
+      "end": "2026-01-13"
+    },
+    "summary": {
+      "totalClicks": 1,
       "totalImpressions": 18,
-      "averageCTR": 0,
-      "averagePosition": 5.6
-    },
-    "topQueries": [
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 18,
-        "ctr": 0,
-        "position": 5.555555555555555
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 18
-      }
-    ]
+      "averageCTR": 5.56,
+      "averagePosition": 1.1
+    }
   },
   {
-    "timestamp": "2026-01-25T16:33:25.387Z",
-    "date": "2026-01-25",
+    "timestamp": "2026-01-14T00:00:00.000Z",
+    "date": "2026-01-14",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
-      "start": "2026-01-18",
-      "end": "2026-01-25"
+      "start": "2026-01-08",
+      "end": "2026-01-14"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 22,
+      "averageCTR": 4.55,
+      "averagePosition": 1.8
+    }
+  },
+  {
+    "timestamp": "2026-01-15T00:00:00.000Z",
+    "date": "2026-01-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-09",
+      "end": "2026-01-15"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 29,
+      "averageCTR": 3.45,
+      "averagePosition": 4.1
+    }
+  },
+  {
+    "timestamp": "2026-01-16T00:00:00.000Z",
+    "date": "2026-01-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-10",
+      "end": "2026-01-16"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 30,
+      "averageCTR": 3.33,
+      "averagePosition": 6.9
+    }
+  },
+  {
+    "timestamp": "2026-01-17T00:00:00.000Z",
+    "date": "2026-01-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-11",
+      "end": "2026-01-17"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 45,
+      "averageCTR": 2.22,
+      "averagePosition": 6.9
+    }
+  },
+  {
+    "timestamp": "2026-01-18T00:00:00.000Z",
+    "date": "2026-01-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-12",
+      "end": "2026-01-18"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 51,
+      "averageCTR": 1.96,
+      "averagePosition": 7.5
+    }
+  },
+  {
+    "timestamp": "2026-01-19T00:00:00.000Z",
+    "date": "2026-01-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-13",
+      "end": "2026-01-19"
     },
     "summary": {
       "totalClicks": 0,
-      "totalImpressions": 29,
+      "totalImpressions": 63,
       "averageCTR": 0,
-      "averagePosition": 5.5
-    },
-    "topQueries": [
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 29,
-        "ctr": 0,
-        "position": 5.482758620689655
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 29
-      }
-    ]
+      "averagePosition": 7.3
+    }
   },
   {
-    "timestamp": "2026-01-26T06:15:57.171Z",
-    "date": "2026-01-26",
+    "timestamp": "2026-01-20T00:00:00.000Z",
+    "date": "2026-01-20",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
-      "start": "2026-01-19",
-      "end": "2026-01-26"
+      "start": "2026-01-14",
+      "end": "2026-01-20"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 69,
+      "averageCTR": 0,
+      "averagePosition": 7.2
+    }
+  },
+  {
+    "timestamp": "2026-01-21T00:00:00.000Z",
+    "date": "2026-01-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-15",
+      "end": "2026-01-21"
     },
     "summary": {
       "totalClicks": 0,
       "totalImpressions": 78,
       "averageCTR": 0,
-      "averagePosition": 5.7
-    },
-    "topQueries": [
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 26,
-        "ctr": 0,
-        "position": 5.346153846153846
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 29,
-        "ctr": 0,
-        "position": 5.482758620689655
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 23,
-        "ctr": 0,
-        "position": 6.217391304347826
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 78
-      }
-    ]
+      "averagePosition": 6.9
+    }
   },
   {
-    "timestamp": "2026-01-27T06:05:46.985Z",
-    "date": "2026-01-27",
+    "timestamp": "2026-01-22T00:00:00.000Z",
+    "date": "2026-01-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-16",
+      "end": "2026-01-22"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 76,
+      "averageCTR": 0,
+      "averagePosition": 6.4
+    }
+  },
+  {
+    "timestamp": "2026-01-23T00:00:00.000Z",
+    "date": "2026-01-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-17",
+      "end": "2026-01-23"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 98,
+      "averageCTR": 0,
+      "averagePosition": 5.5
+    }
+  },
+  {
+    "timestamp": "2026-01-24T00:00:00.000Z",
+    "date": "2026-01-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-18",
+      "end": "2026-01-24"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 168,
+      "averageCTR": 0,
+      "averagePosition": 5.9
+    }
+  },
+  {
+    "timestamp": "2026-01-25T00:00:00.000Z",
+    "date": "2026-01-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-19",
+      "end": "2026-01-25"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 180,
+      "averageCTR": 0,
+      "averagePosition": 5.6
+    }
+  },
+  {
+    "timestamp": "2026-01-26T00:00:00.000Z",
+    "date": "2026-01-26",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
       "start": "2026-01-20",
+      "end": "2026-01-26"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 200,
+      "averageCTR": 0.5,
+      "averagePosition": 5.5
+    }
+  },
+  {
+    "timestamp": "2026-01-27T00:00:00.000Z",
+    "date": "2026-01-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-21",
       "end": "2026-01-27"
     },
     "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 93,
-      "averageCTR": 0,
-      "averagePosition": 5.7
-    },
-    "topQueries": [
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 31,
-        "ctr": 0,
-        "position": 5.258064516129032
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 33,
-        "ctr": 0,
-        "position": 5.454545454545454
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 29,
-        "ctr": 0,
-        "position": 6.275862068965517
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 93
-      }
-    ]
+      "totalClicks": 1,
+      "totalImpressions": 277,
+      "averageCTR": 0.36,
+      "averagePosition": 5
+    }
   },
   {
-    "timestamp": "2026-01-28T06:05:56.133Z",
+    "timestamp": "2026-01-28T00:00:00.000Z",
     "date": "2026-01-28",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
-      "start": "2026-01-21",
+      "start": "2026-01-22",
       "end": "2026-01-28"
     },
     "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 134,
-      "averageCTR": 0,
-      "averagePosition": 5.6
-    },
-    "topQueries": [
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 39,
-        "ctr": 0,
-        "position": 5.3076923076923075
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 18,
-        "ctr": 0,
-        "position": 5.555555555555555
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 38,
-        "ctr": 0,
-        "position": 5.315789473684211
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 39,
-        "ctr": 0,
-        "position": 6.128205128205129
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 134
-      }
-    ]
+      "totalClicks": 4,
+      "totalImpressions": 558,
+      "averageCTR": 0.72,
+      "averagePosition": 5.1
+    }
   },
   {
-    "timestamp": "2026-01-29T06:13:57.508Z",
+    "timestamp": "2026-01-29T00:00:00.000Z",
     "date": "2026-01-29",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
-      "start": "2026-01-22",
+      "start": "2026-01-23",
       "end": "2026-01-29"
     },
     "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 182,
-      "averageCTR": 0,
-      "averagePosition": 3.7
-    },
-    "topQueries": [
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 40,
-        "ctr": 0,
-        "position": 5.375
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 2
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 20,
-        "ctr": 0,
-        "position": 5.75
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 1
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 44,
-        "ctr": 0,
-        "position": 5.340909090909091
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 4,
-        "ctr": 0,
-        "position": 1.75
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 41,
-        "ctr": 0,
-        "position": 6.170731707317073
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 1
-      },
-      {
-        "query": "\"list_view\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 3,
-        "ctr": 0,
-        "position": 9.333333333333334
-      },
-      {
-        "query": "\"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 2
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 145
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "clicks": 0,
-        "impressions": 35
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 2
-      }
-    ]
+      "totalClicks": 4,
+      "totalImpressions": 867,
+      "averageCTR": 0.46,
+      "averagePosition": 5.6
+    }
   },
   {
-    "timestamp": "2026-01-30T06:14:55.683Z",
+    "timestamp": "2026-01-30T00:00:00.000Z",
     "date": "2026-01-30",
-    "period": {
-      "start": "2026-01-23",
-      "end": "2026-01-30"
-    },
-    "summary": {
-      "totalClicks": 1,
-      "totalImpressions": 313,
-      "averageCTR": 0.32,
-      "averagePosition": 4.3
-    },
-    "topQueries": [
-      {
-        "query": "git gateway",
-        "clicks": 1,
-        "impressions": 3,
-        "ctr": 0.3333333333333333,
-        "position": 6.666666666666667
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 49,
-        "ctr": 0,
-        "position": 5.714285714285714
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 10,
-        "ctr": 0,
-        "position": 1.2
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 23,
-        "ctr": 0,
-        "position": 5.956521739130435
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 5,
-        "ctr": 0,
-        "position": 1
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 53,
-        "ctr": 0,
-        "position": 6.018867924528302
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 16,
-        "ctr": 0,
-        "position": 1.75
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 52,
-        "ctr": 0,
-        "position": 6.403846153846154
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 13,
-        "ctr": 0,
-        "position": 1.0769230769230769
-      },
-      {
-        "query": "\"list_view\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 6,
-        "ctr": 0,
-        "position": 8.333333333333332
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "clicks": 1,
-        "impressions": 133
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 177
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 3
-      }
-    ]
-  },
-  {
-    "timestamp": "2026-01-30T14:51:56.459Z",
-    "date": "2026-01-30",
-    "period": {
-      "start": "2026-01-23",
-      "end": "2026-01-30"
-    },
-    "summary": {
-      "totalClicks": 1,
-      "totalImpressions": 372,
-      "averageCTR": 0.27,
-      "averagePosition": 4.6
-    },
-    "topQueries": [
-      {
-        "query": "git gateway",
-        "clicks": 1,
-        "impressions": 3,
-        "ctr": 0.3333333333333333,
-        "position": 6.666666666666667
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 50,
-        "ctr": 0,
-        "position": 5.76
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 11,
-        "ctr": 0,
-        "position": 1.2727272727272727
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 25,
-        "ctr": 0,
-        "position": 6.04
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 7,
-        "ctr": 0,
-        "position": 1
-      },
-      {
-        "query": "\"hook:\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 4,
-        "ctr": 0,
-        "position": 7.5
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 58,
-        "ctr": 0,
-        "position": 6.155172413793103
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 21,
-        "ctr": 0,
-        "position": 1.7142857142857144
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 56,
-        "ctr": 0,
-        "position": 6.428571428571429
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 17,
-        "ctr": 0,
-        "position": 1.0588235294117647
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "clicks": 1,
-        "impressions": 180
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 189
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 3
-      }
-    ]
-  },
-  {
-    "timestamp": "2026-01-31T06:09:06.790Z",
-    "date": "2026-01-31",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
       "start": "2026-01-24",
+      "end": "2026-01-30"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 1154,
+      "averageCTR": 0.43,
+      "averagePosition": 5.8
+    }
+  },
+  {
+    "timestamp": "2026-01-31T00:00:00.000Z",
+    "date": "2026-01-31",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-25",
       "end": "2026-01-31"
     },
     "summary": {
-      "totalClicks": 1,
-      "totalImpressions": 471,
-      "averageCTR": 0.21,
-      "averagePosition": 6.6
-    },
-    "topQueries": [
-      {
-        "query": "git gateway",
-        "clicks": 1,
-        "impressions": 3,
-        "ctr": 0.3333333333333333,
-        "position": 6.666666666666667
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 61,
-        "ctr": 0,
-        "position": 6.114754098360656
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 23,
-        "ctr": 0,
-        "position": 1.434782608695652
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 28,
-        "ctr": 0,
-        "position": 6.142857142857143
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 10,
-        "ctr": 0,
-        "position": 1
-      },
-      {
-        "query": "\"hook:\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 7,
-        "ctr": 0,
-        "position": 7.285714285714286
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 57,
-        "ctr": 0,
-        "position": 6.368421052631579
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 28,
-        "ctr": 0,
-        "position": 1.6428571428571428
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 61,
-        "ctr": 0,
-        "position": 6.475409836065574
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 22,
-        "ctr": 0,
-        "position": 1.0454545454545454
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "clicks": 1,
-        "impressions": 257
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 207
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 7
-      }
-    ]
+      "totalClicks": 6,
+      "totalImpressions": 1401,
+      "averageCTR": 0.43,
+      "averagePosition": 5.6
+    }
   },
   {
-    "timestamp": "2026-02-01T06:12:48.350Z",
+    "timestamp": "2026-02-01T00:00:00.000Z",
     "date": "2026-02-01",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
-      "start": "2026-01-25",
+      "start": "2026-01-26",
       "end": "2026-02-01"
     },
     "summary": {
-      "totalClicks": 1,
-      "totalImpressions": 534,
-      "averageCTR": 0.19,
-      "averagePosition": 9.6
-    },
-    "topQueries": [
-      {
-        "query": "git gateway",
-        "clicks": 1,
-        "impressions": 3,
-        "ctr": 0.3333333333333333,
-        "position": 6.666666666666667
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 35,
-        "ctr": 0,
-        "position": 6.685714285714286
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 30,
-        "ctr": 0,
-        "position": 1.5333333333333332
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 28,
-        "ctr": 0,
-        "position": 6.142857142857143
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 13,
-        "ctr": 0,
-        "position": 1
-      },
-      {
-        "query": "\"hook:\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 9,
-        "ctr": 0,
-        "position": 7.555555555555555
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 57,
-        "ctr": 0,
-        "position": 6.964912280701754
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 44,
-        "ctr": 0,
-        "position": 1.6363636363636362
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 39,
-        "ctr": 0,
-        "position": 6.6923076923076925
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 34,
-        "ctr": 0,
-        "position": 1.088235294117647
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "clicks": 1,
-        "impressions": 365
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 159
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 10
-      }
-    ]
+      "totalClicks": 6,
+      "totalImpressions": 1585,
+      "averageCTR": 0.38,
+      "averagePosition": 6.3
+    }
   },
   {
-    "timestamp": "2026-02-02T06:22:07.153Z",
+    "timestamp": "2026-02-02T00:00:00.000Z",
     "date": "2026-02-02",
-    "period": {
-      "start": "2026-01-26",
-      "end": "2026-02-02"
-    },
-    "summary": {
-      "totalClicks": 1,
-      "totalImpressions": 562,
-      "averageCTR": 0.18,
-      "averagePosition": 11
-    },
-    "topQueries": [
-      {
-        "query": "git gateway",
-        "clicks": 1,
-        "impressions": 3,
-        "ctr": 0.3333333333333333,
-        "position": 6.666666666666667
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 32,
-        "ctr": 0,
-        "position": 6.84375
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 31,
-        "ctr": 0,
-        "position": 1.5483870967741935
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 24,
-        "ctr": 0,
-        "position": 6.166666666666667
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 14,
-        "ctr": 0,
-        "position": 1
-      },
-      {
-        "query": "\"hook:\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 9,
-        "ctr": 0,
-        "position": 7.555555555555555
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 55,
-        "ctr": 0,
-        "position": 7.054545454545455
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 45,
-        "ctr": 0,
-        "position": 1.6444444444444444
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 38,
-        "ctr": 0,
-        "position": 6.868421052631579
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 36,
-        "ctr": 0,
-        "position": 1.0833333333333333
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "clicks": 1,
-        "impressions": 403
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 149
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 10
-      }
-    ]
-  },
-  {
-    "timestamp": "2026-02-02T16:09:57.961Z",
-    "date": "2026-02-02",
-    "period": {
-      "start": "2026-01-26",
-      "end": "2026-02-02"
-    },
-    "summary": {
-      "totalClicks": 1,
-      "totalImpressions": 569,
-      "averageCTR": 0.18,
-      "averagePosition": 11.6
-    },
-    "topQueries": [
-      {
-        "query": "git gateway",
-        "clicks": 1,
-        "impressions": 3,
-        "ctr": 0.3333333333333333,
-        "position": 6.666666666666667
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 32,
-        "ctr": 0,
-        "position": 6.84375
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 31,
-        "ctr": 0,
-        "position": 1.5483870967741935
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 24,
-        "ctr": 0,
-        "position": 6.166666666666667
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 14,
-        "ctr": 0,
-        "position": 1
-      },
-      {
-        "query": "\"hook:\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 9,
-        "ctr": 0,
-        "position": 7.555555555555555
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 55,
-        "ctr": 0,
-        "position": 7.054545454545455
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 45,
-        "ctr": 0,
-        "position": 1.6444444444444444
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 38,
-        "ctr": 0,
-        "position": 6.868421052631579
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 36,
-        "ctr": 0,
-        "position": 1.0833333333333333
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "clicks": 1,
-        "impressions": 408
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 149
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 12
-      }
-    ]
-  },
-  {
-    "timestamp": "2026-02-03T06:16:37.320Z",
-    "date": "2026-02-03",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
       "start": "2026-01-27",
+      "end": "2026-02-02"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 1843,
+      "averageCTR": 0.27,
+      "averagePosition": 6.4
+    }
+  },
+  {
+    "timestamp": "2026-02-03T00:00:00.000Z",
+    "date": "2026-02-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-28",
       "end": "2026-02-03"
     },
     "summary": {
-      "totalClicks": 1,
-      "totalImpressions": 562,
-      "averageCTR": 0.18,
-      "averagePosition": 12.2
-    },
-    "topQueries": [
-      {
-        "query": "git gateway",
-        "clicks": 1,
-        "impressions": 3,
-        "ctr": 0.3333333333333333,
-        "position": 6.666666666666667
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 26,
-        "ctr": 0,
-        "position": 7.153846153846154
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 31,
-        "ctr": 0,
-        "position": 1.5483870967741935
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 19,
-        "ctr": 0,
-        "position": 6.368421052631579
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 14,
-        "ctr": 0,
-        "position": 1
-      },
-      {
-        "query": "\"hook:\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 9,
-        "ctr": 0,
-        "position": 7.555555555555555
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 53,
-        "ctr": 0,
-        "position": 7.09433962264151
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 46,
-        "ctr": 0,
-        "position": 1.6304347826086958
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 29,
-        "ctr": 0,
-        "position": 7
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 38,
-        "ctr": 0,
-        "position": 1.0789473684210527
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "clicks": 1,
-        "impressions": 423
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 127
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 12
-      }
-    ]
+      "totalClicks": 6,
+      "totalImpressions": 2052,
+      "averageCTR": 0.29,
+      "averagePosition": 6.3
+    }
   },
   {
-    "timestamp": "2026-02-04T06:15:51.076Z",
+    "timestamp": "2026-02-04T00:00:00.000Z",
     "date": "2026-02-04",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
-      "start": "2026-01-28",
+      "start": "2026-01-29",
       "end": "2026-02-04"
     },
     "summary": {
-      "totalClicks": 1,
-      "totalImpressions": 624,
-      "averageCTR": 0.16,
-      "averagePosition": 12.1
-    },
-    "topQueries": [
-      {
-        "query": "git gateway",
-        "clicks": 1,
-        "impressions": 3,
-        "ctr": 0.3333333333333333,
-        "position": 6.666666666666667
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 21,
-        "ctr": 0,
-        "position": 7.523809523809524
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 38,
-        "ctr": 0,
-        "position": 1.5526315789473686
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 9,
-        "ctr": 0,
-        "position": 7.111111111111111
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 22,
-        "ctr": 0,
-        "position": 1.2727272727272727
-      },
-      {
-        "query": "\"hook:\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 11,
-        "ctr": 0,
-        "position": 7.2727272727272725
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"config.yml\"",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 10
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 38,
-        "ctr": 0,
-        "position": 7.973684210526316
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 53,
-        "ctr": 0,
-        "position": 1.6226415094339623
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 24,
-        "ctr": 0,
-        "position": 7.333333333333333
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "clicks": 1,
-        "impressions": 518
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 92
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 14
-      }
-    ]
+      "totalClicks": 3,
+      "totalImpressions": 1953,
+      "averageCTR": 0.15,
+      "averagePosition": 6.3
+    }
   },
   {
-    "timestamp": "2026-02-05T06:19:16.052Z",
+    "timestamp": "2026-02-05T00:00:00.000Z",
     "date": "2026-02-05",
+    "dataState": "final",
+    "windowDays": 7,
     "period": {
-      "start": "2026-01-29",
+      "start": "2026-01-30",
       "end": "2026-02-05"
     },
     "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1797,
+      "averageCTR": 0.22,
+      "averagePosition": 6.4
+    }
+  },
+  {
+    "timestamp": "2026-02-06T00:00:00.000Z",
+    "date": "2026-02-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-01-31",
+      "end": "2026-02-06"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1716,
+      "averageCTR": 0.23,
+      "averagePosition": 6.3
+    }
+  },
+  {
+    "timestamp": "2026-02-07T00:00:00.000Z",
+    "date": "2026-02-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-01",
+      "end": "2026-02-07"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1551,
+      "averageCTR": 0.19,
+      "averagePosition": 6.4
+    }
+  },
+  {
+    "timestamp": "2026-02-08T00:00:00.000Z",
+    "date": "2026-02-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-02",
+      "end": "2026-02-08"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1602,
+      "averageCTR": 0.25,
+      "averagePosition": 5.8
+    }
+  },
+  {
+    "timestamp": "2026-02-09T00:00:00.000Z",
+    "date": "2026-02-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-03",
+      "end": "2026-02-09"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 1661,
+      "averageCTR": 0.3,
+      "averagePosition": 5.9
+    }
+  },
+  {
+    "timestamp": "2026-02-10T00:00:00.000Z",
+    "date": "2026-02-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-04",
+      "end": "2026-02-10"
+    },
+    "summary": {
+      "totalClicks": 6,
+      "totalImpressions": 1738,
+      "averageCTR": 0.35,
+      "averagePosition": 5.9
+    }
+  },
+  {
+    "timestamp": "2026-02-11T00:00:00.000Z",
+    "date": "2026-02-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-05",
+      "end": "2026-02-11"
+    },
+    "summary": {
+      "totalClicks": 8,
+      "totalImpressions": 1851,
+      "averageCTR": 0.43,
+      "averagePosition": 5.7
+    }
+  },
+  {
+    "timestamp": "2026-02-12T00:00:00.000Z",
+    "date": "2026-02-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-06",
+      "end": "2026-02-12"
+    },
+    "summary": {
+      "totalClicks": 8,
+      "totalImpressions": 1747,
+      "averageCTR": 0.46,
+      "averagePosition": 5.6
+    }
+  },
+  {
+    "timestamp": "2026-02-13T00:00:00.000Z",
+    "date": "2026-02-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-07",
+      "end": "2026-02-13"
+    },
+    "summary": {
+      "totalClicks": 8,
+      "totalImpressions": 1573,
+      "averageCTR": 0.51,
+      "averagePosition": 5.6
+    }
+  },
+  {
+    "timestamp": "2026-02-14T00:00:00.000Z",
+    "date": "2026-02-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-08",
+      "end": "2026-02-14"
+    },
+    "summary": {
+      "totalClicks": 10,
+      "totalImpressions": 1435,
+      "averageCTR": 0.7,
+      "averagePosition": 5.7
+    }
+  },
+  {
+    "timestamp": "2026-02-15T00:00:00.000Z",
+    "date": "2026-02-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-09",
+      "end": "2026-02-15"
+    },
+    "summary": {
+      "totalClicks": 9,
+      "totalImpressions": 1292,
+      "averageCTR": 0.7,
+      "averagePosition": 5.4
+    }
+  },
+  {
+    "timestamp": "2026-02-16T00:00:00.000Z",
+    "date": "2026-02-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-10",
+      "end": "2026-02-16"
+    },
+    "summary": {
+      "totalClicks": 8,
+      "totalImpressions": 1024,
+      "averageCTR": 0.78,
+      "averagePosition": 4.8
+    }
+  },
+  {
+    "timestamp": "2026-02-17T00:00:00.000Z",
+    "date": "2026-02-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-11",
+      "end": "2026-02-17"
+    },
+    "summary": {
+      "totalClicks": 8,
+      "totalImpressions": 708,
+      "averageCTR": 1.13,
+      "averagePosition": 4.8
+    }
+  },
+  {
+    "timestamp": "2026-02-18T00:00:00.000Z",
+    "date": "2026-02-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-12",
+      "end": "2026-02-18"
+    },
+    "summary": {
+      "totalClicks": 8,
+      "totalImpressions": 486,
+      "averageCTR": 1.65,
+      "averagePosition": 5.4
+    }
+  },
+  {
+    "timestamp": "2026-02-19T00:00:00.000Z",
+    "date": "2026-02-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-13",
+      "end": "2026-02-19"
+    },
+    "summary": {
+      "totalClicks": 7,
+      "totalImpressions": 532,
+      "averageCTR": 1.32,
+      "averagePosition": 5.3
+    }
+  },
+  {
+    "timestamp": "2026-02-20T00:00:00.000Z",
+    "date": "2026-02-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-14",
+      "end": "2026-02-20"
+    },
+    "summary": {
+      "totalClicks": 7,
+      "totalImpressions": 525,
+      "averageCTR": 1.33,
+      "averagePosition": 5.5
+    }
+  },
+  {
+    "timestamp": "2026-02-21T00:00:00.000Z",
+    "date": "2026-02-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-15",
+      "end": "2026-02-21"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 571,
+      "averageCTR": 0.88,
+      "averagePosition": 5.4
+    }
+  },
+  {
+    "timestamp": "2026-02-22T00:00:00.000Z",
+    "date": "2026-02-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-16",
+      "end": "2026-02-22"
+    },
+    "summary": {
+      "totalClicks": 6,
+      "totalImpressions": 565,
+      "averageCTR": 1.06,
+      "averagePosition": 5.6
+    }
+  },
+  {
+    "timestamp": "2026-02-23T00:00:00.000Z",
+    "date": "2026-02-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-17",
+      "end": "2026-02-23"
+    },
+    "summary": {
+      "totalClicks": 7,
+      "totalImpressions": 608,
+      "averageCTR": 1.15,
+      "averagePosition": 5.7
+    }
+  },
+  {
+    "timestamp": "2026-02-24T00:00:00.000Z",
+    "date": "2026-02-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-18",
+      "end": "2026-02-24"
+    },
+    "summary": {
+      "totalClicks": 8,
+      "totalImpressions": 684,
+      "averageCTR": 1.17,
+      "averagePosition": 5.5
+    }
+  },
+  {
+    "timestamp": "2026-02-25T00:00:00.000Z",
+    "date": "2026-02-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-19",
+      "end": "2026-02-25"
+    },
+    "summary": {
+      "totalClicks": 6,
+      "totalImpressions": 753,
+      "averageCTR": 0.8,
+      "averagePosition": 5.6
+    }
+  },
+  {
+    "timestamp": "2026-02-26T00:00:00.000Z",
+    "date": "2026-02-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-20",
+      "end": "2026-02-26"
+    },
+    "summary": {
+      "totalClicks": 6,
+      "totalImpressions": 763,
+      "averageCTR": 0.79,
+      "averagePosition": 5.7
+    }
+  },
+  {
+    "timestamp": "2026-02-27T00:00:00.000Z",
+    "date": "2026-02-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-21",
+      "end": "2026-02-27"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 833,
+      "averageCTR": 0.6,
+      "averagePosition": 5.7
+    }
+  },
+  {
+    "timestamp": "2026-02-28T00:00:00.000Z",
+    "date": "2026-02-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-22",
+      "end": "2026-02-28"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 962,
+      "averageCTR": 0.52,
+      "averagePosition": 5.5
+    }
+  },
+  {
+    "timestamp": "2026-03-01T00:00:00.000Z",
+    "date": "2026-03-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-23",
+      "end": "2026-03-01"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1005,
+      "averageCTR": 0.4,
+      "averagePosition": 5.7
+    }
+  },
+  {
+    "timestamp": "2026-03-02T00:00:00.000Z",
+    "date": "2026-03-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-24",
+      "end": "2026-03-02"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 1031,
+      "averageCTR": 0.48,
+      "averagePosition": 5.7
+    }
+  },
+  {
+    "timestamp": "2026-03-03T00:00:00.000Z",
+    "date": "2026-03-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-25",
+      "end": "2026-03-03"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1053,
+      "averageCTR": 0.19,
+      "averagePosition": 5.7
+    }
+  },
+  {
+    "timestamp": "2026-03-04T00:00:00.000Z",
+    "date": "2026-03-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-26",
+      "end": "2026-03-04"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1029,
+      "averageCTR": 0.29,
+      "averagePosition": 5.7
+    }
+  },
+  {
+    "timestamp": "2026-03-05T00:00:00.000Z",
+    "date": "2026-03-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-27",
+      "end": "2026-03-05"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1077,
+      "averageCTR": 0.28,
+      "averagePosition": 5.4
+    }
+  },
+  {
+    "timestamp": "2026-03-06T00:00:00.000Z",
+    "date": "2026-03-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-02-28",
+      "end": "2026-03-06"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1098,
+      "averageCTR": 0.36,
+      "averagePosition": 5.3
+    }
+  },
+  {
+    "timestamp": "2026-03-07T00:00:00.000Z",
+    "date": "2026-03-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-01",
+      "end": "2026-03-07"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 1023,
+      "averageCTR": 0.49,
+      "averagePosition": 5.3
+    }
+  },
+  {
+    "timestamp": "2026-03-08T00:00:00.000Z",
+    "date": "2026-03-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-02",
+      "end": "2026-03-08"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 977,
+      "averageCTR": 0.51,
+      "averagePosition": 5.2
+    }
+  },
+  {
+    "timestamp": "2026-03-09T00:00:00.000Z",
+    "date": "2026-03-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-03",
+      "end": "2026-03-09"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 921,
+      "averageCTR": 0.33,
+      "averagePosition": 5.1
+    }
+  },
+  {
+    "timestamp": "2026-03-10T00:00:00.000Z",
+    "date": "2026-03-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-04",
+      "end": "2026-03-10"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 941,
+      "averageCTR": 0.43,
+      "averagePosition": 5.2
+    }
+  },
+  {
+    "timestamp": "2026-03-11T00:00:00.000Z",
+    "date": "2026-03-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-05",
+      "end": "2026-03-11"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 964,
+      "averageCTR": 0.41,
+      "averagePosition": 4.9
+    }
+  },
+  {
+    "timestamp": "2026-03-12T00:00:00.000Z",
+    "date": "2026-03-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-06",
+      "end": "2026-03-12"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 932,
+      "averageCTR": 0.43,
+      "averagePosition": 5
+    }
+  },
+  {
+    "timestamp": "2026-03-13T00:00:00.000Z",
+    "date": "2026-03-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-07",
+      "end": "2026-03-13"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 941,
+      "averageCTR": 0.32,
+      "averagePosition": 5.1
+    }
+  },
+  {
+    "timestamp": "2026-03-14T00:00:00.000Z",
+    "date": "2026-03-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-08",
+      "end": "2026-03-14"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1033,
+      "averageCTR": 0.19,
+      "averagePosition": 5
+    }
+  },
+  {
+    "timestamp": "2026-03-15T00:00:00.000Z",
+    "date": "2026-03-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-09",
+      "end": "2026-03-15"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1076,
+      "averageCTR": 0.19,
+      "averagePosition": 4.9
+    }
+  },
+  {
+    "timestamp": "2026-03-16T00:00:00.000Z",
+    "date": "2026-03-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-10",
+      "end": "2026-03-16"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1093,
+      "averageCTR": 0.27,
+      "averagePosition": 4.9
+    }
+  },
+  {
+    "timestamp": "2026-03-17T00:00:00.000Z",
+    "date": "2026-03-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-11",
+      "end": "2026-03-17"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1056,
+      "averageCTR": 0.19,
+      "averagePosition": 4.7
+    }
+  },
+  {
+    "timestamp": "2026-03-18T00:00:00.000Z",
+    "date": "2026-03-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-12",
+      "end": "2026-03-18"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 1033,
+      "averageCTR": 0.1,
+      "averagePosition": 4.7
+    }
+  },
+  {
+    "timestamp": "2026-03-19T00:00:00.000Z",
+    "date": "2026-03-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-13",
+      "end": "2026-03-19"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 1074,
+      "averageCTR": 0.09,
+      "averagePosition": 4.6
+    }
+  },
+  {
+    "timestamp": "2026-03-20T00:00:00.000Z",
+    "date": "2026-03-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-14",
+      "end": "2026-03-20"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 1010,
+      "averageCTR": 0.1,
+      "averagePosition": 4.7
+    }
+  },
+  {
+    "timestamp": "2026-03-21T00:00:00.000Z",
+    "date": "2026-03-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-15",
+      "end": "2026-03-21"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 851,
+      "averageCTR": 0.12,
+      "averagePosition": 4.8
+    }
+  },
+  {
+    "timestamp": "2026-03-22T00:00:00.000Z",
+    "date": "2026-03-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-16",
+      "end": "2026-03-22"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 844,
+      "averageCTR": 0.12,
+      "averagePosition": 4.8
+    }
+  },
+  {
+    "timestamp": "2026-03-23T00:00:00.000Z",
+    "date": "2026-03-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-17",
+      "end": "2026-03-23"
+    },
+    "summary": {
       "totalClicks": 0,
-      "totalImpressions": 546,
+      "totalImpressions": 822,
       "averageCTR": 0,
-      "averagePosition": 12.7
+      "averagePosition": 4.9
+    }
+  },
+  {
+    "timestamp": "2026-03-24T00:00:00.000Z",
+    "date": "2026-03-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-18",
+      "end": "2026-03-24"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 837,
+      "averageCTR": 0.12,
+      "averagePosition": 4.9
+    }
+  },
+  {
+    "timestamp": "2026-03-25T00:00:00.000Z",
+    "date": "2026-03-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-19",
+      "end": "2026-03-25"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 878,
+      "averageCTR": 0.11,
+      "averagePosition": 4.8
+    }
+  },
+  {
+    "timestamp": "2026-03-26T00:00:00.000Z",
+    "date": "2026-03-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-20",
+      "end": "2026-03-26"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 873,
+      "averageCTR": 0.23,
+      "averagePosition": 4.9
+    }
+  },
+  {
+    "timestamp": "2026-03-27T00:00:00.000Z",
+    "date": "2026-03-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-21",
+      "end": "2026-03-27"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 942,
+      "averageCTR": 0.21,
+      "averagePosition": 4.8
+    }
+  },
+  {
+    "timestamp": "2026-03-28T00:00:00.000Z",
+    "date": "2026-03-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-22",
+      "end": "2026-03-28"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1168,
+      "averageCTR": 0.17,
+      "averagePosition": 4.5
+    }
+  },
+  {
+    "timestamp": "2026-03-29T00:00:00.000Z",
+    "date": "2026-03-29",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-23",
+      "end": "2026-03-29"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1182,
+      "averageCTR": 0.17,
+      "averagePosition": 4.5
+    }
+  },
+  {
+    "timestamp": "2026-03-30T00:00:00.000Z",
+    "date": "2026-03-30",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-24",
+      "end": "2026-03-30"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1201,
+      "averageCTR": 0.17,
+      "averagePosition": 4.5
+    }
+  },
+  {
+    "timestamp": "2026-03-31T00:00:00.000Z",
+    "date": "2026-03-31",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-25",
+      "end": "2026-03-31"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1172,
+      "averageCTR": 0.34,
+      "averagePosition": 4.3
+    }
+  },
+  {
+    "timestamp": "2026-04-01T00:00:00.000Z",
+    "date": "2026-04-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-26",
+      "end": "2026-04-01"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1145,
+      "averageCTR": 0.35,
+      "averagePosition": 4.5
+    }
+  },
+  {
+    "timestamp": "2026-04-02T00:00:00.000Z",
+    "date": "2026-04-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-27",
+      "end": "2026-04-02"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1061,
+      "averageCTR": 0.28,
+      "averagePosition": 4.5
+    }
+  },
+  {
+    "timestamp": "2026-04-03T00:00:00.000Z",
+    "date": "2026-04-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-28",
+      "end": "2026-04-03"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1044,
+      "averageCTR": 0.29,
+      "averagePosition": 4.4
+    }
+  },
+  {
+    "timestamp": "2026-04-04T00:00:00.000Z",
+    "date": "2026-04-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-29",
+      "end": "2026-04-04"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 925,
+      "averageCTR": 0.32,
+      "averagePosition": 4.7
+    }
+  },
+  {
+    "timestamp": "2026-04-05T00:00:00.000Z",
+    "date": "2026-04-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-30",
+      "end": "2026-04-05"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 913,
+      "averageCTR": 0.33,
+      "averagePosition": 4.8
+    }
+  },
+  {
+    "timestamp": "2026-04-06T00:00:00.000Z",
+    "date": "2026-04-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-03-31",
+      "end": "2026-04-06"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 964,
+      "averageCTR": 0.31,
+      "averagePosition": 4.7
+    }
+  },
+  {
+    "timestamp": "2026-04-07T00:00:00.000Z",
+    "date": "2026-04-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-01",
+      "end": "2026-04-07"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 949,
+      "averageCTR": 0.21,
+      "averagePosition": 4.9
+    }
+  },
+  {
+    "timestamp": "2026-04-08T00:00:00.000Z",
+    "date": "2026-04-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-02",
+      "end": "2026-04-08"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 921,
+      "averageCTR": 0.43,
+      "averagePosition": 4.9
+    }
+  },
+  {
+    "timestamp": "2026-04-09T00:00:00.000Z",
+    "date": "2026-04-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-03",
+      "end": "2026-04-09"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 989,
+      "averageCTR": 0.4,
+      "averagePosition": 4.7
+    }
+  },
+  {
+    "timestamp": "2026-04-10T00:00:00.000Z",
+    "date": "2026-04-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-04",
+      "end": "2026-04-10"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 876,
+      "averageCTR": 0.46,
+      "averagePosition": 4.8
+    }
+  },
+  {
+    "timestamp": "2026-04-11T00:00:00.000Z",
+    "date": "2026-04-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-05",
+      "end": "2026-04-11"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 730,
+      "averageCTR": 0.55,
+      "averagePosition": 4.8
+    }
+  },
+  {
+    "timestamp": "2026-04-12T00:00:00.000Z",
+    "date": "2026-04-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-06",
+      "end": "2026-04-12"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 615,
+      "averageCTR": 0.65,
+      "averagePosition": 4.6
+    }
+  },
+  {
+    "timestamp": "2026-04-13T00:00:00.000Z",
+    "date": "2026-04-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-07",
+      "end": "2026-04-13"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 479,
+      "averageCTR": 1.04,
+      "averagePosition": 4.8
+    }
+  },
+  {
+    "timestamp": "2026-04-14T00:00:00.000Z",
+    "date": "2026-04-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-08",
+      "end": "2026-04-14"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 421,
+      "averageCTR": 0.95,
+      "averagePosition": 4.5
+    }
+  },
+  {
+    "timestamp": "2026-04-15T00:00:00.000Z",
+    "date": "2026-04-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-09",
+      "end": "2026-04-15"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 361,
+      "averageCTR": 0.55,
+      "averagePosition": 4.7
+    }
+  },
+  {
+    "timestamp": "2026-04-16T00:00:00.000Z",
+    "date": "2026-04-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-10",
+      "end": "2026-04-16"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 256,
+      "averageCTR": 0.78,
+      "averagePosition": 5.4
+    }
+  },
+  {
+    "timestamp": "2026-04-17T00:00:00.000Z",
+    "date": "2026-04-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-11",
+      "end": "2026-04-17"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 271,
+      "averageCTR": 0.74,
+      "averagePosition": 5.5
+    }
+  },
+  {
+    "timestamp": "2026-04-18T00:00:00.000Z",
+    "date": "2026-04-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-12",
+      "end": "2026-04-18"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 267,
+      "averageCTR": 0.75,
+      "averagePosition": 5.8
+    }
+  },
+  {
+    "timestamp": "2026-04-19T00:00:00.000Z",
+    "date": "2026-04-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-13",
+      "end": "2026-04-19"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 287,
+      "averageCTR": 1.05,
+      "averagePosition": 5.8
+    }
+  },
+  {
+    "timestamp": "2026-04-20T00:00:00.000Z",
+    "date": "2026-04-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-14",
+      "end": "2026-04-20"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 308,
+      "averageCTR": 0.97,
+      "averagePosition": 5.6
+    }
+  },
+  {
+    "timestamp": "2026-04-21T00:00:00.000Z",
+    "date": "2026-04-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-15",
+      "end": "2026-04-21"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 301,
+      "averageCTR": 1.33,
+      "averagePosition": 6.5
+    }
+  },
+  {
+    "timestamp": "2026-04-22T00:00:00.000Z",
+    "date": "2026-04-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-16",
+      "end": "2026-04-22"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 296,
+      "averageCTR": 1.35,
+      "averagePosition": 6.4
+    }
+  },
+  {
+    "timestamp": "2026-04-23T00:00:00.000Z",
+    "date": "2026-04-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-17",
+      "end": "2026-04-23"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 286,
+      "averageCTR": 1.4,
+      "averagePosition": 6.3
+    }
+  },
+  {
+    "timestamp": "2026-04-24T00:00:00.000Z",
+    "date": "2026-04-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-18",
+      "end": "2026-04-24"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 369,
+      "averageCTR": 1.08,
+      "averagePosition": 5.5
+    }
+  },
+  {
+    "timestamp": "2026-04-25T00:00:00.000Z",
+    "date": "2026-04-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-19",
+      "end": "2026-04-25"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 452,
+      "averageCTR": 0.88,
+      "averagePosition": 5.4
+    }
+  },
+  {
+    "timestamp": "2026-04-26T00:00:00.000Z",
+    "date": "2026-04-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-20",
+      "end": "2026-04-26"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 538,
+      "averageCTR": 0.74,
+      "averagePosition": 5.5
+    }
+  },
+  {
+    "timestamp": "2026-04-27T00:00:00.000Z",
+    "date": "2026-04-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-21",
+      "end": "2026-04-27"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 676,
+      "averageCTR": 0.44,
+      "averagePosition": 5.5
+    }
+  },
+  {
+    "timestamp": "2026-04-28T00:00:00.000Z",
+    "date": "2026-04-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-22",
+      "end": "2026-04-28"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 875,
+      "averageCTR": 0.23,
+      "averagePosition": 5.3
+    }
+  },
+  {
+    "timestamp": "2026-04-29T00:00:00.000Z",
+    "date": "2026-04-29",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-23",
+      "end": "2026-04-29"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1019,
+      "averageCTR": 0.2,
+      "averagePosition": 5.2
+    }
+  },
+  {
+    "timestamp": "2026-04-30T00:00:00.000Z",
+    "date": "2026-04-30",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-24",
+      "end": "2026-04-30"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1118,
+      "averageCTR": 0.18,
+      "averagePosition": 5.3
+    }
+  },
+  {
+    "timestamp": "2026-05-01T00:00:00.000Z",
+    "date": "2026-05-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-25",
+      "end": "2026-05-01"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1174,
+      "averageCTR": 0.26,
+      "averagePosition": 5.3
+    }
+  },
+  {
+    "timestamp": "2026-05-02T00:00:00.000Z",
+    "date": "2026-05-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-26",
+      "end": "2026-05-02"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1252,
+      "averageCTR": 0.24,
+      "averagePosition": 5.3
+    }
+  },
+  {
+    "timestamp": "2026-05-03T00:00:00.000Z",
+    "date": "2026-05-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-27",
+      "end": "2026-05-03"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1259,
+      "averageCTR": 0.16,
+      "averagePosition": 5.2
+    }
+  },
+  {
+    "timestamp": "2026-05-04T00:00:00.000Z",
+    "date": "2026-05-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-28",
+      "end": "2026-05-04"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1308,
+      "averageCTR": 0.15,
+      "averagePosition": 5.1
+    }
+  },
+  {
+    "timestamp": "2026-05-05T00:00:00.000Z",
+    "date": "2026-05-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-29",
+      "end": "2026-05-05"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 1183,
+      "averageCTR": 0.08,
+      "averagePosition": 5.2
+    }
+  },
+  {
+    "timestamp": "2026-05-06T00:00:00.000Z",
+    "date": "2026-05-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-04-30",
+      "end": "2026-05-06"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 1163,
+      "averageCTR": 0.09,
+      "averagePosition": 5.3
+    }
+  },
+  {
+    "timestamp": "2026-05-07T00:00:00.000Z",
+    "date": "2026-05-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-01",
+      "end": "2026-05-07"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 1159,
+      "averageCTR": 0.09,
+      "averagePosition": 5.3
+    }
+  },
+  {
+    "timestamp": "2026-05-08T00:00:00.000Z",
+    "date": "2026-05-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-02",
+      "end": "2026-05-08"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 1101,
+      "averageCTR": 0,
+      "averagePosition": 5.3
+    }
+  },
+  {
+    "timestamp": "2026-05-09T00:00:00.000Z",
+    "date": "2026-05-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-03",
+      "end": "2026-05-09"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 1042,
+      "averageCTR": 0.1,
+      "averagePosition": 5.4
+    }
+  },
+  {
+    "timestamp": "2026-05-10T00:00:00.000Z",
+    "date": "2026-05-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-04",
+      "end": "2026-05-10"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1028,
+      "averageCTR": 0.19,
+      "averagePosition": 5.6
+    }
+  },
+  {
+    "timestamp": "2026-05-11T00:00:00.000Z",
+    "date": "2026-05-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-05",
+      "end": "2026-05-11"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 937,
+      "averageCTR": 0.32,
+      "averagePosition": 5.8
+    }
+  },
+  {
+    "timestamp": "2026-05-12T00:00:00.000Z",
+    "date": "2026-05-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-06",
+      "end": "2026-05-12"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 946,
+      "averageCTR": 0.32,
+      "averagePosition": 5.8
+    }
+  },
+  {
+    "timestamp": "2026-05-13T00:00:00.000Z",
+    "date": "2026-05-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-07",
+      "end": "2026-05-13"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 918,
+      "averageCTR": 0.33,
+      "averagePosition": 6
+    }
+  },
+  {
+    "timestamp": "2026-05-14T00:00:00.000Z",
+    "date": "2026-05-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-08",
+      "end": "2026-05-14"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 940,
+      "averageCTR": 0.32,
+      "averagePosition": 6.2
+    }
+  },
+  {
+    "timestamp": "2026-05-15T00:00:00.000Z",
+    "date": "2026-05-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-09",
+      "end": "2026-05-15"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1024,
+      "averageCTR": 0.39,
+      "averagePosition": 6.2
+    }
+  },
+  {
+    "timestamp": "2026-05-16T00:00:00.000Z",
+    "date": "2026-05-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-10",
+      "end": "2026-05-16"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1073,
+      "averageCTR": 0.28,
+      "averagePosition": 6.3
+    }
+  },
+  {
+    "timestamp": "2026-05-17T00:00:00.000Z",
+    "date": "2026-05-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-11",
+      "end": "2026-05-17"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1068,
+      "averageCTR": 0.28,
+      "averagePosition": 6.1
+    }
+  },
+  {
+    "timestamp": "2026-05-18T00:00:00.000Z",
+    "date": "2026-05-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-12",
+      "end": "2026-05-18"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1013,
+      "averageCTR": 0.2,
+      "averagePosition": 6.4
+    }
+  },
+  {
+    "timestamp": "2026-05-19T00:00:00.000Z",
+    "date": "2026-05-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-13",
+      "end": "2026-05-19"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1019,
+      "averageCTR": 0.2,
+      "averagePosition": 7
+    }
+  },
+  {
+    "timestamp": "2026-05-20T00:00:00.000Z",
+    "date": "2026-05-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-14",
+      "end": "2026-05-20"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1007,
+      "averageCTR": 0.3,
+      "averagePosition": 7.2
+    }
+  },
+  {
+    "timestamp": "2026-05-21T00:00:00.000Z",
+    "date": "2026-05-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-15",
+      "end": "2026-05-21"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 975,
+      "averageCTR": 0.31,
+      "averagePosition": 7.4
+    }
+  },
+  {
+    "timestamp": "2026-05-22T00:00:00.000Z",
+    "date": "2026-05-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-16",
+      "end": "2026-05-22"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 886,
+      "averageCTR": 0.23,
+      "averagePosition": 8
+    }
+  },
+  {
+    "timestamp": "2026-05-23T00:00:00.000Z",
+    "date": "2026-05-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-17",
+      "end": "2026-05-23"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 807,
+      "averageCTR": 0.25,
+      "averagePosition": 8.4
+    }
+  },
+  {
+    "timestamp": "2026-05-24T00:00:00.000Z",
+    "date": "2026-05-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-18",
+      "end": "2026-05-24"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 837,
+      "averageCTR": 0.12,
+      "averagePosition": 8.8
+    }
+  },
+  {
+    "timestamp": "2026-05-25T00:00:00.000Z",
+    "date": "2026-05-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-19",
+      "end": "2026-05-25"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 926,
+      "averageCTR": 0.22,
+      "averagePosition": 8.5
+    }
+  },
+  {
+    "timestamp": "2026-05-26T00:00:00.000Z",
+    "date": "2026-05-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-20",
+      "end": "2026-05-26"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 969,
+      "averageCTR": 0.31,
+      "averagePosition": 8.2
+    }
+  },
+  {
+    "timestamp": "2026-05-27T00:00:00.000Z",
+    "date": "2026-05-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-21",
+      "end": "2026-05-27"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 934,
+      "averageCTR": 0.32,
+      "averagePosition": 8.3
+    }
+  },
+  {
+    "timestamp": "2026-05-28T00:00:00.000Z",
+    "date": "2026-05-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-22",
+      "end": "2026-05-28"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 960,
+      "averageCTR": 0.31,
+      "averagePosition": 8.3
+    }
+  },
+  {
+    "timestamp": "2026-05-29T00:00:00.000Z",
+    "date": "2026-05-29",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-23",
+      "end": "2026-05-29"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 977,
+      "averageCTR": 0.31,
+      "averagePosition": 8.1
+    }
+  },
+  {
+    "timestamp": "2026-05-30T00:00:00.000Z",
+    "date": "2026-05-30",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-24",
+      "end": "2026-05-30"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1027,
+      "averageCTR": 0.29,
+      "averagePosition": 8
+    }
+  },
+  {
+    "timestamp": "2026-05-31T00:00:00.000Z",
+    "date": "2026-05-31",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-25",
+      "end": "2026-05-31"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 994,
+      "averageCTR": 0.4,
+      "averagePosition": 7.7
+    }
+  },
+  {
+    "timestamp": "2026-06-01T00:00:00.000Z",
+    "date": "2026-06-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-26",
+      "end": "2026-06-01"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 984,
+      "averageCTR": 0.41,
+      "averagePosition": 7.5
+    }
+  },
+  {
+    "timestamp": "2026-06-02T00:00:00.000Z",
+    "date": "2026-06-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-27",
+      "end": "2026-06-02"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 949,
+      "averageCTR": 0.42,
+      "averagePosition": 7.4
+    }
+  },
+  {
+    "timestamp": "2026-06-03T00:00:00.000Z",
+    "date": "2026-06-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-28",
+      "end": "2026-06-03"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 929,
+      "averageCTR": 0.32,
+      "averagePosition": 7.3
+    }
+  },
+  {
+    "timestamp": "2026-06-04T00:00:00.000Z",
+    "date": "2026-06-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-29",
+      "end": "2026-06-04"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 949,
+      "averageCTR": 0.32,
+      "averagePosition": 7.2
+    }
+  },
+  {
+    "timestamp": "2026-06-05T00:00:00.000Z",
+    "date": "2026-06-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-30",
+      "end": "2026-06-05"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 906,
+      "averageCTR": 0.44,
+      "averagePosition": 7.1
+    }
+  },
+  {
+    "timestamp": "2026-06-06T00:00:00.000Z",
+    "date": "2026-06-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-05-31",
+      "end": "2026-06-06"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 860,
+      "averageCTR": 0.47,
+      "averagePosition": 7.3
+    }
+  },
+  {
+    "timestamp": "2026-06-07T00:00:00.000Z",
+    "date": "2026-06-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-01",
+      "end": "2026-06-07"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 849,
+      "averageCTR": 0.35,
+      "averagePosition": 7.5
+    }
+  },
+  {
+    "timestamp": "2026-06-08T00:00:00.000Z",
+    "date": "2026-06-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-02",
+      "end": "2026-06-08"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 865,
+      "averageCTR": 0.46,
+      "averagePosition": 7.6
+    }
+  },
+  {
+    "timestamp": "2026-06-09T00:00:00.000Z",
+    "date": "2026-06-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-03",
+      "end": "2026-06-09"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 971,
+      "averageCTR": 0.41,
+      "averagePosition": 7.5
+    }
+  },
+  {
+    "timestamp": "2026-06-10T00:00:00.000Z",
+    "date": "2026-06-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-04",
+      "end": "2026-06-10"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1081,
+      "averageCTR": 0.37,
+      "averagePosition": 7.5
+    }
+  },
+  {
+    "timestamp": "2026-06-11T00:00:00.000Z",
+    "date": "2026-06-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-05",
+      "end": "2026-06-11"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1094,
+      "averageCTR": 0.37,
+      "averagePosition": 7.6
+    }
+  },
+  {
+    "timestamp": "2026-06-12T00:00:00.000Z",
+    "date": "2026-06-12",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-06",
+      "end": "2026-06-12"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1284,
+      "averageCTR": 0.31,
+      "averagePosition": 7.7
+    }
+  },
+  {
+    "timestamp": "2026-06-13T00:00:00.000Z",
+    "date": "2026-06-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-07",
+      "end": "2026-06-13"
+    },
+    "summary": {
+      "totalClicks": 6,
+      "totalImpressions": 1350,
+      "averageCTR": 0.44,
+      "averagePosition": 7.6
+    }
+  },
+  {
+    "timestamp": "2026-06-14T00:00:00.000Z",
+    "date": "2026-06-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-08",
+      "end": "2026-06-14"
+    },
+    "summary": {
+      "totalClicks": 7,
+      "totalImpressions": 1342,
+      "averageCTR": 0.52,
+      "averagePosition": 7.6
+    }
+  },
+  {
+    "timestamp": "2026-06-15T00:00:00.000Z",
+    "date": "2026-06-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-09",
+      "end": "2026-06-15"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 1338,
+      "averageCTR": 0.37,
+      "averagePosition": 7.6
+    }
+  },
+  {
+    "timestamp": "2026-06-16T00:00:00.000Z",
+    "date": "2026-06-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-10",
+      "end": "2026-06-16"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 1434,
+      "averageCTR": 0.35,
+      "averagePosition": 7.7
+    }
+  },
+  {
+    "timestamp": "2026-06-17T00:00:00.000Z",
+    "date": "2026-06-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-11",
+      "end": "2026-06-17"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 1438,
+      "averageCTR": 0.35,
+      "averagePosition": 7.8
+    }
+  },
+  {
+    "timestamp": "2026-06-18T00:00:00.000Z",
+    "date": "2026-06-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-12",
+      "end": "2026-06-18"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 1442,
+      "averageCTR": 0.35,
+      "averagePosition": 7.8
+    }
+  },
+  {
+    "timestamp": "2026-06-19T00:00:00.000Z",
+    "date": "2026-06-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-13",
+      "end": "2026-06-19"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 1341,
+      "averageCTR": 0.37,
+      "averagePosition": 7.8
+    }
+  },
+  {
+    "timestamp": "2026-06-20T00:00:00.000Z",
+    "date": "2026-06-20",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-14",
+      "end": "2026-06-20"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1318,
+      "averageCTR": 0.3,
+      "averagePosition": 8.9
+    }
+  },
+  {
+    "timestamp": "2026-06-21T00:00:00.000Z",
+    "date": "2026-06-21",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-15",
+      "end": "2026-06-21"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1508,
+      "averageCTR": 0.27,
+      "averagePosition": 8.9
+    }
+  },
+  {
+    "timestamp": "2026-06-22T00:00:00.000Z",
+    "date": "2026-06-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-16",
+      "end": "2026-06-22"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1789,
+      "averageCTR": 0.22,
+      "averagePosition": 8.8
+    }
+  },
+  {
+    "timestamp": "2026-06-23T00:00:00.000Z",
+    "date": "2026-06-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-17",
+      "end": "2026-06-23"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1806,
+      "averageCTR": 0.17,
+      "averagePosition": 8.8
+    }
+  },
+  {
+    "timestamp": "2026-06-24T00:00:00.000Z",
+    "date": "2026-06-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-18",
+      "end": "2026-06-24"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 1792,
+      "averageCTR": 0.17,
+      "averagePosition": 8.7
+    }
+  },
+  {
+    "timestamp": "2026-06-25T00:00:00.000Z",
+    "date": "2026-06-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-19",
+      "end": "2026-06-25"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 2040,
+      "averageCTR": 0.2,
+      "averagePosition": 8.6
+    }
+  },
+  {
+    "timestamp": "2026-06-26T00:00:00.000Z",
+    "date": "2026-06-26",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-20",
+      "end": "2026-06-26"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 2245,
+      "averageCTR": 0.13,
+      "averagePosition": 8.4
+    }
+  },
+  {
+    "timestamp": "2026-06-27T00:00:00.000Z",
+    "date": "2026-06-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-21",
+      "end": "2026-06-27"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 2592,
+      "averageCTR": 0.12,
+      "averagePosition": 7.7
+    }
+  },
+  {
+    "timestamp": "2026-06-28T00:00:00.000Z",
+    "date": "2026-06-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-22",
+      "end": "2026-06-28"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 2651,
+      "averageCTR": 0.08,
+      "averagePosition": 7.6
+    }
+  },
+  {
+    "timestamp": "2026-06-29T00:00:00.000Z",
+    "date": "2026-06-29",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-23",
+      "end": "2026-06-29"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 2524,
+      "averageCTR": 0.08,
+      "averagePosition": 7.4
+    }
+  },
+  {
+    "timestamp": "2026-06-30T00:00:00.000Z",
+    "date": "2026-06-30",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-24",
+      "end": "2026-06-30"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 2510,
+      "averageCTR": 0.08,
+      "averagePosition": 7.3
+    }
+  },
+  {
+    "timestamp": "2026-07-01T00:00:00.000Z",
+    "date": "2026-07-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-25",
+      "end": "2026-07-01"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 2619,
+      "averageCTR": 0.08,
+      "averagePosition": 7.2
+    }
+  },
+  {
+    "timestamp": "2026-07-02T00:00:00.000Z",
+    "date": "2026-07-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-26",
+      "end": "2026-07-02"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 2508,
+      "averageCTR": 0.12,
+      "averagePosition": 7.2
+    }
+  },
+  {
+    "timestamp": "2026-07-03T00:00:00.000Z",
+    "date": "2026-07-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-27",
+      "end": "2026-07-03"
+    },
+    "summary": {
+      "totalClicks": 5,
+      "totalImpressions": 2397,
+      "averageCTR": 0.21,
+      "averagePosition": 7.1
+    }
+  },
+  {
+    "timestamp": "2026-07-04T00:00:00.000Z",
+    "date": "2026-07-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-28",
+      "end": "2026-07-04"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 2018,
+      "averageCTR": 0.2,
+      "averagePosition": 7.1
+    }
+  },
+  {
+    "timestamp": "2026-07-05T00:00:00.000Z",
+    "date": "2026-07-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-29",
+      "end": "2026-07-05"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1924,
+      "averageCTR": 0.21,
+      "averagePosition": 7.1
+    }
+  },
+  {
+    "timestamp": "2026-07-06T00:00:00.000Z",
+    "date": "2026-07-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-06-30",
+      "end": "2026-07-06"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1819,
+      "averageCTR": 0.22,
+      "averagePosition": 7.2
+    }
+  },
+  {
+    "timestamp": "2026-07-07T00:00:00.000Z",
+    "date": "2026-07-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-01",
+      "end": "2026-07-07"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1680,
+      "averageCTR": 0.24,
+      "averagePosition": 7.4
+    }
+  },
+  {
+    "timestamp": "2026-07-08T00:00:00.000Z",
+    "date": "2026-07-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-02",
+      "end": "2026-07-08"
+    },
+    "summary": {
+      "totalClicks": 4,
+      "totalImpressions": 1660,
+      "averageCTR": 0.24,
+      "averagePosition": 7.4
+    }
+  },
+  {
+    "timestamp": "2026-07-09T00:00:00.000Z",
+    "date": "2026-07-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-03",
+      "end": "2026-07-09"
+    },
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 1514,
+      "averageCTR": 0.13,
+      "averagePosition": 7.4
+    }
+  },
+  {
+    "timestamp": "2026-07-10T00:00:00.000Z",
+    "date": "2026-07-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-04",
+      "end": "2026-07-10"
+    },
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 1383,
+      "averageCTR": 0,
+      "averagePosition": 7.8
+    },
+    "collectedAt": "2026-07-12T07:51:38.271Z",
+    "detailCoverage": {
+      "queries": {
+        "rowCount": 32,
+        "clicks": 0,
+        "impressions": 116,
+        "impressionShare": 8.4
+      },
+      "pages": {
+        "rowCount": 10,
+        "clicks": 0,
+        "impressions": 1390,
+        "impressionShare": 100.5
+      }
     },
     "topQueries": [
       {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
+        "query": "decap cms hook netlify-build config docs",
         "clicks": 0,
         "impressions": 15,
+        "ctr": 0,
+        "position": 8
+      },
+      {
+        "query": "netlify identity git gateway decap cms official docs",
+        "clicks": 0,
+        "impressions": 13,
+        "ctr": 0,
+        "position": 7.1
+      },
+      {
+        "query": "decap cms git gateway netlify identity official docs",
+        "clicks": 0,
+        "impressions": 11,
+        "ctr": 0,
+        "position": 7.4
+      },
+      {
+        "query": "git gateway",
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 6
+      },
+      {
+        "query": "decap cms netlify identity git gateway official docs",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 7.3
+      },
+      {
+        "query": "decap cms netlify identity git gateway documentation",
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 6
+      },
+      {
+        "query": "netlify identity git gateway decap cms docs",
+        "clicks": 0,
+        "impressions": 5,
         "ctr": 0,
         "position": 7.6
       },
       {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
+        "query": "decap cms hooks netlify-build config docs",
         "clicks": 0,
-        "impressions": 35,
+        "impressions": 5,
         "ctr": 0,
-        "position": 1.5714285714285714
+        "position": 9.6
       },
       {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
+        "query": "echo nest",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 5,
         "ctr": 0,
-        "position": 7
+        "position": 30.4
       },
       {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
+        "query": "decap cms git gateway official docs",
         "clicks": 0,
-        "impressions": 24,
+        "impressions": 4,
         "ctr": 0,
-        "position": 1.3333333333333333
+        "position": 5.5
+      }
+    ],
+    "topPages": [
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
+        "clicks": 0,
+        "impressions": 1091,
+        "ctr": 0,
+        "position": 7.6
       },
       {
-        "query": "\"hook:\" \"decap cms\"",
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 173,
         "ctr": 0,
-        "position": 7.333333333333333
+        "position": 8.3
       },
       {
-        "query": "\"hook:\" \"netlify-build\" \"config.yml\"",
+        "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 1,
+        "impressions": 73,
         "ctr": 0,
-        "position": 10
+        "position": 7.7
       },
       {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
+        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
         "impressions": 27,
         "ctr": 0,
-        "position": 7.962962962962963
+        "position": 5.7
       },
       {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
+        "page": "https://dylanbochman.com/projects/echonest",
         "clicks": 0,
-        "impressions": 42,
+        "impressions": 16,
         "ctr": 0,
-        "position": 1.619047619047619
+        "position": 22.9
       },
       {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
+        "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 15,
+        "impressions": 5,
         "ctr": 0,
-        "position": 7.333333333333333
+        "position": 2.4
       },
       {
-        "query": "\"hook:\" \"netlify-build\" \"decap\"",
+        "page": "https://dylanbochman.com/blog/hello-world",
         "clicks": 0,
-        "impressions": 34,
+        "impressions": 2,
         "ctr": 0,
-        "position": 1.1764705882352942
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 64
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
-        "clicks": 0,
-        "impressions": 470
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 0,
-        "impressions": 12
-      }
-    ]
-  },
-  {
-    "timestamp": "2026-02-06T06:17:25.471Z",
-    "date": "2026-02-06",
-    "period": {
-      "start": "2026-01-30",
-      "end": "2026-02-06"
-    },
-    "summary": {
-      "totalClicks": 1,
-      "totalImpressions": 467,
-      "averageCTR": 0.21,
-      "averagePosition": 11.5
-    },
-    "topQueries": [
-      {
-        "query": "claude dotfiles",
-        "clicks": 1,
-        "impressions": 11,
-        "ctr": 0.09090909090909091,
-        "position": 7.2727272727272725
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 11,
-        "ctr": 0,
-        "position": 7.7272727272727275
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 31,
-        "ctr": 0,
-        "position": 1.6129032258064515
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 3,
-        "ctr": 0,
-        "position": 7
-      },
-      {
-        "query": "\"hook\" \"netlify-build\" \"decap\"",
-        "clicks": 0,
-        "impressions": 22,
-        "ctr": 0,
-        "position": 1.4545454545454546
-      },
-      {
-        "query": "\"hook:\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 7,
-        "ctr": 0,
-        "position": 7.142857142857143
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"config.yml\"",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 10
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"config.yml\" cms",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 4
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 18,
-        "ctr": 0,
-        "position": 8.055555555555555
-      },
-      {
-        "query": "\"hook:\" \"netlify-build\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 33,
-        "ctr": 0,
-        "position": 1.5757575757575757
-      }
-    ],
-    "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "clicks": 1,
-        "impressions": 22
+        "position": 8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
         "clicks": 0,
-        "impressions": 40
+        "impressions": 1,
+        "ctr": 0,
+        "position": 6
       },
       {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide/",
+        "page": "https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself",
         "clicks": 0,
-        "impressions": 405
+        "impressions": 1,
+        "ctr": 0,
+        "position": 6
+      },
+      {
+        "page": "https://dylanbochman.com/runbook/",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 43
       }
     ]
   }

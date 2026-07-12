@@ -22,6 +22,8 @@ export interface AnimationNode {
   linkTo?: string;
   /** Terminal nodes end the walkthrough (show replay button) */
   terminal?: boolean;
+  /** Override the next step index instead of defaulting to currentIndex + 1 */
+  continueAt?: number;
 }
 
 // Lazy-load mermaid
@@ -204,7 +206,8 @@ export function AnimatedMermaidDiagram({
 
     const timer = setInterval(() => {
       setCurrentIndex((prev) => {
-        const nextIndex = prev + 1;
+        const prevNode = prev >= 0 ? nodes[prev] : null;
+        const nextIndex = prevNode?.continueAt ?? prev + 1;
 
         if (nextIndex >= nodes.length) {
           setIsPlaying(false);
@@ -246,8 +249,9 @@ export function AnimatedMermaidDiagram({
   }, []);
 
   const skipToNext = useCallback(() => {
-    if (currentIndex < nodes.length - 1) {
-      const targetIndex = currentIndex + 1;
+    const currentNode = currentIndex >= 0 ? nodes[currentIndex] : null;
+    const targetIndex = currentNode?.continueAt ?? currentIndex + 1;
+    if (targetIndex < nodes.length) {
       const targetNode = nodes[targetIndex];
       setCurrentIndex(targetIndex);
       // Check if target is a decision/link node - show its buttons

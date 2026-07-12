@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { chromium } from '@playwright/test';
-import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
@@ -10,8 +10,68 @@ const execAsync = promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const distDir = join(__dirname, '..', 'dist');
-const blogContentDir = join(__dirname, '..', 'content', 'blog');
+const blogManifestPath = join(__dirname, '..', 'src', 'generated', 'blog', 'manifest.json');
 const projectsMetaPath = join(__dirname, '..', 'src', 'data', 'projects-meta.json');
+const seoRedirectsPath = join(__dirname, '..', 'src', 'data', 'seo-redirects.json');
+
+// Hardcoded legacy redirects that aren't derivable from the blog manifest.
+// Single source of truth: src/data/seo-redirects.json (also read by
+// scripts/verify-seo-routes.mjs and scripts/smoke-live-routes.mjs).
+const { legacyRedirects: LEGACY_REDIRECTS } = JSON.parse(readFileSync(seoRedirectsPath, 'utf-8'));
+
+function routeToOutputPath(route) {
+  if (route === '/') {
+    return join(distDir, 'index.html');
+  }
+
+  const cleanRoute = route.replace(/^\/+|\/+$/g, '');
+  return join(distDir, `${cleanRoute}.html`);
+}
+
+function trailingSlashOutputPath(route) {
+  const cleanRoute = route.replace(/^\/+|\/+$/g, '');
+  return join(distDir, cleanRoute, 'index.html');
+}
+
+function writeRedirectArtifact(outputPath, destination) {
+  // Meta-refresh redirect with canonical link so search engines consolidate
+  // signals on the destination URL. window.location.replace() avoids adding
+  // a history entry so the back button doesn't bounce.
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting…</title>
+  <link rel="canonical" href="https://dylanbochman.com${destination}">
+  <meta http-equiv="refresh" content="0; url=${destination}">
+  <script>window.location.replace(${JSON.stringify(destination)});</script>
+</head>
+<body>
+  <p>Redirecting to <a href="${destination}">dylanbochman.com${destination}</a>…</p>
+</body>
+</html>
+`;
+  mkdirSync(dirname(outputPath), { recursive: true });
+  writeFileSync(outputPath, html);
+}
+
+function loadBlogRoutes() {
+  const manifest = JSON.parse(readFileSync(blogManifestPath, 'utf-8'));
+
+  return Object.entries(manifest)
+    .filter(([, entry]) => !entry.frontmatter.draft)
+    .map(([filenameSlug, entry]) => ({
+      route: `/blog/${entry.frontmatter.slug ?? filenameSlug}`,
+      legacyRoute: entry.frontmatter.slug && entry.frontmatter.slug !== filenameSlug
+        ? `/blog/${filenameSlug}`
+        : null,
+    }));
+}
+
+function loadPublicProjects() {
+  const projectsMeta = JSON.parse(readFileSync(projectsMetaPath, 'utf-8'));
+  return projectsMeta.filter(project => project.status !== 'draft');
+}
 
 /**
  * Pre-render routes to static HTML files for GitHub Pages
@@ -33,29 +93,38 @@ async function prerender() {
     // Wait for server to start
     await new Promise(resolve => setTimeout(resolve, 3000));
 
-    // Launch browser
-    const browser = await chromium.launch();
+    // Launch browser (CI uses the runner's preinstalled Chrome — no download)
+    const browser = await chromium.launch({
+      channel: process.env.CI ? 'chrome' : undefined,
+    });
     const page = await browser.newPage();
 
-    // Get list of blog posts
-    const blogFiles = readdirSync(blogContentDir).filter(f => f.endsWith('.txt'));
-    const blogSlugs = blogFiles.map(f => f.replace('.txt', ''));
-
-    // Get list of projects
-    const projectsMeta = JSON.parse(readFileSync(projectsMetaPath, 'utf-8'));
-    const projectSlugs = projectsMeta.map(p => p.slug);
+    // Get indexable content from the same generated data used by the sitemap.
+    const blogRoutes = loadBlogRoutes();
+    const projectSlugs = loadPublicProjects().map(p => p.slug);
 
     const routes = [
+      '/',
       '/projects',
       ...projectSlugs.map(slug => `/projects/${slug}`),
       '/runbook',
       '/analytics',
       '/blog',
-      ...blogSlugs.map(slug => `/blog/${slug}`)
+      ...blogRoutes.map(blogRoute => blogRoute.route),
     ];
 
     // Routes with persistent network activity (auth, polling) that prevent networkidle
     const routesWithPolling = ['/projects/kanban'];
+
+    // Modulepreload links Vite bakes into the built template (entry deps).
+    // Vite's runtime preload helper inserts additional modulepreload links
+    // into <head> as routes lazy-load chunks; snapshotting the DOM bakes
+    // those into the prerendered HTML, making every visitor download lazy
+    // chunks (e.g. ~700KB of mermaid) the page may never use. Keep only the
+    // template's own preloads in the snapshot.
+    const templateHtml = readFileSync(join(distDir, 'index.html'), 'utf-8');
+    const templatePreloads = [...templateHtml.matchAll(/<link[^>]+rel="modulepreload"[^>]+href="([^"]+)"/g)]
+      .map(match => match[1]);
 
     console.log(`📄 Pre-rendering ${routes.length} routes...`);
 
@@ -71,13 +140,43 @@ async function prerender() {
       // Wait for React to render (longer wait for polling routes since we don't wait for network)
       await page.waitForTimeout(routesWithPolling.includes(route) ? 2000 : 500);
 
+      // react-helmet appends its meta tags without removing the static ones
+      // from index.html, so pages end up with two description/og tags and
+      // crawlers take the first (the site-wide default). Where helmet rendered
+      // a tag (data-rh), drop the static duplicate so exactly one value ships.
+      await page.evaluate(() => {
+        for (const tag of document.head.querySelectorAll('meta[data-rh]')) {
+          const name = tag.getAttribute('name');
+          const property = tag.getAttribute('property');
+          const selector = name
+            ? `meta[name="${name}"]:not([data-rh])`
+            : property
+              ? `meta[property="${property}"]:not([data-rh])`
+              : null;
+          if (selector) document.head.querySelectorAll(selector).forEach((dup) => dup.remove());
+        }
+      });
+
+      // Strip head tags inserted at runtime that must not ship in the
+      // static HTML: modulepreloads for lazy chunks (see templatePreloads
+      // above) and the gtag.js script tag injected by the deferred loader
+      // in index.html (each page load re-injects it after window load).
+      await page.evaluate((keepPreloads) => {
+        for (const link of document.head.querySelectorAll('link[rel="modulepreload"]')) {
+          const href = link.getAttribute('href');
+          if (!keepPreloads.includes(href)) link.remove();
+        }
+        document.head
+          .querySelectorAll('script[src^="https://www.googletagmanager.com/gtag/js"]')
+          .forEach((tag) => tag.remove());
+      }, templatePreloads);
+
       // Get the rendered HTML
       const html = await page.content();
 
-      // Determine output path
-      const outputPath = route === '/blog'
-        ? join(distDir, 'blog', 'index.html')
-        : join(distDir, route.slice(1), 'index.html');
+      // Determine output path. GitHub Pages serves /foo from foo.html without
+      // redirecting to /foo/, which keeps sitemap and canonical URLs aligned.
+      const outputPath = routeToOutputPath(route);
 
       // Create directory if it doesn't exist
       mkdirSync(dirname(outputPath), { recursive: true });
@@ -90,10 +189,35 @@ async function prerender() {
 
     await browser.close();
 
-    // Create redirect files for legacy URLs (Google Search Console 404s)
-    // These are .html files that existed on the old site
-    console.log('🔄 Creating legacy URL redirects...');
-    const legacyRedirects = [
+    // Trailing-slash redirects for every prerendered route. GitHub Pages
+    // serves /foo from foo.html but /foo/ requires foo/index.html — without
+    // these stubs, old indexed or externally-linked trailing-slash URLs 404.
+    console.log('↩  Creating trailing-slash redirects to canonical URLs...');
+    for (const route of routes) {
+      if (route === '/') continue;
+      const outputPath = trailingSlashOutputPath(route);
+      writeRedirectArtifact(outputPath, route);
+      console.log(`    ✓ ${route}/ → ${route}`);
+    }
+
+    // Legacy slug redirects derived from the blog manifest plus a small
+    // hardcoded list for cases the manifest doesn't cover (e.g. project renames).
+    // Both slashless and trailing-slash variants are written so any inbound
+    // shape resolves without a GitHub Pages redirect.
+    console.log('🔄 Creating legacy slug redirects...');
+    const manifestRedirects = blogRoutes
+      .filter(b => b.legacyRoute)
+      .map(b => ({ from: b.legacyRoute, to: b.route }));
+
+    for (const redirect of [...manifestRedirects, ...LEGACY_REDIRECTS]) {
+      writeRedirectArtifact(routeToOutputPath(redirect.from), redirect.to);
+      writeRedirectArtifact(trailingSlashOutputPath(redirect.from), redirect.to);
+      console.log(`    ✓ ${redirect.from} → ${redirect.to}`);
+    }
+
+    // Legacy .html files from the pre-SPA site (Google Search Console 404s).
+    console.log('🔄 Creating legacy .html redirects...');
+    const legacyHtmlRedirects = [
       { from: 'contactme.html', to: '/' },
       { from: 'bretton-woods.html', to: '/' },
       { from: 'eurotrip.html', to: '/' },
@@ -101,24 +225,21 @@ async function prerender() {
       { from: 'golden-gloves.html', to: '/' },
     ];
 
-    for (const redirect of legacyRedirects) {
-      const redirectHtml = `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Redirecting...</title>
-  <link rel="canonical" href="https://dylanbochman.com${redirect.to}">
-  <meta http-equiv="refresh" content="0; url=${redirect.to}">
-  <script>window.location.href = "${redirect.to}";</script>
-</head>
-<body>
-  <p>Redirecting to <a href="${redirect.to}">dylanbochman.com${redirect.to}</a>...</p>
-</body>
-</html>`;
-      const outputPath = join(distDir, redirect.from);
-      writeFileSync(outputPath, redirectHtml);
-      console.log(`    ✓ Created redirect: ${redirect.from} → ${redirect.to}`);
+    for (const redirect of legacyHtmlRedirects) {
+      writeRedirectArtifact(join(distDir, redirect.from), redirect.to);
+      console.log(`    ✓ ${redirect.from} → ${redirect.to}`);
     }
+
+    // Build marker the post-deploy smoke check uses to confirm the live site
+    // is actually serving THIS build (and not an older artifact that happens
+    // to satisfy the route shape). The smoke check polls /build-info.json
+    // until the live `sha` matches the local one.
+    const buildInfo = {
+      sha: process.env.GITHUB_SHA ?? 'local',
+      builtAt: new Date().toISOString(),
+    };
+    writeFileSync(join(distDir, 'build-info.json'), `${JSON.stringify(buildInfo, null, 2)}\n`);
+    console.log(`📌 Wrote dist/build-info.json (sha=${buildInfo.sha})`);
 
     console.log('✅ Pre-rendering complete!');
   } catch (error) {

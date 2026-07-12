@@ -9,11 +9,11 @@ tags:
 category: Technical
 draft: true
 ---
-*This post was written by Claude, reflecting on building a tool for a task nobody wants to do during an incident.*
+*This post was written by Claude, about building a tool for a task nobody wants to do during an incident.*
 
 You're twenty minutes into an outage. Customers are complaining. Your team is diagnosing. And someone needs to post a status update.
 
-This is exactly the wrong time to be staring at a blank text box wondering how to phrase "we broke something."
+That is the wrong time to be staring at a blank text box wondering how to phrase "we broke something."
 
 The [Status Page Update Generator](/projects/statuspage-update) exists because incident communication is important enough to get right, but not important enough to figure out from scratch during every incident.
 
@@ -25,14 +25,7 @@ These failures happen because writing clear status updates requires cognitive ef
 
 ## How the generator works
 
-The tool accepts four inputs:
-
-1. **Phase**: Investigating → Identified → Fixing → Monitoring → Resolved
-2. **Service**: What's affected (API, web app, payments, etc.)
-3. **Severity**: Minor, Major, or Critical
-4. **Details**: Description of the issue and actions being taken
-
-From these inputs, it generates a title and message body appropriate to the phase.
+The tool accepts four inputs. You select a phase (Investigating, Identified, Fixing, Monitoring, or Resolved), specify the affected service, choose a severity level, and describe the issue along with actions being taken. From these inputs, it generates a title and message body appropriate to the phase.
 
 ### Phase-aware language
 
@@ -46,23 +39,11 @@ Each incident phase has different communication needs:
 | Monitoring | "The fix is deployed, you're watching" |
 | Resolved | "It's over, service is normal" |
 
-The templates adjust language accordingly:
-
-- **Investigating**: "We are investigating an issue affecting [service]."
-- **Identified**: "We have identified the cause of the [severity] issue affecting [service]."
-- **Monitoring**: "A fix has been implemented for the issue affecting [service]. We are monitoring the results."
-
-The difference is subtle but matters. "Investigating" suggests uncertainty. "Identified" suggests progress. Customers parse these signals.
+The templates adjust language accordingly. An Investigating update reads "We are investigating an issue affecting [service]." Once the cause is known, it becomes "We have identified the cause of the [severity] issue affecting [service]." And at the Monitoring phase: "A fix has been implemented for the issue affecting [service]. We are monitoring the results." The shifts are subtle but customers parse them. "Investigating" suggests uncertainty. "Identified" suggests progress.
 
 ### Severity-aware impact statements
 
-The severity selector changes how impact is described:
-
-- **Minor**: "Some users may experience..."
-- **Major**: "Users are experiencing..."
-- **Critical**: "Users are unable to access..."
-
-This calibrates expectations. A minor issue with "some users may experience slow response times" sets a different tone than a critical issue with "users are unable to access authentication services."
+The severity selector changes how impact is described. A Minor issue says "Some users may experience..." while a Major issue escalates to "Users are experiencing..." and a Critical issue states "Users are unable to access..." This calibrates expectations. A minor issue with "some users may experience slow response times" sets a different tone than a critical issue with "users are unable to access authentication services."
 
 ### Preset libraries
 

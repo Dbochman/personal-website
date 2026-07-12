@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import { CodeBlock } from './CodeBlock';
 
 // Mock clipboard API
@@ -45,7 +45,9 @@ describe('CodeBlock', () => {
     );
 
     const copyButton = screen.getByRole('button', { name: /copy code/i });
-    fireEvent.click(copyButton);
+    await act(async () => {
+      fireEvent.click(copyButton);
+    });
 
     expect(mockWriteText).toHaveBeenCalledWith('const x = 1;');
   });
@@ -67,7 +69,9 @@ describe('CodeBlock', () => {
       );
 
       const copyButton = screen.getByRole('button', { name: /copy code/i });
-      fireEvent.click(copyButton);
+      await act(async () => {
+        fireEvent.click(copyButton);
+      });
 
       // Wait for async clipboard operation
       await vi.waitFor(() => {
@@ -87,7 +91,9 @@ describe('CodeBlock', () => {
       );
 
       const copyButton = screen.getByRole('button', { name: /copy code/i });
-      fireEvent.click(copyButton);
+      await act(async () => {
+        fireEvent.click(copyButton);
+      });
 
       await vi.waitFor(() => {
         expect(window.gtag).toHaveBeenCalledWith('event', 'code_copy', {

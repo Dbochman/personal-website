@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   parseMDX,
   calculateReadingTime,
+  formatDate,
   createBlogPost,
   sortPostsByDate,
   filterPostsByTag,
@@ -67,6 +68,18 @@ const test = "code block";
       const result = calculateReadingTime(content);
 
       expect(result.minutes).toBeGreaterThanOrEqual(0);
+    });
+  });
+
+  describe('formatDate', () => {
+    it('should format date with default format', () => {
+      const result = formatDate('2026-01-07T12:00:00Z'); // Use full ISO string
+      expect(result).toContain('2026'); // Just verify year to avoid timezone issues
+    });
+
+    it('should format date with custom format', () => {
+      const result = formatDate('2026-01-07T12:00:00Z', 'yyyy');
+      expect(result).toBe('2026');
     });
   });
 

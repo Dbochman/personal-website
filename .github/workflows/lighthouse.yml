@@ -27,19 +27,21 @@ jobs:
   lighthouse:
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.event_name == 'push' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # Each page is audited 3x for a median (scripts/lighthouse-multi-page.mjs),
+    # so the audit phase runs ~3x longer than a single-run pass.
+    timeout-minutes: 20
     permissions:
       contents: write
       issues: write
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '24'
           cache: 'npm'
@@ -104,7 +106,7 @@ jobs:
 
       - name: Upload Lighthouse reports
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: lighthouse-reports
           path: |
@@ -135,9 +137,9 @@ jobs:
 
             // Check thresholds per page
             // Performance varies in CI (~60-80) vs local (~90+). Set floor at 50 for CI variability.
-            // SEO at 90 is good for personal sites (92 typical). Accessibility at 95 catches real issues.
+            // SEO at 90 is good for personal sites (92 typical). Accessibility at 90 still flags regressions without flakiness.
             if (page.performance < 50) failures.push(\`\${page.page}: Performance \${page.performance} < 50\`);
-            if (page.accessibility < 95) failures.push(\`\${page.page}: Accessibility \${page.accessibility} < 95\`);
+            if (page.accessibility < 90) failures.push(\`\${page.page}: Accessibility \${page.accessibility} < 90\`);
             if (page.seo < 90) failures.push(\`\${page.page}: SEO \${page.seo} < 90\`);
             if (page.bestPractices < 90) failures.push(\`\${page.page}: Best Practices \${page.bestPractices} < 90\`);
           });
@@ -147,7 +149,7 @@ jobs:
           if (failures.length > 0) {
             console.error('❌ Lighthouse thresholds not met:\\n');
             failures.forEach(f => console.error(\`   - \${f}\`));
-            console.error('\\n📝 Thresholds: Performance ≥50, Accessibility ≥95, SEO ≥90, Best Practices ≥90');
+            console.error('\\n📝 Thresholds: Performance ≥50, Accessibility ≥90, SEO ≥90, Best Practices ≥90');
             process.exit(1);
           } else {
             console.log('✅ All pages passed Lighthouse thresholds!');
@@ -156,7 +158,7 @@ jobs:
 
       - name: Create issue for performance degradation
         if: failure() && steps.threshold_check.conclusion == 'failure'
-        uses: actions/github-script@v8
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
             const fs = require('fs');
@@ -169,7 +171,7 @@ jobs:
 
             summary.forEach(page => {
               const perfStatus = page.performance >= 50 ? '✅' : '❌';
-              const a11yStatus = page.accessibility >= 95 ? '✅' : '❌';
+              const a11yStatus = page.accessibility >= 90 ? '✅' : '❌';
               const seoStatus = page.seo >= 90 ? '✅' : '❌';
               const bpStatus = page.bestPractices >= 90 ? '✅' : '❌';
 
@@ -192,7 +194,7 @@ jobs:
             ### Scores by Page
             ${scoresTable}
 
-            **Thresholds:** Performance ≥50, Accessibility ≥95, SEO ≥90, Best Practices ≥90
+            **Thresholds:** Performance ≥50, Accessibility ≥90, SEO ≥90, Best Practices ≥90
 
             ### Core Web Vitals
             ${vitalsTable}

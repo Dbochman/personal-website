@@ -134,12 +134,12 @@ export function MTTRBuilder({ title = 'What Can You Achieve?' }: MTTRBuilderProp
         {/* Hero stats */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="text-center p-4 bg-muted/50 rounded-lg border border-border">
-            <span className="text-3xl font-bold text-foreground">{mttr}</span>
+            <span className="text-3xl font-bold text-foreground tabular-nums">{mttr}</span>
             <span className="text-lg text-muted-foreground ml-1">min</span>
             <div className="text-sm text-muted-foreground mt-1">MTTR</div>
           </div>
           <div className={`text-center p-4 rounded-lg border ${sloBgColor}`}>
-            <span className={`text-3xl font-bold ${sloColor}`}>
+            <span className={`text-3xl font-bold tabular-nums ${sloColor}`}>
               {achievableSlo.toFixed(2)}%
             </span>
             <div className="text-sm text-muted-foreground mt-1">achievable SLO</div>
@@ -191,7 +191,7 @@ export function MTTRBuilder({ title = 'What Can You Achieve?' }: MTTRBuilderProp
         </div>
 
         {/* Formula Display */}
-        <div className="mt-4 p-3 bg-muted/50 rounded-lg border border-border font-mono text-xs sm:text-sm space-y-1">
+        <div className="mt-4 p-3 bg-muted/50 rounded-lg border border-border font-mono text-xs sm:text-sm space-y-1 tabular-nums">
           <div className="text-muted-foreground">
             <span className="text-foreground">Effective downtime</span> = {incidents} × {mttr} min × {blastRadius}% ={' '}
             <span className="font-semibold text-foreground">{effectiveDowntime.toFixed(0)} min</span>

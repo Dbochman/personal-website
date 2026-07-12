@@ -26,6 +26,10 @@ describe('Seo', () => {
         meta.remove()
       }
     })
+
+    document.querySelectorAll('link[rel="canonical"]').forEach(link => {
+      link.remove()
+    })
   })
 
   it('should render title with site name', async () => {
@@ -107,6 +111,16 @@ describe('Seo', () => {
       expect(document.querySelector('meta[property="og:title"]')?.getAttribute('content')).toBe(`${title} | Dylan Bochman`)
       expect(document.querySelector('meta[property="og:description"]')?.getAttribute('content')).toBe(description)
       expect(document.querySelector('meta[property="og:image"]')?.getAttribute('content')).toBe('https://dylanbochman.com/social-preview.webp')
+    })
+  })
+
+  it('should render canonical URL', async () => {
+    renderWithHelmet(
+      <Seo title="Test Page" description="Test description" url="/test-page" />
+    )
+
+    await waitFor(() => {
+      expect(document.querySelector('link[rel="canonical"]')?.getAttribute('href')).toBe('https://dylanbochman.com/test-page')
     })
   })
 

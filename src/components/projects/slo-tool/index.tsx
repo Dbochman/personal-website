@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import { ResponsiveTabsList, type TabItem } from '@/components/ui/responsive-tabs';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -32,6 +33,12 @@ import {
 
 const VALID_MODES = ['achievable', 'target', 'burndown'] as const;
 type CalculationMode = (typeof VALID_MODES)[number];
+
+const SLO_TABS: TabItem[] = [
+  { value: 'achievable', label: 'What can I achieve?', mobileLabel: 'Achievable' },
+  { value: 'target', label: 'Can I meet this SLO?', mobileLabel: 'Target' },
+  { value: 'burndown', label: 'Budget Burndown', mobileLabel: 'Burndown' },
+];
 
 // Input allows full range; slider focuses on high-availability targets
 const MIN_SLO = 0;
@@ -234,20 +241,16 @@ export default function SloTool() {
         setMode(v as CalculationMode);
         trackToolEvent({ tool_name: 'slo_calculator', action: 'tab_switch', event_label: v });
       }}>
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="achievable" className="text-xs sm:text-sm">
-            <span className="hidden sm:inline">What can I achieve?</span>
-            <span className="sm:hidden">Achievable</span>
-          </TabsTrigger>
-          <TabsTrigger value="target" className="text-xs sm:text-sm">
-            <span className="hidden sm:inline">Can I meet this SLO?</span>
-            <span className="sm:hidden">Target</span>
-          </TabsTrigger>
-          <TabsTrigger value="burndown" className="text-xs sm:text-sm">
-            <span className="hidden sm:inline">Budget Burndown</span>
-            <span className="sm:hidden">Burndown</span>
-          </TabsTrigger>
-        </TabsList>
+        <ResponsiveTabsList
+          items={SLO_TABS}
+          value={mode}
+          onValueChange={(v) => {
+            setMode(v as CalculationMode);
+            trackToolEvent({ tool_name: 'slo_calculator', action: 'tab_switch', event_label: v });
+          }}
+          tabsListClassName="grid w-full grid-cols-3"
+          triggerClassName="text-xs sm:text-sm"
+        />
 
         <div className="mt-6 space-y-6">
           {/* Achievable tab: show inputs directly without collapsible */}

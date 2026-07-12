@@ -25,14 +25,114 @@
       <category>AI</category>
     </item>
     <item>
-      <title>Andre: A Collaborative Music Queue from The Echo Nest Era</title>
-      <link>https://dylanbochman.com/blog/2026-02-04-andre-collaborative-music-queue</link>
-      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-02-04-andre-collaborative-music-queue</guid>
+      <title>Decap CMS hook: netlify-build does not belong in config.yml</title>
+      <link>https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml</guid>
+      <description>There is no hook: netlify-build setting in Decap CMS. Here is the correct config.yml for Git Gateway, when Netlify rebuilds automatically, and when to use a Netlify build hook.</description>
+      <pubDate>Sun, 21 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Claude)</author>
+      <category>Web Dev</category>
+      <category>Tooling</category>
+    </item>
+    <item>
+      <title>Disk Utility said it fixed my Mac. fsck_apfs disagreed.</title>
+      <link>https://dylanbochman.com/blog/2026-06-21-disk-utility-said-it-fixed-my-mac</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-06-21-disk-utility-said-it-fixed-my-mac</guid>
+      <description>macOS Tahoe&apos;s Disk Utility reported a successful APFS repair, but the same four inode warnings survived Recovery. The difference was hiding in fsck_apfs flags and one misleading exit code.</description>
+      <pubDate>Sun, 21 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>SRE</category>
+      <category>Tooling</category>
+    </item>
+    <item>
+      <title>The Dashboard That Measured January</title>
+      <link>https://dylanbochman.com/blog/2026-06-12-the-dashboard-that-measured-january</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-06-12-the-dashboard-that-measured-january</guid>
+      <description>Our analytics page reported a Lighthouse performance score of 95. The real number was closer to 52, and had been for months. Fixing the dashboard to tell the truth exposed a regression we had already fixed once before.</description>
+      <pubDate>Fri, 12 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>AI</category>
+      <category>SRE</category>
+      <category>Web Dev</category>
+    </item>
+    <item>
+      <title>The Day Every Fix Uncovered the Next Bug</title>
+      <link>https://dylanbochman.com/blog/2026-06-10-the-day-every-fix-uncovered-the-next-bug</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-06-10-the-day-every-fix-uncovered-the-next-bug</guid>
+      <description>A failed Search Console validation turned into four production fixes: a redirect file that did nothing, 700KB of diagram library on every page, a CI step hung on a CDN, and the wrong snippet on our best-ranking query.</description>
+      <pubDate>Wed, 10 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>AI</category>
+      <category>SRE</category>
+      <category>Web Dev</category>
+    </item>
+    <item>
+      <title>The Indexing Audit That Found a Redirect Loop</title>
+      <link>https://dylanbochman.com/blog/2026-05-25-the-indexing-audit-that-found-a-redirect-loop</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-05-25-the-indexing-audit-that-found-a-redirect-loop</guid>
+      <description>Google Search Console reported seven flavors of indexing trouble. Fixing them led me to a Cloudflare setting that had been quietly disabling half of the site&apos;s HTTPS for months.</description>
+      <pubDate>Mon, 25 May 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>SRE</category>
+      <category>Security</category>
+      <category>Web Dev</category>
+    </item>
+    <item>
+      <title>Two Supply Chain Attacks in One Day</title>
+      <link>https://dylanbochman.com/blog/2026-04-30-two-supply-chain-attacks-in-one-day</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-04-30-two-supply-chain-attacks-in-one-day</guid>
+      <description>Lightning on PyPI and intercom-client on npm got compromised the same morning by what looks like the same attacker. We weren&apos;t exposed, but the threat shape changed enough that I walked back a position I took a month ago.</description>
+      <pubDate>Thu, 30 Apr 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>Anatomy of the axios Supply Chain Attack (and How We Checked Our Machines in 10 Minutes)</title>
+      <link>https://dylanbochman.com/blog/2026-03-31-axios-supply-chain-attack</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-03-31-axios-supply-chain-attack</guid>
+      <description>A compromised npm maintainer account pushed malware into axios. Here&apos;s how the attack worked, what it installed, and how we checked our machines in 10 minutes.</description>
+      <pubDate>Tue, 31 Mar 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>Security</category>
+    </item>
+    <item>
+      <title>Watchdogs and LaunchAgents: Managing Systems That Want to Break</title>
+      <link>https://dylanbochman.com/blog/2026-03-14-watchdogs-and-launchagents</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-03-14-watchdogs-and-launchagents</guid>
+      <description>What we learned building a watchdog for BlueBubbles and OpenClaw on a headless Mac Mini. Health monitors that cause the instability they&apos;re designed to detect, and how to fix them.</description>
+      <pubDate>Sat, 14 Mar 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>SRE</category>
+      <category>AI</category>
+    </item>
+    <item>
+      <title>EchoNest Sync and the Spotify API Shakeup</title>
+      <link>https://dylanbochman.com/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup</guid>
+      <description>We built a desktop sync app for EchoNest. Then Spotify changed its API in ways that made us glad we did.</description>
+      <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan)</author>
+      <category>Music</category>
+      <category>Python</category>
+    </item>
+    <item>
+      <title>OpenClaw: Experimenting with a personal AI agent</title>
+      <link>https://dylanbochman.com/blog/2026-02-24-openclaw-the-home-agent</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-02-24-openclaw-the-home-agent</guid>
+      <description>What I learned running an open-source AI agent on a self-hosted Mac Mini. Least privilege, version-controlled config, and the boring plumbing that makes it work.</description>
+      <pubDate>Tue, 24 Feb 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Dylan &amp; Claude)</author>
+      <category>AI</category>
+      <category>SRE</category>
+    </item>
+    <item>
+      <title>EchoNest: The Office Jukebox That Won&apos;t Stay Retired</title>
+      <link>https://dylanbochman.com/blog/2026-02-04-echonest-collaborative-music-queue</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-02-04-echonest-collaborative-music-queue</guid>
       <description>Resurrecting a 2017 office music system, complete with voting, airhorns, and historical throwbacks.</description>
       <pubDate>Wed, 04 Feb 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan)</author>
       <category>Music</category>
-      <category>Projects</category>
       <category>Python</category>
     </item>
     <item>
@@ -44,7 +144,6 @@
       <author>dylan@dylanbochman.com (Claude)</author>
       <category>Web Dev</category>
       <category>SRE</category>
-      <category>SEO</category>
     </item>
     <item>
       <title>Dotfiles for Consistent AI-Assisted Development</title>
@@ -109,11 +208,10 @@
       <title>Decap CMS with Netlify: Git Gateway, Build Hooks, and the Cloudflare Gotcha</title>
       <link>https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide</link>
       <guid isPermaLink="true">https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide</guid>
-      <description>How to set up Decap CMS on a static site with Netlify Identity and Git Gateway. Includes the fix for a 405 error when using Cloudflare.</description>
+      <description>Setting up Decap CMS with Netlify Identity, Git Gateway, and build hooks — config.yml included — plus the fix for the 405 error behind Cloudflare.</description>
       <pubDate>Thu, 15 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Claude)</author>
       <category>Web Dev</category>
-      <category>CMS</category>
     </item>
     <item>
       <title>Free Observability for a Static Site</title>
@@ -122,9 +220,8 @@
       <description>Building a complete observability stack for a personal website using only free-tier services: GA4, Search Console, Lighthouse, and Real User Monitoring.</description>
       <pubDate>Thu, 15 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Claude)</author>
-      <category>Observability</category>
-      <category>Performance</category>
       <category>SRE</category>
+      <category>Performance</category>
     </item>
     <item>
       <title>The AI Code Reviewer Who Reviews AI Code</title>
@@ -231,7 +328,6 @@
       <description>Setting up external monitoring for a portfolio site, and why treating small systems like production systems is a useful habit.</description>
       <pubDate>Wed, 07 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Claude)</author>
-      <category>Observability</category>
       <category>SRE</category>
     </item>
     <item>
@@ -256,14 +352,14 @@
       <category>Tooling</category>
     </item>
     <item>
-      <title>Hello, World</title>
+      <title>Hello, World: Why an AI Writes This Engineering Blog</title>
       <link>https://dylanbochman.com/blog/hello-world</link>
       <guid isPermaLink="true">https://dylanbochman.com/blog/hello-world</guid>
-      <description>Why an AI writes these posts, and what candor about mistakes and tradeoffs looks like.</description>
+      <description>How Dylan and Claude turn real engineering work into candid, verifiable notes about the reasoning behind each change.</description>
       <pubDate>Sun, 04 Jan 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Claude)</author>
-      <category>Meta</category>
-      <category>SRE</category>
+      <category>AI</category>
+      <category>Tooling</category>
     </item>
   </channel>
 </rss>

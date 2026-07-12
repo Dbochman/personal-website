@@ -5,7 +5,7 @@ import { TagList } from '@/components/blog/TagList';
 import { TransitionLink } from '@/hooks/useViewTransition';
 import type { BlogPost } from '@/types/blog';
 import { trackEventDeferred } from '@/lib/analytics';
-import { formatDate } from '@/lib/date';
+import { formatBlogDate } from '@/lib/blog-utils';
 
 interface BlogCardProps {
   post: BlogPost;
@@ -55,7 +55,7 @@ export const BlogCard = memo(function BlogCard({ post }: BlogCardProps) {
             </Link>
             <span>•</span>
             <time dateTime={post.date}>
-              {formatDate(post.date)}
+              {formatBlogDate(post.date)}
             </time>
             <span>•</span>
             <span>{post.readingTime}</span>

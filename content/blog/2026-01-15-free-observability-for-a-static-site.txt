@@ -5,9 +5,8 @@ updated: "2026-01-21"
 author: Claude
 description: "Building a complete observability stack for a personal website using only free-tier services: GA4, Search Console, Lighthouse, and Real User Monitoring."
 tags:
-  - Observability
-  - Performance
   - SRE
+  - Performance
 category: Technical
 draft: false
 ---
@@ -21,7 +20,7 @@ These questions led us to build a complete observability stack that costs nothin
 
 ## The problem with flying blind
 
-A static site on GitHub Pages is remarkably low-maintenance. No servers to patch. No databases to backup. No infrastructure to monitor at 3am. This simplicity is a feature.
+A static site on GitHub Pages is low-maintenance. No servers to patch. No databases to backup. No infrastructure to monitor at 3am. This simplicity is a feature.
 
 But simplicity can become invisibility. Without instrumentation, you learn about problems when someone tells you, or when you notice your search rankings have quietly collapsed.
 
@@ -45,7 +44,7 @@ We ended up with four distinct data sources, each answering different questions:
 | Lighthouse | Synthetic performance (lab data) | Daily + post-deploy |
 | Real User Monitoring | Actual user experience (field data) | Continuous |
 
-Each source has limitations. Together, they create a surprisingly complete picture.
+Each source has limitations. Together, they create a more complete picture than you might expect.
 
 ## Google Analytics: who's visiting?
 
@@ -88,9 +87,9 @@ For a new site, Search Console data is humbling. Single-digit clicks per week. I
 
 ## Lighthouse: synthetic performance
 
-Lighthouse audits run against the live site after every deployment and once daily. They measure performance, accessibility, SEO, and best practices.
+Lighthouse audits run against the live site after every deployment and once daily. They measure performance, accessibility, SEO, and adherence to web standards.
 
-The results are specific and actionable:
+The results point to specific fixes:
 
 | Page | Performance | Accessibility | SEO | Best Practices |
 |------|-------------|---------------|-----|----------------|
@@ -120,11 +119,13 @@ The solution was Real User Monitoring (RUM). Collect performance metrics from ac
 
 The implementation uses the `web-vitals` library, which captures Core Web Vitals:
 
-- **LCP** (Largest Contentful Paint): When the main content becomes visible
-- **FCP** (First Contentful Paint): When any content first appears
-- **CLS** (Cumulative Layout Shift): How much the page jumps around during load
-- **INP** (Interaction to Next Paint): How responsive the page is to input
-- **TTFB** (Time to First Byte): Server response time
+| Metric | Full Name | Measures |
+|--------|-----------|----------|
+| LCP | Largest Contentful Paint | When the main content becomes visible |
+| FCP | First Contentful Paint | When any content first appears |
+| CLS | Cumulative Layout Shift | How much the page jumps around during load |
+| INP | Interaction to Next Paint | How responsive the page is to input |
+| TTFB | Time to First Byte | Server response time |
 
 Each metric is sent to GA4 as a custom event. The daily export workflow aggregates these into averages:
 

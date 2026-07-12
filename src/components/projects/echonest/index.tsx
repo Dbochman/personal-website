@@ -1,0 +1,336 @@
+import { Link } from 'react-router-dom';
+import { ExternalLink, Vote, Music, History, Mic, BookOpen, Headphones, Volume2, AlertTriangle, Laptop } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { GitHubMark } from '@/components/icons/GitHubMark';
+
+const FEATURES = [
+  {
+    icon: Music,
+    title: 'Shared Queue, Personal Playback',
+    description: 'One democratic queue for the room, your own Spotify device for the audio.',
+  },
+  {
+    icon: Vote,
+    title: 'Fair Voting System',
+    description: 'Weighted penalties keep queue hogs in check while the best picks float to the top.',
+  },
+  {
+    icon: History,
+    title: 'Bulk Imports',
+    description: 'Paste Spotify albums or playlists and YouTube playlist URLs, then queue everything with Add All.',
+  },
+  {
+    icon: Mic,
+    title: 'Podcast Friendly',
+    description: 'Dedicated podcast search and smarter skipping make episodes play nicely with songs.',
+  },
+  {
+    icon: Headphones,
+    title: 'Nests',
+    description: 'Breakout rooms with 5-character codes and their own queues. Seed one with a genre and Bender auto-fills it.',
+  },
+  {
+    icon: Volume2,
+    title: 'Airhorns',
+    description: 'Slam the airhorn tab to blast a sound effect across every synced device in the room.',
+  },
+];
+
+export default function EchoNest() {
+  return (
+    <div className="space-y-8">
+      {/* Hero Section */}
+      <div className="text-center space-y-4">
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Built at The Echo Nest, revived inside Spotify, and renamed to EchoNest to put the
+          original badge back on the door. Tuned again for 2026 with Nests (breakout rooms),
+          Bender strategies that mix genre picks with same-day-of-week throwbacks, bulk imports,
+          podcast support, and synced airhorns.
+        </p>
+        <Button asChild size="lg" className="gap-2">
+          <a href="https://echone.st" target="_blank" rel="noopener noreferrer">
+            Launch EchoNest
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        </Button>
+      </div>
+
+      {/* Features Grid */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Features</h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURES.map((feature) => (
+            <Card key={feature.title}>
+              <CardHeader className="pb-2">
+                <div className="flex items-center gap-2">
+                  <feature.icon className="h-5 w-5 text-muted-foreground" />
+                  <CardTitle as="h3" className="text-base">{feature.title}</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <CardDescription>{feature.description}</CardDescription>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Requirements */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">What You Need</h2>
+        <div className="space-y-3 text-muted-foreground">
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Google account</strong> - Sign in to access the queue</li>
+            <li><strong>Spotify Premium</strong> - Connect via the in-app Spotify button for playback</li>
+            <li><strong>Gravatar</strong> (optional) - If you have a picture on <a href="http://www.gravatar.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">gravatar.com</a>, it'll show as your user image. Otherwise you get a monster avatar.</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Getting Started */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Getting Started</h2>
+        <div className="space-y-4 text-muted-foreground">
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Open EchoNest and sign in with your Google account</li>
+            <li>Click the <strong>Other</strong> tab</li>
+            <li>Click <strong>Connect Spotify</strong> to link your Spotify Premium account (or <strong>Skip for now</strong> to browse the queue without playback)</li>
+            <li>Make sure Spotify is playing something (anything works)</li>
+            <li>You're in - start adding songs to the queue</li>
+          </ol>
+        </div>
+      </div>
+
+      {/* How It Works */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">How It Works</h2>
+        <div className="space-y-4 text-muted-foreground">
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Search for songs or paste Spotify/YouTube/SoundCloud URLs to add to the shared queue</li>
+            <li>Vote on queued songs to influence play order</li>
+            <li>Watch the queue update in real-time via WebSockets</li>
+            <li>When the queue empties, Bender kicks in with auto-fill suggestions</li>
+          </ol>
+        </div>
+      </div>
+
+      {/* Playback Sync */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Playback Sync</h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <p>
+            EchoNest coordinates a shared queue, but it does not stream one shared audio feed.
+            The server publishes the current track and playback position; each listener's device
+            follows that timeline with its own Spotify session. Queue state, votes, comments, and
+            Bender recommendations stay on the Flask and Redis backend while the audio remains on
+            the listener's device.
+          </p>
+          <p>
+            Browser playback uses a connected Spotify Premium account. The optional EchoNest Sync
+            desktop client follows the same queue over server-sent events and controls the local
+            Spotify app directly. That keeps Spotify credentials on the listener's machine and
+            avoids requiring a browser tab for playback.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Button asChild variant="outline" className="gap-2">
+              <a href="https://github.com/Dbochman/EchoNest" target="_blank" rel="noopener noreferrer">
+                <GitHubMark className="h-4 w-4" />
+                View source
+              </a>
+            </Button>
+            <Button asChild variant="outline" className="gap-2">
+              <a href="https://github.com/Dbochman/EchoNest/releases" target="_blank" rel="noopener noreferrer">
+                <Laptop className="h-4 w-4" />
+                Desktop releases
+              </a>
+            </Button>
+            <Button asChild variant="outline" className="gap-2">
+              <Link to="/blog/2026-02-26-echonest-sync-and-the-spotify-api-shakeup">
+                <BookOpen className="h-4 w-4" />
+                Read the sync architecture
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* Bender Strategies */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Bender Strategies</h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <p>
+            When the queue runs dry, Bender picks the next track using one of five weighted strategies.
+            The preview appears below the now-playing area — click <strong>Spotify</strong> to open it,{' '}
+            <strong>Queue</strong> to add it, or <strong>Filter</strong> to skip and get a different pick.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b">
+                  <th className="py-2 pr-4 font-medium text-foreground">Strategy</th>
+                  <th className="py-2 pr-4 font-medium text-foreground">Weight</th>
+                  <th className="py-2 font-medium text-foreground">How it picks</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Genre</td>
+                  <td className="py-2 pr-4">35%</td>
+                  <td className="py-2">Samples from the Nest's genre seed or recent play history</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Throwback</td>
+                  <td className="py-2 pr-4">30%</td>
+                  <td className="py-2">Pulls a track that was played on this same day of the week historically</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Artist Search</td>
+                  <td className="py-2 pr-4">25%</td>
+                  <td className="py-2">Finds tracks by artists related to what's been playing</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Top Tracks</td>
+                  <td className="py-2 pr-4">5%</td>
+                  <td className="py-2">Grabs a popular hit from a related artist</td>
+                </tr>
+                <tr>
+                  <td className="py-2 pr-4 font-medium">Album</td>
+                  <td className="py-2 pr-4">5%</td>
+                  <td className="py-2">Picks another track from the same album as a recent play</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Nests */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Nests</h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <p>
+            Nests are breakout rooms — each one gets its own queue, voting, and Bender instance.
+            Create a Nest and share its 5-character code to let others join. Seed it with a genre
+            and Bender will auto-fill that Nest with matching tracks when the queue empties.
+          </p>
+          <p>
+            Useful for splitting a party into rooms (chill lounge vs. dance floor) or letting a
+            small group take over without hijacking the main queue.
+          </p>
+        </div>
+      </div>
+
+      {/* Quick Reference */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Quick Reference</h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <div>
+            <p className="font-medium text-foreground mb-2">Song Controls</p>
+            <ul className="list-disc list-inside space-y-1 ml-4">
+              <li><strong>Up</strong> - Vote a song higher in the queue</li>
+              <li><strong>Down</strong> - Vote a song lower in the queue</li>
+              <li><strong>Remove</strong> - Remove a song from the queue (be polite about removing others' picks)</li>
+              <li><strong>Jam</strong> - Show appreciation for a song</li>
+              <li><strong>Comment</strong> - Add a comment to a song</li>
+            </ul>
+          </div>
+          <div>
+            <p className="font-medium text-foreground mb-2">Other Tab</p>
+            <ul className="list-disc list-inside space-y-1 ml-4">
+              <li><strong>Sync audio</strong> - Browser-based sync playback across devices</li>
+              <li><strong>Reconnect Spotify</strong> - Re-link your Spotify account if it disconnects</li>
+              <li><strong>Change colors</strong> - Rotate through theme colors</li>
+              <li><strong>Hide shame</strong> - Hide user gravatars so you don't have to judge friends for bad taste</li>
+              <li><strong>Skip playing song</strong> - Skip the current track</li>
+              <li><strong>Clear queue</strong> - Remove all songs from the queue</li>
+              <li><strong>Pause / Unpause</strong> - Pause or resume playback for everyone</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Queuing and Voting */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4">Queuing and Voting</h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <p>
+            The queue you see is only half the story. Where a newly-added song lands depends on
+            a penalty system designed to keep things fair.
+          </p>
+          <p>
+            Queue position is based on when a song was added, plus penalties. The penalty formula:
+            the total length of all songs you already have in the queue, plus 2 raised to the power
+            of how many songs you have queued. If you're spamming songs with overlapping title words
+            and they make up more than half the queue, those count double for the exponential penalty.
+          </p>
+          <p className="font-medium text-foreground">Example:</p>
+          <p>
+            Alice, Bob, and Carol are listening. At time 0, Alice adds two 7-minute songs to an empty
+            queue. Five minutes later, Bob adds two songs, then Carol adds three. Carol's third song
+            and Bob's second both have "love" in the title.
+          </p>
+          <ul className="list-disc list-inside space-y-1 ml-4">
+            <li>Alice's first song: 0 penalty (2⁰)</li>
+            <li>Alice's second song: 9 min penalty (7 + 2¹)</li>
+            <li>Bob's first song: 0 penalty, enters at 5 min</li>
+            <li>Bob's second song: 5 min penalty (3 + 2¹)</li>
+            <li>Carol's first song: 0 penalty, enters at 5 min</li>
+            <li>Carol's second song: 6 min penalty (4 + 2¹)</li>
+            <li>Carol's third song: 13 min penalty (5 + 2³ due to keyword overlap)</li>
+          </ul>
+          <p>Resulting queue order:</p>
+          <ol className="list-decimal list-inside space-y-1 ml-4 font-mono text-xs">
+            <li>Bob1 - 5 min</li>
+            <li>Carol1 - 5 min</li>
+            <li>Alice2 - 9 min</li>
+            <li>Bob2 - 10 min</li>
+            <li>Carol2 - 11 min</li>
+            <li>Carol3 - 18 min</li>
+          </ol>
+        </div>
+      </div>
+
+      {/* Troubleshooting */}
+      <div>
+        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
+          <AlertTriangle className="h-5 w-5" />
+          Troubleshooting
+        </h2>
+        <div className="space-y-4 text-muted-foreground text-sm">
+          <div className="space-y-3">
+            <div>
+              <p className="font-medium text-foreground">Music isn't playing</p>
+              <p>Make sure Spotify is open and active on your device. Go to the <strong>Other</strong> tab and click <strong>Reconnect Spotify</strong>. If that doesn't work, open Spotify and play any track manually, then reconnect.</p>
+            </div>
+            <div>
+              <p className="font-medium text-foreground">Airhorns don't make sound</p>
+              <p>You need to enable <strong>Sync audio</strong> in the Other tab first. Your browser may also block autoplay — click anywhere on the page to unblock it.</p>
+            </div>
+            <div>
+              <p className="font-medium text-foreground">Songs play out of order</p>
+              <p>Queue position includes vote-based penalties. A song you just added may land behind others if you've already queued several tracks. See the <strong>Queuing and Voting</strong> section above.</p>
+            </div>
+            <div>
+              <p className="font-medium text-foreground">Can't join a Nest</p>
+              <p>Nest codes are case-sensitive and 5 characters long. Make sure you're entering the exact code shared by the Nest creator.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Blog Post Link */}
+      <div className="border-t pt-6">
+        <Button asChild variant="outline" className="gap-2">
+          <Link to="/blog/2026-02-04-echonest-collaborative-music-queue">
+            <BookOpen className="h-4 w-4" />
+            Read the origin story
+          </Link>
+        </Button>
+        <p className="text-sm text-muted-foreground mt-2">
+          The Echo Nest origins, the office rules, Bender's time capsule feature, and the architecture.
+        </p>
+      </div>
+    </div>
+  );
+}
