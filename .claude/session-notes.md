@@ -461,4 +461,11 @@ Key addition: a paragraph about the two layers of guardrails (infrastructure vs 
 
 Drafted a privacy-scoped post about the new local home-event system, emphasizing durable evidence, read-only correlation, and staged permission rather than household specifics.
 
+### Dither Kit analytics pilot
+
+- Vendored the pinned Dither Kit pie registry source at `6b490cc14a1311e9c027153b83a87bee61728ee3` for a Device Breakdown pilot. The upstream source assumes React 19/React Compiler; React 18 needs `useContext`, explicit `.Provider`, and stable registration callbacks to avoid a maximum-update loop.
+- The upstream canvas scheduled animation frames forever. The local pie canvas now wakes on state changes and stops once entrance/interaction transitions settle.
+- A 320 px browser check caught the initial side-by-side legend squeezing the donut. The narrow layout now stacks the chart and compact numeric legend; desktop keeps the side-by-side treatment.
+- Full lint, 228 Vitest tests, production build, and scoped TypeScript checks pass. The repository-wide app TypeScript check still exposes numerous unrelated pre-existing errors, so it is not currently a usable green gate.
+
 ---
