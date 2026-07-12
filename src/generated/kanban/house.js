@@ -38,25 +38,8 @@ export const board = {
           "history": []
         },
         {
-          "id": "irrigation",
-          "title": "Install drip irrigation system",
-          "labels": [],
-          "checklist": [],
-          "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": []
-        },
-        {
           "id": "laundry-line",
           "title": "Install laundry line",
-          "labels": [],
-          "checklist": [],
-          "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": []
-        },
-        {
-          "id": "light-fixture",
-          "title": "Antique light fixture rewire",
-          "description": "Replace old wiring and socket to safely reuse antique lighting.\n",
           "labels": [],
           "checklist": [],
           "createdAt": "2026-01-14T00:00:00.000Z",
@@ -113,23 +96,26 @@ export const board = {
       "color": "yellow",
       "cards": [
         {
-          "id": "rugs",
-          "title": "Custom rug runners",
+          "id": "irrigation",
+          "title": "Install drip irrigation system",
           "labels": [],
-          "checklist": [
+          "checklist": [],
+          "createdAt": "2026-01-14T00:00:00.000Z",
+          "updatedAt": "2026-07-12T16:25:30.983Z",
+          "history": [
             {
-              "id": "rugs-1",
-              "text": "Measured",
-              "completed": false
+              "type": "column",
+              "timestamp": "2026-07-12T16:25:27.938Z",
+              "columnId": "done",
+              "columnTitle": "Done"
             },
             {
-              "id": "rugs-2",
-              "text": "Selected fabric",
-              "completed": false
+              "type": "column",
+              "timestamp": "2026-07-12T16:25:30.983Z",
+              "columnId": "in-progress",
+              "columnTitle": "In Progress"
             }
-          ],
-          "createdAt": "2026-01-14T00:00:00.000Z",
-          "history": []
+          ]
         },
         {
           "id": "water-pressure",
@@ -180,10 +166,54 @@ export const board = {
               "columnTitle": "Done"
             }
           ]
+        },
+        {
+          "id": "light-fixture",
+          "title": "Antique light fixture rewire",
+          "description": "Replace old wiring and socket to safely reuse antique lighting.\n",
+          "labels": [],
+          "checklist": [],
+          "createdAt": "2026-01-14T00:00:00.000Z",
+          "updatedAt": "2026-07-12T16:25:37.034Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-07-12T16:25:37.034Z",
+              "columnId": "done",
+              "columnTitle": "Done"
+            }
+          ]
+        },
+        {
+          "id": "rugs",
+          "title": "Custom rug runners",
+          "labels": [],
+          "checklist": [
+            {
+              "id": "rugs-1",
+              "text": "Measured",
+              "completed": false
+            },
+            {
+              "id": "rugs-2",
+              "text": "Selected fabric",
+              "completed": false
+            }
+          ],
+          "createdAt": "2026-01-14T00:00:00.000Z",
+          "updatedAt": "2026-07-12T16:25:13.707Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-07-12T16:25:13.707Z",
+              "columnId": "done",
+              "columnTitle": "Done"
+            }
+          ]
         }
       ]
     }
   ],
   "createdAt": "2026-01-15T23:17:50.056Z",
-  "updatedAt": "2026-01-24T02:41:49.607Z"
+  "updatedAt": "2026-07-12T16:25:55.246Z"
 };
