@@ -17735,40 +17735,40 @@
     "toolInteractions": null
   },
   {
-    "timestamp": "2026-07-13T01:50:11.222Z",
+    "timestamp": "2026-07-13T08:54:51.414Z",
     "date": "2026-07-13",
     "period": {
       "description": "Last 7 completed days",
-      "startDate": "2026-07-04",
-      "endDate": "2026-07-10",
+      "startDate": "2026-07-05",
+      "endDate": "2026-07-11",
       "windowDays": 7,
       "dataState": "finalized"
     },
     "summary": {
-      "sessions": 274,
-      "users": 274,
-      "pageViews": 272,
-      "averageSessionDuration": 14,
-      "bounceRate": 0.88
+      "sessions": 275,
+      "users": 275,
+      "pageViews": 273,
+      "averageSessionDuration": 13,
+      "bounceRate": 0.89
     },
     "topPages": [
       {
         "page": "/blog",
-        "sessions": 61,
-        "users": 61,
-        "pageViews": 60
+        "sessions": 63,
+        "users": 63,
+        "pageViews": 62
       },
       {
         "page": "/",
-        "sessions": 44,
-        "users": 45,
-        "pageViews": 45
+        "sessions": 43,
+        "users": 44,
+        "pageViews": 44
       },
       {
         "page": "/runbook",
-        "sessions": 30,
-        "users": 30,
-        "pageViews": 30
+        "sessions": 31,
+        "users": 31,
+        "pageViews": 31
       },
       {
         "page": "/projects",
@@ -17807,8 +17807,8 @@
         "pageViews": 12
       },
       {
-        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development",
-        "sessions": 7,
+        "page": "/this-page-does-not-exist",
+        "sessions": 6,
         "users": 6,
         "pageViews": 6
       }
@@ -17816,8 +17816,8 @@
     "deviceBreakdown": [
       {
         "device": "mobile",
-        "sessions": 201,
-        "users": 201
+        "sessions": 202,
+        "users": 202
       },
       {
         "device": "desktop",
@@ -17829,8 +17829,8 @@
       "channels": [
         {
           "channel": "Direct",
-          "sessions": 262,
-          "users": 265
+          "sessions": 264,
+          "users": 266
         },
         {
           "channel": "Organic Search",
@@ -17857,8 +17857,8 @@
         {
           "source": "(direct)",
           "medium": "(none)",
-          "sessions": 262,
-          "users": 265
+          "sessions": 264,
+          "users": 266
         },
         {
           "source": "google",
@@ -17899,10 +17899,6 @@
       ]
     },
     "dailySessions": [
-      {
-        "date": "2026-06-11",
-        "sessions": 9
-      },
       {
         "date": "2026-06-12",
         "sessions": 246
@@ -18018,72 +18014,76 @@
       {
         "date": "2026-07-10",
         "sessions": 44
+      },
+      {
+        "date": "2026-07-11",
+        "sessions": 40
       }
     ],
     "sessionAnomaly": {
       "status": "normal",
       "isAnomaly": false,
       "severity": null,
-      "reason": "The guarded drop has not persisted for two completed days",
-      "message": "No alert for 2026-07-10: 44 vs same-weekday median 124.5; drop not sustained",
-      "observedDate": "2026-07-10",
-      "observedSessions": 44,
-      "baselineSessions": 124.5,
+      "reason": "Latest sessions are within guarded thresholds",
+      "message": "Sessions normal on 2026-07-11: 40 vs same-weekday median 29",
+      "observedDate": "2026-07-11",
+      "observedSessions": 40,
+      "baselineSessions": 29,
       "baselineDates": [
-        "2026-07-03",
-        "2026-06-26",
-        "2026-06-19",
-        "2026-06-12"
+        "2026-07-04",
+        "2026-06-27",
+        "2026-06-20",
+        "2026-06-13"
       ],
-      "absoluteDrop": 80.5,
-      "percentageDrop": 64.7,
+      "absoluteDrop": -11,
+      "percentageDrop": -37.9,
       "confidence": "high",
       "basis": "human-sessions"
     },
     "webVitals": {
       "TTFB": {
-        "count": 425,
-        "average": 106.68470588235294,
+        "count": 426,
+        "average": 105.29577464788733,
         "unit": "ms",
         "ratings": {
-          "good": 414,
-          "needs-improvement": 6,
-          "poor": 5
+          "good": 417,
+          "needs-improvement": 5,
+          "poor": 4
         },
-        "goodPercent": 97
+        "goodPercent": 98
       },
       "FCP": {
         "count": 233,
-        "average": 486.8755364806867,
+        "average": 448.13304721030045,
         "unit": "ms",
         "ratings": {
-          "good": 215,
-          "needs-improvement": 13,
-          "poor": 5
+          "good": 219,
+          "needs-improvement": 10,
+          "poor": 4
         },
-        "goodPercent": 92
+        "goodPercent": 94
       },
       "LCP": {
         "count": 59,
-        "average": 1239.6610169491526,
+        "average": 1129.1525423728813,
         "unit": "ms",
         "ratings": {
-          "good": 53,
+          "good": 54,
           "needs-improvement": 3,
-          "poor": 3
+          "poor": 2
         },
-        "goodPercent": 90
+        "goodPercent": 92
       },
       "CLS": {
         "count": 60,
-        "average": 0.038299999999999994,
+        "average": 0.04668333333333333,
         "unit": "",
         "ratings": {
-          "good": 49,
-          "needs-improvement": 9,
+          "good": 46,
+          "needs-improvement": 12,
           "poor": 2
         },
-        "goodPercent": 82
+        "goodPercent": 77
       },
       "INP": {
         "count": 6,
