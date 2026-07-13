@@ -269,6 +269,9 @@ cat service-account.json | base64
   Console, and Lighthouse all have complete recovery state. Weekly Lighthouse
   summaries carry a collection timestamp and expire from recovery decisions
   after eight days.
+- Lighthouse operational alerts use the established audit floors: performance
+  below 50 or accessibility below 90. The 90-point accessibility policy matches
+  the audit threshold adopted in PR #233; it is not a new relaxation.
 
 ### Data Files
 

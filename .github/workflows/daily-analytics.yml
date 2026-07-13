@@ -262,6 +262,32 @@ jobs:
           const failures = [];
           let checksComplete = true;
           const runDate = new Date().toISOString().split('T')[0];
+          const isObject = value => value !== null && typeof value === 'object';
+          const isGA4History = data => {
+            if (!Array.isArray(data) || data.length === 0) return false;
+            const latest = data[data.length - 1];
+            return isObject(latest) &&
+              typeof latest.timestamp === 'string' &&
+              typeof latest.date === 'string' &&
+              (latest.sessionAnomaly === undefined || isObject(latest.sessionAnomaly));
+          };
+          const isSearchHistory = data => {
+            if (!Array.isArray(data) || data.length < 2) return false;
+            return data.slice(-2).every(entry =>
+              isObject(entry) &&
+              isObject(entry.summary) &&
+              Number.isFinite(entry.summary.averagePosition)
+            );
+          };
+          const isLighthouseSummary = data => Array.isArray(data) &&
+            data.length > 0 &&
+            data.every(page =>
+              isObject(page) &&
+              typeof page.page === 'string' &&
+              Number.isFinite(page.performance) &&
+              Number.isFinite(page.accessibility) &&
+              (page.collectedAt === undefined || typeof page.collectedAt === 'string')
+            );
           const readMonitoringJson = (file, signal, validate) => {
             if (!fs.existsSync(file)) {
               checksComplete = false;
@@ -287,7 +313,7 @@ jobs:
           // GA4 detection is computed from finalized daily totals by the fetch
           // script. Avoid recomputing it from overlapping rolling snapshots.
           const ga4File = 'docs/metrics/ga4-history.json';
-          const ga4History = readMonitoringJson(ga4File, 'GA4', Array.isArray);
+          const ga4History = readMonitoringJson(ga4File, 'GA4', isGA4History);
           if (ga4History) {
             const history = ga4History;
             if (history.length > 0) {
@@ -314,7 +340,7 @@ jobs:
 
           // Check Search Console data
           const scFile = 'docs/metrics/search-console-history.json';
-          const searchHistory = readMonitoringJson(scFile, 'Search Console', Array.isArray);
+          const searchHistory = readMonitoringJson(scFile, 'Search Console', isSearchHistory);
           if (searchHistory) {
             const history = searchHistory;
             if (history.length >= 2) {
@@ -342,7 +368,7 @@ jobs:
 
           // Check Lighthouse data
           const lhFile = 'docs/metrics/latest-multi-page.json';
-          const lighthouseSummary = readMonitoringJson(lhFile, 'Lighthouse', Array.isArray);
+          const lighthouseSummary = readMonitoringJson(lhFile, 'Lighthouse', isLighthouseSummary);
           if (lighthouseSummary) {
             const summary = lighthouseSummary;
             const firstPage = Array.isArray(summary) ? summary[0] : undefined;
