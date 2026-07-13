@@ -265,7 +265,8 @@ cat service-account.json | base64
   two completed days.
 - Low-volume percentage swings are suppressed when the baseline is below 10.
 - One generated issue tracks an active incident; repeated observations append
-  to it, and the next clean run closes it automatically.
+  to it, and the next clean run closes it automatically only when GA4, Search
+  Console, and Lighthouse all have complete recovery state.
 
 ### Data Files
 
