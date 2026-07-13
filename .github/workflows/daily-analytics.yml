@@ -262,14 +262,20 @@ jobs:
           const failures = [];
           let checksComplete = true;
           const runDate = new Date().toISOString().split('T')[0];
-          const readMonitoringJson = (file, signal) => {
+          const readMonitoringJson = (file, signal, validate) => {
             if (!fs.existsSync(file)) {
               checksComplete = false;
               failures.push(\`\${signal}: monitoring data is missing\`);
               return null;
             }
             try {
-              return JSON.parse(fs.readFileSync(file, 'utf8'));
+              const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+              if (!validate(parsed)) {
+                checksComplete = false;
+                failures.push(\`\${signal}: monitoring data has an invalid schema\`);
+                return null;
+              }
+              return parsed;
             } catch (error) {
               checksComplete = false;
               failures.push(\`\${signal}: monitoring data could not be parsed\`);
@@ -281,7 +287,7 @@ jobs:
           // GA4 detection is computed from finalized daily totals by the fetch
           // script. Avoid recomputing it from overlapping rolling snapshots.
           const ga4File = 'docs/metrics/ga4-history.json';
-          const ga4History = readMonitoringJson(ga4File, 'GA4');
+          const ga4History = readMonitoringJson(ga4File, 'GA4', Array.isArray);
           if (ga4History) {
             const history = ga4History;
             if (history.length > 0) {
@@ -308,7 +314,7 @@ jobs:
 
           // Check Search Console data
           const scFile = 'docs/metrics/search-console-history.json';
-          const searchHistory = readMonitoringJson(scFile, 'Search Console');
+          const searchHistory = readMonitoringJson(scFile, 'Search Console', Array.isArray);
           if (searchHistory) {
             const history = searchHistory;
             if (history.length >= 2) {
@@ -336,7 +342,7 @@ jobs:
 
           // Check Lighthouse data
           const lhFile = 'docs/metrics/latest-multi-page.json';
-          const lighthouseSummary = readMonitoringJson(lhFile, 'Lighthouse');
+          const lighthouseSummary = readMonitoringJson(lhFile, 'Lighthouse', Array.isArray);
           if (lighthouseSummary) {
             const summary = lighthouseSummary;
             const firstPage = Array.isArray(summary) ? summary[0] : undefined;

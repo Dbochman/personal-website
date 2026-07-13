@@ -23,8 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      issues: write
       contents: read
+      # Required by the create/update/recovery issue lifecycle below.
+      issues: write
 
     steps:
       - name: Resolve target deployment
