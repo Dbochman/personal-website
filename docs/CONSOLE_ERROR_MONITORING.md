@@ -115,7 +115,8 @@ npm run test:e2e:headed    # Browser visible
 
 **Triggered by**:
 - Successful completion of "Build, Test, and Deploy" workflow
-- Manual trigger via GitHub Actions UI
+- Manual trigger via GitHub Actions UI; manual checks resolve and checkout the
+  commit currently reported by production rather than assuming branch HEAD is live
 
 **Duration**: ~2-3 minutes
 

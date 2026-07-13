@@ -11,8 +11,10 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: production-browser-check
-  cancel-in-progress: true
+  # Post-deploy checks supersede older post-deploy checks. Manual checks target
+  # the currently deployed SHA and must not cancel that production lifecycle.
+  group: production-browser-check-${{ github.event_name == 'workflow_dispatch' && github.run_id || 'post-deploy' }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch' }}
 
 jobs:
   console-check:
@@ -25,13 +27,34 @@ jobs:
       contents: read
 
     steps:
+      - name: Resolve target deployment
+        id: deployment
+        env:
+          TRIGGER_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            target_sha=$(curl -fsS \
+              -H 'cache-control: no-cache' \
+              "https://dylanbochman.com/build-info.json?manual=${{ github.run_id }}" \
+              | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).sha")
+          else
+            target_sha="$TRIGGER_SHA"
+          fi
+
+          if ! [[ "$target_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "Unable to resolve a valid deployed commit SHA"
+            exit 1
+          fi
+
+          echo "sha=$target_sha" >> "$GITHUB_OUTPUT"
+
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           # Test the source that produced the completed deployment. Without an
           # explicit ref, a newer commit on main can be checked out while its
           # deployment is still in flight, making dynamic route tests race prod.
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          ref: ${{ steps.deployment.outputs.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
@@ -50,7 +73,7 @@ jobs:
 
       - name: Wait for the triggering deployment
         env:
-          EXPECTED_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+          EXPECTED_SHA: ${{ steps.deployment.outputs.sha }}
         run: |
           echo "Polling for deployed sha ${EXPECTED_SHA}..."
           for i in {1..20}; do

@@ -482,10 +482,14 @@ Drafted a privacy-scoped post about the new local home-event system, emphasizing
   make successful data collection appear failed. Weekly Lighthouse summaries
   must carry their collection timestamp and are valid for recovery for eight
   days; threshold failures still upload their summary before the job fails.
+  Missing or malformed metric artifacts are operational incidents themselves:
+  emit structured failure state instead of throwing before lifecycle outputs exist.
 - Post-deploy workflows triggered by `workflow_run` must checkout
   `github.event.workflow_run.head_sha`. Checking out the moving default branch can
   test a route from a newer, not-yet-deployed commit and create a false browser
   failure even when all console assertions pass. Poll `/build-info.json` for that
-  SHA and cancel older in-flight checks when a newer deployment completes.
+  SHA and cancel older in-flight checks when a newer deployment completes. Manual
+  checks must resolve the live SHA first and use a separate concurrency group so
+  they cannot cancel or test assumptions from the post-deploy lifecycle.
 
 ---

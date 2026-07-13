@@ -262,12 +262,28 @@ jobs:
           const failures = [];
           let checksComplete = true;
           const runDate = new Date().toISOString().split('T')[0];
+          const readMonitoringJson = (file, signal) => {
+            if (!fs.existsSync(file)) {
+              checksComplete = false;
+              failures.push(\`\${signal}: monitoring data is missing\`);
+              return null;
+            }
+            try {
+              return JSON.parse(fs.readFileSync(file, 'utf8'));
+            } catch (error) {
+              checksComplete = false;
+              failures.push(\`\${signal}: monitoring data could not be parsed\`);
+              console.error(\`\${signal} parse failure: \${error.message}\`);
+              return null;
+            }
+          };
 
           // GA4 detection is computed from finalized daily totals by the fetch
           // script. Avoid recomputing it from overlapping rolling snapshots.
           const ga4File = 'docs/metrics/ga4-history.json';
-          if (fs.existsSync(ga4File)) {
-            const history = JSON.parse(fs.readFileSync(ga4File, 'utf8'));
+          const ga4History = readMonitoringJson(ga4File, 'GA4');
+          if (ga4History) {
+            const history = ga4History;
             if (history.length > 0) {
               const latest = history[history.length - 1];
               const collectedAt = Date.parse(latest.timestamp);
@@ -288,14 +304,13 @@ jobs:
             } else {
               checksComplete = false;
             }
-          } else {
-            checksComplete = false;
           }
 
           // Check Search Console data
           const scFile = 'docs/metrics/search-console-history.json';
-          if (fs.existsSync(scFile)) {
-            const history = JSON.parse(fs.readFileSync(scFile, 'utf8'));
+          const searchHistory = readMonitoringJson(scFile, 'Search Console');
+          if (searchHistory) {
+            const history = searchHistory;
             if (history.length >= 2) {
               const latest = history[history.length - 1];
               const previous = history[history.length - 2];
@@ -317,15 +332,15 @@ jobs:
             } else {
               checksComplete = false;
             }
-          } else {
-            checksComplete = false;
           }
 
           // Check Lighthouse data
           const lhFile = 'docs/metrics/latest-multi-page.json';
-          if (fs.existsSync(lhFile)) {
-            const summary = JSON.parse(fs.readFileSync(lhFile, 'utf8'));
-            const collectedAt = Date.parse(summary[0]?.collectedAt);
+          const lighthouseSummary = readMonitoringJson(lhFile, 'Lighthouse');
+          if (lighthouseSummary) {
+            const summary = lighthouseSummary;
+            const firstPage = Array.isArray(summary) ? summary[0] : undefined;
+            const collectedAt = Date.parse(firstPage?.collectedAt);
             const collectionAgeMs = Date.now() - collectedAt;
             const lighthouseCheckComplete = Array.isArray(summary) &&
               summary.length > 0 &&
@@ -333,7 +348,7 @@ jobs:
               collectionAgeMs >= 0 &&
               collectionAgeMs <= 8 * 24 * 60 * 60 * 1000 &&
               summary.every(page =>
-                page.collectedAt === summary[0].collectedAt &&
+                page.collectedAt === firstPage.collectedAt &&
                 Number.isFinite(page.performance) &&
                 Number.isFinite(page.accessibility)
               );
@@ -350,8 +365,6 @@ jobs:
                 }
               });
             }
-          } else {
-            checksComplete = false;
           }
 
           if (failures.length > 0) {
