@@ -266,7 +266,9 @@ cat service-account.json | base64
 - Low-volume percentage swings are suppressed when the baseline is below 10.
 - One generated issue tracks an active incident; repeated observations append
   to it, and the next clean run closes it automatically only when GA4, Search
-  Console, and Lighthouse all have complete recovery state.
+  Console, and Lighthouse all have complete recovery state. Weekly Lighthouse
+  summaries carry a collection timestamp and expire from recovery decisions
+  after eight days.
 
 ### Data Files
 

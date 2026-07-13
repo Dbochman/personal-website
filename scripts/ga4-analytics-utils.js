@@ -97,25 +97,18 @@ export function buildDailySessionSeries(rows, { startDate, endDate }) {
   return series;
 }
 
-export function hasMatureSessionCoverage(
-  dailySessions,
+export function hasMatureClassificationCoverage(
+  classifiedDates,
   endDate,
-  { minimumObservedDays = 14, historyDays = 28 } = {}
+  { historyDays = 28 } = {}
 ) {
   assertIsoDate(endDate, 'endDate');
   const coverageStart = addDays(endDate, -historyDays);
-  const observedDates = (dailySessions ?? [])
-    .filter(entry =>
-      entry &&
-      ISO_DATE_PATTERN.test(entry.date) &&
-      Number.isFinite(Number(entry.sessions)) &&
-      Number(entry.sessions) > 0 &&
-      entry.date <= endDate
-    )
-    .map(entry => entry.date)
+  const observedDates = (classifiedDates ?? [])
+    .filter(date => ISO_DATE_PATTERN.test(date) && date <= endDate)
     .sort();
 
-  return observedDates.length >= minimumObservedDays && observedDates[0] <= coverageStart;
+  return observedDates.length > 0 && observedDates[0] <= coverageStart;
 }
 
 function median(values) {

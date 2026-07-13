@@ -34,7 +34,8 @@ import {
   buildDailySessionSeries,
   detectSameWeekdayAnomaly,
   formatDateInTimeZone,
-  hasMatureSessionCoverage,
+  hasMatureClassificationCoverage,
+  normalizeGA4Date,
 } from './ga4-analytics-utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -194,6 +195,8 @@ async function fetchGA4Data() {
 
     try {
       let dailyResponse;
+      let seriesRows;
+      let classifiedDates = [];
       let basis = 'human-sessions';
       let confidence = 'high';
 
@@ -206,16 +209,20 @@ async function fetchGA4Data() {
             { name: 'date' },
             { name: 'customEvent:traffic_type' },
           ],
-          dimensionFilter: {
-            filter: {
-              fieldName: 'customEvent:traffic_type',
-              stringFilter: {
-                matchType: 'EXACT',
-                value: 'human',
-              },
-            },
-          },
         });
+        const classifiedRows = (dailyResponse.rows ?? []).filter(row =>
+          ['human', 'bot', 'ci'].includes(row.dimensionValues?.[1]?.value)
+        );
+        seriesRows = classifiedRows.filter(row =>
+          row.dimensionValues?.[1]?.value === 'human'
+        );
+        classifiedDates = [...new Set(classifiedRows.flatMap(row => {
+          try {
+            return [normalizeGA4Date(row.dimensionValues?.[0]?.value)];
+          } catch {
+            return [];
+          }
+        }))];
       } catch (classificationError) {
         // Total sessions include Direct, bot, and CI volatility. Keep the
         // collection useful when the custom dimension is unavailable, but mark
@@ -227,14 +234,15 @@ async function fetchGA4Data() {
         basis = 'total-sessions';
         confidence = 'low';
         [dailyResponse] = await analyticsDataClient.runReport(dailyReportRequest);
+        seriesRows = dailyResponse.rows;
       }
 
-      dailySessions = buildDailySessionSeries(dailyResponse.rows, {
+      dailySessions = buildDailySessionSeries(seriesRows, {
         startDate: dailyStartDate,
         endDate: finalizedEndDate,
       });
       const hasMatureClassification = basis !== 'human-sessions' || (
-        hasMatureSessionCoverage(dailySessions, finalizedEndDate)
+        hasMatureClassificationCoverage(classifiedDates, finalizedEndDate)
       );
 
       if (!hasMatureClassification) {

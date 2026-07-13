@@ -162,8 +162,10 @@ async function main() {
     if (result) results.push(result);
   }
 
+  const collectedAt = new Date().toISOString();
+  const collectedResults = results.map(result => ({ ...result, collectedAt }));
   const summaryPath = `${reportsDir}/summary.json`;
-  writeFileSync(summaryPath, JSON.stringify(results, null, 2));
+  writeFileSync(summaryPath, JSON.stringify(collectedResults, null, 2));
   console.log(`\n📊 Summary saved to ${summaryPath}`);
 
   // Print summary table

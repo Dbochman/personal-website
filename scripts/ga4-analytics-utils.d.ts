@@ -52,10 +52,10 @@ export function buildDailySessionSeries(
   rows: GA4Row[] | null | undefined,
   range: { startDate: string; endDate: string }
 ): DailySession[];
-export function hasMatureSessionCoverage(
-  dailySessions: DailySession[] | null | undefined,
+export function hasMatureClassificationCoverage(
+  classifiedDates: string[] | null | undefined,
   endDate: string,
-  options?: { minimumObservedDays?: number; historyDays?: number }
+  options?: { historyDays?: number }
 ): boolean;
 export function detectSameWeekdayAnomaly(
   dailySessions: DailySession[] | null | undefined,

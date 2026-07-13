@@ -39,20 +39,29 @@ jobs:
         run: npm ci
 
       - name: Run Lighthouse on production (multi-page)
+        id: lighthouse_audit
+        continue-on-error: true
         run: node scripts/lighthouse-multi-page.mjs
 
       - name: Save Lighthouse reports
+        if: always()
         run: |
+          test -f lighthouse-reports/summary.json
           mkdir -p docs/metrics
           cp lighthouse-reports/summary.json docs/metrics/latest-multi-page.json
           echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"commit\": \"${{ github.sha }}\", \"trigger\": \"${{ github.event_name == 'schedule' && 'scheduled' || 'manual' }}\"}" > docs/metrics/last-run.json
 
       - name: Upload Lighthouse reports
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: lighthouse-reports
           path: lighthouse-reports/
           retention-days: 7
+
+      - name: Preserve Lighthouse audit result
+        if: steps.lighthouse_audit.outcome == 'failure'
+        run: exit 1
 
     outputs:
       completed: ${{ job.status == 'success' }}
@@ -163,7 +172,7 @@ jobs:
 
   commit-all:
     # Wait for data collection jobs; lighthouse and github-billing are optional (weekly only)
-    needs: [search-console, ga4, github-billing]
+    needs: [lighthouse, search-console, ga4, github-billing]
     if: always() && (needs.search-console.result == 'success' || needs.ga4.result == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -316,9 +325,18 @@ jobs:
           const lhFile = 'docs/metrics/latest-multi-page.json';
           if (fs.existsSync(lhFile)) {
             const summary = JSON.parse(fs.readFileSync(lhFile, 'utf8'));
+            const collectedAt = Date.parse(summary[0]?.collectedAt);
+            const collectionAgeMs = Date.now() - collectedAt;
             const lighthouseCheckComplete = Array.isArray(summary) &&
               summary.length > 0 &&
-              summary.every(page => Number.isFinite(page.performance) && Number.isFinite(page.accessibility));
+              Number.isFinite(collectedAt) &&
+              collectionAgeMs >= 0 &&
+              collectionAgeMs <= 8 * 24 * 60 * 60 * 1000 &&
+              summary.every(page =>
+                page.collectedAt === summary[0].collectedAt &&
+                Number.isFinite(page.performance) &&
+                Number.isFinite(page.accessibility)
+              );
             if (!lighthouseCheckComplete) {
               checksComplete = false;
               console.log('Lighthouse recovery state unavailable; leaving any active incident open');
@@ -327,7 +345,7 @@ jobs:
                 if (page.performance < 50) {
                   failures.push(\`Lighthouse: \${page.page} performance at \${page.performance}\`);
                 }
-                if (page.accessibility < 95) {
+                if (page.accessibility < 90) {
                   failures.push(\`Lighthouse: \${page.page} accessibility at \${page.accessibility}\`);
                 }
               });

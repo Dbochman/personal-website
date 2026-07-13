@@ -479,7 +479,9 @@ Drafted a privacy-scoped post about the new local home-event system, emphasizing
   next clean run. A shared incident may only close when every contributing signal
   has a complete recovery state; freshness from one source cannot stand in for
   GA4, Search Console, and Lighthouse collectively. Monitoring signals no longer
-  make successful data collection appear failed.
+  make successful data collection appear failed. Weekly Lighthouse summaries
+  must carry their collection timestamp and are valid for recovery for eight
+  days; threshold failures still upload their summary before the job fails.
 - Post-deploy workflows triggered by `workflow_run` must checkout
   `github.event.workflow_run.head_sha`. Checking out the moving default branch can
   test a route from a newer, not-yet-deployed commit and create a false browser

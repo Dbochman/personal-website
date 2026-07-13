@@ -1,10 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
-  addDays,
   buildCompletedPeriod,
   buildDailySessionSeries,
   detectSameWeekdayAnomaly,
-  hasMatureSessionCoverage,
+  hasMatureClassificationCoverage,
 } from '../../../scripts/ga4-analytics-utils.js';
 
 function makeSeries(endDate: string, values: Record<string, number>) {
@@ -59,19 +58,13 @@ describe('GA4 completed daily data', () => {
   });
 
   it('requires a mature classified history before trusting human-session data', () => {
-    const mature = Array.from({ length: 14 }, (_, index) => ({
-      date: addDays('2026-06-12', index),
-      sessions: 1,
-    }));
-    const recentOnly = Array.from({ length: 14 }, (_, index) => ({
-      date: addDays('2026-06-20', index),
-      sessions: 1,
-    }));
+    const mature = ['2026-06-12'];
+    const recentOnly = ['2026-06-20'];
 
-    expect(hasMatureSessionCoverage(mature, '2026-07-10')).toBe(true);
+    expect(hasMatureClassificationCoverage(mature, '2026-07-10')).toBe(true);
 
-    expect(hasMatureSessionCoverage(recentOnly, '2026-07-10')).toBe(false);
-    expect(hasMatureSessionCoverage([], '2026-07-10')).toBe(false);
+    expect(hasMatureClassificationCoverage(recentOnly, '2026-07-10')).toBe(false);
+    expect(hasMatureClassificationCoverage([], '2026-07-10')).toBe(false);
   });
 });
 

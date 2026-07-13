@@ -154,6 +154,7 @@ interface SearchConsoleDetailCoverage {
 }
 
 export interface LighthousePageScore {
+  collectedAt?: string;
   page: string;
   url: string;
   performance: number;
