@@ -10,6 +10,10 @@ on:
   # Allow manual triggering
   workflow_dispatch:
 
+concurrency:
+  group: production-browser-check
+  cancel-in-progress: true
+
 jobs:
   console-check:
     # Only run if the deploy workflow succeeded
@@ -23,6 +27,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          # Test the source that produced the completed deployment. Without an
+          # explicit ref, a newer commit on main can be checked out while its
+          # deployment is still in flight, making dynamic route tests race prod.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Setup Node.js
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
@@ -39,18 +48,25 @@ jobs:
       - name: Verify system Chrome
         run: google-chrome --version
 
-      - name: Wait for deployment to be live
+      - name: Wait for the triggering deployment
+        env:
+          EXPECTED_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
         run: |
-          echo "Polling for deployment to be live..."
+          echo "Polling for deployed sha ${EXPECTED_SHA}..."
           for i in {1..20}; do
-            if curl -sf https://dylanbochman.com > /dev/null 2>&1; then
-              echo "Site is live after $((i * 5)) seconds"
+            live_sha=$(curl -fsS \
+              -H 'cache-control: no-cache' \
+              "https://dylanbochman.com/build-info.json?check=${EXPECTED_SHA}" \
+              | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).sha" \
+              2>/dev/null || true)
+            if [ "$live_sha" = "$EXPECTED_SHA" ]; then
+              echo "Production matches ${EXPECTED_SHA} after $((i * 5)) seconds"
               exit 0
             fi
-            echo "Attempt $i: waiting 5 seconds..."
+            echo "Attempt $i: live sha ${live_sha:-unavailable}; waiting 5 seconds..."
             sleep 5
           done
-          echo "Site did not become available within 100 seconds"
+          echo "Production did not serve ${EXPECTED_SHA} within 100 seconds"
           exit 1
 
       - name: Run console error checks on production
@@ -70,7 +86,7 @@ jobs:
             playwright-report/
           retention-days: 14
 
-      - name: Create issue for console errors
+      - name: Create or update browser check issue
         if: failure()
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
@@ -78,9 +94,10 @@ jobs:
             const date = new Date().toISOString().split('T')[0];
             const runUrl = `https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
 
-            const body = `## 🚨 Console Errors Detected
+            const body = `## 🚨 Production Browser Check Failed
 
-            The automated console error check found issues on the deployed site.
+            The automated production browser check failed. This can indicate a
+            console error, a smoke-test regression, or a workflow/setup problem.
 
             ### Details
 
@@ -99,31 +116,93 @@ jobs:
 
             Download the full test report from the workflow artifacts to see:
             - Console error messages
-            - Screenshots of failures
-            - Network activity logs
+            - The failed smoke assertion
+            - Screenshots and traces, when available
 
             ---
 
             **Automated check run**: ${{ github.run_id }}
             `;
 
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'automated',
+              state: 'open',
+              per_page: 100
+            });
+            const existing = openIssues.find(issue =>
+              !issue.pull_request &&
+              (issue.title.startsWith('🚨 Production Browser Check Failed') ||
+                issue.title.startsWith('🚨 Console Errors Detected'))
+            );
+
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body: `### Repeated failure (${date})\n\n[View workflow run](${runUrl}).`
+              });
+              core.info(`Updated active browser-check issue #${existing.number}`);
+              return;
+            }
+
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `🚨 Console Errors Detected (${date})`,
+              title: `🚨 Production Browser Check Failed (${date})`,
               body: body,
-              labels: ['bug', 'console-error', 'automated']
+              labels: ['bug', 'automated']
             });
+
+      - name: Close recovered browser check issues
+        if: success()
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const runUrl = `https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'automated',
+              state: 'open',
+              per_page: 100
+            });
+            const recovered = openIssues.filter(issue =>
+              !issue.pull_request &&
+              (issue.title.startsWith('🚨 Production Browser Check Failed') ||
+                issue.title.startsWith('🚨 Console Errors Detected'))
+            );
+
+            for (const issue of recovered) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `✅ Recovered: the [latest production browser check](${runUrl}) passed.`
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+
+            core.info(`Closed ${recovered.length} recovered browser-check issue(s)`);
 
       - name: Post success summary
         if: success()
         run: |
-          echo "## ✅ Console Error Check Passed" >> $GITHUB_STEP_SUMMARY
+          echo "## ✅ Production Browser Check Passed" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "No critical console errors detected on the production site." >> $GITHUB_STEP_SUMMARY
+          echo "No critical console errors or smoke-test failures were detected on the production site." >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Checked:**" >> $GITHUB_STEP_SUMMARY
           echo "- Home page (https://dylanbochman.com)" >> $GITHUB_STEP_SUMMARY
-          echo "- Runbook page (https://dylanbochman.com/runbook.html)" >> $GITHUB_STEP_SUMMARY
+          echo "- Blog list and newest deployed blog post" >> $GITHUB_STEP_SUMMARY
+          echo "- Runbook page (https://dylanbochman.com/runbook)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Date:** $(date -u +%Y-%m-%d\ %H:%M\ UTC)" >> $GITHUB_STEP_SUMMARY

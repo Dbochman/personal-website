@@ -251,21 +251,36 @@ jobs:
           node -e "
           const fs = require('fs');
           const failures = [];
+          let checksComplete = true;
+          const runDate = new Date().toISOString().split('T')[0];
 
-          // Check GA4 data using 7-day rolling average to avoid false positives from traffic spikes
+          // GA4 detection is computed from finalized daily totals by the fetch
+          // script. Avoid recomputing it from overlapping rolling snapshots.
           const ga4File = 'docs/metrics/ga4-history.json';
           if (fs.existsSync(ga4File)) {
             const history = JSON.parse(fs.readFileSync(ga4File, 'utf8'));
-            if (history.length >= 8) {
+            if (history.length > 0) {
               const latest = history[history.length - 1];
-              const past7 = history.slice(-8, -1);
-              const avgSessions = past7.reduce((sum, e) => sum + e.summary.sessions, 0) / past7.length;
-
-              const sessionsChange = ((latest.summary.sessions - avgSessions) / avgSessions) * 100;
-              if (sessionsChange < -40) {
-                failures.push(\`GA4: Sessions dropped by \${Math.abs(Math.round(sessionsChange))}% vs 7-day avg (\${latest.summary.sessions} vs \${Math.round(avgSessions)})\`);
+              const collectedAt = Date.parse(latest.timestamp);
+              const collectionAgeMs = Date.now() - collectedAt;
+              const isFreshCollection = latest.date === runDate &&
+                Number.isFinite(collectedAt) &&
+                collectionAgeMs >= 0 &&
+                collectionAgeMs <= 2 * 60 * 60 * 1000;
+              const ga4CheckComplete = isFreshCollection &&
+                latest.sessionAnomaly?.confidence === 'high' &&
+                ['normal', 'anomaly'].includes(latest.sessionAnomaly?.status);
+              if (!ga4CheckComplete) {
+                checksComplete = false;
+                console.log('GA4 recovery state unavailable; leaving any active incident open');
+              } else if (latest.sessionAnomaly.isAnomaly) {
+                failures.push(\`GA4: \${latest.sessionAnomaly.message}\`);
               }
+            } else {
+              checksComplete = false;
             }
+          } else {
+            checksComplete = false;
           }
 
           // Check Search Console data
@@ -298,19 +313,20 @@ jobs:
           }
 
           if (failures.length > 0) {
-            console.log('::set-output name=has_anomalies::true');
             console.log('Anomalies detected:');
             failures.forEach(f => console.log(\`  - \${f}\`));
             // Write failures to file for issue creation
             fs.writeFileSync('/tmp/anomalies.json', JSON.stringify(failures));
-            process.exit(1);
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'has_anomalies=true\\n');
           } else {
             console.log('✅ No anomalies detected');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'has_anomalies=false\\n');
           }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, \`checks_complete=\${checksComplete}\\n\`);
           "
 
       - name: Create issue for anomalies
-        if: failure() && steps.anomaly_check.conclusion == 'failure'
+        if: steps.anomaly_check.outputs.has_anomalies == 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
@@ -324,32 +340,30 @@ jobs:
               anomalies = ['Unknown anomaly - check workflow logs'];
             }
 
-            // Suppress duplicate alerts: if an open analytics anomaly issue exists
-            // from the last 3 days, comment on it instead of creating a new one
-            const recentIssues = await github.rest.issues.listForRepo({
+            // Keep one issue per active incident. Recovery closes it, so any
+            // remaining open generated issue represents the current incident.
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: 'analytics,automated',
               state: 'open',
               sort: 'created',
               direction: 'desc',
-              per_page: 1
+              per_page: 100
             });
-
-            const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
-            const recentOpen = recentIssues.data.find(
-              i => new Date(i.created_at) > threeDaysAgo
+            const activeIncident = openIssues.find(issue =>
+              !issue.pull_request &&
+              issue.title.startsWith('🚨 Analytics Anomaly Detected')
             );
 
-            if (recentOpen) {
-              // Append today's data as a comment on the existing issue
+            if (activeIncident) {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: recentOpen.number,
+                issue_number: activeIncident.number,
                 body: `### Update (${date})\n${anomalies.map(a => '- ' + a).join('\n')}\n\n[Workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId})`
               });
-              core.info(`Appended to existing issue #${recentOpen.number} instead of creating a new one`);
+              core.info(`Updated active analytics incident #${activeIncident.number}`);
               return;
             }
 
@@ -377,3 +391,39 @@ jobs:
               body: body,
               labels: ['analytics', 'automated']
             });
+
+      - name: Close recovered analytics issues
+        if: steps.anomaly_check.outputs.has_anomalies == 'false' && steps.anomaly_check.outputs.checks_complete == 'true'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const runUrl = `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'analytics,automated',
+              state: 'open',
+              per_page: 100
+            });
+            const recovered = openIssues.filter(issue =>
+              !issue.pull_request &&
+              issue.title.startsWith('🚨 Analytics Anomaly Detected')
+            );
+
+            for (const issue of recovered) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `✅ Recovered: the [latest analytics check](${runUrl}) passed without anomalies.`
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+
+            core.info(`Closed ${recovered.length} recovered analytics issue(s)`);

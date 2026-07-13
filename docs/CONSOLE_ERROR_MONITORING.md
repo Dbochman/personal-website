@@ -86,17 +86,20 @@ and `scripts/prerender.mjs` when `CI=true`) after Playwright's CDN repeatedly
 hung browser installs (2026-06-10).
 
 After every successful deployment:
-1. GitHub Actions waits 30 seconds for deployment to propagate
-2. Playwright loads production (`https://dylanbochman.com`)
-3. Captures all console errors and warnings
-4. Filters out known/acceptable messages
-5. Fails the build if critical errors are found
-6. Creates a GitHub issue with details if errors are detected
+1. GitHub Actions checks out the exact commit that produced the deployment
+2. The workflow polls until production is reachable
+3. Playwright loads production (`https://dylanbochman.com`)
+4. It captures console errors and warnings and runs page smoke assertions
+5. Known/acceptable messages are filtered out
+6. A failing run creates or updates one active browser-check issue
+7. The next passing run comments on and closes that issue automatically
 
 ### Monitored Pages
 
 - **Home Page**: `/`
-- **Runbook Page**: `/runbook.html`
+- **Blog List Page**: `/blog`
+- **Newest Blog Post**: resolved from the checked-out deployment source
+- **Runbook Page**: `/runbook`
 
 ### Running Locally
 
@@ -131,6 +134,7 @@ These console messages are intentionally ignored:
 - Uncaught exceptions
 - JavaScript runtime errors
 - Network errors preventing page load
+- Failed production smoke assertions
 
 **Warnings** (logged but don't fail):
 - CSS parsing warnings

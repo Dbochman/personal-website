@@ -461,4 +461,27 @@ Key addition: a paragraph about the two layers of guardrails (infrastructure vs 
 
 Drafted a privacy-scoped post about the new local home-event system, emphasizing durable evidence, read-only correlation, and staged permission rather than household specifics.
 
+### Monitoring alert cleanup
+
+- The GA4 anomaly backlog was caused by comparing overlapping `7daysAgo..today`
+  snapshots (an inclusive eight-date range containing a partial day) against the
+  mean of seven more overlapping snapshots. Direct/synthetic bursts rolling out
+  looked like outages even when collection and diversified page traffic were
+  healthy.
+- GA4 operational detection now uses completed daily observations through two
+  days ago, human-session classification when the custom dimension is available,
+  four same-weekday baselines, volume guards, and two-day confirmation. The
+  dashboard summary is a truthful seven-completed-day window. Human-session
+  alerting waits for 28 days of classified history; unavailable or stale data
+  must never be interpreted as recovery.
+- Generated monitoring issues should model an incident lifecycle: one open issue,
+  comments while it persists, and an automatic recovery comment/close on the
+  next clean run. Monitoring signals no longer make successful data collection
+  appear failed.
+- Post-deploy workflows triggered by `workflow_run` must checkout
+  `github.event.workflow_run.head_sha`. Checking out the moving default branch can
+  test a route from a newer, not-yet-deployed commit and create a false browser
+  failure even when all console assertions pass. Poll `/build-info.json` for that
+  SHA and cancel older in-flight checks when a newer deployment completes.
+
 ---
