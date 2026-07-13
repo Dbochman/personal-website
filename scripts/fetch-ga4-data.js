@@ -26,6 +26,16 @@ import { BetaAnalyticsDataClient } from '@google-analytics/data';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import {
+  GA4_DAILY_LOOKBACK_DAYS,
+  GA4_REPORTING_WINDOW_DAYS,
+  addDays,
+  buildCompletedPeriod,
+  buildDailySessionSeries,
+  detectSameWeekdayAnomaly,
+  formatDateInTimeZone,
+  hasMatureClassificationCoverage,
+} from './ga4-analytics-utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,15 +65,17 @@ async function fetchGA4Data() {
 
     console.log(`📊 Fetching GA4 data for property ${propertyId}...`);
 
-    // Fetch data for last 7 days (pages + devices)
+    // Use seven completed property-timezone days. GA4 date ranges are inclusive,
+    // so 8daysAgo..2daysAgo is exactly seven days and avoids intraday data.
+    const completedDateRange = {
+      startDate: `${GA4_REPORTING_WINDOW_DAYS + 1}daysAgo`,
+      endDate: '2daysAgo',
+    };
+
+    // Fetch data for the completed reporting window (pages + devices)
     const [response] = await analyticsDataClient.runReport({
       property: propertyId,
-      dateRanges: [
-        {
-          startDate: '7daysAgo',
-          endDate: 'today',
-        },
-      ],
+      dateRanges: [completedDateRange],
       dimensions: [
         { name: 'pagePath' },
         { name: 'deviceCategory' },
@@ -80,12 +92,7 @@ async function fetchGA4Data() {
     // Fetch Web Vitals (RUM data) with rating breakdown
     const [vitalsResponse] = await analyticsDataClient.runReport({
       property: propertyId,
-      dateRanges: [
-        {
-          startDate: '7daysAgo',
-          endDate: 'today',
-        },
-      ],
+      dateRanges: [completedDateRange],
       dimensions: [
         { name: 'eventName' },
         { name: 'customEvent:metric_rating' },
@@ -107,12 +114,7 @@ async function fetchGA4Data() {
     // Fetch traffic sources separately (different dimension set)
     const [trafficResponse] = await analyticsDataClient.runReport({
       property: propertyId,
-      dateRanges: [
-        {
-          startDate: '7daysAgo',
-          endDate: 'today',
-        },
-      ],
+      dateRanges: [completedDateRange],
       dimensions: [
         { name: 'sessionDefaultChannelGroup' },
         { name: 'sessionSource' },
@@ -129,12 +131,7 @@ async function fetchGA4Data() {
     try {
       const [toolResponse] = await analyticsDataClient.runReport({
         property: propertyId,
-        dateRanges: [
-          {
-            startDate: '7daysAgo',
-            endDate: 'today',
-          },
-        ],
+        dateRanges: [completedDateRange],
         dimensions: [
           { name: 'customEvent:tool_name' },
           { name: 'customEvent:action' },
@@ -154,6 +151,124 @@ async function fetchGA4Data() {
       toolEventsResponse = toolResponse;
     } catch (toolError) {
       console.log('⚠️  Tool interaction details query failed:', toolError.message);
+    }
+
+    // Fetch exact daily session totals for weekday-aware anomaly detection. The
+    // 30-day span contains the latest two days plus four matching weekdays for
+    // each, which is enough to confirm a sustained loss without overlapping
+    // rolling-window baselines.
+    const dailyReportRequest = {
+      property: propertyId,
+      dateRanges: [
+        {
+          startDate: `${GA4_DAILY_LOOKBACK_DAYS + 1}daysAgo`,
+          endDate: '2daysAgo',
+        },
+      ],
+      dimensions: [{ name: 'date' }],
+      metrics: [{ name: 'sessions' }],
+      orderBys: [
+        {
+          dimension: {
+            dimensionName: 'date',
+          },
+        },
+      ],
+    };
+
+    const propertyTimeZone = response.metadata?.timeZone || 'UTC';
+    const propertyToday = formatDateInTimeZone(new Date(), propertyTimeZone);
+    const finalizedEndDate = addDays(propertyToday, -2);
+    const dailyStartDate = addDays(finalizedEndDate, -(GA4_DAILY_LOOKBACK_DAYS - 1));
+    const completedPeriod = buildCompletedPeriod(finalizedEndDate);
+    let dailySessions = [];
+    let sessionAnomaly = {
+      status: 'unavailable',
+      isAnomaly: false,
+      severity: null,
+      confidence: 'none',
+      basis: null,
+      reason: 'Daily session data was unavailable',
+      message: 'Daily session anomaly check unavailable: GA4 daily query failed',
+    };
+
+    try {
+      const [totalDailyResponse] = await analyticsDataClient.runReport(dailyReportRequest);
+      const totalDailySessions = buildDailySessionSeries(totalDailyResponse.rows, {
+        startDate: dailyStartDate,
+        endDate: finalizedEndDate,
+      });
+      let seriesRows = totalDailyResponse.rows;
+      let classificationCoverageSeries = [];
+      let basis = 'human-sessions';
+      let confidence = 'high';
+
+      try {
+        let dailyResponse;
+        // Prefer the classification already emitted by index.html. This query
+        // only works after traffic_type is registered as a GA4 custom dimension.
+        [dailyResponse] = await analyticsDataClient.runReport({
+          ...dailyReportRequest,
+          dimensions: [
+            { name: 'date' },
+            { name: 'customEvent:traffic_type' },
+          ],
+        });
+        const classifiedRows = (dailyResponse.rows ?? []).filter(row =>
+          ['human', 'bot', 'ci'].includes(row.dimensionValues?.[1]?.value)
+        );
+        seriesRows = classifiedRows.filter(row =>
+          row.dimensionValues?.[1]?.value === 'human'
+        );
+        classificationCoverageSeries = buildDailySessionSeries(classifiedRows, {
+          startDate: dailyStartDate,
+          endDate: finalizedEndDate,
+        });
+      } catch (classificationError) {
+        // Total sessions include Direct, bot, and CI volatility. Keep the
+        // collection useful when the custom dimension is unavailable, but mark
+        // detector results low-confidence so they are not treated as outages.
+        console.log(
+          '⚠️  traffic_type daily query unavailable; using low-confidence total sessions:',
+          classificationError.message
+        );
+        basis = 'total-sessions';
+        confidence = 'low';
+      }
+
+      dailySessions = buildDailySessionSeries(seriesRows, {
+        startDate: dailyStartDate,
+        endDate: finalizedEndDate,
+      });
+      const hasMatureClassification = basis !== 'human-sessions' || (
+        hasMatureClassificationCoverage(
+          classificationCoverageSeries,
+          totalDailySessions,
+          finalizedEndDate
+        )
+      );
+
+      if (!hasMatureClassification) {
+        sessionAnomaly = {
+          status: 'insufficient-data',
+          isAnomaly: false,
+          severity: null,
+          confidence: 'none',
+          basis,
+          reason: 'Human-session classification is still warming up',
+          message: 'Daily session anomaly check unavailable: traffic_type needs 28 days of classified history',
+        };
+      } else {
+        sessionAnomaly = {
+          ...detectSameWeekdayAnomaly(dailySessions),
+          confidence,
+          basis,
+        };
+      }
+    } catch (dailyError) {
+      // The anomaly detector is supplementary. Do not discard an otherwise
+      // valid dashboard snapshot because either daily GA4 query failed.
+      console.log('⚠️  Daily session anomaly data unavailable:', dailyError.message);
     }
 
     // Extract overall metrics
@@ -306,9 +421,7 @@ async function fetchGA4Data() {
     const dataEntry = {
       timestamp: new Date().toISOString(),
       date: new Date().toISOString().split('T')[0],
-      period: {
-        description: 'Last 7 days',
-      },
+      period: completedPeriod,
       summary: {
         sessions: totalSessions,
         users: totalUsers,
@@ -325,6 +438,8 @@ async function fetchGA4Data() {
         channels: topChannels,
         sources: topSources,
       },
+      dailySessions,
+      sessionAnomaly,
       webVitals: Object.keys(webVitals).length > 0 ? webVitals : null,
       toolInteractions: totalToolInteractions > 0 ? {
         total: totalToolInteractions,
@@ -367,7 +482,9 @@ async function fetchGA4Data() {
     fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
 
     console.log('✅ GA4 data saved to history');
+    console.log(`📅 Reporting period: ${completedPeriod.startDate} to ${completedPeriod.endDate}`);
     console.log(`📈 Sessions: ${totalSessions}, Users: ${totalUsers}, Page Views: ${totalPageViews}`);
+    console.log(`🔎 Session anomaly status: ${sessionAnomaly.status} (${sessionAnomaly.reason})`);
     if (Object.keys(webVitals).length > 0) {
       console.log(`⚡ Web Vitals: ${Object.keys(webVitals).join(', ')}`);
     }

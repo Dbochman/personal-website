@@ -243,20 +243,44 @@ cat service-account.json | base64
 
 ### Workflow
 
-- **File:** `.github/workflows/ga4-export.yml`
+- **Scheduled collection and alerting:** `.github/workflows/daily-analytics.yml`
+- **Manual export only:** `.github/workflows/ga4-export.yml`
 - **Triggers:**
-  - Manual trigger (workflow_dispatch)
-  - Weekly schedule (Mondays at 12 PM UTC)
-- **Data Period:** Last 7 days
+  - Daily schedule in the consolidated analytics workflow
+  - Manual trigger (`workflow_dispatch`)
+- **Data Period:** Seven completed days ending two days ago
 
 ### Traffic Anomaly Thresholds
 
-- **Sessions/Users/Page Views:** > 30% decrease
-- **Bounce Rate:** > 10 percentage points increase
+- The latest completed day is compared with the median of its previous four
+  matching weekdays.
+- High-confidence alerts use sessions classified as human by the registered
+  `traffic_type` custom dimension. Total-session fallback observations are
+  retained for diagnostics but do not page.
+- Human-session alerting requires 28 days of classified history. During warm-up
+  or a collection failure, active incidents remain open rather than being
+  mistaken for recovered. Classification must cover at least 80% of dates that
+  actually had sessions, with evidence in both the oldest and newest weeks; days
+  with no traffic do not penalize low-volume sites.
+- Near-zero sessions alert immediately when the baseline has meaningful volume.
+- Other drops must be at least 50%, lose at least 10 sessions, and persist for
+  two completed days.
+- Low-volume percentage swings are suppressed when the baseline is below 10.
+- One generated issue tracks an active incident; repeated observations append
+  to it, and the next clean run closes it automatically only when GA4, Search
+  Console, and Lighthouse all have complete recovery state. Weekly Lighthouse
+  summaries carry a collection timestamp and expire from recovery decisions
+  after eight days.
+- Missing, malformed, stale, warming-up, or otherwise incomplete signal data is
+  itself reported as an operational failure; it is never silently treated as a
+  clean result.
+- Lighthouse operational alerts use the established audit floors: performance
+  below 50 or accessibility below 90. The 90-point accessibility policy matches
+  the audit threshold adopted in PR #233; it is not a new relaxation.
 
 ### Data Files
 
-- **History:** `docs/metrics/ga4-history.json` (52 weeks)
+- **History:** `docs/metrics/ga4-history.json` (90 daily snapshots)
 - **Summary:** `docs/metrics/latest.json` (updated automatically)
 
 ### Manual Usage

@@ -39,20 +39,29 @@ jobs:
         run: npm ci
 
       - name: Run Lighthouse on production (multi-page)
+        id: lighthouse_audit
+        continue-on-error: true
         run: node scripts/lighthouse-multi-page.mjs
 
       - name: Save Lighthouse reports
+        if: always()
         run: |
+          test -f lighthouse-reports/summary.json
           mkdir -p docs/metrics
           cp lighthouse-reports/summary.json docs/metrics/latest-multi-page.json
           echo "{\"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"commit\": \"${{ github.sha }}\", \"trigger\": \"${{ github.event_name == 'schedule' && 'scheduled' || 'manual' }}\"}" > docs/metrics/last-run.json
 
       - name: Upload Lighthouse reports
+        if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: lighthouse-reports
           path: lighthouse-reports/
           retention-days: 7
+
+      - name: Preserve Lighthouse audit result
+        if: steps.lighthouse_audit.outcome == 'failure'
+        run: exit 1
 
     outputs:
       completed: ${{ job.status == 'success' }}
@@ -163,7 +172,7 @@ jobs:
 
   commit-all:
     # Wait for data collection jobs; lighthouse and github-billing are optional (weekly only)
-    needs: [search-console, ga4, github-billing]
+    needs: [lighthouse, search-console, ga4, github-billing]
     if: always() && (needs.search-console.result == 'success' || needs.ga4.result == 'success')
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -251,66 +260,160 @@ jobs:
           node -e "
           const fs = require('fs');
           const failures = [];
-
-          // Check GA4 data using 7-day rolling average to avoid false positives from traffic spikes
-          const ga4File = 'docs/metrics/ga4-history.json';
-          if (fs.existsSync(ga4File)) {
-            const history = JSON.parse(fs.readFileSync(ga4File, 'utf8'));
-            if (history.length >= 8) {
-              const latest = history[history.length - 1];
-              const past7 = history.slice(-8, -1);
-              const avgSessions = past7.reduce((sum, e) => sum + e.summary.sessions, 0) / past7.length;
-
-              const sessionsChange = ((latest.summary.sessions - avgSessions) / avgSessions) * 100;
-              if (sessionsChange < -40) {
-                failures.push(\`GA4: Sessions dropped by \${Math.abs(Math.round(sessionsChange))}% vs 7-day avg (\${latest.summary.sessions} vs \${Math.round(avgSessions)})\`);
+          let checksComplete = true;
+          const runDate = new Date().toISOString().split('T')[0];
+          const isObject = value => value !== null && typeof value === 'object';
+          const isGA4History = data => {
+            if (!Array.isArray(data) || data.length === 0) return false;
+            const latest = data[data.length - 1];
+            return isObject(latest) &&
+              typeof latest.timestamp === 'string' &&
+              typeof latest.date === 'string' &&
+              (latest.sessionAnomaly === undefined || isObject(latest.sessionAnomaly));
+          };
+          const isSearchHistory = data => {
+            if (!Array.isArray(data) || data.length < 2) return false;
+            return data.slice(-2).every(entry =>
+              isObject(entry) &&
+              isObject(entry.summary) &&
+              Number.isFinite(entry.summary.averagePosition)
+            );
+          };
+          const isLighthouseSummary = data => Array.isArray(data) &&
+            data.length > 0 &&
+            data.every(page =>
+              isObject(page) &&
+              typeof page.page === 'string' &&
+              Number.isFinite(page.performance) &&
+              Number.isFinite(page.accessibility) &&
+              (page.collectedAt === undefined || typeof page.collectedAt === 'string')
+            );
+          const readMonitoringJson = (file, signal, validate) => {
+            if (!fs.existsSync(file)) {
+              checksComplete = false;
+              failures.push(\`\${signal}: monitoring data is missing\`);
+              return null;
+            }
+            try {
+              const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+              if (!validate(parsed)) {
+                checksComplete = false;
+                failures.push(\`\${signal}: monitoring data has an invalid schema\`);
+                return null;
               }
+              return parsed;
+            } catch (error) {
+              checksComplete = false;
+              failures.push(\`\${signal}: monitoring data could not be parsed\`);
+              console.error(\`\${signal} parse failure: \${error.message}\`);
+              return null;
+            }
+          };
+
+          // GA4 detection is computed from finalized daily totals by the fetch
+          // script. Avoid recomputing it from overlapping rolling snapshots.
+          const ga4File = 'docs/metrics/ga4-history.json';
+          const ga4History = readMonitoringJson(ga4File, 'GA4', isGA4History);
+          if (ga4History) {
+            const history = ga4History;
+            if (history.length > 0) {
+              const latest = history[history.length - 1];
+              const collectedAt = Date.parse(latest.timestamp);
+              const collectionAgeMs = Date.now() - collectedAt;
+              const isFreshCollection = latest.date === runDate &&
+                Number.isFinite(collectedAt) &&
+                collectionAgeMs >= 0 &&
+                collectionAgeMs <= 2 * 60 * 60 * 1000;
+              const ga4CheckComplete = isFreshCollection &&
+                latest.sessionAnomaly?.confidence === 'high' &&
+                ['normal', 'anomaly'].includes(latest.sessionAnomaly?.status);
+              if (!ga4CheckComplete) {
+                checksComplete = false;
+                failures.push('GA4: recovery state is stale or incomplete');
+              } else if (latest.sessionAnomaly.isAnomaly) {
+                failures.push(\`GA4: \${latest.sessionAnomaly.message}\`);
+              }
+            } else {
+              checksComplete = false;
             }
           }
 
           // Check Search Console data
           const scFile = 'docs/metrics/search-console-history.json';
-          if (fs.existsSync(scFile)) {
-            const history = JSON.parse(fs.readFileSync(scFile, 'utf8'));
+          const searchHistory = readMonitoringJson(scFile, 'Search Console', isSearchHistory);
+          if (searchHistory) {
+            const history = searchHistory;
             if (history.length >= 2) {
               const latest = history[history.length - 1];
               const previous = history[history.length - 2];
-
-              const positionChange = latest.summary.averagePosition - previous.summary.averagePosition;
-              if (positionChange > 5) {
-                failures.push(\`Search Console: Position worsened by \${Math.round(positionChange * 10) / 10}\`);
+              const collectedAt = Date.parse(latest.collectedAt);
+              const collectionAgeMs = Date.now() - collectedAt;
+              const searchCheckComplete = latest.dataState === 'final' &&
+                Number.isFinite(collectedAt) &&
+                collectionAgeMs >= 0 &&
+                collectionAgeMs <= 2 * 60 * 60 * 1000;
+              if (!searchCheckComplete) {
+                checksComplete = false;
+                failures.push('Search Console: recovery state is stale or incomplete');
+              } else {
+                const positionChange = latest.summary.averagePosition - previous.summary.averagePosition;
+                if (positionChange > 5) {
+                  failures.push(\`Search Console: Position worsened by \${Math.round(positionChange * 10) / 10}\`);
+                }
               }
+            } else {
+              checksComplete = false;
             }
           }
 
           // Check Lighthouse data
           const lhFile = 'docs/metrics/latest-multi-page.json';
-          if (fs.existsSync(lhFile)) {
-            const summary = JSON.parse(fs.readFileSync(lhFile, 'utf8'));
-            summary.forEach(page => {
-              if (page.performance < 50) {
-                failures.push(\`Lighthouse: \${page.page} performance at \${page.performance}\`);
-              }
-              if (page.accessibility < 95) {
-                failures.push(\`Lighthouse: \${page.page} accessibility at \${page.accessibility}\`);
-              }
-            });
+          const lighthouseSummary = readMonitoringJson(lhFile, 'Lighthouse', isLighthouseSummary);
+          if (lighthouseSummary) {
+            const summary = lighthouseSummary;
+            const firstPage = Array.isArray(summary) ? summary[0] : undefined;
+            const collectedAt = Date.parse(firstPage?.collectedAt);
+            const collectionAgeMs = Date.now() - collectedAt;
+            const lighthouseCheckComplete = Array.isArray(summary) &&
+              summary.length > 0 &&
+              Number.isFinite(collectedAt) &&
+              collectionAgeMs >= 0 &&
+              collectionAgeMs <= 8 * 24 * 60 * 60 * 1000 &&
+              summary.every(page =>
+                page.collectedAt === firstPage.collectedAt &&
+                Number.isFinite(page.performance) &&
+                Number.isFinite(page.accessibility)
+              );
+            if (!lighthouseCheckComplete) {
+              checksComplete = false;
+              failures.push('Lighthouse: recovery state is stale or incomplete');
+            } else {
+              summary.forEach(page => {
+                if (page.performance < 50) {
+                  failures.push(\`Lighthouse: \${page.page} performance at \${page.performance}\`);
+                }
+                if (page.accessibility < 90) {
+                  failures.push(\`Lighthouse: \${page.page} accessibility at \${page.accessibility}\`);
+                }
+              });
+            }
           }
 
           if (failures.length > 0) {
-            console.log('::set-output name=has_anomalies::true');
             console.log('Anomalies detected:');
             failures.forEach(f => console.log(\`  - \${f}\`));
             // Write failures to file for issue creation
             fs.writeFileSync('/tmp/anomalies.json', JSON.stringify(failures));
-            process.exit(1);
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'has_anomalies=true\\n');
           } else {
             console.log('✅ No anomalies detected');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'has_anomalies=false\\n');
           }
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, \`checks_complete=\${checksComplete}\\n\`);
           "
 
       - name: Create issue for anomalies
-        if: failure() && steps.anomaly_check.conclusion == 'failure'
+        if: steps.anomaly_check.outputs.has_anomalies == 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
         with:
           script: |
@@ -324,32 +427,30 @@ jobs:
               anomalies = ['Unknown anomaly - check workflow logs'];
             }
 
-            // Suppress duplicate alerts: if an open analytics anomaly issue exists
-            // from the last 3 days, comment on it instead of creating a new one
-            const recentIssues = await github.rest.issues.listForRepo({
+            // Keep one issue per active incident. Recovery closes it, so any
+            // remaining open generated issue represents the current incident.
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: 'analytics,automated',
               state: 'open',
               sort: 'created',
               direction: 'desc',
-              per_page: 1
+              per_page: 100
             });
-
-            const threeDaysAgo = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
-            const recentOpen = recentIssues.data.find(
-              i => new Date(i.created_at) > threeDaysAgo
+            const activeIncident = openIssues.find(issue =>
+              !issue.pull_request &&
+              issue.title.startsWith('🚨 Analytics Anomaly Detected')
             );
 
-            if (recentOpen) {
-              // Append today's data as a comment on the existing issue
+            if (activeIncident) {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: recentOpen.number,
+                issue_number: activeIncident.number,
                 body: `### Update (${date})\n${anomalies.map(a => '- ' + a).join('\n')}\n\n[Workflow run](${context.payload.repository.html_url}/actions/runs/${context.runId})`
               });
-              core.info(`Appended to existing issue #${recentOpen.number} instead of creating a new one`);
+              core.info(`Updated active analytics incident #${activeIncident.number}`);
               return;
             }
 
@@ -377,3 +478,39 @@ jobs:
               body: body,
               labels: ['analytics', 'automated']
             });
+
+      - name: Close recovered analytics issues
+        if: steps.anomaly_check.outputs.has_anomalies == 'false' && steps.anomaly_check.outputs.checks_complete == 'true'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const runUrl = `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'analytics,automated',
+              state: 'open',
+              per_page: 100
+            });
+            const recovered = openIssues.filter(issue =>
+              !issue.pull_request &&
+              issue.title.startsWith('🚨 Analytics Anomaly Detected')
+            );
+
+            for (const issue of recovered) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `✅ Recovered: the [latest analytics check](${runUrl}) passed without anomalies.`
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+
+            core.info(`Closed ${recovered.length} recovered analytics issue(s)`);

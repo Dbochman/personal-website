@@ -44,6 +44,10 @@ export interface GA4HistoryEntry {
   date: string;
   period: {
     description: string;
+    startDate?: string;
+    endDate?: string;
+    windowDays?: number;
+    dataState?: 'finalized';
   };
   summary: {
     sessions: number;
@@ -75,6 +79,23 @@ export interface GA4HistoryEntry {
       sessions: number;
       users: number;
     }>;
+  };
+  dailySessions?: Array<{
+    date: string;
+    sessions: number;
+  }>;
+  sessionAnomaly?: {
+    status: 'anomaly' | 'normal' | 'insufficient-data' | 'unavailable';
+    isAnomaly: boolean;
+    severity: 'critical' | 'warning' | null;
+    confidence: 'high' | 'low' | 'none';
+    basis: 'human-sessions' | 'total-sessions' | null;
+    reason: string;
+    message: string;
+    observedDate?: string;
+    observedSessions?: number | null;
+    baselineSessions?: number;
+    percentageDrop?: number;
   };
   toolInteractions?: {
     total: number;
@@ -133,6 +154,7 @@ interface SearchConsoleDetailCoverage {
 }
 
 export interface LighthousePageScore {
+  collectedAt?: string;
   page: string;
   url: string;
   performance: number;
