@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "harden-monitoring-alert-lifecycle",
+          "title": "harden monitoring alert lifecycle",
+          "labels": [
+            "Bugfix",
+            "PR #320"
+          ],
+          "checklist": [],
+          "createdAt": "2026-07-13T01:40:02.000Z",
+          "updatedAt": "2026-07-13T01:40:02.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-07-13T01:40:02.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Replace noisy overlapping-window analytics alerts with finalized, confidence-aware detection and incident lifecycle management. Pin production browser checks to the deployed SHA and harden recovery evidence across GA4, Search Console, and Lighthouse."
+        },
+        {
           "id": "2026-07-12-the-home-automation-system-that-is-not-allowed-to-automate",
           "title": "Blog: The Home Event System That Is Not Allowed to Automate",
           "labels": [
@@ -3440,5 +3460,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-07-12T16:32:04.570Z"
+  "updatedAt": "2026-07-13T01:40:40.589Z"
 };
