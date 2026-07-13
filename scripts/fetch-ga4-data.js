@@ -35,7 +35,6 @@ import {
   detectSameWeekdayAnomaly,
   formatDateInTimeZone,
   hasMatureClassificationCoverage,
-  normalizeGA4Date,
 } from './ga4-analytics-utils.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -194,13 +193,18 @@ async function fetchGA4Data() {
     };
 
     try {
-      let dailyResponse;
-      let seriesRows;
-      let classifiedDates = [];
+      const [totalDailyResponse] = await analyticsDataClient.runReport(dailyReportRequest);
+      const totalDailySessions = buildDailySessionSeries(totalDailyResponse.rows, {
+        startDate: dailyStartDate,
+        endDate: finalizedEndDate,
+      });
+      let seriesRows = totalDailyResponse.rows;
+      let classificationCoverageSeries = [];
       let basis = 'human-sessions';
       let confidence = 'high';
 
       try {
+        let dailyResponse;
         // Prefer the classification already emitted by index.html. This query
         // only works after traffic_type is registered as a GA4 custom dimension.
         [dailyResponse] = await analyticsDataClient.runReport({
@@ -216,13 +220,10 @@ async function fetchGA4Data() {
         seriesRows = classifiedRows.filter(row =>
           row.dimensionValues?.[1]?.value === 'human'
         );
-        classifiedDates = [...new Set(classifiedRows.flatMap(row => {
-          try {
-            return [normalizeGA4Date(row.dimensionValues?.[0]?.value)];
-          } catch {
-            return [];
-          }
-        }))];
+        classificationCoverageSeries = buildDailySessionSeries(classifiedRows, {
+          startDate: dailyStartDate,
+          endDate: finalizedEndDate,
+        });
       } catch (classificationError) {
         // Total sessions include Direct, bot, and CI volatility. Keep the
         // collection useful when the custom dimension is unavailable, but mark
@@ -233,8 +234,6 @@ async function fetchGA4Data() {
         );
         basis = 'total-sessions';
         confidence = 'low';
-        [dailyResponse] = await analyticsDataClient.runReport(dailyReportRequest);
-        seriesRows = dailyResponse.rows;
       }
 
       dailySessions = buildDailySessionSeries(seriesRows, {
@@ -242,7 +241,11 @@ async function fetchGA4Data() {
         endDate: finalizedEndDate,
       });
       const hasMatureClassification = basis !== 'human-sessions' || (
-        hasMatureClassificationCoverage(classifiedDates, finalizedEndDate)
+        hasMatureClassificationCoverage(
+          classificationCoverageSeries,
+          totalDailySessions,
+          finalizedEndDate
+        )
       );
 
       if (!hasMatureClassification) {

@@ -259,7 +259,9 @@ cat service-account.json | base64
   retained for diagnostics but do not page.
 - Human-session alerting requires 28 days of classified history. During warm-up
   or a collection failure, active incidents remain open rather than being
-  mistaken for recovered.
+  mistaken for recovered. Classification must cover at least 80% of dates that
+  actually had sessions, with evidence in both the oldest and newest weeks; days
+  with no traffic do not penalize low-volume sites.
 - Near-zero sessions alert immediately when the baseline has meaningful volume.
 - Other drops must be at least 50%, lose at least 10 sessions, and persist for
   two completed days.

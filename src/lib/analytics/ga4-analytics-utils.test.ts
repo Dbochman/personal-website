@@ -58,13 +58,38 @@ describe('GA4 completed daily data', () => {
   });
 
   it('requires a mature classified history before trusting human-session data', () => {
-    const mature = ['2026-06-12'];
-    const recentOnly = ['2026-06-20'];
+    const lowTrafficTotals = [
+      { date: '2026-06-13', sessions: 1 },
+      { date: '2026-07-09', sessions: 1 },
+    ];
+    const fullyClassified = [
+      { date: '2026-06-13', sessions: 1 },
+      { date: '2026-07-09', sessions: 1 },
+    ];
+    const oldOnly = [{ date: '2026-06-13', sessions: 1 }];
 
-    expect(hasMatureClassificationCoverage(mature, '2026-07-10')).toBe(true);
+    expect(hasMatureClassificationCoverage(
+      fullyClassified,
+      lowTrafficTotals,
+      '2026-07-10'
+    )).toBe(true);
+    expect(hasMatureClassificationCoverage(
+      oldOnly,
+      lowTrafficTotals,
+      '2026-07-10'
+    )).toBe(false);
+    expect(hasMatureClassificationCoverage([], lowTrafficTotals, '2026-07-10')).toBe(false);
+  });
 
-    expect(hasMatureClassificationCoverage(recentOnly, '2026-07-10')).toBe(false);
-    expect(hasMatureClassificationCoverage([], '2026-07-10')).toBe(false);
+  it('rejects sparse classification on an otherwise active site', () => {
+    const total = Array.from({ length: 29 }, (_, index) => ({
+      date: new Date(Date.UTC(2026, 5, 12 + index)).toISOString().slice(0, 10),
+      sessions: 3,
+    }));
+    const classified = total.filter((_, index) => index % 5 !== 0);
+
+    expect(hasMatureClassificationCoverage(classified, total, '2026-07-10')).toBe(false);
+    expect(hasMatureClassificationCoverage(total, total, '2026-07-10')).toBe(true);
   });
 });
 

@@ -472,8 +472,9 @@ Drafted a privacy-scoped post about the new local home-event system, emphasizing
   days ago, human-session classification when the custom dimension is available,
   four same-weekday baselines, volume guards, and two-day confirmation. The
   dashboard summary is a truthful seven-completed-day window. Human-session
-  alerting waits for 28 days of classified history; unavailable or stale data
-  must never be interpreted as recovery.
+  alerting waits for 28 days of classified history and verifies classification
+  coverage against total-traffic days in both edge weeks; unavailable or stale
+  data must never be interpreted as recovery.
 - Generated monitoring issues should model an incident lifecycle: one open issue,
   comments while it persists, and an automatic recovery comment/close on the
   next clean run. A shared incident may only close when every contributing signal

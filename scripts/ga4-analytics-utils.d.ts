@@ -53,9 +53,14 @@ export function buildDailySessionSeries(
   range: { startDate: string; endDate: string }
 ): DailySession[];
 export function hasMatureClassificationCoverage(
-  classifiedDates: string[] | null | undefined,
+  classifiedSessions: DailySession[] | null | undefined,
+  totalSessions: DailySession[] | null | undefined,
   endDate: string,
-  options?: { historyDays?: number }
+  options?: {
+    historyDays?: number;
+    edgeWindowDays?: number;
+    minimumCoverageRatio?: number;
+  }
 ): boolean;
 export function detectSameWeekdayAnomaly(
   dailySessions: DailySession[] | null | undefined,

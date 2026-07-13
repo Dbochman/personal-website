@@ -98,17 +98,44 @@ export function buildDailySessionSeries(rows, { startDate, endDate }) {
 }
 
 export function hasMatureClassificationCoverage(
-  classifiedDates,
+  classifiedSessions,
+  totalSessions,
   endDate,
-  { historyDays = 28 } = {}
+  { historyDays = 28, edgeWindowDays = 7, minimumCoverageRatio = 0.8 } = {}
 ) {
   assertIsoDate(endDate, 'endDate');
   const coverageStart = addDays(endDate, -historyDays);
-  const observedDates = (classifiedDates ?? [])
-    .filter(date => ISO_DATE_PATTERN.test(date) && date <= endDate)
-    .sort();
+  const oldestWindowEnd = addDays(coverageStart, edgeWindowDays - 1);
+  const recentWindowStart = addDays(endDate, -(edgeWindowDays - 1));
+  const classifiedDates = new Set((classifiedSessions ?? [])
+    .filter(entry =>
+      entry &&
+      ISO_DATE_PATTERN.test(entry.date) &&
+      entry.date >= coverageStart &&
+      entry.date <= endDate &&
+      Number(entry.sessions) > 0
+    )
+    .map(entry => entry.date));
+  const trafficDates = (totalSessions ?? [])
+    .filter(entry =>
+      entry &&
+      ISO_DATE_PATTERN.test(entry.date) &&
+      entry.date >= coverageStart &&
+      entry.date <= endDate &&
+      Number(entry.sessions) > 0
+    )
+    .map(entry => entry.date);
 
-  return observedDates.length > 0 && observedDates[0] <= coverageStart;
+  if (trafficDates.length === 0) return false;
+
+  const coveredTrafficDates = trafficDates.filter(date => classifiedDates.has(date));
+  const coverageRatio = coveredTrafficDates.length / trafficDates.length;
+  const hasOldestWindowEvidence = coveredTrafficDates.some(date => date <= oldestWindowEnd);
+  const hasRecentWindowEvidence = coveredTrafficDates.some(date => date >= recentWindowStart);
+
+  return coverageRatio >= minimumCoverageRatio &&
+    hasOldestWindowEvidence &&
+    hasRecentWindowEvidence;
 }
 
 function median(values) {
