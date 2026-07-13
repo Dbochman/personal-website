@@ -485,6 +485,8 @@ Drafted a privacy-scoped post about the new local home-event system, emphasizing
   days; threshold failures still upload their summary before the job fails.
   Missing or malformed metric artifacts are operational incidents themselves:
   emit structured failure state instead of throwing before lifecycle outputs exist.
+  The same applies to stale or incomplete signal state even when no incident is
+  already open; suppressing recovery alone leaves a monitoring blind spot.
 - Post-deploy workflows triggered by `workflow_run` must checkout
   `github.event.workflow_run.head_sha`. Checking out the moving default branch can
   test a route from a newer, not-yet-deployed commit and create a false browser

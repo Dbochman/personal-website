@@ -329,7 +329,7 @@ jobs:
                 ['normal', 'anomaly'].includes(latest.sessionAnomaly?.status);
               if (!ga4CheckComplete) {
                 checksComplete = false;
-                console.log('GA4 recovery state unavailable; leaving any active incident open');
+                failures.push('GA4: recovery state is stale or incomplete');
               } else if (latest.sessionAnomaly.isAnomaly) {
                 failures.push(\`GA4: \${latest.sessionAnomaly.message}\`);
               }
@@ -354,7 +354,7 @@ jobs:
                 collectionAgeMs <= 2 * 60 * 60 * 1000;
               if (!searchCheckComplete) {
                 checksComplete = false;
-                console.log('Search Console recovery state unavailable; leaving any active incident open');
+                failures.push('Search Console: recovery state is stale or incomplete');
               } else {
                 const positionChange = latest.summary.averagePosition - previous.summary.averagePosition;
                 if (positionChange > 5) {
@@ -386,7 +386,7 @@ jobs:
               );
             if (!lighthouseCheckComplete) {
               checksComplete = false;
-              console.log('Lighthouse recovery state unavailable; leaving any active incident open');
+              failures.push('Lighthouse: recovery state is stale or incomplete');
             } else {
               summary.forEach(page => {
                 if (page.performance < 50) {
