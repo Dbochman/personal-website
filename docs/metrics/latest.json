@@ -1,27 +1,27 @@
 {
-  "generated": "2026-07-16T07:59:57.739Z",
+  "generated": "2026-07-17T07:57:10.009Z",
   "searchConsole": {
-    "lastCheck": "2026-07-16T07:59:24.698Z",
+    "lastCheck": "2026-07-17T07:56:30.165Z",
     "clicks": 3,
-    "impressions": 1119,
-    "averageCTR": 0.27,
-    "averagePosition": 8.6
+    "impressions": 919,
+    "averageCTR": 0.33,
+    "averagePosition": 9
   },
   "analytics": {
-    "lastCheck": "2026-07-16T07:59:57.032Z",
-    "sessions_7d": 1025,
-    "users_7d": 1011,
-    "pageviews_7d": 1035,
-    "avgSessionDuration": 19,
+    "lastCheck": "2026-07-17T07:57:09.304Z",
+    "sessions_7d": 1023,
+    "users_7d": 1010,
+    "pageviews_7d": 1032,
+    "avgSessionDuration": 18,
     "bounceRate": 0.93,
     "topPages": [
       {
         "page": "/blog",
-        "pageViews": 188
+        "pageViews": 184
       },
       {
         "page": "/",
-        "pageViews": 175
+        "pageViews": 177
       },
       {
         "page": "/runbook",
@@ -29,7 +29,7 @@
       },
       {
         "page": "/blog/2026-07-12-the-home-automation-system-that-is-not-allowed-to-automate",
-        "pageViews": 92
+        "pageViews": 94
       },
       {
         "page": "/projects",
@@ -38,59 +38,59 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-07-16T07:59:57.032Z",
+    "lastCheck": "2026-07-17T07:57:09.304Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 1518,
-        "average": 68.25691699604744,
+        "count": 1516,
+        "average": 67.40039577836411,
         "unit": "ms",
         "ratings": {
-          "good": 1505,
+          "good": 1503,
           "needs-improvement": 6,
           "poor": 7
         },
         "goodPercent": 99
       },
       "FCP": {
-        "count": 948,
-        "average": 342.5981012658228,
+        "count": 946,
+        "average": 337.85940803382664,
         "unit": "ms",
         "ratings": {
           "good": 919,
-          "needs-improvement": 22,
+          "needs-improvement": 20,
           "poor": 7
         },
         "goodPercent": 97
       },
       "LCP": {
-        "count": 410,
-        "average": 745.7926829268292,
+        "count": 408,
+        "average": 741.3112745098039,
         "unit": "ms",
         "ratings": {
-          "good": 403,
-          "needs-improvement": 5,
+          "good": 402,
+          "needs-improvement": 4,
           "poor": 2
         },
-        "goodPercent": 98
+        "goodPercent": 99
       },
       "CLS": {
-        "count": 408,
-        "average": 0.04323774509803921,
+        "count": 404,
+        "average": 0.042019801980198015,
         "unit": "",
         "ratings": {
-          "good": 313,
-          "needs-improvement": 93,
-          "poor": 2
+          "good": 311,
+          "needs-improvement": 92,
+          "poor": 1
         },
         "goodPercent": 77
       },
       "INP": {
-        "count": 12,
-        "average": 73.33333333333333,
+        "count": 13,
+        "average": 70.76923076923077,
         "unit": "ms",
         "ratings": {
-          "good": 12,
+          "good": 13,
           "needs-improvement": 0,
           "poor": 0
         },
