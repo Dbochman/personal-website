@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "2026-07-20-the-har-was-the-easy-part",
+          "title": "Blog: The HAR Was the Easy Part",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-07-20T12:47:19.000Z",
+          "updatedAt": "2026-07-20T12:47:19.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-07-20T12:47:19.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Seven browser-driven financial scrapers grew into an HTTP-first collection system with versioned contracts, current-run artifacts, guarded imports, bounded recovery, and durable failure alerts."
+        },
+        {
           "id": "harden-monitoring-alert-lifecycle",
           "title": "harden monitoring alert lifecycle",
           "labels": [
@@ -3460,5 +3479,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-07-13T01:40:40.589Z"
+  "updatedAt": "2026-07-20T12:48:01.808Z"
 };
