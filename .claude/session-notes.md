@@ -496,3 +496,19 @@ Drafted a privacy-scoped post about the new local home-event system, emphasizing
   they cannot cancel or test assumptions from the post-deploy lifecycle.
 
 ---
+
+## 2026-07-20
+
+Drafted "The HAR Was the Easy Part," tracing the weekly financial scrapers from
+browser-driven imports and prose orchestration to HTTP-first provider adapters,
+run-bound artifacts, guarded imports, and durable failure delivery. The most
+useful historical fact was that one early run completed all seven imports while
+only three scrapers had produced fresh data; that became the post's definition
+of the original design gap.
+
+The public-post review also caught that the financial implementation repository
+is private. The article keeps its source links to the public dotfiles history,
+generalizes provider-specific details, and excludes account data, identifiers,
+runtime paths, raw captures, and authentication material.
+
+---

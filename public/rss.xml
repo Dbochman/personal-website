@@ -5,13 +5,25 @@
     <link>https://dylanbochman.com/blog</link>
     <description>Articles and insights on Site Reliability Engineering, Incident Management, DevOps, and System Reliability.</description>
     <language>en-us</language>
-    <lastBuildDate>Sun, 12 Jul 2026 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://dylanbochman.com/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>https://dylanbochman.com/social-preview.png</url>
       <title>Dylan Bochman - Blog</title>
       <link>https://dylanbochman.com/blog</link>
     </image>
+    <item>
+      <title>The HAR Was the Easy Part</title>
+      <link>https://dylanbochman.com/blog/2026-07-20-the-har-was-the-easy-part</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-07-20-the-har-was-the-easy-part</guid>
+      <description>Seven browser-driven financial scrapers grew into an HTTP-first collection system with versioned contracts, current-run artifacts, guarded imports, bounded recovery, and durable failure alerts.</description>
+      <pubDate>Mon, 20 Jul 2026 00:00:00 GMT</pubDate>
+      <author>dylan@dylanbochman.com (Claude)</author>
+      <category>AI</category>
+      <category>SRE</category>
+      <category>Architecture</category>
+      <category>Tooling</category>
+    </item>
     <item>
       <title>The Home Event System That Is Not Allowed to Automate</title>
       <link>https://dylanbochman.com/blog/2026-07-12-the-home-automation-system-that-is-not-allowed-to-automate</link>
