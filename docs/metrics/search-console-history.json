@@ -1,37 +1,5 @@
 [
   {
-    "timestamp": "2025-07-17T00:00:00.000Z",
-    "date": "2025-07-17",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-07-11",
-      "end": "2025-07-17"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
-    "timestamp": "2025-07-18T00:00:00.000Z",
-    "date": "2025-07-18",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-07-12",
-      "end": "2025-07-18"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-07-19T00:00:00.000Z",
     "date": "2025-07-19",
     "dataState": "final",
@@ -5837,36 +5805,61 @@
       "totalImpressions": 916,
       "averageCTR": 0.33,
       "averagePosition": 9
+    }
+  },
+  {
+    "timestamp": "2026-07-17T00:00:00.000Z",
+    "date": "2026-07-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-11",
+      "end": "2026-07-17"
     },
-    "collectedAt": "2026-07-19T07:52:06.828Z",
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 819,
+      "averageCTR": 0.37,
+      "averagePosition": 8.7
+    }
+  },
+  {
+    "timestamp": "2026-07-18T00:00:00.000Z",
+    "date": "2026-07-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-12",
+      "end": "2026-07-18"
+    },
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 715,
+      "averageCTR": 0.42,
+      "averagePosition": 8.6
+    },
+    "collectedAt": "2026-07-20T08:44:54.265Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 16,
+        "rowCount": 18,
         "clicks": 0,
-        "impressions": 39,
-        "impressionShare": 4.3
+        "impressions": 40,
+        "impressionShare": 5.6
       },
       "pages": {
-        "rowCount": 11,
+        "rowCount": 10,
         "clicks": 3,
-        "impressions": 935,
-        "impressionShare": 102.1
+        "impressions": 734,
+        "impressionShare": 102.7
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 8,
         "ctr": 0,
-        "position": 5.1
-      },
-      {
-        "query": "echo nest",
-        "clicks": 0,
-        "impressions": 6,
-        "ctr": 0,
-        "position": 31.7
+        "position": 5.4
       },
       {
         "query": "decap cms hook netlify-build config docs",
@@ -5883,18 +5876,25 @@
         "position": 6.3
       },
       {
-        "query": "decap cms netlify identity git gateway docs",
+        "query": "git gateway error: please ask your site administrator to reissue the git gateway token.",
         "clicks": 0,
         "impressions": 3,
         "ctr": 0,
-        "position": 7.3
+        "position": 7.7
       },
       {
-        "query": "netlify identity git gateway decap cms official docs",
+        "query": "decap cms netlify identity git gateway setup docs",
         "clicks": 0,
         "impressions": 3,
         "ctr": 0,
-        "position": 8.3
+        "position": 8
+      },
+      {
+        "query": "echo nest",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 39.3
       },
       {
         "query": "decap cms git gateway netlify identity official docs",
@@ -5904,18 +5904,18 @@
         "position": 6
       },
       {
-        "query": "decap cms netlify identity git gateway documentation",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 6.5
-      },
-      {
-        "query": "git gateway error: please ask your site administrator to reissue the git gateway token.",
+        "query": "decap cms git gateway netlify identity documentation",
         "clicks": 0,
         "impressions": 2,
         "ctr": 0,
         "position": 8.5
+      },
+      {
+        "query": "\"entrydraftcreated\" \"decap cms\"",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 10
       },
       {
         "query": "echonest",
@@ -5929,44 +5929,44 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 2,
-        "impressions": 94,
-        "ctr": 0.02127659574468085,
-        "position": 9.5
+        "impressions": 78,
+        "ctr": 0.02564102564102564,
+        "position": 9.2
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 1,
-        "impressions": 706,
-        "ctr": 0.00141643059490085,
-        "position": 8.6
+        "impressions": 532,
+        "ctr": 0.0018796992481203006,
+        "position": 8.2
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 43,
+        "impressions": 42,
         "ctr": 0,
-        "position": 7.6
+        "position": 7.4
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
         "impressions": 30,
         "ctr": 0,
-        "position": 4.3
+        "position": 4.6
       },
       {
         "page": "https://dylanbochman.com/projects/echonest",
         "clicks": 0,
-        "impressions": 27,
+        "impressions": 20,
         "ctr": 0,
-        "position": 20.8
+        "position": 22.2
       },
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 19,
+        "impressions": 17,
         "ctr": 0,
-        "position": 6
+        "position": 3.8
       },
       {
         "page": "https://dylanbochman.com/blog/hello-world",
@@ -5990,11 +5990,11 @@
         "position": 53.5
       },
       {
-        "page": "https://dylanbochman.com/runbook/",
+        "page": "https://dylanbochman.com/projects/k8s-rightsizer",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
-        "position": 43
+        "position": 85
       }
     ]
   }
