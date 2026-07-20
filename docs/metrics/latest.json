@@ -1,27 +1,27 @@
 {
-  "generated": "2026-07-19T07:58:43.377Z",
+  "generated": "2026-07-20T08:45:30.187Z",
   "searchConsole": {
-    "lastCheck": "2026-07-19T07:52:06.828Z",
+    "lastCheck": "2026-07-20T08:44:54.265Z",
     "clicks": 3,
-    "impressions": 916,
-    "averageCTR": 0.33,
-    "averagePosition": 9
+    "impressions": 715,
+    "averageCTR": 0.42,
+    "averagePosition": 8.6
   },
   "analytics": {
-    "lastCheck": "2026-07-19T07:58:42.640Z",
-    "sessions_7d": 1023,
-    "users_7d": 1008,
-    "pageviews_7d": 1033,
+    "lastCheck": "2026-07-20T08:45:29.471Z",
+    "sessions_7d": 1025,
+    "users_7d": 1010,
+    "pageviews_7d": 1035,
     "avgSessionDuration": 19,
-    "bounceRate": 0.93,
+    "bounceRate": 0.92,
     "topPages": [
       {
         "page": "/blog",
-        "pageViews": 189
+        "pageViews": 192
       },
       {
         "page": "/",
-        "pageViews": 174
+        "pageViews": 176
       },
       {
         "page": "/runbook",
@@ -29,7 +29,7 @@
       },
       {
         "page": "/blog/2026-07-12-the-home-automation-system-that-is-not-allowed-to-automate",
-        "pageViews": 98
+        "pageViews": 100
       },
       {
         "page": "/projects",
@@ -38,26 +38,26 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-07-19T07:58:42.640Z",
+    "lastCheck": "2026-07-20T08:45:29.471Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 1517,
-        "average": 60.30454845088991,
+        "count": 1519,
+        "average": 60.39960500329164,
         "unit": "ms",
         "ratings": {
-          "good": 1507,
+          "good": 1508,
           "needs-improvement": 7,
-          "poor": 3
+          "poor": 4
         },
         "goodPercent": 99
       },
       "FCP": {
-        "count": 942,
-        "average": 304.4405520169851,
+        "count": 941,
+        "average": 302.3963868225292,
         "unit": "ms",
         "ratings": {
-          "good": 921,
+          "good": 920,
           "needs-improvement": 18,
           "poor": 3
         },
@@ -65,7 +65,7 @@
       },
       "LCP": {
         "count": 406,
-        "average": 699.0714285714286,
+        "average": 702.8251231527094,
         "unit": "ms",
         "ratings": {
           "good": 404,
@@ -76,7 +76,7 @@
       },
       "CLS": {
         "count": 401,
-        "average": 0.04312718204488778,
+        "average": 0.04302493765586035,
         "unit": "",
         "ratings": {
           "good": 308,
