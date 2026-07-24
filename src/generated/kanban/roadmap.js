@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "2026-07-24-the-state-of-being-home",
+          "title": "Blog: The State of Being Home",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-07-24T13:29:31.000Z",
+          "updatedAt": "2026-07-24T13:29:31.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-07-24T13:29:31.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "Our home presence detector evolved from fuzzy phone matching into a privacy-scoped evidence system with exact identities, explicit uncertainty, durable transitions, and staged authority."
+        },
+        {
           "id": "2026-07-20-the-har-was-the-easy-part",
           "title": "Blog: The HAR Was the Easy Part",
           "labels": [
@@ -3479,5 +3498,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-07-20T12:48:01.808Z"
+  "updatedAt": "2026-07-24T13:30:12.451Z"
 };
