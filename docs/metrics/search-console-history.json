@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-07-22T00:00:00.000Z",
-    "date": "2025-07-22",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-07-16",
-      "end": "2025-07-22"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-07-23T00:00:00.000Z",
     "date": "2025-07-23",
     "dataState": "final",
@@ -5837,19 +5821,35 @@
       "totalImpressions": 433,
       "averageCTR": 0,
       "averagePosition": 8.1
+    }
+  },
+  {
+    "timestamp": "2026-07-22T00:00:00.000Z",
+    "date": "2026-07-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-16",
+      "end": "2026-07-22"
     },
-    "collectedAt": "2026-07-24T08:11:56.369Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 394,
+      "averageCTR": 0.25,
+      "averagePosition": 8.1
+    },
+    "collectedAt": "2026-07-25T07:53:55.504Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 15,
+        "rowCount": 13,
         "clicks": 0,
-        "impressions": 34,
-        "impressionShare": 7.9
+        "impressions": 37,
+        "impressionShare": 9.4
       },
       "pages": {
         "rowCount": 12,
-        "clicks": 0,
-        "impressions": 443,
+        "clicks": 1,
+        "impressions": 403,
         "impressionShare": 102.3
       }
     },
@@ -5857,7 +5857,7 @@
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 12,
         "ctr": 0,
         "position": 5.6
       },
@@ -5897,6 +5897,20 @@
         "position": 8.5
       },
       {
+        "query": "decap cms cloudflare pages",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 11.5
+      },
+      {
+        "query": "netlify decap cms",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 15
+      },
+      {
         "query": "bochman",
         "clicks": 0,
         "impressions": 2,
@@ -5904,76 +5918,62 @@
         "position": 19.5
       },
       {
-        "query": "decap cms cloudflare pages",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 2
-      },
-      {
         "query": "decap cms netlify identity git gateway documentation",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
         "position": 5
-      },
-      {
-        "query": "decap cms git gateway editorial workflow official docs",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 6
       }
     ],
     "topPages": [
       {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
-        "clicks": 0,
-        "impressions": 319,
-        "ctr": 0,
-        "position": 8
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "clicks": 1,
+        "impressions": 43,
+        "ctr": 0.023255813953488372,
+        "position": 7.5
       },
       {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 49,
+        "impressions": 291,
         "ctr": 0,
-        "position": 8
+        "position": 8.1
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 29,
+        "impressions": 26,
         "ctr": 0,
-        "position": 7.2
+        "position": 6
       },
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 14,
+        "impressions": 16,
         "ctr": 0,
         "position": 3.2
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 14,
+        "impressions": 11,
         "ctr": 0,
-        "position": 6.6
+        "position": 7.9
       },
       {
         "page": "https://dylanbochman.com/projects/echonest",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 8,
         "ctr": 0,
-        "position": 27.1
+        "position": 28.6
       },
       {
         "page": "https://dylanbochman.com/blog/hello-world",
         "clicks": 0,
-        "impressions": 3,
+        "impressions": 2,
         "ctr": 0,
-        "position": 5.7
+        "position": 6
       },
       {
         "page": "https://dylanbochman.com/runbook/",
