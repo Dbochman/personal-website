@@ -1,37 +1,5 @@
 [
   {
-    "timestamp": "2025-07-27T00:00:00.000Z",
-    "date": "2025-07-27",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-07-21",
-      "end": "2025-07-27"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
-    "timestamp": "2025-07-28T00:00:00.000Z",
-    "date": "2025-07-28",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-07-22",
-      "end": "2025-07-28"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-07-29T00:00:00.000Z",
     "date": "2025-07-29",
     "dataState": "final",
@@ -5837,43 +5805,82 @@
       "totalImpressions": 252,
       "averageCTR": 0.4,
       "averagePosition": 8.6
+    }
+  },
+  {
+    "timestamp": "2026-07-27T00:00:00.000Z",
+    "date": "2026-07-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-21",
+      "end": "2026-07-27"
     },
-    "collectedAt": "2026-07-29T08:26:12.214Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 316,
+      "averageCTR": 0.32,
+      "averagePosition": 8.7
+    }
+  },
+  {
+    "timestamp": "2026-07-28T00:00:00.000Z",
+    "date": "2026-07-28",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-22",
+      "end": "2026-07-28"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 320,
+      "averageCTR": 0.31,
+      "averagePosition": 9.1
+    },
+    "collectedAt": "2026-07-30T08:10:55.850Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 9,
+        "rowCount": 10,
         "clicks": 0,
-        "impressions": 21,
-        "impressionShare": 8.3
+        "impressions": 18,
+        "impressionShare": 5.6
       },
       "pages": {
-        "rowCount": 12,
+        "rowCount": 13,
         "clicks": 1,
-        "impressions": 272,
-        "impressionShare": 107.9
+        "impressions": 334,
+        "impressionShare": 104.4
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 11,
+        "impressions": 7,
         "ctr": 0,
-        "position": 6.2
+        "position": 6.7
       },
       {
-        "query": "decap cms cloudflare pages",
+        "query": "decap cms netlify",
         "clicks": 0,
         "impressions": 2,
         "ctr": 0,
-        "position": 11.5
+        "position": 9.5
       },
       {
-        "query": "netlify decap cms",
+        "query": "bochman",
         "clicks": 0,
         "impressions": 2,
         "ctr": 0,
-        "position": 15
+        "position": 20.5
+      },
+      {
+        "query": "cms",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 5
       },
       {
         "query": "decap cms netlify identity git gateway official docs",
@@ -5883,6 +5890,13 @@
         "position": 7
       },
       {
+        "query": "dotfiles claude",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
+      },
+      {
         "query": "decap cms git gateway netlify identity official docs",
         "clicks": 0,
         "impressions": 1,
@@ -5890,25 +5904,11 @@
         "position": 9
       },
       {
-        "query": "git gateway error: please ask your site administrator to reissue the git gateway token.",
+        "query": "netlify decap cms",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
-        "position": 9
-      },
-      {
-        "query": "decap cms netlify",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 10
-      },
-      {
-        "query": "bochman",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 12
+        "position": 11
       },
       {
         "query": "netlify",
@@ -5916,78 +5916,85 @@
         "impressions": 1,
         "ctr": 0,
         "position": 14
+      },
+      {
+        "query": "decap cms cloudflare pages",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 21
       }
     ],
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 1,
-        "impressions": 38,
-        "ctr": 0.02631578947368421,
-        "position": 6.8
+        "impressions": 44,
+        "ctr": 0.022727272727272728,
+        "position": 6.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 187,
+        "impressions": 245,
         "ctr": 0,
-        "position": 9.6
+        "position": 10.1
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 12,
+        "impressions": 17,
         "ctr": 0,
-        "position": 3.8
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
-        "clicks": 0,
-        "impressions": 11,
-        "ctr": 0,
-        "position": 5.8
+        "position": 4.4
       },
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
         "impressions": 8,
         "ctr": 0,
-        "position": 3.9
+        "position": 4.8
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 6.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps",
         "clicks": 0,
-        "impressions": 4,
+        "impressions": 3,
         "ctr": 0,
-        "position": 11.8
+        "position": 13
       },
       {
         "page": "https://dylanbochman.com/runbook/",
         "clicks": 0,
-        "impressions": 3,
+        "impressions": 2,
         "ctr": 0,
         "position": 2
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself",
         "clicks": 0,
-        "impressions": 3,
+        "impressions": 2,
         "ctr": 0,
-        "position": 5.3
+        "position": 6
       },
       {
-        "page": "https://dylanbochman.com/projects/slo-tool/",
+        "page": "https://dylanbochman.com/projects/echonest",
         "clicks": 0,
-        "impressions": 2,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/hello-world",
+        "clicks": 0,
+        "impressions": 1,
         "ctr": 0,
         "position": 3
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-07-uptime-monitoring-for-a-personal-site/",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 6.5
       }
     ]
   }
