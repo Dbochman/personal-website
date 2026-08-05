@@ -1,23 +1,23 @@
 {
-  "generated": "2026-08-04T08:25:27.053Z",
+  "generated": "2026-08-05T08:24:03.700Z",
   "searchConsole": {
-    "lastCheck": "2026-08-04T08:24:46.529Z",
+    "lastCheck": "2026-08-05T08:23:16.805Z",
     "clicks": 0,
     "impressions": 316,
     "averageCTR": 0,
     "averagePosition": 10
   },
   "analytics": {
-    "lastCheck": "2026-08-04T08:25:26.311Z",
-    "sessions_7d": 353,
-    "users_7d": 350,
-    "pageviews_7d": 361,
+    "lastCheck": "2026-08-05T08:24:03.139Z",
+    "sessions_7d": 359,
+    "users_7d": 356,
+    "pageviews_7d": 367,
     "avgSessionDuration": 18,
     "bounceRate": 0.86,
     "topPages": [
       {
         "page": "/blog",
-        "pageViews": 89
+        "pageViews": 94
       },
       {
         "page": "/",
@@ -38,37 +38,37 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-08-04T08:25:26.311Z",
+    "lastCheck": "2026-08-05T08:24:03.139Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 539,
-        "average": 109.35250463821892,
+        "count": 545,
+        "average": 109.72293577981651,
         "unit": "ms",
         "ratings": {
-          "good": 529,
+          "good": 535,
           "needs-improvement": 5,
           "poor": 5
         },
         "goodPercent": 98
       },
       "FCP": {
-        "count": 301,
-        "average": 305.40199335548175,
+        "count": 302,
+        "average": 312.1092715231788,
         "unit": "ms",
         "ratings": {
           "good": 294,
-          "needs-improvement": 7,
+          "needs-improvement": 8,
           "poor": 0
         },
-        "goodPercent": 98
+        "goodPercent": 97
       },
       "LCP": {
-        "count": 106,
-        "average": 817.1792452830189,
+        "count": 107,
+        "average": 816.9345794392524,
         "unit": "ms",
         "ratings": {
-          "good": 106,
+          "good": 107,
           "needs-improvement": 0,
           "poor": 0
         },
@@ -76,7 +76,7 @@
       },
       "CLS": {
         "count": 104,
-        "average": 0.03676923076923077,
+        "average": 0.036557692307692305,
         "unit": "",
         "ratings": {
           "good": 82,
