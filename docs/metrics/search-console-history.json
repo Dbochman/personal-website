@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-08-05T00:00:00.000Z",
-    "date": "2025-08-05",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-07-30",
-      "end": "2025-08-05"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-08-06T00:00:00.000Z",
     "date": "2025-08-06",
     "dataState": "final",
@@ -5837,36 +5821,52 @@
       "totalImpressions": 276,
       "averageCTR": 0,
       "averagePosition": 9.7
+    }
+  },
+  {
+    "timestamp": "2026-08-05T00:00:00.000Z",
+    "date": "2026-08-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-30",
+      "end": "2026-08-05"
     },
-    "collectedAt": "2026-08-07T07:02:38.477Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 297,
+      "averageCTR": 0.34,
+      "averagePosition": 9.9
+    },
+    "collectedAt": "2026-08-08T06:37:42.664Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 9,
+        "rowCount": 10,
         "clicks": 0,
-        "impressions": 24,
-        "impressionShare": 8.7
+        "impressions": 26,
+        "impressionShare": 8.8
       },
       "pages": {
-        "rowCount": 11,
-        "clicks": 0,
-        "impressions": 288,
-        "impressionShare": 104.3
+        "rowCount": 12,
+        "clicks": 1,
+        "impressions": 309,
+        "impressionShare": 104
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 10,
+        "impressions": 13,
         "ctr": 0,
-        "position": 6.8
+        "position": 6.6
       },
       {
         "query": "decap cms netlify",
         "clicks": 0,
-        "impressions": 6,
+        "impressions": 4,
         "ctr": 0,
-        "position": 11.7
+        "position": 8.3
       },
       {
         "query": "decap cms formerly netlify cms",
@@ -5897,6 +5897,13 @@
         "position": 7
       },
       {
+        "query": "decap cms registereventlistener presave documentation",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
+      },
+      {
         "query": "claude dotfiles",
         "clicks": 0,
         "impressions": 1,
@@ -5920,39 +5927,46 @@
     ],
     "topPages": [
       {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
-        "clicks": 0,
-        "impressions": 203,
-        "ctr": 0,
-        "position": 10.7
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "clicks": 1,
+        "impressions": 34,
+        "ctr": 0.029411764705882353,
+        "position": 9
       },
       {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 40,
+        "impressions": 223,
         "ctr": 0,
-        "position": 8.4
+        "position": 10.6
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 15,
+        "impressions": 21,
         "ctr": 0,
-        "position": 6.1
+        "position": 6.2
       },
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 11,
+        "impressions": 9,
         "ctr": 0,
-        "position": 3.3
+        "position": 3.6
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 8,
+        "impressions": 7,
         "ctr": 0,
-        "position": 3.5
+        "position": 2.6
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps",
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 23
       },
       {
         "page": "https://dylanbochman.com/blog",
@@ -5969,11 +5983,11 @@
         "position": 6.5
       },
       {
-        "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps",
+        "page": "https://dylanbochman.com/blog/2026-01-21-the-slo-math-most-teams-get-wrong/",
         "clicks": 0,
-        "impressions": 2,
+        "impressions": 1,
         "ctr": 0,
-        "position": 21
+        "position": 1
       },
       {
         "page": "https://dylanbochman.com/runbook/",
@@ -5981,13 +5995,6 @@
         "impressions": 1,
         "ctr": 0,
         "position": 2
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 4
       }
     ]
   }
