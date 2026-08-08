@@ -1,229 +1,5 @@
 [
   {
-    "timestamp": "2026-05-10T06:48:49.907Z",
-    "date": "2026-05-10",
-    "period": {
-      "description": "Last 7 days"
-    },
-    "summary": {
-      "sessions": 126,
-      "users": 117,
-      "pageViews": 116,
-      "averageSessionDuration": 28,
-      "bounceRate": 0.6
-    },
-    "topPages": [
-      {
-        "page": "/blog/",
-        "sessions": 41,
-        "users": 41,
-        "pageViews": 42
-      },
-      {
-        "page": "/",
-        "sessions": 28,
-        "users": 25,
-        "pageViews": 28
-      },
-      {
-        "page": "/blog",
-        "sessions": 9,
-        "users": 8,
-        "pageViews": 7
-      },
-      {
-        "page": "/runbook",
-        "sessions": 7,
-        "users": 7,
-        "pageViews": 7
-      },
-      {
-        "page": "/blog/2026-04-30-two-supply-chain-attacks-in-one-day",
-        "sessions": 6,
-        "users": 6,
-        "pageViews": 6
-      },
-      {
-        "page": "/this-page-does-not-exist",
-        "sessions": 4,
-        "users": 4,
-        "pageViews": 4
-      },
-      {
-        "page": "/runbook/",
-        "sessions": 3,
-        "users": 3,
-        "pageViews": 3
-      },
-      {
-        "page": "/projects",
-        "sessions": 7,
-        "users": 4,
-        "pageViews": 2
-      },
-      {
-        "page": "/blog/2025-01-05-notes-on-building-this-site-together",
-        "sessions": 2,
-        "users": 2,
-        "pageViews": 2
-      },
-      {
-        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development/",
-        "sessions": 2,
-        "users": 2,
-        "pageViews": 2
-      }
-    ],
-    "deviceBreakdown": [
-      {
-        "device": "mobile",
-        "sessions": 55,
-        "users": 55
-      },
-      {
-        "device": "desktop",
-        "sessions": 71,
-        "users": 62
-      }
-    ],
-    "trafficSources": {
-      "channels": [
-        {
-          "channel": "Direct",
-          "sessions": 104,
-          "users": 104
-        },
-        {
-          "channel": "Referral",
-          "sessions": 5,
-          "users": 2
-        },
-        {
-          "channel": "Organic Search",
-          "sessions": 2,
-          "users": 2
-        },
-        {
-          "channel": "Organic Social",
-          "sessions": 2,
-          "users": 2
-        }
-      ],
-      "sources": [
-        {
-          "source": "(direct)",
-          "medium": "(none)",
-          "sessions": 104,
-          "users": 104
-        },
-        {
-          "source": "giscus.app",
-          "medium": "referral",
-          "sessions": 4,
-          "users": 1
-        },
-        {
-          "source": "google",
-          "medium": "organic",
-          "sessions": 2,
-          "users": 2
-        },
-        {
-          "source": "t.co",
-          "medium": "referral",
-          "sessions": 2,
-          "users": 2
-        },
-        {
-          "source": "github.com",
-          "medium": "referral",
-          "sessions": 1,
-          "users": 1
-        }
-      ]
-    },
-    "webVitals": {
-      "TTFB": {
-        "count": 67,
-        "average": 142,
-        "unit": "ms",
-        "ratings": {
-          "good": 67,
-          "needs-improvement": 0,
-          "poor": 0
-        },
-        "goodPercent": 100
-      },
-      "FCP": {
-        "count": 30,
-        "average": 1116.4666666666667,
-        "unit": "ms",
-        "ratings": {
-          "good": 27,
-          "needs-improvement": 1,
-          "poor": 2
-        },
-        "goodPercent": 90
-      },
-      "CLS": {
-        "count": 12,
-        "average": 0.0014166666666666668,
-        "unit": "",
-        "ratings": {
-          "good": 12,
-          "needs-improvement": 0,
-          "poor": 0
-        },
-        "goodPercent": 100
-      },
-      "LCP": {
-        "count": 11,
-        "average": 881.5454545454545,
-        "unit": "ms",
-        "ratings": {
-          "good": 10,
-          "needs-improvement": 0,
-          "poor": 1
-        },
-        "goodPercent": 91
-      },
-      "INP": {
-        "count": 9,
-        "average": 173.33333333333334,
-        "unit": "ms",
-        "ratings": {
-          "good": 8,
-          "needs-improvement": 0,
-          "poor": 1
-        },
-        "goodPercent": 89
-      }
-    },
-    "toolInteractions": {
-      "total": 28,
-      "byTool": [
-        {
-          "name": "cli_playground",
-          "total": 28,
-          "actions": [
-            {
-              "action": "command_run",
-              "count": 18
-            },
-            {
-              "action": "tool_select",
-              "count": 8
-            },
-            {
-              "action": "preset_select",
-              "count": 2
-            }
-          ]
-        }
-      ]
-    }
-  },
-  {
     "timestamp": "2026-05-11T07:09:28.123Z",
     "date": "2026-05-11",
     "period": {
@@ -21644,6 +21420,365 @@
         "unit": "ms",
         "ratings": {
           "good": 6,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      }
+    },
+    "toolInteractions": null
+  },
+  {
+    "timestamp": "2026-08-08T06:38:14.372Z",
+    "date": "2026-08-08",
+    "period": {
+      "description": "Last 7 completed days",
+      "startDate": "2026-07-31",
+      "endDate": "2026-08-06",
+      "windowDays": 7,
+      "dataState": "finalized"
+    },
+    "summary": {
+      "sessions": 351,
+      "users": 349,
+      "pageViews": 348,
+      "averageSessionDuration": 16,
+      "bounceRate": 0.87
+    },
+    "topPages": [
+      {
+        "page": "/blog",
+        "sessions": 87,
+        "users": 87,
+        "pageViews": 87
+      },
+      {
+        "page": "/",
+        "sessions": 56,
+        "users": 56,
+        "pageViews": 56
+      },
+      {
+        "page": "/runbook",
+        "sessions": 41,
+        "users": 41,
+        "pageViews": 41
+      },
+      {
+        "page": "/projects",
+        "sessions": 25,
+        "users": 25,
+        "pageViews": 24
+      },
+      {
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+        "sessions": 24,
+        "users": 24,
+        "pageViews": 24
+      },
+      {
+        "page": "/projects/oncall-coverage",
+        "sessions": 24,
+        "users": 24,
+        "pageViews": 24
+      },
+      {
+        "page": "/projects/slo-tool",
+        "sessions": 24,
+        "users": 24,
+        "pageViews": 24
+      },
+      {
+        "page": "/projects/statuspage-update",
+        "sessions": 24,
+        "users": 24,
+        "pageViews": 24
+      },
+      {
+        "page": "/blog/2026-07-24-the-state-of-being-home",
+        "sessions": 20,
+        "users": 20,
+        "pageViews": 20
+      },
+      {
+        "page": "/this-page-does-not-exist",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
+      }
+    ],
+    "deviceBreakdown": [
+      {
+        "device": "mobile",
+        "sessions": 239,
+        "users": 239
+      },
+      {
+        "device": "desktop",
+        "sessions": 112,
+        "users": 110
+      }
+    ],
+    "trafficSources": {
+      "channels": [
+        {
+          "channel": "Direct",
+          "sessions": 340,
+          "users": 339
+        },
+        {
+          "channel": "Organic Search",
+          "sessions": 5,
+          "users": 5
+        },
+        {
+          "channel": "AI Assistant",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "channel": "Organic Social",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "channel": "Unassigned",
+          "sessions": 1,
+          "users": 1
+        }
+      ],
+      "sources": [
+        {
+          "source": "(direct)",
+          "medium": "(none)",
+          "sessions": 340,
+          "users": 339
+        },
+        {
+          "source": "duckduckgo",
+          "medium": "organic",
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "source": "chatgpt.com",
+          "medium": "ai-assistant",
+          "sessions": 2,
+          "users": 1
+        },
+        {
+          "source": "google",
+          "medium": "organic",
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "source": "t.co",
+          "medium": "referral",
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "source": "(not set)",
+          "medium": "(not set)",
+          "sessions": 1,
+          "users": 1
+        }
+      ]
+    },
+    "dailySessions": [
+      {
+        "date": "2026-07-08",
+        "sessions": 40
+      },
+      {
+        "date": "2026-07-09",
+        "sessions": 40
+      },
+      {
+        "date": "2026-07-10",
+        "sessions": 44
+      },
+      {
+        "date": "2026-07-11",
+        "sessions": 40
+      },
+      {
+        "date": "2026-07-12",
+        "sessions": 698
+      },
+      {
+        "date": "2026-07-13",
+        "sessions": 107
+      },
+      {
+        "date": "2026-07-14",
+        "sessions": 42
+      },
+      {
+        "date": "2026-07-15",
+        "sessions": 37
+      },
+      {
+        "date": "2026-07-16",
+        "sessions": 39
+      },
+      {
+        "date": "2026-07-17",
+        "sessions": 45
+      },
+      {
+        "date": "2026-07-18",
+        "sessions": 42
+      },
+      {
+        "date": "2026-07-19",
+        "sessions": 64
+      },
+      {
+        "date": "2026-07-20",
+        "sessions": 131
+      },
+      {
+        "date": "2026-07-21",
+        "sessions": 43
+      },
+      {
+        "date": "2026-07-22",
+        "sessions": 41
+      },
+      {
+        "date": "2026-07-23",
+        "sessions": 11
+      },
+      {
+        "date": "2026-07-24",
+        "sessions": 106
+      },
+      {
+        "date": "2026-07-25",
+        "sessions": 40
+      },
+      {
+        "date": "2026-07-26",
+        "sessions": 65
+      },
+      {
+        "date": "2026-07-27",
+        "sessions": 55
+      },
+      {
+        "date": "2026-07-28",
+        "sessions": 40
+      },
+      {
+        "date": "2026-07-29",
+        "sessions": 40
+      },
+      {
+        "date": "2026-07-30",
+        "sessions": 47
+      },
+      {
+        "date": "2026-07-31",
+        "sessions": 45
+      },
+      {
+        "date": "2026-08-01",
+        "sessions": 56
+      },
+      {
+        "date": "2026-08-02",
+        "sessions": 64
+      },
+      {
+        "date": "2026-08-03",
+        "sessions": 61
+      },
+      {
+        "date": "2026-08-04",
+        "sessions": 35
+      },
+      {
+        "date": "2026-08-05",
+        "sessions": 43
+      },
+      {
+        "date": "2026-08-06",
+        "sessions": 46
+      }
+    ],
+    "sessionAnomaly": {
+      "status": "normal",
+      "isAnomaly": false,
+      "severity": null,
+      "reason": "Latest sessions are within guarded thresholds",
+      "message": "Sessions normal on 2026-08-06: 46 vs same-weekday median 39.5",
+      "observedDate": "2026-08-06",
+      "observedSessions": 46,
+      "baselineSessions": 39.5,
+      "baselineDates": [
+        "2026-07-30",
+        "2026-07-23",
+        "2026-07-16",
+        "2026-07-09"
+      ],
+      "absoluteDrop": -6.5,
+      "percentageDrop": -16.5,
+      "confidence": "high",
+      "basis": "human-sessions"
+    },
+    "webVitals": {
+      "TTFB": {
+        "count": 525,
+        "average": 98.53904761904762,
+        "unit": "ms",
+        "ratings": {
+          "good": 518,
+          "needs-improvement": 2,
+          "poor": 5
+        },
+        "goodPercent": 99
+      },
+      "FCP": {
+        "count": 286,
+        "average": 298.3181818181818,
+        "unit": "ms",
+        "ratings": {
+          "good": 280,
+          "needs-improvement": 6,
+          "poor": 0
+        },
+        "goodPercent": 98
+      },
+      "LCP": {
+        "count": 90,
+        "average": 845.8888888888889,
+        "unit": "ms",
+        "ratings": {
+          "good": 90,
+          "needs-improvement": 0,
+          "poor": 0
+        },
+        "goodPercent": 100
+      },
+      "CLS": {
+        "count": 84,
+        "average": 0.04964285714285715,
+        "unit": "",
+        "ratings": {
+          "good": 60,
+          "needs-improvement": 24,
+          "poor": 0
+        },
+        "goodPercent": 71
+      },
+      "INP": {
+        "count": 5,
+        "average": 35.2,
+        "unit": "ms",
+        "ratings": {
+          "good": 5,
           "needs-improvement": 0,
           "poor": 0
         },
