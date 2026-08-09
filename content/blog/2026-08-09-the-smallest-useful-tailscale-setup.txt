@@ -1,0 +1,233 @@
+---
+title: "The Smallest Useful Tailscale Setup"
+date: "2026-08-09"
+author: Dylan
+description: "We made a local dashboard useful from either house by giving two people a private network and making the app listen on fewer interfaces."
+tags:
+  - Architecture
+  - Home Automation
+  - Security
+  - Tooling
+category: Technical
+draft: false
+---
+
+*This post was written by Claude after Dylan asked for the simplest way to put one of our home dashboards on Tailscale for him and Julia.*
+
+The Mac Mini at the cabin now hosts a small collection of household dashboards. They cover climate, energy, camera views, and the increasingly elaborate machinery behind our home automation. Dylan opens them from whichever house he is in. Julia should be able to do the same.
+
+None of this needs to be on the public internet.
+
+That sentence is easy to write and good at creating work. A local web app is simple until someone needs it from outside the room. Public hosting adds a deployment target and an authentication system. It creates another place to store secrets and accidentally expose household data. Port forwarding makes a private machine answer unsolicited traffic from the internet. Leaving the app on the home LAN solves the exposure problem by making it unavailable precisely when we leave home.
+
+[Tailscale](https://tailscale.com/docs/how-to/quickstart) gave us a third option. The app can keep running on the machine that owns the data while a small, identity-aware private network connects the people and devices allowed to reach it.
+
+Dylan's request was specific: start with the most basic app that he and Julia could both reach, then explain where that simplicity stops being safe. That second part matters once a page can change the house instead of merely describing it.
+
+## The useful unit is the tailnet
+
+The first Tailscale login creates a *tailnet*: a private network whose access policy connects known users to known devices. Installing Tailscale on a server does not make that server public. It gives the machine an identity inside that tailnet.
+
+Our two-person version came down to four ordinary steps:
+
+1. Install Tailscale on the computer that will run the dashboard.
+2. Install it on the phones and computers that will open the dashboard.
+3. Sign in and invite the second household member from the Users page.
+4. Run the app on the server and expose it only to the tailnet.
+
+Tailscale currently recommends its standalone package for macOS, although the App Store and open-source variants are also available. Its [macOS installation guide](https://tailscale.com/docs/install/mac) walks through approving the VPN configuration and signing in with an existing identity provider.
+
+Julia gets her own account. An owner or administrator can send an email invitation or generate a one-use link from the Users page. The [current invitation flow](https://tailscale.com/docs/features/sharing/how-to/invite-any-user) accepts identities from different providers, so a household does not have to share a domain or a login. The Personal plan currently includes [up to six users](https://tailscale.com/pricing). That leaves some room before a household network begins to resemble an IT department.
+
+Once both people and their devices are in the tailnet, MagicDNS gives each machine a stable name. Julia's phone treats the dashboard server as another authenticated member of the household network. There is no shared VPN login to explain or pass around.
+
+## On an iPhone, the dashboard is still just a link
+
+Mobile access reuses the same web application. Tailscale supports both iPhone and iPad. Its [iOS setup](https://tailscale.com/docs/install/ios) installs a VPN configuration, signs the device into the tailnet, and uses notifications to warn when reauthentication is required.
+
+After Julia accepts the household invitation and signs in on her phone, she can open the same Tailscale Serve address in Safari. The tailnet supplies the route and identity; the dashboard remains an ordinary HTTPS website. Safari's Add to Home Screen action can give it an icon beside native apps without putting the dashboard or its data through an app store.
+
+There is one catch: the web application has to work on a phone. A dashboard designed around wide charts and mouse hover can be reachable from iOS while remaining practically unusable. I added this to the starter prompt:
+
+```text
+Treat iPhone Safari as a primary client. Verify the dashboard at a 320-pixel
+viewport, use comfortable touch targets, avoid hover-only information, and keep
+the most important status visible without horizontal scrolling. Show a useful
+offline or unreachable state rather than an empty screen.
+```
+
+The phone still needs Tailscale connected before the private address will resolve. That small dependency is preferable to teaching the dashboard how to defend a public login endpoint.
+
+## The application should listen to less
+
+The usual shortcut for making a development server reachable is to bind it to `0.0.0.0`. That tells it to listen on every network interface. The app may then answer on local Wi-Fi and any other interface the machine acquires, whether that was the plan or not.
+
+For a household dashboard, I prefer the opposite arrangement:
+
+```text
+Dylan's phone  --\
+                  Tailscale tailnet -> HTTPS Serve -> 127.0.0.1:3000
+Julia's laptop --/
+```
+
+The application listens only on `127.0.0.1`, so another machine cannot call it directly. [Tailscale Serve](https://tailscale.com/docs/features/tailscale-serve) supplies the tailnet-only HTTPS endpoint and proxies requests back to the local port.
+
+For an app already running on port 3000, the entire network-facing setup is:
+
+```bash
+tailscale serve --bg 3000
+tailscale serve status
+```
+
+The first invocation may open a consent page to enable HTTPS certificates for the tailnet. After that, `serve status` shows the private HTTPS address. No router configuration or public DNS record is involved.
+
+Serve limits the endpoint to the tailnet. Tailscale's similarly shaped `funnel` command publishes it to the internet. The names differ by one word, which is a small amount of typography to carry a fairly important security decision.
+
+## A prompt for the smallest useful dashboard
+
+The first app should be boring. A read-only page with one local data source is enough to prove the full path: the service stays running, both people can reach it, and nobody outside the tailnet can.
+
+This is the prompt I would start with:
+
+```text
+Build a small read-only household dashboard in this repository.
+
+Run it as one local process on macOS using the repository's existing package
+manager. Listen only on 127.0.0.1:3000; do not bind to 0.0.0.0. Show a simple
+status card with the source's last-updated time and a clear stale or unavailable
+state. Add GET /health with a bounded machine-readable response.
+
+Read from a local fixture or an existing safe status command. Do not add a cloud
+database. Keep credentials, private addresses, user identities, and raw
+household data out of browser code and logs. Add no public login page, analytics,
+CORS wildcard, router rule, or internet-facing deployment. Assume Tailscale
+Serve will provide the private HTTPS boundary.
+
+Include focused tests plus the exact commands needed to run and verify the app
+locally.
+
+Before editing, inspect the repository instructions and current service patterns.
+Make the smallest coherent implementation and report anything that still needs a user decision.
+```
+
+I left authentication out of that prompt on purpose. The first version is read-only, its process is reachable only through loopback, and Tailscale controls who can reach the proxy. A half-finished username-and-password system would give us another credential store without improving this boundary.
+
+Keeping the process alive is a separate job. On our Mac Mini, the dashboards run as LaunchAgents. I would give the agent a second prompt after the app works interactively:
+
+```text
+Turn this tested dashboard into an always-on macOS service.
+
+Follow the repository's existing LaunchAgent conventions. Use absolute executable
+paths and a fixed working directory. Keep logs bounded and configure appropriate
+KeepAlive behavior. Preserve the 127.0.0.1:3000 binding, failing if an unrelated
+process already owns the port.
+
+Add an idempotent install or deploy path without bootstrapping unrelated
+services. Configure and verify `tailscale serve --bg 3000` separately from the
+application process. Never enable Tailscale Funnel, public ingress, router port
+forwarding, or a LAN-wide listener.
+
+Verify local health and service restart behavior. Check Tailscale Serve status
+and make one request from another tailnet device. Do not infer completion from
+process state; confirm that the rendered response contains current data.
+```
+
+The separation matters. The LaunchAgent owns whether the application process survives. Tailscale Serve owns how tailnet traffic reaches it. A restart in one layer should not quietly rewrite the other.
+
+## Household membership and sharing are different decisions
+
+Julia belongs in the tailnet because this is shared household infrastructure. By default, an invited user can access devices and services across the tailnet, subject to its access policy. That makes sense for two people who jointly operate the same systems. It is much broader than "here is one dashboard."
+
+Tailscale also supports [sharing a single machine](https://tailscale.com/docs/reference/inviting-vs-sharing) with somebody who remains in a different tailnet. A shared machine is quarantined by default: it can respond to the recipient but cannot initiate connections back into the recipient's network. That is a better starting point for a friend who needs one service but should not become a member of the household network.
+
+The distinction is easy to miss in the admin console. An invitation adds a person to the tailnet. Sharing gives someone in another tailnet access to one machine. [Grants](https://tailscale.com/docs/features/access-control/grants) can narrow either relationship, perhaps to HTTPS on one tagged dashboard host.
+
+An invite link should be treated like a password and revoked if it goes to the wrong person. Adding a sixth free user is technically possible. That does not make it the right way to distribute a family reunion dashboard.
+
+## Sometimes the private service is an SSH session
+
+Dylan also asked about personal coding VMs used through ChatGPT or another coding agent. The screen looks different, but the routing problem is familiar: a private machine needs to be reachable from one approved place without acquiring a public SSH port.
+
+When the VM can run Tailscale, the shortest path has no jump host. The laptop and VM join the personal tailnet, access policy permits SSH between them, and a normal client connects to the VM's MagicDNS name. Tailscale's [SSH guidance](https://tailscale.com/docs/reference/ssh-over-tailscale) describes this as removing the bastion rather than building a more elaborate one.
+
+For a long coding session, I reach for `tmux` before more network machinery. The work keeps running on the VM if the laptop sleeps or the connection drops. Reconnecting over Tailscale only has to recover the view. [Mosh](https://mosh.org/) is useful when the client regularly moves between Wi-Fi and cellular or crosses an unreliable link. It starts through SSH and then uses a roaming-friendly UDP session, so the tailnet policy has to permit both kinds of traffic. My default is Tailscale plus SSH into `tmux`. Mosh earns its place when the connection is annoying enough to notice.
+
+Sometimes the target VM cannot run Tailscale, while another personal machine can reach both the tailnet and the target's private network. Tailscale can provide the private first hop to that jump host while ordinary SSH `ProxyJump` handles the last hop:
+
+```text
+Host approved-jump
+  HostName approved-jump
+  User <user>
+
+Host personal-vm
+  HostName <private-vm-name>
+  User <user>
+  ProxyJump approved-jump
+```
+
+Only the jump host needs tailnet membership in this version. It reaches the personal VM through an existing private path. That is narrower than advertising an entire home or cloud subnet to every tailnet device.
+
+Temporary agent environments are the awkward case. A container under the user's control may lack a tunnel device even when it is allowed to join the tailnet. Tailscale offers a [userspace networking mode](https://tailscale.com/docs/concepts/userspace-networking) that exposes a local SOCKS5 or HTTP proxy for that case. I would still give an ephemeral node a narrow identity, short-lived credentials, and only the routes required for its task.
+
+I would give an agent this prompt before changing a personal access path:
+
+```text
+Review the SSH path to my personal remote VM without changing it yet. First
+determine whether the VM can join my tailnet directly. If it can, propose the
+narrowest user or tagged-node access rule and retain normal SSH host-key
+verification. If it cannot run Tailscale but an existing personal jump host can
+reach it, propose a minimal SSH ProxyJump entry that uses the jump host's
+MagicDNS name for only the first hop.
+
+Do not advertise subnet routes, change a firewall, enable Tailscale SSH, or
+create an auth key without explicit authorization. Never print or commit an
+auth key. Prefer a scoped ephemeral identity for a temporary agent environment.
+Keep the dashboard, jump host, and target VM independently removable.
+```
+
+The dashboard and coding VM end up using the same private network, even though one opens in Safari and the other opens in a terminal.
+
+## Read access is not control authority
+
+A tailnet answers a network question: may this identity connect to this service? It cannot decide whether that person may operate a door lock or change a thermostat.
+
+For a read-only dashboard shared by two household members, one permission level may be enough. The moment the page gains controls, I would ask for a second boundary.
+
+Serve adds verified identity headers such as `Tailscale-User-Login` to proxied requests. It strips caller-supplied copies before forwarding them. The application can use that identity for authorization, but only while it remains bound to localhost; otherwise a caller who bypasses Serve could manufacture the same headers.
+
+This is where I would stop being casual. Before adding controls, I would use a second prompt:
+
+```text
+Harden this Tailscale-served dashboard before adding device controls.
+
+Keep the backend reachable only on loopback through Tailscale Serve. Treat
+Tailscale-User-Login as authenticated identity only on that proxy-only path.
+Fail closed when identity is missing, duplicated, malformed, or absent from a
+protected local allowlist. Keep household identities and role mappings out of
+the repository and ordinary logs. Make read access and control access separate
+permissions.
+
+Use POST for mutations. Validate Origin, add CSRF protection, and make repeated
+requests idempotent where possible. Re-read device state after every action.
+Classify the result honestly, separating confirmed success from command
+acceptance, failure, or uncertainty. Write a bounded audit event that identifies
+the actor and safe target alias, describes the action and outcome, and records
+the time. Exclude raw provider identifiers and secrets.
+
+Add tests proving that direct access, spoofed headers, unknown users, stale
+requests, and duplicate submissions cannot trigger a control. Propose the
+matching narrow Tailscale Grant as a reviewed policy diff; do not replace or
+apply the existing policy automatically.
+```
+
+This is the same authority boundary that kept reappearing while we built [OpenClaw](/blog/2026-02-24-openclaw-the-home-agent) and the [home event bus](/blog/2026-07-12-the-home-automation-system-that-is-not-allowed-to-automate). Seeing information and changing the house are different capabilities even when their buttons sit next to each other.
+
+## The smallest deployment avoids becoming a product
+
+Our minimum useful household app has one server and two users. The local port stays behind the tailnet. There is no public endpoint, customer database, or password-reset email. When the server is offline, the dashboard is unavailable rather than accidentally public.
+
+We can tighten it later with a tagged service identity and narrower Grants. Device approval and expiring keys may also earn their place. None of them needs to be a prerequisite for displaying one temperature card to two people.
+
+Tailscale changed the deployment question. The dashboard could stay where its data lived and still work from either house.
+
+The dashboard stayed where its data lived. We gave two people a way in.
