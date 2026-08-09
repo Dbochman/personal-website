@@ -1,37 +1,5 @@
 [
   {
-    "timestamp": "2025-08-06T00:00:00.000Z",
-    "date": "2025-08-06",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-07-31",
-      "end": "2025-08-06"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
-    "timestamp": "2025-08-07T00:00:00.000Z",
-    "date": "2025-08-07",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-08-01",
-      "end": "2025-08-07"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-08-08T00:00:00.000Z",
     "date": "2025-08-08",
     "dataState": "final",
@@ -5837,43 +5805,75 @@
       "totalImpressions": 297,
       "averageCTR": 0.34,
       "averagePosition": 9.9
+    }
+  },
+  {
+    "timestamp": "2026-08-06T00:00:00.000Z",
+    "date": "2026-08-06",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-07-31",
+      "end": "2026-08-06"
     },
-    "collectedAt": "2026-08-08T06:37:42.664Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 287,
+      "averageCTR": 0.35,
+      "averagePosition": 9.5
+    }
+  },
+  {
+    "timestamp": "2026-08-07T00:00:00.000Z",
+    "date": "2026-08-07",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-08-01",
+      "end": "2026-08-07"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 307,
+      "averageCTR": 0.33,
+      "averagePosition": 9.3
+    },
+    "collectedAt": "2026-08-09T06:31:55.710Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 10,
+        "rowCount": 9,
         "clicks": 0,
-        "impressions": 26,
-        "impressionShare": 8.8
+        "impressions": 21,
+        "impressionShare": 6.8
       },
       "pages": {
-        "rowCount": 12,
+        "rowCount": 10,
         "clicks": 1,
-        "impressions": 309,
-        "impressionShare": 104
+        "impressions": 317,
+        "impressionShare": 103.3
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 13,
+        "impressions": 11,
         "ctr": 0,
-        "position": 6.6
+        "position": 6.9
+      },
+      {
+        "query": "\"entrydraftcreated\" \"decap cms\"",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 6.5
       },
       {
         "query": "decap cms netlify",
         "clicks": 0,
-        "impressions": 4,
-        "ctr": 0,
-        "position": 8.3
-      },
-      {
-        "query": "decap cms formerly netlify cms",
-        "clicks": 0,
         "impressions": 2,
         "ctr": 0,
-        "position": 25.5
+        "position": 8
       },
       {
         "query": "decap cms hook netlify-build",
@@ -5888,13 +5888,6 @@
         "impressions": 1,
         "ctr": 0,
         "position": 4
-      },
-      {
-        "query": "\"entrydraftcreated\" \"decap cms\"",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 7
       },
       {
         "query": "decap cms registereventlistener presave documentation",
@@ -5929,51 +5922,51 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 1,
-        "impressions": 34,
-        "ctr": 0.029411764705882353,
-        "position": 9
+        "impressions": 41,
+        "ctr": 0.024390243902439025,
+        "position": 8.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 223,
+        "impressions": 220,
         "ctr": 0,
-        "position": 10.6
+        "position": 9.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 21,
+        "impressions": 26,
         "ctr": 0,
-        "position": 6.2
+        "position": 6
       },
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 8,
         "ctr": 0,
-        "position": 3.6
+        "position": 3.5
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
         "impressions": 7,
         "ctr": 0,
-        "position": 2.6
+        "position": 2.1
+      },
+      {
+        "page": "https://dylanbochman.com/blog",
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 4.7
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps",
         "clicks": 0,
         "impressions": 5,
         "ctr": 0,
-        "position": 23
-      },
-      {
-        "page": "https://dylanbochman.com/blog",
-        "clicks": 0,
-        "impressions": 4,
-        "ctr": 0,
-        "position": 4.8
+        "position": 25
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
@@ -5990,11 +5983,11 @@
         "position": 1
       },
       {
-        "page": "https://dylanbochman.com/runbook/",
+        "page": "https://dylanbochman.com/projects/slo-tool",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
-        "position": 2
+        "position": 46
       }
     ]
   }
