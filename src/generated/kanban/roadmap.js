@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "2026-08-09-the-smallest-useful-tailscale-setup",
+          "title": "Blog: The Smallest Useful Tailscale Setup",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-08-09T14:09:57.000Z",
+          "updatedAt": "2026-08-09T14:09:57.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-08-09T14:09:57.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "We made a local dashboard useful from either house by giving two people a private network and making the app listen on fewer interfaces."
+        },
+        {
           "id": "2026-07-24-the-state-of-being-home",
           "title": "Blog: The State of Being Home",
           "labels": [
@@ -3498,5 +3517,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-07-24T13:30:12.451Z"
+  "updatedAt": "2026-08-09T14:10:52.104Z"
 };
