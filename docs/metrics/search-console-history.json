@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-08-08T00:00:00.000Z",
-    "date": "2025-08-08",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-08-02",
-      "end": "2025-08-08"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-08-09T00:00:00.000Z",
     "date": "2025-08-09",
     "dataState": "final",
@@ -5837,20 +5821,36 @@
       "totalImpressions": 307,
       "averageCTR": 0.33,
       "averagePosition": 9.3
+    }
+  },
+  {
+    "timestamp": "2026-08-08T00:00:00.000Z",
+    "date": "2026-08-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-08-02",
+      "end": "2026-08-08"
     },
-    "collectedAt": "2026-08-09T06:31:55.710Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 307,
+      "averageCTR": 0.33,
+      "averagePosition": 8.5
+    },
+    "collectedAt": "2026-08-10T07:15:39.993Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 9,
+        "rowCount": 8,
         "clicks": 0,
-        "impressions": 21,
-        "impressionShare": 6.8
+        "impressions": 20,
+        "impressionShare": 6.5
       },
       "pages": {
         "rowCount": 10,
         "clicks": 1,
-        "impressions": 317,
-        "impressionShare": 103.3
+        "impressions": 316,
+        "impressionShare": 102.9
       }
     },
     "topQueries": [
@@ -5869,11 +5869,11 @@
         "position": 6.5
       },
       {
-        "query": "decap cms netlify",
+        "query": "netlify identity git gateway decap cms official docs",
         "clicks": 0,
         "impressions": 2,
         "ctr": 0,
-        "position": 8
+        "position": 9.5
       },
       {
         "query": "decap cms hook netlify-build",
@@ -5890,6 +5890,13 @@
         "position": 4
       },
       {
+        "query": "decap cms netlify",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 7
+      },
+      {
         "query": "decap cms registereventlistener presave documentation",
         "clicks": 0,
         "impressions": 1,
@@ -5902,50 +5909,36 @@
         "impressions": 1,
         "ctr": 0,
         "position": 9
-      },
-      {
-        "query": "netlify identity git gateway decap cms official docs",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 9
-      },
-      {
-        "query": "decap cms cloudflare",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 11
       }
     ],
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 1,
-        "impressions": 41,
-        "ctr": 0.024390243902439025,
-        "position": 8.4
+        "impressions": 44,
+        "ctr": 0.022727272727272728,
+        "position": 7.3
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 220,
+        "impressions": 221,
         "ctr": 0,
-        "position": 9.8
+        "position": 9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 26,
+        "impressions": 21,
         "ctr": 0,
-        "position": 6
+        "position": 5.9
       },
       {
-        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
+        "page": "https://dylanbochman.com/blog",
         "clicks": 0,
         "impressions": 8,
         "ctr": 0,
-        "position": 3.5
+        "position": 3.8
       },
       {
         "page": "https://dylanbochman.com/",
@@ -5955,11 +5948,11 @@
         "position": 2.1
       },
       {
-        "page": "https://dylanbochman.com/blog",
+        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 6,
+        "impressions": 7,
         "ctr": 0,
-        "position": 4.7
+        "position": 3.6
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps",
@@ -5969,18 +5962,18 @@
         "position": 25
       },
       {
-        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 6.5
-      },
-      {
         "page": "https://dylanbochman.com/blog/2026-01-21-the-slo-math-most-teams-get-wrong/",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
         "position": 1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 10
       },
       {
         "page": "https://dylanbochman.com/projects/slo-tool",
