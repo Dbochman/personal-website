@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-08-09T00:00:00.000Z",
-    "date": "2025-08-09",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-08-03",
-      "end": "2025-08-09"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-08-10T00:00:00.000Z",
     "date": "2025-08-10",
     "dataState": "final",
@@ -5837,36 +5821,52 @@
       "totalImpressions": 307,
       "averageCTR": 0.33,
       "averagePosition": 8.5
+    }
+  },
+  {
+    "timestamp": "2026-08-09T00:00:00.000Z",
+    "date": "2026-08-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-08-03",
+      "end": "2026-08-09"
     },
-    "collectedAt": "2026-08-10T07:15:39.993Z",
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 320,
+      "averageCTR": 0.63,
+      "averagePosition": 8.6
+    },
+    "collectedAt": "2026-08-11T06:53:24.722Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 8,
+        "rowCount": 7,
         "clicks": 0,
-        "impressions": 20,
-        "impressionShare": 6.5
+        "impressions": 19,
+        "impressionShare": 5.9
       },
       "pages": {
         "rowCount": 10,
-        "clicks": 1,
-        "impressions": 316,
-        "impressionShare": 102.9
+        "clicks": 2,
+        "impressions": 330,
+        "impressionShare": 103.1
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 11,
+        "impressions": 10,
         "ctr": 0,
-        "position": 6.9
+        "position": 7
       },
       {
-        "query": "\"entrydraftcreated\" \"decap cms\"",
+        "query": "decap cms netlify",
         "clicks": 0,
-        "impressions": 2,
+        "impressions": 3,
         "ctr": 0,
-        "position": 6.5
+        "position": 12.7
       },
       {
         "query": "netlify identity git gateway decap cms official docs",
@@ -5876,25 +5876,11 @@
         "position": 9.5
       },
       {
-        "query": "decap cms hook netlify-build",
+        "query": "\"entrydraftcreated\" \"decap cms\"",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
-        "position": 4
-      },
-      {
-        "query": "decap cms hook netlify-build config.yml docs",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 4
-      },
-      {
-        "query": "decap cms netlify",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 7
+        "position": 6
       },
       {
         "query": "decap cms registereventlistener presave documentation",
@@ -5909,36 +5895,43 @@
         "impressions": 1,
         "ctr": 0,
         "position": 9
+      },
+      {
+        "query": "decap netlify",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 9
       }
     ],
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
-        "clicks": 1,
-        "impressions": 44,
-        "ctr": 0.022727272727272728,
-        "position": 7.3
+        "clicks": 2,
+        "impressions": 49,
+        "ctr": 0.04081632653061224,
+        "position": 7.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 221,
+        "impressions": 233,
         "ctr": 0,
         "position": 9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 21,
+        "impressions": 17,
         "ctr": 0,
-        "position": 5.9
+        "position": 6.2
       },
       {
         "page": "https://dylanbochman.com/blog",
         "clicks": 0,
-        "impressions": 8,
+        "impressions": 9,
         "ctr": 0,
-        "position": 3.8
+        "position": 3.4
       },
       {
         "page": "https://dylanbochman.com/",
