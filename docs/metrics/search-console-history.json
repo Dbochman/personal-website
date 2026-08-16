@@ -1,37 +1,5 @@
 [
   {
-    "timestamp": "2025-08-13T00:00:00.000Z",
-    "date": "2025-08-13",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-08-07",
-      "end": "2025-08-13"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
-    "timestamp": "2025-08-14T00:00:00.000Z",
-    "date": "2025-08-14",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-08-08",
-      "end": "2025-08-14"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-08-15T00:00:00.000Z",
     "date": "2025-08-15",
     "dataState": "final",
@@ -5837,20 +5805,52 @@
       "totalImpressions": 341,
       "averageCTR": 0.29,
       "averagePosition": 8.9
+    }
+  },
+  {
+    "timestamp": "2026-08-13T00:00:00.000Z",
+    "date": "2026-08-13",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-08-07",
+      "end": "2026-08-13"
     },
-    "collectedAt": "2026-08-15T06:24:05.483Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 351,
+      "averageCTR": 0.28,
+      "averagePosition": 9.4
+    }
+  },
+  {
+    "timestamp": "2026-08-14T00:00:00.000Z",
+    "date": "2026-08-14",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-08-08",
+      "end": "2026-08-14"
+    },
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 360,
+      "averageCTR": 0.28,
+      "averagePosition": 10.2
+    },
+    "collectedAt": "2026-08-16T06:16:28.777Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 7,
+        "rowCount": 10,
         "clicks": 0,
-        "impressions": 11,
-        "impressionShare": 3.2
+        "impressions": 16,
+        "impressionShare": 4.4
       },
       "pages": {
         "rowCount": 12,
         "clicks": 1,
-        "impressions": 355,
-        "impressionShare": 104.1
+        "impressions": 371,
+        "impressionShare": 103.1
       }
     },
     "topQueries": [
@@ -5864,9 +5864,16 @@
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 2,
+        "impressions": 3,
         "ctr": 0,
         "position": 7
+      },
+      {
+        "query": "decap cms hook netlify-build config docs",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 9
       },
       {
         "query": "decap cms cloudflare pages",
@@ -5876,11 +5883,18 @@
         "position": 2
       },
       {
-        "query": "\"entrydraftcreated\" \"decap cms\"",
+        "query": "netlify decap cms",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
-        "position": 6
+        "position": 4
+      },
+      {
+        "query": "decap cms hooks config netlify-build docs",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 5
       },
       {
         "query": "decap netlify",
@@ -5888,6 +5902,13 @@
         "impressions": 1,
         "ctr": 0,
         "position": 9
+      },
+      {
+        "query": "decap cms netlify identity git gateway documentation",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 10
       },
       {
         "query": "netlify identity git gateway decap cms official docs",
@@ -5910,70 +5931,70 @@
         "clicks": 1,
         "impressions": 49,
         "ctr": 0.02040816326530612,
-        "position": 7.4
+        "position": 9.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 262,
+        "impressions": 274,
         "ctr": 0,
-        "position": 9.4
+        "position": 9.9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 19,
+        "impressions": 24,
         "ctr": 0,
-        "position": 9
-      },
-      {
-        "page": "https://dylanbochman.com/blog",
-        "clicks": 0,
-        "impressions": 7,
-        "ctr": 0,
-        "position": 2.6
+        "position": 8.3
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
         "impressions": 6,
         "ctr": 0,
-        "position": 3.2
+        "position": 2.5
       },
       {
-        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
+        "page": "https://dylanbochman.com/blog",
         "clicks": 0,
-        "impressions": 5,
+        "impressions": 6,
         "ctr": 0,
-        "position": 3.4
+        "position": 3.7
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-21-the-slo-math-most-teams-get-wrong/",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 27.7
+      },
+      {
+        "page": "https://dylanbochman.com/runbook/",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 2
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-07-uptime-monitoring-for-a-personal-site/",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 16
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps",
         "clicks": 0,
         "impressions": 2,
         "ctr": 0,
-        "position": 13.5
+        "position": 54.5
       },
       {
-        "page": "https://dylanbochman.com/runbook/",
+        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
         "position": 2
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 4
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-07-uptime-monitoring-for-a-personal-site/",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 7
       }
     ]
   }
