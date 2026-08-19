@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-08-16T00:00:00.000Z",
-    "date": "2025-08-16",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-08-10",
-      "end": "2025-08-16"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-08-17T00:00:00.000Z",
     "date": "2025-08-17",
     "dataState": "final",
@@ -5837,36 +5821,52 @@
       "totalImpressions": 465,
       "averageCTR": 0.22,
       "averagePosition": 10
+    }
+  },
+  {
+    "timestamp": "2026-08-16T00:00:00.000Z",
+    "date": "2026-08-16",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-08-10",
+      "end": "2026-08-16"
     },
-    "collectedAt": "2026-08-18T06:28:59.868Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 445,
+      "averageCTR": 0.22,
+      "averagePosition": 10.1
+    },
+    "collectedAt": "2026-08-19T06:30:08.323Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 9,
         "clicks": 0,
-        "impressions": 19,
-        "impressionShare": 4.1
+        "impressions": 18,
+        "impressionShare": 4
       },
       "pages": {
-        "rowCount": 13,
+        "rowCount": 12,
         "clicks": 1,
-        "impressions": 476,
-        "impressionShare": 102.4
+        "impressions": 457,
+        "impressionShare": 102.7
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 6,
+        "impressions": 7,
         "ctr": 0,
         "position": 6.7
       },
       {
         "query": "decap cms netlify",
         "clicks": 0,
-        "impressions": 5,
+        "impressions": 3,
         "ctr": 0,
-        "position": 12.2
+        "position": 10
       },
       {
         "query": "decap cms hook netlify-build config docs",
@@ -5920,18 +5920,25 @@
     ],
     "topPages": [
       {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "page": "https://dylanbochman.com/",
         "clicks": 1,
-        "impressions": 45,
-        "ctr": 0.022222222222222223,
-        "position": 9.5
+        "impressions": 7,
+        "ctr": 0.14285714285714285,
+        "position": 2.3
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 382,
+        "impressions": 364,
         "ctr": 0,
         "position": 9.7
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "clicks": 0,
+        "impressions": 44,
+        "ctr": 0,
+        "position": 10.2
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
@@ -5941,18 +5948,11 @@
         "position": 8.3
       },
       {
-        "page": "https://dylanbochman.com/",
-        "clicks": 0,
-        "impressions": 6,
-        "ctr": 0,
-        "position": 2.5
-      },
-      {
         "page": "https://dylanbochman.com/blog",
         "clicks": 0,
         "impressions": 4,
         "ctr": 0,
-        "position": 5
+        "position": 6
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-21-the-slo-math-most-teams-get-wrong/",
