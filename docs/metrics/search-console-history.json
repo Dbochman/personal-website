@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-08-17T00:00:00.000Z",
-    "date": "2025-08-17",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-08-11",
-      "end": "2025-08-17"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-08-18T00:00:00.000Z",
     "date": "2025-08-18",
     "dataState": "final",
@@ -5837,20 +5821,36 @@
       "totalImpressions": 445,
       "averageCTR": 0.22,
       "averagePosition": 10.1
+    }
+  },
+  {
+    "timestamp": "2026-08-17T00:00:00.000Z",
+    "date": "2026-08-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-08-11",
+      "end": "2026-08-17"
     },
-    "collectedAt": "2026-08-19T06:30:08.323Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 421,
+      "averageCTR": 0.24,
+      "averagePosition": 10.4
+    },
+    "collectedAt": "2026-08-20T06:32:34.547Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 9,
+        "rowCount": 10,
         "clicks": 0,
-        "impressions": 18,
-        "impressionShare": 4
+        "impressions": 19,
+        "impressionShare": 4.5
       },
       "pages": {
-        "rowCount": 12,
+        "rowCount": 11,
         "clicks": 1,
-        "impressions": 457,
-        "impressionShare": 102.7
+        "impressions": 425,
+        "impressionShare": 101
       }
     },
     "topQueries": [
@@ -5866,7 +5866,7 @@
         "clicks": 0,
         "impressions": 3,
         "ctr": 0,
-        "position": 10
+        "position": 9.7
       },
       {
         "query": "decap cms hook netlify-build config docs",
@@ -5904,6 +5904,13 @@
         "position": 9
       },
       {
+        "query": "netlify decap",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 9
+      },
+      {
         "query": "decap cms netlify identity git gateway documentation",
         "clicks": 0,
         "impressions": 1,
@@ -5922,65 +5929,44 @@
       {
         "page": "https://dylanbochman.com/",
         "clicks": 1,
-        "impressions": 7,
-        "ctr": 0.14285714285714285,
-        "position": 2.3
+        "impressions": 6,
+        "ctr": 0.16666666666666666,
+        "position": 2.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 364,
+        "impressions": 341,
         "ctr": 0,
-        "position": 9.7
+        "position": 9.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
-        "impressions": 44,
+        "impressions": 45,
         "ctr": 0,
-        "position": 10.2
+        "position": 12.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 26,
+        "impressions": 23,
         "ctr": 0,
         "position": 8.3
       },
       {
         "page": "https://dylanbochman.com/blog",
         "clicks": 0,
-        "impressions": 4,
+        "impressions": 3,
         "ctr": 0,
-        "position": 6
+        "position": 7
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-21-the-slo-math-most-teams-get-wrong/",
         "clicks": 0,
-        "impressions": 3,
-        "ctr": 0,
-        "position": 27.7
-      },
-      {
-        "page": "https://dylanbochman.com/runbook/",
-        "clicks": 0,
         "impressions": 2,
         "ctr": 0,
-        "position": 2
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-07-uptime-monitoring-for-a-personal-site/",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 16
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 54.5
+        "position": 37.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
@@ -5988,6 +5974,27 @@
         "impressions": 1,
         "ctr": 0,
         "position": 2
+      },
+      {
+        "page": "https://dylanbochman.com/runbook/",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 2
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-07-uptime-monitoring-for-a-personal-site/",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 25
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 95
       }
     ]
   }
