@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-08-18T00:00:00.000Z",
-    "date": "2025-08-18",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-08-12",
-      "end": "2025-08-18"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-08-19T00:00:00.000Z",
     "date": "2025-08-19",
     "dataState": "final",
@@ -5786,7 +5770,7 @@
     },
     "summary": {
       "totalClicks": 1,
-      "totalImpressions": 360,
+      "totalImpressions": 361,
       "averageCTR": 0.28,
       "averagePosition": 10.2
     }
@@ -5802,8 +5786,8 @@
     },
     "summary": {
       "totalClicks": 1,
-      "totalImpressions": 465,
-      "averageCTR": 0.22,
+      "totalImpressions": 466,
+      "averageCTR": 0.21,
       "averagePosition": 10
     }
   },
@@ -5818,7 +5802,7 @@
     },
     "summary": {
       "totalClicks": 1,
-      "totalImpressions": 445,
+      "totalImpressions": 446,
       "averageCTR": 0.22,
       "averagePosition": 10.1
     }
@@ -5834,39 +5818,69 @@
     },
     "summary": {
       "totalClicks": 1,
-      "totalImpressions": 421,
+      "totalImpressions": 422,
       "averageCTR": 0.24,
       "averagePosition": 10.4
+    }
+  },
+  {
+    "timestamp": "2026-08-18T00:00:00.000Z",
+    "date": "2026-08-18",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-08-12",
+      "end": "2026-08-18"
     },
-    "collectedAt": "2026-08-20T06:32:34.547Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 400,
+      "averageCTR": 0.25,
+      "averagePosition": 10.7
+    },
+    "collectedAt": "2026-08-21T06:32:44.669Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 10,
         "clicks": 0,
-        "impressions": 19,
-        "impressionShare": 4.5
+        "impressions": 23,
+        "impressionShare": 5.8
       },
       "pages": {
         "rowCount": 11,
         "clicks": 1,
-        "impressions": 425,
-        "impressionShare": 101
+        "impressions": 405,
+        "impressionShare": 101.3
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 9,
         "ctr": 0,
-        "position": 6.7
+        "position": 6.9
       },
       {
         "query": "decap cms netlify",
         "clicks": 0,
         "impressions": 3,
         "ctr": 0,
-        "position": 9.7
+        "position": 8.7
+      },
+      {
+        "query": "netlify decap cms",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 6.5
+      },
+      {
+        "query": "decap netlify",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 8
       },
       {
         "query": "decap cms hook netlify-build config docs",
@@ -5876,32 +5890,11 @@
         "position": 9
       },
       {
-        "query": "decap cms cloudflare pages",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 2
-      },
-      {
-        "query": "netlify decap cms",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 4
-      },
-      {
         "query": "decap cms hooks config netlify-build docs",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
         "position": 5
-      },
-      {
-        "query": "decap netlify",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 9
       },
       {
         "query": "netlify decap",
@@ -5923,6 +5916,13 @@
         "impressions": 1,
         "ctr": 0,
         "position": 19
+      },
+      {
+        "query": "jekyll netlify cms",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 63
       }
     ],
     "topPages": [
@@ -5931,35 +5931,35 @@
         "clicks": 1,
         "impressions": 6,
         "ctr": 0.16666666666666666,
-        "position": 2.5
+        "position": 1.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 341,
+        "impressions": 317,
         "ctr": 0,
-        "position": 9.8
+        "position": 10.1
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
-        "impressions": 45,
+        "impressions": 53,
         "ctr": 0,
-        "position": 12.4
+        "position": 11.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 23,
+        "impressions": 18,
         "ctr": 0,
-        "position": 8.3
+        "position": 6.7
       },
       {
         "page": "https://dylanbochman.com/blog",
         "clicks": 0,
-        "impressions": 3,
+        "impressions": 4,
         "ctr": 0,
-        "position": 7
+        "position": 6.3
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-21-the-slo-math-most-teams-get-wrong/",
