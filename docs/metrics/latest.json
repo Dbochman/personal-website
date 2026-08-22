@@ -1,23 +1,23 @@
 {
-  "generated": "2026-08-21T06:33:20.926Z",
+  "generated": "2026-08-22T06:26:37.185Z",
   "searchConsole": {
-    "lastCheck": "2026-08-21T06:32:44.669Z",
+    "lastCheck": "2026-08-22T06:26:11.636Z",
     "clicks": 1,
-    "impressions": 400,
-    "averageCTR": 0.25,
-    "averagePosition": 10.7
+    "impressions": 421,
+    "averageCTR": 0.24,
+    "averagePosition": 10.6
   },
   "analytics": {
-    "lastCheck": "2026-08-21T06:33:20.206Z",
-    "sessions_7d": 339,
-    "users_7d": 335,
-    "pageviews_7d": 342,
-    "avgSessionDuration": 25,
-    "bounceRate": 0.88,
+    "lastCheck": "2026-08-22T06:26:36.734Z",
+    "sessions_7d": 343,
+    "users_7d": 339,
+    "pageviews_7d": 344,
+    "avgSessionDuration": 27,
+    "bounceRate": 0.87,
     "topPages": [
       {
         "page": "/blog",
-        "pageViews": 66
+        "pageViews": 68
       },
       {
         "page": "/",
@@ -28,58 +28,58 @@
         "pageViews": 39
       },
       {
-        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
-        "pageViews": 24
+        "page": "/projects/slo-tool",
+        "pageViews": 25
       },
       {
-        "page": "/projects",
+        "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
         "pageViews": 24
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-08-21T06:33:20.207Z",
+    "lastCheck": "2026-08-22T06:26:36.734Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 517,
-        "average": 75.8936170212766,
+        "count": 520,
+        "average": 80.47115384615384,
         "unit": "ms",
         "ratings": {
-          "good": 514,
+          "good": 517,
           "needs-improvement": 3,
           "poor": 0
         },
         "goodPercent": 99
       },
       "FCP": {
-        "count": 303,
-        "average": 393.32343234323434,
+        "count": 304,
+        "average": 386.05592105263156,
         "unit": "ms",
         "ratings": {
-          "good": 297,
-          "needs-improvement": 6,
+          "good": 299,
+          "needs-improvement": 5,
           "poor": 0
         },
         "goodPercent": 98
       },
       "LCP": {
-        "count": 83,
-        "average": 973.3493975903615,
+        "count": 84,
+        "average": 1003.8214285714286,
         "unit": "ms",
         "ratings": {
-          "good": 83,
+          "good": 84,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "CLS": {
-        "count": 80,
-        "average": 0.039975000000000004,
+        "count": 81,
+        "average": 0.04102469135802469,
         "unit": "",
         "ratings": {
-          "good": 64,
+          "good": 65,
           "needs-improvement": 16,
           "poor": 0
         },
