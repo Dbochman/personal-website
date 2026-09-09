@@ -2,8 +2,8 @@ name: Codex PR Review
 
 on:
   pull_request:
-    branches: [main]
-    types: [opened, synchronize, closed]
+    branches: [main, 'codex/**']
+    types: [opened, synchronize, edited, closed]
 
 # Cancel in-progress runs when new commits are pushed OR when PR is closed/merged
 concurrency:
