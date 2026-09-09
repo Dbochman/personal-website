@@ -1,65 +1,15 @@
+import { Footer } from '@/components/layout/Footer';
 
-import React from 'react';
-import { Button } from "@/components/ui/button";
-import { Mail } from "lucide-react";
-import { LinkedinIcon } from "@/components/icons/LinkedinIcon";
-import SloGauge from "@/components/icons/SloGauge";
-import UptimeTimeline from "@/components/icons/UptimeTimeline";
-import { Footer } from "@/components/layout/Footer";
-
-const ContactSection = () => {
-
+export default function ContactSection() {
   return (
-    <section id="contact" className="py-16 px-6 bg-linear-to-t from-foreground/10 to-transparent relative mt-16">
-      {/* SRE Background Elements - Hidden on mobile */}
-      <div className="hidden md:block">
-        <div className="absolute top-8 left-12 w-20 h-20 parallax-element" data-speed="0.1" title="SLO Dashboard">
-          <SloGauge />
-        </div>
-        <div className="absolute bottom-20 right-16 w-28 h-12 parallax-element" data-speed="0.08" title="Service Uptime">
-          <UptimeTimeline />
-        </div>
-      </div>
-      
-      <div className="container mx-auto max-w-4xl text-center relative z-10">
-        <h2 className="text-4xl font-bold mb-8">
-          Let's Connect
-        </h2>
-        <p className="text-foreground/80 mb-8 text-lg">
-          Interested in discussing on-call tooling, challenging incidents, or potential opportunities?
-        </p>
-        <div className="flex justify-center gap-4 mb-12 flex-wrap">
-          <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium" asChild>
-            <a href="mailto:dylanbochman@gmail.com" aria-label="Request resume via email" onClick={() => {
-              if (typeof gtag !== 'undefined') {
-                gtag('event', 'resume_request', {
-                  event_category: 'engagement',
-                  event_label: 'email_contact'
-                });
-              }
-            }}>
-              <Mail className="w-4 h-4 mr-2" />
-              Request Resume
-            </a>
-          </Button>
-          <Button size="lg" className="bg-foreground text-background hover:bg-foreground/90 transition-all transform hover:scale-105 font-medium" asChild>
-            <a href="https://www.linkedin.com/in/dbochman/" target="_blank" rel="noopener noreferrer" aria-label="Visit Dylan Bochman's LinkedIn profile" onClick={() => {
-              if (typeof gtag !== 'undefined') {
-                gtag('event', 'linkedin_click', {
-                  event_category: 'engagement',
-                  event_label: 'external_link'
-                });
-              }
-            }}>
-              <LinkedinIcon className="w-4 h-4 mr-2" />
-              LinkedIn
-            </a>
-          </Button>
-        </div>
+    <section id="contact" className="border-t border-border">
+      <div className="portfolio-shell py-12 sm:py-16">
+        <p className="eyebrow mb-3">Get in touch</p>
+        <h2 className="text-3xl font-semibold tracking-tight">Let's Connect</h2>
+        <p className="mt-4 max-w-xl text-muted-foreground">Have a question about a tool, an incident response practice, or my work? Email is a good place to start.</p>
+        <a className="portfolio-link mt-6 mb-12 break-all" href="mailto:dylanbochman@gmail.com">dylanbochman@gmail.com ↗</a>
         <Footer />
       </div>
     </section>
   );
-};
-
-export default ContactSection;
+}

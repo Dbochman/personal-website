@@ -16,9 +16,9 @@ const REGION_COLORS: Record<string, { bg: string; text: string }> = {
   'Europe/London': { bg: 'bg-rose-600 dark:bg-rose-600', text: 'text-white' },
   'Europe/Paris': { bg: 'bg-rose-600 dark:bg-rose-600', text: 'text-white' },
   'Europe/Berlin': { bg: 'bg-rose-600 dark:bg-rose-600', text: 'text-white' },
-  'America/New_York': { bg: 'bg-emerald-700 dark:bg-emerald-600', text: 'text-white' },
+  'America/New_York': { bg: 'bg-emerald-700 dark:bg-emerald-700', text: 'text-white' },
   'America/Los_Angeles': { bg: 'bg-sky-600 dark:bg-sky-600', text: 'text-white' },
-  'America/Chicago': { bg: 'bg-emerald-700 dark:bg-emerald-600', text: 'text-white' },
+  'America/Chicago': { bg: 'bg-emerald-700 dark:bg-emerald-700', text: 'text-white' },
 };
 
 const TIMEZONE_LABELS: Record<string, string> = {

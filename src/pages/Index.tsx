@@ -1,12 +1,16 @@
 
-import React, { useState } from "react";
+
 import PageLayout from "@/components/layout/PageLayout";
 import HeroSection from "@/components/sections/HeroSection";
 import ExperienceSection from "@/components/sections/ExperienceSection";
-import GoalsSection from "@/components/sections/GoalsSection";
+
 import ContactSection from "@/components/sections/ContactSection";
 import Sidebar from "@/components/Sidebar";
-import { NavigationContext } from "@/context/NavigationContext";
+import { Link } from "react-router-dom";
+import { getAllProjects } from "@/data/projects";
+import { ProjectGrid } from "@/components/projects/ProjectGrid";
+import { getAllPosts } from "@/content/blog";
+import { formatBlogDate } from "@/lib/blog-utils";
 import Seo from "@/components/Seo";
 import { coreExpertise } from "@/data/expertise";
 import { Helmet } from "react-helmet-async";
@@ -15,7 +19,7 @@ const profilePageStructuredData = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
   dateCreated: "2026-01-04T00:00:00-05:00",
-  dateModified: "2026-01-28T20:28:24-05:00",
+  dateModified: "2026-09-08T00:00:00-04:00",
   mainEntity: {
     "@type": "Person",
     name: "Dylan Bochman",
@@ -25,14 +29,15 @@ const profilePageStructuredData = {
     identifier: "dylanbochman",
     url: "https://dylanbochman.com",
     image: "https://dylanbochman.com/social-preview.webp",
-    description: "Site Reliability Engineer and Technical Incident Manager specializing in reliability, incident management, and SLO monitoring. Currently at Groq, previously at HashiCorp and Spotify.",
+    description: "Site Reliability Engineer and Technical Incident Manager specializing in reliability, incident management, and SLO monitoring. Currently at NVIDIA, previously at Groq, HashiCorp and Spotify.",
     jobTitle: "Site Reliability Engineer & Technical Incident Manager",
     worksFor: {
       "@type": "Organization",
-      name: "Groq",
-      url: "https://groq.com",
+      name: "NVIDIA",
+      url: "https://www.nvidia.com",
     },
     alumniOf: [
+      { "@type": "Organization", name: "Groq", url: "https://groq.com" },
       {
         "@type": "Organization",
         name: "HashiCorp",
@@ -73,17 +78,15 @@ const profilePageStructuredData = {
 };
 
 const Index = () => {
-  const [openAccordion, setOpenAccordion] = useState("");
-
-  const openExperienceAccordion = () => {
-    setOpenAccordion("experience");
-  };
-
+  const selected = getAllProjects().filter(project =>
+    ['slo-tool', 'statuspage-update', 'oncall-coverage'].includes(project.slug)
+  );
+  const recentPosts = getAllPosts().slice(0, 3);
   return (
-    <NavigationContext.Provider value={{ openExperienceAccordion }}>
+    <>
       <Seo
         title="Sr. Site Reliability Engineer - Technical Incident Manager"
-        description="Specializing in Reliability, Resilience, and Incident Management, with experience spanning SRE and Product Management at Nvidia, Groq, HashiCorp, and Spotify."
+        description="Specializing in Reliability, Resilience, and Incident Management, with experience spanning SRE and Product Management at NVIDIA, Groq, HashiCorp, and Spotify."
         keywords={coreExpertise.map(item => item.title)}
         url="/"
       />
@@ -96,26 +99,51 @@ const Index = () => {
         {/* Hero Section */}
         <HeroSection />
 
-        {/* Main Content - Two Column Layout */}
-        <div className="container mx-auto max-w-6xl px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main Content Column */}
-            <div className="lg:col-span-2 space-y-8">
-              <ExperienceSection value={openAccordion} onValueChange={setOpenAccordion} />
-              <GoalsSection />
+        <section id="selected-work" className="portfolio-shell pb-16 sm:pb-24">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow mb-3">Tools for the work</p>
+              <h2 className="text-3xl font-semibold tracking-tight">Selected projects</h2>
             </div>
-
-            {/* Sidebar Column */}
-            <div className="lg:col-span-1 order-first lg:order-last">
-              <Sidebar />
-            </div>
+            <Link className="portfolio-link" to="/projects">All projects ↗</Link>
           </div>
+          <ProjectGrid projects={selected} />
+        </section>
+        <div className="portfolio-shell grid lg:grid-cols-[2fr_1fr] gap-12 pb-16">
+          <ExperienceSection />
+          <Sidebar />
         </div>
+        <section className="portfolio-shell pb-16">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow mb-3">Notes from practice</p>
+              <h2 className="text-3xl font-semibold tracking-tight">Writing</h2>
+            </div>
+            <Link className="portfolio-link" to="/blog">Browse the blog ↗</Link>
+          </div>
+          <p className="max-w-2xl text-lg text-muted-foreground">Incident response, reliability tooling, and the details that matter when software meets real use. Posts include work written with Claude; each article identifies its author.</p>
+          <div className="mt-8 divide-y divide-border">
+            {recentPosts.map(post => (
+              <article key={post.slug} className="py-6 grid sm:grid-cols-[10rem_1fr] gap-3">
+                <p className="text-sm font-mono text-muted-foreground"><time dateTime={post.date}>{formatBlogDate(post.date)}</time></p>
+                <div>
+                  <h3 className="text-xl font-semibold">
+                    <Link className="hover:underline underline-offset-4" to={`/blog/${post.slug}`}>
+                      {post.title}
+                    </Link>
+                  </h3>
+                  <p className="mt-2 text-muted-foreground leading-relaxed">{post.description}</p>
+                  <p className="mt-3 text-sm text-muted-foreground">{post.author} · {post.readingTime}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
 
         {/* Contact Section */}
         <ContactSection />
       </PageLayout>
-    </NavigationContext.Provider>
+    </>
   );
 };
 

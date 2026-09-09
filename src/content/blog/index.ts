@@ -2,110 +2,48 @@
  * Centralized blog content module
  * Single source of truth for all blog post data
  */
+import type { MDXProps } from 'mdx/types';
 import * as runtime from 'react/jsx-runtime';
-import type { ValidatedBlogPost, RssItem, OgMeta, BlogFrontmatter } from './schema';
+import { lazy } from 'react';
+import blogManifest from '@/generated/blog/manifest.json';
+import type { BlogPostMetadata, RssItem, OgMeta, BlogFrontmatter } from './schema';
 
 const BASE_URL = 'https://dylanbochman.com';
 
-// Import precompiled blog posts eagerly
-const compiledModules = import.meta.glob('/src/generated/blog/*.js', {
-  eager: true,
-}) as Record<string, { compiledMDX: string; frontmatter: BlogFrontmatter; readingTime: string }>;
-
-// Warn if no modules found (likely forgot to run precompile)
-if (Object.keys(compiledModules).length === 0) {
-  console.warn(
-    '[content/blog] No precompiled posts found in src/generated/blog/. ' +
-    'Run "npm run precompile-mdx" or restart dev server.'
-  );
-}
-
-// Cache for React components
-const componentCache = new Map<string, React.ComponentType>();
-
-/**
- * Execute precompiled MDX and return the React component
- */
-function executeCompiledMDX(compiledCode: string): React.ComponentType {
-  const fn = new Function(compiledCode);
-  const result = fn(runtime);
-  return result.default;
-}
-
-/**
- * Extract slug from module path
- */
-function extractSlugFromPath(path: string): string {
-  const match = path.match(/\/([^/]+)\.js$/);
-  return match ? match[1] : '';
-}
-
-// Map from post slug to module filename (for component loading)
+// Metadata stays synchronous for listings and prerendered SEO. Article bodies
+// load only when a reader opens that article, never on the home or blog index.
+const manifest = blogManifest as Record<string, { frontmatter: BlogFrontmatter; readingTime: string }>;
+const compiledModules = import.meta.glob<{ compiledMDX: string }>([
+  '/src/generated/blog/*.js', '!/src/generated/blog/manifest.js',
+]);
+const componentCache = new Map<string, React.ComponentType<MDXProps>>();
 const slugToFilename = new Map<string, string>();
+const allPosts: BlogPostMetadata[] = Object.entries(manifest).map(([filename, entry]) => {
+  const slug = entry.frontmatter.slug || filename;
+  slugToFilename.set(slug, filename);
+  return { ...entry.frontmatter, slug, readingTime: entry.readingTime };
+}).sort((a, b) => b.date.localeCompare(a.date));
 
-/**
- * Create a ValidatedBlogPost from module data
- */
-function createPost(
-  frontmatter: BlogFrontmatter,
-  compiledMDX: string,
-  filenameSlug: string,
-  readingTime: string
-): ValidatedBlogPost {
-  // Use frontmatter slug if provided, otherwise use filename
-  const slug = frontmatter.slug || filenameSlug;
-
-  // Store mapping so getPostComponent can find the right module
-  slugToFilename.set(slug, filenameSlug);
-
-  return {
-    ...frontmatter,
-    slug,
-    readingTime,
-    content: compiledMDX,
-  };
+export function getAllPosts({ includeDrafts = false } = {}): BlogPostMetadata[] {
+  return includeDrafts ? allPosts : allPosts.filter(post => !post.draft);
 }
 
-// Build the posts array once on module load
-const allPosts: ValidatedBlogPost[] = Object.entries(compiledModules)
-  .filter(([path]) => !path.includes('manifest.js'))
-  .map(([path, module]) => {
-    const slug = extractSlugFromPath(path);
-    return createPost(module.frontmatter, module.compiledMDX, slug, module.readingTime);
-  })
-  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-/**
- * Get all blog posts
- */
-export function getAllPosts({ includeDrafts = false } = {}): ValidatedBlogPost[] {
-  return includeDrafts ? allPosts : allPosts.filter(p => !p.draft);
+export function getPostBySlug(slug: string): BlogPostMetadata | null {
+  return allPosts.find(post => post.slug === slug) || null;
 }
 
-/**
- * Get a single blog post by slug
- */
-export function getPostBySlug(slug: string): ValidatedBlogPost | null {
-  return allPosts.find(p => p.slug === slug) || null;
-}
-
-/**
- * Get the React component for a blog post
- */
-export function getPostComponent(slug: string): React.ComponentType | null {
-  // Check cache first
-  if (componentCache.has(slug)) {
-    return componentCache.get(slug)!;
-  }
-
-  // Get the filename for this slug (handles custom slugs in frontmatter)
-  const filename = slugToFilename.get(slug) || slug;
-  const modulePath = `/src/generated/blog/${filename}.js`;
-  const module = compiledModules[modulePath];
-  if (!module) return null;
-
-  // Execute and cache the component
-  const Component = executeCompiledMDX(module.compiledMDX);
+export function getPostComponent(slug: string): React.ComponentType<MDXProps> | null {
+  const cached = componentCache.get(slug);
+  if (cached) return cached;
+  const filename = slugToFilename.get(slug);
+  const load = filename && compiledModules[`/src/generated/blog/${filename}.js`];
+  if (!load) return null;
+  const Component = lazy(async () => {
+    const { compiledMDX } = await load();
+    // Only trusted, build-validated repository MDX reaches this boundary.
+    const execute = new Function(compiledMDX) as (jsxRuntime: typeof runtime) => { default: React.ComponentType<MDXProps> };
+    return execute(runtime);
+  });
   componentCache.set(slug, Component);
   return Component;
 }
@@ -146,7 +84,7 @@ function escapeXml(str: string): string {
 /**
  * Convert a blog post to RSS item format
  */
-export function toRssItem(post: ValidatedBlogPost): RssItem {
+export function toRssItem(post: BlogPostMetadata): RssItem {
   return {
     title: post.title,
     link: `${BASE_URL}/blog/${post.slug}`,
@@ -161,7 +99,7 @@ export function toRssItem(post: ValidatedBlogPost): RssItem {
 /**
  * Convert a blog post to OG metadata format
  */
-export function toOgMeta(post: ValidatedBlogPost): OgMeta {
+export function toOgMeta(post: BlogPostMetadata): OgMeta {
   return {
     title: post.title,
     description: post.description,
@@ -178,7 +116,7 @@ export function toOgMeta(post: ValidatedBlogPost): OgMeta {
 /**
  * Generate RSS XML item element
  */
-export function toRssXmlItem(post: ValidatedBlogPost): string {
+export function toRssXmlItem(post: BlogPostMetadata): string {
   const item = toRssItem(post);
   return `    <item>
       <title>${escapeXml(item.title)}</title>

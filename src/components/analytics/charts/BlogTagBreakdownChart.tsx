@@ -1,10 +1,10 @@
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  TooltipProps,
+  TooltipContentProps,
 } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
-function BarTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
+function BarTooltip({ active, payload, label }: Partial<TooltipContentProps<ValueType, NameType>>) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md">

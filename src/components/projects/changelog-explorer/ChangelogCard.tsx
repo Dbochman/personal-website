@@ -51,7 +51,7 @@ export function ChangelogCard({ entry, expanded, onToggle }: ChangelogCardProps)
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               {hasMergedPr && (
-                <GitMerge className="w-4 h-4 text-purple-500 shrink-0" title="Merged" />
+                <GitMerge className="w-4 h-4 text-purple-500 shrink-0" aria-label="Merged" />
               )}
               <CardTitle className="text-lg">{entry.title}</CardTitle>
             </div>

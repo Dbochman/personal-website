@@ -32,9 +32,12 @@ export type BlogFrontmatter = z.infer<typeof blogFrontmatterSchema>;
 /**
  * Validated blog post with computed fields
  */
-export interface ValidatedBlogPost extends BlogFrontmatter {
+export interface BlogPostMetadata extends BlogFrontmatter {
   slug: string; // Always present after validation (derived from filename if not in frontmatter)
   readingTime: string;
+}
+
+export interface ValidatedBlogPost extends BlogPostMetadata {
   content: string; // Compiled MDX code
 }
 

@@ -41,7 +41,6 @@ jobs:
 
       - name: Security audit
         run: npm audit --audit-level=high --omit=dev
-        continue-on-error: true  # Don't block PRs on advisories; report only
 
       # Playwright runs the runner's preinstalled Chrome (channel: 'chrome' in
       # playwright.config.ts and scripts/prerender.mjs when CI=true) — browser
@@ -53,7 +52,7 @@ jobs:
         run: npm run lint
 
       - name: Type check
-        run: npx tsc --noEmit
+        run: npm run build:content && npm run typecheck
 
       - name: Unit tests
         run: npm test

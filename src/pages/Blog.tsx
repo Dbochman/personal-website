@@ -54,7 +54,7 @@ export default function Blog() {
       </Helmet>
 
       <PageLayout>
-        <div className="container mx-auto px-4 py-12">
+        <div className="portfolio-shell py-12 sm:py-20">
           {/* Header + Featured Hero side by side on desktop */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             <header>
@@ -71,23 +71,8 @@ export default function Blog() {
                   <Rss className="w-6 h-6" aria-hidden="true" />
                 </a>
               </div>
-              <p className="text-xl text-muted-foreground text-pretty mb-4">
-                A collaboration between Dylan and{' '}
-                <a
-                  href="https://claude.ai/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-foreground hover:underline focus-visible:underline"
-                >
-                  Claude
-                </a>
-                .
-              </p>
-              <p className="text-muted-foreground text-pretty">
-                We write about practical SRE themes—reliability, resilience, and observability—along
-                with the systems we build together and the lessons we learn along the way. Some posts
-                are written by Claude, some by me. The authorship varies, but the collaboration is constant.
-              </p>
+              <p className="text-xl text-muted-foreground leading-relaxed mb-4">Notes on incidents, reliability, and building useful software.</p>
+              <p className="text-muted-foreground leading-relaxed">Practical tools, engineering decisions, and lessons from using them. Written by Dylan, Claude, or both; each post names its author.</p>
             </header>
 
             {/* Featured Hero in right column */}

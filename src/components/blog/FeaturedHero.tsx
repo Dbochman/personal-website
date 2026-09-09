@@ -47,7 +47,7 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
         </h2>
 
         {/* Meta */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+        <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground mb-4">
           {/* Author link - sits above overlay via z-index */}
           <Link
             to={`/blog?author=${encodeURIComponent(post.author)}`}

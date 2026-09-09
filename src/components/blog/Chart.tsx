@@ -125,7 +125,7 @@ export function Chart({
               outerRadius={100}
               paddingAngle={2}
               dataKey={dataKey}
-              label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+              label={({ name, percent }) => `${name}: ${((percent ?? 0) * 100).toFixed(0)}%`}
               labelLine={false}
             >
               {data.map((_, index) => (

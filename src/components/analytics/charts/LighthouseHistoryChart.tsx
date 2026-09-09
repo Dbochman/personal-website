@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine, TooltipProps } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine, TooltipContentProps } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { LighthousePageScore } from '../types';
 
@@ -13,7 +13,7 @@ function getScoreColor(score: number): string {
   return 'hsl(0, 72%, 51%)';                     // red-500
 }
 
-function CustomTooltip({ active, payload }: TooltipProps<ValueType, NameType>) {
+function CustomTooltip({ active, payload }: Partial<TooltipContentProps<ValueType, NameType>>) {
   if (!active || !payload || !payload.length) return null;
   const data = payload[0];
   return (

@@ -80,8 +80,8 @@ describe('utils', () => {
       type Size = 'sm' | 'md' | 'lg'
       type Variant = 'primary' | 'secondary'
       
-      const size: Size = 'lg'
-      const variant: Variant = 'primary'
+      const size = 'lg' as Size
+      const variant = 'primary' as Variant
       
       const result = cn(
         'button-base',

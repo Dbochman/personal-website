@@ -1,5 +1,6 @@
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps, Legend } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipContentProps, Legend } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import type { BlogPostMetadata } from '@/content/blog/schema';
 import type { GA4HistoryEntry } from '../types';
 import { formatHistoryDate, getRecentHistory } from './recentHistory';
 
@@ -12,7 +13,7 @@ const COLORS = [
   'hsl(var(--muted-foreground))',
 ];
 
-function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
+function CustomTooltip({ active, payload, label }: Partial<TooltipContentProps<ValueType, NameType>>) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md max-w-xs">
@@ -28,15 +29,15 @@ function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameT
 }
 
 interface PostLookups {
-  bySlug: Map<string, { title: string; slug: string }>;
-  byStrippedSlug: Map<string, { title: string; slug: string }>;
-  byTitleKey: Map<string, { title: string; slug: string }>;
+  bySlug: Map<string, BlogPostMetadata>;
+  byStrippedSlug: Map<string, BlogPostMetadata>;
+  byTitleKey: Map<string, BlogPostMetadata>;
 }
 
 interface BlogTrafficChartProps {
   data: GA4HistoryEntry[];
   postLookups: PostLookups;
-  matchPost: (slug: string, lookups: PostLookups) => { title: string; slug: string } | undefined;
+  matchPost: (slug: string, lookups: PostLookups) => BlogPostMetadata | undefined;
 }
 
 export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficChartProps) {

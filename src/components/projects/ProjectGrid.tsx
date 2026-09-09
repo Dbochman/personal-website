@@ -1,7 +1,5 @@
-import { motion } from 'framer-motion';
 import { ProjectCard } from './ProjectCard';
 import type { ProjectMeta } from '@/types/project';
-import { staggerContainer, staggerItem } from '@/lib/motion';
 
 interface ProjectGridProps {
   projects: ProjectMeta[];
@@ -17,17 +15,14 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
   }
 
   return (
-    <motion.div
+    <div
       className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
-      variants={staggerContainer}
-      initial="hidden"
-      animate="visible"
     >
       {projects.map((project) => (
-        <motion.div key={project.slug} variants={staggerItem}>
+        <div key={project.slug}>
           <ProjectCard project={project} />
-        </motion.div>
+        </div>
       ))}
-    </motion.div>
+    </div>
   );
 }

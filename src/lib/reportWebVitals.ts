@@ -20,7 +20,7 @@ export function reportWebVitals() {
     rating: 'good' | 'needs-improvement' | 'poor';
   }) => {
     // Send the metric to Google Analytics as an event
-    window.gtag('event', name, {
+    window.gtag?.('event', name, {
       event_category: 'Web Vitals',
       event_label: id,
       value: Math.round(name === 'CLS' ? delta * 1000 : delta), // CLS is multiplied by 1000 for better precision
@@ -47,15 +47,4 @@ export function reportWebVitals() {
 
   // Track Time to First Byte (TTFB)
   onTTFB(sendToGoogleAnalytics);
-}
-
-// Extend Window interface for TypeScript
-declare global {
-  interface Window {
-    gtag: (
-      command: string,
-      eventName: string,
-      eventParams?: Record<string, unknown>
-    ) => void;
-  }
 }

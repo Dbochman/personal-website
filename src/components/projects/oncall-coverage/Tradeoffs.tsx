@@ -16,7 +16,7 @@ export function Tradeoffs({ tradeoffs }: TradeoffsProps) {
         <div className="grid gap-4 sm:grid-cols-2">
           {/* Pros */}
           <div className="space-y-2">
-            <h3 className="text-xs font-medium text-green-600 dark:text-green-400 uppercase tracking-wide">
+            <h3 className="text-xs font-medium text-green-700 dark:text-green-400 uppercase tracking-wide">
               Advantages
             </h3>
             <ul className="space-y-1.5">
@@ -31,7 +31,7 @@ export function Tradeoffs({ tradeoffs }: TradeoffsProps) {
 
           {/* Cons */}
           <div className="space-y-2">
-            <h3 className="text-xs font-medium text-amber-600 dark:text-amber-400 uppercase tracking-wide">
+            <h3 className="text-xs font-medium text-amber-800 dark:text-amber-400 uppercase tracking-wide">
               Considerations
             </h3>
             <ul className="space-y-1.5">

@@ -8,7 +8,7 @@ interface BusinessHoursTimelineProps {
 
 // Colors matching DailyHeatmap
 const COLORS = {
-  et: { bg: 'bg-emerald-700 dark:bg-emerald-600', text: 'text-white' },
+  et: { bg: 'bg-emerald-700 dark:bg-emerald-700', text: 'text-white' },
   pt: { bg: 'bg-sky-500 dark:bg-sky-600', text: 'text-white' },
   rotating: { bg: 'bg-zinc-400 dark:bg-zinc-600', text: 'text-white' },
 };

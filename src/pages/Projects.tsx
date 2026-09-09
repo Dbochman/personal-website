@@ -45,15 +45,24 @@ export default function Projects() {
       </Helmet>
 
       <PageLayout>
-        <div className="container mx-auto px-4 py-12">
+        <div className="portfolio-shell py-12 sm:py-20">
           <header className="mb-12">
             <h1 className="text-4xl font-bold text-balance mb-4" style={{ viewTransitionName: 'page-title' }}>Projects</h1>
             <p className="text-xl text-muted-foreground text-pretty">
-              Interactive tools and utilities for site reliability engineering.
+              Tools for planning reliability work, communicating during incidents, and testing ideas.
             </p>
           </header>
 
-          <ProjectGrid projects={projects} />
+          {[
+            { title: 'Reliability tools', description: 'Calculators and templates to use in your next planning or incident review.', slugs: ['slo-tool', 'statuspage-update', 'oncall-coverage', 'incident-command-diagrams', 'k8s-rightsizer'] },
+            { title: 'Experiments', description: 'Small applications for organizing work and sharing music.', slugs: ['kanban', 'echonest'] },
+            { title: 'How this site runs', description: 'Public metrics and a history of changes to this website.', slugs: ['analytics', 'changelog'] },
+          ].map(group => (
+            <section key={group.title} className="mb-16">
+              <div className="section-heading"><div><h2 className="text-2xl font-semibold mb-3">{group.title}</h2><p className="text-muted-foreground">{group.description}</p></div></div>
+              <ProjectGrid projects={projects.filter(project => group.slugs.includes(project.slug))} />
+            </section>
+          ))}
 
           <div className="mt-16">
             <Footer />

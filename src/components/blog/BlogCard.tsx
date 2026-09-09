@@ -31,7 +31,7 @@ export const BlogCard = memo(function BlogCard({ post }: BlogCardProps) {
       onMouseEnter={handleFirstInteraction}
       onFocus={handleFirstInteraction}
     >
-      <Card className="transition-all duration-300 bg-zinc-50 dark:bg-zinc-800/40 group-hover:shadow-lg group-hover:border-primary/50 group-focus-within:shadow-lg group-focus-within:border-primary/50 h-full">
+      <Card className="transition-all duration-300 bg-card  group-hover:border-primary/50  group-focus-within:border-primary/50 h-full">
         <CardHeader className="pb-3">
           <CardTitle
             className="text-xl group-hover:text-primary group-focus-within:text-primary transition-colors"
@@ -45,7 +45,7 @@ export const BlogCard = memo(function BlogCard({ post }: BlogCardProps) {
               {post.title}
             </TransitionLink>
           </CardTitle>
-          <CardDescription className="flex items-center gap-2 text-sm">
+          <CardDescription className="flex flex-wrap items-center gap-2 text-sm">
             {/* Author link - sits above overlay via z-index */}
             <Link
               to={`/blog?author=${encodeURIComponent(post.author)}`}
@@ -67,8 +67,7 @@ export const BlogCard = memo(function BlogCard({ post }: BlogCardProps) {
         </CardHeader>
         <CardContent className="pt-0">
           {/* Description - expands on first hover/focus and stays expanded */}
-          <div className={`overflow-hidden transition-all duration-300 ease-out motion-reduce:transition-none
-                          ${hasBeenHovered ? 'max-h-24 opacity-100' : 'max-h-24 opacity-100 [@media(hover:hover)]:max-h-0 [@media(hover:hover)]:opacity-0'}`}>
+          <div>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {post.description}
             </p>
@@ -77,4 +76,4 @@ export const BlogCard = memo(function BlogCard({ post }: BlogCardProps) {
       </Card>
     </article>
   );
-}, (prevProps, nextProps) => prevProps.post.slug === nextProps.post.slug)
+});

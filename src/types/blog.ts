@@ -1,3 +1,4 @@
+import type { BlogPostMetadata } from '@/content/blog/schema';
 // Re-export schema types as the source of truth
 export type { BlogFrontmatter, ValidatedBlogPost, RssItem, OgMeta } from '@/content/blog/schema';
 
@@ -8,9 +9,9 @@ export const BLOG_AUTHORS = ['Claude', 'Dylan', 'Dylan & Claude'] as const;
 export type BlogAuthor = (typeof BLOG_AUTHORS)[number];
 
 /**
- * Complete blog post with content (alias for ValidatedBlogPost for compatibility)
+ * Blog metadata used by listings; parsed posts may also carry their content.
  */
-export type { ValidatedBlogPost as BlogPost } from '@/content/blog/schema';
+export type BlogPost = BlogPostMetadata & { content?: string };
 
 /**
  * Blog metadata and statistics

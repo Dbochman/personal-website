@@ -1,8 +1,8 @@
-import { Badge } from '@/components/ui/badge';
+import { Badge, type BadgeProps } from '@/components/ui/badge';
 
 interface TagListProps {
   tags: string[];
-  variant?: 'outline-solid' | 'secondary' | 'default';
+  variant?: BadgeProps['variant'];
   size?: 'sm' | 'default';
   /** Max tags on mobile (default 5) */
   mobileLimit?: number;

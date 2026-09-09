@@ -141,7 +141,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 45 25% 97%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -157,7 +157,7 @@
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted-foreground: 215.4 16.3% 40%;
 
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
@@ -541,3 +541,13 @@
  *
  * Keep selectors scoped to specific components to avoid performance issues.
  */
+/* Portfolio layout: shared rhythm without changing tool workspace widths. */
+@layer components {
+  .portfolio-shell { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
+  .eyebrow { @apply font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground; }
+  .section-heading { @apply mb-8 flex flex-wrap items-end justify-between gap-4 border-t border-border pt-8; }
+  .portfolio-link { @apply inline-flex items-center gap-2 font-medium underline underline-offset-4 decoration-border hover:decoration-foreground; }
+  .portfolio-button { @apply inline-flex items-center gap-3 rounded-md bg-foreground px-5 py-3 text-background font-medium hover:opacity-90; }
+}
+:where(a, button, input, select, textarea):focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+#selected-work, #contact { scroll-margin-top: 6rem; }

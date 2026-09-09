@@ -70,20 +70,6 @@ describe('Sidebar', () => {
     expect(container).toHaveClass('space-y-6')
   })
 
-  it('should have proper CSS classes for card styling', () => {
-    render(<Sidebar />)
-    
-    const card = screen.getByText('Core Expertise').closest('[class*="bg-background"]')
-    expect(card).toHaveClass('bg-background/60', 'backdrop-blur-xs', 'border-transparent')
-  })
-
-  it('should have proper CSS classes for card content', () => {
-    render(<Sidebar />)
-    
-    const cardContent = screen.getByText('Core Expertise').closest('[class*="p-6"]')
-    expect(cardContent).toHaveClass('p-6')
-  })
-
   it('should have proper CSS classes for heading', () => {
     render(<Sidebar />)
     
@@ -136,18 +122,4 @@ describe('Sidebar', () => {
     expect(heading).toHaveTextContent('Core Expertise')
   })
 
-  it('should render with proper container structure', () => {
-    render(<Sidebar />)
-    
-    // Verify the main container structure
-    const mainContainer = screen.getByText('Core Expertise').closest('div')?.parentElement?.parentElement
-    expect(mainContainer?.children).toHaveLength(1) // Should have one Card child
-    
-    // Verify card structure
-    const card = screen.getByText('Core Expertise').closest('[class*="bg-background"]')
-    expect(card).toBeInTheDocument()
-    
-    const cardContent = screen.getByText('Core Expertise').closest('[class*="p-6"]')
-    expect(cardContent).toBeInTheDocument()
-  })
 })

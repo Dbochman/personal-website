@@ -29,7 +29,7 @@ function pickByDay(members: string[], day: number, offset = 0): string {
 const followTheSun: CoverageModel = {
   id: 'follow-the-sun',
   name: 'Follow-the-Sun (3 Regions)',
-  description: 'Three regional teams hand off coverage during business hours. Zero night shifts - the healthiest model for distributed teams.',
+  description: 'Three regional teams hand off coverage during business hours. This sample avoids night shifts; it requires regional staffing and reliable handoffs.',
   rotationType: 'daily',
   team: [
     // US Region - 2 people in New York timezone
