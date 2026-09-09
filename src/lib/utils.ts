@@ -9,16 +9,16 @@ export function cn(...inputs: ClassValue[]) {
  * Throttle a function to only execute at most once per delay period.
  * Useful for scroll/resize handlers to prevent excessive updates.
  */
-export function throttle<T extends (...args: unknown[]) => void>(
-  fn: T,
+export function throttle<Args extends unknown[]>(
+  fn: (...args: Args) => void,
   delay: number
-): T {
+): (...args: Args) => void {
   let lastCall = 0;
-  return ((...args: Parameters<T>) => {
+  return (...args: Args) => {
     const now = Date.now();
     if (now - lastCall >= delay) {
       lastCall = now;
       fn(...args);
     }
-  }) as T;
+  };
 }

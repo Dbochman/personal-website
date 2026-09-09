@@ -30,8 +30,8 @@ function getInsight(result: AchievableSloResult): Insight {
   if (periodDowntimeMinutes === 0 || mttrMinutes === 0) {
     return {
       type: 'success',
-      title: 'Perfect availability',
-      message: 'With zero response time or incidents, you can achieve 100% uptime.',
+      title: 'No modeled downtime',
+      message: 'These inputs produce no downtime in this model. They do not guarantee 100% availability in operation.',
     };
   }
 
@@ -39,8 +39,8 @@ function getInsight(result: AchievableSloResult): Insight {
   if (maxAchievableSlo >= 99.9) {
     return {
       type: 'success',
-      title: 'Enterprise-grade reliability',
-      message: `You can achieve ${formatSlo(maxAchievableSlo)} uptime. That's three nines or better—suitable for mission-critical systems.`,
+      title: 'Modeled availability above 99.9%',
+      message: `These inputs model ${formatSlo(maxAchievableSlo)} availability. Choose a target based on user needs and measured service behavior; this estimate is not a guarantee.`,
     };
   }
 
@@ -94,7 +94,7 @@ function getInsight(result: AchievableSloResult): Insight {
     return {
       type: 'info',
       title: 'Efficient response chain',
-      message: `Only ${responseOverheadPercent.toFixed(0)}% overhead before diagnosis begins. Your alerting and access workflows are well-optimized.`,
+      message: `Only ${responseOverheadPercent.toFixed(0)}% overhead before diagnosis begins. Check these assumptions against actual incidents before changing response targets.`,
     };
   }
 

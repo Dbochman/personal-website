@@ -59,10 +59,11 @@ describe('BlogCard', () => {
     });
   });
 
-  it('renders with card component classes', () => {
-    const { container } = renderWithRouter(<BlogCard post={mockPost} />);
-    const card = container.querySelector('.group-hover\\:shadow-lg');
-    expect(card).toBeInTheDocument();
+  it('updates a post when its metadata changes without changing its slug', () => {
+    const { rerender } = renderWithRouter(<BlogCard post={mockPost} />);
+    rerender(<BrowserRouter><BlogCard post={{ ...mockPost, title: 'Revised title', description: 'Revised description' }} /></BrowserRouter>);
+    expect(screen.getByRole('link', { name: 'Revised title' })).toHaveAttribute('href', `/blog/${mockPost.slug}`);
+    expect(screen.getByText('Revised description')).toBeVisible();
   });
 
   describe('analytics', () => {

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useToast, toast, reducer } from './use-toast'
-import type { ToasterToast } from '@/components/ui/toast'
+import type { ToasterToast } from './use-toast'
 
 // Type for toast controls returned by the toast function
 type ToastControls = {
@@ -130,7 +130,7 @@ describe('useToast', () => {
 
   describe('toast function', () => {
     it('should return toast controls', () => {
-      let result: ToastControls
+      let result!: ReturnType<typeof toast>
       act(() => {
         result = toast({ title: 'Test' })
       })

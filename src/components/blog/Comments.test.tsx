@@ -8,8 +8,8 @@ vi.mock('@/context/ThemeContext', () => ({
 }));
 
 type MockIO = {
-  observe: ReturnType<typeof vi.fn>;
-  disconnect: ReturnType<typeof vi.fn>;
+  observe: ReturnType<typeof vi.fn<IntersectionObserver['observe']>>;
+  disconnect: ReturnType<typeof vi.fn<IntersectionObserver['disconnect']>>;
   callback: IntersectionObserverCallback;
 };
 
@@ -22,7 +22,7 @@ class TestIntersectionObserver implements IntersectionObserver {
   readonly thresholds: ReadonlyArray<number> = [];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+  constructor(callback: IntersectionObserverCallback, _options?: IntersectionObserverInit) {
     mockIO.callback = callback;
   }
 

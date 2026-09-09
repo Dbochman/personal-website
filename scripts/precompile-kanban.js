@@ -313,6 +313,7 @@ async function precompileKanban() {
       const outputFile = join(OUTPUT_DIR, `${board.id}.js`);
       const outputContent = `// Auto-generated - do not edit
 // Source: content/kanban/${board.id}/
+/** @type {import('../../types/kanban').KanbanBoard} */
 export const board = ${JSON.stringify(board, null, 2)};
 `;
       await writeFile(outputFile, outputContent);

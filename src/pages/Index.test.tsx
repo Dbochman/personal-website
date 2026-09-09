@@ -10,7 +10,7 @@ describe('Index Page', () => {
   it('should render all sections, key details, and homepage structured data', async () => {
     render(
       <HelmetProvider>
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <BrowserRouter>
           <ThemeProvider>
             <Index />
           </ThemeProvider>
@@ -22,15 +22,9 @@ describe('Index Page', () => {
     const main = screen.getByRole('main');
     expect(within(main).getAllByText('Dylan Bochman')[0]).toBeInTheDocument();
     expect(within(main).getAllByText('Sr. Site Reliability Engineer - Technical Incident Manager')[0]).toBeInTheDocument();
-    expect(screen.getByText((content, node) => {
-      if (!node) return false;
-      const hasText = (n) => /Specializing in.*Reliability, Resilience, and Incident Management/.test(n.textContent || '');
-      const nodeHasText = hasText(node);
-      const childrenDontHaveText = Array.from(node.children).every(
-        (child) => !hasText(child)
-      );
-      return nodeHasText && childrenDontHaveText;
-    })).toBeInTheDocument();
+    expect(screen.getByText(/I lead incident response/)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Selected projects' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'NVIDIA' })).toBeVisible();
 
     // Check for buttons
     expect(screen.getAllByText('Email')[0].closest('a')).toHaveAttribute('href', 'mailto:dylanbochman@gmail.com');
@@ -42,7 +36,7 @@ describe('Index Page', () => {
 
     // Check for other section titles
     expect(screen.getByText('Professional Experience')).toBeInTheDocument();
-    expect(screen.getByText('Career Goals')).toBeInTheDocument();
+
     expect(screen.getByText("Let's Connect")).toBeInTheDocument();
 
     await waitFor(() => {
@@ -53,7 +47,7 @@ describe('Index Page', () => {
 
       expect(profilePage).toMatchObject({
         dateCreated: '2026-01-04T00:00:00-05:00',
-        dateModified: '2026-01-28T20:28:24-05:00',
+        dateModified: '2026-09-08T00:00:00-04:00',
         mainEntity: {
           '@type': 'Person',
           name: 'Dylan Bochman',

@@ -9,7 +9,7 @@ const mockPosts: BlogPost[] = [
     title: 'First Post',
     slug: 'first-post',
     date: '2026-01-07',
-    author: 'Author One',
+    author: 'Dylan',
     description: 'First post description',
     tags: ['React', 'TypeScript'],
     category: 'Technical',
@@ -22,7 +22,7 @@ const mockPosts: BlogPost[] = [
     title: 'Second Post',
     slug: 'second-post',
     date: '2026-01-06',
-    author: 'Author Two',
+    author: 'Claude',
     description: 'Second post about DevOps',
     tags: ['DevOps', 'SRE'],
     category: 'Technical',
@@ -35,7 +35,7 @@ const mockPosts: BlogPost[] = [
     title: 'Third Post',
     slug: 'third-post',
     date: '2026-01-05',
-    author: 'Author Three',
+    author: 'Dylan & Claude',
     description: 'Third post description',
     tags: ['React', 'DevOps'],
     category: 'Tutorial',
@@ -90,25 +90,10 @@ describe('BlogList', () => {
   it('filters posts by tag when clicked', () => {
     renderWithRouter(<BlogList posts={mockPosts} />);
 
-    // Find all React tags and click the first one (which should be in the filter section)
-    const reactTags = screen.getAllByText('React');
-    // Find the one with cursor-pointer class (filter badge)
-    const reactFilterBadge = reactTags.find(el =>
-      el.classList.contains('cursor-pointer') ||
-      el.parentElement?.classList.contains('cursor-pointer')
-    );
-
-    if (reactFilterBadge) {
-      fireEvent.click(reactFilterBadge);
-
-      // Should show only posts with React tag
-      expect(screen.getByText('First Post')).toBeInTheDocument();
-      expect(screen.getByText('Third Post')).toBeInTheDocument();
-      expect(screen.queryByText('Second Post')).not.toBeInTheDocument();
-    } else {
-      // Skip this assertion if we can't find the filter badge
-      expect(reactTags.length).toBeGreaterThan(0);
-    }
+    fireEvent.click(screen.getByRole('button', { name: 'React' }));
+    expect(screen.getByText('First Post')).toBeInTheDocument();
+    expect(screen.getByText('Third Post')).toBeInTheDocument();
+    expect(screen.queryByText('Second Post')).not.toBeInTheDocument();
   });
 
   it('displays empty state when no posts match filters', () => {

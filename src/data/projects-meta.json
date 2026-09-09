@@ -2,8 +2,12 @@
   {
     "slug": "slo-tool",
     "title": "SLO Calculator",
-    "description": "Unified SLO calculator and error budget tracker. See what SLO you can achieve, check if you can meet a target, and visualize your budget burndown—all in one place.",
-    "tags": ["SRE", "Calculator", "SLO"],
+    "description": "Estimate availability from incident frequency and response time, test an SLO target, and track error budget consumption.",
+    "tags": [
+      "SRE",
+      "Calculator",
+      "SLO"
+    ],
     "keywords": [
       "SLO calculator",
       "SLA calculator",
@@ -26,8 +30,12 @@
   {
     "slug": "statuspage-update",
     "title": "Status Page Update Generator",
-    "description": "Free tool to generate professional incident status updates. Create clear, consistent messages for investigating, identified, monitoring, and resolved phases—compatible with Statuspage, PagerDuty, and any status page provider.",
-    "tags": ["SRE", "Incidents", "Communication"],
+    "description": "Draft status updates for each incident phase. Fill in the affected service and impact, then copy the message into your status page.",
+    "tags": [
+      "SRE",
+      "Incidents",
+      "Communication"
+    ],
     "keywords": [
       "status page update generator",
       "incident status message template",
@@ -53,8 +61,12 @@
   {
     "slug": "oncall-coverage",
     "title": "On-Call Coverage Models",
-    "description": "Compare on-call rotation schedules: follow-the-sun, weekly rotation, 12-hour shifts, and more. Visualize coverage gaps, engineer burden, and find the right schedule for your team size.",
-    "tags": ["SRE", "On-Call", "Planning"],
+    "description": "Compare rotation schedules, coverage gaps, and time on call using sample teams. Explore the tradeoffs before designing your own schedule.",
+    "tags": [
+      "SRE",
+      "On-Call",
+      "Planning"
+    ],
     "keywords": [
       "on-call rotation schedule",
       "on-call schedule calculator",
@@ -79,7 +91,11 @@
     "slug": "kanban",
     "title": "Kanban Board",
     "description": "Interactive task board with drag-and-drop. Create, organize, and share your boards via URL.",
-    "tags": ["Productivity", "React", "dnd-kit"],
+    "tags": [
+      "Productivity",
+      "React",
+      "dnd-kit"
+    ],
     "icon": "Columns",
     "status": "active",
     "createdAt": "2026-01-13",
@@ -89,7 +105,11 @@
     "slug": "analytics",
     "title": "Site Analytics Dashboard",
     "description": "Unified view of site performance: GA4 traffic, Search Console rankings, Lighthouse audits, and Real User Monitoring. Data pipelines via GitHub Actions.",
-    "tags": ["Analytics", "Performance", "Observability"],
+    "tags": [
+      "Analytics",
+      "Performance",
+      "Observability"
+    ],
     "icon": "BarChart3",
     "status": "active",
     "createdAt": "2026-01-14",
@@ -99,7 +119,11 @@
     "slug": "changelog",
     "title": "Change Log Explorer",
     "description": "Browse the history of completed work on this site. Expandable cards with PR links, plan files, checklists, and timeline of each item's journey.",
-    "tags": ["Meta", "History", "Documentation"],
+    "tags": [
+      "Meta",
+      "History",
+      "Documentation"
+    ],
     "icon": "ScrollText",
     "status": "active",
     "createdAt": "2026-01-16",
@@ -109,7 +133,11 @@
     "slug": "cli-playground",
     "title": "CLI Tool Playground",
     "description": "Interactive in-browser demos for common CLI tools. Experiment with jq, grep, sed, and awk using sample data and presets.",
-    "tags": ["Learning", "CLI", "Tools"],
+    "tags": [
+      "Learning",
+      "CLI",
+      "Tools"
+    ],
     "keywords": [
       "jq tutorial",
       "jq playground",
@@ -129,8 +157,12 @@
   {
     "slug": "incident-command-diagrams",
     "title": "Incident Response Diagrams",
-    "description": "Free incident response flowcharts for escalation, management, and paging. Interactive Mermaid diagrams you can copy, customize, and use in your runbooks.",
-    "tags": ["SRE", "Incidents", "Runbooks"],
+    "description": "Explore escalation, incident coordination, and paging flowcharts. Copy the Mermaid source and adapt it to your team.",
+    "tags": [
+      "SRE",
+      "Incidents",
+      "Runbooks"
+    ],
     "keywords": [
       "incident escalation flowchart",
       "incident management process",
@@ -154,8 +186,12 @@
   {
     "slug": "k8s-rightsizer",
     "title": "K8s Resource Right-Sizer",
-    "description": "Recommend Kubernetes CPU and memory requests/limits based on observed usage percentiles. Adjust the efficiency-safety slider, see estimated savings, and export YAML.",
-    "tags": ["SRE", "Kubernetes", "Calculator"],
+    "description": "Explore CPU and memory requests from observed usage percentiles. Adjust the safety margin and export a YAML starting point.",
+    "tags": [
+      "SRE",
+      "Kubernetes",
+      "Calculator"
+    ],
     "keywords": [
       "kubernetes resource calculator",
       "k8s requests limits calculator",
@@ -179,8 +215,12 @@
   {
     "slug": "echonest",
     "title": "EchoNest",
-    "description": "Collaborative music queue for offices and parties. Spin up Nests (breakout rooms), vote on the queue, trigger airhorns, and let Bender auto-fill with genre picks and throwbacks when things get quiet.",
-    "tags": ["Music", "Spotify", "Real-time"],
+    "description": "A collaborative music queue with breakout rooms, voting, and automatic track suggestions.",
+    "tags": [
+      "Music",
+      "Spotify",
+      "Real-time"
+    ],
     "keywords": [
       "spotify queue",
       "collaborative playlist",

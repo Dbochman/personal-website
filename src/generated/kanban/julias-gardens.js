@@ -1,5 +1,6 @@
 // Auto-generated - do not edit
 // Source: content/kanban/julias-gardens/
+/** @type {import('../../types/kanban').KanbanBoard} */
 export const board = {
   "schemaVersion": 1,
   "id": "julias-gardens",

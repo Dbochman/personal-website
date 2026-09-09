@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { TransitionLink } from '@/hooks/useViewTransition';
 import type { ProjectMeta } from '@/types/project';
-import { cn } from '@/lib/utils';
 import { preloadProject } from '@/App';
 
 // Icon registry - add icons here as new projects are added
@@ -66,41 +65,22 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
   return (
     <TransitionLink
       to={`/projects/${project.slug}`}
-      className="block group focus:outline-hidden"
+      className="block group rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4"
       onMouseEnter={handleFirstInteraction}
       onFocus={handleFirstInteraction}
     >
-      <div className="h-full rounded-xl overflow-hidden border border-border bg-card hover:border-foreground/30 focus-within:border-foreground/30 transition-all duration-300 hover:shadow-lg focus-within:shadow-lg">
-        {/* Preview area - monochrome icon display */}
-        <div className={cn(
-          "relative h-32 flex items-center justify-center",
-          "bg-linear-to-br from-foreground/5 via-foreground/2 to-transparent"
-        )}>
-          {/* Tool visualization */}
-          {IconComponent && (
-            <div className="relative">
-              <div className="absolute inset-0 blur-xl opacity-50 bg-foreground/20" />
-              <div
-                className="relative p-4 rounded-xl border shadow-xs bg-foreground/10 border-foreground/20"
-                style={{ viewTransitionName: `project-icon-${project.slug}` }}
-              >
-                <IconComponent className="w-8 h-8 text-foreground/80" />
-              </div>
-            </div>
-          )}
-
-          {/* Grid pattern overlay */}
-          <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-              backgroundImage: 'linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)',
-              backgroundSize: '20px 20px'
-            }}
-          />
-        </div>
+      <div className="h-full rounded-xl overflow-hidden border border-border bg-card hover:border-foreground/30 focus-within:border-foreground/30 transition-colors">
+        {['slo-tool', 'statuspage-update', 'oncall-coverage'].includes(project.slug) ? (
+          <div className="border-b border-border bg-muted/40 p-4">
+            <img src={`/project-previews/${project.slug}.jpg`} alt={`${project.title}: example output`} width={846} height={430} loading="lazy" decoding="async" className="w-full h-40 object-contain" />
+            <p className="mt-3 text-xs font-mono text-muted-foreground">Example output</p>
+          </div>
+        ) : IconComponent ? (
+          <div className="px-5 pt-5"><IconComponent className="h-6 w-6 text-muted-foreground" aria-hidden="true" /></div>
+        ) : null}
 
         {/* Content */}
-        <div className="p-4">
+        <div className="p-5">
           <h3
             className="font-semibold text-foreground mb-2"
             style={{ viewTransitionName: `project-title-${project.slug}` }}
@@ -108,7 +88,7 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
             {project.title}
           </h3>
 
-          <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+          <p className="text-sm text-muted-foreground mb-3">
             {project.description}
           </p>
 
@@ -117,7 +97,7 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
             {project.tags.slice(0, 3).map((tag) => (
               <span
                 key={tag}
-                className="text-xs px-2 py-0.5 rounded bg-foreground/5 text-foreground/60"
+                className="text-xs px-2 py-0.5 rounded bg-foreground/5 text-muted-foreground"
               >
                 {tag}
               </span>
@@ -130,4 +110,4 @@ export const ProjectCard = memo(function ProjectCard({ project }: ProjectCardPro
       </div>
     </TransitionLink>
   );
-}, (prevProps, nextProps) => prevProps.project.slug === nextProps.project.slug);
+});

@@ -3,6 +3,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import { Footer } from '@/components/layout/Footer';
 import { ProjectGrid } from '@/components/projects/ProjectGrid';
 import { getAllProjects } from '@/data/projects';
+import { groupProjects } from '@/data/project-groups';
 
 export default function Projects() {
   const projects = getAllProjects();
@@ -45,15 +46,20 @@ export default function Projects() {
       </Helmet>
 
       <PageLayout>
-        <div className="container mx-auto px-4 py-12">
+        <div className="portfolio-shell py-12 sm:py-20">
           <header className="mb-12">
             <h1 className="text-4xl font-bold text-balance mb-4" style={{ viewTransitionName: 'page-title' }}>Projects</h1>
             <p className="text-xl text-muted-foreground text-pretty">
-              Interactive tools and utilities for site reliability engineering.
+              Tools for planning reliability work, communicating during incidents, and testing ideas.
             </p>
           </header>
 
-          <ProjectGrid projects={projects} />
+          {groupProjects(projects).map(group => (
+            <section key={group.title} className="mb-16">
+              <div className="section-heading"><div><h2 className="text-2xl font-semibold mb-3">{group.title}</h2><p className="text-muted-foreground">{group.description}</p></div></div>
+              <ProjectGrid projects={group.projects} />
+            </section>
+          ))}
 
           <div className="mt-16">
             <Footer />

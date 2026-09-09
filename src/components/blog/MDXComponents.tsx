@@ -32,6 +32,9 @@ const isInternalUrl = (href: string | undefined): string | null => {
 
 // Smart link component that uses React Router for internal links
 const SmartLink = ({ href, children }: { href?: string; children?: React.ReactNode }) => {
+  if (href?.startsWith('#')) {
+    return <a href={href} className="text-primary underline hover:text-primary/80 font-medium">{children}</a>;
+  }
   const internalPath = isInternalUrl(href);
 
   if (internalPath) {
@@ -64,33 +67,33 @@ const SmartLink = ({ href, children }: { href?: string; children?: React.ReactNo
  */
 export const mdxComponents: MDXComponents = {
   // Headings
-  h1: ({ children }) => (
-    <h1 className="text-4xl font-bold mt-8 mb-4 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+  h1: ({ children, id }) => (
+    <h1 className="text-4xl font-bold mt-8 mb-4 text-foreground scroll-mt-20" id={id}>
       {children}
     </h1>
   ),
-  h2: ({ children }) => (
-    <h2 className="text-3xl font-bold mt-8 mb-4 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+  h2: ({ children, id }) => (
+    <h2 className="text-3xl font-bold mt-8 mb-4 text-foreground scroll-mt-20" id={id}>
       {children}
     </h2>
   ),
-  h3: ({ children }) => (
-    <h3 className="text-2xl font-semibold mt-6 mb-3 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+  h3: ({ children, id }) => (
+    <h3 className="text-2xl font-semibold mt-6 mb-3 text-foreground scroll-mt-20" id={id}>
       {children}
     </h3>
   ),
-  h4: ({ children }) => (
-    <h4 className="text-xl font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+  h4: ({ children, id }) => (
+    <h4 className="text-xl font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={id}>
       {children}
     </h4>
   ),
-  h5: ({ children }) => (
-    <h5 className="text-lg font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+  h5: ({ children, id }) => (
+    <h5 className="text-lg font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={id}>
       {children}
     </h5>
   ),
-  h6: ({ children }) => (
-    <h6 className="text-base font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={String(children).toLowerCase().replace(/\s+/g, '-')}>
+  h6: ({ children, id }) => (
+    <h6 className="text-base font-semibold mt-4 mb-2 text-foreground scroll-mt-20" id={id}>
       {children}
     </h6>
   ),

@@ -101,7 +101,7 @@ function matchPost(
 }
 
 /** Aggregate blog page data from a single GA4 entry */
-function extractBlogPages(entry: GA4HistoryEntry) {
+function extractBlogPages(entry: Pick<GA4HistoryEntry, 'topPages'>) {
   const map = new Map<string, { sessions: number; users: number; pageViews: number }>();
   for (const page of entry.topPages ?? []) {
     if (!page.page.startsWith('/blog/') || page.page === '/blog/' || page.page === '/blog') continue;
@@ -129,7 +129,7 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
 
   // --- 7d data (latest entry) ---
   const enrichedData = useMemo(() => {
-    const blogPageMap = extractBlogPages(latestGA4 ?? { topPages: [] } as GA4HistoryEntry);
+    const blogPageMap = extractBlogPages(latestGA4 ?? { topPages: [] });
 
     const rows = Array.from(blogPageMap.entries()).map(([path, stats]) => {
       const slug = extractSlug(path);

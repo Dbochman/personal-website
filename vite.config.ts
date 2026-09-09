@@ -71,7 +71,7 @@ export default defineConfig(({ mode }) => ({
           }
           // Core vendor chunks
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
+            if (/node_modules\/(react|react-dom|scheduler)\//.test(id)) {
               return 'vendor';
             }
             if (id.includes('@radix-ui')) {

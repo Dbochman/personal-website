@@ -8,9 +8,9 @@ interface TeamListProps {
 
 // Timezone-based colors (matches DailyHeatmap)
 const TIMEZONE_COLORS: Record<string, { bg: string }> = {
-  'America/New_York': { bg: 'bg-emerald-700 dark:bg-emerald-600' },
+  'America/New_York': { bg: 'bg-emerald-700 dark:bg-emerald-700' },
   'America/Los_Angeles': { bg: 'bg-sky-500 dark:bg-sky-600' },
-  'America/Chicago': { bg: 'bg-emerald-700 dark:bg-emerald-600' },
+  'America/Chicago': { bg: 'bg-emerald-700 dark:bg-emerald-700' },
   'Europe/London': { bg: 'bg-rose-400 dark:bg-rose-600' },
   'Asia/Tokyo': { bg: 'bg-violet-400 dark:bg-violet-600' },
 };
@@ -66,7 +66,7 @@ export function TeamList({ team }: TeamListProps) {
                   <span title="Hours per week">{member.hoursPerWeek}h/wk</span>
                   {member.nightHours > 0 && (
                     <span
-                      className="text-amber-600 dark:text-amber-400"
+                      className="text-amber-800 dark:text-amber-400"
                       title="Night hours"
                     >
                       {member.nightHours}h nights

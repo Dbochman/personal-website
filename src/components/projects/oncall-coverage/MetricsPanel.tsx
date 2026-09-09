@@ -74,9 +74,9 @@ function MetricBox({ label, value, highlight, warning, small }: MetricBoxProps) 
       <div
         className={`font-semibold ${small ? 'text-sm' : 'text-lg'} ${
           highlight
-            ? 'text-green-600 dark:text-green-400'
+            ? 'text-green-700 dark:text-green-400'
             : warning
-              ? 'text-amber-600 dark:text-amber-400'
+              ? 'text-amber-800 dark:text-amber-400'
               : ''
         }`}
       >

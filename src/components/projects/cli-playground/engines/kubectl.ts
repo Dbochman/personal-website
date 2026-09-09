@@ -798,7 +798,7 @@ function createNodeWithPressure(name: string): Node {
   return node;
 }
 
-function createEvent(kind: string, name: string, namespace: string, type: 'Normal' | 'Warning', reason: string, component: string, message: string, age: string, count: number): Event {
+function createEvent(kind: string, name: string, namespace: string, type: 'Normal' | 'Warning', reason: string, component: string, message: string, _age: string, count: number): Event {
   return {
     metadata: { name: `${name}.${Date.now().toString(36)}`, namespace: namespace || 'default', creationTimestamp: '2024-01-15T10:00:00Z', uid: `event-${name}-${reason}-uid` },
     involvedObject: { kind: kind.charAt(0).toUpperCase() + kind.slice(1), name, namespace: namespace || undefined, uid: `${kind}-${name}-uid` },

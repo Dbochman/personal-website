@@ -22,7 +22,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={['/non-existent-page']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -36,7 +36,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={['/non-existent-page']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -54,7 +54,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={[testPath]}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -70,7 +70,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={['/non-existent-page']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -85,7 +85,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={['/non-existent-page']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -111,7 +111,7 @@ describe('NotFound', () => {
     const { unmount } = render(
       <MemoryRouter
         initialEntries={['/first-path']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -129,7 +129,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={['/second-path']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>

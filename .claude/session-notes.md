@@ -520,3 +520,15 @@ runtime paths, raw captures, and authentication material.
 - Hover plus focus could schedule two expertise timers; canceling only the last timer let a closed mobile card reopen. Deduplicate the timer and cancel it on either click action.
 - ResponsiveTabsList caller classes included `grid`, overriding its `hidden` class on mobile. Put breakpoint visibility on a separate wrapper.
 - Functional regression tests are tagged `@smoke` so existing CI runs them. Explicit application typechecking still has a pre-existing backlog; the root `tsc --noEmit` command does not check the referenced application project.
+
+
+## 2026-09-08: Portfolio redesign and type/dependency cleanup
+
+- Stack this work on the functional fixes PR #327. The original checkout remains untouched; development used a separate worktree.
+- Use `npm run typecheck` after `npm run build:content`. It checks application and unit-test sources plus Vite; root `tsc --noEmit` was not checking those projects. Generated kanban exports now declare their validated board contract.
+- Router 7 no longer accepts the v6 future flags. Recharts 3 custom tooltip content receives TooltipContentProps, not the Tooltip component's props.
+- Homepage and blog listings consume the generated metadata manifest; lazy MDX bodies load per article. Prerendering must still include complete article bodies, checked by a browser regression.
+- Tailwind Merge 3 matches the site's Tailwind 4 utilities. Toasts now use the existing URL theme context, allowing removal of the unused next-themes provider dependency.
+- Project previews are labeled example output and can be recaptured with scripts/capture-project-previews.mjs.
+- Runbook link overflow differed between Mac and CI font metrics. Test a fallback font and allow long documentation filenames to wrap rather than hiding overflow.
+- MDX heading IDs come from rehype-slug; deriving IDs from rendered React children produced `[object-object]`. Fragment links must stay in-page, and initial hash scrolling must wait until lazy article content commits.

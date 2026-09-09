@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { useParallax } from "@/hooks/useParallax";
+
 import { useViewTransitionHints } from '@/hooks/useViewTransition';
 import Header from "@/components/layout/Header";
-import ParallaxBackground from "@/components/layout/ParallaxBackground";
+
 import BackToTop from "@/components/BackToTop";
 
 interface PageLayoutProps {
@@ -11,7 +11,7 @@ interface PageLayoutProps {
 }
 
 const PageLayout = ({ children }: PageLayoutProps) => {
-  useParallax();
+
   useViewTransitionHints();
 
   return (
@@ -23,22 +23,6 @@ const PageLayout = ({ children }: PageLayoutProps) => {
       >
         Skip to main content
       </a>
-
-      {/* SRE Dashboard Grid Background */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 animate-grid-pulse" style={{
-          backgroundImage: `
-            linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '60px 40px'
-        }}></div>
-      </div>
-
-      {/* Parallax Décor Layer - Hidden on mobile */}
-      <div className="hidden md:block">
-        <ParallaxBackground />
-      </div>
 
       {/* Header */}
       <Header />

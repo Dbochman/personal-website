@@ -1,10 +1,8 @@
 
-import React, { useState, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useCallback } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { coreExpertise, allSkills } from "@/data/expertise";
 import { ExpertiseCard } from "./ExpertiseCard";
-import { staggerContainer, staggerItem } from "@/lib/motion";
 
 const Sidebar = () => {
   const [expandedIndices, setExpandedIndices] = useState<Set<number>>(new Set());
@@ -22,20 +20,16 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="lg:sticky lg:top-24 space-y-6">
+    <div className="space-y-6">
       {/* Core Expertise Card */}
-      <Card className="bg-background/60 backdrop-blur-xs border-transparent">
-        <CardContent className="p-6">
+      <Card className="bg-transparent border-border shadow-none">
+        <CardContent className="p-5">
           <h2 className="text-lg font-bold text-foreground mb-6">Core Expertise</h2>
-          <motion.div
+          <div
             className="space-y-2"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
           >
             {coreExpertise.map((item, index) => (
-              <motion.div key={index} variants={staggerItem}>
+              <div key={index}>
                 <ExpertiseCard
                   item={item}
                   index={index}
@@ -43,9 +37,9 @@ const Sidebar = () => {
                   onExpand={() => handleExpand(index)}
                   onCollapse={() => handleCollapse(index)}
                 />
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
 
           {/* Crawlable skills list - visible to search engines and screen readers */}
           <div className="sr-only">

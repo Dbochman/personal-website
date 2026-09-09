@@ -106,7 +106,7 @@ function generateFixing(
 
 function generateMonitoring(
   service: string,
-  description: string,
+  _description: string,
   actions: string,
   cadenceStatement?: string
 ): string {
