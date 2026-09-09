@@ -4,7 +4,7 @@ test.describe('@smoke Blog discovery regressions', () => {
   test('featured posts participate in search without duplicate cards', async ({ page }) => {
     await page.goto('/blog');
     const title = await page.locator('article h2').first().innerText();
-    await page.getByRole('searchbox', { name: 'Search posts' }).fill(title);
+    await page.getByRole('searchbox', { name: 'Search posts' }).pressSequentially(title);
     await expect(page.getByRole('heading', { name: title, level: 3 })).toBeVisible();
     await expect(page.getByRole('link', { name: title, exact: true })).toHaveCount(1);
     await expect(page.getByText('No posts found matching your criteria.')).toHaveCount(0);
@@ -40,6 +40,9 @@ test.describe('@smoke Blog discovery regressions', () => {
     await expect(tag).toHaveAttribute('aria-pressed', 'true');
     await page.getByRole('combobox', { name: 'Sort posts by' }).click();
     await page.getByRole('option', { name: 'Oldest First' }).click();
+    // Radix restores focus after the menu's exit animation. Finish that
+    // interaction before focusing the search field for the next one.
+    await expect(page.getByRole('combobox', { name: 'Sort posts by' })).toBeFocused();
     await page.getByRole('searchbox').pressSequentially('no-matching-article-123');
     await expect(page.getByRole('searchbox')).toHaveValue('no-matching-article-123');
     await page.reload();
