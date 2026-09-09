@@ -11,7 +11,7 @@ import MetricWave from "@/components/icons/MetricWave";
 
 const ParallaxBackground = () => {
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
       {/* SRE Monitoring Dashboard Zone - Top Right */}
       <div className="absolute inset-0 z-2 opacity-20">
         <div 

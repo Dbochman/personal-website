@@ -1,4 +1,5 @@
-import { useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { readBlogFilters } from '@/lib/blog-filters';
 import { Helmet } from 'react-helmet-async';
 import { Rss } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
@@ -11,9 +12,9 @@ export default function Blog() {
   // Load synchronously for SSR/pre-rendering
   const posts = getAllPosts();
 
-  // Extract featured post and regular posts
-  const featuredPost = useMemo(() => posts.find((p) => p.featured), [posts]);
-  const regularPosts = useMemo(() => posts.filter((p) => !p.featured), [posts]);
+  const [searchParams] = useSearchParams();
+  const { active } = readBlogFilters(searchParams);
+  const featuredPost = posts.find(post => post.featured);
 
   return (
     <>
@@ -90,10 +91,10 @@ export default function Blog() {
             </header>
 
             {/* Featured Hero in right column */}
-            {featuredPost && <FeaturedHero post={featuredPost} />}
+            {featuredPost && !active && <FeaturedHero post={featuredPost} />}
           </div>
 
-          <BlogList posts={regularPosts} />
+          <BlogList posts={posts} featuredSlug={featuredPost?.slug} />
 
           <div className="mt-16">
             <Footer />

@@ -22,9 +22,9 @@ const ContactSection = () => {
       </div>
       
       <div className="container mx-auto max-w-4xl text-center relative z-10">
-        <h3 className="text-4xl font-bold mb-8">
+        <h2 className="text-4xl font-bold mb-8">
           Let's Connect
-        </h3>
+        </h2>
         <p className="text-foreground/80 mb-8 text-lg">
           Interested in discussing on-call tooling, challenging incidents, or potential opportunities?
         </p>

@@ -193,6 +193,7 @@ export function AnalyticsDashboard() {
       {/* Tabbed Sections */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <ResponsiveTabsList
+          label="Analytics view"
           items={visibleTabs}
           value={activeTab}
           onValueChange={setActiveTab}

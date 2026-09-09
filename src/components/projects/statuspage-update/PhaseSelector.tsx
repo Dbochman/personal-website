@@ -39,7 +39,7 @@ export function PhaseSelector({ value, onChange }: PhaseSelectorProps) {
                 >
                   {config.label}
                 </span>
-                <span className="text-xs text-muted-foreground mt-1 text-center hidden sm:block">
+                <span className="text-xs text-foreground/80 mt-1 text-center hidden sm:block">
                   {config.description}
                 </span>
               </button>

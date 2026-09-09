@@ -146,7 +146,7 @@ export function AchievableTab({ result, period }: AchievableTabProps) {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-foreground/80">
               Per-incident MTTR
             </CardTitle>
           </CardHeader>
@@ -157,7 +157,7 @@ export function AchievableTab({ result, period }: AchievableTabProps) {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-foreground/80">
               {PERIOD_LABELS[period]} downtime
             </CardTitle>
           </CardHeader>
@@ -168,7 +168,7 @@ export function AchievableTab({ result, period }: AchievableTabProps) {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-foreground/80">
               Yearly downtime
             </CardTitle>
           </CardHeader>
@@ -187,7 +187,7 @@ export function AchievableTab({ result, period }: AchievableTabProps) {
 
         <Card className="bg-primary/5 border-primary/20">
           <CardHeader className="pb-2">
-            <CardTitle as="h2" className="text-sm font-medium text-muted-foreground">
+            <CardTitle as="h2" className="text-sm font-medium text-foreground/80">
               Maximum achievable SLO
             </CardTitle>
           </CardHeader>
@@ -236,7 +236,7 @@ export function AchievableTab({ result, period }: AchievableTabProps) {
                 <Icon className={`h-5 w-5 ${styles.icon} shrink-0 mt-0.5`} />
                 <div>
                   <p className="font-medium text-sm">{insight.title}</p>
-                  <p className="text-sm text-muted-foreground mt-1">{insight.message}</p>
+                  <p className="text-sm text-foreground/80 mt-1">{insight.message}</p>
                 </div>
               </div>
             </CardContent>

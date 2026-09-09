@@ -2,7 +2,9 @@ import { useState, useMemo, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
+import { badgeVariants } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
+import { readBlogFilters, type BlogSortOption } from '@/lib/blog-filters';
 import {
   Select,
   SelectContent,
@@ -11,54 +13,61 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { BlogCard } from './BlogCard';
-import type { BlogPost, BlogAuthor } from '@/types/blog';
+import { BLOG_AUTHORS, type BlogPost, type BlogAuthor } from '@/types/blog';
 import { filterPostsBySearch, filterPostsByTags, sortPostsByDate, sortPostsByReadingTime, getAllTags } from '@/lib/blog-utils';
 import { staggerContainer, staggerItem } from '@/lib/motion';
 import { trackEventDeferred } from '@/lib/analytics';
 
-type SortOption = 'newest' | 'oldest' | 'longest' | 'shortest';
-
 interface BlogListProps {
   posts: BlogPost[];
+  featuredSlug?: string;
 }
 
-export function BlogList({ posts }: BlogListProps) {
+export function BlogList({ posts, featuredSlug }: BlogListProps) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedAuthor, setSelectedAuthor] = useState<BlogAuthor | 'all'>('all');
-  const [sortOption, setSortOption] = useState<SortOption>('newest');
+  const { search: searchTerm, tags: selectedTags, author: selectedAuthor, sort: sortOption, active } =
+    useMemo(() => readBlogFilters(searchParams), [searchParams]);
+  // Let the input retain keystrokes while route updates are pending. Only sync
+  // a committed query when it still matches the latest browser URL, so an older
+  // transition cannot overwrite newer typing. This also restores Back/Forward.
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    const currentSearch = new URLSearchParams(window.location.search).get('q') || '';
+    if (searchInputRef.current && searchTerm === currentSearch) {
+      searchInputRef.current.value = searchTerm;
+    }
+  }, [searchTerm]);
   const [hasInteracted, setHasInteracted] = useState(false);
-
-  // Track pending tag click for deferred analytics
   const pendingTagRef = useRef<string | null>(null);
 
-  // Sync author filter with URL params (handles back/forward navigation)
-  useEffect(() => {
-    const authorParam = searchParams.get('author');
-    if (authorParam === 'Claude' || authorParam === 'Dylan') {
-      setSelectedAuthor(authorParam);
-    } else {
-      setSelectedAuthor('all');
-    }
-  }, [searchParams]);
-
-  // Update URL when author filter changes
-  const handleAuthorChange = (value: BlogAuthor | 'all') => {
+  // Read the current URL at the event boundary: a prior navigation (or the theme
+  // toggle) may have updated history before React commits the next render.
+  const updateFilter = (key: string, values: string[], replace = false) => {
     setHasInteracted(true);
-    setSelectedAuthor(value);
-    if (value === 'all') {
-      searchParams.delete('author');
-    } else {
-      searchParams.set('author', value);
-    }
-    setSearchParams(searchParams);
+    const next = new URLSearchParams(window.location.search);
+    next.delete(key);
+    values.forEach(value => next.append(key, value));
+    setSearchParams(next, { replace });
+  };
+
+  const handleAuthorChange = (value: BlogAuthor | 'all') => {
+    updateFilter('author', value === 'all' ? [] : [value]);
+  };
+
+  const clearFilters = () => {
+    setHasInteracted(true);
+    const next = new URLSearchParams(window.location.search);
+    ['q', 'tag', 'author', 'sort'].forEach(key => next.delete(key));
+    setSearchParams(next);
   };
 
   const allTags = useMemo(() => getAllTags(posts), [posts]);
 
   const filteredPosts = useMemo(() => {
-    let filtered = posts;
+    // Only omit the featured article while it is shown in the separate hero.
+    let filtered = !active && featuredSlug
+      ? posts.filter(post => post.slug !== featuredSlug)
+      : posts;
 
     // Filter by search term
     if (searchTerm) {
@@ -87,18 +96,13 @@ export function BlogList({ posts }: BlogListProps) {
       default:
         return sortPostsByDate(filtered, 'desc');
     }
-  }, [posts, searchTerm, selectedTags, selectedAuthor, sortOption]);
+  }, [posts, featuredSlug, active, searchTerm, selectedTags, selectedAuthor, sortOption]);
 
   const handleTagClick = (tag: string) => {
-    setHasInteracted(true);
-    setSelectedTags(prev => {
-      const isSelected = prev.includes(tag);
-      // Track tag additions (not removals) - deferred to avoid blocking INP
-      if (!isSelected) {
-        pendingTagRef.current = tag;
-      }
-      return isSelected ? prev.filter(t => t !== tag) : [...prev, tag];
-    });
+    const currentTags = new URLSearchParams(window.location.search).getAll('tag');
+    const isSelected = currentTags.includes(tag);
+    if (!isSelected) pendingTagRef.current = tag;
+    updateFilter('tag', isSelected ? currentTags.filter(value => value !== tag) : [...currentTags, tag]);
   };
 
   // Fire deferred analytics after state update completes
@@ -128,11 +132,10 @@ export function BlogList({ posts }: BlogListProps) {
         <Input
           type="search"
           placeholder="Search posts..."
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            setHasInteracted(true);
-          }}
+          aria-label="Search posts"
+          ref={searchInputRef}
+          defaultValue={searchTerm}
+          onChange={(e) => updateFilter('q', e.target.value ? [e.target.value] : [], true)}
           onBlur={handleSearchBlur}
           className="max-w-md"
         />
@@ -143,18 +146,22 @@ export function BlogList({ posts }: BlogListProps) {
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-sm font-medium text-muted-foreground">Filter by tag:</span>
               {allTags.map((tag) => (
-                <Badge
+                <button
                   key={tag}
-                  variant={selectedTags.includes(tag) ? 'default' : 'outline-solid'}
-                  className="cursor-pointer hover:bg-primary/10"
+                  type="button"
+                  aria-pressed={selectedTags.includes(tag)}
+                  className={cn(
+                    badgeVariants({ variant: selectedTags.includes(tag) ? 'default' : 'outline' }),
+                    'min-h-8 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
+                  )}
                   onClick={() => handleTagClick(tag)}
                 >
                   {tag}
-                </Badge>
+                </button>
               ))}
               {selectedTags.length > 0 && (
                 <button
-                  onClick={() => setSelectedTags([])}
+                  onClick={() => updateFilter('tag', [])}
                   className="text-sm text-muted-foreground hover:text-foreground ml-2"
                 >
                   Clear
@@ -172,8 +179,7 @@ export function BlogList({ posts }: BlogListProps) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
-                <SelectItem value="Claude">Claude</SelectItem>
-                <SelectItem value="Dylan">Dylan</SelectItem>
+                {BLOG_AUTHORS.map(author => <SelectItem key={author} value={author}>{author}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
@@ -181,7 +187,7 @@ export function BlogList({ posts }: BlogListProps) {
           {/* Sort Selector */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-muted-foreground">Sort:</span>
-            <Select value={sortOption} onValueChange={(value: SortOption) => setSortOption(value)}>
+            <Select value={sortOption} onValueChange={(value: BlogSortOption) => updateFilter('sort', value === 'newest' ? [] : [value])}>
               <SelectTrigger className="w-[150px]" aria-label="Sort posts by">
                 <SelectValue />
               </SelectTrigger>
@@ -221,13 +227,9 @@ export function BlogList({ posts }: BlogListProps) {
           <p className="text-muted-foreground">
             No posts found matching your criteria.
           </p>
-          {(searchTerm || selectedTags.length > 0 || selectedAuthor !== 'all') && (
+          {active && (
             <button
-              onClick={() => {
-                setSearchTerm('');
-                setSelectedTags([]);
-                handleAuthorChange('all');
-              }}
+              onClick={clearFilters}
               className="mt-2 text-sm text-primary hover:underline"
             >
               Clear filters

@@ -6,9 +6,9 @@ const GoalsSection = () => {
   return (
     <section id="goals" className="py-8">
       <div className="text-center mb-8">
-        <h3 className="text-3xl font-bold text-foreground mb-4">
+        <h2 className="text-3xl font-bold text-foreground mb-4">
           Career Goals
-        </h3>
+        </h2>
         <div className="w-20 h-0.5 bg-foreground mx-auto"></div>
       </div>
       <Card className="bg-background/30 backdrop-blur-xs border-foreground/20 hover:border-foreground/40 transition-all relative overflow-hidden">

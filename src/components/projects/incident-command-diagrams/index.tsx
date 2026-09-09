@@ -235,6 +235,7 @@ export default function IncidentCommandDiagrams() {
       </p>
       <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4">
         <ResponsiveTabsList
+          label="Incident response diagram"
           items={DIAGRAM_TABS}
           value={activeTab}
           onValueChange={handleTabChange}

@@ -242,6 +242,7 @@ export default function SloTool() {
         trackToolEvent({ tool_name: 'slo_calculator', action: 'tab_switch', event_label: v });
       }}>
         <ResponsiveTabsList
+          label="Calculation mode"
           items={SLO_TABS}
           value={mode}
           onValueChange={(v) => {
