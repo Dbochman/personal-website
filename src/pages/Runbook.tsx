@@ -23,7 +23,7 @@ const LinkComponent = ({ link }: { link: Link }) => (
     href={link.url}
     target="_blank"
     rel="noopener noreferrer"
-    className="text-foreground underline hover:opacity-70 transition-opacity"
+    className="text-foreground underline hover:opacity-70 transition-opacity [overflow-wrap:anywhere]"
   >
     {link.text}
   </a>

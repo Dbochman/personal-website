@@ -90,5 +90,8 @@ test.describe('@smoke Mobile accessibility regressions', () => {
     await page.goto('/runbook');
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
     await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
+    // Linux fallback font metrics make long documentation filenames wider.
+    await page.addStyleTag({ content: "main { font-family: Arial, sans-serif; }" });
+    await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(320);
   });
 });
