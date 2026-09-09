@@ -1,5 +1,6 @@
-import { Suspense } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Suspense, useLayoutEffect, type ComponentType } from 'react';
+import type { MDXProps } from 'mdx/types';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import PageLayout from '@/components/layout/PageLayout';
@@ -14,6 +15,18 @@ import { Comments } from '@/components/blog/Comments';
 import { RelatedPosts } from '@/components/blog/RelatedPosts';
 import { TransitionLink } from '@/hooks/useViewTransition';
 import { formatBlogDate } from '@/lib/blog-utils';
+
+// Mount inside Suspense so fragment scrolling waits for the article body.
+function ArticleBody({ Content }: { Content: ComponentType<MDXProps> }) {
+  const { hash } = useLocation();
+  useLayoutEffect(() => {
+    if (!hash) return;
+    let id: string;
+    try { id = decodeURIComponent(hash.slice(1)); } catch { return; }
+    document.getElementById(id)?.scrollIntoView({ block: 'start', behavior: 'instant' });
+  }, [hash, Content]);
+  return <Content components={mdxComponents} />;
+}
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -196,7 +209,7 @@ export default function BlogPost() {
             <article className="prose prose-lg max-w-none">
               {MDXContent && (
                 <Suspense fallback={<p role="status">Loading article…</p>}>
-                  <MDXContent components={mdxComponents} />
+                  <ArticleBody Content={MDXContent} />
                 </Suspense>
               )}
             </article>

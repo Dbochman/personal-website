@@ -59,3 +59,27 @@ test('@smoke article attribution and prerendered bodies match their authors', as
     expect(body).not.toContain('Loading article');
   }
 });
+
+test('@smoke heading links work after a delayed article load', async ({ page }) => {
+  const path = '/blog/2026-01-13-slo-uptime-calculator';
+  await page.goto(path);
+  const heading = page.locator('article.prose h2').nth(1);
+  await expect(heading).toBeVisible();
+  const id = await heading.getAttribute('id');
+  expect(id).toBeTruthy();
+  const link = heading.locator('a');
+  await expect(link).toHaveAttribute('href', `#${id}`);
+  await expect(link).not.toHaveAttribute('target', '_blank');
+  await link.click();
+  await expect(heading).toBeInViewport();
+
+  // Force a slow, uncached body request on a fresh document navigation.
+  await page.route('**/assets/2026-01-13-slo-uptime-calculator-*.js', async route => {
+    await new Promise(resolve => setTimeout(resolve, 500));
+    await route.continue();
+  });
+  await page.goto(`${path}#${id}`);
+  await expect(heading).toBeVisible();
+  await expect.poll(async () => (await heading.boundingBox())?.y).toBeLessThan(150);
+  await expect.poll(async () => (await heading.boundingBox())?.y).toBeGreaterThanOrEqual(0);
+});

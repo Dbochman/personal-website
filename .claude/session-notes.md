@@ -531,3 +531,4 @@ runtime paths, raw captures, and authentication material.
 - Tailwind Merge 3 matches the site's Tailwind 4 utilities. Toasts now use the existing URL theme context, allowing removal of the unused next-themes provider dependency.
 - Project previews are labeled example output and can be recaptured with scripts/capture-project-previews.mjs.
 - Runbook link overflow differed between Mac and CI font metrics. Test a fallback font and allow long documentation filenames to wrap rather than hiding overflow.
+- MDX heading IDs come from rehype-slug; deriving IDs from rendered React children produced `[object-object]`. Fragment links must stay in-page, and initial hash scrolling must wait until lazy article content commits.

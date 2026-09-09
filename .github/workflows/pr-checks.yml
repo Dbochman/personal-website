@@ -3,7 +3,7 @@ name: PR Checks
 on:
   pull_request:
     branches: [main, 'codex/**']
-    types: [opened, synchronize, edited, closed]
+    types: [opened, synchronize, closed]
     paths-ignore:
       - '**.md'
       - 'docs/**'
