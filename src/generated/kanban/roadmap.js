@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "repair-mobile-accessibility-and-blog-filtering",
+          "title": "repair mobile accessibility and blog filtering",
+          "labels": [
+            "Bugfix",
+            "PR #327"
+          ],
+          "checklist": [],
+          "createdAt": "2026-09-09T15:42:58.000Z",
+          "updatedAt": "2026-09-09T15:42:58.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-09-09T15:42:58.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* fix(ui): repair mobile controls and blog filtering\n\n* fix(blog): preserve typing across pending URL transitions\n\n* test(ui): wait for menu focus restoration before typing\n\n* fix(runbook): wrap documentation links on narrow screens"
+        },
+        {
           "id": "2026-08-09-the-smallest-useful-tailscale-setup",
           "title": "Blog: The Smallest Useful Tailscale Setup",
           "labels": [
@@ -3517,5 +3537,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-08-09T14:10:52.104Z"
+  "updatedAt": "2026-09-09T15:43:36.104Z"
 };
