@@ -516,7 +516,7 @@ runtime paths, raw captures, and authentication material.
 ## 2026-09-08: Functional website fixes
 
 - Review baseline was refreshed to the deployed `f556565` before branching; the original local checkout was 85 commits behind.
-- Blog filters now use URL parameters. Router transitions can lag behind browser history: preserve current URL parameters when applying the next filter and keep search keystrokes in synchronous input state.
+- Blog filters now use URL parameters. Router transitions can lag behind browser history: preserve current URL parameters when applying the next filter and let the search input retain keystrokes until the latest query commits.
 - Hover plus focus could schedule two expertise timers; canceling only the last timer let a closed mobile card reopen. Deduplicate the timer and cancel it on either click action.
 - ResponsiveTabsList caller classes included `grid`, overriding its `hidden` class on mobile. Put breakpoint visibility on a separate wrapper.
 - Functional regression tests are tagged `@smoke` so existing CI runs them. Explicit application typechecking still has a pre-existing backlog; the root `tsc --noEmit` command does not check the referenced application project.

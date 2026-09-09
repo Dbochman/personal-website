@@ -27,9 +27,16 @@ export function BlogList({ posts, featuredSlug }: BlogListProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const { search: searchTerm, tags: selectedTags, author: selectedAuthor, sort: sortOption, active } =
     useMemo(() => readBlogFilters(searchParams), [searchParams]);
-  // Keep keystrokes synchronous while the router transitions to the new URL.
-  const [searchDraft, setSearchDraft] = useState(searchTerm);
-  useEffect(() => setSearchDraft(searchTerm), [searchTerm]);
+  // Let the input retain keystrokes while route updates are pending. Only sync
+  // a committed query when it still matches the latest browser URL, so an older
+  // transition cannot overwrite newer typing. This also restores Back/Forward.
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    const currentSearch = new URLSearchParams(window.location.search).get('q') || '';
+    if (searchInputRef.current && searchTerm === currentSearch) {
+      searchInputRef.current.value = searchTerm;
+    }
+  }, [searchTerm]);
   const [hasInteracted, setHasInteracted] = useState(false);
   const pendingTagRef = useRef<string | null>(null);
 
@@ -126,11 +133,9 @@ export function BlogList({ posts, featuredSlug }: BlogListProps) {
           type="search"
           placeholder="Search posts..."
           aria-label="Search posts"
-          value={searchDraft}
-          onChange={(e) => {
-            setSearchDraft(e.target.value);
-            updateFilter('q', e.target.value ? [e.target.value] : [], true);
-          }}
+          ref={searchInputRef}
+          defaultValue={searchTerm}
+          onChange={(e) => updateFilter('q', e.target.value ? [e.target.value] : [], true)}
           onBlur={handleSearchBlur}
           className="max-w-md"
         />
