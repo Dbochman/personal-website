@@ -51,6 +51,9 @@ const renderWithRouter = (component: React.ReactElement) => {
 };
 
 describe('BlogList', () => {
+  beforeEach(() => {
+    window.history.replaceState({}, '', '/blog');
+  });
   it('renders all posts initially', () => {
     renderWithRouter(<BlogList posts={mockPosts} />);
     expect(screen.getByText('First Post')).toBeInTheDocument();

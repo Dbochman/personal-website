@@ -50,7 +50,7 @@ export function FeaturedHero({ post, badgeText = 'Featured' }: FeaturedHeroProps
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
           {/* Author link - sits above overlay via z-index */}
           <Link
-            to={`/blog?author=${post.author}`}
+            to={`/blog?author=${encodeURIComponent(post.author)}`}
             className="relative z-10 hover:text-primary hover:underline transition-colors"
           >
             {post.author}

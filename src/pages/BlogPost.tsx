@@ -160,7 +160,7 @@ export default function BlogPost() {
 
               <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-4">
                 <Link
-                  to={`/blog?author=${post.author}`}
+                  to={`/blog?author=${encodeURIComponent(post.author)}`}
                   className="flex items-center gap-2 hover:text-primary transition-colors"
                 >
                   <User className="w-4 h-4" />
@@ -212,7 +212,7 @@ export default function BlogPost() {
                 <div className="text-sm text-muted-foreground">
                   Written by{' '}
                   <Link
-                    to={`/blog?author=${post.author}`}
+                    to={`/blog?author=${encodeURIComponent(post.author)}`}
                     className="hover:text-primary hover:underline transition-colors"
                   >
                     {post.author}

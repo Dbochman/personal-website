@@ -12,7 +12,7 @@ const HeroSection = () => {
   return (
     <section className="py-20 px-6 relative">
       {/* SRE Monitoring Dashboard Elements - Hidden on mobile */}
-      <div className="hidden md:block">
+      <div className="hidden md:block" aria-hidden="true">
         <div className="absolute top-32 right-12 w-32 h-16 parallax-element" data-speed="0.15" title="Error Rate Monitoring">
           <ErrorRateChart />
         </div>
@@ -28,14 +28,15 @@ const HeroSection = () => {
         <div className="text-center mb-8">
           {/* Glitch effect title */}
           <div className="relative mb-6">
-            <h2 className="text-6xl font-bold text-foreground mb-2 leading-tight font-mono tracking-tighter">
+            <h1 className="text-6xl font-bold text-foreground mb-2 leading-tight font-mono tracking-tighter">
               Dylan Bochman<br />
               <span className="block opacity-0 animate-fade-in-delay text-foreground/80 text-3xl">
                 Sr. Site Reliability Engineer - Technical Incident Manager
               </span>
-            </h2>
+            </h1>
 
             <div
+              aria-hidden="true"
               className="absolute inset-0 text-6xl font-bold text-foreground/20 mb-2 leading-tight font-mono tracking-tighter animate-pulse"
               style={{ transform: 'translate(2px, 2px)' }}
             >

@@ -26,7 +26,7 @@ const Sidebar = () => {
       {/* Core Expertise Card */}
       <Card className="bg-background/60 backdrop-blur-xs border-transparent">
         <CardContent className="p-6">
-          <h3 className="text-lg font-bold text-foreground mb-6">Core Expertise</h3>
+          <h2 className="text-lg font-bold text-foreground mb-6">Core Expertise</h2>
           <motion.div
             className="space-y-2"
             variants={staggerContainer}
@@ -49,7 +49,7 @@ const Sidebar = () => {
 
           {/* Crawlable skills list - visible to search engines and screen readers */}
           <div className="sr-only">
-            <h4>Technical Skills</h4>
+            <h3>Technical Skills</h3>
             <ul>
               {allSkills.map(skill => (
                 <li key={skill}>{skill}</li>

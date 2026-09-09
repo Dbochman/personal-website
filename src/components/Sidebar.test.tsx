@@ -132,7 +132,7 @@ describe('Sidebar', () => {
     render(<Sidebar />)
     
     // Check for proper heading hierarchy
-    const heading = screen.getByRole('heading', { level: 3 })
+    const heading = screen.getByRole('heading', { level: 2 })
     expect(heading).toHaveTextContent('Core Expertise')
   })
 

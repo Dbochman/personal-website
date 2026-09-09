@@ -20,6 +20,8 @@ export interface TabItem {
 export interface ResponsiveTabsListProps {
   /** Tab definitions */
   items: TabItem[];
+  /** Accessible name for the mobile selector and desktop tab list. */
+  label?: string;
   /** Currently active tab value (controlled) */
   value: string;
   /** Called when the user selects a tab (from either Select or TabsTrigger) */
@@ -34,6 +36,7 @@ export interface ResponsiveTabsListProps {
 
 export function ResponsiveTabsList({
   items,
+  label = "View",
   value,
   onValueChange,
   tabsListClassName,
@@ -45,7 +48,7 @@ export function ResponsiveTabsList({
       {/* Mobile: Select dropdown (visible below sm breakpoint) */}
       <div className="sm:hidden">
         <Select value={value} onValueChange={onValueChange}>
-          <SelectTrigger className={cn("w-full", selectClassName)}>
+          <SelectTrigger aria-label={label} className={cn("w-full", selectClassName)}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -58,20 +61,21 @@ export function ResponsiveTabsList({
         </Select>
       </div>
 
-      {/* Desktop TabsList — hidden on mobile, visible at sm+.
-          Using hidden/inline-flex instead of sr-only so keyboard users
-          on narrow viewports can't tab into invisible duplicate triggers. */}
-      <TabsList className={cn("hidden sm:inline-flex", tabsListClassName)}>
-        {items.map((item) => (
-          <TabsTrigger
-            key={item.value}
-            value={item.value}
-            className={triggerClassName}
-          >
-            {item.label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+      {/* Keep visibility outside the caller's grid/flex classes so they cannot
+          expose duplicate desktop controls to mobile keyboard users. */}
+      <div className="hidden sm:block">
+        <TabsList aria-label={label} className={cn("text-foreground/80", tabsListClassName)}>
+          {items.map((item) => (
+            <TabsTrigger
+              key={item.value}
+              value={item.value}
+              className={triggerClassName}
+            >
+              {item.label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </div>
     </>
   );
 }

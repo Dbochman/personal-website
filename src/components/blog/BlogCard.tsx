@@ -48,7 +48,7 @@ export const BlogCard = memo(function BlogCard({ post }: BlogCardProps) {
           <CardDescription className="flex items-center gap-2 text-sm">
             {/* Author link - sits above overlay via z-index */}
             <Link
-              to={`/blog?author=${post.author}`}
+              to={`/blog?author=${encodeURIComponent(post.author)}`}
               className="relative z-10 hover:text-primary hover:underline transition-colors"
             >
               {post.author}

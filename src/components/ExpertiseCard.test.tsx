@@ -35,16 +35,32 @@ describe('ExpertiseCard', () => {
     const onExpand = vi.fn();
     render(<ExpertiseCard item={mockItem} index={0} isExpanded={false} onExpand={onExpand} onCollapse={noop} />);
 
-    const card = screen.getByText('Incident Management').closest('div[tabindex]');
-    if (card) {
-      fireEvent.mouseEnter(card);
-      expect(onExpand).not.toHaveBeenCalled(); // Not called immediately
+    const card = screen.getByRole('button', { name: 'Incident Management' });
+    fireEvent.mouseEnter(card);
+    expect(onExpand).not.toHaveBeenCalled(); // Not called immediately
 
-      act(() => {
-        vi.advanceTimersByTime(1000); // EXPAND_DELAY
-      });
-      expect(onExpand).toHaveBeenCalled();
-    }
+    act(() => {
+      vi.advanceTimersByTime(1000); // EXPAND_DELAY
+    });
+    expect(onExpand).toHaveBeenCalled();
+  });
+
+  it('does not reopen after hover and focus schedule the same expansion', () => {
+    const onExpand = vi.fn();
+    const onCollapse = vi.fn();
+    const { rerender } = render(
+      <ExpertiseCard item={mockItem} index={0} isExpanded={false} onExpand={onExpand} onCollapse={onCollapse} />
+    );
+    const button = screen.getByRole('button', { name: 'Incident Management' });
+    fireEvent.mouseEnter(button);
+    fireEvent.focus(button);
+    fireEvent.click(button);
+    expect(onExpand).toHaveBeenCalledTimes(1);
+    rerender(<ExpertiseCard item={mockItem} index={0} isExpanded={true} onExpand={onExpand} onCollapse={onCollapse} />);
+    fireEvent.click(button);
+    expect(onCollapse).toHaveBeenCalledTimes(1);
+    act(() => vi.advanceTimersByTime(1000));
+    expect(onExpand).toHaveBeenCalledTimes(1);
   });
 
   describe('analytics', () => {
@@ -60,52 +76,46 @@ describe('ExpertiseCard', () => {
       const onExpand = vi.fn();
       render(<ExpertiseCard item={mockItem} index={0} isExpanded={false} onExpand={onExpand} onCollapse={noop} />);
 
-      const card = screen.getByText('Incident Management').closest('div[tabindex]');
-      if (card) {
-        fireEvent.mouseEnter(card);
-        expect(window.gtag).not.toHaveBeenCalled(); // Not immediate
+      const card = screen.getByRole('button', { name: 'Incident Management' });
+      fireEvent.mouseEnter(card);
+      expect(window.gtag).not.toHaveBeenCalled(); // Not immediate
 
-        act(() => {
-          vi.advanceTimersByTime(1000); // EXPAND_DELAY
-        });
+      act(() => {
+        vi.advanceTimersByTime(1000); // EXPAND_DELAY
+      });
 
-        expect(window.gtag).toHaveBeenCalledWith('event', 'expertise_card_expand', {
-          event_category: 'engagement',
-          event_label: 'Incident Management'
-        });
-      }
+      expect(window.gtag).toHaveBeenCalledWith('event', 'expertise_card_expand', {
+        event_category: 'engagement',
+        event_label: 'Incident Management'
+      });
     });
 
     it('does not fire event when already expanded', () => {
       const onExpand = vi.fn();
       render(<ExpertiseCard item={mockItem} index={0} isExpanded={true} onExpand={onExpand} onCollapse={noop} />);
 
-      const card = screen.getByText('Incident Management').closest('div[tabindex]');
-      if (card) {
-        fireEvent.mouseEnter(card);
+      const card = screen.getByRole('button', { name: 'Incident Management' });
+      fireEvent.mouseEnter(card);
 
-        act(() => {
-          vi.advanceTimersByTime(1000);
-        });
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
 
-        expect(window.gtag).not.toHaveBeenCalled();
-      }
+      expect(window.gtag).not.toHaveBeenCalled();
     });
 
     it('fires expertise_card_expand event on click', () => {
       const onExpand = vi.fn();
       render(<ExpertiseCard item={mockItem} index={0} isExpanded={false} onExpand={onExpand} onCollapse={noop} />);
 
-      const card = screen.getByText('Incident Management').closest('div[tabindex]');
-      if (card) {
-        fireEvent.click(card);
+      const card = screen.getByRole('button', { name: 'Incident Management' });
+      fireEvent.click(card);
 
-        // Click fires immediately (no delay)
-        expect(window.gtag).toHaveBeenCalledWith('event', 'expertise_card_expand', {
-          event_category: 'engagement',
-          event_label: 'Incident Management'
-        });
-      }
+      // Click fires immediately (no delay)
+      expect(window.gtag).toHaveBeenCalledWith('event', 'expertise_card_expand', {
+        event_category: 'engagement',
+        event_label: 'Incident Management'
+      });
     });
   });
 });

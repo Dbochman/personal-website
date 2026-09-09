@@ -29,7 +29,7 @@ export function ExpertiseCard({ item, index, isExpanded, onExpand, onCollapse }:
 
   const scheduleExpand = () => {
     // If already expanded, no need to set another expand timeout
-    if (isExpanded) return;
+    if (isExpanded || expandTimeoutRef.current) return;
 
     // Schedule expansion after delay
     expandTimeoutRef.current = setTimeout(() => {
@@ -72,14 +72,10 @@ export function ExpertiseCard({ item, index, isExpanded, onExpand, onCollapse }:
   };
 
   const handleClick = () => {
+    cancelExpand();
     if (isExpanded) {
       onCollapse();
     } else {
-      // Cancel any pending expand timeout since we're expanding immediately
-      if (expandTimeoutRef.current) {
-        clearTimeout(expandTimeoutRef.current);
-        expandTimeoutRef.current = null;
-      }
       if (typeof gtag !== 'undefined') {
         gtag('event', 'expertise_card_expand', {
           event_category: 'engagement',
@@ -101,9 +97,11 @@ export function ExpertiseCard({ item, index, isExpanded, onExpand, onCollapse }:
       onClick={handleClick}
       aria-expanded={isExpanded}
       aria-controls={panelId}
+      aria-labelledby={`${panelId}-title`}
     >
       {/* Title - always visible */}
       <div
+        id={`${panelId}-title`}
         className={`text-xs p-2 border transition-[background-color,border-color,color,transform,box-shadow] duration-200 cursor-pointer
                     ${isHovered || isFocused || isExpanded
                       ? 'bg-foreground/15 border-foreground/40 text-foreground scale-[1.02] shadow-xs'
@@ -112,10 +110,11 @@ export function ExpertiseCard({ item, index, isExpanded, onExpand, onCollapse }:
         {item.title}
       </div>
 
-      {/* Expanded content - desktop only, controlled by parent */}
+      {/* Details remain available to touch and keyboard users at every viewport. */}
       <div
         id={panelId}
-        className={`hidden md:block overflow-hidden transition-[max-height,opacity] duration-500 ease-out motion-reduce:transition-none
+        aria-hidden={!isExpanded}
+        className={`overflow-hidden transition-[max-height,opacity] duration-500 ease-out motion-reduce:transition-none
                     ${isExpanded ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}
       >
         <div className="p-2 pt-0 border-x border-b border-foreground/20 bg-foreground/5 space-y-2">

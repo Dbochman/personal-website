@@ -4,7 +4,8 @@ export type { BlogFrontmatter, ValidatedBlogPost, RssItem, OgMeta } from '@/cont
 /**
  * Blog post author
  */
-export type BlogAuthor = 'Claude' | 'Dylan' | 'Dylan & Claude';
+export const BLOG_AUTHORS = ['Claude', 'Dylan', 'Dylan & Claude'] as const;
+export type BlogAuthor = (typeof BLOG_AUTHORS)[number];
 
 /**
  * Complete blog post with content (alias for ValidatedBlogPost for compatibility)

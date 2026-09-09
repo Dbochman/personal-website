@@ -14,27 +14,27 @@ export const PHASE_CONFIG: Record<IncidentPhase, { label: string; description: s
   investigating: {
     label: 'Investigating',
     description: 'Initial acknowledgment, actively looking into the issue',
-    color: 'text-yellow-500',
+    color: 'text-yellow-800 dark:text-yellow-400',
   },
   identified: {
     label: 'Identified',
     description: 'Root cause found, working on a fix',
-    color: 'text-orange-500',
+    color: 'text-orange-700 dark:text-orange-400',
   },
   fixing: {
     label: 'Fixing',
     description: 'Actively implementing a fix',
-    color: 'text-purple-500',
+    color: 'text-purple-700 dark:text-purple-400',
   },
   monitoring: {
     label: 'Monitoring',
     description: 'Fix deployed, watching for stability',
-    color: 'text-blue-500',
+    color: 'text-blue-700 dark:text-blue-400',
   },
   resolved: {
     label: 'Resolved',
     description: 'Incident closed, service restored',
-    color: 'text-green-500',
+    color: 'text-green-700 dark:text-green-400',
   },
 };
 
