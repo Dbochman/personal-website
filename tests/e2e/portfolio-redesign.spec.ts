@@ -73,8 +73,12 @@ test('@smoke heading links work after a delayed article load', async ({ page }) 
   await link.click();
   await expect(heading).toBeInViewport();
 
+  // Leave the article first: goto of the current fragment is only a same-document navigation.
+  await page.goto('/');
+  let delayedRequests = 0;
   // Force a slow, uncached body request on a fresh document navigation.
   await page.route('**/assets/2026-01-13-slo-uptime-calculator-*.js', async route => {
+    delayedRequests++;
     await new Promise(resolve => setTimeout(resolve, 500));
     await route.continue();
   });
@@ -82,4 +86,5 @@ test('@smoke heading links work after a delayed article load', async ({ page }) 
   await expect(heading).toBeVisible();
   await expect.poll(async () => (await heading.boundingBox())?.y).toBeLessThan(150);
   await expect.poll(async () => (await heading.boundingBox())?.y).toBeGreaterThanOrEqual(0);
+  expect(delayedRequests).toBeGreaterThan(0);
 });
