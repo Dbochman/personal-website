@@ -3,6 +3,7 @@ import PageLayout from '@/components/layout/PageLayout';
 import { Footer } from '@/components/layout/Footer';
 import { ProjectGrid } from '@/components/projects/ProjectGrid';
 import { getAllProjects } from '@/data/projects';
+import { groupProjects } from '@/data/project-groups';
 
 export default function Projects() {
   const projects = getAllProjects();
@@ -53,14 +54,10 @@ export default function Projects() {
             </p>
           </header>
 
-          {[
-            { title: 'Reliability tools', description: 'Calculators and templates to use in your next planning or incident review.', slugs: ['slo-tool', 'statuspage-update', 'oncall-coverage', 'incident-command-diagrams', 'k8s-rightsizer'] },
-            { title: 'Experiments', description: 'Small applications for organizing work and sharing music.', slugs: ['kanban', 'echonest'] },
-            { title: 'How this site runs', description: 'Public metrics and a history of changes to this website.', slugs: ['analytics', 'changelog'] },
-          ].map(group => (
+          {groupProjects(projects).map(group => (
             <section key={group.title} className="mb-16">
               <div className="section-heading"><div><h2 className="text-2xl font-semibold mb-3">{group.title}</h2><p className="text-muted-foreground">{group.description}</p></div></div>
-              <ProjectGrid projects={projects.filter(project => group.slugs.includes(project.slug))} />
+              <ProjectGrid projects={group.projects} />
             </section>
           ))}
 
