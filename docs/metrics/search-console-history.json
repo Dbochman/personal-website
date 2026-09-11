@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-09-08T00:00:00.000Z",
-    "date": "2025-09-08",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-09-02",
-      "end": "2025-09-08"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-09-09T00:00:00.000Z",
     "date": "2025-09-09",
     "dataState": "final",
@@ -5837,19 +5821,35 @@
       "totalImpressions": 273,
       "averageCTR": 0,
       "averagePosition": 8.2
+    }
+  },
+  {
+    "timestamp": "2026-09-08T00:00:00.000Z",
+    "date": "2026-09-08",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-09-02",
+      "end": "2026-09-08"
     },
-    "collectedAt": "2026-09-10T10:20:47.455Z",
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 305,
+      "averageCTR": 0,
+      "averagePosition": 8
+    },
+    "collectedAt": "2026-09-11T10:21:12.875Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 5,
         "clicks": 0,
-        "impressions": 20,
-        "impressionShare": 7.3
+        "impressions": 21,
+        "impressionShare": 6.9
       },
       "pages": {
         "rowCount": 8,
         "clicks": 0,
-        "impressions": 273,
+        "impressions": 305,
         "impressionShare": 100
       }
     },
@@ -5857,7 +5857,7 @@
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 11,
+        "impressions": 12,
         "ctr": 0,
         "position": 5.6
       },
@@ -5866,14 +5866,14 @@
         "clicks": 0,
         "impressions": 5,
         "ctr": 0,
-        "position": 27.6
+        "position": 27.2
       },
       {
         "query": "incident management process diagram",
         "clicks": 0,
         "impressions": 2,
         "ctr": 0,
-        "position": 47.5
+        "position": 48.5
       },
       {
         "query": "incident response process diagram",
@@ -5894,37 +5894,37 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 190,
+        "impressions": 223,
         "ctr": 0,
-        "position": 8.3
+        "position": 8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
-        "impressions": 45,
+        "impressions": 38,
         "ctr": 0,
-        "position": 6.7
+        "position": 6.9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 14,
+        "impressions": 18,
         "ctr": 0,
-        "position": 5.7
+        "position": 5.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 0,
-        "impressions": 10,
+        "impressions": 12,
         "ctr": 0,
-        "position": 4.6
+        "position": 5
       },
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
         "impressions": 8,
         "ctr": 0,
-        "position": 26.1
+        "position": 26.3
       },
       {
         "page": "https://dylanbochman.com/",
