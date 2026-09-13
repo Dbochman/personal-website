@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-09-10T00:00:00.000Z",
-    "date": "2025-09-10",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-09-04",
-      "end": "2025-09-10"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-09-11T00:00:00.000Z",
     "date": "2025-09-11",
     "dataState": "final",
@@ -5837,36 +5821,52 @@
       "totalImpressions": 317,
       "averageCTR": 0,
       "averagePosition": 8
+    }
+  },
+  {
+    "timestamp": "2026-09-10T00:00:00.000Z",
+    "date": "2026-09-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-09-04",
+      "end": "2026-09-10"
     },
-    "collectedAt": "2026-09-12T09:52:30.007Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 413,
+      "averageCTR": 0.24,
+      "averagePosition": 7.8
+    },
+    "collectedAt": "2026-09-13T10:39:30.370Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 9,
+        "rowCount": 8,
         "clicks": 0,
-        "impressions": 25,
-        "impressionShare": 7.9
+        "impressions": 22,
+        "impressionShare": 5.3
       },
       "pages": {
-        "rowCount": 9,
-        "clicks": 0,
-        "impressions": 318,
-        "impressionShare": 100.3
+        "rowCount": 8,
+        "clicks": 1,
+        "impressions": 414,
+        "impressionShare": 100.2
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 12,
+        "impressions": 9,
         "ctr": 0,
-        "position": 5.2
+        "position": 4.9
       },
       {
         "query": "decap cms cloudflare pages",
         "clicks": 0,
-        "impressions": 6,
+        "impressions": 7,
         "ctr": 0,
-        "position": 27.3
+        "position": 27.4
       },
       {
         "query": "decap cms registereventlistener presave handler return data documentation",
@@ -5909,29 +5909,22 @@
         "impressions": 1,
         "ctr": 0,
         "position": 53
-      },
-      {
-        "query": "incident management flowchart",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 55
       }
     ],
     "topPages": [
       {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
-        "clicks": 0,
-        "impressions": 237,
-        "ctr": 0,
-        "position": 7.9
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "clicks": 1,
+        "impressions": 32,
+        "ctr": 0.03125,
+        "position": 7.2
       },
       {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 34,
+        "impressions": 334,
         "ctr": 0,
-        "position": 7.1
+        "position": 7.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
@@ -5950,9 +5943,9 @@
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 9,
         "ctr": 0,
-        "position": 29.9
+        "position": 21.7
       },
       {
         "page": "https://dylanbochman.com/",
@@ -5960,13 +5953,6 @@
         "impressions": 4,
         "ctr": 0,
         "position": 3.8
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-21-the-slo-math-most-teams-get-wrong/",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 1
       },
       {
         "page": "https://dylanbochman.com/blog",
