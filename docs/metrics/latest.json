@@ -1,27 +1,27 @@
 {
-  "generated": "2026-09-14T11:23:37.521Z",
+  "generated": "2026-09-15T10:47:01.695Z",
   "searchConsole": {
-    "lastCheck": "2026-09-14T11:22:55.238Z",
+    "lastCheck": "2026-09-15T10:46:24.091Z",
     "clicks": 1,
     "impressions": 484,
     "averageCTR": 0.21,
     "averagePosition": 7.7
   },
   "analytics": {
-    "lastCheck": "2026-09-14T11:23:36.777Z",
-    "sessions_7d": 716,
-    "users_7d": 713,
-    "pageviews_7d": 774,
+    "lastCheck": "2026-09-15T10:47:00.884Z",
+    "sessions_7d": 711,
+    "users_7d": 708,
+    "pageviews_7d": 769,
     "avgSessionDuration": 5,
     "bounceRate": 0.82,
     "topPages": [
       {
         "page": "/blog",
-        "pageViews": 241
+        "pageViews": 240
       },
       {
         "page": "/",
-        "pageViews": 154
+        "pageViews": 152
       },
       {
         "page": "/runbook",
@@ -29,7 +29,7 @@
       },
       {
         "page": "/blog/2026-08-09-the-smallest-useful-tailscale-setup",
-        "pageViews": 58
+        "pageViews": 57
       },
       {
         "page": "/projects/slo-tool",
@@ -38,49 +38,49 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-09-14T11:23:36.777Z",
+    "lastCheck": "2026-09-15T10:47:00.884Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 904,
-        "average": 65.47234513274336,
+        "count": 899,
+        "average": 61.973303670745274,
         "unit": "ms",
         "ratings": {
-          "good": 900,
+          "good": 896,
           "needs-improvement": 0,
-          "poor": 4
+          "poor": 3
         },
         "goodPercent": 100
       },
       "FCP": {
-        "count": 633,
-        "average": 331.5781990521327,
+        "count": 628,
+        "average": 318.36464968152865,
         "unit": "ms",
         "ratings": {
-          "good": 613,
-          "needs-improvement": 16,
-          "poor": 4
+          "good": 611,
+          "needs-improvement": 14,
+          "poor": 3
         },
         "goodPercent": 97
       },
       "LCP": {
-        "count": 341,
-        "average": 543.5865102639297,
+        "count": 337,
+        "average": 538.6913946587537,
         "unit": "ms",
         "ratings": {
-          "good": 340,
-          "needs-improvement": 1,
+          "good": 337,
+          "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "CLS": {
-        "count": 361,
-        "average": 0.025113573407202217,
+        "count": 357,
+        "average": 0.025182072829131652,
         "unit": "",
         "ratings": {
-          "good": 316,
-          "needs-improvement": 45,
+          "good": 314,
+          "needs-improvement": 43,
           "poor": 0
         },
         "goodPercent": 88
