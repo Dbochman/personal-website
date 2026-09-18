@@ -1,96 +1,96 @@
 {
-  "generated": "2026-09-17T10:45:20.834Z",
+  "generated": "2026-09-18T10:20:52.332Z",
   "searchConsole": {
-    "lastCheck": "2026-09-17T10:44:52.491Z",
+    "lastCheck": "2026-09-18T10:20:11.100Z",
     "clicks": 1,
-    "impressions": 476,
-    "averageCTR": 0.21,
-    "averagePosition": 7.9
+    "impressions": 511,
+    "averageCTR": 0.2,
+    "averagePosition": 7.6
   },
   "analytics": {
-    "lastCheck": "2026-09-17T10:45:20.171Z",
-    "sessions_7d": 459,
-    "users_7d": 456,
-    "pageviews_7d": 470,
-    "avgSessionDuration": 8,
-    "bounceRate": 0.84,
+    "lastCheck": "2026-09-18T10:20:51.596Z",
+    "sessions_7d": 323,
+    "users_7d": 323,
+    "pageviews_7d": 325,
+    "avgSessionDuration": 9,
+    "bounceRate": 0.86,
     "topPages": [
       {
         "page": "/blog",
-        "pageViews": 117
+        "pageViews": 79
       },
       {
         "page": "/",
-        "pageViews": 85
+        "pageViews": 51
       },
       {
         "page": "/runbook",
-        "pageViews": 49
+        "pageViews": 38
       },
       {
         "page": "/projects/slo-tool",
-        "pageViews": 36
+        "pageViews": 26
       },
       {
         "page": "/projects",
-        "pageViews": 35
+        "pageViews": 25
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-09-17T10:45:20.171Z",
+    "lastCheck": "2026-09-18T10:20:51.596Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 680,
-        "average": 73.58382352941176,
+        "count": 506,
+        "average": 65.23122529644269,
         "unit": "ms",
         "ratings": {
-          "good": 678,
+          "good": 504,
           "needs-improvement": 1,
           "poor": 1
         },
         "goodPercent": 100
       },
       "FCP": {
-        "count": 406,
-        "average": 394.2758620689655,
+        "count": 284,
+        "average": 317.5633802816901,
         "unit": "ms",
         "ratings": {
-          "good": 391,
-          "needs-improvement": 14,
+          "good": 280,
+          "needs-improvement": 3,
           "poor": 1
         },
-        "goodPercent": 96
+        "goodPercent": 99
       },
       "LCP": {
-        "count": 143,
-        "average": 773.5384615384615,
+        "count": 85,
+        "average": 978.2117647058824,
         "unit": "ms",
         "ratings": {
-          "good": 143,
+          "good": 85,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "CLS": {
-        "count": 145,
-        "average": 0.04272413793103448,
+        "count": 88,
+        "average": 0.06219318181818182,
         "unit": "",
         "ratings": {
-          "good": 116,
-          "needs-improvement": 29,
+          "good": 61,
+          "needs-improvement": 27,
           "poor": 0
         },
-        "goodPercent": 80
+        "goodPercent": 69
       },
       "INP": {
-        "count": 31,
-        "average": 79.74193548387096,
+        "count": 11,
+        "average": 119.27272727272727,
         "unit": "ms",
         "ratings": {
-          "good": 31,
+          "good": 11,
           "needs-improvement": 0,
           "poor": 0
         },

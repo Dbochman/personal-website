@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-09-15T00:00:00.000Z",
-    "date": "2025-09-15",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-09-09",
-      "end": "2025-09-15"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-09-16T00:00:00.000Z",
     "date": "2025-09-16",
     "dataState": "final",
@@ -5837,36 +5821,52 @@
       "totalImpressions": 476,
       "averageCTR": 0.21,
       "averagePosition": 7.9
+    }
+  },
+  {
+    "timestamp": "2026-09-15T00:00:00.000Z",
+    "date": "2026-09-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-09-09",
+      "end": "2026-09-15"
     },
-    "collectedAt": "2026-09-17T10:44:52.491Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 511,
+      "averageCTR": 0.2,
+      "averagePosition": 7.6
+    },
+    "collectedAt": "2026-09-18T10:20:11.100Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 9,
+        "rowCount": 8,
         "clicks": 0,
         "impressions": 26,
-        "impressionShare": 5.5
+        "impressionShare": 5.1
       },
       "pages": {
-        "rowCount": 7,
+        "rowCount": 9,
         "clicks": 1,
-        "impressions": 477,
-        "impressionShare": 100.2
+        "impressions": 519,
+        "impressionShare": 101.6
       }
     },
     "topQueries": [
       {
         "query": "decap cms cloudflare pages",
         "clicks": 0,
-        "impressions": 13,
+        "impressions": 12,
         "ctr": 0,
-        "position": 27.5
+        "position": 27.6
       },
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 6,
+        "impressions": 8,
         "ctr": 0,
-        "position": 4
+        "position": 4.4
       },
       {
         "query": "decap cms registereventlistener presave handler return data documentation",
@@ -5904,13 +5904,6 @@
         "position": 48
       },
       {
-        "query": "incident management process diagram",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 50
-      },
-      {
         "query": "incident response flowchart",
         "clicks": 0,
         "impressions": 1,
@@ -5922,51 +5915,65 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 1,
-        "impressions": 33,
-        "ctr": 0.030303030303030304,
-        "position": 7
+        "impressions": 32,
+        "ctr": 0.03125,
+        "position": 6.9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 404,
+        "impressions": 423,
         "ctr": 0,
-        "position": 7.7
+        "position": 7.6
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 21,
+        "impressions": 37,
         "ctr": 0,
-        "position": 6.7
+        "position": 6.4
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-21-the-slo-math-most-teams-get-wrong/",
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 6.9
       },
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 8,
         "ctr": 0,
-        "position": 23.9
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
-        "clicks": 0,
-        "impressions": 6,
-        "ctr": 0,
-        "position": 6
+        "position": 21.6
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 3,
+        "impressions": 4,
         "ctr": 0,
         "position": 2.3
       },
       {
+        "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 5.5
+      },
+      {
         "page": "https://dylanbochman.com/blog",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 5.5
+      },
+      {
+        "page": "https://dylanbochman.com/runbook/",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
-        "position": 6
+        "position": 2
       }
     ]
   }
