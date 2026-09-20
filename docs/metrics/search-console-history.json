@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-09-17T00:00:00.000Z",
-    "date": "2025-09-17",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-09-11",
-      "end": "2025-09-17"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-09-18T00:00:00.000Z",
     "date": "2025-09-18",
     "dataState": "final",
@@ -5837,36 +5821,59 @@
       "totalImpressions": 522,
       "averageCTR": 0.19,
       "averagePosition": 7.4
+    }
+  },
+  {
+    "timestamp": "2026-09-17T00:00:00.000Z",
+    "date": "2026-09-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-09-11",
+      "end": "2026-09-17"
     },
-    "collectedAt": "2026-09-19T10:03:35.563Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 428,
+      "averageCTR": 0.23,
+      "averagePosition": 7.4
+    },
+    "collectedAt": "2026-09-20T10:08:44.282Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 5,
+        "rowCount": 6,
         "clicks": 0,
         "impressions": 22,
-        "impressionShare": 4.2
+        "impressionShare": 5.1
       },
       "pages": {
         "rowCount": 9,
         "clicks": 1,
-        "impressions": 534,
-        "impressionShare": 102.3
+        "impressions": 441,
+        "impressionShare": 103
       }
     },
     "topQueries": [
-      {
-        "query": "decap cms cloudflare pages",
-        "clicks": 0,
-        "impressions": 10,
-        "ctr": 0,
-        "position": 27.6
-      },
       {
         "query": "git gateway",
         "clicks": 0,
         "impressions": 9,
         "ctr": 0,
         "position": 5.2
+      },
+      {
+        "query": "decap cms cloudflare pages",
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 27.5
+      },
+      {
+        "query": "decap cms netlify",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 9
       },
       {
         "query": "\"entrydraftcreated\" \"netlify cms\"",
@@ -5894,23 +5901,23 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 1,
-        "impressions": 34,
-        "ctr": 0.029411764705882353,
-        "position": 6.9
+        "impressions": 39,
+        "ctr": 0.02564102564102564,
+        "position": 6.7
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 434,
+        "impressions": 332,
         "ctr": 0,
-        "position": 7.5
+        "position": 7.7
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 41,
+        "impressions": 46,
         "ctr": 0,
-        "position": 5.8
+        "position": 5.9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-21-the-slo-math-most-teams-get-wrong/",
@@ -5922,16 +5929,23 @@
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 8,
+        "impressions": 5,
         "ctr": 0,
-        "position": 16.4
+        "position": 18
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 3,
+        "impressions": 4,
         "ctr": 0,
         "position": 2.3
+      },
+      {
+        "page": "https://dylanbochman.com/blog",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
@@ -5939,13 +5953,6 @@
         "impressions": 3,
         "ctr": 0,
         "position": 8.3
-      },
-      {
-        "page": "https://dylanbochman.com/blog",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 4.5
       },
       {
         "page": "https://dylanbochman.com/runbook/",
