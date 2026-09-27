@@ -1794,5 +1794,56 @@
       "grossAmount": 1.05
     },
     "status": "valid"
+  },
+  {
+    "timestamp": "2026-09-27T10:52:01.654Z",
+    "date": "2026-09-27",
+    "period": {
+      "start": "2026-09-01",
+      "end": "2026-09-27",
+      "description": "Sep 1 - Sep 27, 2026"
+    },
+    "summary": {
+      "totalMinutes": 12383,
+      "totalGrossAmount": 83,
+      "totalDiscountAmount": 83,
+      "totalNetAmount": 0
+    },
+    "byRunner": {
+      "linux": {
+        "minutes": 12197,
+        "grossAmount": 73.18
+      },
+      "macos": {
+        "minutes": 153,
+        "grossAmount": 9.49
+      },
+      "windows": {
+        "minutes": 33,
+        "grossAmount": 0.33
+      }
+    },
+    "byRepository": [
+      {
+        "name": "personal-website",
+        "minutes": 11191,
+        "grossAmount": 67.15
+      },
+      {
+        "name": "op-research",
+        "minutes": 1006,
+        "grossAmount": 6.04
+      },
+      {
+        "name": "EchoNest",
+        "minutes": 186,
+        "grossAmount": 9.82
+      }
+    ],
+    "storage": {
+      "gbHours": 3161.97,
+      "grossAmount": 1.06
+    },
+    "status": "valid"
   }
 ]
