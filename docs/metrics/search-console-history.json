@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-09-25T00:00:00.000Z",
-    "date": "2025-09-25",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-09-19",
-      "end": "2025-09-25"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-09-26T00:00:00.000Z",
     "date": "2025-09-26",
     "dataState": "final",
@@ -5837,36 +5821,59 @@
       "totalImpressions": 160,
       "averageCTR": 1.88,
       "averagePosition": 9.2
+    }
+  },
+  {
+    "timestamp": "2026-09-25T00:00:00.000Z",
+    "date": "2026-09-25",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-09-19",
+      "end": "2026-09-25"
     },
-    "collectedAt": "2026-09-27T10:52:18.215Z",
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 154,
+      "averageCTR": 1.95,
+      "averagePosition": 8.6
+    },
+    "collectedAt": "2026-09-28T12:32:10.049Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 10,
         "clicks": 0,
-        "impressions": 21,
-        "impressionShare": 13.1
+        "impressions": 19,
+        "impressionShare": 12.3
       },
       "pages": {
-        "rowCount": 7,
+        "rowCount": 8,
         "clicks": 3,
-        "impressions": 165,
-        "impressionShare": 103.1
+        "impressions": 160,
+        "impressionShare": 103.9
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 7,
         "ctr": 0,
         "position": 5.6
       },
       {
+        "query": "git gateway error: please ask your site administrator to reissue the git gateway token.",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 9.7
+      },
+      {
         "query": "incident management flowchart",
         "clicks": 0,
-        "impressions": 4,
+        "impressions": 2,
         "ctr": 0,
-        "position": 57.8
+        "position": 59.5
       },
       {
         "query": "netlify decap",
@@ -5884,13 +5891,6 @@
       },
       {
         "query": "decap netlify",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 9
-      },
-      {
-        "query": "git gateway error: please ask your site administrator to reissue the git gateway token.",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
@@ -5929,37 +5929,37 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 2,
-        "impressions": 26,
-        "ctr": 0.07692307692307693,
+        "impressions": 21,
+        "ctr": 0.09523809523809523,
         "position": 6.2
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 1,
-        "impressions": 11,
-        "ctr": 0.09090909090909091,
-        "position": 6.3
+        "impressions": 13,
+        "ctr": 0.07692307692307693,
+        "position": 6.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 109,
+        "impressions": 105,
         "ctr": 0,
         "position": 7.3
       },
       {
-        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
-        "clicks": 0,
-        "impressions": 9,
-        "ctr": 0,
-        "position": 49.2
-      },
-      {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
-        "impressions": 5,
+        "impressions": 8,
         "ctr": 0,
-        "position": 3.2
+        "position": 3.4
+      },
+      {
+        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0,
+        "position": 47.3
       },
       {
         "page": "https://dylanbochman.com/blog",
@@ -5974,6 +5974,13 @@
         "impressions": 2,
         "ctr": 0,
         "position": 1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 4
       }
     ]
   }
