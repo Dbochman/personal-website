@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-09-27T00:00:00.000Z",
-    "date": "2025-09-27",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-09-21",
-      "end": "2025-09-27"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-09-28T00:00:00.000Z",
     "date": "2025-09-28",
     "dataState": "final",
@@ -5837,20 +5821,36 @@
       "totalImpressions": 158,
       "averageCTR": 1.27,
       "averagePosition": 8.4
+    }
+  },
+  {
+    "timestamp": "2026-09-27T00:00:00.000Z",
+    "date": "2026-09-27",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-09-21",
+      "end": "2026-09-27"
     },
-    "collectedAt": "2026-09-29T11:54:11.632Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 146,
+      "averageCTR": 0.68,
+      "averagePosition": 7.9
+    },
+    "collectedAt": "2026-09-30T11:41:38.291Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 9,
+        "rowCount": 8,
         "clicks": 0,
-        "impressions": 17,
-        "impressionShare": 10.8
+        "impressions": 15,
+        "impressionShare": 10.3
       },
       "pages": {
         "rowCount": 8,
-        "clicks": 2,
-        "impressions": 162,
-        "impressionShare": 102.5
+        "clicks": 1,
+        "impressions": 149,
+        "impressionShare": 102.1
       }
     },
     "topQueries": [
@@ -5859,7 +5859,7 @@
         "clicks": 0,
         "impressions": 6,
         "ctr": 0,
-        "position": 5.5
+        "position": 5.2
       },
       {
         "query": "git gateway error: please ask your site administrator to reissue the git gateway token.",
@@ -5867,13 +5867,6 @@
         "impressions": 3,
         "ctr": 0,
         "position": 9.7
-      },
-      {
-        "query": "incident management flowchart",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 54
       },
       {
         "query": "netlify decap",
@@ -5904,7 +5897,7 @@
         "position": 47
       },
       {
-        "query": "incident response process diagram",
+        "query": "incident management flowchart",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
@@ -5920,25 +5913,25 @@
     ],
     "topPages": [
       {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
-        "clicks": 1,
-        "impressions": 20,
-        "ctr": 0.05,
-        "position": 5.7
-      },
-      {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 1,
-        "impressions": 19,
-        "ctr": 0.05263157894736842,
-        "position": 5.4
+        "impressions": 21,
+        "ctr": 0.047619047619047616,
+        "position": 5.2
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 102,
+        "impressions": 91,
         "ctr": 0,
         "position": 7.4
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "clicks": 0,
+        "impressions": 18,
+        "ctr": 0,
+        "position": 6
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
@@ -5950,16 +5943,16 @@
       {
         "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 6,
         "ctr": 0,
-        "position": 45.7
+        "position": 36.2
       },
       {
         "page": "https://dylanbochman.com/blog",
         "clicks": 0,
-        "impressions": 4,
+        "impressions": 3,
         "ctr": 0,
-        "position": 5.3
+        "position": 6
       },
       {
         "page": "https://dylanbochman.com/",
