@@ -1,100 +1,100 @@
 {
-  "generated": "2026-10-02T11:41:39.307Z",
+  "generated": "2026-10-03T10:54:56.522Z",
   "searchConsole": {
-    "lastCheck": "2026-10-02T11:41:00.744Z",
+    "lastCheck": "2026-10-03T10:54:19.090Z",
     "clicks": 2,
     "impressions": 154,
     "averageCTR": 1.3,
     "averagePosition": 7.5
   },
   "analytics": {
-    "lastCheck": "2026-10-02T11:41:38.691Z",
-    "sessions_7d": 298,
-    "users_7d": 298,
-    "pageviews_7d": 305,
+    "lastCheck": "2026-10-03T10:54:55.752Z",
+    "sessions_7d": 317,
+    "users_7d": 317,
+    "pageviews_7d": 327,
     "avgSessionDuration": 5,
-    "bounceRate": 0.93,
+    "bounceRate": 0.92,
     "topPages": [
       {
-        "page": "/",
-        "pageViews": 53
+        "page": "/blog",
+        "pageViews": 61
       },
       {
-        "page": "/blog",
-        "pageViews": 51
+        "page": "/",
+        "pageViews": 55
       },
       {
         "page": "/runbook",
-        "pageViews": 39
+        "pageViews": 42
       },
       {
         "page": "/projects/slo-tool",
         "pageViews": 27
       },
       {
-        "page": "/projects",
+        "page": "/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "pageViews": 25
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-10-02T11:41:38.691Z",
+    "lastCheck": "2026-10-03T10:54:55.752Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 490,
-        "average": 63.391836734693875,
+        "count": 513,
+        "average": 67.67641325536063,
         "unit": "ms",
         "ratings": {
-          "good": 488,
-          "needs-improvement": 2,
+          "good": 509,
+          "needs-improvement": 4,
           "poor": 0
         },
-        "goodPercent": 100
+        "goodPercent": 99
       },
       "FCP": {
-        "count": 295,
-        "average": 364.43050847457624,
+        "count": 317,
+        "average": 375.9842271293375,
         "unit": "ms",
         "ratings": {
-          "good": 289,
+          "good": 311,
           "needs-improvement": 6,
           "poor": 0
         },
         "goodPercent": 98
       },
       "LCP": {
-        "count": 99,
-        "average": 945,
+        "count": 123,
+        "average": 956.5121951219512,
         "unit": "ms",
         "ratings": {
-          "good": 98,
-          "needs-improvement": 0,
+          "good": 121,
+          "needs-improvement": 1,
           "poor": 1
         },
-        "goodPercent": 99
+        "goodPercent": 98
       },
       "CLS": {
-        "count": 99,
-        "average": 0.0388989898989899,
+        "count": 125,
+        "average": 0.045112,
         "unit": "",
         "ratings": {
-          "good": 81,
-          "needs-improvement": 18,
+          "good": 96,
+          "needs-improvement": 29,
           "poor": 0
         },
-        "goodPercent": 82
+        "goodPercent": 77
       },
       "INP": {
-        "count": 10,
-        "average": 154.4,
+        "count": 17,
+        "average": 127.05882352941177,
         "unit": "ms",
         "ratings": {
-          "good": 8,
+          "good": 15,
           "needs-improvement": 2,
           "poor": 0
         },
-        "goodPercent": 80
+        "goodPercent": 88
       }
     }
   }
