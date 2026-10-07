@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-10-04T00:00:00.000Z",
-    "date": "2025-10-04",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-09-28",
-      "end": "2025-10-04"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-10-05T00:00:00.000Z",
     "date": "2025-10-05",
     "dataState": "final",
@@ -5837,20 +5821,36 @@
       "totalImpressions": 129,
       "averageCTR": 1.55,
       "averagePosition": 6
+    }
+  },
+  {
+    "timestamp": "2026-10-04T00:00:00.000Z",
+    "date": "2026-10-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-09-28",
+      "end": "2026-10-04"
     },
-    "collectedAt": "2026-10-06T12:31:52.064Z",
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 124,
+      "averageCTR": 1.61,
+      "averagePosition": 6
+    },
+    "collectedAt": "2026-10-07T12:25:03.173Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 4,
         "clicks": 0,
         "impressions": 14,
-        "impressionShare": 10.9
+        "impressionShare": 11.3
       },
       "pages": {
         "rowCount": 11,
         "clicks": 2,
-        "impressions": 152,
-        "impressionShare": 117.8
+        "impressions": 147,
+        "impressionShare": 118.5
       }
     },
     "topQueries": [
@@ -5887,37 +5887,37 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 2,
-        "impressions": 79,
-        "ctr": 0.02531645569620253,
+        "impressions": 77,
+        "ctr": 0.025974025974025976,
         "position": 6.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
-        "impressions": 28,
+        "impressions": 26,
         "ctr": 0,
-        "position": 6.9
+        "position": 6.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 0,
-        "impressions": 21,
+        "impressions": 20,
         "ctr": 0,
-        "position": 4.9
-      },
-      {
-        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
-        "clicks": 0,
-        "impressions": 7,
-        "ctr": 0,
-        "position": 5
+        "position": 5.1
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 5,
+        "impressions": 6,
         "ctr": 0,
         "position": 1.2
+      },
+      {
+        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
+        "clicks": 0,
+        "impressions": 6,
+        "ctr": 0,
+        "position": 5
       },
       {
         "page": "https://dylanbochman.com/blog",
