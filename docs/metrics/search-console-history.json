@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-10-05T00:00:00.000Z",
-    "date": "2025-10-05",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-09-29",
-      "end": "2025-10-05"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-10-06T00:00:00.000Z",
     "date": "2025-10-06",
     "dataState": "final",
@@ -5837,29 +5821,45 @@
       "totalImpressions": 124,
       "averageCTR": 1.61,
       "averagePosition": 6
+    }
+  },
+  {
+    "timestamp": "2026-10-05T00:00:00.000Z",
+    "date": "2026-10-05",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-09-29",
+      "end": "2026-10-05"
     },
-    "collectedAt": "2026-10-07T12:25:03.173Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 123,
+      "averageCTR": 0.81,
+      "averagePosition": 6.3
+    },
+    "collectedAt": "2026-10-08T12:34:25.468Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 4,
+        "rowCount": 3,
         "clicks": 0,
-        "impressions": 14,
-        "impressionShare": 11.3
+        "impressions": 12,
+        "impressionShare": 9.8
       },
       "pages": {
         "rowCount": 11,
-        "clicks": 2,
-        "impressions": 147,
-        "impressionShare": 118.5
+        "clicks": 1,
+        "impressions": 146,
+        "impressionShare": 118.7
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 10,
+        "impressions": 8,
         "ctr": 0,
-        "position": 5.9
+        "position": 5.8
       },
       {
         "query": "netlify build hooks",
@@ -5871,14 +5871,7 @@
       {
         "query": "decap cms netlify",
         "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 9
-      },
-      {
-        "query": "por que me sale asi",
-        "clicks": 0,
-        "impressions": 1,
+        "impressions": 2,
         "ctr": 0,
         "position": 9
       }
@@ -5886,24 +5879,24 @@
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
-        "clicks": 2,
-        "impressions": 77,
-        "ctr": 0.025974025974025976,
-        "position": 6.4
+        "clicks": 1,
+        "impressions": 78,
+        "ctr": 0.01282051282051282,
+        "position": 6.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
-        "impressions": 26,
+        "impressions": 29,
         "ctr": 0,
-        "position": 6.8
+        "position": 7.1
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 0,
-        "impressions": 20,
+        "impressions": 14,
         "ctr": 0,
-        "position": 5.1
+        "position": 5.6
       },
       {
         "page": "https://dylanbochman.com/",
@@ -5934,6 +5927,13 @@
         "position": 3
       },
       {
+        "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 9.5
+      },
+      {
         "page": "https://dylanbochman.com/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps",
         "clicks": 0,
         "impressions": 2,
@@ -5946,13 +5946,6 @@
         "impressions": 1,
         "ctr": 0,
         "position": 4
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 9
       }
     ]
   }
