@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-10-11T00:00:00.000Z",
-    "date": "2025-10-11",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-10-05",
-      "end": "2025-10-11"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-10-12T00:00:00.000Z",
     "date": "2025-10-12",
     "dataState": "final",
@@ -5837,29 +5821,52 @@
       "totalImpressions": 103,
       "averageCTR": 0,
       "averagePosition": 7.1
+    }
+  },
+  {
+    "timestamp": "2026-10-11T00:00:00.000Z",
+    "date": "2026-10-11",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-10-05",
+      "end": "2026-10-11"
     },
-    "collectedAt": "2026-10-13T13:16:46.556Z",
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 111,
+      "averageCTR": 0,
+      "averagePosition": 7.4
+    },
+    "collectedAt": "2026-10-14T10:57:22.074Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 4,
         "clicks": 0,
         "impressions": 10,
-        "impressionShare": 9.7
+        "impressionShare": 9
       },
       "pages": {
         "rowCount": 8,
         "clicks": 0,
-        "impressions": 107,
-        "impressionShare": 103.9
+        "impressions": 115,
+        "impressionShare": 103.6
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 4,
+        "impressions": 3,
         "ctr": 0,
-        "position": 5
+        "position": 5.3
+      },
+      {
+        "query": "decap cms netlify",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 9.3
       },
       {
         "query": "how to detect anomalous behavior in artifact repositories through observability dashboards",
@@ -5867,13 +5874,6 @@
         "impressions": 3,
         "ctr": 0,
         "position": 9.7
-      },
-      {
-        "query": "decap cms netlify",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 9
       },
       {
         "query": "git gateway error: please ask your site administrator to reissue the git gateway token.",
@@ -5887,30 +5887,30 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 55,
+        "impressions": 62,
         "ctr": 0,
-        "position": 7.3
+        "position": 7.7
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
-        "impressions": 32,
+        "impressions": 34,
         "ctr": 0,
-        "position": 7.8
+        "position": 7.6
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 0,
         "impressions": 6,
         "ctr": 0,
-        "position": 6.3
+        "position": 6.2
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 5,
+        "impressions": 4,
         "ctr": 0,
-        "position": 1.6
+        "position": 1.8
       },
       {
         "page": "https://dylanbochman.com/blog",
