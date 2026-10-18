@@ -21,7 +21,8 @@
  * It is a teaching model, not a capacity planner. See MODEL_LIMITS.
  */
 
-export const TICK_S = 0.1;
+// Every selectable timeout and backoff is an exact multiple of this step.
+export const TICK_S = 0.05;
 export const HORIZON_S = 120;
 export const INCIDENT_START_S = 10;
 export const HEALTHY_CAPACITY_RPS = 1000;
@@ -429,7 +430,7 @@ function summarize(raw: RawSeries): SimSummary {
         ? 0
         : recoveredTick === null
           ? null
-          : roundTo(Math.max(0, recoveredTick - raw.endTick) * TICK_S, 1),
+          : roundTo(Math.max(0, recoveredTick - raw.endTick) * TICK_S, 2),
     peakAmplification: roundTo(peakAmplification, 2),
     freshRequests: Math.round(freshRequests),
     succeededRequests: Math.round(totalGood),
@@ -470,7 +471,7 @@ function bucketSeries(
       for (let t = start; t < end; t++) total += values[t];
       return Math.round(total * toRate);
     };
-    series.timeS.push(roundTo(start * TICK_S, 1));
+    series.timeS.push(roundTo(start * TICK_S, 2));
     series.firstAttempts.push(sum(raw.firstAttempts));
     series.retries.push(sum(raw.retriesSent));
     series.capacity.push(sum(raw.capacity));

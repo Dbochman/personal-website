@@ -4,6 +4,10 @@ import {
   HORIZON_S,
   INCIDENT_START_S,
   LIMITS,
+  TICK_S,
+  TIMEOUT_OPTIONS_MS,
+  BASE_DELAY_OPTIONS_MS,
+  MAX_DELAY_OPTIONS_MS,
   amplificationCeiling,
   backoffDelayMs,
   buildLadder,
@@ -73,6 +77,21 @@ describe('retry arithmetic', () => {
 });
 
 describe('simulate', () => {
+  it('represents every selectable timing without rounding to a different duration', () => {
+    for (const ms of [...TIMEOUT_OPTIONS_MS, ...BASE_DELAY_OPTIONS_MS, ...MAX_DELAY_OPTIONS_MS]) {
+      expect(Number.isInteger(ms / (TICK_S * 1000))).toBe(true);
+    }
+    expect(250 / (TICK_S * 1000)).toBe(5);
+  });
+
+  it('keeps 50ms and 100ms base backoffs behaviorally distinct', () => {
+    const config = { ...DEFAULT_CONFIG, timeoutMs: 250, outageS: 0.5 };
+    const fast = simulate({ ...config, baseDelayMs: 50 }, TICK_S);
+    const slow = simulate({ ...config, baseDelayMs: 100 }, TICK_S);
+    expect(fast.series.retries).not.toEqual(slow.series.retries);
+    expect(fast.series.timeS[1]).toBe(0.05);
+  });
+
   it('is deterministic', () => {
     expect(simulate(DEFAULT_CONFIG)).toEqual(simulate(DEFAULT_CONFIG));
   });
