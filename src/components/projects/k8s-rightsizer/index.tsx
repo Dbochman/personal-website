@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useEffect, useId, useRef } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigationType, useSearchParams } from 'react-router-dom';
 import { Copy, Check, AlertTriangle, Info, RotateCcw } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -452,6 +452,8 @@ function CostCard({ recommendation, replicas, pricingValid, form, errors, onChan
 }
 
 export default function K8sRightsizer() {
+  const location = useLocation();
+  const navigationType = useNavigationType();
   const [searchParams, setSearchParams] = useSearchParams();
   const [state, setState] = useState<RightsizerState>(() => readState(searchParams));
   const evaluation = useMemo(() => evaluate(state), [state]);
@@ -466,6 +468,8 @@ export default function K8sRightsizer() {
   // (Back/Forward, a link) and wins over local state. Comparing against the
   // URL rather than local state keeps keystrokes typed during the debounce.
   const lastSynced = useRef(toolParams(searchParams));
+  const seenLocation = useRef(location);
+  const ownSearch = useRef<string | null>(null);
 
   const adoptUrl = useCallback((params: URLSearchParams) => {
     const incoming = toolParams(params);
@@ -476,8 +480,20 @@ export default function K8sRightsizer() {
   }, []);
 
   useEffect(() => {
+    if (location !== seenLocation.current) {
+      seenLocation.current = location;
+      const ownWrite = navigationType === 'REPLACE' && ownSearch.current === location.search;
+      ownSearch.current = null;
+      if (!ownWrite) {
+        // Navigation is authoritative even when its parameters match the last
+        // committed URL: a local edit may still be waiting for the debounce.
+        lastSynced.current = toolParams(searchParams);
+        setState(readState(searchParams));
+        return;
+      }
+    }
     adoptUrl(searchParams);
-  }, [searchParams, adoptUrl]);
+  }, [location, navigationType, searchParams, adoptUrl]);
 
   // Write with replace (no history entry per keystroke). Read the live URL at
   // write time so parameters owned elsewhere (e.g. ?theme=dark) survive.
@@ -489,6 +505,7 @@ export default function K8sRightsizer() {
       const next = writeState(state, current);
       lastSynced.current = toolParams(next);
       if (next.toString() !== current.toString()) {
+        ownSearch.current = next.toString() ? `?${next}` : '';
         setSearchParams(next, { replace: true, preventScrollReset: true });
       }
     }, 300);

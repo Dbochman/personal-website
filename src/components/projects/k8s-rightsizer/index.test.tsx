@@ -175,6 +175,16 @@ describe('K8sRightsizer', () => {
 });
 
 describe('K8sRightsizer URL synchronization', () => {
+  it('discards a pending edit when navigating to the same default parameters', async () => {
+    renderTool(ROUTE);
+    fireEvent.change(field('replicas'), { target: { value: '12' } });
+    fireEvent.click(screen.getByRole('button', { name: 'navigate' }));
+    expect(field('replicas')).toHaveValue('3');
+    await pause(400);
+    expect(urlParam('replicas')).toBeNull();
+    expect(field('replicas')).toHaveValue('3');
+  });
+
   it('adopts a same-route navigation to different sizing params', async () => {
     renderTool(`${ROUTE}?cpuP95=250m&posture=safe`);
     fireEvent.click(screen.getByRole('button', { name: 'navigate' }));
