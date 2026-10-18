@@ -52,7 +52,7 @@ export interface SimConfig {
   backoff: BackoffMode;
   baseDelayMs: number;
   maxDelayMs: number;
-  /** Retries allowed as a percentage of first attempts per layer (0 = no budget). */
+  /** Nominal per-layer ratio, compounded into one aggregate dependency gate (0 = no budget). */
   retryBudgetPct: number;
   /** Server drops queued requests whose caller has already timed out. */
   shedAbandoned: boolean;
@@ -124,8 +124,8 @@ export function maxAttempts(config: Pick<SimConfig, 'attemptsPerLayer' | 'layers
 }
 
 /**
- * Effective retry ratio at the dependency when every layer enforces the same
- * per-layer budget: each layer can add r% on top of what it receives.
+ * Aggregate approximation of compounded per-layer retry budgets. The model
+ * applies this ratio at one dependency admission gate, not at each layer.
  */
 export function effectiveBudgetRatio(config: Pick<SimConfig, 'retryBudgetPct' | 'layers'>): number {
   if (config.retryBudgetPct <= 0) return Infinity;
@@ -487,7 +487,8 @@ function roundTo(value: number, digits: number): number {
 /**
  * Shortest trigger (at the configured capacity drop) that leaves the system
  * in a self-sustaining failure. Returns null if even the longest supported
- * trigger recovers on its own. Assumes longer triggers are never safer, which
+ * trigger has no growing backlog at the horizon; it may still be draining.
+ * Assumes longer triggers are never safer, which
  * holds for this model because they only add backlog.
  */
 export function findTippingPointS(config: SimConfig): number | null {
@@ -586,5 +587,5 @@ export const MODEL_LIMITS = [
   'Requests are a continuous fluid, not random events. There is no queueing noise below capacity, and jitter is an even spread instead of random draws, so de-synchronization effects (thundering herds after a reconnect, for example) are not shown.',
   'The dependency has fixed capacity and a single unbounded FIFO queue. Rejections, LIFO/CoDel queues, autoscaling, cache warm-up and per-request cost differences are not modeled.',
   'Stacked layers share one timeout. Real outer layers usually have longer deadlines that cut inner retries short, so the worst-case product is an upper bound.',
-  'The retry budget is a rolling 10-second ratio of retries to first attempts at each layer, similar to Finagle’s RetryBudget and the SRE book’s per-client 10% ratio. Envoy’s budget limits concurrent retries instead, and gRPC throttles on recent failures.',
+  'Retry budgets are an aggregate approximation: the nominal ratio is compounded as (1 + ratio)^layers - 1, then enforced by one rolling 10-second admission gate at the dependency. There is no separate accounting at each layer, so transient behavior differs from independently enforced per-layer budgets. Envoy limits concurrent retries instead, and gRPC throttles on recent failures.',
 ];

@@ -84,11 +84,12 @@ describe('buildTakeaways', () => {
     expect(ids({ ...DEFAULT_CONFIG, backoff: 'none' })).toContain('backoff');
   });
 
-  it('calls a hardened policy robust', () => {
+  it('reports no growing-backlog threshold without promising recovery', () => {
     const { summary } = simulate(hardened);
     const takeaways = buildTakeaways(hardened, summary, null);
     expect(takeaways).toHaveLength(1);
-    expect(takeaways[0]).toMatchObject({ id: 'robust', title: 'This policy is robust in this model' });
+    expect(takeaways[0]).toMatchObject({ id: 'robust', title: 'No growing-backlog threshold found' });
+    expect(takeaways[0].body).toContain('a backlog may still be draining');
     expect(takeaways[0].body).toContain('not a guarantee for a real system');
   });
 });

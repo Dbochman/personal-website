@@ -305,7 +305,7 @@ export default function RetryStormSimulator() {
           value={tippingPointS === null ? `None ≤ ${LIMITS.outageS.max}s` : `${tippingPointS}s`}
           detail={
             tippingPointS === null
-              ? `every simulated trigger up to ${LIMITS.outageS.max}s recovers in this model`
+              ? `no growing-backlog threshold found up to ${LIMITS.outageS.max}s; a run may still be draining at ${HORIZON_S}s`
               : `shortest trigger whose backlog is still growing at ${HORIZON_S}s, in this model`
           }
         />
@@ -400,7 +400,7 @@ export default function RetryStormSimulator() {
               value={config.retryBudgetPct}
               options={BUDGET_OPTIONS_PCT.map((pct) => ({ value: pct, label: pct === 0 ? 'Off' : `${pct}%` }))}
               onChange={(v) => update('retryBudgetPct', v)}
-              hint="Retries allowed per layer, as a share of first attempts over a rolling 10s window."
+              hint="Nominal per-layer ratio, compounded into one dependency-wide rolling 10s budget. An aggregate approximation, not separate budgets at each layer."
             />
             <div className="flex items-start gap-3">
               <Checkbox

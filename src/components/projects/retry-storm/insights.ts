@@ -142,10 +142,10 @@ export function buildTakeaways(
   if (takeaways.length === 0) {
     takeaways.push({
       id: 'robust',
-      title: tippingPointS === null ? 'This policy is robust in this model' : 'Close',
+      title: tippingPointS === null ? 'No growing-backlog threshold found' : 'Close',
       body:
         tippingPointS === null
-          ? `In the simulation it recovers on its own from every trigger up to ${LIMITS.outageS.max}s at this capacity drop. That is not a guarantee for a real system: test the assumptions behind it (timeouts, capacity, real retry behavior) with load tests or game days.`
+          ? `The search found no growing-backlog threshold up to ${LIMITS.outageS.max}s at this capacity drop. That does not mean every run recovered by ${HORIZON_S}s: a backlog may still be draining. This is not a guarantee for a real system; test the assumptions with load tests or game days.`
           : `In this model it is still unrecovered at ${HORIZON_S}s after a trigger of about ${tippingPointS}s. Lower the load or tighten the retry budget.`,
     });
   }

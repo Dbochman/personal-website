@@ -68,6 +68,13 @@ describe('RetryStormSimulator', () => {
     expect(screen.getByRole('button', { name: 'Database failover' })).toHaveAttribute('aria-pressed', 'false');
   });
 
+  it('does not equate a missing tipping point with recovery inside the horizon', () => {
+    renderAt(`${ROUTE}?load=90&attempts=1&outage=45`);
+    expect(verdict()).toHaveTextContent('Still draining at 120s');
+    expect(screen.getByText(/no growing-backlog threshold found up to 45s/)).toBeInTheDocument();
+    expect(screen.getByText(/An aggregate approximation, not separate budgets at each layer/)).toBeInTheDocument();
+  });
+
   it('switches scenarios and writes only non-default values to the URL', async () => {
     renderAt(`${ROUTE}?theme=dark`);
     fireEvent.click(screen.getByRole('button', { name: 'Hardened failover' }));
