@@ -625,7 +625,7 @@ export function calculateRecommendation(input: RecommendationInput): Recommendat
   if (currentQos === 'Guaranteed' && recommendedQos !== 'Guaranteed') {
     findings.push({
       severity: 'warning',
-      text: 'This changes the QoS class from Guaranteed to Burstable. The kubelet does not rank evictions by QoS, but a Burstable pod can use more memory than it requests, which moves it ahead of within-request pods under node memory pressure. Keep requests equal to limits if you depend on Guaranteed behavior.',
+      text: 'For a single-container pod, this changes the QoS class from Guaranteed to Burstable. Other containers, including sidecars, can change the actual pod class. The kubelet does not rank evictions by QoS, but a Burstable pod can use more memory than it requests, which moves it ahead of within-request pods under node memory pressure. Keep requests equal to limits across all containers if you depend on Guaranteed behavior.',
     });
   }
 

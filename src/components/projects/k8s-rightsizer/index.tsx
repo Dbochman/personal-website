@@ -250,6 +250,7 @@ function RecommendationCard({ recommendation, form }: { recommendation: Recommen
                 <a href={DOCS.qos} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground">
                   QoS class
                 </a>
+                <span className="block text-xs">Assumes a single-container pod; sidecars can change the actual class.</span>
               </th>
               <td className="py-2 pr-2">{recommendation.currentQosClass}</td>
               <td className="py-2">{recommendation.qosClass}</td>

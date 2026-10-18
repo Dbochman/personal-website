@@ -491,6 +491,8 @@ describe('calculateRecommendation', () => {
       expect(result.currentQosClass).toBe('Guaranteed');
       expect(result.qosClass).toBe('Burstable');
       expect(findingText(result)).toMatch(/Guaranteed to Burstable/);
+      expect(findingText(result)).toMatch(/single-container pod/);
+      expect(findingText(result)).toMatch(/sidecars/);
     });
   });
 
