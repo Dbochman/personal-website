@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "replace-rightsizer-with-retry-storm-simulator",
+          "title": "replace rightsizer with Retry Storm Simulator",
+          "labels": [
+            "Feature",
+            "PR #331"
+          ],
+          "checklist": [],
+          "createdAt": "2026-10-18T01:47:52.000Z",
+          "updatedAt": "2026-10-18T01:47:52.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-10-18T01:47:52.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* feat(projects): replace rightsizer with retry storm simulator\n\nAlternative B: Claude Opus 5.5 at High effort curated and implemented an interactive resilience simulator. Includes bounded model explanations, policy comparisons, shareable state, Envoy fragments, and legacy route redirects.\n\nCo-authored-by: Claude <noreply@anthropic.com>\n\n* fix(retry-storm): clarify aggregate budgets and bounded recovery\n\n* fix(retry-storm): recognize slowly draining backlogs\n\n* fix(retry-storm): represent selectable timings at 50ms resolution\n\n---------\n\nCo-authored-by: Claude <noreply@anthropic.com>"
+        },
+        {
           "id": "repair-mobile-accessibility-and-blog-filtering",
           "title": "repair mobile accessibility and blog filtering",
           "labels": [
@@ -3537,5 +3557,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-09-09T15:43:36.104Z"
+  "updatedAt": "2026-10-18T01:48:20.588Z"
 };
