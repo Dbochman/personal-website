@@ -153,8 +153,8 @@ describe('simulate', () => {
     expect(simulate(above).summary.outcome).toBe('metastable');
   });
 
-  it('reports a backlog that is still shrinking at the horizon as draining', () => {
-    const { summary } = simulate({ ...NAIVE, attemptsPerLayer: 1, loadPct: 90, outageS: 45 });
+  it.each([90, 95])('reports a shrinking backlog at %i%% load as draining', (loadPct) => {
+    const { summary } = simulate({ ...NAIVE, attemptsPerLayer: 1, loadPct, outageS: 45 });
     expect(summary.outcome).toBe('draining');
     expect(summary.recoveryLagS).toBeNull();
   });
@@ -171,6 +171,12 @@ describe('findTippingPointS', () => {
   it('is null when the policy recovers from the longest supported trigger', () => {
     expect(findTippingPointS(preset('hardened'))).toBeNull();
     expect(findTippingPointS({ ...NAIVE, attemptsPerLayer: 1 })).toBeNull();
+  });
+
+  it('finds no self-sustaining failure when a no-retry queue drains slowly', () => {
+    const config = { ...NAIVE, attemptsPerLayer: 1, loadPct: 95, outageS: 45 };
+    expect(simulate(config).summary.endBacklog).toBe(39500);
+    expect(findTippingPointS(config)).toBeNull();
   });
 
   it('grows with the client timeout (more queue fits inside one timeout)', () => {

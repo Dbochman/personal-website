@@ -395,7 +395,9 @@ function summarize(raw: RawSeries): SimSummary {
   else if (recoveredTick !== null) outcome = 'recovered';
   else {
     const lookback = TICKS - 1 - 10 * TICKS_PER_SECOND;
-    const shrinking = raw.backlogByTick[TICKS - 1] < raw.backlogByTick[lookback] * 0.98;
+    // Any meaningful decrease is draining. A percentage threshold incorrectly
+    // labels large, slowly clearing queues as self-sustaining failures.
+    const shrinking = raw.backlogByTick[lookback] - raw.backlogByTick[TICKS - 1] > EPSILON;
     outcome = shrinking ? 'draining' : 'metastable';
   }
 
