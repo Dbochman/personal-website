@@ -67,6 +67,9 @@ const App = () => (
                     <Route path="/uploads/*" element={<Navigate to="/" replace />} />
                     <Route path="/projects/andre" element={<Navigate to="/projects/echonest" replace />} />
                     <Route path="/projects/andre/" element={<Navigate to="/projects/echonest" replace />} />
+                    {/* K8s Right-Sizer was retired; its catalog slot is now the Retry Storm Simulator */}
+                    <Route path="/projects/k8s-rightsizer" element={<Navigate to="/projects/retry-storm-simulator" replace />} />
+                    <Route path="/projects/k8s-rightsizer/" element={<Navigate to="/projects/retry-storm-simulator" replace />} />
                     <Route path="/blog/2026-02-04-andre-collaborative-music-queue" element={<Navigate to="/blog/2026-02-04-echonest-collaborative-music-queue" replace />} />
                     <Route path="/blog/2026-02-04-andre-collaborative-music-queue/" element={<Navigate to="/blog/2026-02-04-echonest-collaborative-music-queue" replace />} />
                     {/* Manifest-driven legacy blog-slug aliases are handled by static meta-refresh files written in scripts/prerender.mjs — don't add per-post entries here. */}
