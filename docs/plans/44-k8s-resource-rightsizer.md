@@ -230,3 +230,18 @@ resources:
 ## Dependencies
 - Existing UI components (Slider, Input, Card, Tabs).
 - Prism or similar for YAML syntax highlighting.
+
+## Revision (2026-10-17)
+
+A review against current Kubernetes docs changed several rules above. The code and tests are now the source of truth.
+
+- **Postures, not a 0-100 slider.** The five slider bands became five named stops with the same multipliers. Profile cards were folded into each stop's "typical fit" text.
+- **Memory requests never use P50.** Memory can't be throttled, and the kubelet ranks pods using more than their requests first under node pressure (then by priority and overage). It's a heuristic, not eviction immunity.
+- **No fabricated percentiles.** A missing P50 uses the measured P95 and a missing P99 uses Max, and the UI says so. (Previously P50 = P95 × 0.6.)
+- **Memory rounding adds ≤12.5%.** Power-of-two rounding could nearly double a request (520Mi → 1Gi).
+- **Kubernetes quantity rules.** Lowercase `k`; `m` on memory (millibytes) is rejected with a hint; bounds and non-finite input are rejected. Replicas must be a whole number; there is no silent clamping.
+- **Current spec matches the API.** Empty fields are unset, a limit-only request defaults to the limit, and request > limit is an error. The QoS class is shown.
+- **Optional CPU limit.** It is omitted from YAML when the user unchecks it.
+- **Cost is illustrative.** Editable $/vCPU-hour and $/GiB-hour replace the unsourced provider presets. Copy says savings require node reduction.
+- **Findings** flag censored usage (near current limits), eviction exposure, spikes, large cuts, HPA utilization shifts, and Guaranteed → Burstable changes.
+- **URL state** replaces in-memory-only state. The debounce/Web Worker plan was dropped because the calculation takes microseconds.

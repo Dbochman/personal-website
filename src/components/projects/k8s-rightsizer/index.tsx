@@ -1,833 +1,656 @@
-import { useState, useMemo, useCallback, useEffect, useTransition } from 'react';
-import { Copy, Check, AlertTriangle, TrendingDown, TrendingUp, Info, HelpCircle } from 'lucide-react';
+import { useState, useMemo, useCallback, useEffect, useId, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { Copy, Check, AlertTriangle, Info, RotateCcw } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { trackToolEvent } from '@/lib/trackToolEvent';
 import {
-  parseCpu,
-  parseMemory,
-  normalizePercentiles,
-  calculateRecommendation,
   generateYaml,
-  PRESET_SLIDER_VALUES,
-  CLOUD_PRICING,
   HOURS_PER_MONTH,
-  type PresetProfile,
-  type PercentileInput,
-  type CloudProvider,
+  POSTURES,
+  POSTURE_CONFIG,
+  type Recommendation,
 } from './calculations';
+import { evaluate, REQUIRED_FIELDS, type ErrorKey, type FormErrors } from './evaluate';
+import {
+  readState,
+  writeState,
+  toolParams,
+  DEFAULT_STATE,
+  MAX_FIELD_LENGTH,
+  type FormState,
+  type RightsizerState,
+} from './url-state';
+import { MethodNotes } from './MethodNotes';
+import { DOCS } from './docs-links';
 
-type ResourceType = 'cpu' | 'memory';
+const CARD_HEADER = 'p-4 pb-3 sm:p-6 sm:pb-3';
+const CARD_CONTENT = 'p-4 pt-0 sm:p-6 sm:pt-0';
 
-interface FormState {
-  replicas: string;
-  currentCpuRequests: string;
-  currentCpuLimits: string;
-  currentMemRequests: string;
-  currentMemLimits: string;
-  cpuP50: string;
-  cpuP95: string;
-  cpuP99: string;
-  cpuMax: string;
-  memP50: string;
-  memP95: string;
-  memP99: string;
-  memMax: string;
-}
-
-const DEFAULT_FORM: FormState = {
-  replicas: '3',
-  currentCpuRequests: '500m',
-  currentCpuLimits: '1',
-  currentMemRequests: '512Mi',
-  currentMemLimits: '1Gi',
-  cpuP50: '100m',
-  cpuP95: '200m',
-  cpuP99: '300m',
-  cpuMax: '400m',
-  memP50: '256Mi',
-  memP95: '400Mi',
-  memP99: '450Mi',
-  memMax: '512Mi',
+const FIELD_LABELS: Record<ErrorKey, string> = {
+  replicas: 'Replicas',
+  cpuRequest: 'CPU request',
+  cpuLimit: 'CPU limit',
+  memRequest: 'Memory request',
+  memLimit: 'Memory limit',
+  cpuP50: 'CPU P50',
+  cpuP95: 'CPU P95',
+  cpuP99: 'CPU P99',
+  cpuMax: 'CPU max',
+  memP50: 'Memory P50',
+  memP95: 'Memory P95',
+  memP99: 'Memory P99',
+  memMax: 'Memory max',
+  cpuPrice: 'CPU price',
+  memPrice: 'Memory price',
+  cpuUsage: 'CPU usage',
+  memUsage: 'Memory usage',
+  general: 'Inputs',
 };
 
-const PRESETS: { id: PresetProfile; label: string; description: string }[] = [
-  { id: 'webserver', label: 'Web Server', description: 'Request-response, some bursts' },
-  { id: 'worker', label: 'Worker', description: 'Batch processing, predictable' },
-  { id: 'database', label: 'Database', description: 'Memory-sensitive, avoid OOMKill' },
-  { id: 'custom', label: 'Custom', description: 'Manual slider adjustment' },
-];
+/** Where to move focus when an error is selected from the summary */
+const ERROR_FOCUS_TARGET: Partial<Record<ErrorKey, keyof FormState>> = {
+  cpuUsage: 'cpuP95',
+  memUsage: 'memP95',
+};
 
-// Common CPU values for quick selection
-const CPU_PRESETS = [
-  { value: '50m', label: '50m', description: '0.05 cores' },
-  { value: '100m', label: '100m', description: '0.1 cores' },
-  { value: '250m', label: '250m', description: '0.25 cores' },
-  { value: '500m', label: '500m', description: '0.5 cores' },
-  { value: '1', label: '1', description: '1 core' },
-  { value: '2', label: '2', description: '2 cores' },
-  { value: '4', label: '4', description: '4 cores' },
-];
+const fieldId = (key: keyof FormState) => `rightsizer-${key}`;
 
-// Common memory values for quick selection
-const MEMORY_PRESETS = [
-  { value: '64Mi', label: '64Mi', description: '64 MiB' },
-  { value: '128Mi', label: '128Mi', description: '128 MiB' },
-  { value: '256Mi', label: '256Mi', description: '256 MiB' },
-  { value: '512Mi', label: '512Mi', description: '512 MiB' },
-  { value: '1Gi', label: '1Gi', description: '1 GiB' },
-  { value: '2Gi', label: '2Gi', description: '2 GiB' },
-  { value: '4Gi', label: '4Gi', description: '4 GiB' },
-  { value: '8Gi', label: '8Gi', description: '8 GiB' },
-];
+const money = (value: number, digits = 2) =>
+  value.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: digits, maximumFractionDigits: digits });
 
-function getRiskColor(risk: 'low' | 'medium' | 'high') {
-  switch (risk) {
-    case 'low': return 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20';
-    case 'medium': return 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20';
-    case 'high': return 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20';
-  }
+function formatChange(current: number, recommended: number): string {
+  if (current === 0) return recommended === 0 ? '—' : 'new';
+  const percent = Math.round(((recommended - current) / current) * 100);
+  if (percent === 0) return '0%';
+  return `${percent > 0 ? '+' : '−'}${Math.abs(percent)}%`;
 }
 
-/**
- * Format cost change as percentage, handling edge cases
- * Returns "—" when current is 0 but recommended > 0 (can't calculate %)
- */
-function formatCostChangePercent(current: number, savings: number): string {
-  if (current === 0) {
-    // Can't calculate percentage from zero base
-    // If recommended > 0, it's an increase from nothing
-    return savings < 0 ? '+∞' : '—';
-  }
-  const percent = Math.round((savings / current) * 100);
-  return `${savings >= 0 ? '-' : '+'}${Math.abs(percent)}%`;
-}
-
-// Combobox-style input with integrated dropdown
-interface ResourceInputProps {
-  id: string;
+interface FieldProps {
+  name: keyof FormState;
   label: string;
   value: string;
-  onChange: (value: string) => void;
-  placeholder: string;
-  presets: typeof CPU_PRESETS;
-  tooltip: React.ReactNode;
+  error?: string;
+  onChange: (name: keyof FormState, value: string) => void;
+  placeholder?: string;
+  hint?: string;
+  optional?: boolean;
+  inputMode?: 'decimal' | 'numeric' | 'text';
+  prefix?: string;
 }
 
-function ResourceInput({ id, label, value, onChange, placeholder, presets, tooltip }: ResourceInputProps) {
-  const [open, setOpen] = useState(false);
-
+function Field({ name, label, value, error, onChange, placeholder, hint, optional, inputMode = 'text', prefix }: FieldProps) {
+  const id = fieldId(name);
+  // The hint is replaced by the error, so describe the field by whichever is rendered
+  const describedBy = error ? `${id}-error` : hint ? `${id}-hint` : undefined;
   return (
-    <div>
-      <div className="flex items-center gap-1 mb-1">
-        <Label htmlFor={id}>{label}</Label>
-        <Tooltip>
-          <TooltipTrigger>
-            <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
-          </TooltipTrigger>
-          <TooltipContent className="max-w-xs">
-            {tooltip}
-          </TooltipContent>
-        </Tooltip>
-      </div>
-      <div className="relative">
+    <div className="min-w-0">
+      <Label htmlFor={id} className="flex flex-wrap items-baseline gap-x-1">
+        {label}
+        {optional && <span className="text-xs font-normal text-muted-foreground">(optional)</span>}
+      </Label>
+      <div className="relative mt-1">
+        {prefix && (
+          <span aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+            {prefix}
+          </span>
+        )}
         <Input
           id={id}
           value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onFocus={() => setOpen(true)}
-          onBlur={() => setTimeout(() => setOpen(false), 150)}
+          onChange={(e) => onChange(name, e.target.value)}
           placeholder={placeholder}
-          className="pr-8 font-mono"
+          inputMode={inputMode}
+          maxLength={MAX_FIELD_LENGTH}
           autoComplete="off"
+          spellCheck={false}
+          required={!optional && REQUIRED_FIELDS.includes(name)}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={describedBy}
+          className={cn('font-mono', prefix && 'pl-6', error && 'border-destructive focus-visible:ring-destructive')}
         />
-        <button
-          type="button"
-          tabIndex={-1}
-          onClick={() => setOpen(!open)}
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-        >
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className={cn("transition-transform", open && "rotate-180")}>
-            <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
-        {open && (
-          <div className="absolute z-50 mt-1 w-full min-w-[180px] rounded-md border bg-popover p-1 shadow-md">
-            <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">Common values</div>
-            {presets.map((p) => (
-              <button
-                key={p.value}
-                type="button"
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => {
-                  onChange(p.value);
-                  setOpen(false);
-                }}
-                className={cn(
-                  "flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground",
-                  value === p.value && "bg-accent"
-                )}
-              >
-                <span className="font-mono">{p.label}</span>
-                <span className="text-xs text-muted-foreground">{p.description}</span>
-              </button>
-            ))}
-          </div>
-        )}
       </div>
+      {hint && !error && (
+        <p id={`${id}-hint`} className="mt-1 text-xs text-muted-foreground">{hint}</p>
+      )}
+      {error && (
+        <p id={`${id}-error`} className="mt-1 text-xs text-destructive [overflow-wrap:anywhere]">{error}</p>
+      )}
     </div>
   );
 }
 
+function GroupError({ id, message }: { id: string; message?: string }) {
+  if (!message) return null;
+  return (
+    <p id={id} className="flex items-start gap-1.5 text-sm text-destructive">
+      <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+      {message}
+    </p>
+  );
+}
+
+function ErrorSummary({ errors }: { errors: FormErrors }) {
+  const entries = (Object.entries(errors) as Array<[ErrorKey, string]>)
+    .filter(([key]) => key !== 'cpuPrice' && key !== 'memPrice');
+  return (
+    <Card className="border-destructive">
+      <CardHeader className={CARD_HEADER}>
+        <CardTitle as="h2" className="text-lg flex items-center gap-2">
+          <AlertTriangle className="h-5 w-5 text-destructive" aria-hidden="true" />
+          No recommendation yet
+        </CardTitle>
+      </CardHeader>
+      <CardContent className={cn(CARD_CONTENT, 'space-y-2 text-sm [overflow-wrap:anywhere]')}>
+        <p>
+          Fix {entries.length === 1 ? 'this input' : `these ${entries.length} inputs`} to see a recommendation and YAML:
+        </p>
+        <ul className="space-y-1">
+          {entries.map(([key, message]) => (
+            <li key={key}>
+              {key === 'general' ? (
+                FIELD_LABELS[key]
+              ) : (
+                <button
+                  type="button"
+                  className="text-left underline underline-offset-2 hover:text-foreground"
+                  onClick={() => document.getElementById(fieldId(ERROR_FOCUS_TARGET[key] ?? (key as keyof FormState)))?.focus()}
+                >
+                  {FIELD_LABELS[key]}
+                </button>
+              )}
+              <span className="text-muted-foreground">: {message}</span>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+    </Card>
+  );
+}
+
+function currentCell(raw: string, fallback?: string): string {
+  const value = raw.trim();
+  if (value) return value;
+  return fallback ? `Not set (uses limit ${fallback})` : 'Not set';
+}
+
+function RecommendationCard({ recommendation, form }: { recommendation: Recommendation; form: FormState }) {
+  const config = POSTURE_CONFIG[recommendation.posture];
+  const rows = [
+    {
+      label: 'CPU request',
+      current: currentCell(form.cpuRequest, form.cpuLimit.trim() || undefined),
+      recommended: recommendation.requests.cpu,
+      basis: recommendation.basis.cpuRequest,
+    },
+    {
+      label: 'CPU limit',
+      current: currentCell(form.cpuLimit),
+      recommended: recommendation.limits.cpu ?? 'None',
+      basis: recommendation.basis.cpuLimit ?? 'Omitted by choice',
+    },
+    {
+      label: 'Memory request',
+      current: currentCell(form.memRequest, form.memLimit.trim() || undefined),
+      recommended: recommendation.requests.memory,
+      basis: recommendation.basis.memoryRequest,
+    },
+    {
+      label: 'Memory limit',
+      current: currentCell(form.memLimit),
+      recommended: recommendation.limits.memory,
+      basis: recommendation.basis.memoryLimit,
+    },
+  ];
+  const warnings = recommendation.findings.filter((f) => f.severity === 'warning');
+  const notes = recommendation.findings.filter((f) => f.severity === 'info');
+
+  return (
+    <Card>
+      <CardHeader className={CARD_HEADER}>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <CardTitle as="h2" className="text-lg">Recommendation</CardTitle>
+          <Badge
+            variant="outline"
+            className={cn(config.risk === 'higher' && 'border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400')}
+          >
+            {config.label} posture
+          </Badge>
+        </div>
+        <p className="text-sm text-muted-foreground">Per container, per replica. A starting point to validate, not a guarantee.</p>
+      </CardHeader>
+      <CardContent className={cn(CARD_CONTENT, 'space-y-4')}>
+        <table className="w-full table-fixed text-sm" aria-label="Current and recommended resources">
+          <thead>
+            <tr className="text-left text-muted-foreground">
+              <th scope="col" className="w-[36%] py-2 pr-2 font-medium">Setting</th>
+              <th scope="col" className="py-2 pr-2 font-medium">Current</th>
+              <th scope="col" className="py-2 font-medium">Recommended</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr key={row.label} className="border-t border-border align-top">
+                <th scope="row" className="py-2 pr-2 font-normal text-muted-foreground">{row.label}</th>
+                <td className="py-2 pr-2 font-mono break-words">{row.current}</td>
+                <td className="py-2">
+                  <div className="font-mono font-semibold">{row.recommended}</div>
+                  <div className="text-xs text-muted-foreground">{row.basis}</div>
+                </td>
+              </tr>
+            ))}
+            <tr className="border-t border-border align-top">
+              <th scope="row" className="py-2 pr-2 font-normal text-muted-foreground">
+                <a href={DOCS.qos} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground">
+                  QoS class
+                </a>
+              </th>
+              <td className="py-2 pr-2">{recommendation.currentQosClass}</td>
+              <td className="py-2">{recommendation.qosClass}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        {(warnings.length > 0 || notes.length > 0) && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium">Check before applying</h3>
+            <ul className="space-y-2 text-sm [overflow-wrap:anywhere]">
+              {warnings.map((finding) => (
+                <li key={finding.text} className="flex gap-2 text-amber-700 dark:text-amber-400">
+                  <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span><span className="sr-only">Warning: </span>{finding.text}</span>
+                </li>
+              ))}
+              {notes.map((finding) => (
+                <li key={finding.text} className="flex gap-2 text-muted-foreground">
+                  <Info className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span>{finding.text}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function YamlCard({ yaml }: { yaml: string }) {
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
+  const resetTimer = useRef<ReturnType<typeof setTimeout>>();
+  const preRef = useRef<HTMLPreElement>(null);
+
+  useEffect(() => () => clearTimeout(resetTimer.current), []);
+  // A stale "Copied" would claim the new YAML was copied
+  useEffect(() => setCopyStatus('idle'), [yaml]);
+
+  const handleCopy = useCallback(async () => {
+    clearTimeout(resetTimer.current);
+    try {
+      await navigator.clipboard.writeText(yaml);
+      setCopyStatus('copied');
+      trackToolEvent({ tool_name: 'k8s_rightsizer', action: 'copy_yaml', event_label: 'yaml' });
+    } catch {
+      setCopyStatus('failed');
+      // Select the snippet so manual copy is one keystroke away
+      const selection = window.getSelection();
+      if (preRef.current && selection) {
+        selection.selectAllChildren(preRef.current);
+      }
+    }
+    resetTimer.current = setTimeout(() => setCopyStatus('idle'), 4000);
+  }, [yaml]);
+
+  return (
+    <Card>
+      <CardHeader className={CARD_HEADER}>
+        <div className="flex items-center justify-between gap-2">
+          <CardTitle as="h2" className="text-lg">YAML</CardTitle>
+          <Button variant="outline" size="sm" onClick={handleCopy} className="gap-2">
+            {copyStatus === 'copied' ? <Check className="h-4 w-4" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
+            {copyStatus === 'copied' ? 'Copied' : 'Copy YAML'}
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent className={cn(CARD_CONTENT, 'space-y-3')}>
+        <pre
+          ref={preRef}
+          tabIndex={0}
+          aria-label="Recommended resources YAML"
+          className="overflow-x-auto rounded-lg bg-muted p-4 font-mono text-sm"
+        >
+          {yaml}
+        </pre>
+        <p role="status" className={cn('text-xs', copyStatus === 'failed' ? 'text-destructive' : 'text-muted-foreground')}>
+          {copyStatus === 'failed'
+            ? 'Copy failed. The snippet is selected; copy it manually.'
+            : copyStatus === 'copied'
+              ? 'Copied to clipboard.'
+              : 'Paste into the container entry under spec.containers[].'}
+        </p>
+        <div className="rounded-md border border-dashed p-3 text-sm">
+          <h3 className="font-medium">Roll out in steps</h3>
+          <ol className="mt-1 list-decimal space-y-1 pl-5 text-muted-foreground">
+            <li>Apply to a canary or one environment first, not the whole fleet.</li>
+            <li>
+              Watch a full traffic cycle: CPU throttling, OOMKilled restarts, evictions, and your latency
+              and error SLOs.
+            </li>
+            <li>Promote if it holds; revert and re-measure if it doesn't.</li>
+            <li>Re-measure after major releases or traffic changes.</li>
+          </ol>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+interface CostCardProps {
+  recommendation: Recommendation | null;
+  replicas: number | null;
+  pricingValid: boolean;
+  form: FormState;
+  errors: FormErrors;
+  onChange: (name: keyof FormState, value: string) => void;
+}
+
+function CostCard({ recommendation, replicas, pricingValid, form, errors, onChange }: CostCardProps) {
+  const costs = recommendation?.costs;
+  const showCosts = costs && pricingValid && replicas !== null;
+  const rows = costs ? [
+    { label: 'CPU', current: costs.current.cpu, recommended: costs.recommended.cpu },
+    { label: 'Memory', current: costs.current.memory, recommended: costs.recommended.memory },
+  ] : [];
+  const delta = costs ? costs.recommended.total - costs.current.total : 0;
+
+  return (
+    <Card>
+      <CardHeader className={CARD_HEADER}>
+        <CardTitle as="h2" className="text-lg">Illustrative request cost</CardTitle>
+        <p className="text-sm text-muted-foreground">
+          Requests reserve node capacity, so this prices requests (limits are not counted).
+        </p>
+      </CardHeader>
+      <CardContent className={cn(CARD_CONTENT, 'space-y-4')}>
+        <div className="grid gap-3 min-[360px]:grid-cols-2">
+          <Field
+            name="cpuPrice"
+            label="Per vCPU-hour"
+            prefix="$"
+            inputMode="decimal"
+            value={form.cpuPrice}
+            error={errors.cpuPrice}
+            onChange={onChange}
+          />
+          <Field
+            name="memPrice"
+            label="Per GiB-hour"
+            prefix="$"
+            inputMode="decimal"
+            value={form.memPrice}
+            error={errors.memPrice}
+            onChange={onChange}
+          />
+        </div>
+
+        {showCosts ? (
+          <>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs sm:text-sm" aria-label="Monthly request cost">
+                <thead>
+                  <tr className="text-muted-foreground">
+                    <th scope="col" className="py-2 pr-2 text-left font-medium">Monthly</th>
+                    <th scope="col" className="px-1 py-2 text-right font-medium">Current</th>
+                    <th scope="col" className="px-1 py-2 text-right font-medium">Rec.</th>
+                    <th scope="col" className="py-2 pl-1 text-right font-medium">Change</th>
+                  </tr>
+                </thead>
+                <tbody className="font-mono">
+                  {rows.map((row) => (
+                    <tr key={row.label}>
+                      <th scope="row" className="py-1.5 pr-2 text-left font-sans font-normal text-muted-foreground">{row.label}</th>
+                      <td className="px-1 py-1.5 text-right">{money(row.current)}</td>
+                      <td className="px-1 py-1.5 text-right">{money(row.recommended)}</td>
+                      <td className="py-1.5 pl-1 text-right">{formatChange(row.current, row.recommended)}</td>
+                    </tr>
+                  ))}
+                  <tr className="border-t border-border font-medium">
+                    <th scope="row" className="py-2 pr-2 text-left font-sans font-medium">Total</th>
+                    <td className="px-1 py-2 text-right">{money(costs.current.total)}</td>
+                    <td className="px-1 py-2 text-right">{money(costs.recommended.total)}</td>
+                    <td className="py-2 pl-1 text-right">{formatChange(costs.current.total, costs.recommended.total)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="text-sm">
+              {delta < 0 && <>About <strong>{money(-delta)}/mo</strong> ({money(-delta * 12, 0)}/yr) less reserved capacity at these prices.</>}
+              {delta > 0 && <>About <strong>{money(delta)}/mo</strong> more reserved capacity: current requests are below what this posture asks for.</>}
+              {delta === 0 && <>No change in reserved capacity.</>}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {replicas} replica{replicas === 1 ? '' : 's'} × requests × {HOURS_PER_MONTH} h/month at your prices. These
+              are accounting assumptions, not a provider quote. Your bill only changes if freed capacity lets nodes
+              be removed or packed more densely (for example, by a cluster autoscaler).
+            </p>
+          </>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            {recommendation ? 'Enter valid prices to estimate cost.' : 'Cost appears once the sizing inputs are valid.'}
+          </p>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function K8sRightsizer() {
-  const [form, setForm] = useState<FormState>(DEFAULT_FORM);
-  const [slider, setSlider] = useState(50);
-  const [preset, setPreset] = useState<PresetProfile>('custom');
-  const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState<ResourceType>('cpu');
-  const [cloudProvider, setCloudProvider] = useState<CloudProvider>('default');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [state, setState] = useState<RightsizerState>(() => readState(searchParams));
+  const evaluation = useMemo(() => evaluate(state), [state]);
+  const { form, posture, includeCpuLimit } = state;
+  const { errors, recommendation } = evaluation;
+  const postureIndex = POSTURES.indexOf(posture);
+  const config = POSTURE_CONFIG[posture];
+  const postureHintId = useId();
 
-  // Debounced form state for expensive calculations
-  const [debouncedForm, setDebouncedForm] = useState<FormState>(form);
-  const [isPending, startTransition] = useTransition();
+  // Two-way URL sync. `lastSynced` is the tool's slice of the URL as of the last
+  // write or adoption; a URL whose slice differs from it came from someone else
+  // (Back/Forward, a link) and wins over local state. Comparing against the
+  // URL rather than local state keeps keystrokes typed during the debounce.
+  const lastSynced = useRef(toolParams(searchParams));
 
-  // Debounce form updates (150ms) to avoid recalculating on every keystroke
+  const adoptUrl = useCallback((params: URLSearchParams) => {
+    const incoming = toolParams(params);
+    if (incoming === lastSynced.current) return false;
+    lastSynced.current = incoming;
+    setState(readState(params));
+    return true;
+  }, []);
+
+  useEffect(() => {
+    adoptUrl(searchParams);
+  }, [searchParams, adoptUrl]);
+
+  // Write with replace (no history entry per keystroke). Read the live URL at
+  // write time so parameters owned elsewhere (e.g. ?theme=dark) survive.
   useEffect(() => {
     const timeout = setTimeout(() => {
-      startTransition(() => {
-        setDebouncedForm(form);
-      });
-    }, 150);
+      const current = new URLSearchParams(window.location.search);
+      // The router may not have rendered a navigation yet; never overwrite it.
+      if (adoptUrl(current)) return;
+      const next = writeState(state, current);
+      lastSynced.current = toolParams(next);
+      if (next.toString() !== current.toString()) {
+        setSearchParams(next, { replace: true, preventScrollReset: true });
+      }
+    }, 300);
     return () => clearTimeout(timeout);
-  }, [form]);
+  }, [state, setSearchParams, adoptUrl]);
 
-  const updateField = useCallback((field: keyof FormState, value: string) => {
-    setForm(prev => ({ ...prev, [field]: value }));
+  const updateField = useCallback((name: keyof FormState, value: string) => {
+    setState((prev) => ({ ...prev, form: { ...prev.form, [name]: value } }));
   }, []);
 
-  const handlePresetChange = useCallback((newPreset: PresetProfile) => {
-    setPreset(newPreset);
-    setSlider(PRESET_SLIDER_VALUES[newPreset]);
-    trackToolEvent({ tool_name: 'k8s_rightsizer', action: 'preset_change', event_label: newPreset });
+  const handleReset = useCallback(() => {
+    setState(DEFAULT_STATE);
+    trackToolEvent({ tool_name: 'k8s_rightsizer', action: 'reset', event_label: 'example' });
   }, []);
-
-  const handleSliderChange = useCallback((values: number[]) => {
-    setSlider(values[0]);
-    setPreset('custom');
-  }, []);
-
-  // Compute recommendation using debounced form state for better INP
-  const { recommendation, error } = useMemo(() => {
-    try {
-      // Parse current values (using debouncedForm to avoid recalc on every keystroke)
-      const currentCpu = {
-        requests: parseCpu(debouncedForm.currentCpuRequests),
-        limits: parseCpu(debouncedForm.currentCpuLimits),
-      };
-      const currentMem = {
-        requests: parseMemory(debouncedForm.currentMemRequests),
-        limits: parseMemory(debouncedForm.currentMemLimits),
-      };
-
-      // Parse CPU percentiles
-      const cpuInput: PercentileInput = {
-        p95: parseCpu(debouncedForm.cpuP95),
-        max: parseCpu(debouncedForm.cpuMax),
-      };
-      if (debouncedForm.cpuP50.trim()) cpuInput.p50 = parseCpu(debouncedForm.cpuP50);
-      if (debouncedForm.cpuP99.trim()) cpuInput.p99 = parseCpu(debouncedForm.cpuP99);
-      const cpuPercentiles = normalizePercentiles(cpuInput);
-
-      // Parse memory percentiles
-      const memInput: PercentileInput = {
-        p95: parseMemory(debouncedForm.memP95),
-        max: parseMemory(debouncedForm.memMax),
-      };
-      if (debouncedForm.memP50.trim()) memInput.p50 = parseMemory(debouncedForm.memP50);
-      if (debouncedForm.memP99.trim()) memInput.p99 = parseMemory(debouncedForm.memP99);
-      const memPercentiles = normalizePercentiles(memInput);
-
-      const replicas = Math.max(1, Math.floor(parseInt(debouncedForm.replicas, 10) || 1));
-
-      const pricing = CLOUD_PRICING[cloudProvider];
-      const result = calculateRecommendation({
-        usage: {
-          cpu: cpuPercentiles,
-          memory: memPercentiles,
-        },
-        current: {
-          requests: { cpu: currentCpu.requests, memory: currentMem.requests },
-          limits: { cpu: currentCpu.limits, memory: currentMem.limits },
-        },
-        replicas,
-        slider,
-        costPerCoreHour: pricing.cpu,
-        costPerGiBHour: pricing.memory,
-      });
-
-      return { recommendation: result, error: null, validatedReplicas: replicas };
-    } catch (e) {
-      return { recommendation: null, error: e instanceof Error ? e.message : 'Invalid input', validatedReplicas: 1 };
-    }
-  }, [debouncedForm, slider, cloudProvider]);
-
-  // Use immediate form value for display, debounced value is used in calculation
-  const validatedReplicas = useMemo(() => {
-    return Math.max(1, Math.floor(parseInt(form.replicas, 10) || 1));
-  }, [form.replicas]);
 
   const yaml = recommendation ? generateYaml(recommendation) : '';
 
-  const handleCopy = useCallback(async () => {
-    if (!yaml) return;
-    try {
-      await navigator.clipboard.writeText(yaml);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-      trackToolEvent({ tool_name: 'k8s_rightsizer', action: 'copy_yaml', event_label: 'yaml' });
-    } catch {
-      // Fallback for browsers without clipboard API or in non-secure contexts
-      console.warn('Clipboard API failed, copy manually');
-    }
-  }, [yaml]);
-
-  const sliderLabel = useMemo(() => {
-    if (slider < 20) return 'Aggressive';
-    if (slider < 40) return 'Efficient';
-    if (slider < 60) return 'Balanced';
-    if (slider < 80) return 'Conservative';
-    return 'Safe';
-  }, [slider]);
+  const fieldProps = (name: keyof FormState) => ({
+    name,
+    value: form[name],
+    error: errors[name],
+    onChange: updateField,
+  });
 
   return (
-    <TooltipProvider>
-      <div className="space-y-6">
-        {/* Preset Selection */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Workload Profile</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {PRESETS.map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => handlePresetChange(p.id)}
-                  className={cn(
-                    'p-3 rounded-lg border text-left transition-colors',
-                    preset === p.id
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-muted-foreground/50'
-                  )}
-                >
-                  <div className="font-medium text-sm">{p.label}</div>
-                  <div className="text-xs text-muted-foreground">{p.description}</div>
-                </button>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+    <div className="space-y-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <p className="text-sm text-muted-foreground">
+          Enter one container's current spec and its measured usage. The tool suggests requests and limits for the
+          posture you pick, flags what the numbers can't tell you, and keeps everything in the URL so you can share it.
+        </p>
+        <Button variant="outline" size="sm" onClick={handleReset} className="shrink-0 gap-2 self-start">
+          <RotateCcw className="h-4 w-4" aria-hidden="true" />
+          Reset example
+        </Button>
+      </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          {/* Left: Inputs */}
-          <div className="space-y-6">
-            {/* Current Resources */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  Current Configuration
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Info className="h-4 w-4 text-muted-foreground" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Your current requests/limits from the deployment spec</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-3 gap-3">
-                  <div>
-                    <Label htmlFor="replicas">Replicas</Label>
-                    <Input
-                      id="replicas"
-                      value={form.replicas}
-                      onChange={(e) => updateField('replicas', e.target.value)}
-                      placeholder="3"
-                    />
-                  </div>
-                  <ResourceInput
-                    id="currentCpuRequests"
-                    label="CPU Requests"
-                    value={form.currentCpuRequests}
-                    onChange={(v) => updateField('currentCpuRequests', v)}
-                    placeholder="500m"
-                    presets={CPU_PRESETS}
-                    tooltip={
-                      <div className="space-y-1">
-                        <p className="font-medium">CPU in millicores (m)</p>
-                        <p>1000m = 1 CPU core</p>
-                        <p className="text-xs">Example: 500m = half a core</p>
-                      </div>
-                    }
-                  />
-                  <ResourceInput
-                    id="currentCpuLimits"
-                    label="CPU Limits"
-                    value={form.currentCpuLimits}
-                    onChange={(v) => updateField('currentCpuLimits', v)}
-                    placeholder="1"
-                    presets={CPU_PRESETS}
-                    tooltip={
-                      <div className="space-y-1">
-                        <p className="font-medium">CPU in millicores (m)</p>
-                        <p>1000m = 1 CPU core</p>
-                        <p className="text-xs">Limits cap max CPU usage</p>
-                      </div>
-                    }
-                  />
-                </div>
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Inputs */}
+        <div className="min-w-0 space-y-6">
+          <Card>
+            <CardHeader className={CARD_HEADER}>
+              <CardTitle as="h2" className="text-lg">Current spec</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                From the container's <code className="text-xs">resources</code>. Leave a field empty if it isn't set.
+              </p>
+            </CardHeader>
+            <CardContent className={cn(CARD_CONTENT, 'space-y-3')}>
+              <div className="grid gap-3 min-[360px]:grid-cols-2">
+                <Field {...fieldProps('cpuRequest')} label="CPU request" placeholder="500m" hint="e.g. 250m or 0.5" />
+                <Field {...fieldProps('cpuLimit')} label="CPU limit" placeholder="1" />
+                <Field {...fieldProps('memRequest')} label="Memory request" placeholder="512Mi" hint="e.g. 512Mi or 2Gi" />
+                <Field {...fieldProps('memLimit')} label="Memory limit" placeholder="1Gi" />
+                <Field {...fieldProps('replicas')} label="Replicas" placeholder="3" inputMode="numeric" hint="Scales cost only" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className={CARD_HEADER}>
+              <CardTitle as="h2" className="text-lg">Observed usage</CardTitle>
+              <p className="text-sm text-muted-foreground">
+                Per container for one replica (not a deployment total), over a window that includes peak traffic.
+                P95 and Max are required. <a href="#rightsizer-method" className="underline underline-offset-2 hover:text-foreground">Where to get these</a>
+              </p>
+            </CardHeader>
+            <CardContent className={cn(CARD_CONTENT, 'space-y-5')}>
+              <fieldset className="min-w-0 space-y-3" aria-describedby={errors.cpuUsage ? 'rightsizer-cpu-usage-error' : undefined}>
+                <legend className="mb-2 text-sm font-semibold">CPU</legend>
                 <div className="grid grid-cols-2 gap-3">
-                  <ResourceInput
-                    id="currentMemRequests"
-                    label="Memory Requests"
-                    value={form.currentMemRequests}
-                    onChange={(v) => updateField('currentMemRequests', v)}
-                    placeholder="512Mi"
-                    presets={MEMORY_PRESETS}
-                    tooltip={
-                      <div className="space-y-1">
-                        <p className="font-medium">Memory in binary units</p>
-                        <p>Mi = mebibytes, Gi = gibibytes</p>
-                        <p className="text-xs">1Gi = 1024Mi</p>
-                      </div>
-                    }
-                  />
-                  <ResourceInput
-                    id="currentMemLimits"
-                    label="Memory Limits"
-                    value={form.currentMemLimits}
-                    onChange={(v) => updateField('currentMemLimits', v)}
-                    placeholder="1Gi"
-                    presets={MEMORY_PRESETS}
-                    tooltip={
-                      <div className="space-y-1">
-                        <p className="font-medium">Memory in binary units</p>
-                        <p>Mi = mebibytes, Gi = gibibytes</p>
-                        <p className="text-xs">Exceeding limits causes OOMKill</p>
-                      </div>
-                    }
-                  />
+                  <Field {...fieldProps('cpuP50')} label="P50" optional placeholder="100m" />
+                  <Field {...fieldProps('cpuP95')} label="P95" placeholder="200m" />
+                  <Field {...fieldProps('cpuP99')} label="P99" optional placeholder="300m" />
+                  <Field {...fieldProps('cpuMax')} label="Max" placeholder="400m" />
                 </div>
-              </CardContent>
-            </Card>
-
-            {/* Observed Usage */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg flex items-center gap-2">
-                  Observed Usage Percentiles
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Info className="h-4 w-4 text-muted-foreground" />
-                    </TooltipTrigger>
-                    <TooltipContent className="max-w-xs">
-                      <p>Get these from your monitoring (Prometheus, Datadog, etc.).</p>
-                      <p className="mt-1 text-xs">P95 and Max are required. P50 and P99 are optional.</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as ResourceType)}>
-                  <TabsList className="mb-4">
-                    <TabsTrigger value="cpu">CPU</TabsTrigger>
-                    <TabsTrigger value="memory">Memory</TabsTrigger>
-                  </TabsList>
-
-                  <TabsContent value="cpu" className="space-y-3">
-                    <div className="grid grid-cols-2 gap-3">
-                      <ResourceInput
-                        id="cpuP50"
-                        label="P50 (optional)"
-                        value={form.cpuP50}
-                        onChange={(v) => updateField('cpuP50', v)}
-                        placeholder="100m"
-                        presets={CPU_PRESETS}
-                        tooltip={<p>Median CPU usage - 50% of samples are below this</p>}
-                      />
-                      <ResourceInput
-                        id="cpuP95"
-                        label="P95 *"
-                        value={form.cpuP95}
-                        onChange={(v) => updateField('cpuP95', v)}
-                        placeholder="200m"
-                        presets={CPU_PRESETS}
-                        tooltip={<p>95th percentile - 95% of samples are below this</p>}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <ResourceInput
-                        id="cpuP99"
-                        label="P99 (optional)"
-                        value={form.cpuP99}
-                        onChange={(v) => updateField('cpuP99', v)}
-                        placeholder="300m"
-                        presets={CPU_PRESETS}
-                        tooltip={<p>99th percentile - captures peak usage</p>}
-                      />
-                      <ResourceInput
-                        id="cpuMax"
-                        label="Max *"
-                        value={form.cpuMax}
-                        onChange={(v) => updateField('cpuMax', v)}
-                        placeholder="400m"
-                        presets={CPU_PRESETS}
-                        tooltip={<p>Maximum observed CPU usage</p>}
-                      />
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="memory" className="space-y-3">
-                    <div className="grid grid-cols-2 gap-3">
-                      <ResourceInput
-                        id="memP50"
-                        label="P50 (optional)"
-                        value={form.memP50}
-                        onChange={(v) => updateField('memP50', v)}
-                        placeholder="256Mi"
-                        presets={MEMORY_PRESETS}
-                        tooltip={<p>Median memory usage - 50% of samples are below this</p>}
-                      />
-                      <ResourceInput
-                        id="memP95"
-                        label="P95 *"
-                        value={form.memP95}
-                        onChange={(v) => updateField('memP95', v)}
-                        placeholder="400Mi"
-                        presets={MEMORY_PRESETS}
-                        tooltip={<p>95th percentile - 95% of samples are below this</p>}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <ResourceInput
-                        id="memP99"
-                        label="P99 (optional)"
-                        value={form.memP99}
-                        onChange={(v) => updateField('memP99', v)}
-                        placeholder="450Mi"
-                        presets={MEMORY_PRESETS}
-                        tooltip={<p>99th percentile - captures peak usage</p>}
-                      />
-                      <ResourceInput
-                        id="memMax"
-                        label="Max *"
-                        value={form.memMax}
-                        onChange={(v) => updateField('memMax', v)}
-                        placeholder="512Mi"
-                        presets={MEMORY_PRESETS}
-                        tooltip={<p>Maximum observed memory usage</p>}
-                      />
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
-
-            {/* Risk Slider */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Risk Preference</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">Efficiency</span>
-                  <span className="font-medium">{sliderLabel}</span>
-                  <span className="text-muted-foreground">Safety</span>
+                <GroupError id="rightsizer-cpu-usage-error" message={errors.cpuUsage} />
+              </fieldset>
+              <fieldset className="min-w-0 space-y-3" aria-describedby={errors.memUsage ? 'rightsizer-mem-usage-error' : undefined}>
+                <legend className="mb-2 text-sm font-semibold">Memory (working set)</legend>
+                <div className="grid grid-cols-2 gap-3">
+                  <Field {...fieldProps('memP50')} label="P50" optional placeholder="256Mi" />
+                  <Field {...fieldProps('memP95')} label="P95" placeholder="400Mi" />
+                  <Field {...fieldProps('memP99')} label="P99" optional placeholder="450Mi" />
+                  <Field {...fieldProps('memMax')} label="Max" placeholder="512Mi" />
                 </div>
-                <Slider
-                  value={[slider]}
-                  onValueChange={handleSliderChange}
-                  min={0}
-                  max={100}
-                  step={1}
-                  className="py-2"
+                <GroupError id="rightsizer-mem-usage-error" message={errors.memUsage} />
+              </fieldset>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className={CARD_HEADER}>
+              <CardTitle as="h2" className="text-lg">Sizing posture</CardTitle>
+            </CardHeader>
+            <CardContent className={cn(CARD_CONTENT, 'space-y-4')}>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Efficiency</span>
+                <span className="font-semibold">{config.label}</span>
+                <span className="text-muted-foreground">Headroom</span>
+              </div>
+              <Slider
+                value={[postureIndex]}
+                onValueChange={([value]) => setState((prev) => ({ ...prev, posture: POSTURES[value] }))}
+                onValueCommit={([value]) => trackToolEvent({ tool_name: 'k8s_rightsizer', action: 'posture_change', event_label: POSTURES[value] })}
+                min={0}
+                max={POSTURES.length - 1}
+                step={1}
+                aria-label="Sizing posture"
+                aria-valuetext={config.label}
+                aria-describedby={postureHintId}
+                className="py-2"
+              />
+              <div id={postureHintId} className="space-y-1 text-sm">
+                <p>
+                  <span className="text-muted-foreground">Typical fit:</span> {config.fit}.
+                </p>
+                <p className="text-muted-foreground">
+                  CPU request from {config.basePercentile.toUpperCase()}, limits from Max × {config.limitMultiplier.toFixed(1)}.
+                  {config.risk === 'higher' && ' Less headroom for spikes and growth.'}
+                </p>
+              </div>
+              <div className="flex items-start gap-3 rounded-md border p-3">
+                <Checkbox
+                  id="rightsizer-cpu-limit"
+                  checked={includeCpuLimit}
+                  onCheckedChange={(checked) => setState((prev) => ({ ...prev, includeCpuLimit: checked === true }))}
+                  aria-describedby="rightsizer-cpu-limit-hint"
+                  className="mt-0.5"
                 />
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>Lower cost, higher risk</span>
-                  <span>Higher cost, lower risk</span>
+                <div className="space-y-1">
+                  <Label htmlFor="rightsizer-cpu-limit">Set a CPU limit</Label>
+                  <p id="rightsizer-cpu-limit-hint" className="text-xs text-muted-foreground">
+                    CPU limits are enforced by throttling. Some teams omit them so containers can use idle node CPU;
+                    others require them. Memory always gets a limit here.
+                  </p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-          {/* Right: Recommendation */}
-          <div className="space-y-6">
-            {error ? (
-              <Card className="border-destructive">
-                <CardContent className="pt-6">
-                  <div className="flex items-center gap-2 text-destructive">
-                    <AlertTriangle className="h-5 w-5" />
-                    <span>{error}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            ) : recommendation ? (
-              <>
-                {/* Recommendation Summary Card */}
-                <Card className={isPending ? 'opacity-70 transition-opacity' : ''}>
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        Recommendation
-                        {isPending && (
-                          <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                        )}
-                      </CardTitle>
-                      <Badge variant="outline" className={getRiskColor(recommendation.risk)}>
-                        {recommendation.risk} risk
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {/* Side by side comparison */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <div className="text-sm font-medium text-muted-foreground mb-2">Current</div>
-                        <div className="space-y-1 text-sm">
-                          <div>CPU: {form.currentCpuRequests} / {form.currentCpuLimits}</div>
-                          <div>Mem: {form.currentMemRequests} / {form.currentMemLimits}</div>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-muted-foreground mb-2">Recommended</div>
-                        <div className="space-y-1 text-sm">
-                          <div>CPU: {recommendation.requests.cpu} / {recommendation.limits.cpu}</div>
-                          <div>Mem: {recommendation.requests.memory} / {recommendation.limits.memory}</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Warnings */}
-                    {recommendation.warnings.length > 0 && (
-                      <div className="space-y-2">
-                        {recommendation.warnings.map((warning, i) => (
-                          <div key={i} className="flex items-center gap-2 text-sm text-yellow-600 dark:text-yellow-400">
-                            <AlertTriangle className="h-4 w-4 shrink-0" />
-                            <span>{warning}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Reasoning */}
-                    <div className="text-sm text-muted-foreground space-y-1">
-                      {recommendation.reasoning.map((r, i) => (
-                        <div key={i}>• {r}</div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Cost Analysis Card */}
-                <Card>
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">Cost Analysis</CardTitle>
-                      <Select value={cloudProvider} onValueChange={(v) => setCloudProvider(v as CloudProvider)}>
-                        <SelectTrigger className="w-[160px] h-8 text-xs">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Object.entries(CLOUD_PRICING).map(([key, { label }]) => (
-                            <SelectItem key={key} value={key} className="text-xs">
-                              {label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {/* Cost comparison table */}
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="text-muted-foreground">
-                            <th className="text-left font-medium py-2"></th>
-                            <th className="text-right font-medium py-2 px-2">Current</th>
-                            <th className="text-right font-medium py-2 px-2">Recommended</th>
-                            <th className="text-right font-medium py-2 px-2">Change</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td className="py-1.5 text-muted-foreground">CPU</td>
-                            <td className="py-1.5 px-2 text-right font-mono">
-                              ${recommendation.costs.current.cpu.toFixed(2)}/mo
-                            </td>
-                            <td className="py-1.5 px-2 text-right font-mono">
-                              ${recommendation.costs.recommended.cpu.toFixed(2)}/mo
-                            </td>
-                            <td className={cn(
-                              "py-1.5 px-2 text-right font-mono",
-                              recommendation.costs.savings.cpu > 0 && "text-green-600 dark:text-green-400",
-                              recommendation.costs.savings.cpu < 0 && "text-red-600 dark:text-red-400"
-                            )}>
-                              {formatCostChangePercent(recommendation.costs.current.cpu, recommendation.costs.savings.cpu)}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="py-1.5 text-muted-foreground">Memory</td>
-                            <td className="py-1.5 px-2 text-right font-mono">
-                              ${recommendation.costs.current.memory.toFixed(2)}/mo
-                            </td>
-                            <td className="py-1.5 px-2 text-right font-mono">
-                              ${recommendation.costs.recommended.memory.toFixed(2)}/mo
-                            </td>
-                            <td className={cn(
-                              "py-1.5 px-2 text-right font-mono",
-                              recommendation.costs.savings.memory > 0 && "text-green-600 dark:text-green-400",
-                              recommendation.costs.savings.memory < 0 && "text-red-600 dark:text-red-400"
-                            )}>
-                              {formatCostChangePercent(recommendation.costs.current.memory, recommendation.costs.savings.memory)}
-                            </td>
-                          </tr>
-                          <tr className="border-t border-border">
-                            <td className="py-2 font-medium">Total</td>
-                            <td className="py-2 px-2 text-right font-mono font-medium">
-                              ${recommendation.costs.current.total.toFixed(2)}/mo
-                            </td>
-                            <td className="py-2 px-2 text-right font-mono font-medium">
-                              ${recommendation.costs.recommended.total.toFixed(2)}/mo
-                            </td>
-                            <td className={cn(
-                              "py-2 px-2 text-right font-mono font-medium",
-                              recommendation.costs.savings.total > 0 && "text-green-600 dark:text-green-400",
-                              recommendation.costs.savings.total < 0 && "text-red-600 dark:text-red-400"
-                            )}>
-                              {recommendation.costs.savings.total >= 0 ? '-' : '+'}$
-                              {Math.abs(recommendation.costs.savings.total).toFixed(2)}
-                            </td>
-                          </tr>
-                          <tr className="text-muted-foreground">
-                            <td className="py-1"></td>
-                            <td className="py-1 px-2 text-right font-mono text-xs">
-                              ${recommendation.costs.current.yearly.toFixed(0)}/yr
-                            </td>
-                            <td className="py-1 px-2 text-right font-mono text-xs">
-                              ${recommendation.costs.recommended.yearly.toFixed(0)}/yr
-                            </td>
-                            <td className={cn(
-                              "py-1 px-2 text-right font-mono text-xs",
-                              recommendation.costs.savings.yearly > 0 && "text-green-600 dark:text-green-400",
-                              recommendation.costs.savings.yearly < 0 && "text-red-600 dark:text-red-400"
-                            )}>
-                              {recommendation.costs.savings.yearly >= 0 ? '-' : '+'}$
-                              {Math.abs(recommendation.costs.savings.yearly).toFixed(0)}/yr
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-
-                    {/* Summary indicator */}
-                    {recommendation.costs.savings.total > 0 ? (
-                      <div className="flex items-center gap-2 p-3 rounded-lg bg-green-500/10 text-green-600 dark:text-green-400">
-                        <TrendingDown className="h-5 w-5 shrink-0" />
-                        <div>
-                          <div className="font-medium">
-                            ${recommendation.costs.savings.total.toFixed(2)}/mo savings
-                          </div>
-                          <div className="text-xs opacity-80">
-                            ${recommendation.costs.savings.yearly.toFixed(0)}/year across {validatedReplicas} replica{validatedReplicas !== 1 ? 's' : ''}
-                          </div>
-                        </div>
-                      </div>
-                    ) : recommendation.costs.savings.total < 0 ? (
-                      <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
-                        <TrendingUp className="h-5 w-5 shrink-0" />
-                        <div>
-                          <div className="font-medium">
-                            +${Math.abs(recommendation.costs.savings.total).toFixed(2)}/mo increase
-                          </div>
-                          <div className="text-xs opacity-80">
-                            Adds headroom for reliability
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2 p-3 rounded-lg bg-muted text-muted-foreground">
-                        <Info className="h-5 w-5 shrink-0" />
-                        <div className="text-sm">
-                          No cost change with current recommendations
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Calculation note */}
-                    <div className="text-xs text-muted-foreground">
-                      {validatedReplicas} replica{validatedReplicas !== 1 ? 's' : ''} x (CPU + Memory) x {HOURS_PER_MONTH} hrs/month at {CLOUD_PRICING[cloudProvider].label} rates
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* YAML Output */}
-                <Card>
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">YAML Snippet</CardTitle>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleCopy}
-                        className="gap-2"
-                      >
-                        {copied ? (
-                          <>
-                            <Check className="h-4 w-4" />
-                            Copied
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="h-4 w-4" />
-                            Copy
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <pre className="p-4 rounded-lg bg-muted text-sm font-mono overflow-x-auto">
-                      {yaml}
-                    </pre>
-                  </CardContent>
-                </Card>
-              </>
-            ) : null}
-          </div>
+        {/* Output */}
+        <div className="min-w-0 space-y-6">
+          {recommendation ? (
+            <>
+              <RecommendationCard recommendation={recommendation} form={form} />
+              <YamlCard yaml={yaml} />
+            </>
+          ) : (
+            <ErrorSummary errors={errors} />
+          )}
+          <CostCard
+            recommendation={recommendation}
+            replicas={evaluation.replicas}
+            pricingValid={evaluation.pricingValid}
+            form={form}
+            errors={errors}
+            onChange={updateField}
+          />
         </div>
       </div>
-    </TooltipProvider>
+
+      <MethodNotes />
+    </div>
   );
 }

@@ -520,3 +520,9 @@ runtime paths, raw captures, and authentication material.
 - Hover plus focus could schedule two expertise timers; canceling only the last timer let a closed mobile card reopen. Deduplicate the timer and cancel it on either click action.
 - ResponsiveTabsList caller classes included `grid`, overriding its `hidden` class on mobile. Put breakpoint visibility on a separate wrapper.
 - Functional regression tests are tagged `@smoke` so existing CI runs them. Explicit application typechecking still has a pre-existing backlog; the root `tsc --noEmit` command does not check the referenced application project.
+
+## 2026-10-17: Rightsizer improvement alternative
+
+- Claude Opus 5.5 at High effort implemented this as an independent alternative to replacing the project. Do not merge both alternatives without reconciling their shared catalog slot.
+- Percentile fallbacks should use measured bounds, not invented distributions. Memory request heuristics reduce exposure but do not guarantee immunity from node-pressure eviction; QoS alone is not the eviction ranking rule.
+- Debounced URL writers need to adopt external navigation before writing. Browser tests must wait for the last changed parameter, not an earlier parameter that may already be persisted.

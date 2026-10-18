@@ -1,8 +1,17 @@
 /**
  * K8s Resource Right-Sizer Calculations
  *
- * Core logic for recommending CPU/memory requests and limits
- * based on observed utilization percentiles and risk preference.
+ * Core logic for recommending CPU/memory requests and limits for one container
+ * from observed usage percentiles and a sizing posture.
+ *
+ * Kubernetes semantics this module relies on (see the Resource Management docs):
+ * - The scheduler places pods by their requests; limits are not considered.
+ * - CPU limits are enforced by throttling; memory limits by (reactive) OOM kill.
+ * - A limit without a request defaults the request to the limit.
+ * - Under node-pressure eviction, the kubelet ranks pods whose usage exceeds
+ *   their requests ahead of those within requests, then by priority and by how
+ *   far usage exceeds requests. QoS class is not the ranking rule. So memory
+ *   requests matter even when the limit is generous.
  */
 
 // ============================================================================
@@ -26,17 +35,19 @@ export interface PercentileData {
   max: number;
 }
 
-export interface WorkloadInput {
-  name: string;
-  replicas: number;
-  current: {
-    requests: ResourceValues;
-    limits: ResourceValues;
-  };
-  usage: {
-    cpu: PercentileData;
-    memory: PercentileData;
-  };
+export type Percentile = 'p50' | 'p95' | 'p99';
+export type Posture = 'aggressive' | 'efficient' | 'balanced' | 'conservative' | 'safe';
+export type QosClass = 'Guaranteed' | 'Burstable' | 'BestEffort';
+
+/** Container spec values; undefined means the field is not set. */
+export interface ContainerSpec {
+  requests: Partial<NormalizedResources>;
+  limits: Partial<NormalizedResources>;
+}
+
+export interface Pricing {
+  cpuPerCoreHour: number;
+  memoryPerGiBHour: number;
 }
 
 export interface CostBreakdown {
@@ -46,27 +57,35 @@ export interface CostBreakdown {
   yearly: number;   // annual total
 }
 
+export interface Finding {
+  severity: 'warning' | 'info';
+  text: string;
+}
+
 export interface Recommendation {
+  posture: Posture;
   requests: ResourceValues;
-  limits: ResourceValues;
+  /** cpu is undefined when the CPU limit is omitted */
+  limits: { cpu?: string; memory: string };
   requestsNormalized: NormalizedResources;
-  limitsNormalized: NormalizedResources;
-  reasoning: string[];
+  limitsNormalized: { cpu?: number; memory: number };
+  /** Human-readable formula behind each value, e.g. "P95 × 1.1" */
+  basis: {
+    cpuRequest: string;
+    cpuLimit?: string;
+    memoryRequest: string;
+    memoryLimit: string;
+  };
+  currentEffectiveRequests: NormalizedResources;
+  currentQosClass: QosClass;
+  qosClass: QosClass;
+  findings: Finding[];
   costs: {
     current: CostBreakdown;
     recommended: CostBreakdown;
-    savings: CostBreakdown;  // can be negative for increased allocation
+    savings: CostBreakdown;  // negative when the recommendation reserves more
   };
-  /** @deprecated Use costs.savings instead */
-  savings: {
-    monthly: number;
-    yearly: number;
-  };
-  risk: 'low' | 'medium' | 'high';
-  warnings: string[];
 }
-
-export type PresetProfile = 'webserver' | 'worker' | 'database' | 'custom';
 
 // ============================================================================
 // Constants
@@ -75,132 +94,169 @@ export type PresetProfile = 'webserver' | 'worker' | 'database' | 'custom';
 const MiB = 1024 * 1024;
 const GiB = 1024 * MiB;
 
-// Power-of-2 MiB values for memory rounding
-const MEMORY_ROUND_VALUES = [
-  16 * MiB, 32 * MiB, 64 * MiB, 128 * MiB, 256 * MiB, 512 * MiB,
-  1 * GiB, 2 * GiB, 4 * GiB, 8 * GiB, 16 * GiB, 32 * GiB, 64 * GiB,
-];
+export const MIN_CPU_MILLICORES = 10;
+export const MIN_MEMORY_BYTES = 16 * MiB;
+/** Upper bounds keep arithmetic finite and catch unit typos (e.g. bytes vs Mi). */
+export const MAX_CPU_MILLICORES = 1_000_000;      // 1000 cores
+export const MAX_MEMORY_BYTES = 64 * 1024 * GiB;  // 64Ti
+export const MAX_REPLICAS = 10_000;
+export const MAX_PRICE = 1000;
 
-// Default cost assumptions (approximate cloud pricing)
-export const DEFAULT_COST_PER_CORE_HOUR = 0.03;
-export const DEFAULT_COST_PER_GIB_HOUR = 0.004;
+// Illustrative accounting prices, not a quote from any provider.
+export const DEFAULT_PRICING: Pricing = { cpuPerCoreHour: 0.03, memoryPerGiBHour: 0.004 };
 export const HOURS_PER_MONTH = 730;
 
-// Cloud provider pricing presets (approximate on-demand pricing)
-export const CLOUD_PRICING = {
-  default: { cpu: 0.03, memory: 0.004, label: 'Default (On-demand)' },
-  aws: { cpu: 0.034, memory: 0.0046, label: 'AWS (US East)' },
-  gcp: { cpu: 0.031, memory: 0.0041, label: 'GCP (US Central)' },
-  azure: { cpu: 0.032, memory: 0.0044, label: 'Azure (East US)' },
-  reserved: { cpu: 0.019, memory: 0.0025, label: 'Reserved/Committed' },
-} as const;
-
-export type CloudProvider = keyof typeof CLOUD_PRICING;
-
-// Slider range mappings
-interface SliderConfig {
-  basePercentile: 'p50' | 'p95' | 'p99';
-  safetyMultiplier: number;
-  headroomMultiplier: number;
-  risk: 'low' | 'medium' | 'high';
+interface PostureConfig {
+  label: string;
+  /** Percentile behind CPU requests. Memory never goes below P95 (see below). */
+  basePercentile: Percentile;
+  requestMultiplier: number;
+  limitMultiplier: number;
+  risk: 'higher' | 'moderate' | 'lower';
+  fit: string;
 }
 
-const SLIDER_MAPPINGS: { min: number; max: number; config: SliderConfig }[] = [
-  { min: 0, max: 19, config: { basePercentile: 'p50', safetyMultiplier: 1.0, headroomMultiplier: 1.1, risk: 'high' } },
-  { min: 20, max: 39, config: { basePercentile: 'p50', safetyMultiplier: 1.1, headroomMultiplier: 1.2, risk: 'high' } },
-  { min: 40, max: 59, config: { basePercentile: 'p95', safetyMultiplier: 1.1, headroomMultiplier: 1.3, risk: 'medium' } },
-  { min: 60, max: 79, config: { basePercentile: 'p95', safetyMultiplier: 1.2, headroomMultiplier: 1.5, risk: 'low' } },
-  { min: 80, max: 100, config: { basePercentile: 'p99', safetyMultiplier: 1.3, headroomMultiplier: 2.0, risk: 'low' } },
-];
+export const POSTURES: Posture[] = ['aggressive', 'efficient', 'balanced', 'conservative', 'safe'];
 
-// Preset default slider positions
-export const PRESET_SLIDER_VALUES: Record<PresetProfile, number> = {
-  webserver: 60,
-  worker: 40,
-  database: 80,
-  custom: 50,
+export const POSTURE_CONFIG: Record<Posture, PostureConfig> = {
+  aggressive: {
+    label: 'Aggressive', basePercentile: 'p50', requestMultiplier: 1.0, limitMultiplier: 1.1, risk: 'higher',
+    fit: 'Dev and preview environments, interruptible jobs',
+  },
+  efficient: {
+    label: 'Efficient', basePercentile: 'p50', requestMultiplier: 1.1, limitMultiplier: 1.2, risk: 'higher',
+    fit: 'Stateless workers that retry safely',
+  },
+  balanced: {
+    label: 'Balanced', basePercentile: 'p95', requestMultiplier: 1.1, limitMultiplier: 1.3, risk: 'moderate',
+    fit: 'Most stateless services and batch workers',
+  },
+  conservative: {
+    label: 'Conservative', basePercentile: 'p95', requestMultiplier: 1.2, limitMultiplier: 1.5, risk: 'lower',
+    fit: 'Latency-sensitive web and API services',
+  },
+  safe: {
+    label: 'Safe', basePercentile: 'p99', requestMultiplier: 1.3, limitMultiplier: 2.0, risk: 'lower',
+    fit: 'Databases, caches, and other memory-sensitive stateful workloads',
+  },
 };
+
+/**
+ * Memory is not compressible, and a pod using more memory than it requests is
+ * ranked ahead of within-request pods when the kubelet evicts under node memory
+ * pressure. As a heuristic, memory requests never use a percentile below P95,
+ * even in the efficiency-leaning postures. This reduces that exposure; it does
+ * not make a pod immune to eviction.
+ */
+const MEMORY_MIN_PERCENTILE: Percentile = 'p95';
+const PERCENTILE_ORDER: Percentile[] = ['p50', 'p95', 'p99'];
 
 // ============================================================================
 // Unit Parsing
 // ============================================================================
 
+// Kubernetes quantity number: "1", "1.5", ".5", "1." (exponent notation is not supported here)
+const NUMBER = String.raw`(?:\d+(?:\.\d*)?|\.\d+)`;
+const CPU_PATTERN = new RegExp(`^(${NUMBER})(m?)$`);
+const MEMORY_PATTERN = new RegExp(`^(${NUMBER})(Ki|Mi|Gi|Ti|Pi|k|M|G|T|P)?$`);
+
+const MEMORY_MULTIPLIERS: Record<string, number> = {
+  Ki: 1024, Mi: MiB, Gi: GiB, Ti: 1024 * GiB, Pi: 1024 * 1024 * GiB,
+  k: 1e3, M: 1e6, G: 1e9, T: 1e12, P: 1e15,
+};
+
 /**
- * Parse CPU string to millicores
- * Examples: "500m" -> 500, "0.5" -> 500, "2" -> 2000
- * Rejects invalid formats like "500mfoo" or "1.5x"
+ * Parse CPU quantity to millicores.
+ * Examples: "500m" -> 500, "0.5" -> 500, "2" -> 2000.
+ * Fractional millicores are kept (usage data can be sub-millicore).
  */
 export function parseCpu(value: string): number {
   const trimmed = value.trim();
-  if (!trimmed) throw new Error('Empty CPU value');
+  if (!trimmed) throw new Error('Enter a CPU value, e.g. 250m or 0.5');
+  if (trimmed.startsWith('-')) throw new Error('CPU cannot be negative');
 
-  // Match millicores: "500m", "100m"
-  const milliMatch = trimmed.match(/^(\d+(?:\.\d+)?)m$/);
-  if (milliMatch) {
-    const num = parseFloat(milliMatch[1]);
-    if (isNaN(num) || num < 0) throw new Error(`Invalid CPU value: ${value}`);
-    return Math.round(num);
+  const match = trimmed.match(CPU_PATTERN);
+  if (!match) {
+    throw new Error(`"${trimmed}" is not a CPU quantity. Use cores (0.5, 2) or millicores (500m)`);
   }
-
-  // Match cores: "1", "0.5", "2.5"
-  const coreMatch = trimmed.match(/^(\d+(?:\.\d+)?)$/);
-  if (coreMatch) {
-    const num = parseFloat(coreMatch[1]);
-    if (isNaN(num) || num < 0) throw new Error(`Invalid CPU value: ${value}`);
-    return Math.round(num * 1000);
+  const num = Number(match[1]);
+  const millicores = match[2] === 'm' ? num : num * 1000;
+  if (!Number.isFinite(millicores) || millicores > MAX_CPU_MILLICORES) {
+    throw new Error('CPU value is larger than this tool supports (1000 cores)');
   }
-
-  throw new Error(`Invalid CPU value: ${value}`);
+  return millicores;
 }
 
 /**
- * Parse memory string to bytes
- * Examples: "256Mi" -> 268435456, "1Gi" -> 1073741824, "512M" -> 512000000
- * Rejects invalid formats like "1GiB" (invalid suffix) or "256Mifoo"
+ * Parse a CPU request or limit. Unlike measured usage, Kubernetes doesn't
+ * allow spec values finer than 1m (0.001 cores). Precision is checked on the
+ * decimal string so values like 0.29 aren't rejected for floating point noise.
+ * Returns whole millicores.
+ */
+export function parseCpuSpec(value: string): number {
+  const millicores = parseCpu(value);
+  const [, number, milli] = value.trim().match(CPU_PATTERN)!;
+  const fraction = (number.split('.')[1] ?? '').replace(/0+$/, '');
+  if (fraction.length > (milli ? 0 : 3)) {
+    throw new Error('CPU requests and limits can’t be finer than 1m (0.001 cores)');
+  }
+  return Math.round(millicores);
+}
+
+/**
+ * Parse memory quantity to bytes, following Kubernetes suffix rules.
+ * Examples: "256Mi" -> 268435456, "1Gi" -> 1073741824, "512M" -> 512000000.
  */
 export function parseMemory(value: string): number {
   const trimmed = value.trim();
-  if (!trimmed) throw new Error('Empty memory value');
+  if (!trimmed) throw new Error('Enter a memory value, e.g. 256Mi or 1Gi');
+  if (trimmed.startsWith('-')) throw new Error('Memory cannot be negative');
 
-  // Binary units (Ki, Mi, Gi, Ti) - must match exactly, case-sensitive for K8s compatibility
-  const binaryMatch = trimmed.match(/^(\d+(?:\.\d+)?)(Ki|Mi|Gi|Ti)$/);
-  if (binaryMatch) {
-    const num = parseFloat(binaryMatch[1]);
-    if (isNaN(num) || num < 0) throw new Error(`Invalid memory value: ${value}`);
-    const unit = binaryMatch[2].toLowerCase();
-    const multipliers: Record<string, number> = {
-      'ki': 1024,
-      'mi': MiB,
-      'gi': GiB,
-      'ti': 1024 * GiB,
-    };
-    return Math.round(num * multipliers[unit]);
+  const match = trimmed.match(MEMORY_PATTERN);
+  if (!match) {
+    const number = trimmed.match(new RegExp(`^${NUMBER}`))?.[0];
+    const suffix = number ? trimmed.slice(number.length) : '';
+    if (number && suffix === 'm') {
+      // A real and costly mistake: "m" is the milli suffix, so 400m is 0.4 bytes.
+      throw new Error(`In Kubernetes, "m" means millibytes for memory. Did you mean ${number}Mi?`);
+    }
+    if (number && suffix === 'K') {
+      throw new Error(`Use lowercase k (kilobytes) or Ki (kibibytes), e.g. ${number}Ki`);
+    }
+    if (number && /^[KMGTP]i?B$/i.test(suffix)) {
+      throw new Error(`Kubernetes uses Mi/Gi (binary) or M/G (decimal), not ${suffix}. Try ${number}${suffix[0].toUpperCase()}i`);
+    }
+    throw new Error(`"${trimmed}" is not a memory quantity. Use binary units like 512Mi or 2Gi`);
   }
 
-  // Decimal units (K, M, G, T) - single letter only
-  const decimalMatch = trimmed.match(/^(\d+(?:\.\d+)?)(K|M|G|T)$/);
-  if (decimalMatch) {
-    const num = parseFloat(decimalMatch[1]);
-    if (isNaN(num) || num < 0) throw new Error(`Invalid memory value: ${value}`);
-    const unit = decimalMatch[2].toLowerCase();
-    const multipliers: Record<string, number> = {
-      'k': 1000,
-      'm': 1000000,
-      'g': 1000000000,
-      't': 1000000000000,
-    };
-    return Math.round(num * multipliers[unit]);
+  const [, numberPart, suffix] = match;
+  if (!suffix && numberPart.includes('.')) {
+    throw new Error('Plain byte values must be whole numbers; add a unit such as Mi');
   }
-
-  // Plain bytes (integers only for safety)
-  const bytesMatch = trimmed.match(/^(\d+)$/);
-  if (bytesMatch) {
-    const num = parseInt(bytesMatch[1], 10);
-    if (isNaN(num) || num < 0) throw new Error(`Invalid memory value: ${value}`);
-    return num;
+  const bytes = Math.ceil(Number(numberPart) * (suffix ? MEMORY_MULTIPLIERS[suffix] : 1));
+  if (!Number.isFinite(bytes) || bytes > MAX_MEMORY_BYTES) {
+    throw new Error('Memory value is larger than this tool supports (64Ti)');
   }
+  return bytes;
+}
 
-  throw new Error(`Invalid memory value: ${value}`);
+/** Parse a whole replica count between 1 and MAX_REPLICAS. */
+export function parseReplicas(value: string): number {
+  const trimmed = value.trim();
+  if (!/^\d+$/.test(trimmed)) throw new Error('Replicas must be a whole number, e.g. 3');
+  const replicas = Number(trimmed);
+  if (replicas < 1) throw new Error('Replicas must be at least 1');
+  if (replicas > MAX_REPLICAS) throw new Error(`Replicas must be ${MAX_REPLICAS.toLocaleString('en-US')} or fewer`);
+  return replicas;
+}
+
+/** Parse a non-negative price in dollars. */
+export function parsePrice(value: string): number {
+  const trimmed = value.trim().replace(/^\$/, '');
+  if (!/^(?:\d+(?:\.\d*)?|\.\d+)$/.test(trimmed)) throw new Error('Enter a price such as 0.03');
+  const price = Number(trimmed);
+  if (price > MAX_PRICE) throw new Error(`Price must be $${MAX_PRICE} or less`);
+  return price;
 }
 
 // ============================================================================
@@ -209,13 +265,14 @@ export function parseMemory(value: string): number {
 
 /**
  * Format millicores to CPU string
- * Uses millicores for precision, whole cores for ≥1000m
+ * Uses millicores for precision, whole cores when exact
  */
 export function formatCpu(millicores: number): string {
-  if (millicores >= 1000 && millicores % 1000 === 0) {
-    return String(millicores / 1000);
+  const rounded = Math.round(millicores);
+  if (rounded >= 1000 && rounded % 1000 === 0) {
+    return String(rounded / 1000);
   }
-  return `${Math.round(millicores)}m`;
+  return `${rounded}m`;
 }
 
 /**
@@ -252,22 +309,22 @@ export function roundCpuUp(millicores: number): number {
 }
 
 /**
- * Round memory up to nearest power-of-2 MiB
+ * Round memory up to a readable value without large overshoot.
+ *
+ * The step is the largest power of two no bigger than 1/8 of the value (but at
+ * least 1Mi), so rounding adds at most 12.5% and results stay whole MiB.
+ * Rounding to the next power of two instead could nearly double a request
+ * (e.g. 520Mi -> 1Gi).
  */
 export function roundMemoryUp(bytes: number): number {
-  const minBytes = 16 * MiB;
-  if (bytes <= minBytes) return minBytes;
-
-  for (const target of MEMORY_ROUND_VALUES) {
-    if (bytes <= target) return target;
-  }
-
-  // For very large values, round up to nearest GiB
-  return Math.ceil(bytes / GiB) * GiB;
+  const whole = Math.round(bytes);
+  if (whole <= MIN_MEMORY_BYTES) return MIN_MEMORY_BYTES;
+  const step = Math.max(MiB, 2 ** Math.floor(Math.log2(whole / 8)));
+  return Math.ceil(whole / step) * step;
 }
 
 // ============================================================================
-// Percentile Validation & Defaults
+// Percentile Validation
 // ============================================================================
 
 export interface PercentileInput {
@@ -277,37 +334,107 @@ export interface PercentileInput {
   max: number;
 }
 
+export interface NormalizedPercentiles extends PercentileData {
+  /** Optional percentiles that were not measured and were replaced */
+  substituted: Array<'p50' | 'p99'>;
+}
+
+const PERCENTILE_LABELS: Record<keyof PercentileData, string> = {
+  p50: 'P50', p95: 'P95', p99: 'P99', max: 'Max',
+};
+
+/** Guard for numbers that arrive without going through the string parsers. */
+function assertAmount(value: number, label: string, max = Number.MAX_VALUE): void {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
+    throw new Error(`${label} must be a finite, non-negative number`);
+  }
+  if (value > max) throw new Error(`${label} is larger than this tool supports`);
+}
+
 /**
- * Validate and fill in missing percentiles
- * Returns complete PercentileData or throws error
+ * Validate ordering and fill missing optional percentiles without inventing data.
+ *
+ * A missing P50 is replaced by the measured P95 and a missing P99 by the
+ * measured Max. Both substitutions can only raise a recommendation, and each is
+ * reported so the UI can disclose it.
  */
-export function normalizePercentiles(input: PercentileInput): PercentileData {
-  const { p95, max } = input;
+export function normalizePercentiles(input: PercentileInput): NormalizedPercentiles {
+  if (input.p95 === undefined || input.max === undefined) {
+    throw new Error('P95 and Max are required');
+  }
+  const provided = (['p50', 'p95', 'p99', 'max'] as const)
+    .filter((key) => input[key] !== undefined)
+    .map((key) => ({ key, value: input[key] as number }));
 
-  // Fill defaults
-  const p50 = input.p50 ?? p95 * 0.6;
-  const p99 = input.p99 ?? Math.max(p95, max * 0.9);
+  provided.forEach(({ key, value }) => assertAmount(value, PERCENTILE_LABELS[key]));
 
-  // Validate ordering
-  if (p50 > p95 || p95 > p99 || p99 > max) {
-    throw new Error('Percentile values must be in order (P50 ≤ P95 ≤ P99 ≤ Max)');
+  for (let i = 1; i < provided.length; i++) {
+    const lower = provided[i - 1];
+    const higher = provided[i];
+    if (lower.value > higher.value) {
+      throw new Error(
+        `${PERCENTILE_LABELS[lower.key]} is greater than ${PERCENTILE_LABELS[higher.key]}. ` +
+        'Percentiles must satisfy P50 ≤ P95 ≤ P99 ≤ Max'
+      );
+    }
   }
 
-  return { p50, p95, p99, max };
+  const substituted: Array<'p50' | 'p99'> = [];
+  if (input.p50 === undefined) substituted.push('p50');
+  if (input.p99 === undefined) substituted.push('p99');
+
+  return {
+    p50: input.p50 ?? input.p95,
+    p95: input.p95,
+    p99: input.p99 ?? input.max,
+    max: input.max,
+    substituted,
+  };
 }
 
 // ============================================================================
-// Slider Config
+// Kubernetes semantics helpers
 // ============================================================================
 
-function getSliderConfig(slider: number): SliderConfig {
-  for (const mapping of SLIDER_MAPPINGS) {
-    if (slider >= mapping.min && slider <= mapping.max) {
-      return mapping.config;
-    }
+/**
+ * Requests Kubernetes would actually apply: if a limit is set without a
+ * request, the request defaults to the limit. Unset everywhere means 0.
+ * (A namespace LimitRange can also inject defaults; this tool can't see those.)
+ */
+export function effectiveRequests(spec: ContainerSpec): NormalizedResources {
+  return {
+    cpu: spec.requests.cpu ?? spec.limits.cpu ?? 0,
+    memory: spec.requests.memory ?? spec.limits.memory ?? 0,
+  };
+}
+
+/** QoS class of a single-container pod with this spec. */
+export function qosClass(spec: ContainerSpec): QosClass {
+  const req = effectiveRequests(spec);
+  const { limits } = spec;
+  if (
+    limits.cpu !== undefined && limits.memory !== undefined &&
+    limits.cpu > 0 && limits.memory > 0 &&
+    req.cpu === limits.cpu && req.memory === limits.memory
+  ) {
+    return 'Guaranteed';
   }
-  // Fallback (shouldn't happen with valid input)
-  return SLIDER_MAPPINGS[2].config;
+  const anySet = [spec.requests.cpu, spec.requests.memory, limits.cpu, limits.memory]
+    .some((value) => value !== undefined && value > 0);
+  return anySet ? 'Burstable' : 'BestEffort';
+}
+
+/** Validate a current container spec the way the API server would. */
+export function validateSpec(spec: ContainerSpec): { cpu?: string; memory?: string } {
+  const errors: { cpu?: string; memory?: string } = {};
+  const { requests, limits } = spec;
+  if (requests.cpu !== undefined && limits.cpu !== undefined && requests.cpu > limits.cpu) {
+    errors.cpu = 'CPU request cannot exceed the CPU limit (Kubernetes rejects this)';
+  }
+  if (requests.memory !== undefined && limits.memory !== undefined && requests.memory > limits.memory) {
+    errors.memory = 'Memory request cannot exceed the memory limit (Kubernetes rejects this)';
+  }
+  return errors;
 }
 
 // ============================================================================
@@ -316,146 +443,224 @@ function getSliderConfig(slider: number): SliderConfig {
 
 export interface RecommendationInput {
   usage: {
-    cpu: PercentileData;
-    memory: PercentileData;
+    cpu: PercentileInput;
+    memory: PercentileInput;
   };
-  current: {
-    requests: NormalizedResources;
-    limits: NormalizedResources;
-  };
+  current: ContainerSpec;
   replicas: number;
-  slider: number;
-  costPerCoreHour?: number;
-  costPerGiBHour?: number;
+  posture: Posture;
+  /** Whether to emit a CPU limit (default true) */
+  includeCpuLimit?: boolean;
+  pricing?: Pricing;
+}
+
+/** Percentile behind memory requests: the posture's, but never below P95. */
+export function memoryRequestPercentile(posture: Posture): Percentile {
+  const base = POSTURE_CONFIG[posture].basePercentile;
+  return PERCENTILE_ORDER.indexOf(base) >= PERCENTILE_ORDER.indexOf(MEMORY_MIN_PERCENTILE) ? base : MEMORY_MIN_PERCENTILE;
+}
+
+function formatMultiplier(multiplier: number): string {
+  return `× ${Number.isInteger(multiplier) ? multiplier.toFixed(1) : multiplier}`;
+}
+
+function monthlyCost(requests: NormalizedResources, replicas: number, pricing: Pricing) {
+  const cpu = (requests.cpu / 1000) * replicas * pricing.cpuPerCoreHour * HOURS_PER_MONTH;
+  const memory = (requests.memory / GiB) * replicas * pricing.memoryPerGiBHour * HOURS_PER_MONTH;
+  return { cpu, memory, total: cpu + memory, yearly: (cpu + memory) * 12 };
+}
+
+function percentChange(from: number, to: number): number {
+  return Math.round(((to - from) / from) * 100);
 }
 
 export function calculateRecommendation(input: RecommendationInput): Recommendation {
   const {
-    usage,
     current,
-    replicas,
-    slider,
-    costPerCoreHour = DEFAULT_COST_PER_CORE_HOUR,
-    costPerGiBHour = DEFAULT_COST_PER_GIB_HOUR,
+    posture,
+    includeCpuLimit = true,
+    pricing = DEFAULT_PRICING,
   } = input;
-
-  // Validate replicas (must be at least 1)
-  const validatedReplicas = Math.max(1, Math.floor(replicas));
-
-  const config = getSliderConfig(slider);
-  const reasoning: string[] = [];
-  const warnings: string[] = [];
-
-  // Calculate raw recommendations
-  const rawCpuRequests = usage.cpu[config.basePercentile] * config.safetyMultiplier;
-  const rawCpuLimits = usage.cpu.max * config.headroomMultiplier;
-  const rawMemRequests = usage.memory[config.basePercentile] * config.safetyMultiplier;
-  const rawMemLimits = usage.memory.max * config.headroomMultiplier;
-
-  reasoning.push(`Based on ${config.basePercentile.toUpperCase()} usage with ${config.safetyMultiplier}x safety multiplier`);
-  reasoning.push(`Limits set at ${config.headroomMultiplier}x observed max`);
-
-  // Apply constraints in order:
-  // 1. Minimums
-  let cpuRequests = Math.max(10, rawCpuRequests);
-  let cpuLimits = Math.max(10, rawCpuLimits);
-  let memRequests = Math.max(16 * MiB, rawMemRequests);
-  let memLimits = Math.max(16 * MiB, rawMemLimits);
-
-  // 2. Round UP
-  cpuRequests = roundCpuUp(cpuRequests);
-  cpuLimits = roundCpuUp(cpuLimits);
-  memRequests = roundMemoryUp(memRequests);
-  memLimits = roundMemoryUp(memLimits);
-
-  // 3. Ensure requests ≤ limits (final step)
-  if (cpuRequests > cpuLimits) {
-    cpuRequests = cpuLimits;
-    warnings.push('CPU requests capped at limits');
+  // Direct callers bypass the string parsers, so guard every numeric input.
+  if (!Number.isInteger(input.replicas) || input.replicas < 1 || input.replicas > MAX_REPLICAS) {
+    throw new Error(`Replicas must be a whole number from 1 to ${MAX_REPLICAS}`);
   }
-  if (memRequests > memLimits) {
-    memRequests = memLimits;
-    warnings.push('Memory requests capped at limits');
+  if (!POSTURES.includes(posture)) throw new Error(`Unknown sizing posture: ${String(posture)}`);
+  const usageBounds = [
+    ['CPU', input.usage.cpu, MAX_CPU_MILLICORES],
+    ['Memory', input.usage.memory, MAX_MEMORY_BYTES],
+  ] as const;
+  for (const [resource, usage, max] of usageBounds) {
+    for (const key of ['p50', 'p95', 'p99', 'max'] as const) {
+      if (usage[key] !== undefined) assertAmount(usage[key] as number, `${resource} ${PERCENTILE_LABELS[key]}`, max);
+    }
+  }
+  const specBounds = [
+    ['CPU request', current.requests.cpu, MAX_CPU_MILLICORES],
+    ['CPU limit', current.limits.cpu, MAX_CPU_MILLICORES],
+    ['Memory request', current.requests.memory, MAX_MEMORY_BYTES],
+    ['Memory limit', current.limits.memory, MAX_MEMORY_BYTES],
+  ] as const;
+  for (const [label, value, max] of specBounds) {
+    if (value !== undefined) assertAmount(value, `Current ${label.toLowerCase()}`, max);
+  }
+  const specErrors = validateSpec(current);
+  if (specErrors.cpu || specErrors.memory) throw new Error(specErrors.cpu ?? specErrors.memory);
+  assertAmount(pricing.cpuPerCoreHour, 'CPU price', MAX_PRICE);
+  assertAmount(pricing.memoryPerGiBHour, 'Memory price', MAX_PRICE);
+
+  const replicas = input.replicas;
+  const config = POSTURE_CONFIG[posture];
+  const cpu = normalizePercentiles(input.usage.cpu);
+  const memory = normalizePercentiles(input.usage.memory);
+  const findings: Finding[] = [];
+
+  // Requests follow a percentile; limits follow the observed max.
+  const cpuPercentile = config.basePercentile;
+  const memoryPercentile = memoryRequestPercentile(posture);
+
+  const cpuRequest = roundCpuUp(Math.max(MIN_CPU_MILLICORES, cpu[cpuPercentile] * config.requestMultiplier));
+  const memoryRequest = roundMemoryUp(Math.max(MIN_MEMORY_BYTES, memory[memoryPercentile] * config.requestMultiplier));
+  // Rounding is monotonic and limitMultiplier ≥ requestMultiplier, so limits
+  // already cover requests; Math.max keeps the requests ≤ limits invariant explicit.
+  const cpuLimit = includeCpuLimit
+    ? Math.max(cpuRequest, roundCpuUp(Math.max(MIN_CPU_MILLICORES, cpu.max * config.limitMultiplier)))
+    : undefined;
+  const memoryLimit = Math.max(
+    memoryRequest,
+    roundMemoryUp(Math.max(MIN_MEMORY_BYTES, memory.max * config.limitMultiplier))
+  );
+
+  const label = (p: Percentile, usage: NormalizedPercentiles) => {
+    if (p === 'p50' && usage.substituted.includes('p50')) return 'P95 (no P50 given)';
+    if (p === 'p99' && usage.substituted.includes('p99')) return 'Max (no P99 given)';
+    return PERCENTILE_LABELS[p];
+  };
+  const basis = {
+    cpuRequest: `${label(cpuPercentile, cpu)} ${formatMultiplier(config.requestMultiplier)}`,
+    cpuLimit: includeCpuLimit ? `Max ${formatMultiplier(config.limitMultiplier)}` : undefined,
+    memoryRequest: `${label(memoryPercentile, memory)} ${formatMultiplier(config.requestMultiplier)}`,
+    memoryLimit: `Max ${formatMultiplier(config.limitMultiplier)}`,
+  };
+
+  const recommendedSpec: ContainerSpec = {
+    requests: { cpu: cpuRequest, memory: memoryRequest },
+    limits: { cpu: cpuLimit, memory: memoryLimit },
+  };
+  const currentRequests = effectiveRequests(current);
+  const currentQos = qosClass(current);
+  const recommendedQos = qosClass(recommendedSpec);
+
+  // --- Data-quality findings: things the percentiles can't tell you ---------
+  if (cpu.max === 0) {
+    findings.push({ severity: 'warning', text: 'Observed CPU max is 0. Check that the query targets the right container; the request falls back to the 10m floor.' });
+  }
+  if (memory.max === 0) {
+    findings.push({ severity: 'warning', text: 'Observed memory max is 0. Check that the query targets the right container; the request falls back to the 16Mi floor.' });
+  }
+  if (current.limits.cpu !== undefined && current.limits.cpu > 0 && cpu.max >= current.limits.cpu * 0.9) {
+    findings.push({
+      severity: 'warning',
+      text: `Observed CPU max is within 10% of the current ${formatCpu(current.limits.cpu)} limit. The container was likely throttled, so real demand may be higher than measured. Check container_cpu_cfs_throttled_periods_total before lowering anything.`,
+    });
+  }
+  if (current.limits.memory !== undefined && current.limits.memory > 0) {
+    if (memory.max > current.limits.memory) {
+      findings.push({
+        severity: 'warning',
+        text: 'Observed memory max is above the current memory limit. The limit probably changed during the window, or the data covers a different container or metric.',
+      });
+    } else if (memory.max >= current.limits.memory * 0.9) {
+      findings.push({
+        severity: 'warning',
+        text: 'Observed memory max is within 10% of the current limit. Look for OOMKilled restarts: demand above the limit never shows up in usage data.',
+      });
+    }
+  }
+  if (currentRequests.memory > 0 && currentRequests.memory < memory.p95) {
+    findings.push({
+      severity: 'warning',
+      text: 'The current memory request is below observed P95. If the node runs short of memory, the kubelet evicts pods using more than their requests first, so this pod is often exposed.',
+    });
   }
 
-  // Check for potential issues
-  if (cpuLimits < usage.cpu.max) {
-    warnings.push('CPU limits below observed max - risk of throttling');
+  const spikeReference = memory.substituted.includes('p99') ? memory.p95 : memory.p99;
+  const cpuSpikeReference = cpu.substituted.includes('p99') ? cpu.p95 : cpu.p99;
+  if ((cpuSpikeReference > 0 && cpu.max > cpuSpikeReference * 2) || (spikeReference > 0 && memory.max > spikeReference * 2)) {
+    findings.push({
+      severity: 'info',
+      text: 'Max is more than twice the next percentile, so short spikes (startup, GC, cron work) drive the peak. Limits follow Max, but requests do not reserve capacity for those spikes.',
+    });
   }
-  if (memLimits < usage.memory.max) {
-    warnings.push('Memory limits below observed max - risk of OOMKill');
+
+  const substitutions = [
+    cpuPercentile === 'p50' && cpu.substituted.includes('p50') && 'CPU request uses P95 because no P50 was given',
+    cpuPercentile === 'p99' && cpu.substituted.includes('p99') && 'CPU request uses Max because no P99 was given',
+    memoryPercentile === 'p99' && memory.substituted.includes('p99') && 'Memory request uses Max because no P99 was given',
+  ].filter(Boolean);
+  if (substitutions.length > 0) {
+    findings.push({ severity: 'info', text: `${substitutions.join('; ')}. Missing values are never estimated, only replaced by a higher measurement.` });
   }
 
-  // Calculate full cost breakdown
-  // Current costs
-  const currentCpuMonthly = (current.requests.cpu / 1000) * validatedReplicas * costPerCoreHour * HOURS_PER_MONTH;
-  const currentMemMonthly = (current.requests.memory / GiB) * validatedReplicas * costPerGiBHour * HOURS_PER_MONTH;
-  const currentTotal = currentCpuMonthly + currentMemMonthly;
-
-  // Recommended costs
-  const recCpuMonthly = (cpuRequests / 1000) * validatedReplicas * costPerCoreHour * HOURS_PER_MONTH;
-  const recMemMonthly = (memRequests / GiB) * validatedReplicas * costPerGiBHour * HOURS_PER_MONTH;
-  const recTotal = recCpuMonthly + recMemMonthly;
-
-  // Savings (positive = cost reduction, negative = cost increase)
-  const cpuSavings = currentCpuMonthly - recCpuMonthly;
-  const memSavings = currentMemMonthly - recMemMonthly;
-  const totalSavings = cpuSavings + memSavings;
-
-  // Legacy savings field (clamped to 0 for backwards compat)
-  const monthlySavings = Math.max(0, totalSavings);
-  const yearlySavings = monthlySavings * 12;
-
-  if (totalSavings < 0) {
-    reasoning.push('Recommendation increases resource allocation (negative savings)');
-  } else if (totalSavings > 0) {
-    reasoning.push(`Estimated monthly savings: $${totalSavings.toFixed(2)}`);
+  // --- Change-management findings ------------------------------------------
+  const bigCuts = [
+    currentRequests.cpu > 0 && cpuRequest < currentRequests.cpu * 0.5 && `CPU request ${percentChange(currentRequests.cpu, cpuRequest)}%`,
+    currentRequests.memory > 0 && memoryRequest < currentRequests.memory * 0.5 && `memory request ${percentChange(currentRequests.memory, memoryRequest)}%`,
+  ].filter(Boolean);
+  if (bigCuts.length > 0) {
+    findings.push({
+      severity: 'info',
+      text: `Large reduction (${bigCuts.join(', ')}). Consider stepping down in stages, for example halfway first, and watching each step.`,
+    });
   }
+
+  if (currentRequests.cpu > 0 && cpuRequest !== currentRequests.cpu) {
+    const ratio = currentRequests.cpu / cpuRequest;
+    findings.push({
+      severity: 'info',
+      text: `If an HPA scales this workload on CPU utilization, utilization is measured against the request. Moving from ${formatCpu(currentRequests.cpu)} to ${formatCpu(cpuRequest)} makes the same usage read ${ratio >= 1 ? `${ratio.toFixed(1)}× higher` : `${(1 / ratio).toFixed(1)}× lower`}, so revisit the HPA target.`,
+    });
+  }
+
+  if (currentQos === 'Guaranteed' && recommendedQos !== 'Guaranteed') {
+    findings.push({
+      severity: 'warning',
+      text: 'This changes the QoS class from Guaranteed to Burstable. The kubelet does not rank evictions by QoS, but a Burstable pod can use more memory than it requests, which moves it ahead of within-request pods under node memory pressure. Keep requests equal to limits if you depend on Guaranteed behavior.',
+    });
+  }
+
+  if (!includeCpuLimit) {
+    findings.push({
+      severity: 'info',
+      text: 'Without a CPU limit the container can use idle CPU on its node. A namespace LimitRange may still apply a default limit.',
+    });
+  }
+
+  // --- Illustrative request cost -------------------------------------------
+  const currentCost = monthlyCost(currentRequests, replicas, pricing);
+  const recommendedCost = monthlyCost({ cpu: cpuRequest, memory: memoryRequest }, replicas, pricing);
+  const savings = {
+    cpu: currentCost.cpu - recommendedCost.cpu,
+    memory: currentCost.memory - recommendedCost.memory,
+    total: currentCost.total - recommendedCost.total,
+    yearly: currentCost.yearly - recommendedCost.yearly,
+  };
 
   return {
-    requests: {
-      cpu: formatCpu(cpuRequests),
-      memory: formatMemory(memRequests),
-    },
+    posture,
+    requests: { cpu: formatCpu(cpuRequest), memory: formatMemory(memoryRequest) },
     limits: {
-      cpu: formatCpu(cpuLimits),
-      memory: formatMemory(memLimits),
+      cpu: cpuLimit === undefined ? undefined : formatCpu(cpuLimit),
+      memory: formatMemory(memoryLimit),
     },
-    requestsNormalized: {
-      cpu: cpuRequests,
-      memory: memRequests,
-    },
-    limitsNormalized: {
-      cpu: cpuLimits,
-      memory: memLimits,
-    },
-    reasoning,
-    costs: {
-      current: {
-        cpu: currentCpuMonthly,
-        memory: currentMemMonthly,
-        total: currentTotal,
-        yearly: currentTotal * 12,
-      },
-      recommended: {
-        cpu: recCpuMonthly,
-        memory: recMemMonthly,
-        total: recTotal,
-        yearly: recTotal * 12,
-      },
-      savings: {
-        cpu: cpuSavings,
-        memory: memSavings,
-        total: totalSavings,
-        yearly: totalSavings * 12,
-      },
-    },
-    savings: {
-      monthly: monthlySavings,
-      yearly: yearlySavings,
-    },
-    risk: config.risk,
-    warnings,
+    requestsNormalized: { cpu: cpuRequest, memory: memoryRequest },
+    limitsNormalized: { cpu: cpuLimit, memory: memoryLimit },
+    basis,
+    currentEffectiveRequests: currentRequests,
+    currentQosClass: currentQos,
+    qosClass: recommendedQos,
+    findings,
+    costs: { current: currentCost, recommended: recommendedCost, savings },
   };
 }
 
@@ -463,12 +668,17 @@ export function calculateRecommendation(input: RecommendationInput): Recommendat
 // YAML Generation
 // ============================================================================
 
-export function generateYaml(recommendation: Recommendation): string {
-  return `resources:
-  requests:
-    cpu: "${recommendation.requests.cpu}"
-    memory: "${recommendation.requests.memory}"
-  limits:
-    cpu: "${recommendation.limits.cpu}"
-    memory: "${recommendation.limits.memory}"`;
+/** `resources` block for a container entry in spec.containers[] */
+export function generateYaml(recommendation: Pick<Recommendation, 'requests' | 'limits'>): string {
+  const { requests, limits } = recommendation;
+  const lines = [
+    'resources:',
+    '  requests:',
+    `    cpu: "${requests.cpu}"`,
+    `    memory: "${requests.memory}"`,
+    '  limits:',
+  ];
+  if (limits.cpu !== undefined) lines.push(`    cpu: "${limits.cpu}"`);
+  lines.push(`    memory: "${limits.memory}"`);
+  return lines.join('\n');
 }

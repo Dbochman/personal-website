@@ -154,7 +154,7 @@
   {
     "slug": "k8s-rightsizer",
     "title": "K8s Resource Right-Sizer",
-    "description": "Recommend Kubernetes CPU and memory requests/limits based on observed usage percentiles. Adjust the efficiency-safety slider, see estimated savings, and export YAML.",
+    "description": "Recommend Kubernetes CPU and memory requests and limits from observed usage percentiles. Pick a sizing posture, see what the data can't tell you, compare illustrative request cost, and export YAML with a rollout checklist.",
     "tags": ["SRE", "Kubernetes", "Calculator"],
     "keywords": [
       "kubernetes resource calculator",
@@ -174,7 +174,8 @@
     ],
     "icon": "Box",
     "status": "active",
-    "createdAt": "2026-01-30"
+    "createdAt": "2026-01-30",
+    "updatedAt": "2026-10-17"
   },
   {
     "slug": "echonest",
