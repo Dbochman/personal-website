@@ -24,7 +24,7 @@ const validSlugs = [
   'changelog',
   'cli-playground',
   'incident-command-diagrams',
-  'k8s-rightsizer',
+  'retry-storm-simulator',
   'echonest',
 ];
 

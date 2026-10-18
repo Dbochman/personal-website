@@ -520,3 +520,9 @@ runtime paths, raw captures, and authentication material.
 - Hover plus focus could schedule two expertise timers; canceling only the last timer let a closed mobile card reopen. Deduplicate the timer and cancel it on either click action.
 - ResponsiveTabsList caller classes included `grid`, overriding its `hidden` class on mobile. Put breakpoint visibility on a separate wrapper.
 - Functional regression tests are tagged `@smoke` so existing CI runs them. Explicit application typechecking still has a pre-existing backlog; the root `tsc --noEmit` command does not check the referenced application project.
+
+## 2026-10-17: Creative replacement alternative
+
+- Claude Opus 5.5 at High effort selected and implemented a Retry Storm Simulator as an alternative to improving the rightsizer. These are competing proposals for one catalog slot, not sequential changes.
+- Replacing a project requires the catalog, lazy component registry, validator, icon/OG registries, sitemap, client routes, and static SEO redirect manifest to agree. Preserve both slash forms of the retired URL.
+- In this open-loop fluid model, backoff delays retries without reducing sustained demand. Retry budgets and shedding abandoned work address different parts of the feedback loop; jitter cannot demonstrate desynchronization when arrivals are already smooth.
