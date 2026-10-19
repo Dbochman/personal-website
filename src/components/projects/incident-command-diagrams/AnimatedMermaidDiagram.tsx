@@ -50,14 +50,12 @@ export function AnimatedMermaidDiagram({
   const [isPlaying, setIsPlaying] = useState(false);
   const [awaitingDecision, setAwaitingDecision] = useState(false);
 
-  // Apply highlight styles to SVG nodes and scroll active node into view
+  // Reapply highlight styles whenever Pele redraws the SVG.
   useEffect(() => {
     if (!containerRef.current || !revision || nodes.length === 0) return;
 
     const svgElement = containerRef.current.querySelector('svg');
     if (!svgElement) return;
-
-    let activeNodeElement: Element | null = null;
 
     // Reset all nodes
     nodes.forEach((node, nodeIndex) => {
@@ -70,7 +68,6 @@ export function AnimatedMermaidDiagram({
           nodeGroup.classList.add('node-future');
         } else if (nodeIndex === currentIndex) {
           nodeGroup.classList.add('node-active');
-          activeNodeElement = nodeGroup;
           if (node.type === 'decision') {
             nodeGroup.classList.add('node-decision');
           } else if (node.type === 'link') {
@@ -84,15 +81,18 @@ export function AnimatedMermaidDiagram({
       }
     });
 
-    // Scroll active node to center of view
-    if (activeNodeElement && currentIndex >= 0) {
-      (activeNodeElement as HTMLElement).scrollIntoView({
+  }, [revision, nodes, currentIndex, containerRef]);
+
+  // Only a step change should move the page, not a resize/font redraw.
+  useEffect(() => {
+    if (currentIndex >= 0) {
+      containerRef.current?.querySelector('.pele-node.node-active')?.scrollIntoView({
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
         block: 'center',
         inline: 'center',
       });
     }
-  }, [revision, nodes, currentIndex, containerRef]);
+  }, [currentIndex, containerRef]);
 
   // Animation timer
   useEffect(() => {

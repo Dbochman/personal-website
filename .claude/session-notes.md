@@ -643,3 +643,6 @@ runtime paths, raw captures, and authentication material.
   concatenate without spaces, and font metrics change wrapping across platforms.
   Compare the complete label with whitespace removed instead of assuming where
   it wraps; keep the URL and node checks intact.
+- Addressed the review's minor scroll concern: redraws still reapply highlights,
+  but only changing steps scrolls the active node into view. The resize browser
+  check verifies that a paused walkthrough does not request another scroll.

@@ -101,17 +101,36 @@ test.describe('@smoke Pele walkthrough behavior', () => {
 
   test('resize preserves highlighting and theme colors update without replacing the SVG', async ({ page }) => {
     await page.goto('/projects/incident-command-diagrams?theme=light');
+    await page.evaluate(() => {
+      const original = Element.prototype.scrollIntoView;
+      document.documentElement.dataset.walkthroughScrolls = '0';
+      Element.prototype.scrollIntoView = function(options) {
+        if (this.matches('.pele-node')) {
+          const root = document.documentElement;
+          root.dataset.walkthroughScrolls = String(Number(root.dataset.walkthroughScrolls) + 1);
+        }
+        original.call(this, options);
+      };
+    });
     await page.getByRole('button', { name: /Ready to Begin/ }).click();
     await page.getByRole('button', { name: 'Pause', exact: true }).click();
+    await expect(page.locator('html')).toHaveAttribute('data-walkthrough-scrolls', '1');
+    // A font change forces a redraw; width alone may only scale the existing SVG.
+    await page.getByLabel('Animated Mermaid diagram').evaluate(el => {
+      el.querySelector('svg.pele-flowchart')!.setAttribute('data-before-resize', 'true');
+      el.style.setProperty('--pele-font', 'monospace');
+    });
     await page.setViewportSize({ width: 320, height: 800 });
     const active = page.locator('.pele-node.node-active');
     await expect(active).toHaveAttribute('data-id', 'A');
     const host = page.getByLabel('Animated Mermaid diagram');
     await expect(host.locator('svg.pele-flowchart')).toBeVisible();
     // Wait for the resize observer to replace and re-highlight the SVG.
+    await expect(host.locator('svg.pele-flowchart')).not.toHaveAttribute('data-before-resize', 'true');
     await expect.poll(() => host.locator('svg.pele-flowchart').evaluate(el => el.getBoundingClientRect().width))
       .toBeLessThanOrEqual(320);
     await expect(active).toHaveAttribute('data-id', 'A');
+    await expect(page.locator('html')).toHaveAttribute('data-walkthrough-scrolls', '1');
     const colors = await host.evaluate(el => {
       const svg = el.querySelector('svg')!;
       const label = svg.querySelector('.pele-label')!;
