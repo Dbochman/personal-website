@@ -65,11 +65,13 @@ export function createBlogPost(
 ): BlogPost {
   const { frontmatter, content: mdxContent } = parseMDX(content);
   const readingTimeResult = calculateReadingTime(mdxContent);
+  const slug = frontmatter.slug || fallbackSlug;
+  if (!slug) throw new Error('Blog post requires a slug or filename fallback');
 
   return {
     ...frontmatter,
     // Frontmatter slug is authoritative; fallback to filename-derived slug
-    slug: frontmatter.slug || fallbackSlug,
+    slug,
     content: mdxContent,
     readingTime: readingTimeResult.text,
   };

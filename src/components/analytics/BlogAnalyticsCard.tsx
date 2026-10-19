@@ -4,6 +4,7 @@ import { MetricCard } from './MetricCard';
 import { BookOpen, Users, FileText, Eye, TrendingUp, Minus } from 'lucide-react';
 import { getAllPosts } from '@/content/blog/index';
 import type { GA4HistoryEntry } from './types';
+import type { PostLookups } from './charts/BlogTrafficChart';
 
 const BlogTrafficChart = lazy(() => import('./charts/BlogTrafficChart').then(m => ({ default: m.BlogTrafficChart })));
 const BlogTagBreakdownChart = lazy(() => import('./charts/BlogTagBreakdownChart').then(m => ({ default: m.BlogTagBreakdownChart })));
@@ -65,7 +66,7 @@ function buildPostLookups(posts: ReturnType<typeof getAllPosts>) {
 
 function matchPost(
   slug: string,
-  lookups: ReturnType<typeof buildPostLookups>,
+  lookups: PostLookups,
 ): ReturnType<typeof getAllPosts>[0] | undefined {
   // Check alias map first
   const aliased = SLUG_ALIASES[slug];
@@ -101,7 +102,7 @@ function matchPost(
 }
 
 /** Aggregate blog page data from a single GA4 entry */
-function extractBlogPages(entry: GA4HistoryEntry) {
+function extractBlogPages(entry: Pick<GA4HistoryEntry, 'topPages'>) {
   const map = new Map<string, { sessions: number; users: number; pageViews: number }>();
   for (const page of entry.topPages ?? []) {
     if (!page.page.startsWith('/blog/') || page.page === '/blog/' || page.page === '/blog') continue;
@@ -129,7 +130,7 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
 
   // --- 7d data (latest entry) ---
   const enrichedData = useMemo(() => {
-    const blogPageMap = extractBlogPages(latestGA4 ?? { topPages: [] } as GA4HistoryEntry);
+    const blogPageMap = extractBlogPages(latestGA4 ?? { topPages: [] });
 
     const rows = Array.from(blogPageMap.entries()).map(([path, stats]) => {
       const slug = extractSlug(path);

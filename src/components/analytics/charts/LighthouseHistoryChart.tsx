@@ -1,5 +1,5 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine, TooltipProps } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine, TooltipContentProps } from 'recharts';
+import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { LighthousePageScore } from '../types';
 
 interface LighthouseHistoryChartProps {
@@ -13,7 +13,7 @@ function getScoreColor(score: number): string {
   return 'hsl(0, 72%, 51%)';                     // red-500
 }
 
-function CustomTooltip({ active, payload }: TooltipProps<ValueType, NameType>) {
+function CustomTooltip({ active, payload }: TooltipContentProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
   const data = payload[0];
   return (
@@ -62,7 +62,7 @@ export function LighthouseHistoryChart({ data }: LighthouseHistoryChartProps) {
             width={60}
           />
           <ReferenceLine x={90} stroke="hsl(var(--muted-foreground))" strokeDasharray="3 3" />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
           <Bar dataKey="performance" radius={[0, 4, 4, 0]}>
             {chartData.map((entry) => (
               <Cell key={entry.page} fill={getScoreColor(entry.performance)} />

@@ -67,16 +67,18 @@ function resolveOgImage(slug: string, ogImage: string | undefined): string {
   return `${SITE_URL}/og-images/${slug}.png`;
 }
 
-const statusVariants: Record<ProjectStatus, 'default' | 'secondary' | 'outline-solid'> = {
+const statusVariants: Record<ProjectStatus, 'default' | 'secondary' | 'outline'> = {
   active: 'default',
   experimental: 'secondary',
-  archived: 'outline-solid',
+  archived: 'outline',
+  draft: 'outline',
 };
 
 const statusLabels: Record<ProjectStatus, string> = {
   active: 'Active',
   experimental: 'Experimental',
   archived: 'Archived',
+  draft: 'Draft',
 };
 
 export default function Project() {

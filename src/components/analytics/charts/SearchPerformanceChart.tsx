@@ -1,9 +1,9 @@
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, TooltipProps } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, TooltipContentProps } from 'recharts';
+import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { SearchConsoleHistoryEntry } from '../types';
 import { formatHistoryDate, getRecentHistory } from './recentHistory';
 
-function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
+function CustomTooltip({ active, payload, label }: TooltipContentProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md">
@@ -76,7 +76,7 @@ export function SearchPerformanceChart({ data }: SearchPerformanceChartProps) {
             axisLine={false}
             tickFormatter={(value) => value.toLocaleString()}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
           <Legend
             verticalAlign="top"
             height={36}

@@ -804,7 +804,7 @@ export function KanbanBoard({ initialBoard, boardId, initialCardId, initialHeadC
                   </Button>
                 ) : (
                   <Button
-                    variant={isDirty ? 'default' : 'outline-solid'}
+                    variant={isDirty ? 'default' : 'outline'}
                     size="sm"
                     onClick={handleSaveToGitHub}
                     disabled={isSaving || !canSave}

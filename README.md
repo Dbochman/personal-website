@@ -38,8 +38,14 @@ npm run dev    # http://localhost:8080
 
 Run `npm ci`, `npm audit`, and `npm audit --omit=dev` with Node 24+. PR checks
 audit the full dependency tree, including development tools. Validate migrations
-with `npm run lint`, `npm test -- --run`, `npm run build`,
+with `npm run lint`, `npm run typecheck`, `npm test -- --run`, `npm run build`,
 `npm run check-bundle-budget`, and the Playwright `@smoke` suite against preview.
+
+`npm run typecheck` explicitly checks both `tsconfig.app.json` (including tests)
+and `tsconfig.node.json`. Plain `tsc --noEmit` at the root does **not** traverse
+the referenced projects. Keep strict options enabled; PR CI runs the explicit
+command. Kanban compilation regenerates typed declarations alongside its JS
+outputs, and the Search Console JS helper has a typed boundary for its tests.
 
 - Blog and kanban frontmatter use the shared YAML-only helper in
   `src/lib/frontmatter.ts` and js-yaml 4. It preserves timestamp parsing and

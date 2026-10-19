@@ -5,12 +5,6 @@
  * during user interactions, improving INP (Interaction to Next Paint) scores.
  */
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-  }
-}
-
 /**
  * Track an event with deferred execution using requestIdleCallback.
  * Falls back to setTimeout for browsers that don't support requestIdleCallback.

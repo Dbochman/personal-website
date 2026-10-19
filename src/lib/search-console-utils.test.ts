@@ -6,6 +6,7 @@ import {
   fetchAllRows,
   formatDateInTimeZone,
   resolveLatestFinalDate,
+  type SearchAnalyticsQuery,
 } from '../../scripts/search-console-utils.js';
 
 describe('Search Console collection utilities', () => {
@@ -43,7 +44,7 @@ describe('Search Console collection utilities', () => {
       [2, [{ keys: ['three'] }, { keys: ['four'] }]],
       [4, [{ keys: ['five'] }]],
     ]);
-    const query = vi.fn(async ({ requestBody }) => ({
+    const query = vi.fn<SearchAnalyticsQuery>(async ({ requestBody }) => ({
       data: { rows: pages.get(requestBody.startRow) ?? [] },
     }));
 

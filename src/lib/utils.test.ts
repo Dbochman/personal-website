@@ -1,8 +1,24 @@
 
-import { describe, it, expect } from 'vitest'
-import { cn } from './utils'
+import { describe, it, expect, vi } from 'vitest'
+import { cn, throttle } from './utils'
 
 describe('utils', () => {
+  it('throttles a typed callback while preserving its argument tuple', () => {
+    const callback = vi.fn<(event: { id: string }, count: number) => void>()
+    const now = vi.spyOn(Date, 'now').mockReturnValue(1000)
+    try {
+      const throttled = throttle(callback, 100)
+      throttled({ id: 'first' }, 1)
+      now.mockReturnValue(1050)
+      throttled({ id: 'skipped' }, 2)
+      now.mockReturnValue(1100)
+      throttled({ id: 'next' }, 3)
+      expect(callback.mock.calls).toEqual([[{ id: 'first' }, 1], [{ id: 'next' }, 3]])
+    } finally {
+      now.mockRestore()
+    }
+  })
+
   describe('cn function', () => {
     it('should merge single class name', () => {
       const result = cn('bg-red-500')
@@ -80,10 +96,7 @@ describe('utils', () => {
       type Size = 'sm' | 'md' | 'lg'
       type Variant = 'primary' | 'secondary'
       
-      const size: Size = 'lg'
-      const variant: Variant = 'primary'
-      
-      const result = cn(
+      const classesFor = (size: Size, variant: Variant) => cn(
         'button-base',
         {
           'text-sm p-2': size === 'sm',
@@ -96,7 +109,8 @@ describe('utils', () => {
         }
       )
       
-      expect(result).toBe('button-base text-lg p-4 bg-blue-500 text-white')
+      expect(classesFor('lg', 'primary')).toBe('button-base text-lg p-4 bg-blue-500 text-white')
+      expect(classesFor('sm', 'secondary')).toBe('button-base text-sm p-2 bg-gray-500 text-white')
     })
   })
 })

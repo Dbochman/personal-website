@@ -1,5 +1,5 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, TooltipProps } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, TooltipContentProps } from 'recharts';
+import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
 interface DeviceData {
   device: string;
@@ -17,7 +17,7 @@ const COLORS = {
   tablet: 'hsl(var(--chart-3))',
 };
 
-function CustomTooltip({ active, payload, total }: TooltipProps<ValueType, NameType> & { total: number }) {
+function CustomTooltip({ active, payload, total }: TooltipContentProps<ValueType, NameType> & { total: number }) {
   if (!active || !payload || !payload.length) return null;
   const data = payload[0];
   const value = data.value as number;
@@ -58,7 +58,7 @@ export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
             outerRadius={80}
             paddingAngle={2}
             dataKey="value"
-            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+            label={({ name, percent = 0 }) => `${name} ${(percent * 100).toFixed(0)}%`}
             labelLine={false}
           >
             {chartData.map((entry) => (
@@ -68,7 +68,7 @@ export function DeviceBreakdownChart({ data }: DeviceBreakdownChartProps) {
               />
             ))}
           </Pie>
-          <Tooltip content={<CustomTooltip total={total} />} />
+          <Tooltip content={(props) => <CustomTooltip {...props} total={total} />} />
         </PieChart>
       </ResponsiveContainer>
     </div>

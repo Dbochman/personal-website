@@ -3,6 +3,7 @@
  * Single source of truth for all blog post data
  */
 import * as runtime from 'react/jsx-runtime';
+import type { MDXContent } from 'mdx/types';
 import type { ValidatedBlogPost, RssItem, OgMeta, BlogFrontmatter } from './schema';
 
 const BASE_URL = 'https://dylanbochman.com';
@@ -21,12 +22,12 @@ if (Object.keys(compiledModules).length === 0) {
 }
 
 // Cache for React components
-const componentCache = new Map<string, React.ComponentType>();
+const componentCache = new Map<string, MDXContent>();
 
 /**
  * Execute precompiled MDX and return the React component
  */
-function executeCompiledMDX(compiledCode: string): React.ComponentType {
+function executeCompiledMDX(compiledCode: string): MDXContent {
   const fn = new Function(compiledCode);
   const result = fn(runtime);
   return result.default;
@@ -92,7 +93,7 @@ export function getPostBySlug(slug: string): ValidatedBlogPost | null {
 /**
  * Get the React component for a blog post
  */
-export function getPostComponent(slug: string): React.ComponentType | null {
+export function getPostComponent(slug: string): MDXContent | null {
   // Check cache first
   if (componentCache.has(slug)) {
     return componentCache.get(slug)!;

@@ -1,3 +1,5 @@
+import type { ValidatedBlogPost as BlogPost } from '@/content/blog/schema';
+
 // Re-export schema types as the source of truth
 export type { BlogFrontmatter, ValidatedBlogPost, RssItem, OgMeta } from '@/content/blog/schema';
 

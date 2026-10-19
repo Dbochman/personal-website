@@ -1,5 +1,4 @@
 
-import React from 'react';
 import HexagonGrid from "@/components/icons/HexagonGrid";
 import CircuitPattern from "@/components/icons/CircuitPattern";
 import ServerStack from "@/components/icons/ServerStack";

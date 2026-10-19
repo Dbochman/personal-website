@@ -2,6 +2,21 @@ import { test, expect } from '@playwright/test';
 import { build } from 'esbuild';
 
 test.describe('@smoke Dependency migration', () => {
+  test('the SLO chart renders its Recharts 3 tooltip on hover', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto('/projects/slo-tool?mode=burndown');
+    const chart = page.locator('.recharts-wrapper').first();
+    await expect(chart.locator('svg.recharts-surface')).toBeVisible();
+    const bounds = await chart.boundingBox();
+    if (!bounds) throw new Error('Chart has no bounds');
+    await chart.hover({ position: { x: bounds.width / 3, y: bounds.height / 2 } });
+    const tooltip = chart.locator('.recharts-tooltip-wrapper');
+    await expect(tooltip).toBeVisible();
+    await expect(tooltip).toContainText('Ideal:');
+    expect(errors).toEqual([]);
+  });
+
   test('Mermaid renders math labels with its upgraded KaTeX dependency', async ({ page }) => {
     // An isolated test-only entry exercises the installed Mermaid/KaTeX pair
     // without adding a public diagnostic route or math fixture to the website.

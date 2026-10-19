@@ -26,6 +26,7 @@
     "build:dev": "tsx scripts/precompile-mdx.ts && node scripts/precompile-kanban.js && tsx scripts/generate-feeds.ts && vite build --mode development",
     "build:analyze": "ANALYZE=true npm run build",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
     "preview": "vite preview",
     "prerender": "node scripts/prerender.mjs",
     "verify-seo-routes": "node scripts/verify-seo-routes.mjs",

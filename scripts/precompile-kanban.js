@@ -316,6 +316,10 @@ async function precompileKanban() {
 export const board = ${JSON.stringify(board, null, 2)};
 `;
       await writeFile(outputFile, outputContent);
+      await writeFile(join(OUTPUT_DIR, `${board.id}.d.ts`), `// Auto-generated - do not edit
+import type { KanbanBoard } from '../../types/kanban';
+export declare const board: KanbanBoard;
+`);
       console.log(`  ✓ Wrote: ${board.id}.js`);
 
       manifest[board.id] = {
@@ -331,6 +335,13 @@ export const board = ${JSON.stringify(board, null, 2)};
 export const kanbanManifest = ${JSON.stringify(manifest, null, 2)};
 `;
   await writeFile(join(OUTPUT_DIR, 'manifest.js'), manifestContent);
+  await writeFile(join(OUTPUT_DIR, 'manifest.d.ts'), `// Auto-generated - do not edit
+export declare const kanbanManifest: Record<string, {
+  file: string;
+  title: string;
+  cardCount: number;
+}>;
+`);
 
   // Print report
   console.log('\n' + '='.repeat(50));
