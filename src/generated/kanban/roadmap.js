@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "clear-advisories-and-enforce-application-typecheck",
+          "title": "clear advisories and enforce application typechecks",
+          "labels": [
+            "Bugfix",
+            "PR #335"
+          ],
+          "checklist": [],
+          "createdAt": "2026-10-19T14:17:10.000Z",
+          "updatedAt": "2026-10-19T14:17:10.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-10-19T14:17:10.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* fix(deps): clear remaining dependency advisories\n\n* fix(types): clear application errors and enforce project checks\n\n* fix(content): preserve YAML scalar trailing whitespace"
+        },
+        {
           "id": "replace-rightsizer-with-retry-storm-simulator",
           "title": "replace rightsizer with Retry Storm Simulator",
           "labels": [
@@ -3557,5 +3577,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-10-18T01:48:20.588Z"
+  "updatedAt": "2026-10-19T14:17:51.921Z"
 };
