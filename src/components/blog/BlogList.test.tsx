@@ -9,7 +9,7 @@ const mockPosts: BlogPost[] = [
     title: 'First Post',
     slug: 'first-post',
     date: '2026-01-07',
-    author: 'Author One',
+    author: 'Dylan',
     description: 'First post description',
     tags: ['React', 'TypeScript'],
     category: 'Technical',
@@ -22,7 +22,7 @@ const mockPosts: BlogPost[] = [
     title: 'Second Post',
     slug: 'second-post',
     date: '2026-01-06',
-    author: 'Author Two',
+    author: 'Claude',
     description: 'Second post about DevOps',
     tags: ['DevOps', 'SRE'],
     category: 'Technical',
@@ -35,7 +35,7 @@ const mockPosts: BlogPost[] = [
     title: 'Third Post',
     slug: 'third-post',
     date: '2026-01-05',
-    author: 'Author Three',
+    author: 'Dylan & Claude',
     description: 'Third post description',
     tags: ['React', 'DevOps'],
     category: 'Tutorial',
@@ -217,7 +217,7 @@ describe('BlogList', () => {
           fireEvent.click(reactFilterBadge); // Select
           vi.runAllTimers();
         });
-        vi.mocked(window.gtag).mockClear();
+        vi.mocked(window.gtag)?.mockClear();
         await act(async () => {
           fireEvent.click(reactFilterBadge); // Deselect
           vi.runAllTimers();

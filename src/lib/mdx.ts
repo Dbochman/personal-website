@@ -1,4 +1,4 @@
-import matter from 'gray-matter';
+import { parseFrontmatter } from './frontmatter';
 import { format } from 'date-fns';
 import type { BlogPost, BlogFrontmatter, ReadingTimeResult } from '@/types/blog';
 
@@ -9,7 +9,7 @@ export function parseMDX(content: string): {
   frontmatter: BlogFrontmatter;
   content: string;
 } {
-  const { data, content: mdxContent } = matter(content);
+  const { data, content: mdxContent } = parseFrontmatter(content);
 
   return {
     frontmatter: data as BlogFrontmatter,
@@ -65,11 +65,13 @@ export function createBlogPost(
 ): BlogPost {
   const { frontmatter, content: mdxContent } = parseMDX(content);
   const readingTimeResult = calculateReadingTime(mdxContent);
+  const slug = frontmatter.slug || fallbackSlug;
+  if (!slug) throw new Error('Blog post requires a slug or filename fallback');
 
   return {
     ...frontmatter,
     // Frontmatter slug is authoritative; fallback to filename-derived slug
-    slug: frontmatter.slug || fallbackSlug,
+    slug,
     content: mdxContent,
     readingTime: readingTimeResult.text,
   };

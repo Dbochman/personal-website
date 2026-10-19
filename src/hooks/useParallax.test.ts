@@ -4,17 +4,16 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useParallax } from './useParallax';
 
 type MockIO = {
-  observe: ReturnType<typeof vi.fn>;
-  disconnect: ReturnType<typeof vi.fn>;
-  unobserve: ReturnType<typeof vi.fn>;
+  observe: ReturnType<typeof vi.fn<IntersectionObserver['observe']>>;
+  disconnect: ReturnType<typeof vi.fn<IntersectionObserver['disconnect']>>;
+  unobserve: ReturnType<typeof vi.fn<IntersectionObserver['unobserve']>>;
   callback: IntersectionObserverCallback;
 };
 
 let mockIO: MockIO;
 
 class TestIntersectionObserver {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
+  constructor(callback: IntersectionObserverCallback) {
     mockIO.callback = callback;
   }
   observe = (...args: Parameters<IntersectionObserver['observe']>) => mockIO.observe(...args);
@@ -89,7 +88,7 @@ describe('useParallax', () => {
 
     // Simulate page becoming invisible first
     act(() => {
-      mockIO.callback([{ isIntersecting: false }]);
+      mockIO.callback([{ isIntersecting: false } as IntersectionObserverEntry], {} as IntersectionObserver);
     });
 
     // Clear any previous transforms
@@ -225,7 +224,7 @@ describe('useParallax', () => {
 
     // Become invisible
     act(() => {
-      mockIO.callback([{ isIntersecting: false }]);
+      mockIO.callback([{ isIntersecting: false } as IntersectionObserverEntry], {} as IntersectionObserver);
     });
 
     // Reset element
@@ -241,7 +240,7 @@ describe('useParallax', () => {
 
     // Become visible again
     act(() => {
-      mockIO.callback([{ isIntersecting: true }]);
+      mockIO.callback([{ isIntersecting: true } as IntersectionObserverEntry], {} as IntersectionObserver);
     });
 
     act(() => {

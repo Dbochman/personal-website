@@ -84,6 +84,11 @@ const test = "code block";
   });
 
   describe('createBlogPost', () => {
+    it('rejects posts without a slug or filename fallback', () => {
+      const withoutSlug = sampleMDX.replace('slug: "test-post"\n', '');
+      expect(() => createBlogPost(withoutSlug)).toThrow('requires a slug or filename fallback');
+    });
+
     it('should create complete blog post object', () => {
       const post = createBlogPost(sampleMDX);
 

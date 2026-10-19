@@ -1,7 +1,7 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, TooltipProps } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, TooltipContentProps } from 'recharts';
+import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
-function CustomTooltip({ active, payload }: TooltipProps<ValueType, NameType>) {
+function CustomTooltip({ active, payload }: TooltipContentProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
   const data = payload[0];
   return (
@@ -64,7 +64,7 @@ export function TrafficSourcesChart({ data }: TrafficSourcesChartProps) {
             axisLine={false}
             width={75}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
           <Bar dataKey="sessions" radius={[0, 4, 4, 0]}>
             {chartData.map((_, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

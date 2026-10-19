@@ -18,7 +18,7 @@ Personal portfolio and blog built with React 18, TypeScript, TailwindCSS, and Vi
 ```bash
 git clone https://github.com/Dbochman/personal-website.git
 cd personal-website
-npm install    # Also sets up pre-commit hooks (Husky + lint-staged)
+npm ci         # Node 24+; also sets up pre-commit hooks (Husky + lint-staged)
 npm run dev    # http://localhost:8080
 ```
 
@@ -33,6 +33,38 @@ npm run dev    # http://localhost:8080
 │   └── lib/             # Utilities
 └── .github/workflows/   # CI/CD pipeline
 ```
+
+## Dependency security maintenance
+
+Run `npm ci`, `npm audit`, and `npm audit --omit=dev` with Node 24+. PR checks
+audit the full dependency tree, including development tools. Validate migrations
+with `npm run lint`, `npm run typecheck`, `npm test -- --run`, `npm run build`,
+`npm run check-bundle-budget`, and the Playwright `@smoke` suite against preview.
+
+`npm run typecheck` explicitly checks both `tsconfig.app.json` (including tests)
+and `tsconfig.node.json`. Plain `tsc --noEmit` at the root does **not** traverse
+the referenced projects. Keep strict options enabled; PR CI runs the explicit
+command. Kanban compilation regenerates typed declarations alongside its JS
+outputs, and the Search Console JS helper has a typed boundary for its tests.
+
+- Blog and kanban frontmatter use the shared YAML-only helper in
+  `src/lib/frontmatter.ts` and js-yaml 4. It preserves timestamp parsing and
+  Markdown bodies; malformed or non-mapping metadata fails explicitly. The MDX
+  cache fingerprints this helper. Node 24's native type stripping lets the plain
+  JavaScript content scripts use the same implementation.
+- Blog typography is owned by `MDXComponents.tsx`. The unused Tailwind typography
+  plugin and its stale selector-parser chain were removed; do not reinstall it
+  solely because older examples mention `prose` classes.
+- The `mermaid`-scoped override pins **KaTeX 0.18.2**, the fix for
+  [GHSA-238p-pmpm-9mq7](https://github.com/advisories/GHSA-238p-pmpm-9mq7).
+  Mermaid 11's `renderToString` call remains compatible. The site uses native
+  MathML, not custom KaTeX internal CSS classes (renamed in 0.18). Unit tests
+  cover inherited-trust rejection; browser smoke tests cover math labels and
+  the existing project/blog diagrams. Keep this override until a supported
+  Mermaid dependency range includes patched KaTeX and passes those tests.
+  [Mermaid 12](https://github.com/mermaid-js/mermaid/releases/tag/mermaid%4012.0.0)
+  changes layouts, appearance, browser requirements and bundles ELK; evaluate
+  that upgrade separately against the existing 5700 KiB JS budget.
 
 ## License
 

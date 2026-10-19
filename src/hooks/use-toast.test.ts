@@ -1,14 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { useToast, toast, reducer } from './use-toast'
-import type { ToasterToast } from '@/components/ui/toast'
 
 // Type for toast controls returned by the toast function
-type ToastControls = {
-  id: string
-  dismiss: () => void
-  update: (props: Partial<ToasterToast>) => void
-}
+type ToastControls = ReturnType<typeof toast>
 
 // Mock setTimeout and clearTimeout
 vi.useFakeTimers()
@@ -130,10 +125,11 @@ describe('useToast', () => {
 
   describe('toast function', () => {
     it('should return toast controls', () => {
-      let result: ToastControls
+      let result: ToastControls | undefined
       act(() => {
         result = toast({ title: 'Test' })
       })
+      if (!result) throw new Error('Toast controls were not returned')
 
       expect(result).toHaveProperty('id')
       expect(result).toHaveProperty('dismiss')

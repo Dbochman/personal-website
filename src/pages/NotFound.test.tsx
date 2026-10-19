@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import NotFound from './NotFound'
 
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 // Mock the Seo component
 vi.mock('@/components/Seo', () => ({
   default: ({ title, description }: { title: string; description: string }) => (
@@ -22,7 +23,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={['/non-existent-page']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -36,7 +37,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={['/non-existent-page']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -54,7 +55,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={[testPath]}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -70,7 +71,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={['/non-existent-page']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -85,7 +86,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={['/non-existent-page']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -111,7 +112,7 @@ describe('NotFound', () => {
     const { unmount } = render(
       <MemoryRouter
         initialEntries={['/first-path']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>
@@ -129,7 +130,7 @@ describe('NotFound', () => {
     render(
       <MemoryRouter
         initialEntries={['/second-path']}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+
       >
         <NotFound />
       </MemoryRouter>

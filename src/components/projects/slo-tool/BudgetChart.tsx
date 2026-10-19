@@ -7,14 +7,14 @@ import {
   ResponsiveContainer,
   ReferenceLine,
   ReferenceArea,
-  TooltipProps,
+  TooltipContentProps,
 } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { type ChartDataPoint, formatDuration } from './calculations';
 import { CheckCircle2, AlertTriangle } from 'lucide-react';
 
-function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
+function CustomTooltip({ active, payload, label }: TooltipContentProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
 
   return (
@@ -127,7 +127,7 @@ export function BudgetChart({
                   width={50}
                 />
               )}
-              <Tooltip content={<CustomTooltip />} />
+              <Tooltip content={CustomTooltip} />
 
               {/* Current day marker */}
               <ReferenceLine

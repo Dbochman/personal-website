@@ -6,7 +6,7 @@
 import { z } from 'zod';
 
 // ISO 8601 date string validation with preprocessing for Date objects
-// gray-matter may parse unquoted dates as Date objects, so we coerce them
+// YAML may parse unquoted dates as Date objects, so we coerce them
 const isoDateString = z.preprocess(
   (val) => {
     if (val instanceof Date) return val.toISOString();

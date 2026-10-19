@@ -1,5 +1,4 @@
 
-import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Activity } from "lucide-react";
 import { GitHubMark } from "@/components/icons/GitHubMark";

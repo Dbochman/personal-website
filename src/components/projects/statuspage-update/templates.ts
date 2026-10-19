@@ -32,7 +32,7 @@ export function generateStatusMessage(
     case 'fixing':
       return generateFixing(serviceName, issueDesc, actionsTaken, cadenceStatement);
     case 'monitoring':
-      return generateMonitoring(serviceName, issueDesc, actionsTaken, cadenceStatement);
+      return generateMonitoring(serviceName, actionsTaken, cadenceStatement);
     case 'resolved':
       return generateResolved(serviceName);
     default:
@@ -106,7 +106,6 @@ function generateFixing(
 
 function generateMonitoring(
   service: string,
-  description: string,
   actions: string,
   cadenceStatement?: string
 ): string {

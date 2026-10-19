@@ -1,15 +1,8 @@
 /// <reference types="vite/client" />
 
+export {};
+
 declare global {
-  function gtag(command: string, targetId: string, config?: Record<string, unknown>): void;
-
-  interface ViewTransition {
-    finished: Promise<void>;
-    ready: Promise<void>;
-    updateCallbackDone: Promise<void>;
-  }
-
-  interface Document {
-    startViewTransition?(callback: () => void | Promise<void>): ViewTransition;
-  }
+  // Analytics loads lazily and can be blocked or removed by the browser.
+  var gtag: ((command: string, targetId: string, config?: Record<string, unknown>) => void) | undefined;
 }

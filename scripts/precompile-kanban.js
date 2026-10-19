@@ -10,7 +10,7 @@
 import { readdir, readFile, writeFile, mkdir, rm } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, basename } from 'path';
-import matter from 'gray-matter';
+import { parseFrontmatter } from '../src/lib/frontmatter.ts';
 import { z } from 'zod';
 
 const CONTENT_DIR = './content/kanban';
@@ -32,7 +32,7 @@ const stats = {
 // ============================================================================
 
 // ISO 8601 date string with preprocessing for Date objects
-// gray-matter may parse unquoted dates as Date objects, so we coerce them
+// YAML may parse unquoted dates as Date objects, so we coerce them
 const isoDateString = z.preprocess(
   (val) => {
     if (val instanceof Date) return val.toISOString();
@@ -156,7 +156,7 @@ async function processBoard(boardDir) {
   }
 
   const boardContent = await readFile(boardMetaPath, 'utf-8');
-  const { data: boardMeta } = matter(boardContent);
+  const { data: boardMeta } = parseFrontmatter(boardContent);
 
   // Validate board metadata
   const boardResult = KanbanBoardMetaSchema.safeParse(boardMeta);
@@ -178,7 +178,7 @@ async function processBoard(boardDir) {
   for (const file of cardFiles) {
     const filePath = join(boardDir, file);
     const content = await readFile(filePath, 'utf-8');
-    const { data: frontmatter, content: description } = matter(content);
+    const { data: frontmatter, content: description } = parseFrontmatter(content);
 
     // Validate card frontmatter
     const cardResult = KanbanCardFrontmatterSchema.safeParse(frontmatter);
@@ -316,6 +316,10 @@ async function precompileKanban() {
 export const board = ${JSON.stringify(board, null, 2)};
 `;
       await writeFile(outputFile, outputContent);
+      await writeFile(join(OUTPUT_DIR, `${board.id}.d.ts`), `// Auto-generated - do not edit
+import type { KanbanBoard } from '../../types/kanban';
+export declare const board: KanbanBoard;
+`);
       console.log(`  ✓ Wrote: ${board.id}.js`);
 
       manifest[board.id] = {
@@ -331,6 +335,13 @@ export const board = ${JSON.stringify(board, null, 2)};
 export const kanbanManifest = ${JSON.stringify(manifest, null, 2)};
 `;
   await writeFile(join(OUTPUT_DIR, 'manifest.js'), manifestContent);
+  await writeFile(join(OUTPUT_DIR, 'manifest.d.ts'), `// Auto-generated - do not edit
+export declare const kanbanManifest: Record<string, {
+  file: string;
+  title: string;
+  cardCount: number;
+}>;
+`);
 
   // Print report
   console.log('\n' + '='.repeat(50));

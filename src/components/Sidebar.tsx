@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from "@/components/ui/card";
 import { coreExpertise, allSkills } from "@/data/expertise";

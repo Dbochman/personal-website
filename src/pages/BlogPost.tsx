@@ -194,7 +194,7 @@ export default function BlogPost() {
             </header>
 
             {/* Post content */}
-            <article className="prose prose-lg max-w-none">
+            <article className="max-w-none">
               {MDXContent && (
                 <MDXContent components={mdxComponents} />
               )}

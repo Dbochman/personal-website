@@ -1,9 +1,9 @@
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipContentProps } from 'recharts';
+import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { GitHubBillingEntry } from '../types';
 import { formatHistoryDate } from './recentHistory';
 
-function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
+function CustomTooltip({ active, payload, label }: TooltipContentProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md">
@@ -64,7 +64,7 @@ export function BillingTrendChart({ data }: BillingTrendChartProps) {
             tickFormatter={(value) => value.toLocaleString()}
             className="text-muted-foreground"
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
           <Area
             type="monotone"
             dataKey="minutes"

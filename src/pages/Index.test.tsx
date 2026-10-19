@@ -10,7 +10,7 @@ describe('Index Page', () => {
   it('should render all sections, key details, and homepage structured data', async () => {
     render(
       <HelmetProvider>
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <BrowserRouter>
           <ThemeProvider>
             <Index />
           </ThemeProvider>
@@ -22,9 +22,9 @@ describe('Index Page', () => {
     const main = screen.getByRole('main');
     expect(within(main).getAllByText('Dylan Bochman')[0]).toBeInTheDocument();
     expect(within(main).getAllByText('Sr. Site Reliability Engineer - Technical Incident Manager')[0]).toBeInTheDocument();
-    expect(screen.getByText((content, node) => {
+    expect(screen.getByText((_content, node) => {
       if (!node) return false;
-      const hasText = (n) => /Specializing in.*Reliability, Resilience, and Incident Management/.test(n.textContent || '');
+      const hasText = (n: Element) => /Specializing in.*Reliability, Resilience, and Incident Management/.test(n.textContent || '');
       const nodeHasText = hasText(node);
       const childrenDontHaveText = Array.from(node.children).every(
         (child) => !hasText(child)

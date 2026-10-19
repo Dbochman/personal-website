@@ -1,10 +1,10 @@
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  TooltipProps,
+  TooltipContentProps,
 } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
-function BarTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
+function BarTooltip({ active, payload, label }: TooltipContentProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md">
@@ -49,7 +49,7 @@ export function BlogTagBreakdownChart({ tagData }: BlogTagBreakdownChartProps) {
             axisLine={false}
             width={100}
           />
-          <Tooltip content={<BarTooltip />} />
+          <Tooltip content={BarTooltip} />
           <Bar dataKey="sessions" fill="hsl(var(--chart-1))" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>

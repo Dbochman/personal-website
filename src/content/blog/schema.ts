@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 /**
  * Helper to coerce Date objects to YYYY-MM-DD strings
- * gray-matter automatically parses YAML dates, so we need to handle both
+ * The YAML parser automatically parses dates, so we need to handle both
  */
 const dateSchema = z.union([
   z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be in YYYY-MM-DD format'),

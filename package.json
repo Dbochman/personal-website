@@ -26,6 +26,7 @@
     "build:dev": "tsx scripts/precompile-mdx.ts && node scripts/precompile-kanban.js && tsx scripts/generate-feeds.ts && vite build --mode development",
     "build:analyze": "ANALYZE=true npm run build",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.node.json",
     "preview": "vite preview",
     "prerender": "node scripts/prerender.mjs",
     "verify-seo-routes": "node scripts/verify-seo-routes.mjs",
@@ -77,7 +78,7 @@
     "date-fns": "^4.1.0",
     "framer-motion": "^12.38.0",
     "googleapis": "^173.0.0",
-    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.3.2",
     "lucide-react": "^1.8.0",
     "mermaid": "^11.12.2",
     "next-themes": "^0.4.6",
@@ -100,6 +101,9 @@
     "zod": "^4.3.5"
   },
   "overrides": {
+    "mermaid": {
+      "katex": "0.18.2"
+    },
     "react-day-picker": {
       "date-fns": "^4.1.0"
     }
@@ -114,10 +118,10 @@
     "@resvg/resvg-js": "^2.6.2",
     "@sentry/cli": "^3.1.0",
     "@tailwindcss/postcss": "^4.1.18",
-    "@tailwindcss/typography": "^0.5.15",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.3",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.3.3",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

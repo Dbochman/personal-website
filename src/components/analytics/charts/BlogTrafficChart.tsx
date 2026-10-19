@@ -1,6 +1,7 @@
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipProps, Legend } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipContentProps, Legend } from 'recharts';
+import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import type { GA4HistoryEntry } from '../types';
+import type { ValidatedBlogPost } from '@/types/blog';
 import { formatHistoryDate, getRecentHistory } from './recentHistory';
 
 const COLORS = [
@@ -12,7 +13,7 @@ const COLORS = [
   'hsl(var(--muted-foreground))',
 ];
 
-function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameType>) {
+function CustomTooltip({ active, payload, label }: TooltipContentProps<ValueType, NameType>) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md max-w-xs">
@@ -27,10 +28,10 @@ function CustomTooltip({ active, payload, label }: TooltipProps<ValueType, NameT
   );
 }
 
-interface PostLookups {
-  bySlug: Map<string, { title: string; slug: string }>;
-  byStrippedSlug: Map<string, { title: string; slug: string }>;
-  byTitleKey: Map<string, { title: string; slug: string }>;
+export interface PostLookups {
+  bySlug: ReadonlyMap<string, ValidatedBlogPost>;
+  byStrippedSlug: ReadonlyMap<string, ValidatedBlogPost>;
+  byTitleKey: ReadonlyMap<string, ValidatedBlogPost>;
 }
 
 interface BlogTrafficChartProps {
@@ -152,7 +153,7 @@ export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficCh
             tickFormatter={(value) => value.toLocaleString()}
             className="text-muted-foreground"
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={CustomTooltip} />
           <Legend
             verticalAlign="bottom"
             height={36}
