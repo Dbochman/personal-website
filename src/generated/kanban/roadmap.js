@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "restore-sandboxed-codex-review-execution",
+          "title": "restore sandboxed Codex review execution",
+          "labels": [
+            "Bugfix",
+            "PR #337"
+          ],
+          "checklist": [],
+          "createdAt": "2026-10-19T15:27:48.000Z",
+          "updatedAt": "2026-10-19T15:27:48.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-10-19T15:27:48.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* fix(ci): restore sandboxed Codex review execution\n\n* test(ci): support restricted Linux subprocess I/O"
+        },
+        {
           "id": "replace-mermaid-with-flowchart-only-pele",
           "title": "replace Mermaid with flowchart-only Pele",
           "labels": [
@@ -3597,5 +3617,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-10-19T15:22:03.613Z"
+  "updatedAt": "2026-10-19T15:28:23.281Z"
 };
