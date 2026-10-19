@@ -526,3 +526,32 @@ runtime paths, raw captures, and authentication material.
 - Claude Opus 5.5 at High effort selected and implemented a Retry Storm Simulator as an alternative to improving the rightsizer. These are competing proposals for one catalog slot, not sequential changes.
 - Replacing a project requires the catalog, lazy component registry, validator, icon/OG registries, sitemap, client routes, and static SEO redirect manifest to agree. Preserve both slash forms of the retired URL.
 - In this open-loop fluid model, backoff delays retries without reducing sustained demand. Retry budgets and shedding abandoned work address different parts of the feedback loop; jitter cannot demonstrate desynchronization when arrivals are already smooth.
+
+## 2026-10-19: Radix dependency review and security patches
+
+- Radix Select 2.4.0 introduced three application type errors for narrower
+  `onValueChange` handlers in the blog filters and SLO configuration. Select
+  2.4.1 fixes the upstream callback-type regression. The existing CI command
+  `tsc --noEmit` does not check `tsconfig.app.json`; compare explicit application
+  diagnostics against main when reviewing dependency updates, since the broader
+  application type-error backlog remains unresolved.
+- PR #333 also refreshes compatible transitive security patches: grpc-js
+  1.14.6, brace-expansion 5.0.12 (and 1.1.21 for its older dependency chain),
+  and js-yaml 3.15.2/4.3.2. No forced major upgrades or new overrides are needed.
+  `npm audit --omit=dev --audit-level=high` reports no high/critical findings;
+  subsequent compatible updates and removal of the unused Lovable tagger (owner
+  approved) also clear all development high findings. Eight findings remain
+  (six moderate, two low): gray-matter's js-yaml 3/argparse/sprintf-js chain,
+  typography's pinned postcss-selector-parser 6, and Mermaid's KaTeX 0.16 chain.
+  No compatible patched release is available for those remaining chains; avoid
+  audit's suggested gray-matter/typography downgrades or untested major overrides.
+- The deployment-only raw-JS guard exposed 5822.6 KiB against its 5700 KiB budget.
+  Precompiled MDX was stored as unminified function-body strings, invisible to
+  Vite's minifier. Minify those bodies with an explicit esbuild build dependency,
+  preserving the JSX-runtime argument and rendered output. Include the helper in
+  the MDX cache fingerprint. This cuts the updated bundle to about 5617 KiB without
+  removing content or diagram features; Mermaid's large chunk remains advisory.
+- `npm run check-bundle-budget` now shares the unchanged JS/CSS limits between
+  PR checks and deployment. PR CI must run this after building so size failures
+  cannot first appear after merge. Regression coverage compares minified MDX
+  output and exercises project and embedded blog diagrams in browser smoke tests.
