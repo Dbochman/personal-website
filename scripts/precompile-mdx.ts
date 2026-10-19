@@ -16,7 +16,7 @@ import remarkFrontmatter from 'remark-frontmatter';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrism from 'rehype-prism-plus';
-import matter from 'gray-matter';
+import { parseFrontmatter } from '../src/lib/frontmatter.ts';
 import { minifyMdxFunctionBody } from './minify-mdx.js';
 import { blogFrontmatterSchema, type BlogFrontmatter } from '../src/content/blog/schema.js';
 
@@ -27,6 +27,7 @@ const SCRIPT_PATH = './scripts/precompile-mdx.ts';
 const SCHEMA_PATH = './src/content/blog/schema.ts';
 const LOCKFILE_PATH = './package-lock.json';
 const MINIFIER_PATH = './scripts/minify-mdx.ts';
+const FRONTMATTER_PATH = './src/lib/frontmatter.ts';
 
 // Cache schema version - bump this to invalidate all caches
 const CACHE_VERSION = 1;
@@ -36,13 +37,14 @@ const CACHE_VERSION = 1;
  * Cache is invalidated when the compiler, schema, or dependencies change.
  */
 async function computeToolchainFingerprint(): Promise<string> {
-  const [scriptContent, schemaContent, lockfileContent, minifierContent] = await Promise.all([
+  const [scriptContent, schemaContent, lockfileContent, minifierContent, frontmatterContent] = await Promise.all([
     readFile(SCRIPT_PATH, 'utf-8'),
     readFile(SCHEMA_PATH, 'utf-8'),
     readFile(LOCKFILE_PATH, 'utf-8'),
     readFile(MINIFIER_PATH, 'utf-8'),
+    readFile(FRONTMATTER_PATH, 'utf-8'),
   ]);
-  const combined = `${CACHE_VERSION}:${scriptContent}:${schemaContent}:${lockfileContent}:${minifierContent}`;
+  const combined = `${CACHE_VERSION}:${scriptContent}:${schemaContent}:${lockfileContent}:${minifierContent}:${frontmatterContent}`;
   return createHash('sha256').update(combined).digest('hex').slice(0, 16);
 }
 
@@ -133,7 +135,7 @@ async function precompileMDX() {
     const contentHash = hashContent(content);
 
     // Parse frontmatter
-    const { data: rawFrontmatter, content: mdxContent } = matter(content);
+    const { data: rawFrontmatter, content: mdxContent } = parseFrontmatter(content);
     // Use filename (not frontmatter slug) to match URL structure
     const slugFromFilename = basename(file, '.txt');
 

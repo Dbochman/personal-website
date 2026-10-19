@@ -35,13 +35,12 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v5
         with:
           path: .cache/mdx
-          key: mdx-${{ hashFiles('package-lock.json', 'scripts/precompile-mdx.ts', 'src/content/blog/schema.ts', 'content/blog/**/*.txt') }}
+          key: mdx-${{ hashFiles('package-lock.json', 'scripts/precompile-mdx.ts', 'scripts/minify-mdx.ts', 'src/lib/frontmatter.ts', 'src/content/blog/schema.ts', 'content/blog/**/*.txt') }}
           restore-keys: |
             mdx-
 
       - name: Security audit
-        run: npm audit --audit-level=high --omit=dev
-        continue-on-error: true  # Don't block PRs on advisories; report only
+        run: npm audit --audit-level=low
 
       # Playwright runs the runner's preinstalled Chrome (channel: 'chrome' in
       # playwright.config.ts and scripts/prerender.mjs when CI=true) — browser

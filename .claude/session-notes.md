@@ -555,3 +555,30 @@ runtime paths, raw captures, and authentication material.
   PR checks and deployment. PR CI must run this after building so size failures
   cannot first appear after merge. Regression coverage compares minified MDX
   output and exercises project and embedded blog diagrams in browser smoke tests.
+
+## 2026-10-19: Remaining dependency advisories
+
+- Replaced gray-matter with a shared YAML-only js-yaml 4 helper, eliminating the
+  js-yaml 3/argparse 1/sprintf-js chain. Compared parsed metadata and exact bodies
+  against the old parser for all 171 blog/kanban files: no differences. Keep the
+  helper in the MDX toolchain fingerprint. Plain Node content commands import its
+  `.ts` file using the repository's required Node 24 native type stripping.
+- The typography plugin was installed but never registered in Tailwind 4's CSS
+  or PostCSS config. MDXComponents owns the actual blog styling. Removed the
+  unused package and inert prose classes; updated browser tests that incorrectly
+  used `article.prose` as a content selector to select the semantic article.
+- Mermaid 12 introduces ELK, new default layouts/look, and an ES2024/Safari 17.4
+  browser floor. Retained Mermaid 11 and tested a scoped KaTeX 0.18.2 override
+  instead. Its `renderToString` API/MathML output remains compatible; no custom
+  internal KaTeX class selectors are used here. The override has trust-inheritance
+  security tests and a browser math-label test. The latter bundles a test-only
+  entry, while existing project/blog smoke tests cover the production Vite chunks.
+  See README for removal criteria rather than keeping this override indefinitely.
+- Both full and production-only npm audits now report zero findings. PR CI now
+  enforces the full audit at low severity instead of only reporting production
+  high findings. Unit coverage includes malformed/unsafe YAML, body preservation,
+  full-corpus round trips, and native CLI add/move in a disposable board.
+- Local verification: 291 unit tests; 30 browser smoke/blog checks; lint; full build/prerender; SEO route
+  validation; JS 5665.3 KiB and CSS 120.0 KiB within unchanged budgets. Explicit
+  application type-check diagnostics remain exactly the same 156 pre-existing
+  errors as main; the migration introduces none.

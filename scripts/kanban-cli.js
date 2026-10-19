@@ -14,7 +14,7 @@
 import { readFile, writeFile, mkdir, readdir } from 'fs/promises';
 import { existsSync } from 'fs';
 import { join, basename } from 'path';
-import matter from 'gray-matter';
+import { parseFrontmatter, stringifyFrontmatter } from '../src/lib/frontmatter.ts';
 
 const CONTENT_DIR = './content/kanban';
 
@@ -67,7 +67,7 @@ async function loadBoardMeta(boardId) {
     throw new Error(`Board not found: ${boardId}`);
   }
   const content = await readFile(boardPath, 'utf-8');
-  const { data: meta } = matter(content);
+  const { data: meta } = parseFrontmatter(content);
   return meta;
 }
 
@@ -80,7 +80,7 @@ async function loadCards(boardId) {
   const cards = [];
   for (const file of cardFiles) {
     const content = await readFile(join(boardDir, file), 'utf-8');
-    const { data: frontmatter, content: description } = matter(content);
+    const { data: frontmatter, content: description } = parseFrontmatter(content);
     cards.push({
       ...frontmatter,
       description: description.trim() || undefined,
@@ -110,12 +110,12 @@ async function loadBoard(boardId) {
 async function updateBoardMeta(boardId, meta) {
   const boardPath = join(CONTENT_DIR, boardId, '_board.md');
   const content = await readFile(boardPath, 'utf-8');
-  const { content: body } = matter(content);
+  const { content: body } = parseFrontmatter(content);
 
   // Update updatedAt
   meta.updatedAt = new Date().toISOString();
 
-  const newContent = matter.stringify(body, meta);
+  const newContent = stringifyFrontmatter(body, meta);
   await writeFile(boardPath, newContent);
 }
 
@@ -141,7 +141,7 @@ async function saveCardMarkdown(boardId, card, columnId) {
   if (card.archivedAt) frontmatter.archivedAt = toISOString(card.archivedAt);
   if (card.archiveReason) frontmatter.archiveReason = card.archiveReason;
 
-  // Ensure dates are always ISO strings (gray-matter may parse as Date objects)
+  // Ensure dates are always ISO strings (YAML may parse as Date objects)
   frontmatter.createdAt = toISOString(card.createdAt) || new Date().toISOString();
   if (card.updatedAt) frontmatter.updatedAt = toISOString(card.updatedAt);
 
@@ -152,7 +152,7 @@ async function saveCardMarkdown(boardId, card, columnId) {
     }));
   }
 
-  const content = matter.stringify(card.description || '', frontmatter);
+  const content = stringifyFrontmatter(card.description || '', frontmatter);
   const filePath = join(boardDir, `${card.id}.md`);
   await writeFile(filePath, content);
   return filePath;

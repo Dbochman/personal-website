@@ -24,7 +24,7 @@ import { execFileSync } from 'child_process';
 import { existsSync } from 'fs';
 import { mkdir, readdir, readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
-import matter from 'gray-matter';
+import { parseFrontmatter, stringifyFrontmatter } from '../src/lib/frontmatter.ts';
 
 const CONTENT_DIR = './content/kanban';
 const TARGET_COLUMN = 'changelog';
@@ -226,7 +226,7 @@ async function loadBoardMeta(boardId) {
   const boardPath = join(CONTENT_DIR, boardId, '_board.md');
   if (!existsSync(boardPath)) throw new Error(`Board not found: ${boardId}`);
   const content = await readFile(boardPath, 'utf-8');
-  const { data } = matter(content);
+  const { data } = parseFrontmatter(content);
   return data;
 }
 
@@ -237,7 +237,7 @@ async function loadCards(boardId) {
   for (const file of files) {
     if (!file.endsWith('.md') || file === '_board.md') continue;
     const content = await readFile(join(boardDir, file), 'utf-8');
-    const { data, content: body } = matter(content);
+    const { data, content: body } = parseFrontmatter(content);
     cards.push({ ...data, description: body.trim() || undefined, _file: file });
   }
   return cards;
@@ -288,7 +288,7 @@ async function saveCardMarkdown(boardId, card) {
   }
 
   const file = join(boardDir, `${card.id}.md`);
-  await writeFile(file, matter.stringify(card.description || '', fm));
+  await writeFile(file, stringifyFrontmatter(card.description || '', fm));
   return file;
 }
 
@@ -299,7 +299,7 @@ async function buildBlogPostCard(slug, commit, columnTitle) {
   if (existsSync(file)) {
     try {
       const content = await readFile(file, 'utf-8');
-      const { data } = matter(content);
+      const { data } = parseFrontmatter(content);
       if (data.title) title = data.title;
       if (data.description) description = data.description;
     } catch {
@@ -488,9 +488,9 @@ async function main() {
     // Bump board updatedAt so precompiled output picks up changes.
     const boardPath = join(CONTENT_DIR, boardId, '_board.md');
     const boardContent = await readFile(boardPath, 'utf-8');
-    const { content: body, data: bm } = matter(boardContent);
+    const { content: body, data: bm } = parseFrontmatter(boardContent);
     bm.updatedAt = new Date().toISOString();
-    await writeFile(boardPath, matter.stringify(body, bm));
+    await writeFile(boardPath, stringifyFrontmatter(body, bm));
     console.log(`✓ Bumped ${boardPath}`);
   } else {
     console.log('No card files needed updating.');

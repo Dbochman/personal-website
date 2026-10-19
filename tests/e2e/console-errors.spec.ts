@@ -160,7 +160,7 @@ test.describe('Console Error Monitoring', () => {
   test('@smoke Blog post page loads successfully', async ({ page }) => {
     await page.goto(`${BASE_URL}/blog/${newestPost}`);
     await page.waitForLoadState('networkidle');
-    await expect(page.locator('article.prose')).toBeVisible();
+    await expect(page.getByRole('article')).toBeVisible();
   });
 
   test('@smoke Runbook page loads successfully', async ({ page }) => {

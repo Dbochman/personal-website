@@ -24,7 +24,7 @@ test.describe('Blog Post Smoke Tests', () => {
       await page.waitForLoadState('networkidle');
 
       // Verify article content exists
-      const article = page.locator('article.prose');
+      const article = page.getByRole('article');
       await expect(article).toBeVisible();
 
       // Verify has content

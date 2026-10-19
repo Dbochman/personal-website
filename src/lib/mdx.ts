@@ -1,4 +1,4 @@
-import matter from 'gray-matter';
+import { parseFrontmatter } from './frontmatter';
 import { format } from 'date-fns';
 import type { BlogPost, BlogFrontmatter, ReadingTimeResult } from '@/types/blog';
 
@@ -9,7 +9,7 @@ export function parseMDX(content: string): {
   frontmatter: BlogFrontmatter;
   content: string;
 } {
-  const { data, content: mdxContent } = matter(content);
+  const { data, content: mdxContent } = parseFrontmatter(content);
 
   return {
     frontmatter: data as BlogFrontmatter,
