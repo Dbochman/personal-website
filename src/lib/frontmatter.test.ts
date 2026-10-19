@@ -56,6 +56,15 @@ history:
     expect(stringifyFrontmatter('Body', {})).toBe('Body\n');
   });
 
+  it.each(['First\n\n', 'First\n\n\n', 'First\n  \n', '   '])(
+    'preserves trailing whitespace in a final YAML scalar: %j',
+    summary => {
+      const { data, content } = parseFrontmatter(stringifyFrontmatter('Body\n', { summary }));
+      expect(data.summary).toBe(summary);
+      expect(content).toBe('Body\n');
+    },
+  );
+
   it.each([
     ['---\ntitle: Test', 'Unclosed'],
     ['---\ntitle: [unclosed\n---\n', 'unexpected end'],

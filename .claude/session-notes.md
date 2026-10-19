@@ -605,3 +605,7 @@ runtime paths, raw captures, and authentication material.
   checks including Recharts tooltip hover, blog/diagram rendering and navigation;
   full build/prerender and SEO verification. JS 5665.2 KiB and CSS 120.0 KiB stay
   within unchanged budgets. Full and production-only npm audits remain at zero.
+- PR review caught a frontmatter serializer edge case: `dump(data).trimEnd()`
+  loses meaningful trailing blank lines in a final `|+` YAML scalar. Preserve
+  js-yaml's full output including its terminating newline before the closing
+  delimiter. Four whitespace/chomping regression cases cover the fix.

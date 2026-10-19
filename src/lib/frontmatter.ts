@@ -27,7 +27,9 @@ export function parseFrontmatter(source: string): {
 
 /** Keep the Markdown body intact and serialize dates, lists and nested metadata. */
 export function stringifyFrontmatter(content: string, data: Record<string, unknown>): string {
-  const yaml = dump(data).trimEnd();
-  const header = yaml === '{}' ? '' : `---\n${yaml}\n---\n`;
+  // dump includes the terminating newline. Do not trim: |+ block scalars may
+  // contain meaningful trailing blank lines or spaces before that newline.
+  const yaml = dump(data);
+  const header = yaml === '{}\n' ? '' : `---\n${yaml}---\n`;
   return header + (content.endsWith('\n') ? content : `${content}\n`);
 }
