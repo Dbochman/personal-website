@@ -80,8 +80,8 @@
     "googleapis": "^173.0.0",
     "js-yaml": "^4.3.2",
     "lucide-react": "^1.8.0",
-    "mermaid": "^11.12.2",
     "next-themes": "^0.4.6",
+    "pele": "1.6.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^3.0.0",
@@ -101,9 +101,6 @@
     "zod": "^4.3.5"
   },
   "overrides": {
-    "mermaid": {
-      "katex": "0.18.2"
-    },
     "react-day-picker": {
       "date-fns": "^4.1.0"
     }

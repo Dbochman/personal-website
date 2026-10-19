@@ -55,16 +55,22 @@ outputs, and the Search Console JS helper has a typed boundary for its tests.
 - Blog typography is owned by `MDXComponents.tsx`. The unused Tailwind typography
   plugin and its stale selector-parser chain were removed; do not reinstall it
   solely because older examples mention `prose` classes.
-- The `mermaid`-scoped override pins **KaTeX 0.18.2**, the fix for
-  [GHSA-238p-pmpm-9mq7](https://github.com/advisories/GHSA-238p-pmpm-9mq7).
-  Mermaid 11's `renderToString` call remains compatible. The site uses native
-  MathML, not custom KaTeX internal CSS classes (renamed in 0.18). Unit tests
-  cover inherited-trust rejection; browser smoke tests cover math labels and
-  the existing project/blog diagrams. Keep this override until a supported
-  Mermaid dependency range includes patched KaTeX and passes those tests.
-  [Mermaid 12](https://github.com/mermaid-js/mermaid/releases/tag/mermaid%4012.0.0)
-  changes layouts, appearance, browser requirements and bundles ELK; evaluate
-  that upgrade separately against the existing 5700 KiB JS budget.
+- Mermaid **syntax** remains the content format, but [Pele](https://pele.run)
+  1.6.0 renders the SVG. `src/lib/flowchart-renderer.ts` registers only
+  `pele/diagrams/flowchart` with `pele/core`; never import the all-types entry
+  point. `useFlowchart` loads it on demand and owns resize/font updates and cleanup.
+  The existing component names and copyable diagram sources remain unchanged.
+- All four current diagrams are flowcharts. Other diagram types, arbitrary HTML
+  labels, and KaTeX/LaTeX math are **not supported by this integration**. The old
+  math fixture exercised a dependency capability, not published content; its tests
+  and the KaTeX override were removed with Mermaid. Evaluate future syntax against
+  Pele before adding content—there is no fallback Mermaid bundle.
+- Diagram links and images are disabled; React walkthrough buttons own navigation.
+  Source node IDs are exposed as `.pele-node[data-id]` for highlights. Theme colors
+  follow site CSS variables without redrawing. Narrow diagrams provide zoom/pan
+  controls; resize redraws reapply the current highlight. Unit tests cover source
+  compatibility, escaping, lifecycle and errors; browser tests cover all four
+  diagrams, playback, branching, navigation, mobile zoom, and theme changes.
 
 ## License
 
