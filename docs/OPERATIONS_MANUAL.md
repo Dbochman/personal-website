@@ -344,8 +344,40 @@ See `docs/plans/16-mcp-interactive-testing.md` for detailed workflows.
 | SEO Checks | Weekly (Mon) | Validate SEO health |
 | Analytics Export | Weekly (Mon) | Backup GA4 data |
 | Save Kanban | repository_dispatch | Commit kanban board changes |
+| Codex PR Review | Trusted same-repository PR changes | Sandboxed code review with command evidence |
 
 All workflows are in `.github/workflows/`.
+
+### Codex review execution
+
+The review workflow uses a SHA-pinned `openai/codex-action` and pinned Codex CLI
+0.163.0 on an ephemeral Ubuntu 24.04 GitHub-hosted runner. It installs Bubblewrap
+and project dependencies before running Codex. The action enables Linux user
+namespaces (including its Ubuntu AppArmor compatibility setting) before dropping
+sudo and host capabilities. These settings affect only that disposable runner,
+not the Mac mini. Codex retains its workspace-write sandbox so test runners can
+create caches; it is instructed not to edit source or perform external changes.
+
+This replaces the March diff-in-prompt workaround for
+`bwrap: RTM_NEWADDR: Operation not permitted`, which left shell execution broken.
+The official action also keeps the API key behind its Responses proxy. Checkout
+does not persist Git credentials, only trusted contributors on same-repository
+PRs may run the review, and the write-capable comment token is confined to a
+separate job with no checkout. Fork PRs and Dependabot are excluded. `[skip-review]`
+in the title or head commit skips review; docs-only changes skip expensive setup.
+Workflow, dependency, config and review-schema changes are included in review scope.
+
+Each review must report actual shell execution of Node, diff validation,
+typechecking and unit tests. Structured output distinguishes unavailable execution
+from failing project tests. Missing/malformed reports or unavailable execution
+fail the publishing check and never produce an LGTM verdict. Code findings remain
+advisory; the normal PR Checks job remains the independent test gate.
+
+For diagnosis, follow the execution-log link in the review comment. JSON events
+and command output now remain in the Actions log instead of being redirected to
+an unretained file. Reported command evidence is model-authored; use those logs
+and independent CI to corroborate it. Review the pinned CLI/action releases when
+updating them, and rerun `node --test .github/codex/review-workflow.test.mjs`.
 
 ---
 

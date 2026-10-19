@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "review", "verdict", "execution", "commands"],
+  "properties": {
+    "summary": { "type": "string" },
+    "review": { "type": "string" },
+    "verdict": { "type": "string", "enum": ["LGTM", "Needs Changes", "Needs Discussion"] },
+    "execution": { "type": "string", "enum": ["verified", "unavailable"] },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "command", "exit_code"],
+        "properties": {
+          "kind": { "type": "string", "enum": ["node", "diff", "typecheck", "unit", "additional"] },
+          "command": { "type": "string" },
+          "exit_code": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

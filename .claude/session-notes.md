@@ -609,3 +609,17 @@ runtime paths, raw captures, and authentication material.
   loses meaningful trailing blank lines in a final `|+` YAML scalar. Preserve
   js-yaml's full output including its terminating newline before the closing
   delimiter. Four whitespace/chomping regression cases cover the fix.
+
+## 2026-10-19: Restore Codex review execution (separate from Pele)
+
+- The March fix for `bwrap: RTM_NEWADDR: Operation not permitted` only inlined
+  the diff; the reviewer still could not run shell commands. Review stderr/events
+  were discarded and `|| true` hid failures. No project dependencies were installed.
+- Move to a pinned official Codex action/CLI. Its GitHub-hosted Linux setup handles
+  user namespaces before dropping sudo/capabilities; retain workspace sandboxing
+  for test caches and prepare dependencies. Keep the API key behind the action's
+  proxy and comment permissions in a separate checkout-free job.
+- Require structured command evidence, fail unavailable/malformed review execution,
+  retain JSON command events in Actions logs, and include workflow/config changes
+  in review scope. Added regression tests for failure reporting and privilege layout.
+- This branch starts from main independently of the Pele migration PR #336.
