@@ -58,7 +58,9 @@ test.describe('@smoke Pele walkthrough behavior', () => {
     await expect(active).toHaveAttribute('data-id', 'D');
     await page.getByRole('button', { name: 'View Details', exact: true }).click();
     await expect(page).toHaveURL(/#service-owner-paging$/);
-    await expect(page.locator('.pele-node[data-id="A"]')).toContainText(/Issue identified in a specific\s*service/);
+    // SVG tspans omit spaces at wrap boundaries, which differ by platform font metrics.
+    await expect.poll(async () => (await page.locator('.pele-node[data-id="A"]').textContent())?.replace(/\s/g, ''))
+      .toBe('Issueidentifiedinaspecificservice');
   });
 
   test('management continuation skips the other branch and supports the mitigation loop', async ({ page }) => {

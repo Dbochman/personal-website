@@ -638,3 +638,8 @@ runtime paths, raw captures, and authentication material.
   existing prerender cleanup uses `pkill -f "vite preview"`, which stopped our
   isolated test server too. After restarting it post-build, all 37 checks passed.
   Broad process cleanup is a separate existing issue, not changed in this PR.
+- PR #336 preview passed all nine diagram browser checks. Linux CI exposed an
+  assertion that assumed a particular SVG label wrap point: adjacent tspans
+  concatenate without spaces, and font metrics change wrapping across platforms.
+  Compare the complete label with whitespace removed instead of assuming where
+  it wraps; keep the URL and node checks intact.
