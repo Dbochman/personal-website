@@ -609,3 +609,40 @@ runtime paths, raw captures, and authentication material.
   loses meaningful trailing blank lines in a final `|+` YAML scalar. Preserve
   js-yaml's full output including its terminating newline before the closing
   delimiter. Four whitespace/chomping regression cases cover the fix.
+
+## 2026-10-19: Flowchart-only Pele migration
+
+- Replaced the Mermaid runtime with pinned Pele 1.6.0, importing only `pele/core`
+  and `pele/diagrams/flowchart` behind a shared dynamic import. Removed Mermaid,
+  KaTeX, its override, and the dependency-only math tests; no fallback renderer.
+  Keep the existing component names and authored Mermaid source for MDX and copy.
+- Pele uses `.pele-node[data-id]`, not Mermaid's generated flowchart IDs. Reapply
+  walkthrough highlighting on each resize/font redraw; destroy mount observers
+  and zoom handlers on unmount. Links/images remain disabled as in the previous
+  strict integration; React owns walkthrough navigation. CSS variables handle
+  theme changes without replacing SVG. Math/HTML labels and non-flowchart types
+  are intentionally outside this integration (documented in README).
+- Added mobile zoom and wrapped playback controls after the 320px interaction
+  check exposed document overflow. Existing source, decisions, continueAt loops,
+  terminal/replay behavior, copy and tab navigation are preserved.
+- Visual QA covered all four diagrams at 320/768/1280px in light/dark, plus zoom.
+  Validation: clean npm ci, app/node typechecks, lint, 301 unit tests, 37 production
+  browser smoke/blog checks, full build/prerender, SEO routes, and zero findings
+  in both full and production-only audits. No content/generated board changes.
+- Same-machine production totals: JS 5665.8 -> 2507.2 KiB (-55.7%); summed gzip
+  JS 1599.3 -> 748.9 KiB (-53.2%). Pele chunk 124.2 KiB raw / 48.4 KiB gzip.
+  CSS 120.0 -> 120.3 KiB. Existing hard budgets unchanged; the 648.2 KiB content
+  chunk still exceeds the advisory-only 600 KiB limit. Homepage test verifies
+  the renderer is not requested on unrelated pages.
+- Run the full build before starting a separate preview for browser tests:
+  existing prerender cleanup uses `pkill -f "vite preview"`, which stopped our
+  isolated test server too. After restarting it post-build, all 37 checks passed.
+  Broad process cleanup is a separate existing issue, not changed in this PR.
+- PR #336 preview passed all nine diagram browser checks. Linux CI exposed an
+  assertion that assumed a particular SVG label wrap point: adjacent tspans
+  concatenate without spaces, and font metrics change wrapping across platforms.
+  Compare the complete label with whitespace removed instead of assuming where
+  it wraps; keep the URL and node checks intact.
+- Addressed the review's minor scroll concern: redraws still reapply highlights,
+  but only changing steps scrolls the active node into view. The resize browser
+  check verifies that a paused walkthrough does not request another scroll.
