@@ -5,11 +5,11 @@
  * - Pauses at decision nodes with slow pulse effect
  * - Spotlight effect highlights current node
  */
-import { useEffect, useId, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, RotateCcw, SkipForward, SkipBack, ExternalLink } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { Mermaid } from 'mermaid';
+import { useFlowchart } from '@/hooks/useFlowchart';
 
 export interface AnimationNode {
   id: string;
@@ -24,68 +24,6 @@ export interface AnimationNode {
   terminal?: boolean;
   /** Override the next step index instead of defaulting to currentIndex + 1 */
   continueAt?: number;
-}
-
-// Lazy-load mermaid
-let mermaidInstance: Mermaid | null = null;
-let mermaidPromise: Promise<Mermaid> | null = null;
-let lastThemeKey = '';
-
-function readHslVar(name: string, fallback: string) {
-  if (typeof window === 'undefined') return fallback;
-  const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-  return value ? `hsl(${value})` : fallback;
-}
-
-async function getMermaid(): Promise<Mermaid> {
-  if (mermaidInstance) return mermaidInstance;
-  if (mermaidPromise) return mermaidPromise;
-
-  mermaidPromise = import('mermaid').then((mod) => {
-    mermaidInstance = mod.default;
-    return mermaidInstance;
-  });
-
-  return mermaidPromise;
-}
-
-async function ensureMermaidInitialized(): Promise<Mermaid> {
-  const mermaid = await getMermaid();
-
-  const themeKey = [
-    readHslVar('--background', '#0b0f19'),
-    readHslVar('--card', '#111827'),
-    readHslVar('--muted', '#111827'),
-    readHslVar('--foreground', '#f9fafb'),
-    readHslVar('--muted-foreground', '#9ca3af'),
-    readHslVar('--border', '#1f2937'),
-  ].join('|');
-
-  if (lastThemeKey !== themeKey) {
-    mermaid.initialize({
-      startOnLoad: false,
-      // SECURITY: Using 'strict' mode for XSS protection.
-      // Node ID querying (line ~151) uses developer-controlled IDs, not user input.
-      // Diagram code is hardcoded, not user-provided, so strict mode is safe.
-      securityLevel: 'strict',
-      theme: 'base',
-      themeVariables: {
-        background: 'transparent',
-        primaryColor: readHslVar('--muted', '#111827'),
-        primaryTextColor: readHslVar('--foreground', '#f9fafb'),
-        primaryBorderColor: readHslVar('--border', '#1f2937'),
-        secondaryColor: readHslVar('--card', '#111827'),
-        secondaryTextColor: readHslVar('--foreground', '#f9fafb'),
-        tertiaryColor: readHslVar('--background', '#0b0f19'),
-        lineColor: readHslVar('--muted-foreground', '#9ca3af'),
-        edgeLabelBackground: readHslVar('--background', '#0b0f19'),
-        fontFamily: 'inherit',
-      },
-    });
-    lastThemeKey = themeKey;
-  }
-
-  return mermaid;
 }
 
 interface AnimatedMermaidDiagramProps {
@@ -107,45 +45,14 @@ export function AnimatedMermaidDiagram({
   onComplete,
   onLinkClick,
 }: AnimatedMermaidDiagramProps) {
-  const rawId = useId();
-  const diagramId = `mermaid-anim-${rawId.replace(/[:]/g, '')}`;
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const [svg, setSvg] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const { ref: containerRef, revision, error } = useFlowchart(code);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [awaitingDecision, setAwaitingDecision] = useState(false);
 
-  // Render Mermaid diagram
-  useEffect(() => {
-    let isActive = true;
-
-    const renderDiagram = async () => {
-      try {
-        const mermaid = await ensureMermaidInitialized();
-        if (!isActive) return;
-        const { svg: renderedSvg } = await mermaid.render(diagramId, code);
-        if (!isActive) return;
-        setSvg(renderedSvg);
-        setError(null);
-      } catch (err) {
-        if (!isActive) return;
-        setSvg('');
-        setError(err instanceof Error ? err.message : 'Unable to render diagram');
-      }
-    };
-
-    renderDiagram();
-
-    return () => {
-      isActive = false;
-    };
-  }, [code, diagramId]);
-
   // Apply highlight styles to SVG nodes and scroll active node into view
   useEffect(() => {
-    if (!containerRef.current || !svg || nodes.length === 0) return;
+    if (!containerRef.current || !revision || nodes.length === 0) return;
 
     const svgElement = containerRef.current.querySelector('svg');
     if (!svgElement) return;
@@ -154,8 +61,8 @@ export function AnimatedMermaidDiagram({
 
     // Reset all nodes
     nodes.forEach((node, nodeIndex) => {
-      // Mermaid generates IDs like flowchart-A-0
-      const nodeGroup = svgElement.querySelector(`[id*="flowchart-${node.id}-"]`);
+      // Pele preserves source node IDs independently of layout and SVG prefixes.
+      const nodeGroup = svgElement.querySelector(`.pele-node[data-id="${CSS.escape(node.id)}"]`);
       if (nodeGroup) {
         nodeGroup.classList.remove('node-active', 'node-past', 'node-future', 'node-decision', 'node-link');
 
@@ -180,12 +87,12 @@ export function AnimatedMermaidDiagram({
     // Scroll active node to center of view
     if (activeNodeElement && currentIndex >= 0) {
       (activeNodeElement as HTMLElement).scrollIntoView({
-        behavior: 'smooth',
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
         block: 'center',
         inline: 'center',
       });
     }
-  }, [svg, nodes, currentIndex]);
+  }, [revision, nodes, currentIndex, containerRef]);
 
   // Animation timer
   useEffect(() => {
@@ -292,35 +199,19 @@ export function AnimatedMermaidDiagram({
     }
   }, [nodes]);
 
-  if (error) {
-    return (
-      <div className="rounded-md border border-dashed p-4 text-sm text-muted-foreground">
-        {error}
-      </div>
-    );
-  }
-
-  if (!svg) {
-    return (
-      <div className="rounded-md border border-dashed p-4 text-sm text-muted-foreground">
-        Rendering diagram...
-      </div>
-    );
-  }
-
   const progress = currentIndex === -1 ? 0 : ((currentIndex + 1) / nodes.length) * 100;
   const currentNode = currentIndex >= 0 ? nodes[currentIndex] : null;
   const isComplete = (currentIndex >= nodes.length - 1 || currentNode?.terminal) && !isPlaying;
 
   return (
     <div className="space-y-4">
+      {error ? <p role="alert">{error}</p> : !revision && <p>Rendering diagram...</p>}
       {/* Side-by-side layout: Diagram + Context panel */}
       <div className="grid lg:grid-cols-5 gap-4">
         {/* Diagram with animation styles */}
         <div
-          ref={containerRef}
           className={cn(
-            'lg:col-span-3 overflow-x-auto animated-mermaid [&_svg_*]:animate-none! rounded-lg bg-muted/30 p-4',
+            'site-flowchart min-w-0 lg:col-span-3 overflow-x-auto animated-mermaid [&_svg_*]:animate-none! rounded-lg bg-muted/30 p-4',
             currentIndex >= 0 && 'animation-active'
           )}
         >
@@ -363,12 +254,13 @@ export function AnimatedMermaidDiagram({
         `}</style>
           <div
             aria-label="Animated Mermaid diagram"
-            dangerouslySetInnerHTML={{ __html: svg }}
+            ref={containerRef}
+            hidden={!!error}
           />
         </div>
 
         {/* Context panel - alongside diagram, sticky and centered on scroll */}
-        <div className="lg:col-span-2 bg-card rounded-lg border p-5 flex flex-col justify-center min-h-[200px] lg:sticky lg:top-[calc(50vh-100px)] lg:self-start">
+        {revision > 0 && !error && <div className="min-w-0 lg:col-span-2 bg-card rounded-lg border p-5 flex flex-col justify-center min-h-[200px] lg:sticky lg:top-[calc(50vh-100px)] lg:self-start">
           {currentNode ? (
             <div className="space-y-4">
               <div>
@@ -402,8 +294,8 @@ export function AnimatedMermaidDiagram({
 
               {/* Decision buttons */}
               {awaitingDecision && currentNode.branches && (
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={goBack} disabled={currentIndex <= 0}>
+                <div className="flex flex-wrap gap-2">
+                  <Button variant="outline" size="sm" onClick={goBack} aria-label="Previous step" disabled={currentIndex <= 0}>
                     <SkipBack className="h-4 w-4" />
                   </Button>
                   <Button onClick={() => continueFromDecision(currentNode.branches![0][1])} size="sm" variant="outline" className="flex-1">
@@ -417,8 +309,8 @@ export function AnimatedMermaidDiagram({
 
               {/* Link buttons - always show when at a link node */}
               {currentNode.type === 'link' && currentNode.linkTo && (
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={goBack} disabled={currentIndex <= 0}>
+                <div className="flex flex-wrap gap-2">
+                  <Button variant="outline" size="sm" onClick={goBack} aria-label="Previous step" disabled={currentIndex <= 0}>
                     <SkipBack className="h-4 w-4" />
                   </Button>
                   <Button
@@ -456,8 +348,8 @@ export function AnimatedMermaidDiagram({
 
               {/* Playback controls - hide when at link node (link has its own buttons) */}
               {!awaitingDecision && currentNode.type !== 'link' && (
-                <div className="flex items-center gap-2 pt-2">
-                  <Button variant="outline" size="sm" onClick={goBack} disabled={currentIndex <= 0}>
+                <div className="flex flex-wrap items-center gap-2 pt-2">
+                  <Button variant="outline" size="sm" onClick={goBack} aria-label="Previous step" disabled={currentIndex <= 0}>
                     <SkipBack className="h-4 w-4" />
                   </Button>
                   {!isPlaying ? (
@@ -474,10 +366,10 @@ export function AnimatedMermaidDiagram({
                   {/* Hide skip and reset on final node - only show back and replay */}
                   {!isComplete && (
                     <>
-                      <Button variant="outline" size="sm" onClick={skipToNext}>
+                      <Button variant="outline" size="sm" onClick={skipToNext} aria-label="Next step">
                         <SkipForward className="h-4 w-4" />
                       </Button>
-                      <Button variant="outline" size="sm" onClick={reset}>
+                      <Button variant="outline" size="sm" onClick={reset} aria-label="Reset walkthrough">
                         <RotateCcw className="h-4 w-4" />
                       </Button>
                     </>
@@ -509,7 +401,7 @@ export function AnimatedMermaidDiagram({
               </p>
             </button>
           )}
-        </div>
+        </div>}
       </div>
     </div>
   );
