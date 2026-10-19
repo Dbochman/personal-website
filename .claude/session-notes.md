@@ -623,3 +623,8 @@ runtime paths, raw captures, and authentication material.
   retain JSON command events in Actions logs, and include workflow/config changes
   in review scope. Added regression tests for failure reporting and privilege layout.
 - This branch starts from main independently of the Pele migration PR #336.
+- First Linux review restored shell/typecheck execution but exposed synchronous
+  child-process stdio failures in two tests (EPERM / stdin timeout), while normal
+  CI passed. Use inherited stdio and pass Bash syntax input via -c, retaining all
+  assertions and adding timeouts. Use Vitest's default reporter inside review to
+  avoid writing the runner-owned step summary outside the workspace sandbox.

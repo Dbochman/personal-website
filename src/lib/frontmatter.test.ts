@@ -111,10 +111,12 @@ history:
       }));
       const run = (...args: string[]) => {
         const result = spawnSync(process.execPath, [resolve('scripts/kanban-cli.js'), ...args], {
-          cwd: directory, encoding: 'utf8',
+          // Inherit stdio so this integration test also runs in Linux sandboxes
+          // that restrict the socket operations used by synchronous stdio pipes.
+          cwd: directory, stdio: 'inherit', timeout: 5000,
         });
         expect(result.error).toBeUndefined();
-        expect(result.status, result.stderr).toBe(0);
+        expect(result.status).toBe(0);
       };
       run('add', '--board=test', '--column=ideas', '--title=Migration test',
         '--description=Keep **Markdown** intact.', '--labels=Security,Test');

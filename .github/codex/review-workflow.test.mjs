@@ -100,7 +100,10 @@ test('trusted actor gate rejects read-only contributors before checkout', async 
 
 test('workflow shell steps have valid Bash syntax', () => {
   for (const step of workflow.jobs.review.steps.filter(s => s.run)) {
-    const result = spawnSync('bash', ['-n'], { input: step.run, encoding: 'utf8' });
-    assert.equal(result.status, 0, `${step.name}: ${result.stderr}`);
+    // No synchronous stdio pipes: restricted Linux sandboxes can reject their
+    // socket operations. -c supplies the script without waiting for stdin EOF.
+    const result = spawnSync('bash', ['-n', '-c', step.run], { stdio: 'inherit', timeout: 5000 });
+    assert.ifError(result.error);
+    assert.equal(result.status, 0, step.name);
   }
 });

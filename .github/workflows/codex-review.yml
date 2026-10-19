@@ -103,7 +103,9 @@ jobs:
             only so test runners can create caches and temporary output.
 
             First use the shell to run node --version, git diff --check between
-            the above commits, npm run typecheck, and npm test -- --run.
+            the above commits, npm run typecheck, and
+            npm test -- --run --reporter=default. The explicit reporter avoids
+            writing GitHub's step-summary file outside the writable workspace.
             Run additional focused checks when useful. Record commands actually
             executed and their exit codes, including failures; never infer that
             a check passed. A failing test is a code finding, not an unavailable
