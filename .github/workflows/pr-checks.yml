@@ -55,7 +55,9 @@ jobs:
         run: npm run typecheck
 
       - name: Unit tests
-        run: npm test
+        run: |
+          node --test .github/codex/review-workflow.test.mjs
+          npm test
 
       - name: Build
         run: npm run build
