@@ -275,6 +275,26 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "replace-mermaid-with-flowchart-only-pele",
+          "title": "replace Mermaid with flowchart-only Pele",
+          "labels": [
+            "Performance",
+            "PR #336"
+          ],
+          "checklist": [],
+          "createdAt": "2026-10-19T15:21:29.000Z",
+          "updatedAt": "2026-10-19T15:21:29.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-10-19T15:21:29.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "* perf(diagrams): replace Mermaid runtime with flowchart-only Pele\n\n* test(diagrams): tolerate platform-specific SVG text wrapping\n\n* fix(diagrams): avoid scrolling paused walkthroughs on redraw"
+        },
+        {
           "id": "clear-advisories-and-enforce-application-typecheck",
           "title": "clear advisories and enforce application typechecks",
           "labels": [
@@ -3577,5 +3597,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-10-19T14:17:51.921Z"
+  "updatedAt": "2026-10-19T15:22:03.613Z"
 };
