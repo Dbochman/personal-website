@@ -526,3 +526,17 @@ runtime paths, raw captures, and authentication material.
 - Claude Opus 5.5 at High effort selected and implemented a Retry Storm Simulator as an alternative to improving the rightsizer. These are competing proposals for one catalog slot, not sequential changes.
 - Replacing a project requires the catalog, lazy component registry, validator, icon/OG registries, sitemap, client routes, and static SEO redirect manifest to agree. Preserve both slash forms of the retired URL.
 - In this open-loop fluid model, backoff delays retries without reducing sustained demand. Retry budgets and shedding abandoned work address different parts of the feedback loop; jitter cannot demonstrate desynchronization when arrivals are already smooth.
+
+## 2026-10-19: Radix dependency review and security patches
+
+- Radix Select 2.4.0 introduced three application type errors for narrower
+  `onValueChange` handlers in the blog filters and SLO configuration. Select
+  2.4.1 fixes the upstream callback-type regression. The existing CI command
+  `tsc --noEmit` does not check `tsconfig.app.json`; compare explicit application
+  diagnostics against main when reviewing dependency updates, since the broader
+  application type-error backlog remains unresolved.
+- PR #333 also refreshes compatible transitive security patches: grpc-js
+  1.14.6, brace-expansion 5.0.12 (and 1.1.21 for its older dependency chain),
+  and js-yaml 3.15.2/4.3.2. No forced major upgrades or new overrides are needed.
+  `npm audit --omit=dev --audit-level=high` reports no high/critical findings;
+  lower-severity production findings and development-only high findings remain.
