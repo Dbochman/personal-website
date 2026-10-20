@@ -1,17 +1,17 @@
 {
-  "generated": "2026-10-19T11:44:29.779Z",
+  "generated": "2026-10-20T10:45:10.679Z",
   "searchConsole": {
-    "lastCheck": "2026-10-19T11:43:53.548Z",
+    "lastCheck": "2026-10-20T10:44:43.820Z",
     "clicks": 3,
     "impressions": 93,
     "averageCTR": 3.23,
     "averagePosition": 8.8
   },
   "analytics": {
-    "lastCheck": "2026-10-19T11:44:29.007Z",
-    "sessions_7d": 555,
-    "users_7d": 553,
-    "pageviews_7d": 602,
+    "lastCheck": "2026-10-20T10:45:10.263Z",
+    "sessions_7d": 556,
+    "users_7d": 554,
+    "pageviews_7d": 603,
     "avgSessionDuration": 5,
     "bounceRate": 0.88,
     "topPages": [
@@ -38,15 +38,15 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-10-19T11:44:29.007Z",
+    "lastCheck": "2026-10-20T10:45:10.263Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 830,
-        "average": 60.57710843373494,
+        "count": 831,
+        "average": 60.07460890493382,
         "unit": "ms",
         "ratings": {
-          "good": 826,
+          "good": 827,
           "needs-improvement": 3,
           "poor": 1
         },
@@ -54,18 +54,18 @@
       },
       "FCP": {
         "count": 591,
-        "average": 396.5211505922166,
+        "average": 391.3502538071066,
         "unit": "ms",
         "ratings": {
-          "good": 573,
-          "needs-improvement": 16,
+          "good": 574,
+          "needs-improvement": 15,
           "poor": 2
         },
         "goodPercent": 97
       },
       "LCP": {
         "count": 351,
-        "average": 738.6780626780627,
+        "average": 738.9059829059829,
         "unit": "ms",
         "ratings": {
           "good": 344,
@@ -76,14 +76,14 @@
       },
       "CLS": {
         "count": 372,
-        "average": 0.04338709677419355,
+        "average": 0.04302956989247312,
         "unit": "",
         "ratings": {
-          "good": 295,
-          "needs-improvement": 73,
+          "good": 296,
+          "needs-improvement": 72,
           "poor": 4
         },
-        "goodPercent": 79
+        "goodPercent": 80
       },
       "INP": {
         "count": 126,
