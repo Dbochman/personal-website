@@ -665,3 +665,47 @@ runtime paths, raw captures, and authentication material.
 - Addressed the review's minor scroll concern: redraws still reapply highlights,
   but only changing steps scrolls the active node into view. The resize browser
   check verifies that a paused walkthrough does not request another scroll.
+
+## 2026-10-20: eMudhra CI trust mitigation and incident post
+
+- Owner requested one PR for the website hardening and incident narrative, after
+  separate machine fixes were pushed. No site merge/deployment is implied.
+- Bootstrap every Ubuntu job offline before checkout/API actions. Filter the
+  runner CA bundle using Homebrew's three incident SPKI exclusions; select the
+  file and an empty hash directory. Set Node's OpenSSL-CA mode in workflow YAML,
+  not GITHUB_ENV (GitHub prohibits NODE_OPTIONS there). No TLS bypass or package
+  downloads in bootstrap. Public CA files remain readable after privilege drop.
+- Local actions need checkout first, so generate inlined steps from one source,
+  use anchors only in multi-job workflows, and check drift. Failure/always steps
+  must also require bootstrap success. Keep code-review actor/permission gates;
+  locate script steps by name rather than their former index zero in tests.
+- Root removal is temporary and broader than intermediate revocation. Explicit
+  CA clients, native/browser bundles, provider builds, and GitHub's pre-job
+  control plane are not covered. Documented removal criteria require actual
+  runtime and normal-traffic tests, not only an upstream merged patch.
+- New post preserves exposure-versus-breach distinctions and remaining gaps;
+  no private addresses, backups, tokens, account data, or household details.
+  Used an honest Codex attribution despite the older Claude-only style guide.
+- Local validation: workflow generation check, actionlint 1.7.12, seven Python
+  bootstrap tests, twelve existing review-contract tests, application unit
+  suite, lint/typecheck, production preview build, hard bundle budgets, and 32
+  browser smoke tests. Both Node https/fetch rejected all twelve canaries and
+  accepted controls. Post scored 100/100; PinchTab isolated-session text and
+  screenshot confirmed rendering. Existing advisory-only large chunk remains.
+- Did not run local full prerender because its existing broad `pkill -f "vite
+  preview"` cleanup could stop unrelated preview servers; CI runs the full build.
+- Owner requested an incident-first rewrite: retitled to “The eMudhra
+  Certificate Incident: What Happened and How We Responded.” Added a sourced
+  explanation of intermediate authority, faulty/recoverable key generation,
+  interception requirements, CT caveats, and revocation distribution before a
+  distinct response section. Kept status dated October 20 and the unchanged
+  dependency-audit blocker explicit. Canonical slug is now
+  `2026-10-20-emudhra-certificate-incident`; retaining the original filename lets
+  existing prerender logic generate its legacy-slug redirect. No CI/dependency
+  implementation changes were included in this editorial revision.
+- Owner subsequently approved targeted dependency patches before merging PR
+  #338. Updated only lockfile entries for follow-redirects 1.16.0 -> 1.16.1 and
+  Vite 7.3.6 -> 7.3.7; no manifest/range changes or audit suppression. Clean
+  npm ci, zero-finding audit, lint, typechecks, all 301 tests, preview build,
+  and hard bundle budgets passed. Updated the post's historical CI paragraph
+  to explain the resolved blocker. Hosted CI/review must pass before merge.
