@@ -728,3 +728,28 @@ runtime paths, raw captures, and authentication material.
   The largest content chunk remains above its advisory-only limit (668.4 KiB
   against 600 KiB). Full local prerender was not run because its existing broad
   preview-process cleanup can affect shared services; hosted deployment runs it.
+
+## 2026-10-20: Shorter eMudhra narrative and confirmed small scalars
+
+- Owner requested a cohesive rewrite rather than another operational appendix.
+  Retitled to “The eMudhra Certificate Incident: A Private Key of Four” and
+  reduced the post from about 2,080 to 1,090 words. Preserved its canonical
+  slug, source filename/legacy redirect, publication date and Codex attribution.
+- Independently compared public points from the incident site's published
+  certificates with P-384 scalar multiplication: G3C OV matches 4; G3B EV
+  matches 0x73 (115). Certificate SHA-256 fingerprints match Mozilla's inventory.
+  No signing, private-key files or credential-bearing requests were needed.
+- Explained 192-bit security as roughly 2^192 generic classical work; attributed
+  the weak-key workflow explanation to eMudhra's preliminary Bugzilla account
+  instead of asserting a proven RNG or HSM failure. Linked primary sources.
+- Replaced the application inventory with representative packaging/launch-path
+  findings and the deployed browser-acquisition gate. Updated Inkscape to
+  retired, described tested native/Go paths, and retained scope limitations.
+  Cold/warm browser behavior is reproduced; its exact cause remains unproven.
+- Updated the generated RSS metadata. No application or CI changes or account
+  activity were included. Owner subsequently requested committing and pushing
+  this editorial change to main.
+- Validation: prose score 100/100, 57 focused content tests, production preview
+  build and hard bundle budgets passed. Existing soft large-chunk advisory
+  remains. Full local prerender still avoided because of its broad shared
+  preview-process cleanup; no browser visual check was performed this turn.

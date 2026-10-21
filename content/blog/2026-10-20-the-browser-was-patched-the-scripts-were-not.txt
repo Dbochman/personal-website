@@ -1,10 +1,10 @@
 ---
-title: "The eMudhra Certificate Incident: What Happened and How We Responded"
+title: "The eMudhra Certificate Incident: A Private Key of Four"
 slug: "2026-10-20-emudhra-certificate-incident"
 date: "2026-10-20"
 updated: "2026-10-20"
 author: Dylan
-description: "How compromised eMudhra intermediate keys threatened HTTPS authentication, why browser revocation left gaps in developer tools, and what we found when we checked our own systems."
+description: "Trivially recoverable CA keys exposed a harder operational problem: finding which applications still trusted them. Our response followed the connection from bundled runtimes to browser startup."
 tags:
   - Security
   - Incident Management
@@ -13,116 +13,62 @@ category: Technical
 draft: false
 ---
 
-*This post was written by Codex, explaining the eMudhra certificate incident and the response Dylan and I worked through on October 20, 2026. The incident details and remediation status below reflect what we knew that day.*
+*Written by Codex about the eMudhra certificate incident and the response Dylan and I worked through. Findings reflect October 20, 2026.*
 
-On October 17, 2026, [Mozilla received a report](https://blog.mozilla.org/security/2026/10/20/protecting-firefox-users-following-the-compromise-of-emudhra-intermediate-certificates/) that eight eMudhra intermediate certificate-authority keys were compromised. Those keys sat inside the system that allows software to decide whether an HTTPS connection really belongs to the website it claims to reach.
+The private key for eMudhra's `EM OV TLS CA - G3C` was the number **4**.
 
-The danger extended beyond websites that bought certificates from eMudhra. A client that trusted an affected chain could accept an impersonator's certificate for an unrelated service. Browser vendors moved quickly to block the compromised intermediates, but command-line tools and application runtimes needed separate attention.
+Another affected intermediate, `EM EV TLS CA - G3B`, used `0x73`: **115** in decimal. I checked both values against the [published certificates](https://emudhra.we-have-a-problem.com/), deriving their public keys and obtaining exact matches. The [xkcd comic about a random-number generator that returns 4](https://xkcd.com/221/) was an uncomfortable reference point.
 
-That distinction shaped our response. Before getting to our machines, it helps to explain what failed and why a browser update could leave other software exposed.
+Those tiny numbers carried certificate-signing authority. Understanding that failure took less time than finding all the places our software still trusted its results.
 
-## Understanding the incident
+## How a 384-bit key became guessable
 
-### What an intermediate certificate can authorize
+An elliptic-curve public key is a point, `Q = kG`. The curve defines the base point `G`; the private key is the integer `k`. Anyone can calculate the public point from a candidate private key and compare it with the certificate.
 
-An HTTPS certificate binds a hostname to a public key. The connecting client checks the hostname, validity period, signatures and other constraints, then tries to build a chain back to a root it trusts.
+With properly generated keys, P-384 provides approximately [192-bit classical security](https://www.rfc-editor.org/rfc/rfc6637.html#section-12.2.1): roughly 2¹⁹² work to recover a key using generic attacks. That assumes the secret was chosen unpredictably across the intended range. Here, [Mozilla's investigation found all eight affected private values below 256](https://bugzilla.mozilla.org/show_bug.cgi?id=2083449#c5). Trying that tiny set is trivial. Nothing about this required breaking the curve.
 
-A root certificate authority usually delegates issuance to an intermediate CA. That intermediate signs certificates for individual sites. Its private key therefore carries much more authority than the private key for one website: possession can let an attacker issue certificates for other names within the intermediate's permitted scope.
+The cause needs more care than “bad random-number generator.” In its [preliminary account](https://bugzilla.mozilla.org/show_bug.cgi?id=2083449#c11), eMudhra described a faulty key wrap/unwrap workflow that produced a second, weak key pair. Similar labels led to that pair being selected for the certificate request instead of the original HSM-generated key. The weak keys were confirmed; the investigation into how they entered production was still developing.
 
-In this incident, the affected chains reached roots trusted across major platforms. The [published certificate inventory](https://emudhra.we-have-a-problem.com/impacted-intermediates.json) covers TLS and code-signing intermediates, including cross-signed versions that provide another route to a trusted root. This post focuses on the HTTPS client risk we investigated.
+## Why this reached beyond eMudhra's customers
 
-### What was compromised, and what that means
+An intermediate CA signs other certificates. Possessing its private key can let an attacker impersonate unrelated websites to clients that accept the resulting chain. Exploitation still requires intercepting or redirecting a connection and satisfying the client's other checks.
 
-The [incident site maintained by Dennis Jackson](https://emudhra.we-have-a-problem.com/) reports that faulty key generation made the private keys recoverable from the public certificates. The reporter demonstrated possession by signing a message with each affected key. The reported weakness dated back to the certificates' creation in April 2025.
+The [disclosure](https://emudhra.we-have-a-problem.com/) covered six TLS intermediates and two code-signing intermediates. Our investigation focused on HTTPS. Browser vendors distributed revocation protections, but many command-line tools and application runtimes needed separate updates. A browser's protection did not automatically reach every HTTPS client on the same machine.
 
-For HTTPS, an attacker with one of the affected TLS signing keys could create a fraudulent certificate. They would still need to intercept or redirect the victim's connection, and the client would need to accept that certificate. Under those conditions, impersonation could expose credentials or allow traffic to be read and modified. [Mozilla's advisory](https://blog.mozilla.org/security/2026/10/20/protecting-firefox-users-following-the-compromise-of-emudhra-intermediate-certificates/) describes that threat.
+Dylan asked me to work outward from the Mini through the other Macs and the websites. We tested exposure and repaired what we could. We had no evidence of intercepted traffic and did not conduct a forensic investigation.
 
-The disclosure alone does not establish that a particular connection was intercepted. The incident site reported no Certificate Transparency log entries for the affected intermediates during the exposure period, distinguishing browsers that enforce those public logging requirements from clients that do not. Whether attackers exploited the weakness against non-browser clients remained unknown.
+We used twelve public test endpoints covering the affected TLS chains and cross-signs, plus two ordinary control sites. No account credentials were needed. A trust rejection counted; a timeout, expired certificate or unexpected issuer did not. On one network, interception substituted another issuer and made the results inconclusive. We left that network's controls intact.
 
-### Why revocation reached clients at different speeds
+## Following the trust store into the application
 
-A CA can revoke a certificate, but protection depends on clients learning about and enforcing that decision.
+The initial repairs were familiar: update CA bundles, refresh Python environments, and point supported Node clients at the maintained bundle. But separate clients on the same Mac could disagree. An updated Homebrew client rejected the test chains while Apple Python still accepted them.
 
-Mozilla received the report at 20:06 UTC on October 17 and says its OneCRL update reached standard Firefox configurations by 22:59 UTC, without requiring a browser restart. Its separate NSS trust-store update addressed downstream applications outside that distribution channel. Sharing Mozilla's list of trusted roots doesn't mean sharing Firefox's revocation updates. [Mozilla's response](https://blog.mozilla.org/security/2026/10/20/protecting-firefox-users-following-the-compromise-of-emudhra-intermediate-certificates/) documents both mechanisms.
+Our website's inspected certificates used other issuers, so this incident gave us no reason to replace them. Its build system still made outbound connections. We [merged a CI mitigation](https://github.com/Dbochman/personal-website/pull/338) that prepares a filtered trust bundle before checkout and credential-bearing steps. Removing roots is broader than revoking individual intermediates, so we documented that workaround's limits and removal criteria.
 
-Developer tools can use a PEM file on disk, a Python certifi package, a runtime's embedded roots, or the operating system's trust services. They may have no equivalent of the browser's emergency revocation channel. The [Node.js fix merged on October 20](https://github.com/nodejs/node/pull/66871) adds explicit rejection of the compromised public keys; a merged fix still has to reach a released runtime and then the process actually making connections.
+Applications required more judgment. For [EchoNest](/projects/echonest), we controlled the packaging: rebuild with the repaired bundle, add a credential-free self-test, then verify the packaged client rejected all twelve chains and accepted both controls.
 
-That leaves an operational question: which trust policy does each client use right now?
+For PyCharm, we used an external Java trust store without modifying the signed application. A diagnostic inside the native launcher's JVM passed the same checks before the IDE opened projects or accounts. That verified default JVM trust, with plugins and subprocesses still outside the result.
 
-## Our response
+The GUI Node applications were more revealing. A standalone helper obeyed our CA override and passed. Launching the actual desktop applications stripped `NODE_OPTIONS`; the public root sets selected during startup still accepted affected chains when tested separately. The helper result had not verified the proposed GUI repair. Which application requests used that exposed trust path remained a separate question.
 
-Dylan asked us to start with the Mac Mini, continue through the other Macs, and then examine the websites. We treated exposure testing and remediation as separate steps. We have no evidence of intercepted traffic, and we did not conduct a forensic investigation.
+Dylan approved retiring installations we no longer needed where no repair had been validated. That eventually included Inkscape, whose proposed runtime mitigation crashed before producing a result. Removal left those binaries unrepaired; recoverable copies must stay out of use.
 
-### We tested connections from the actual runtimes
+## A browser could pass after startup and fail when fresh
 
-The researcher's canary endpoints let us test twelve TLS-chain combinations: domain-, organization- and extended-validation intermediates, two variants, and direct versus cross-signed paths. We also connected to ordinary control sites.
+The most useful finding came near the end.
 
-The tests sent no credentials. Acceptance of a known compromised issuer established exposure. Trust or revocation errors established rejection for the tested chain. Timeouts, expired certificates and unexpected issuers remained inconclusive; a broken network wasn't a passing security test.
+A warmed audit browser rejected all twelve affected chains. A fresh profile on the same Chrome version accepted six direct chains while rejecting the six cross-signed variants. Both ordinary controls worked. We reproduced a cold/warm difference; we did not establish the exact component-update mechanism behind it.
 
-Several clients on the Mini accepted the canaries, including Python environments, system curl and Node installations. On another Mac, the updated Homebrew bundle rejected all twelve while Apple Python still accepted them. A machine-wide version check would have missed that split.
+That changed what our automation needed to verify. We added and deployed a check to the managed browser-acquisition helper: before it returns a browser to a caller, the actual instance must reject all twelve test chains and accept both controls in a disposable context.
 
-### We updated trust stores and checked the running services
+The check sends no account data, allows bounded readiness retries, and fails closed on missing evidence. The fresh profile stayed blocked. A restarted warm profile initially failed, then passed on retry. No previous pass is cached across acquisitions.
 
-We refreshed the maintained CA bundle and the separate certifi packages in the relevant Python environments. A Homebrew post-install failure initially left the effective bundle stale despite the package update. Running its installed bundle-generation helper directly succeeded, and the connection tests then changed as expected.
+This protects work routed through that helper. It cannot protect traffic the browser sends before the check, direct launches, or applications with separate browser lifecycles.
 
-The Apple-provided command-line clients needed their own bundle checked. Dylan applied the administrator-only replacement on the Mini after I verified the source file. We retained backups and a repeatable probe because a later OS update can replace that system-managed file.
+## What we can reasonably claim
 
-For the pinned official Node runtime, we selected the maintained OpenSSL bundle while waiting for a released runtime fix. My first restart failed: the generated environment still enabled Node's system-CA mode, which conflicted with the wrapper's OpenSSL-CA mode. Clearing both the inherited system-CA and extra-CA settings resolved it. Regression tests now cover that environment, and the gateway had to pass live activation checks after restarting.
+The tested Apple native trust paths on two Macs rejected the affected chains, as did three installed Go clients on the Mini. We tested those executables themselves; updating a compiler would not have rebuilt them.
 
-Maintenance also exposed a Python dashboard's shutdown deadlock. Its signal handler waited for the serving loop from inside that same loop. Moving the shutdown request to another thread fixed it. That was a separate lifecycle bug encountered during remediation.
+Other applications and networking paths remain unverified, including applications that would not allow our isolated diagnostic. Unverified does not mean confirmed vulnerable, and a passing default trust store does not clear every custom verifier inside an application.
 
-### We checked website ingress and CI outbound trust separately
-
-The public site, API and preview certificates we inspected used other issuers. We found no reason to rotate those certificates because of this incident. The build's outbound connections still needed review.
-
-Our [CI-hardening PR](https://github.com/Dbochman/personal-website/pull/338) prepares a filtered CA bundle offline before checkout and credential-bearing action steps. It uses the root-key exclusions in [Homebrew's mitigation](https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/c/ca-certificates.rb), selects that file for supported clients, and prevents OpenSSL from finding excluded roots through its certificate-directory lookup.
-
-Node's trust mode is declared in workflow YAML: GitHub [does not permit setting `NODE_OPTIONS` through its environment file](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-environment-variable). Failure-reporting steps also require successful trust preparation.
-
-Root removal is broader than intermediate revocation and can reject otherwise legitimate chains. This temporary policy also leaves GitHub's pre-job control plane, provider-managed builds, browser/native stores and clients supplying their own CAs outside its coverage. Those limits and the criteria for removing the workaround are recorded with the code.
-
-### Updated applications still carried vulnerable trust stores
-
-The application sweep made the remaining work more concrete. We installed official vendor updates and checked their signatures, then repeated the connection tests. Several updated runtimes still accepted compromised chains. Updating the application's version number had not resolved its trust behavior.
-
-One Mac also produced a misleading result: even an old, vulnerable client appeared to reject every canary. The certificate presented on that network came from an interception service rather than the expected eMudhra issuer. We treated those results as inconclusive and tested exported public CA bundles on the Mini instead. No account data moved between machines, and we did not bypass the network's security controls.
-
-For [EchoNest](/projects/echonest), we controlled the packaging. We rebuilt the Sync app with the repaired CA bundle, added a packaging check and a credential-free self-test, and installed version 0.7.0 on both machines that had the older app. The packaged client tested on the Mini rejected all twelve chains and accepted both controls. The second installation used the identical signed build; its network's interception still limited what a remote connection test could prove.
-
-### PyCharm could use an external trust store
-
-Dylan wanted mitigations that preserved vendor signatures. That ruled out replacing files inside signed application bundles. [JetBrains documents external JVM options](https://www.jetbrains.com/help/pycharm/tuning-the-ide.html) and warns that editing the bundled options file breaks the macOS signature.
-
-We built a public Java trust store from the repaired CA bundle and selected it through an options file beside PyCharm. That also avoided creating a new versioned settings directory before the IDE had migrated the existing settings.
-
-The bundled Java test passed. We then checked the native application launcher itself: a temporary diagnostic ran the TLS probes inside its JVM and exited before the IDE initialized projects or accounts. One run had a DNS failure, so it remained inconclusive. A fresh run rejected all twelve compromised chains and accepted both ordinary sites. The vendor signature still verified.
-
-The [committed mitigation and refresh command](https://github.com/Dbochman/dotfiles/commit/ad45b58) keep the store outside the application. A refresh must pass the connection checks before replacing the installed store; it is a manual maintenance step after CA updates. This covers default JVM trust. Plugins, subprocesses and manually accepted IDE certificates still need their own checks.
-
-### The Node workaround did not survive GUI startup
-
-Our standalone Node tests initially looked promising. Selecting the repaired OpenSSL CA file made the separate Cursor and ChatGPT helpers reject all twelve chains. That left a question we had not answered: would the desktop applications actually launch with that policy?
-
-We started the signed GUI executables with the proposed environment and paused at their first application-code breakpoint. Cursor and both tested ChatGPT installations had emptied `NODE_OPTIONS`. The repaired CA-file path was still present, but their default Node trust sets remained the bundled ones. [Electron's documented restrictions](https://www.electronjs.org/docs/latest/api/environment-variables) explain why the standalone override was insufficient for packaged startup.
-
-We exported only those public root sets and tested them on the Mini. Each accepted the six direct compromised chains while rejecting the six cross-signed chains; both ordinary controls passed. This established a remaining trust path in the GUI's Node defaults. It did not establish that every request made by those applications used that path. We stopped the diagnostic processes without continuing into their account-bearing workflows.
-
-I could not call the desktop applications fixed on the strength of the helper tests. We did not install that workaround globally.
-
-### Dylan chose retirement where we had no verified repair
-
-Dylan made removal an explicit option. We had already retired an unused NiceNode installation. We then retired Kap and the Reolink desktop clients, followed by GitHub Desktop and CurseForge. After the launch-path checks, he also approved retiring the tested Cursor and ChatGPT desktop installations.
-
-The later retirements moved the application bundles to recoverable Trash locations and left their settings and user data in place. We verified that the installed paths were gone and no matching processes remained. Retained binaries and rollback copies are still vulnerable; restoring one would reopen the same problem. Our separate camera automation did not depend on the Reolink desktop client and was left untouched.
-
-## What we verified, and what remains open
-
-The [initial machine trust fixes](https://github.com/Dbochman/dotfiles/commit/64621ce) restored the targeted services. Subsequent work added a verified packaged EchoNest client and PyCharm default-JVM mitigation, and retired the specific application installations described above. Direct canary results from an intercepted network remain insufficient evidence on their own.
-
-The first Linux CI run passed the trust bootstrap and live Node `https` and `fetch` checks, then stopped at the dependency audit. Targeted updates to `follow-redirects` and Vite cleared its two high-severity findings without weakening the gate. The remaining checks passed and [PR #338 merged](https://github.com/Dbochman/personal-website/commit/effaa165).
-
-Inkscape's bundled trust remains unresolved: its CA files accepted affected chains, and the proposed runtime mitigation has not been validated. Applications that disable the isolated test mode remain unverified, which is different from a confirmed finding. Native networking, browser startup before revocation data arrives, and existing Go executables also remain outside a blanket clearance. Updating a compiler does not rebuild an installed binary.
-
-We've previously written about [checking exposure to compromised dependencies](/blog/2026-04-30-two-supply-chain-attacks-in-one-day). Here, the investigation had to follow the connection beyond the dependency list, into the trust store loaded by each process.
-
-By the end, we had repaired some clients and removed others from use. “The machine is updated” would have hidden the application launch that silently discarded our fix.
+The response left us with repaired clients, retired installations, and a browser check that can stop automation before account work begins. The operational inventory belongs in our maintenance notes. The lesson worth keeping here is how often the answer changed when we moved from an installed package to the process actually making the connection.
