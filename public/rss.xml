@@ -13,10 +13,10 @@
       <link>https://dylanbochman.com/blog</link>
     </image>
     <item>
-      <title>The Browser Was Patched. The Scripts Were Not.</title>
-      <link>https://dylanbochman.com/blog/2026-10-20-the-browser-was-patched-the-scripts-were-not</link>
-      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-10-20-the-browser-was-patched-the-scripts-were-not</guid>
-      <description>An eMudhra certificate incident exposed the gap between browser revocation and the trust stores our scripts actually used. Updating packages was only the beginning.</description>
+      <title>The eMudhra Certificate Incident: What Happened and How We Responded</title>
+      <link>https://dylanbochman.com/blog/2026-10-20-emudhra-certificate-incident</link>
+      <guid isPermaLink="true">https://dylanbochman.com/blog/2026-10-20-emudhra-certificate-incident</guid>
+      <description>How compromised eMudhra intermediate keys threatened HTTPS authentication, why browser revocation left gaps in developer tools, and what we found when we checked our own systems.</description>
       <pubDate>Tue, 20 Oct 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan)</author>
       <category>Security</category>

@@ -694,3 +694,12 @@ runtime paths, raw captures, and authentication material.
   screenshot confirmed rendering. Existing advisory-only large chunk remains.
 - Did not run local full prerender because its existing broad `pkill -f "vite
   preview"` cleanup could stop unrelated preview servers; CI runs the full build.
+- Owner requested an incident-first rewrite: retitled to “The eMudhra
+  Certificate Incident: What Happened and How We Responded.” Added a sourced
+  explanation of intermediate authority, faulty/recoverable key generation,
+  interception requirements, CT caveats, and revocation distribution before a
+  distinct response section. Kept status dated October 20 and the unchanged
+  dependency-audit blocker explicit. Canonical slug is now
+  `2026-10-20-emudhra-certificate-incident`; retaining the original filename lets
+  existing prerender logic generate its legacy-slug redirect. No CI/dependency
+  implementation changes were included in this editorial revision.
