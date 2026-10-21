@@ -275,6 +275,25 @@ export const board = {
       "title": "Change Log",
       "cards": [
         {
+          "id": "2026-10-20-the-browser-was-patched-the-scripts-were-not",
+          "title": "Blog: The eMudhra Certificate Incident: What Happened and How We Responded",
+          "labels": [
+            "Blog"
+          ],
+          "checklist": [],
+          "createdAt": "2026-10-21T00:58:58.000Z",
+          "updatedAt": "2026-10-21T00:58:58.000Z",
+          "history": [
+            {
+              "type": "column",
+              "timestamp": "2026-10-21T00:58:58.000Z",
+              "columnId": "changelog",
+              "columnTitle": "Change Log"
+            }
+          ],
+          "description": "How compromised eMudhra intermediate keys threatened HTTPS authentication, why browser revocation left gaps in developer tools, and what we found when we checked our own systems."
+        },
+        {
           "id": "restore-sandboxed-codex-review-execution",
           "title": "restore sandboxed Codex review execution",
           "labels": [
@@ -3617,5 +3636,5 @@ export const board = {
     }
   ],
   "createdAt": "2026-01-16T14:45:27.429Z",
-  "updatedAt": "2026-10-19T15:28:23.281Z"
+  "updatedAt": "2026-10-21T00:59:33.135Z"
 };
