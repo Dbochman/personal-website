@@ -2,6 +2,7 @@
 title: "The eMudhra Certificate Incident: What Happened and How We Responded"
 slug: "2026-10-20-emudhra-certificate-incident"
 date: "2026-10-20"
+updated: "2026-10-20"
 author: Dylan
 description: "How compromised eMudhra intermediate keys threatened HTTPS authentication, why browser revocation left gaps in developer tools, and what we found when we checked our own systems."
 tags:
@@ -80,12 +81,48 @@ Node's trust mode is declared in workflow YAML: GitHub [does not permit setting 
 
 Root removal is broader than intermediate revocation and can reject otherwise legitimate chains. This temporary policy also leaves GitHub's pre-job control plane, provider-managed builds, browser/native stores and clients supplying their own CAs outside its coverage. Those limits and the criteria for removing the workaround are recorded with the code.
 
+### Updated applications still carried vulnerable trust stores
+
+The application sweep made the remaining work more concrete. We installed official vendor updates and checked their signatures, then repeated the connection tests. Several updated runtimes still accepted compromised chains. Updating the application's version number had not resolved its trust behavior.
+
+One Mac also produced a misleading result: even an old, vulnerable client appeared to reject every canary. The certificate presented on that network came from an interception service rather than the expected eMudhra issuer. We treated those results as inconclusive and tested exported public CA bundles on the Mini instead. No account data moved between machines, and we did not bypass the network's security controls.
+
+For [EchoNest](/projects/echonest), we controlled the packaging. We rebuilt the Sync app with the repaired CA bundle, added a packaging check and a credential-free self-test, and installed version 0.7.0 on both machines that had the older app. The packaged client tested on the Mini rejected all twelve chains and accepted both controls. The second installation used the identical signed build; its network's interception still limited what a remote connection test could prove.
+
+### PyCharm could use an external trust store
+
+Dylan wanted mitigations that preserved vendor signatures. That ruled out replacing files inside signed application bundles. [JetBrains documents external JVM options](https://www.jetbrains.com/help/pycharm/tuning-the-ide.html) and warns that editing the bundled options file breaks the macOS signature.
+
+We built a public Java trust store from the repaired CA bundle and selected it through an options file beside PyCharm. That also avoided creating a new versioned settings directory before the IDE had migrated the existing settings.
+
+The bundled Java test passed. We then checked the native application launcher itself: a temporary diagnostic ran the TLS probes inside its JVM and exited before the IDE initialized projects or accounts. One run had a DNS failure, so it remained inconclusive. A fresh run rejected all twelve compromised chains and accepted both ordinary sites. The vendor signature still verified.
+
+The [committed mitigation and refresh command](https://github.com/Dbochman/dotfiles/commit/ad45b58) keep the store outside the application. A refresh must pass the connection checks before replacing the installed store; it is a manual maintenance step after CA updates. This covers default JVM trust. Plugins, subprocesses and manually accepted IDE certificates still need their own checks.
+
+### The Node workaround did not survive GUI startup
+
+Our standalone Node tests initially looked promising. Selecting the repaired OpenSSL CA file made the separate Cursor and ChatGPT helpers reject all twelve chains. That left a question we had not answered: would the desktop applications actually launch with that policy?
+
+We started the signed GUI executables with the proposed environment and paused at their first application-code breakpoint. Cursor and both tested ChatGPT installations had emptied `NODE_OPTIONS`. The repaired CA-file path was still present, but their default Node trust sets remained the bundled ones. [Electron's documented restrictions](https://www.electronjs.org/docs/latest/api/environment-variables) explain why the standalone override was insufficient for packaged startup.
+
+We exported only those public root sets and tested them on the Mini. Each accepted the six direct compromised chains while rejecting the six cross-signed chains; both ordinary controls passed. This established a remaining trust path in the GUI's Node defaults. It did not establish that every request made by those applications used that path. We stopped the diagnostic processes without continuing into their account-bearing workflows.
+
+I could not call the desktop applications fixed on the strength of the helper tests. We did not install that workaround globally.
+
+### Dylan chose retirement where we had no verified repair
+
+Dylan made removal an explicit option. We had already retired an unused NiceNode installation. We then retired Kap and the Reolink desktop clients, followed by GitHub Desktop and CurseForge. After the launch-path checks, he also approved retiring the tested Cursor and ChatGPT desktop installations.
+
+The later retirements moved the application bundles to recoverable Trash locations and left their settings and user data in place. We verified that the installed paths were gone and no matching processes remained. Retained binaries and rollback copies are still vulnerable; restoring one would reopen the same problem. Our separate camera automation did not depend on the Reolink desktop client and was left untouched.
+
 ## What we verified, and what remains open
 
-The primary clients tested across the three Macs now reject all twelve canaries while accepting ordinary controls. The [machine trust fixes are committed](https://github.com/Dbochman/dotfiles/commit/64621ce), and the targeted services recovered. Application-bundled runtimes remain separate follow-ups; updating a Go compiler, for example, doesn't rebuild an existing executable.
+The [initial machine trust fixes](https://github.com/Dbochman/dotfiles/commit/64621ce) restored the targeted services. Subsequent work added a verified packaged EchoNest client and PyCharm default-JVM mitigation, and retired the specific application installations described above. Direct canary results from an intercepted network remain insufficient evidence on their own.
 
-The first Linux CI run passed the trust bootstrap and live Node `https` and `fetch` checks, then stopped at the existing dependency audit. It reported two high-severity findings in the unchanged lockfile, affecting `follow-redirects` and Vite. Targeted patch updates cleared those findings without weakening the audit gate. The rest of the PR checks still had to pass before merging; successful TLS checks alone weren't approval for the build.
+The first Linux CI run passed the trust bootstrap and live Node `https` and `fetch` checks, then stopped at the dependency audit. Targeted updates to `follow-redirects` and Vite cleared its two high-severity findings without weakening the gate. The remaining checks passed and [PR #338 merged](https://github.com/Dbochman/personal-website/commit/effaa165).
+
+Inkscape's bundled trust remains unresolved: its CA files accepted affected chains, and the proposed runtime mitigation has not been validated. Applications that disable the isolated test mode remain unverified, which is different from a confirmed finding. Native networking, browser startup before revocation data arrives, and existing Go executables also remain outside a blanket clearance. Updating a compiler does not rebuild an installed binary.
 
 We've previously written about [checking exposure to compromised dependencies](/blog/2026-04-30-two-supply-chain-attacks-in-one-day). Here, the investigation had to follow the connection beyond the dependency list, into the trust store loaded by each process.
 
-The practical result was a set of verified client behaviors and a list of remaining gaps. “The machine is updated” would have hidden both.
+By the end, we had repaired some clients and removed others from use. “The machine is updated” would have hidden the application launch that silently discarded our fix.

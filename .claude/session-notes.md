@@ -709,3 +709,22 @@ runtime paths, raw captures, and authentication material.
   npm ci, zero-finding audit, lint, typechecks, all 301 tests, preview build,
   and hard bundle budgets passed. Updated the post's historical CI paragraph
   to explain the resolved blocker. Hosted CI/review must pass before merge.
+
+## 2026-10-20: Application trust follow-up in the eMudhra post
+
+- PR #338 subsequently merged as `effaa165`. Updated the existing incident post
+  with the later bundled-runtime findings rather than creating another post.
+- Added EchoNest's signed rebuild, PyCharm's external default-JVM trust store
+  and native-launch TLS check, and the GUI launch experiment that stripped the
+  Node CA override. Public GUI root exports still accepted six direct chains;
+  this is scoped trust evidence, not proof of every app request or exploitation.
+- Credited Dylan's decision to retire the affected installations where no fix
+  was verified. Kept recoverable-binary cautions and named remaining limits,
+  especially Inkscape and runtimes that could not be tested. No private machine
+  paths, network-filter vendor names, account state or household identifiers
+  were added to the post. Dotfiles mitigation/retirement commit: `ad45b58`.
+- Validation: slop-guard 100/100, production preview build, 57 targeted
+  frontmatter/MDX/schema/rendering unit tests, and hard bundle budgets passed.
+  The largest content chunk remains above its advisory-only limit (668.4 KiB
+  against 600 KiB). Full local prerender was not run because its existing broad
+  preview-process cleanup can affect shared services; hosted deployment runs it.
