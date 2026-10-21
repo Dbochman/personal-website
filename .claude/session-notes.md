@@ -703,3 +703,9 @@ runtime paths, raw captures, and authentication material.
   `2026-10-20-emudhra-certificate-incident`; retaining the original filename lets
   existing prerender logic generate its legacy-slug redirect. No CI/dependency
   implementation changes were included in this editorial revision.
+- Owner subsequently approved targeted dependency patches before merging PR
+  #338. Updated only lockfile entries for follow-redirects 1.16.0 -> 1.16.1 and
+  Vite 7.3.6 -> 7.3.7; no manifest/range changes or audit suppression. Clean
+  npm ci, zero-finding audit, lint, typechecks, all 301 tests, preview build,
+  and hard bundle budgets passed. Updated the post's historical CI paragraph
+  to explain the resolved blocker. Hosted CI/review must pass before merge.

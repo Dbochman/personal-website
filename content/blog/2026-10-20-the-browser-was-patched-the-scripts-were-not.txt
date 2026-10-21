@@ -84,7 +84,7 @@ Root removal is broader than intermediate revocation and can reject otherwise le
 
 The primary clients tested across the three Macs now reject all twelve canaries while accepting ordinary controls. The [machine trust fixes are committed](https://github.com/Dbochman/dotfiles/commit/64621ce), and the targeted services recovered. Application-bundled runtimes remain separate follow-ups; updating a Go compiler, for example, doesn't rebuild an existing executable.
 
-Linux CI passed the trust bootstrap and live Node `https` and `fetch` checks. The website PR remained unmerged at this writing: its existing audit gate reported two high-severity dependency findings in the unchanged lockfile, affecting `follow-redirects` and Vite. We left the gate intact. Passing the TLS checks doesn't make the rest of the build approved.
+The first Linux CI run passed the trust bootstrap and live Node `https` and `fetch` checks, then stopped at the existing dependency audit. It reported two high-severity findings in the unchanged lockfile, affecting `follow-redirects` and Vite. Targeted patch updates cleared those findings without weakening the audit gate. The rest of the PR checks still had to pass before merging; successful TLS checks alone weren't approval for the build.
 
 We've previously written about [checking exposure to compromised dependencies](/blog/2026-04-30-two-supply-chain-attacks-in-one-day). Here, the investigation had to follow the connection beyond the dependency list, into the trust store loaded by each process.
 
