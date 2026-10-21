@@ -2,24 +2,24 @@
   {
     "page": "home",
     "url": "https://dylanbochman.com",
-    "performance": 82,
+    "performance": 83,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
     "lcp": "3.3 s",
-    "fcp": "3.0 s",
+    "fcp": "3.1 s",
     "cls": "0",
-    "tbt": "270 ms",
+    "tbt": "200 ms",
     "runs": 3,
     "performanceRange": [
-      78,
-      88
+      58,
+      94
     ],
     "tbtRangeMs": [
-      223,
-      269
+      196,
+      1319
     ],
-    "collectedAt": "2026-10-21T03:28:30.164Z"
+    "collectedAt": "2026-10-21T11:06:27.395Z"
   },
   {
     "page": "blog",
@@ -28,20 +28,20 @@
     "accessibility": 96,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "5.2 s",
-    "fcp": "3.1 s",
+    "lcp": "5.5 s",
+    "fcp": "3.2 s",
     "cls": "0",
-    "tbt": "300 ms",
+    "tbt": "260 ms",
     "runs": 3,
     "performanceRange": [
-      68,
-      70
+      53,
+      68
     ],
     "tbtRangeMs": [
-      255,
-      304
+      260,
+      838
     ],
-    "collectedAt": "2026-10-21T03:28:30.164Z"
+    "collectedAt": "2026-10-21T11:06:27.395Z"
   },
   {
     "page": "blog-post-404",
@@ -56,123 +56,123 @@
     "tbt": "210 ms",
     "runs": 3,
     "performanceRange": [
-      69,
+      64,
       71
     ],
     "tbtRangeMs": [
-      199,
-      210
+      209,
+      290
     ],
-    "collectedAt": "2026-10-21T03:28:30.164Z"
+    "collectedAt": "2026-10-21T11:06:27.395Z"
   },
   {
     "page": "projects",
     "url": "https://dylanbochman.com/projects",
-    "performance": 86,
-    "accessibility": 98,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "3.1 s",
-    "fcp": "2.8 s",
-    "cls": "0",
-    "tbt": "190 ms",
-    "runs": 3,
-    "performanceRange": [
-      78,
-      86
-    ],
-    "tbtRangeMs": [
-      181,
-      212
-    ],
-    "collectedAt": "2026-10-21T03:28:30.164Z"
-  },
-  {
-    "page": "project-slo",
-    "url": "https://dylanbochman.com/projects/slo-tool",
-    "performance": 69,
-    "accessibility": 100,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "5.6 s",
-    "fcp": "3.0 s",
-    "cls": "0",
-    "tbt": "250 ms",
-    "runs": 3,
-    "performanceRange": [
-      69,
-      70
-    ],
-    "tbtRangeMs": [
-      199,
-      250
-    ],
-    "collectedAt": "2026-10-21T03:28:30.164Z"
-  },
-  {
-    "page": "project-statuspage",
-    "url": "https://dylanbochman.com/projects/statuspage-update",
-    "performance": 75,
-    "accessibility": 100,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "4.3 s",
-    "fcp": "2.9 s",
-    "cls": "0",
-    "tbt": "250 ms",
-    "runs": 3,
-    "performanceRange": [
-      74,
-      83
-    ],
-    "tbtRangeMs": [
-      190,
-      247
-    ],
-    "collectedAt": "2026-10-21T03:28:30.164Z"
-  },
-  {
-    "page": "project-oncall",
-    "url": "https://dylanbochman.com/projects/oncall-coverage",
-    "performance": 75,
-    "accessibility": 96,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "4.6 s",
-    "fcp": "3.0 s",
-    "cls": "0",
-    "tbt": "200 ms",
-    "runs": 3,
-    "performanceRange": [
-      74,
-      81
-    ],
-    "tbtRangeMs": [
-      203,
-      212
-    ],
-    "collectedAt": "2026-10-21T03:28:30.164Z"
-  },
-  {
-    "page": "runbook",
-    "url": "https://dylanbochman.com/runbook",
     "performance": 76,
-    "accessibility": 100,
+    "accessibility": 98,
     "seo": 100,
     "bestPractices": 100,
     "lcp": "4.4 s",
     "fcp": "3.0 s",
     "cls": "0",
-    "tbt": "190 ms",
+    "tbt": "200 ms",
     "runs": 3,
     "performanceRange": [
-      75,
-      84
+      72,
+      78
+    ],
+    "tbtRangeMs": [
+      184,
+      210
+    ],
+    "collectedAt": "2026-10-21T11:06:27.395Z"
+  },
+  {
+    "page": "project-slo",
+    "url": "https://dylanbochman.com/projects/slo-tool",
+    "performance": 70,
+    "accessibility": 100,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "5.7 s",
+    "fcp": "3.1 s",
+    "cls": "0",
+    "tbt": "210 ms",
+    "runs": 3,
+    "performanceRange": [
+      70,
+      70
     ],
     "tbtRangeMs": [
       185,
-      211
+      206
     ],
-    "collectedAt": "2026-10-21T03:28:30.164Z"
+    "collectedAt": "2026-10-21T11:06:27.395Z"
+  },
+  {
+    "page": "project-statuspage",
+    "url": "https://dylanbochman.com/projects/statuspage-update",
+    "performance": 72,
+    "accessibility": 100,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "5.3 s",
+    "fcp": "3.0 s",
+    "cls": "0",
+    "tbt": "200 ms",
+    "runs": 3,
+    "performanceRange": [
+      71,
+      74
+    ],
+    "tbtRangeMs": [
+      197,
+      241
+    ],
+    "collectedAt": "2026-10-21T11:06:27.395Z"
+  },
+  {
+    "page": "project-oncall",
+    "url": "https://dylanbochman.com/projects/oncall-coverage",
+    "performance": 74,
+    "accessibility": 96,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "4.6 s",
+    "fcp": "3.1 s",
+    "cls": "0",
+    "tbt": "200 ms",
+    "runs": 3,
+    "performanceRange": [
+      65,
+      76
+    ],
+    "tbtRangeMs": [
+      196,
+      387
+    ],
+    "collectedAt": "2026-10-21T11:06:27.395Z"
+  },
+  {
+    "page": "runbook",
+    "url": "https://dylanbochman.com/runbook",
+    "performance": 71,
+    "accessibility": 100,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "5.2 s",
+    "fcp": "3.1 s",
+    "cls": "0",
+    "tbt": "220 ms",
+    "runs": 3,
+    "performanceRange": [
+      70,
+      76
+    ],
+    "tbtRangeMs": [
+      188,
+      217
+    ],
+    "collectedAt": "2026-10-21T11:06:27.395Z"
   }
 ]
