@@ -6,7 +6,7 @@ import { load } from 'js-yaml';
 
 const workflow = load(readFileSync(new URL('../workflows/codex-review.yml', import.meta.url), 'utf8'));
 const AsyncFunction = Object.getPrototypeOf(async function() {}).constructor;
-const publishScript = workflow.jobs.publish.steps[0].with.script;
+const publishScript = workflow.jobs.publish.steps.find(step => step.name === 'Publish review or explicit infrastructure failure').with.script;
 const goodReport = {
   summary: 'Example change', review: 'No findings', verdict: 'LGTM', execution: 'verified',
   commands: ['node', 'diff', 'typecheck', 'unit'].map(kind => ({ kind, command: `check ${kind}`, exit_code: 0 })),
@@ -89,7 +89,7 @@ test('review and publishing privileges are isolated', () => {
 });
 
 test('trusted actor gate rejects read-only contributors before checkout', async () => {
-  const script = workflow.jobs.review.steps[0].with.script;
+  const script = workflow.jobs.review.steps.find(step => step.uses?.startsWith('actions/github-script@')).with.script;
   const execute = permission => new AsyncFunction('github', 'context', script)(
     { rest: { repos: { getCollaboratorPermissionLevel: async () => ({ data: { permission } }) } } },
     { repo: { owner: 'owner', repo: 'repo' }, actor: 'contributor' },
