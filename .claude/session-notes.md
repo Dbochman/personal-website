@@ -798,3 +798,11 @@ runtime paths, raw captures, and authentication material.
   11 bootstrap tests and workflow drift check pass; prose scores 97/100. The
   existing soft chunk limit remains exceeded. Added an attended, guarded
   validation procedure for restoring workflows without running old main.
+
+## 2026-10-21 — Owner-selected security post title
+
+- Retitled the existing incident post to “When Updating Isn’t Enough” at
+  Dylan's request. Kept the canonical slug, source filename/legacy redirect,
+  dates, body and Codex attribution unchanged. Refreshed generated feed metadata.
+- This editorial change stays in PR #339; the security-related workflow hold
+  remains in place and publication is still pending.
