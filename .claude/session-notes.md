@@ -753,3 +753,23 @@ runtime paths, raw captures, and authentication material.
   build and hard bundle budgets passed. Existing soft large-chunk advisory
   remains. Full local prerender still avoided because of its broad shared
   preview-process cleanup; no browser visual check was performed this turn.
+
+## 2026-10-21 — Node security follow-up (Codex; prepared, unpublished)
+
+- Branch `fix/node-security-runtime` starts from current `origin/main`.
+  Pin setup-node, .nvmrc and Netlify build selection to24.22.1; root engine
+  constraints exclude older24, EOL25 and unpatched26. No dependency resolution
+  change. The offline bootstrap checks the actual Runner.Worker-owned Node24
+  before JS actions; unpatched or unidentified runner ownership fails closed.
+  This does not patch the runner control plane or pre-step action preparation.
+- Kept the certificate exclusions. The existing eMudhra post now has a short
+  October21 follow-up distinguishing trust repair from Brotli repair, and
+  staged runtime changes from verified running processes. Canonical title/slug
+  preserved. Updated sitemap lastmod is generated from the editorial date.
+- Validation: 301 unit tests, typecheck, lint, production preview build, hard
+  bundle budgets, 11 bootstrap tests and generated-workflow check pass. Prose
+  score100. Existing soft chunk warning remains. No full local prerender or
+  browser visual QA; no hosted CI run or provider runtime attestation yet.
+- Publication approval requested; no commit, push, PR or deployment yet.
+  GitHub runner remediation may require waiting for a vendor rollout. Vendor
+  desktop runtimes and the old Vercel project remain separate findings.

@@ -20,6 +20,28 @@ selects this trust for JavaScript actions and setup-node's Node. Extra/system CA
 augmentation is disabled. GitHub explicitly forbids exporting `NODE_OPTIONS`
 through `GITHUB_ENV`; it belongs in YAML. No verification-disable flag is used.
 
+## Node security floor (October 21, 2026)
+
+Before writing any environment settings, the offline bootstrap follows its Linux
+parent process chain to `Runner.Worker` and checks that worker's
+`externals/node24/bin/node`. It requires Node 24.22.1 or a later stable 24.x release.
+Missing ownership evidence, an affected version, or an unknown build fails the
+job before JavaScript actions run. Existing failure handlers remain gated on
+bootstrap success. No runner binaries are replaced and no network is needed.
+
+This intentionally blocks hosted runners that have not received the vendor fix.
+The runner itself and action preparation before the first step are outside this
+gate; it does not claim to secure all of GitHub's infrastructure. The currently
+pinned actions use the runner's Node 24 execution path. Review that contract when
+changing action versions or introducing container/composite actions.
+
+`setup-node` separately selects exactly 24.22.1 for builds. Its toolcache selection
+does not patch JavaScript action execution. Do not relax the first-step gate to
+make CI green. Verify a new hosted run after publication before claiming rollout.
+
+Sources: [Node security releases](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases),
+[runner executable selection](https://github.com/actions/runner/blob/v2.338.0/src/Runner.Worker/Handlers/NodeScriptActionHandler.cs).
+
 `bootstrap.py` is the canonical source. A local composite action would require
 checkout first, so `sync-workflows.mjs` embeds it into each workflow, with YAML
 anchors sharing it between that workflow's jobs. The generator's `--check` mode

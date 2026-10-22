@@ -51,6 +51,9 @@ for (const filename of readdirSync(directory).filter(name => name.endsWith('.yml
       throw new Error(`Unsupported/unprotected job: ${filename}:${name}`);
     }
     for (const step of job.steps.slice(1)) {
+      if (step.uses?.startsWith('actions/setup-node@') && step.with?.['node-version'] !== '24.22.1') {
+        throw new Error(`Unpinned/affected build Node: ${filename}:${name}`);
+      }
       if (/\b(always|failure|cancelled)\(/.test(step.if ?? '') && !step.if.includes("steps.tls.outcome == 'success'")) {
         throw new Error(`Unguarded failure handler: ${filename}:${name}`);
       }
