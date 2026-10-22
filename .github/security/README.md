@@ -63,6 +63,25 @@ reviewed PR rather than treating a timeout as a pass.
 
 ## Limits and removal
 
+### October 21 operational hold
+
+Hosted run `39699339521` confirmed action Node **24.21.0**, so the gate blocked
+checkout. All 13 repository-owned workflows were then disabled to stop scheduled
+main-branch jobs using the older unguarded configuration. The static site remains
+available; automated updates, analytics and reviews are paused. GitHub-managed
+Dependabot and external provider builds are not covered by this hold.
+
+To restore service, first obtain vendor evidence of a patched runner. An attended
+validation may temporarily enable only a selected workflow and run the guarded
+PR revision, never the old main revision. Confirm the actual action runtime and
+all required checks, then merge the guarded changes before restoring schedules
+and the other previously enabled workflows. If validation still fails, disable
+that workflow again. Do not remove the version gate or replace runner binaries
+to work around this hold. The operator retained the prior workflow states in
+the protected deployment record.
+
+### Scope limitations
+
 - Root removal is deliberately broader than revoking only the compromised
   intermediates; otherwise legitimate chains through these roots can fail too.
   Handle an affected dependency explicitly, not by disabling TLS verification.

@@ -71,9 +71,9 @@ On October 21, Node.js published a [security release](https://nodejs.org/en/blog
 
 Our inventory still contained older running Node binaries. A service listening only on localhost can also receive compressed responses from remote servers; the request direction matters. We found Brotli decoding in the HTTP client used by our automation. That established a patching priority, without establishing that an attacker had exploited it.
 
-The website exposed another distinction. Its build selected Node through `setup-node`, while checkout and other JavaScript actions used a separate runtime bundled with the GitHub runner. We prepared an exact build pin and an offline check that refuses to proceed on an unpatched action runtime. Those changes still need a hosted run before we can call CI repaired.
+The website exposed another distinction. Its build selected Node through `setup-node`, while checkout and other JavaScript actions used a separate runtime bundled with the GitHub runner. Our [proposed offline check](https://github.com/Dbochman/personal-website/pull/339) found Node 24.21.0 on the hosted runner and stopped before checkout. We paused the repository-owned workflows, including scheduled jobs on the old configuration, pending a verified patched runner. The static website stayed online; its automated updates did not.
 
-The local rollout likewise distinguishes downloaded patches from restarted, verified services. Vendor-bundled applications and provider-managed builds remain separate checks. The earlier certificate results retain their narrow meaning; they are no clearance against this new vulnerability.
+Locally, we restarted the core automation and magazine services on patched releases and verified the running executables and health checks. That clears those runtime versions, not the whole fleet: vendor-bundled applications, offline machines and provider-managed builds remain separate checks. The earlier certificate results retain their narrow meaning; they are no clearance against this new vulnerability.
 
 ## What we can reasonably claim
 

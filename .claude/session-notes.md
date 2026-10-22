@@ -773,3 +773,28 @@ runtime paths, raw captures, and authentication material.
 - Publication approval requested; no commit, push, PR or deployment yet.
   GitHub runner remediation may require waiting for a vendor rollout. Vendor
   desktop runtimes and the old Vercel project remain separate findings.
+
+## 2026-10-21 — Node rollout and hosted-runner containment
+
+- Owner authorized committing, pushing and deploying. Commit `21f62058` is
+  pushed in PR #339; it is not merged or published to the production site.
+- Hosted run `39699339521` found Runner.Worker's action Node at 24.21.0. The
+  offline gate failed before checkout, as intended. Do not weaken it to obtain
+  green CI or infer that setup-node patches the action runtime.
+- Temporarily disabled all 13 repository-owned Actions workflows so scheduled
+  main-branch jobs cannot keep using the old unguarded configuration. Prior
+  states are recorded in the operator's protected recovery directory. Static
+  production stays online; automated build/deploy, review and analytics work
+  is paused. GitHub-managed Dependabot and external provider integrations are
+  outside this hold. Re-enable only with the guarded workflow deployed and a
+  verified patched runner; do not blindly restore old schedules.
+- Dotfiles runtime changes were published and deployed separately. The Mini's
+  gateway uses 24.22.1 and magazine uses 22.23.4, with actual process and health
+  evidence. Remote robot bridges use 24.22.1 but robot MQTT connectivity remains
+  unresolved. Other offline/vendor-managed runtimes remain explicit gaps.
+- Updated the post to report actual activation and the failed hosted gate,
+  preserving its concise narrative, canonical title, slug and attribution.
+- Final documentation revision: production preview build, hard bundle budgets,
+  11 bootstrap tests and workflow drift check pass; prose scores 97/100. The
+  existing soft chunk limit remains exceeded. Added an attended, guarded
+  validation procedure for restoring workflows without running old main.
