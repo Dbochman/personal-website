@@ -41,6 +41,15 @@ for (const filename of readdirSync(directory).filter(name => name.endsWith('.yml
     return "        if: ${{ (" + expression + ") && steps.tls.outcome == 'success' }}";
   });
   const workflow = load(result);
+  if (filename === 'pr-checks.yml') {
+    const trigger = workflow.on?.pull_request;
+    if (!trigger || trigger.paths || trigger['paths-ignore'] ||
+        !['opened', 'synchronize', 'reopened'].every(event => trigger.types?.includes(event)) ||
+        !workflow.jobs.test || workflow.jobs.test.name || workflow.jobs.test['continue-on-error'] ||
+        workflow.jobs.test.if !== "github.event.action != 'closed'") {
+      throw new Error('Required test check must run on every open PR revision');
+    }
+  }
   if (workflow.env.NODE_OPTIONS !== '--use-openssl-ca' ||
       workflow.env.NODE_USE_SYSTEM_CA !== '0' || workflow.env.NODE_EXTRA_CA_CERTS !== '') {
     throw new Error(`Unexpected Node trust settings: ${filename}`);

@@ -806,3 +806,18 @@ runtime paths, raw captures, and authentication material.
   dates, body and Codex attribution unchanged. Refreshed generated feed metadata.
 - This editorial change stays in PR #339; the security-related workflow hold
   remains in place and publication is still pending.
+
+## 2026-10-21 — Bounded readiness monitoring and merge protection
+
+- Owner approved an independent readiness monitor and required-check protection.
+  Mini watch runs hourly for seven days, reports release-source candidates on
+  PR #339, and cannot enable CI or merge. Actual hosted verification is still
+  required. Startup/error/expiry notifications and bounded retry handling prevent
+  an indefinite silent wait; the tracked implementation lives in dotfiles.
+- Main requires GitHub Actions' `test` check, with up-to-date checking and admin
+  enforcement. Existing other protection settings are preserved. Removed PR
+  test workflow path exclusions, included reopened PRs and added a validator
+  assertion so documentation PRs emit the required check.
+- Direct-main publisher bots will also be blocked by required checks. Keep those
+  jobs held pending a PR-based publishing design, without a security bypass.
+- PR #339 and website workflow holds remain; no merge or production deployment.

@@ -3,10 +3,8 @@ name: PR Checks
 on:
   pull_request:
     branches: [main]
-    types: [opened, synchronize, closed]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
+    # Required check: always emit a result, including documentation-only PRs.
+    types: [opened, synchronize, reopened, closed]
 
 # Cancel in-progress runs when new commits are pushed OR when PR is closed/merged
 concurrency:
@@ -170,6 +168,7 @@ jobs:
       - name: Verify CI trust policy
         run: |
           node .github/security/sync-workflows.mjs --check
+          node --test .github/security/test_sync_workflows.mjs
           python3 -m unittest discover -s .github/security -p 'test_*.py'
           node .github/security/probe.mjs
 

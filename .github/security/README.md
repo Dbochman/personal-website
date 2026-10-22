@@ -50,6 +50,7 @@ enforces identical first steps and rejects later Node/OpenSSL trust overrides.
 ```sh
 node .github/security/sync-workflows.mjs
 node .github/security/sync-workflows.mjs --check
+node --test .github/security/test_sync_workflows.mjs
 python3 -m unittest discover -s .github/security -p 'test_*.py'
 node .github/security/probe.mjs
 ```
@@ -79,6 +80,32 @@ and the other previously enabled workflows. If validation still fails, disable
 that workflow again. Do not remove the version gate or replace runner binaries
 to work around this hold. The operator retained the prior workflow states in
 the protected deployment record.
+
+### Readiness monitoring and required merge checks
+
+The Mini runs an independent hourly watcher for up to seven days, with private
+state at `~/.local/state/github-runner-readiness/status.json`. It reads a stable
+runner release's immutable source commit and notifies this PR if its declared
+Node 24 version meets the floor. That is only a candidate for the attended
+hosted validation above; it does not attest to packaged binaries or fleet rollout.
+It cannot merge, enable workflows or change protection. It reports startup,
+three consecutive polling errors and expiry as well, with deduplicated comments.
+
+Main now requires the `test` check from the GitHub Actions app (ID 15368), with
+strict up-to-date checking and administrator enforcement. This job includes the
+offline runtime gate, audit, lint, typechecks, unit tests, build, bundle budgets
+and smoke tests. Its PR trigger has no path exclusions and includes reopened
+PRs. The workflow validator guards that contract. A missing check now blocks
+merging even when the external Cloudflare preview succeeds. Code review and
+blog-specific checks remain part of attended readiness; they are not replaced
+by this single required check. Existing admin enforcement and force-push/deletion
+restrictions were preserved; prior settings are in the protected operator record.
+
+Required checks also prevent unvalidated direct-main bot pushes. Keep the
+analytics/content/changelog jobs that write main paused until their publishing
+path uses reviewed PRs or another explicitly reviewed design. Do not restore
+all old workflow states blindly, or give those bots a bypass. Restore eligible
+checks and deployment first after the guarded merge.
 
 ### Scope limitations
 
