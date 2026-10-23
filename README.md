@@ -22,6 +22,13 @@ npm ci         # Node 24+; also sets up pre-commit hooks (Husky + lint-staged)
 npm run dev    # http://localhost:8080
 ```
 
+Install and keep Google Chrome updated before `npm run build` or the Playwright
+E2E commands. Both local and CI runs use `channel: 'chrome'`; do not run
+`playwright install chromium`. Playwright uses an isolated temporary browser
+profile, never your personal Chrome profile. Missing Chrome fails explicitly
+instead of falling back to an old cached browser. Prerendering owns a loopback
+preview server on a dynamically allocated port and closes only that server.
+
 ## Project Structure
 
 ```

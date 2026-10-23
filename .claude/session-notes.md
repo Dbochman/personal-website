@@ -821,3 +821,25 @@ runtime paths, raw captures, and authentication material.
 - Direct-main publisher bots will also be blocked by required checks. Keep those
   jobs held pending a PR-based publishing design, without a security bypass.
 - PR #339 and website workflow holds remain; no merge or production deployment.
+
+## 2026-10-22 — Installed Chrome for local browser tooling
+
+- On `fix/system-chrome-browser-tooling`, based on the existing Node-security
+  branch. Owner subsequently approved committing and pushing this work;
+  preserve the hosted runner hold and required-check protections. No production
+  deployment or merge is authorized by this browser-tooling change.
+- E2E and prerender use installed Chrome in local runs as well as CI. No browser
+  downloads or personal profiles. Replaced prerender's shell-owned preview and
+  broad process kill with an owned Vite server on a loopback ephemeral port,
+  closed in finally together with the browser.
+- Playwright 1.58.2 passed all 32 smoke assertions but hung at worker shutdown.
+  Updated only its three-package client chain to 1.64.1, with browser downloads
+  disabled; all 32 then passed and exited in 24.3 seconds. Dependency audit is
+  clean. Also passed 301 unit tests, lint, typecheck, full 52-route prerender,
+  SEO route verification and hard bundle budgets; existing soft chunk warning.
+- Both laptop checkouts received narrow local browser-selection patches after
+  preserving their unrelated changes. Isolated installed-Chrome checks pass;
+  no broad checkout/dependency update. Old full/headless Chromium caches were
+  moved to recoverable Trash on all three Macs. Finance's revision 1223 stays
+  because its PinchTab migration is blocked by a fresh-profile certificate gate
+  failure. See dotfiles' dependency-maintenance record for scope and recovery.

@@ -48,9 +48,9 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        // CI uses the runner's preinstalled Chrome — Playwright's CDN repeatedly
-        // hung browser downloads (2026-06-10), and system Chrome needs none.
-        channel: process.env.CI ? 'chrome' : undefined,
+        // Use maintained, installed Chrome locally and in CI. Never fall back
+        // to a separately downloaded Chromium build or a personal profile.
+        channel: 'chrome',
       },
     },
   ],
