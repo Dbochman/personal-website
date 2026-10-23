@@ -821,3 +821,22 @@ runtime paths, raw captures, and authentication material.
 - Direct-main publisher bots will also be blocked by required checks. Keep those
   jobs held pending a PR-based publishing design, without a security bypass.
 - PR #339 and website workflow holds remain; no merge or production deployment.
+
+## 2026-10-22 — Proactive security review in the incident post
+
+- Owner requested expanding “When Updating Isn’t Enough” around the deployed
+  proactive approach. Kept the title, canonical slug, publication date and
+  truthful Codex attribution; advanced the editorial date to October 22.
+- Added the inventory-first decision, minimized model inputs, primary-source
+  verification, notification-only authority, resumable/capped collection and
+  outstanding-only briefing. Explained partial reconciliation without closing
+  multi-asset findings, and backports without age-based vulnerability claims.
+- Kept private host identifiers, paths, accounts and the detailed app inventory
+  out of the public post. Mentioned attended updates without a fleet clearance.
+- Prose score 93; 52 focused content tests, 5 workflow-contract tests, 11
+  bootstrap tests, typecheck, lint, preview build and hard bundle budgets pass.
+  Existing soft chunk warning remains. No local full prerender on this branch
+  because its older preview cleanup can affect shared services.
+- GitHub runner v2.338.1 source declares Node 24.22.1. Publication still needs
+  an attended hosted check of the assigned runner, required tests and review;
+  release metadata alone does not lift the workflow hold.
