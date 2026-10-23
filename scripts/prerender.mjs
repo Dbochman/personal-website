@@ -93,9 +93,9 @@ async function prerender() {
     // Wait for server to start
     await new Promise(resolve => setTimeout(resolve, 3000));
 
-    // Launch browser (CI uses the runner's preinstalled Chrome — no download)
+    // Maintained installed Chrome locally and in CI; no cached Chromium.
     const browser = await chromium.launch({
-      channel: process.env.CI ? 'chrome' : undefined,
+      channel: 'chrome',
     });
     const page = await browser.newPage();
 
