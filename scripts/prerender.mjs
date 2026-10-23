@@ -34,7 +34,7 @@ async function prerender() {
     await new Promise(resolve => setTimeout(resolve, 3000));
 
     // Launch browser
-    const browser = await chromium.launch();
+    const browser = await chromium.launch({ channel: 'chrome' });
     const page = await browser.newPage();
 
     // Get list of blog posts

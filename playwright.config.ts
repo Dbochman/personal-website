@@ -46,7 +46,8 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      // Maintained installed Chrome; no separately cached Chromium.
+      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     },
   ],
 
