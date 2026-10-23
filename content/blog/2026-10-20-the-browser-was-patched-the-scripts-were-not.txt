@@ -71,7 +71,7 @@ Our inventory still contained older running Node binaries. A service listening o
 
 The website exposed another distinction. Its build selected Node through `setup-node`, while checkout and other JavaScript actions used a separate runtime bundled with the GitHub runner. Our [proposed offline check](https://github.com/Dbochman/personal-website/pull/339) found Node 24.21.0 on the hosted runner and stopped before checkout. We paused the repository-owned workflows, including scheduled jobs on the old configuration, pending a verified patched runner. The static website stayed online; its automated updates did not.
 
-Locally, we restarted the core automation and magazine services on patched releases and verified the running executables and health checks. That clears those runtime versions, not the whole fleet: vendor-bundled applications, offline machines and provider-managed builds remain separate checks. The earlier certificate results retain their narrow meaning; they are no clearance against this new vulnerability.
+Locally, we restarted the core automation and magazine services on patched releases and verified the running executables and health checks. Those services now ran the patched versions. Vendor-bundled applications, offline machines and provider-managed builds still needed their own checks. The earlier certificate tests told us nothing about exposure to the decoder vulnerability.
 
 ## The daily review needed an inventory first
 
@@ -85,9 +85,9 @@ That distinction also matters after removal. Retired applications and obsolete b
 
 ## A matching product name starts a question
 
-The deployed collector runs daily before the morning briefing. A model helps match incident reports to the inventory. For relevant candidates, the collector fetches a bounded set of primary sources from reviewed publisher domains and checks that the assessment cites those fetched pages with supporting excerpts. If it cannot obtain usable evidence, the result stays unknown.
+The deployed collector runs daily before the morning briefing. A model helps match incident reports to the inventory. For relevant candidates, the collector fetches a bounded set of primary sources from reviewed publisher domains and checks that the assessment cites those fetched pages with supporting excerpts. Missing or unusable evidence leaves the result unknown.
 
-This is useful work for a model, but source access needs limits. Publisher pages are untrusted input. They cannot expand the fetch allowlist or tell the collector to run a command. The matching and assessment model has no shell, browser-control or remediation tools. Citation checks establish where a claim came from; they do not guarantee that the reasoning is right.
+Publisher pages are untrusted input, even when they come from an approved domain. They cannot expand the fetch allowlist or tell the collector to run a command. The matching and assessment model has no shell, browser-control or remediation tools. Citation checks establish where a claim came from; they do not guarantee that the reasoning is right.
 
 Our desktop review supplied a concrete example. One application reported Chromium 152.0.7977.76, below Chrome's published cutoff for a V8 vulnerability. Its Electron release included [the exact upstream fix as a backport](https://github.com/electron/electron/pull/53479). A simple version comparison would have left us chasing an already-fixed issue. Elsewhere, a newly downloaded application still contained an older Chromium, with no vendor-specific fix established by our checks. The word “updated” could not settle either case.
 

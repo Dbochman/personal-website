@@ -840,3 +840,16 @@ runtime paths, raw captures, and authentication material.
 - GitHub runner v2.338.1 source declares Node 24.22.1. Publication still needs
   an attended hosted check of the assigned runner, required tests and review;
   release metadata alone does not lift the workflow hold.
+
+## 2026-10-22 — Security post prose polish
+
+- Owner requested 100/100 prose and deferred the next runner check until
+  tomorrow. Rewrote three paragraphs to state the verified runtime scope and
+  source-trust limits directly. Preserved the proactive sections, uncertainty,
+  citations and attribution; no linter configuration or exclusions changed.
+- Slop Guard now scores 100/100 with no reported violations. All 52 focused
+  content tests and the production preview build pass. The existing large-chunk
+  build warning remains; no full prerender or browser visual check this turn.
+- Prior hosted run 39890862219 stopped before checkout on action Node 24.21.0.
+  All 13 repository-owned workflows remain disabled; only GitHub-managed
+  Dependabot is active. No runner retry, merge or production deployment tonight.
