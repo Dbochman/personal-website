@@ -872,3 +872,12 @@ runtime paths, raw captures, and authentication material.
   publication requires a clean rebuild on a verified patched environment. The
   local patched Node is a candidate, but old prerender process cleanup prevents
   an unattended full build on this shared Mini. No deployment clearance claimed.
+- First hosted exception run `40102482838` passed the scoped gate, downloaded
+  and verified Node 24.22.1, and passed both clients' live trust probes. It then
+  correctly failed audit on newly reviewed GHSA-mrhx-c7xc-m3w5. Updated only Zod
+  from locked 4.3.6 to exact 4.6.6; audit now reports zero findings locally.
+  Reinstalled from lockfile; all 301 unit tests, typecheck, preview build and
+  hard bundle budgets still pass. Existing largest-chunk soft warning remains.
+- Restricted PinchTab session creation succeeded, but isolated instance start
+  returned HTTP 403. Requested scoped operator approval for a dedicated
+  publication instance only. No shared profiles, permissions or services changed.
