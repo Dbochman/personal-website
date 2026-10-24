@@ -3,10 +3,9 @@ import { chromium } from '@playwright/test';
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { exec } from 'child_process';
-import { promisify } from 'util';
+import { preview } from 'vite';
+import { publicationBrowserEndpoint } from './prerender-browser.mjs';
 
-const execAsync = promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const distDir = join(__dirname, '..', 'dist');
@@ -80,24 +79,29 @@ function loadPublicProjects() {
 async function prerender() {
   console.log('🚀 Starting pre-rendering process...');
 
-  const baseUrl = 'http://localhost:4173';
-  let previewProcess;
+  // Validate before starting any server or connecting to any browser.
+  const endpoint = publicationBrowserEndpoint(process.env.PRERENDER_CDP_URL);
+  let previewServer;
+  let browser;
+  let context;
 
   try {
     // Start preview server in background
     console.log('🌐 Starting preview server...');
-    previewProcess = exec('npm run preview', {
-      cwd: join(__dirname, '..')
+    previewServer = await preview({
+      root: join(__dirname, '..'),
+      preview: { host: '127.0.0.1', port: 0, open: false },
     });
+    const address = previewServer.httpServer.address();
+    if (!address || typeof address === 'string') throw new Error('Preview did not bind a TCP port');
+    const baseUrl = `http://127.0.0.1:${address.port}`;
 
-    // Wait for server to start
-    await new Promise(resolve => setTimeout(resolve, 3000));
-
-    // Launch browser (CI uses the runner's preinstalled Chrome — no download)
-    const browser = await chromium.launch({
-      channel: process.env.CI ? 'chrome' : undefined,
-    });
-    const page = await browser.newPage();
+    // CI uses installed Chrome; attended local publication may supply a
+    // dedicated PinchTab instance. Never use its default context or account tabs.
+    browser = endpoint ? await chromium.connectOverCDP(endpoint)
+      : await chromium.launch({ channel: 'chrome' });
+    context = await browser.newContext();
+    const page = await context.newPage();
 
     // Get indexable content from the same generated data used by the sitemap.
     const blogRoutes = loadBlogRoutes();
@@ -187,8 +191,6 @@ async function prerender() {
       console.log(`    ✓ Generated ${outputPath.replace(distDir, 'dist')}`);
     }
 
-    await browser.close();
-
     // Trailing-slash redirects for every prerendered route. GitHub Pages
     // serves /foo from foo.html but /foo/ requires foo/index.html — without
     // these stubs, old indexed or externally-linked trailing-slash URLs 404.
@@ -246,15 +248,15 @@ async function prerender() {
     console.error('❌ Pre-rendering failed:', error);
     throw error;
   } finally {
-    // Kill the preview server
-    if (previewProcess) {
-      previewProcess.kill();
-    }
-    // Also kill any remaining vite preview processes
     try {
-      await execAsync('pkill -f "vite preview"');
-    } catch (e) {
-      // Ignore errors from pkill
+      await context?.close();
+    } finally {
+      try {
+        // A CDP-connected browser is disconnected; the caller stops its instance.
+        await browser?.close();
+      } finally {
+        await previewServer?.close();
+      }
     }
   }
 }

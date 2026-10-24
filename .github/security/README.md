@@ -151,11 +151,25 @@ artifacts**, even if its tests pass. If hosted publishing still lacks a patched
 runner, rebuild the exact reviewed/merged source in a verified patched environment,
 with filtered trust and fresh dependencies; run the full build and smoke checks
 there before introducing a scoped publishing credential. Do not install a
-long-lived public-repo runner on the household Mini. The existing local Node
-24.22.1 is a candidate for attended publishing, not a deployment clearance:
-this branch's old prerender cleanup can affect shared preview processes and must
-be isolated or repaired before a local full build. Do not publish a preview-only
-build or weaken the deployment bootstrap to work around that limitation.
+long-lived public-repo runner on the household Mini.
+
+For an attended Mini rebuild, verify Node 24.22.1 (or a supported patched release)
+and run `node .github/security/probe.mjs`. Acquire a dedicated PinchTab profile
+with explicit operator approval, pass its complete browser trust checks, then
+supply its loopback HTTP CDP endpoint as `PRERENDER_CDP_URL` when running the full
+`npm run build` with `GITHUB_SHA` set to the exact clean source commit. Prerender
+creates a new browser context and an ephemeral loopback Vite server. Its cleanup
+closes only those owned resources and disconnects CDP; the operator must stop the
+dedicated instance afterward. No shared browser context or `pkill` is used.
+The endpoint validator rejects remote URLs and credentials. CI keeps using its
+installed Chrome in an isolated temporary profile.
+
+Reinstall dependencies from the lockfile and run the full tests, audit, route and
+browser checks on the clean source. Confirm `dist/build-info.json` names that
+commit and inspect the generated post. Introduce a scoped publishing credential
+only after those checks, using native Git to publish the static output through
+the existing Pages repository. Retain a rollback commit. A preview-only build,
+successful exception CI, or a patched local Node alone is not publication proof.
 
 ### Readiness monitoring and required merge checks
 

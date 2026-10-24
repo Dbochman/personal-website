@@ -283,6 +283,7 @@ jobs:
       - name: Unit tests
         run: |
           node --test .github/codex/review-workflow.test.mjs
+          node --test .github/security/test_prerender.mjs
           npm test
 
       - name: Build

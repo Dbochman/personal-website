@@ -881,3 +881,13 @@ runtime paths, raw captures, and authentication material.
 - Restricted PinchTab session creation succeeded, but isolated instance start
   returned HTTP 403. Requested scoped operator approval for a dedicated
   publication instance only. No shared profiles, permissions or services changed.
+- Owner approved that dedicated publication instance. Its new profile passed
+  the full trust check after bounded startup retries; acquisition is rechecked.
+  Full hosted run `40102723130` passed audit, all validation, full prerender and
+  32 browser smoke checks on `457b8918`. Restored the workflow hold afterward.
+- Reused the already-developed owned-preview cleanup approach from browser
+  tooling work, without merging its separate dependency changes. Added an
+  optional loopback-only CDP endpoint for attended publication and a fresh
+  context, so this branch can safely build using dedicated PinchTab on the Mini.
+  Added three executable contract tests to the required PR job. Local full
+  build and hosted validation of this further revision remain to be completed.

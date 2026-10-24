@@ -84,6 +84,7 @@ for (const filename of readdirSync(directory).filter(name => name.endsWith('.yml
     for (const required of ['npm ci', 'npm audit --audit-level=low', 'npm run lint',
       'npm run typecheck', 'npm test', 'npm run build', 'npm run check-bundle-budget',
       'node --test .github/codex/review-workflow.test.mjs',
+      'node --test .github/security/test_prerender.mjs',
       'BASE_URL=http://localhost:4173 npx playwright test --grep @smoke',
       'node .github/security/probe.mjs']) {
       if (!job.steps.some(step => step.run?.split('\n').includes(required) &&
