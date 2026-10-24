@@ -2,6 +2,9 @@
   command = "npm run build:netlify"
   publish = "dist"
 
+[build.environment]
+  NODE_VERSION = "24.22.1"
+
 # Redirect /editor to Netlify subdomain where Identity works
 [[redirects]]
   from = "/editor/*"

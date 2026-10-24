@@ -13,10 +13,10 @@
       <link>https://dylanbochman.com/blog</link>
     </image>
     <item>
-      <title>The eMudhra Certificate Incident: A Private Key of Four</title>
+      <title>When Updating Isn’t Enough</title>
       <link>https://dylanbochman.com/blog/2026-10-20-emudhra-certificate-incident</link>
       <guid isPermaLink="true">https://dylanbochman.com/blog/2026-10-20-emudhra-certificate-incident</guid>
-      <description>Trivially recoverable CA keys exposed a harder operational problem: finding which applications still trusted them. Our response followed the connection from bundled runtimes to browser startup.</description>
+      <description>The eMudhra incident sent us looking for hidden runtimes. The next advisory led us to build an inventory-backed daily review—and a briefing that stops repeating finished work.</description>
       <pubDate>Tue, 20 Oct 2026 00:00:00 GMT</pubDate>
       <author>dylan@dylanbochman.com (Dylan)</author>
       <category>Security</category>

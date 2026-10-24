@@ -753,3 +753,141 @@ runtime paths, raw captures, and authentication material.
   build and hard bundle budgets passed. Existing soft large-chunk advisory
   remains. Full local prerender still avoided because of its broad shared
   preview-process cleanup; no browser visual check was performed this turn.
+
+## 2026-10-21 — Node security follow-up (Codex; prepared, unpublished)
+
+- Branch `fix/node-security-runtime` starts from current `origin/main`.
+  Pin setup-node, .nvmrc and Netlify build selection to24.22.1; root engine
+  constraints exclude older24, EOL25 and unpatched26. No dependency resolution
+  change. The offline bootstrap checks the actual Runner.Worker-owned Node24
+  before JS actions; unpatched or unidentified runner ownership fails closed.
+  This does not patch the runner control plane or pre-step action preparation.
+- Kept the certificate exclusions. The existing eMudhra post now has a short
+  October21 follow-up distinguishing trust repair from Brotli repair, and
+  staged runtime changes from verified running processes. Canonical title/slug
+  preserved. Updated sitemap lastmod is generated from the editorial date.
+- Validation: 301 unit tests, typecheck, lint, production preview build, hard
+  bundle budgets, 11 bootstrap tests and generated-workflow check pass. Prose
+  score100. Existing soft chunk warning remains. No full local prerender or
+  browser visual QA; no hosted CI run or provider runtime attestation yet.
+- Publication approval requested; no commit, push, PR or deployment yet.
+  GitHub runner remediation may require waiting for a vendor rollout. Vendor
+  desktop runtimes and the old Vercel project remain separate findings.
+
+## 2026-10-21 — Node rollout and hosted-runner containment
+
+- Owner authorized committing, pushing and deploying. Commit `21f62058` is
+  pushed in PR #339; it is not merged or published to the production site.
+- Hosted run `39699339521` found Runner.Worker's action Node at 24.21.0. The
+  offline gate failed before checkout, as intended. Do not weaken it to obtain
+  green CI or infer that setup-node patches the action runtime.
+- Temporarily disabled all 13 repository-owned Actions workflows so scheduled
+  main-branch jobs cannot keep using the old unguarded configuration. Prior
+  states are recorded in the operator's protected recovery directory. Static
+  production stays online; automated build/deploy, review and analytics work
+  is paused. GitHub-managed Dependabot and external provider integrations are
+  outside this hold. Re-enable only with the guarded workflow deployed and a
+  verified patched runner; do not blindly restore old schedules.
+- Dotfiles runtime changes were published and deployed separately. The Mini's
+  gateway uses 24.22.1 and magazine uses 22.23.4, with actual process and health
+  evidence. Remote robot bridges use 24.22.1 but robot MQTT connectivity remains
+  unresolved. Other offline/vendor-managed runtimes remain explicit gaps.
+- Updated the post to report actual activation and the failed hosted gate,
+  preserving its concise narrative, canonical title, slug and attribution.
+- Final documentation revision: production preview build, hard bundle budgets,
+  11 bootstrap tests and workflow drift check pass; prose scores 97/100. The
+  existing soft chunk limit remains exceeded. Added an attended, guarded
+  validation procedure for restoring workflows without running old main.
+
+## 2026-10-21 — Owner-selected security post title
+
+- Retitled the existing incident post to “When Updating Isn’t Enough” at
+  Dylan's request. Kept the canonical slug, source filename/legacy redirect,
+  dates, body and Codex attribution unchanged. Refreshed generated feed metadata.
+- This editorial change stays in PR #339; the security-related workflow hold
+  remains in place and publication is still pending.
+
+## 2026-10-21 — Bounded readiness monitoring and merge protection
+
+- Owner approved an independent readiness monitor and required-check protection.
+  Mini watch runs hourly for seven days, reports release-source candidates on
+  PR #339, and cannot enable CI or merge. Actual hosted verification is still
+  required. Startup/error/expiry notifications and bounded retry handling prevent
+  an indefinite silent wait; the tracked implementation lives in dotfiles.
+- Main requires GitHub Actions' `test` check, with up-to-date checking and admin
+  enforcement. Existing other protection settings are preserved. Removed PR
+  test workflow path exclusions, included reopened PRs and added a validator
+  assertion so documentation PRs emit the required check.
+- Direct-main publisher bots will also be blocked by required checks. Keep those
+  jobs held pending a PR-based publishing design, without a security bypass.
+- PR #339 and website workflow holds remain; no merge or production deployment.
+
+## 2026-10-22 — Proactive security review in the incident post
+
+- Owner requested expanding “When Updating Isn’t Enough” around the deployed
+  proactive approach. Kept the title, canonical slug, publication date and
+  truthful Codex attribution; advanced the editorial date to October 22.
+- Added the inventory-first decision, minimized model inputs, primary-source
+  verification, notification-only authority, resumable/capped collection and
+  outstanding-only briefing. Explained partial reconciliation without closing
+  multi-asset findings, and backports without age-based vulnerability claims.
+- Kept private host identifiers, paths, accounts and the detailed app inventory
+  out of the public post. Mentioned attended updates without a fleet clearance.
+- Prose score 93; 52 focused content tests, 5 workflow-contract tests, 11
+  bootstrap tests, typecheck, lint, preview build and hard bundle budgets pass.
+  Existing soft chunk warning remains. No local full prerender on this branch
+  because its older preview cleanup can affect shared services.
+- GitHub runner v2.338.1 source declares Node 24.22.1. Publication still needs
+  an attended hosted check of the assigned runner, required tests and review;
+  release metadata alone does not lift the workflow hold.
+
+## 2026-10-22 — Security post prose polish
+
+- Owner requested 100/100 prose and deferred the next runner check until
+  tomorrow. Rewrote three paragraphs to state the verified runtime scope and
+  source-trust limits directly. Preserved the proactive sections, uncertainty,
+  citations and attribution; no linter configuration or exclusions changed.
+- Slop Guard now scores 100/100 with no reported violations. All 52 focused
+  content tests and the production preview build pass. The existing large-chunk
+  build warning remains; no full prerender or browser visual check this turn.
+- Prior hosted run 39890862219 stopped before checkout on action Node 24.21.0.
+  All 13 repository-owned workflows remain disabled; only GitHub-managed
+  Dependabot is active. No runner retry, merge or production deployment tonight.
+
+## 2026-10-24 — Narrow PR validation exception; publishing remains held
+
+- Owner approved assessing/implementing a time-limited exception for reviewed
+  PR validation while keeping credential-bearing deployment protected.
+- Both pinned checkout/setup-node distributions contain Brotli decoding code.
+  Avoided their execution entirely: permissionless, run-only PR checks now use
+  native Git and checksum-pinned curl acquisition of build Node 24.22.1. No
+  cache actions, artifact uploads, persisted Git credentials or secrets.
+- Exception admits only action Node 24.21.0 for same-repository PR #339 on
+  fix/node-security-runtime, and requires separately approved full head/base
+  hashes. Review October 25 10:00 EDT; expiry October 26 10:00 EDT, reserving
+  the full 30-minute job timeout. Other jobs retain the strict runtime gate.
+- Kept all functional checks; 301 unit tests, 12 review-contract tests, typecheck
+  and lint passed locally, plus focused expiry/scope/workflow guard tests.
+- Hosted exception validation is pending. Its outputs must never be published;
+  publication requires a clean rebuild on a verified patched environment. The
+  local patched Node is a candidate, but old prerender process cleanup prevents
+  an unattended full build on this shared Mini. No deployment clearance claimed.
+- First hosted exception run `40102482838` passed the scoped gate, downloaded
+  and verified Node 24.22.1, and passed both clients' live trust probes. It then
+  correctly failed audit on newly reviewed GHSA-mrhx-c7xc-m3w5. Updated only Zod
+  from locked 4.3.6 to exact 4.6.6; audit now reports zero findings locally.
+  Reinstalled from lockfile; all 301 unit tests, typecheck, preview build and
+  hard bundle budgets still pass. Existing largest-chunk soft warning remains.
+- Restricted PinchTab session creation succeeded, but isolated instance start
+  returned HTTP 403. Requested scoped operator approval for a dedicated
+  publication instance only. No shared profiles, permissions or services changed.
+- Owner approved that dedicated publication instance. Its new profile passed
+  the full trust check after bounded startup retries; acquisition is rechecked.
+  Full hosted run `40102723130` passed audit, all validation, full prerender and
+  32 browser smoke checks on `457b8918`. Restored the workflow hold afterward.
+- Reused the already-developed owned-preview cleanup approach from browser
+  tooling work, without merging its separate dependency changes. Added an
+  optional loopback-only CDP endpoint for attended publication and a fresh
+  context, so this branch can safely build using dedicated PinchTab on the Mini.
+  Added three executable contract tests to the required PR job. Local full
+  build and hosted validation of this further revision remain to be completed.

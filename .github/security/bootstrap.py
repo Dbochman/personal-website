@@ -21,6 +21,57 @@ BLOCKED_KEYS = frozenset({
 })
 
 
+def require_patched_node(version):
+    # Release-specific floors: accepting an arbitrary newer major would admit
+    # EOL Node 25. Pre-release/custom builds need independent evidence.
+    match = re.fullmatch(r"v(\d+)\.(\d+)\.(\d+)", version.strip())
+    floors = {22: (22, 23, 4), 24: (24, 22, 1), 26: (26, 12, 1)}
+    parts = tuple(map(int, match.groups())) if match else ()
+    if not parts or parts[0] not in floors or parts < floors[parts[0]]:
+        raise ValueError(f"unpatched or unverified Node runtime: {version.strip()}")
+
+
+def runner_node(proc=Path("/proc"), pid=None):
+    # The runner launches JS actions from its own externals directory, ignoring
+    # setup-node's PATH. Follow our real parent chain, not a guessed install path.
+    pid = os.getpid() if pid is None else pid
+    for _ in range(32):
+        process = proc / str(pid)
+        executable = (process / "exe").resolve(strict=True)
+        if executable.name == "Runner.Worker":
+            node = executable.parent.parent / "externals/node24/bin/node"
+            if not node.is_file():
+                raise ValueError("runner Node 24 is missing")
+            return node
+        status = (process / "status").read_text()
+        parent = re.search(r"^PPid:\s+(\d+)$", status, re.M)
+        if not parent or int(parent[1]) <= 1:
+            break
+        pid = int(parent[1])
+    raise ValueError("cannot establish GitHub Actions runner ownership")
+
+
+def verify_runner_node(exception=None):
+    node = runner_node()
+    # Version-only probe: no application, network, input decompression or secrets.
+    version = subprocess.run(
+        [str(node), "--version"], check=True, capture_output=True, text=True,
+        timeout=5, env={"PATH": "/usr/bin:/bin"},
+    ).stdout.strip()
+    try:
+        require_patched_node(version)
+    except ValueError:
+        if exception is None or not exception(version):
+            raise
+        print("::warning::Temporary PR #339 exception: action Node v24.21.0 remains "
+              "unpatched; this job executes no JavaScript actions. Expires "
+              "2026-10-26T14:00:00Z; review 2026-10-25 at 10:00 EDT.")
+        return
+    if not version.startswith("v24."):
+        raise ValueError("unexpected runner action runtime major")
+    print(f"Runner JavaScript action runtime verified: {version}")
+
+
 def public_key_hash(pem):
     key = subprocess.run(
         ["openssl", "x509", "-pubkey", "-noout"], input=pem,
@@ -47,8 +98,9 @@ def filter_bundle(source, blocked=BLOCKED_KEYS):
     return result, len(certs) - len(kept)
 
 
-def main():
+def main(exception=None):
     # No network, sudo, checkout, third-party imports, or credentials required.
+    verify_runner_node(exception=exception)
     bundle, removed = filter_bundle(Path("/etc/ssl/certs/ca-certificates.crt").read_bytes())
     directory = Path(tempfile.mkdtemp(prefix="ci-tls-", dir=os.environ["RUNNER_TEMP"]))
     # Public roots must remain readable by subsequent privilege-dropped steps.

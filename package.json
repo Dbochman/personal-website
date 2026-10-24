@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "type": "module",
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=24.22.1 <25 || >=26.12.1 <27"
   },
   "scripts": {
     "preinstall": "node -e \"if (process.env.npm_command === 'install') { console.error('\\nUse npm ci for installs (not npm install).\\nTo add a package: npm install --save-exact <pkg>\\n'); process.exit(1); }\"",
@@ -98,7 +98,7 @@
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "web-vitals": "^5.2.0",
-    "zod": "^4.3.5"
+    "zod": "4.6.6"
   },
   "overrides": {
     "react-day-picker": {

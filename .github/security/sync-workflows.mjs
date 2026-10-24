@@ -5,8 +5,16 @@ import { load } from 'js-yaml';
 
 const directory = new URL('../workflows/', import.meta.url);
 const source = readFileSync(new URL('bootstrap.py', import.meta.url), 'utf8').trimEnd();
-const command = `python3 - <<'PY'\n${source}\nPY\n`;
-const block = [
+const exception = readFileSync(new URL('pr-validation-exception.py', import.meta.url), 'utf8').trimEnd();
+const prepare = readFileSync(new URL('pr-prepare.sh', import.meta.url), 'utf8');
+function bootstrapCommand(filename) {
+  const script = filename === 'pr-checks.yml'
+    ? source.replace('if __name__ == "__main__":\n    main()',
+      `${exception}\n\nif __name__ == "__main__":\n    main(exception=allow_pr_validation_exception)`)
+    : source;
+  return `python3 - <<'PY'\n${script}\nPY\n`;
+}
+function bootstrapBlock(command) { return [
   '      # BEGIN GENERATED TLS BOOTSTRAP — .github/security/sync-workflows.mjs',
   '      - &tls-bootstrap',
   '        id: tls',
@@ -16,11 +24,22 @@ const block = [
   '        run: |',
   ...command.trimEnd().split('\n').map(line => `          ${line}`.trimEnd()),
   '      # END GENERATED TLS BOOTSTRAP',
+].join('\n'); }
+const prepareBlock = [
+  '      # BEGIN GENERATED PR PREPARE',
+  '      - name: Prepare reviewed source and patched Node',
+  '        shell: bash',
+  '        timeout-minutes: 5',
+  '        run: |',
+  ...prepare.trimEnd().split('\n').map(line => `          ${line}`.trimEnd()),
+  '      # END GENERATED PR PREPARE',
 ].join('\n');
 let stale = false;
 for (const filename of readdirSync(directory).filter(name => name.endsWith('.yml'))) {
   const path = new URL(filename, directory);
   const original = readFileSync(path, 'utf8');
+  const command = bootstrapCommand(filename);
+  const block = bootstrapBlock(command);
   let result = original.replace(/      # BEGIN GENERATED TLS BOOTSTRAP[^\n]*\n[\s\S]*?      # END GENERATED TLS BOOTSTRAP\n/g, '')
     .replace(/      - \*tls-bootstrap\n/g, '');
   if (!load(result).env) {
@@ -33,6 +52,9 @@ for (const filename of readdirSync(directory).filter(name => name.endsWith('.yml
     first = false;
     return `${match}${insertion}\n`;
   });
+  if (filename === 'pr-checks.yml') {
+    result = result.replace(/      # BEGIN GENERATED PR PREPARE\n[\s\S]*?      # END GENERATED PR PREPARE/g, prepareBlock);
+  }
   // Failure/always handlers must not make credential-bearing calls if trust
   // preparation failed. Preserve their original behavior after a good bootstrap.
   result = result.replace(/^        if: (.+)$/gm, (line, condition) => {
@@ -41,6 +63,36 @@ for (const filename of readdirSync(directory).filter(name => name.endsWith('.yml
     return "        if: ${{ (" + expression + ") && steps.tls.outcome == 'success' }}";
   });
   const workflow = load(result);
+  if (filename === 'pr-checks.yml') {
+    const trigger = workflow.on?.pull_request;
+    if (!trigger || trigger.paths || trigger['paths-ignore'] ||
+        !['opened', 'synchronize', 'reopened'].every(event => trigger.types?.includes(event)) ||
+        !workflow.jobs.test || workflow.jobs.test.name || workflow.jobs.test['continue-on-error'] ||
+        workflow.jobs.test.if !== "github.event.action != 'closed'") {
+      throw new Error('Required test check must run on every open PR revision');
+    }
+    const job = workflow.jobs.test;
+    if (JSON.stringify(workflow.permissions) !== '{}' ||
+        Object.keys(workflow.jobs).join() !== 'test' || job.permissions || job.environment ||
+        job['timeout-minutes'] !== 30 || /\$\{\{[^}]*\bsecrets\b/.test(result) ||
+        job.steps.some(step => step.uses) ||
+        job.steps[1]?.run !== prepare ||
+        job.env?.PR_339_APPROVED_HEAD !== '${{ vars.PR_339_APPROVED_HEAD }}' ||
+        job.env?.PR_339_APPROVED_BASE !== '${{ vars.PR_339_APPROVED_BASE }}') {
+      throw new Error('PR exception requires run-only, permissionless validation without secrets, caches or publishing');
+    }
+    for (const required of ['npm ci', 'npm audit --audit-level=low', 'npm run lint',
+      'npm run typecheck', 'npm test', 'npm run build', 'npm run check-bundle-budget',
+      'node --test .github/codex/review-workflow.test.mjs',
+      'node --test .github/security/test_prerender.mjs',
+      'BASE_URL=http://localhost:4173 npx playwright test --grep @smoke',
+      'node .github/security/probe.mjs']) {
+      if (!job.steps.some(step => step.run?.split('\n').includes(required) &&
+          step.if === undefined && !step['continue-on-error'])) {
+        throw new Error(`Missing required PR validation: ${required}`);
+      }
+    }
+  }
   if (workflow.env.NODE_OPTIONS !== '--use-openssl-ca' ||
       workflow.env.NODE_USE_SYSTEM_CA !== '0' || workflow.env.NODE_EXTRA_CA_CERTS !== '') {
     throw new Error(`Unexpected Node trust settings: ${filename}`);
@@ -51,6 +103,9 @@ for (const filename of readdirSync(directory).filter(name => name.endsWith('.yml
       throw new Error(`Unsupported/unprotected job: ${filename}:${name}`);
     }
     for (const step of job.steps.slice(1)) {
+      if (step.uses?.startsWith('actions/setup-node@') && step.with?.['node-version'] !== '24.22.1') {
+        throw new Error(`Unpinned/affected build Node: ${filename}:${name}`);
+      }
       if (/\b(always|failure|cancelled)\(/.test(step.if ?? '') && !step.if.includes("steps.tls.outcome == 'success'")) {
         throw new Error(`Unguarded failure handler: ${filename}:${name}`);
       }

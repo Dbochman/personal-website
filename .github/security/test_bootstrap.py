@@ -13,6 +13,11 @@ spec.loader.exec_module(bootstrap)
 
 
 class TrustTests(unittest.TestCase):
+    def setUp(self):
+        patcher = mock.patch.object(bootstrap, "verify_runner_node")
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
     @classmethod
     def setUpClass(cls):
         cls.directory = tempfile.TemporaryDirectory()
@@ -79,6 +84,64 @@ class TrustTests(unittest.TestCase):
                     self.assertRaises(ValueError):
                 bootstrap.main()
             self.assertEqual(env_file.read_text(), "")
+
+
+class RuntimeTests(unittest.TestCase):
+    def test_default_stays_strict_and_only_explicit_callback_can_allow_exception(self):
+        result = subprocess.CompletedProcess([], 0, stdout="v24.21.0\n")
+        with mock.patch.object(bootstrap, "runner_node", return_value=Path('/runner/node')), \
+                mock.patch.object(bootstrap.subprocess, "run", return_value=result):
+            with self.assertRaises(ValueError):
+                bootstrap.verify_runner_node()
+            with self.assertRaises(ValueError):
+                bootstrap.verify_runner_node(exception=lambda _: False)
+            approved = mock.Mock(return_value=True)
+            bootstrap.verify_runner_node(exception=approved)
+            approved.assert_called_once_with("v24.21.0")
+
+    def test_patched_runner_needs_no_exception(self):
+        result = subprocess.CompletedProcess([], 0, stdout="v24.22.1\n")
+        with mock.patch.object(bootstrap, "runner_node", return_value=Path('/runner/node')), \
+                mock.patch.object(bootstrap.subprocess, "run", return_value=result):
+            approved = mock.Mock(side_effect=AssertionError("exception not needed"))
+            bootstrap.verify_runner_node(exception=approved)
+            approved.assert_not_called()
+
+    def test_supported_patched_releases(self):
+        for version in ("v22.23.4", "v24.22.1", "v26.12.1", "v24.23.0"):
+            bootstrap.require_patched_node(version)
+
+    def test_affected_eol_unknown_and_prerelease_fail_closed(self):
+        for version in ("v22.23.3", "v24.21.0", "v24.22.0", "v26.12.0",
+                        "v25.9.0", "v20.99.0", "v28.1.0", "v24.22.1-rc.1", "bad"):
+            with self.subTest(version=version), self.assertRaises(ValueError):
+                bootstrap.require_patched_node(version)
+
+    def test_resolves_worker_from_actual_ancestry(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            worker = root / "runner/bin/Runner.Worker"
+            worker.parent.mkdir(parents=True)
+            worker.touch()
+            node = root / "runner/externals/node24/bin/node"
+            node.parent.mkdir(parents=True)
+            node.touch()
+            for pid, executable, parent in ((10, Path('/bin/sh'), 9), (9, worker, 1)):
+                process = root / str(pid)
+                process.mkdir()
+                (process / "exe").symlink_to(executable)
+                (process / "status").write_text(f"PPid:\t{parent}\n")
+            self.assertEqual(bootstrap.runner_node(root, 10), node.resolve())
+            node.unlink()
+            with self.assertRaises(ValueError):
+                bootstrap.runner_node(root, 10)
+
+    def test_failed_runtime_gate_does_not_publish_trust(self):
+        with mock.patch.object(bootstrap, "verify_runner_node", side_effect=ValueError), \
+                mock.patch.object(bootstrap, "filter_bundle") as filtering:
+            with self.assertRaises(ValueError):
+                bootstrap.main()
+            filtering.assert_not_called()
 
 
 if __name__ == "__main__":
