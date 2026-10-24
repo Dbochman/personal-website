@@ -78,14 +78,22 @@ jobs:
               raise ValueError("cannot establish GitHub Actions runner ownership")
 
 
-          def verify_runner_node():
+          def verify_runner_node(exception=None):
               node = runner_node()
               # Version-only probe: no application, network, input decompression or secrets.
               version = subprocess.run(
                   [str(node), "--version"], check=True, capture_output=True, text=True,
                   timeout=5, env={"PATH": "/usr/bin:/bin"},
               ).stdout.strip()
-              require_patched_node(version)
+              try:
+                  require_patched_node(version)
+              except ValueError:
+                  if exception is None or not exception(version):
+                      raise
+                  print("::warning::Temporary PR #339 exception: action Node v24.21.0 remains "
+                        "unpatched; this job executes no JavaScript actions. Expires "
+                        "2026-10-26T14:00:00Z; review 2026-10-25 at 10:00 EDT.")
+                  return
               if not version.startswith("v24."):
                   raise ValueError("unexpected runner action runtime major")
               print(f"Runner JavaScript action runtime verified: {version}")
@@ -117,9 +125,9 @@ jobs:
               return result, len(certs) - len(kept)
 
 
-          def main():
+          def main(exception=None):
               # No network, sudo, checkout, third-party imports, or credentials required.
-              verify_runner_node()
+              verify_runner_node(exception=exception)
               bundle, removed = filter_bundle(Path("/etc/ssl/certs/ca-certificates.crt").read_bytes())
               directory = Path(tempfile.mkdtemp(prefix="ci-tls-", dir=os.environ["RUNNER_TEMP"]))
               # Public roots must remain readable by subsequent privilege-dropped steps.

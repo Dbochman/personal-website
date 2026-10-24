@@ -853,3 +853,22 @@ runtime paths, raw captures, and authentication material.
 - Prior hosted run 39890862219 stopped before checkout on action Node 24.21.0.
   All 13 repository-owned workflows remain disabled; only GitHub-managed
   Dependabot is active. No runner retry, merge or production deployment tonight.
+
+## 2026-10-24 — Narrow PR validation exception; publishing remains held
+
+- Owner approved assessing/implementing a time-limited exception for reviewed
+  PR validation while keeping credential-bearing deployment protected.
+- Both pinned checkout/setup-node distributions contain Brotli decoding code.
+  Avoided their execution entirely: permissionless, run-only PR checks now use
+  native Git and checksum-pinned curl acquisition of build Node 24.22.1. No
+  cache actions, artifact uploads, persisted Git credentials or secrets.
+- Exception admits only action Node 24.21.0 for same-repository PR #339 on
+  fix/node-security-runtime, and requires separately approved full head/base
+  hashes. Review October 25 10:00 EDT; expiry October 26 10:00 EDT, reserving
+  the full 30-minute job timeout. Other jobs retain the strict runtime gate.
+- Kept all functional checks; 301 unit tests, 12 review-contract tests, typecheck
+  and lint passed locally, plus focused expiry/scope/workflow guard tests.
+- Hosted exception validation is pending. Its outputs must never be published;
+  publication requires a clean rebuild on a verified patched environment. The
+  local patched Node is a candidate, but old prerender process cleanup prevents
+  an unattended full build on this shared Mini. No deployment clearance claimed.

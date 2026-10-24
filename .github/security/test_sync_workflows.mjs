@@ -36,3 +36,41 @@ for (const [name, mutate] of [
     assert.match(result.stderr, /Required test check/);
   });
 }
+
+for (const [name, mutate] of [
+  ['repository permission', text => text.replace('permissions: {}', 'permissions: {contents: read}')],
+  ['job permission', text => text.replace('  test:\n', '  test:\n    permissions: {contents: write}\n')],
+  ['environment secrets', text => text.replace('  test:\n', '  test:\n    environment: production\n')],
+  ['secret expression', text => text.replace('    env:\n', '    env:\n      TOKEN: ${{ secrets.DEPLOY_TOKEN }}\n')],
+  ['JavaScript action', text => text + '\n      - uses: actions/checkout@v7\n'],
+  ['unbounded timeout', text => text.replace('    timeout-minutes: 30', '    timeout-minutes: 360')],
+  ['approval from event instead of operator', text => text.replace('vars.PR_339_APPROVED_HEAD', 'github.event.pull_request.head.sha')],
+]) {
+  test(`exception rejects ${name}`, () => {
+    const result = check(mutate);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /PR exception requires/);
+  });
+}
+
+test('functional tests cannot be removed to obtain a passing exception run', () => {
+  const result = check(text => text.replace('        run: npm run typecheck', '        run: echo skipped'));
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /Missing required PR validation/);
+});
+
+test('functional tests cannot be skipped or allowed to fail', () => {
+  for (const flag of ['if: false', 'continue-on-error: true']) {
+    const result = check(text => text.replace('      - name: Type check\n', `      - name: Type check\n        ${flag}\n`));
+    assert.notEqual(result.status, 0);
+  }
+});
+
+test('only PR checks embeds exception policy; deployment remains strict', () => {
+  const deploy = readFileSync(new URL('../workflows/deploy.yml', import.meta.url), 'utf8');
+  assert.ok(!deploy.includes('allow_pr_validation_exception'));
+  assert.ok(deploy.includes('              main()'));
+  const pr = readFileSync(new URL('../workflows/pr-checks.yml', import.meta.url), 'utf8');
+  assert.ok(pr.includes('main(exception=allow_pr_validation_exception)'));
+  assert.ok(!pr.includes('uses:'));
+});

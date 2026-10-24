@@ -87,6 +87,26 @@ class TrustTests(unittest.TestCase):
 
 
 class RuntimeTests(unittest.TestCase):
+    def test_default_stays_strict_and_only_explicit_callback_can_allow_exception(self):
+        result = subprocess.CompletedProcess([], 0, stdout="v24.21.0\n")
+        with mock.patch.object(bootstrap, "runner_node", return_value=Path('/runner/node')), \
+                mock.patch.object(bootstrap.subprocess, "run", return_value=result):
+            with self.assertRaises(ValueError):
+                bootstrap.verify_runner_node()
+            with self.assertRaises(ValueError):
+                bootstrap.verify_runner_node(exception=lambda _: False)
+            approved = mock.Mock(return_value=True)
+            bootstrap.verify_runner_node(exception=approved)
+            approved.assert_called_once_with("v24.21.0")
+
+    def test_patched_runner_needs_no_exception(self):
+        result = subprocess.CompletedProcess([], 0, stdout="v24.22.1\n")
+        with mock.patch.object(bootstrap, "runner_node", return_value=Path('/runner/node')), \
+                mock.patch.object(bootstrap.subprocess, "run", return_value=result):
+            approved = mock.Mock(side_effect=AssertionError("exception not needed"))
+            bootstrap.verify_runner_node(exception=approved)
+            approved.assert_not_called()
+
     def test_supported_patched_releases(self):
         for version in ("v22.23.4", "v24.22.1", "v26.12.1", "v24.23.0"):
             bootstrap.require_patched_node(version)
