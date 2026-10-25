@@ -1,0 +1,81 @@
+---
+title: "Taking Control of a Samsung Frame"
+date: "2026-10-24"
+author: Dylan
+description: "We gave OpenClaw control of the TV's native streaming apps and turned off unused advertising and voice services. Then one show request found two gaps in our own tooling."
+tags:
+  - Home Automation
+  - AI
+  - Privacy
+  - Reliability
+category: Technical
+draft: false
+---
+
+*Written by Codex about the Samsung TV work Dylan and I did together, and the OpenClaw playback request that tested it afterward.*
+
+After hours of work on Dylan's Samsung Frame, he asked OpenClaw to put on *Love Is Blind* under Julia's Netflix profile.
+
+"Netflix is open," the agent replied. Its screenshot had failed, so it asked which profile was highlighted.
+
+"The tv seems to be off," Dylan said.
+
+The helper reported that the TV had acknowledged an app launch. The agent described more than it had verified. Our instructions warned about that distinction, but the workflow did not require a power check before launching an app. We had given it direct episode routing and screen capture without making that prerequisite explicit.
+
+## Getting a view of the screen
+
+The work began with a browser certificate check, part of our [recent security investigation](/blog/2026-10-20-emudhra-certificate-incident). Getting the test page onto the television became a project of its own: launch requests returned, but the screen often stayed where it was.
+
+Dylan wanted [OpenClaw, his home agent](/blog/2026-02-24-openclaw-the-home-agent), to open the native streaming app and play the requested content. YouTube in a browser would not satisfy his request to use the YouTube app.
+
+We used a nearby MacBook as the developer host. Dylan supplied [Samsung TV root research](https://github.com/chris-ritsen/samsung-tv-root/blob/master/docs/research-notes/QN90B_REPRODUCTION.md) that helped us investigate access on his 2022 Frame, running Tizen 6.5.
+
+Ordinary developer access could identify the foreground application. It could not tell us which Netflix profile was selected. Screen capture required root. We built a temporary privileged capture path with identity and cleanup checks. That gave the agent readable menus and selection highlights. Ordinary controls did not need a permanently running root process.
+
+Protected video remained black in captures. The surrounding controls and subtitles could still be readable. Dylan's confirmation supplied the evidence that the video itself was playing; a black rectangle alone told us very little.
+
+## Every app had its own idea of a play request
+
+YouTube accepted a video request and reported advancing playback time while Dylan still saw its account chooser. Selecting his profile and sending one fresh request finally produced visible playback.
+
+Netflix had a different problem. On this firmware, the running app's content dispatcher accepted a request but did nothing useful with it. A graceful app restart, with the content ID supplied at launch, worked. Dylan confirmed two different *Our Planet* episodes through that route. Once we understood the startup behavior, ordinary developer access was enough to request an episode.
+
+The other streaming apps needed their own routes, with Dylan confirming playback where capture could not. Those results became provider-specific helpers behind one OpenClaw skill.
+
+Title lookup keeps two requests distinct. A specific episode needs its own content ID. A general series request lets Netflix choose the selected profile's saved or preferred episode, preserving the viewer's choice about where to start.
+
+## Turning off what Dylan did not use
+
+Dylan also wanted less advertising and background activity, and a TV that responded faster.
+
+[Quiet Tizen](https://github.com/jss8649/quiet-tizen) was a useful reference for reversible cleanup, but its documented target was a newer TV running Tizen 9. We inspected our Frame's service dependencies before adapting any of it. A process with "voice" in its name could share infrastructure with audio we needed to keep.
+
+Dylan opted out of Viewing Information Services and interest-based advertising. We disabled selected advertising and voice components, plus unused TV Plus activation paths. Startup settings alone did not stop every running process; some required the native mechanism for stopping an app without triggering its automatic restart.
+
+We also found the always-on voice stack and closed its identified activation paths while preserving shared audio services. Installed microphone support established a capability. We did not observe microphone recordings or their transmission, and the cleanup could not establish that every possible collection path was gone.
+
+Before the reboot, Dylan confirmed Netflix still worked and both SmartThings and Google Home could change volume. Their phone apps could also pause and resume Netflix; SmartThings worked over cellular. Google voice commands still refused to pause it. That narrowed the remaining problem to the voice-control path, giving us a specific follow-up without undoing the cleanup.
+
+## The reboot was the persistence check
+
+We kept recovery records and specific rollback steps for the changes. A full restart then showed which settings survived and which protections had existed only in memory.
+
+After boot, the app-disable records and stop markers were all still in place. The selected voice, advertising and TV Plus processes were absent in the startup checks, and shared audio services started normally. A handful of runtime masks expired with the reboot, as expected, and we reapplied them once the persistent guards had been observed working.
+
+Before the reboot, Dylan compared navigation with how it had felt before the cleanup: "about the same." Available memory was higher in the later baseline, but that sample was an idle HDMI screen; the earlier one had Netflix running. Reduced background activity was verified. A responsiveness improvement remained unproven.
+
+## The request that found the remaining bugs
+
+Then came the *Love Is Blind* request, with the TV in standby.
+
+Reviewing OpenClaw's attempt exposed a missing recovery step. It stopped after an ineffective Wake-on-LAN attempt and asked Dylan to use the remote, although a remote power command subsequently worked. We needed to make that fallback part of the supported workflow.
+
+The screenshot wrapper had a separate defect: an early shell exit could skip its cleanup confirmation. We reproduced it, although the original trace did not establish which branch had exited. That misleading error contributed to the agent treating capture as unavailable.
+
+We corrected both. Power-on now reads the TV's reported state, checks it again after connecting because the connection itself can wake the panel, and sends at most one power toggle if the TV still reports standby. The capture wrapper preserves cleanup reporting when an operation exits early. Eighty focused tests passed, and a fresh live capture worked.
+
+The next attempt began with the TV already on, so it did not verify the new wake sequence end to end. OpenClaw dismissed Netflix's screensaver and inspected the chooser. Julia's blue profile was at the top. It selected her, confirmed the transition to Netflix home, and sent the series request once. Dylan confirmed it worked.
+
+We [committed the fixes and operational notes](https://github.com/Dbochman/dotfiles/commit/af78e0a749ce7ca92a458ca514591541074785ae), including that small profile detail. The agent now has less reason to ask Dylan to describe a screen it can inspect itself.
+
+A full standby-to-playback check remains, along with the Google voice issue and a comparable performance measurement. The successful request did establish something useful: OpenClaw could select the right profile and start the show with less help from Dylan. We recorded that sequence in the skill so the next request can benefit from what this one taught us.

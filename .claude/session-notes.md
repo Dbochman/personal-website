@@ -891,3 +891,41 @@ runtime paths, raw captures, and authentication material.
   context, so this branch can safely build using dedicated PinchTab on the Mini.
   Added three executable contract tests to the required PR job. Local full
   build and hosted validation of this further revision remain to be completed.
+
+## 2026-10-24 — Samsung Frame article draft
+
+- Created `blog/samsung-frame-control` in the dedicated
+  `personal-website-tv-post` worktree from current `origin/main` (`66c121ec`).
+- Drafted “Taking Control of a Samsung Frame” with honest Codex attribution,
+  native-app routing, temporary privileged capture, reversible privacy cleanup,
+  reboot verification, and the later OpenClaw Netflix recovery. Kept owner
+  confirmation distinct from API acknowledgments and made no speedup claim.
+- Article remains `draft: true`; no commit, push, PR, or publication requested.
+  Slop Guard: 100/100 (1,248 words). All 57 focused content tests and the
+  production preview build passed; existing large-chunk warning remains.
+  Verified draft metadata and both internal links. No TV operations performed.
+
+## 2026-10-24 — Fable review against homepage voice
+
+- Owner requested Fable/Opus editorial review grounded in the homepage. Used
+  the authenticated Claude CLI's `fable` alias at high effort, with no tools;
+  returned model metadata confirms `claude-fable-5-1`. Supplied the live homepage
+  copy (checked against HeroSection, GoalsSection, and expertise data), draft,
+  and verified TV facts. Review and original draft are retained outside Git;
+  local pointer: `.cache/tv-post-review-path`.
+- Applied measured, blameless framing, reduced the app inventory and service
+  counts, and made remaining checks specific. Corrected review wording that
+  overstated the lack of existing acknowledgment flags, blurred the timing of
+  the speed comparison, and treated live capture as standby-path validation.
+- Final prose score is 100/100 (1,183 words). Reviewed production preview build
+  passed with the existing chunk-size warning; final condensed text recompiled
+  successfully. Draft remains unpublished and uncommitted.
+
+## 2026-10-24 — TV article publication requested
+
+- Owner approved commit, push and deployment. Marked the reviewed article ready
+  for publication. Website workflows remain held; normal required PR validation
+  must pass before merge. PR #339's scoped exception does not cover this branch.
+- Mini Node 24.22.1 passed both HTTPS/fetch certificate probes (all affected
+  chains rejected and ordinary controls accepted). Publication checks and the
+  guarded hosted validation are being completed separately.
