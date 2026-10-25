@@ -45,6 +45,8 @@ for (const [name, mutate] of [
   ['JavaScript action', text => text + '\n      - uses: actions/checkout@v7\n'],
   ['unbounded timeout', text => text.replace('    timeout-minutes: 30', '    timeout-minutes: 360')],
   ['approval from event instead of operator', text => text.replace('vars.PR_339_APPROVED_HEAD', 'github.event.pull_request.head.sha')],
+  ['blog approval from event', text => text.replace('vars.BLOG_APPROVED_HEAD', 'github.event.pull_request.head.sha')],
+  ['setup approval from event', text => text.replace('vars.PR_340_APPROVED_HEAD', 'github.event.pull_request.head.sha')],
 ]) {
   test(`exception rejects ${name}`, () => {
     const result = check(mutate);
@@ -57,6 +59,15 @@ test('functional tests cannot be removed to obtain a passing exception run', () 
   const result = check(text => text.replace('        run: npm run typecheck', '        run: echo skipped'));
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /Missing required PR validation/);
+});
+
+test('blog syntax check cannot be skipped or made optional', () => {
+  for (const flag of ['if: false', 'continue-on-error: true']) {
+    const result = check(text => text.replace('      - name: Verify blog-only Markdown\n',
+      `      - name: Verify blog-only Markdown\n        ${flag}\n`));
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /Blog Markdown gate/);
+  }
 });
 
 test('functional tests cannot be skipped or allowed to fail', () => {

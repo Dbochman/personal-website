@@ -6,7 +6,10 @@ import { load } from 'js-yaml';
 const directory = new URL('../workflows/', import.meta.url);
 const source = readFileSync(new URL('bootstrap.py', import.meta.url), 'utf8').trimEnd();
 const exception = readFileSync(new URL('pr-validation-exception.py', import.meta.url), 'utf8').trimEnd();
-const prepare = readFileSync(new URL('pr-prepare.sh', import.meta.url), 'utf8');
+const blogDiff = readFileSync(new URL('blog-diff-check.py', import.meta.url), 'utf8').trimEnd();
+const prepare = readFileSync(new URL('pr-prepare.sh', import.meta.url), 'utf8').replace(
+  '# BLOG_DIFF_GATE (inlined by sync-workflows.mjs before checkout)',
+  `python3 - <<'PY'\n${blogDiff}\nPY`);
 function bootstrapCommand(filename) {
   const script = filename === 'pr-checks.yml'
     ? source.replace('if __name__ == "__main__":\n    main()',
@@ -81,10 +84,23 @@ for (const filename of readdirSync(directory).filter(name => name.endsWith('.yml
         job.env?.PR_339_APPROVED_BASE !== '${{ vars.PR_339_APPROVED_BASE }}') {
       throw new Error('PR exception requires run-only, permissionless validation without secrets, caches or publishing');
     }
+    for (const key of ['PR_340_APPROVED_HEAD', 'PR_340_APPROVED_BASE',
+      'BLOG_APPROVED_PR', 'BLOG_APPROVED_HEAD', 'BLOG_APPROVED_BASE']) {
+      if (job.env?.[key] !== '${{ vars.' + key + ' }}') {
+        throw new Error('PR exception requires operator-approved revision variables');
+      }
+    }
+    const install = job.steps.findIndex(step => step.run === 'npm ci');
+    if (job.steps[install + 1]?.run !== 'node .github/security/blog-content-check.mjs' ||
+        job.steps[install + 1].if !== undefined || job.steps[install + 1]['continue-on-error'] ||
+        /BLOG_CONTENT_GATE:|BLOG_CONTENT_FILES:/.test(result)) {
+      throw new Error('Blog Markdown gate must follow install before any content execution');
+    }
     for (const required of ['npm ci', 'npm audit --audit-level=low', 'npm run lint',
       'npm run typecheck', 'npm test', 'npm run build', 'npm run check-bundle-budget',
       'node --test .github/codex/review-workflow.test.mjs',
       'node --test .github/security/test_prerender.mjs',
+      'node --test .github/security/test_blog_content.mjs',
       'BASE_URL=http://localhost:4173 npx playwright test --grep @smoke',
       'node .github/security/probe.mjs']) {
       if (!job.steps.some(step => step.run?.split('\n').includes(required) &&

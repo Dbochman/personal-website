@@ -89,12 +89,13 @@ jobs:
               try:
                   require_patched_node(version)
               except ValueError:
-                  if exception is None or not exception(version):
+                  scope = exception(version) if exception else None
+                  if not scope:
                       raise
-                  print("::warning::Temporary PR #339 exception: action Node v24.21.0 remains "
+                  print("::warning::Temporary reviewed PR validation exception: action Node v24.21.0 remains "
                         "unpatched; this job executes no JavaScript actions. Expires "
                         "2026-10-26T14:00:00Z; review 2026-10-25 at 10:00 EDT.")
-                  return
+                  return scope
               if not version.startswith("v24."):
                   raise ValueError("unexpected runner action runtime major")
               print(f"Runner JavaScript action runtime verified: {version}")
@@ -128,7 +129,7 @@ jobs:
 
           def main(exception=None):
               # No network, sudo, checkout, third-party imports, or credentials required.
-              verify_runner_node(exception=exception)
+              exception_scope = verify_runner_node(exception=exception)
               bundle, removed = filter_bundle(Path("/etc/ssl/certs/ca-certificates.crt").read_bytes())
               directory = Path(tempfile.mkdtemp(prefix="ci-tls-", dir=os.environ["RUNNER_TEMP"]))
               # Public roots must remain readable by subsequent privilege-dropped steps.
@@ -144,6 +145,8 @@ jobs:
                   "REQUESTS_CA_BUNDLE", "PIP_CERT", "GRPC_DEFAULT_SSL_ROOTS_FILE_PATH",
               )}
               settings.update(SSL_CERT_DIR=str(empty), GIT_SSL_CAPATH=str(empty))
+              if exception_scope == "blog":
+                  settings["BLOG_CONTENT_GATE"] = "required"
               # NODE_OPTIONS must be declared in YAML; GITHUB_ENV explicitly forbids it.
               with Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8") as output:
                   for key, value in settings.items():

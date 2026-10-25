@@ -73,6 +73,42 @@ class ExceptionTests(unittest.TestCase):
                       {**self.event, "pull_request": None}):
             self.assertFalse(self.allowed(event=event))
 
+    def new_scope(self, number, branch, prefix):
+        env = {**self.env, "GITHUB_REF": f"refs/pull/{number}/merge",
+               "GITHUB_HEAD_REF": branch,
+               "GITHUB_WORKFLOW_REF": f"Dbochman/personal-website/.github/workflows/pr-checks.yml@refs/pull/{number}/merge",
+               prefix + "_APPROVED_HEAD": "a" * 40, prefix + "_APPROVED_BASE": "b" * 40}
+        event = copy.deepcopy(self.event)
+        event["number"] = event["pull_request"]["number"] = number
+        event["pull_request"]["head"]["ref"] = branch
+        return env, event
+
+    def test_exact_setup_revision_is_separate_from_blog_content_exception(self):
+        env, event = self.new_scope(340, "blog/samsung-frame-control", "PR_340")
+        self.assertEqual(self.allowed(env=env, event=event), "reviewed-setup")
+        env["PR_340_APPROVED_HEAD"] = "c" * 40
+        self.assertFalse(self.allowed(env=env, event=event))
+
+    def test_blog_candidate_requires_attended_revision_approval_and_same_repo(self):
+        env, event = self.new_scope(341, "blog/example", "BLOG")
+        env["BLOG_APPROVED_PR"] = "341"
+        self.assertEqual(self.allowed(env=env, event=event), "blog")
+        for key in ("BLOG_APPROVED_PR", "BLOG_APPROVED_HEAD", "BLOG_APPROVED_BASE"):
+            self.assertFalse(self.allowed(env={**env, key: ""}, event=event))
+        for field, value in (("sha", "c" * 40), ("ref", "blog/other"),
+                             ("repo", {"full_name": "someone/fork"})):
+            bad = copy.deepcopy(event); bad["pull_request"]["head"][field] = value
+            self.assertFalse(self.allowed(env=env, event=bad))
+        for name in ("workflow_dispatch", "pull_request_target", "push"):
+            self.assertFalse(self.allowed(env={**env, "GITHUB_EVENT_NAME": name}, event=event))
+        self.assertFalse(self.allowed(env=env, event=event, now=policy.EXCEPTION_EXPIRY))
+        self.assertFalse(self.allowed(env=env, event=event, version="v24.22.0"))
+
+    def test_blog_labels_and_branch_name_alone_cannot_approve(self):
+        env, event = self.new_scope(341, "blog/example", "UNAPPROVED")
+        event["pull_request"]["labels"] = [{"name": "blog"}]
+        self.assertFalse(self.allowed(env=env, event=event))
+
 
 if __name__ == "__main__":
     unittest.main()

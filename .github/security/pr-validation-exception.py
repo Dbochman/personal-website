@@ -23,6 +23,17 @@ def allow_pr_validation_exception(version, env=None, event=None, now=None):
     if (version != "v24.21.0" or now.tzinfo is None or now < EXCEPTION_START
             or now + timedelta(minutes=30) >= EXCEPTION_EXPIRY):
         return False
+    # Reviewed installation of the blog gate is a separate, exact revision
+    # exception. It is not represented as a blog-only diff.
+    if reviewed_event(env, event, 340, "blog/samsung-frame-control", "PR_340"):
+        return "reviewed-setup"
+    number = env.get("BLOG_APPROVED_PR", "")
+    branch = env.get("GITHUB_HEAD_REF", "")
+    if re.fullmatch(r"[1-9][0-9]{0,8}", number) and branch.startswith("blog/"):
+        if reviewed_event(env, event, int(number), branch, "BLOG"):
+            # Candidate only: an inlined Git tree check must run BEFORE checkout;
+            # patched Node must reject executable MDX before build/prerender.
+            return "blog"
     repository = "Dbochman/personal-website"
     expected = {
         "GITHUB_ACTIONS": "true", "GITHUB_REPOSITORY": repository,
@@ -47,6 +58,34 @@ def allow_pr_validation_exception(version, env=None, event=None, now=None):
                 and pr["base"]["repo"]["full_name"] == repository
                 and pr["head"]["ref"] == "fix/node-security-runtime"
                 and pr["base"]["ref"] == "main"
+                and pr["head"]["sha"] == head and pr["base"]["sha"] == base)
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
+
+
+def reviewed_event(env, event, number, branch, prefix):
+    repo = "Dbochman/personal-website"
+    expected = {
+        "GITHUB_ACTIONS": "true", "GITHUB_REPOSITORY": repo,
+        "GITHUB_EVENT_NAME": "pull_request", "GITHUB_JOB": "test",
+        "GITHUB_REF": f"refs/pull/{number}/merge", "GITHUB_BASE_REF": "main",
+        "GITHUB_HEAD_REF": branch,
+        "GITHUB_WORKFLOW_REF": repo + f"/.github/workflows/pr-checks.yml@refs/pull/{number}/merge",
+    }
+    if any(env.get(key) != value for key, value in expected.items()):
+        return False
+    head, base = (env.get(prefix + "_APPROVED_" + side, "") for side in ("HEAD", "BASE"))
+    if not all(re.fullmatch(r"[0-9a-f]{40}", sha) for sha in (head, base)):
+        return False
+    try:
+        if event is None:
+            event = json.loads(Path(env["GITHUB_EVENT_PATH"]).read_text())
+        pr = event["pull_request"]
+        return (event["number"] == number and pr["number"] == number
+                and event["action"] in {"opened", "synchronize", "reopened"}
+                and pr["head"]["repo"]["full_name"] == repo
+                and pr["base"]["repo"]["full_name"] == repo
+                and pr["head"]["ref"] == branch and pr["base"]["ref"] == "main"
                 and pr["head"]["sha"] == head and pr["base"]["sha"] == base)
     except (OSError, ValueError, KeyError, TypeError):
         return False

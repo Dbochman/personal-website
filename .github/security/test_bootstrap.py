@@ -85,6 +85,16 @@ class TrustTests(unittest.TestCase):
                 bootstrap.main()
             self.assertEqual(env_file.read_text(), "")
 
+    def test_blog_candidate_emits_mandatory_gate_but_setup_does_not(self):
+        for scope in ("blog", "reviewed-setup", None):
+            with self.subTest(scope=scope), tempfile.TemporaryDirectory() as temporary:
+                output = Path(temporary) / "environment"
+                with mock.patch.dict(os.environ, {"RUNNER_TEMP": temporary, "GITHUB_ENV": str(output)}), \
+                        mock.patch.object(bootstrap, "verify_runner_node", return_value=scope), \
+                        mock.patch.object(bootstrap.Path, "read_bytes", return_value=self.certs[0]):
+                    bootstrap.main()
+                self.assertEqual("BLOG_CONTENT_GATE=required" in output.read_text(), scope == "blog")
+
 
 class RuntimeTests(unittest.TestCase):
     def test_default_stays_strict_and_only_explicit_callback_can_allow_exception(self):
