@@ -171,6 +171,57 @@ only after those checks, using native Git to publish the static output through
 the existing Pages repository. Retain a rollback commit. A preview-only build,
 successful exception CI, or a patched local Node alone is not publication proof.
 
+### October 24 blog-content validation exception
+
+Owner: Dylan Bochman. Approved October 24 while publishing the TV article.
+This is an exception to the **installed action-runtime floor for validation**,
+not an exemption from testing. It retains the October 25 10:00 EDT review and
+October 26 10:00 EDT hard expiry above, including the 30-minute reserve. There
+is no automatic renewal or permanent reduction of the runtime floor.
+
+Eligible revisions are same-repository `blog/` PRs into `main`, explicitly
+reviewed by the operator. Set `BLOG_APPROVED_PR`, `BLOG_APPROVED_HEAD`, and
+`BLOG_APPROVED_BASE` to that PR number and its full reviewed hashes. Changed
+head/base hashes invalidate approval. A branch prefix or label alone grants
+nothing. The candidate exception still accepts only action Node **24.21.0**.
+
+Before checkout, an inlined Python gate uses native Git to verify the actual
+approved base, head and merge trees. The merge's two parents must match the
+approved hashes. Both diffs must contain only added/modified regular, non-executable
+`content/blog/*.txt` files; merge blobs must match the reviewed head. Deletions,
+renames, symlinks, submodules, nested paths and oversized batches are rejected.
+No code, dependency, workflow, asset, generated-feed or agent-note changes qualify.
+Generated feeds remain build outputs; don't include their changes in an otherwise
+blog-only source PR.
+
+After acquiring checksum-pinned patched Node and installing the unchanged
+lockfile, an MDX syntax-tree check runs before any build or prerender. It rejects
+imports/exports, JavaScript expressions, JSX and raw HTML; fenced and inline code
+examples remain literal content. This matters because an MDX post can otherwise
+be executable code. Posts needing custom components use the normal reviewed path.
+
+The job remains permissionless, run-only, without JavaScript actions, secrets,
+caches or artifact publication. Audit, lint, typechecks, the full unit suite,
+production build, trust probes, bundle budgets and browser smoke tests all remain
+required. The workflow validator guards the mandatory checks and their ordering.
+Deployment jobs do not receive this exception. Publishing still requires the
+separate verified build described above; none of this attests to GitHub's control
+plane or makes the installed older runtime patched.
+
+**Installation revision:** PR #340 on `blog/samsung-frame-control` also changes
+the gate itself, so it is not eligible as blog-only. Its installation uses a
+separate attended exception bound to `PR_340_APPROVED_HEAD` and
+`PR_340_APPROVED_BASE`, with the same version, expiry, full tests and lack of
+credentials. Review that complete policy diff before setting those variables.
+Clear them after merge. Do not reuse this installation route for later articles.
+
+For a subsequent eligible post, review the diff, record the three `BLOG_*`
+variables, temporarily enable PR Checks, and reopen the PR to validate that
+revision. Inspect the explicit content-tree and plain-Markdown proof as well as
+all checks. Restore the workflow hold after the attended run and clear approvals
+on merge or abandonment. A failed content gate requires narrowing the source
+diff or normal review; do not widen the path list to make an article pass.
+
 ### Readiness monitoring and required merge checks
 
 The Mini runs an independent hourly watcher for up to seven days, with private

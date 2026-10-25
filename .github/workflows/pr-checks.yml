@@ -28,6 +28,11 @@ jobs:
     env:
       PR_339_APPROVED_HEAD: ${{ vars.PR_339_APPROVED_HEAD }}
       PR_339_APPROVED_BASE: ${{ vars.PR_339_APPROVED_BASE }}
+      PR_340_APPROVED_HEAD: ${{ vars.PR_340_APPROVED_HEAD }}
+      PR_340_APPROVED_BASE: ${{ vars.PR_340_APPROVED_BASE }}
+      BLOG_APPROVED_PR: ${{ vars.BLOG_APPROVED_PR }}
+      BLOG_APPROVED_HEAD: ${{ vars.BLOG_APPROVED_HEAD }}
+      BLOG_APPROVED_BASE: ${{ vars.BLOG_APPROVED_BASE }}
     steps:
       # BEGIN GENERATED TLS BOOTSTRAP — .github/security/sync-workflows.mjs
       -
@@ -100,12 +105,13 @@ jobs:
               try:
                   require_patched_node(version)
               except ValueError:
-                  if exception is None or not exception(version):
+                  scope = exception(version) if exception else None
+                  if not scope:
                       raise
-                  print("::warning::Temporary PR #339 exception: action Node v24.21.0 remains "
+                  print("::warning::Temporary reviewed PR validation exception: action Node v24.21.0 remains "
                         "unpatched; this job executes no JavaScript actions. Expires "
                         "2026-10-26T14:00:00Z; review 2026-10-25 at 10:00 EDT.")
-                  return
+                  return scope
               if not version.startswith("v24."):
                   raise ValueError("unexpected runner action runtime major")
               print(f"Runner JavaScript action runtime verified: {version}")
@@ -139,7 +145,7 @@ jobs:
 
           def main(exception=None):
               # No network, sudo, checkout, third-party imports, or credentials required.
-              verify_runner_node(exception=exception)
+              exception_scope = verify_runner_node(exception=exception)
               bundle, removed = filter_bundle(Path("/etc/ssl/certs/ca-certificates.crt").read_bytes())
               directory = Path(tempfile.mkdtemp(prefix="ci-tls-", dir=os.environ["RUNNER_TEMP"]))
               # Public roots must remain readable by subsequent privilege-dropped steps.
@@ -155,6 +161,8 @@ jobs:
                   "REQUESTS_CA_BUNDLE", "PIP_CERT", "GRPC_DEFAULT_SSL_ROOTS_FILE_PATH",
               )}
               settings.update(SSL_CERT_DIR=str(empty), GIT_SSL_CAPATH=str(empty))
+              if exception_scope == "blog":
+                  settings["BLOG_CONTENT_GATE"] = "required"
               # NODE_OPTIONS must be declared in YAML; GITHUB_ENV explicitly forbids it.
               with Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8") as output:
                   for key, value in settings.items():
@@ -189,6 +197,17 @@ jobs:
               if (version != "v24.21.0" or now.tzinfo is None or now < EXCEPTION_START
                       or now + timedelta(minutes=30) >= EXCEPTION_EXPIRY):
                   return False
+              # Reviewed installation of the blog gate is a separate, exact revision
+              # exception. It is not represented as a blog-only diff.
+              if reviewed_event(env, event, 340, "blog/samsung-frame-control", "PR_340"):
+                  return "reviewed-setup"
+              number = env.get("BLOG_APPROVED_PR", "")
+              branch = env.get("GITHUB_HEAD_REF", "")
+              if re.fullmatch(r"[1-9][0-9]{0,8}", number) and branch.startswith("blog/"):
+                  if reviewed_event(env, event, int(number), branch, "BLOG"):
+                      # Candidate only: an inlined Git tree check must run BEFORE checkout;
+                      # patched Node must reject executable MDX before build/prerender.
+                      return "blog"
               repository = "Dbochman/personal-website"
               expected = {
                   "GITHUB_ACTIONS": "true", "GITHUB_REPOSITORY": repository,
@@ -217,6 +236,34 @@ jobs:
               except (OSError, ValueError, KeyError, TypeError):
                   return False
 
+
+          def reviewed_event(env, event, number, branch, prefix):
+              repo = "Dbochman/personal-website"
+              expected = {
+                  "GITHUB_ACTIONS": "true", "GITHUB_REPOSITORY": repo,
+                  "GITHUB_EVENT_NAME": "pull_request", "GITHUB_JOB": "test",
+                  "GITHUB_REF": f"refs/pull/{number}/merge", "GITHUB_BASE_REF": "main",
+                  "GITHUB_HEAD_REF": branch,
+                  "GITHUB_WORKFLOW_REF": repo + f"/.github/workflows/pr-checks.yml@refs/pull/{number}/merge",
+              }
+              if any(env.get(key) != value for key, value in expected.items()):
+                  return False
+              head, base = (env.get(prefix + "_APPROVED_" + side, "") for side in ("HEAD", "BASE"))
+              if not all(re.fullmatch(r"[0-9a-f]{40}", sha) for sha in (head, base)):
+                  return False
+              try:
+                  if event is None:
+                      event = json.loads(Path(env["GITHUB_EVENT_PATH"]).read_text())
+                  pr = event["pull_request"]
+                  return (event["number"] == number and pr["number"] == number
+                          and event["action"] in {"opened", "synchronize", "reopened"}
+                          and pr["head"]["repo"]["full_name"] == repo
+                          and pr["base"]["repo"]["full_name"] == repo
+                          and pr["head"]["ref"] == branch and pr["base"]["ref"] == "main"
+                          and pr["head"]["sha"] == head and pr["base"]["sha"] == base)
+              except (OSError, ValueError, KeyError, TypeError):
+                  return False
+
           if __name__ == "__main__":
               main(exception=allow_pr_validation_exception)
           PY
@@ -235,7 +282,80 @@ jobs:
           git init .
           git remote add origin https://github.com/Dbochman/personal-website.git
           git -c credential.helper= fetch --no-tags --depth=1 origin "$GITHUB_SHA"
-          git checkout --detach FETCH_HEAD
+          python3 - <<'PY'
+          """Inlined before checkout: verify approved blog trees using native Git only."""
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import subprocess
+          import tempfile
+
+
+          def git(*args):
+              return subprocess.run(["git", "-c", "credential.helper=", *args],
+                                    check=True, capture_output=True, timeout=30).stdout
+
+
+          def blog_changes(base, target):
+              raw = git("diff", "--raw", "--no-abbrev", "--no-renames", "-z", base, target)
+              fields = raw.split(b"\0")
+              if not raw or fields[-1] != b"" or (len(fields) - 1) % 2:
+                  raise ValueError("empty or malformed blog diff")
+              paths = []
+              for header, path in zip(fields[:-1:2], fields[1::2]):
+                  oldmode, newmode, _, blob, status = header.decode("ascii").split()
+                  name = path.decode("utf-8")
+                  if (oldmode not in (":000000", ":100644") or newmode != "100644"
+                          or status not in ("A", "M")
+                          or not re.fullmatch(r"content/blog/[a-z0-9][a-z0-9-]*\.txt", name)
+                          or int(git("cat-file", "-s", blob)) > 1024 * 1024):
+                      raise ValueError("change is outside the plain blog-content scope")
+                  paths.append(name)
+              if len(paths) > 100:
+                  raise ValueError("blog change exceeds bounded file count")
+              return paths
+
+
+          def verify(base, head, merge):
+              if not all(re.fullmatch(r"[0-9a-f]{40}", sha) for sha in (base, head, merge)):
+                  raise ValueError("invalid approved revision")
+              parents = re.findall(rb"^parent ([0-9a-f]{40})$", git("cat-file", "-p", merge), re.M)
+              if parents != [base.encode(), head.encode()]:
+                  raise ValueError("merge parents do not match approved base/head")
+              head_paths = blog_changes(base, head)
+              if blog_changes(base, merge) != head_paths:
+                  raise ValueError("merge changes differ from approved blog changes")
+              # A merge must not introduce content different from the reviewed head.
+              for name in head_paths:
+                  if git("rev-parse", f"{head}:{name}") != git("rev-parse", f"{merge}:{name}"):
+                      raise ValueError("merge changed reviewed blog content")
+              return head_paths
+
+
+          def main():
+              if os.environ.get("BLOG_CONTENT_GATE") != "required":
+                  return
+              base = os.environ["BLOG_APPROVED_BASE"]
+              head = os.environ["BLOG_APPROVED_HEAD"]
+              if not all(re.fullmatch(r"[0-9a-f]{40}", sha) for sha in (base, head)):
+                  raise ValueError("invalid approved revision")
+              git("fetch", "--no-tags", "--depth=1", "origin", base, head)
+              paths = verify(base, head, os.environ["GITHUB_SHA"])
+              fd, name = tempfile.mkstemp(prefix="approved-blog-", suffix=".json", dir=os.environ["RUNNER_TEMP"])
+              with os.fdopen(fd, "w") as output:
+                  json.dump(paths, output)
+              if "\n" in name or "\r" in name:
+                  raise ValueError("invalid manifest path")
+              with Path(os.environ["GITHUB_ENV"]).open("a") as output:
+                  output.write(f"BLOG_CONTENT_FILES={name}\n")
+              print(f"Approved Git trees contain only {len(paths)} regular blog text file(s)")
+
+
+          if __name__ == "__main__":
+              main()
+          PY
+          git checkout --detach "$GITHUB_SHA"
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
 
           runtime_dir=$(mktemp -d "$RUNNER_TEMP/pr-patched-node.XXXXXX")
@@ -257,6 +377,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Verify blog-only Markdown
+        run: node .github/security/blog-content-check.mjs
 
       - name: Verify CI trust policy
         run: |
@@ -284,6 +407,7 @@ jobs:
         run: |
           node --test .github/codex/review-workflow.test.mjs
           node --test .github/security/test_prerender.mjs
+          node --test .github/security/test_blog_content.mjs
           npm test
 
       - name: Build

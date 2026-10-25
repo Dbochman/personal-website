@@ -929,3 +929,19 @@ runtime paths, raw captures, and authentication material.
 - Mini Node 24.22.1 passed both HTTPS/fetch certificate probes (all affected
   chains rejected and ordinary controls accepted). Publication checks and the
   guarded hosted validation are being completed separately.
+
+## 2026-10-24 — Bounded blog-only validation path
+
+- Owner requested a blog-post exclusion after PR #340 hit hosted action Node
+  24.21.0. Added a reviewed content-only path with the existing Oct 25 review
+  and Oct 26 hard expiry. Actual Git trees are checked before checkout; only
+  regular added/modified article text qualifies. Patched Node parses MDX before
+  build and rejects expressions, imports/exports, JSX and raw HTML.
+- Every functional/security check remains. Operator approvals bind PR/head/base;
+  no label-only bypass, deployment exception, secrets or JavaScript actions.
+  PR #340 installs the policy via a separate exact-revision reviewed setup scope,
+  since a policy change cannot truthfully qualify as article-only.
+- Original article revision passed full local build, 301 unit tests, 32 existing
+  browser smoke tests through an isolated trusted PinchTab browser, responsive
+  article checks, route verification and hard budgets. The policy revision
+  receives its own validation before merge/publishing.

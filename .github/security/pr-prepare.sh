@@ -7,7 +7,8 @@ set -euo pipefail
 git init .
 git remote add origin https://github.com/Dbochman/personal-website.git
 git -c credential.helper= fetch --no-tags --depth=1 origin "$GITHUB_SHA"
-git checkout --detach FETCH_HEAD
+# BLOG_DIFF_GATE (inlined by sync-workflows.mjs before checkout)
+git checkout --detach "$GITHUB_SHA"
 test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
 
 runtime_dir=$(mktemp -d "$RUNNER_TEMP/pr-patched-node.XXXXXX")
