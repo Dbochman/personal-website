@@ -63,6 +63,7 @@ function sanitizeSearchConsoleHistory(srcPath, destPath) {
 const filesToCopy = [
   { src: 'docs/metrics/latest.json', dest: 'public/metrics/latest.json' },
   { src: 'docs/metrics/ga4-history.json', dest: 'public/metrics/ga4-history.json' },
+  { src: 'docs/metrics/ga4-blog-daily.json', dest: 'public/metrics/ga4-blog-daily.json' },
   { src: 'docs/metrics/github-billing-history.json', dest: 'public/metrics/github-billing-history.json' },
 ];
 

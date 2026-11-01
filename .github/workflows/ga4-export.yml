@@ -181,7 +181,9 @@ jobs:
         env:
           GA4_CREDENTIALS: ${{ secrets.GA4_CREDENTIALS }}
           GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
-        run: node scripts/fetch-ga4-data.js
+        run: |
+          node scripts/fetch-ga4-data.js
+          node scripts/fetch-ga4-blog-daily.mjs
 
       - name: Publish metrics pull request
         env:
@@ -193,7 +195,9 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: ga4-analytics-data
-          path: docs/metrics/ga4-history.json
+          path: |
+            docs/metrics/ga4-history.json
+            docs/metrics/ga4-blog-daily.json
           retention-days: 30
 
       # Alerting is intentionally centralized in daily-analytics.yml so manual

@@ -1008,3 +1008,21 @@ runtime paths, raw captures, and authentication material.
 - Local 309 unit tests, 25 audit/publisher/workflow contract tests, lint,
   typechecks and preview build passed before the final fflate patch. Hosted
   full build/browser validation and restoration remain pending this revision.
+
+## 2026-10-31 — Daily per-post GA4 backfill
+
+- Owner requested the data backfill first, without the chart redesign. Added a
+  separate `ga4-blog-daily.json` dataset queried directly by date + pagePath,
+  starting January 1, 2026 through two days before today in GA4's property
+  timezone. It does not derive daily counts from rolling seven-day snapshots.
+- Daily and manual GA4 workflows collect/publish the dataset through the
+  protected metrics PR path. Later runs refresh fourteen days and fill any
+  intervening collection gap; older days are retained. Public metrics copying
+  includes the new file, but chart consumers are intentionally unchanged.
+- Pagination, duplicate/invalid rows, changing timezone, truncation, sampling,
+  and thresholding checks prevent publishing incomplete data as exact counts.
+  Page views sum across posts; per-post users/sessions are not unique totals.
+  Empty dates mean no activity reported, not proof that tracking was active.
+- Six focused exporter tests cover pagination, property-timezone dates, reruns,
+  late corrections, missing collection days, empty days, and partial reports.
+  Credentialed backfill and publication follow hosted validation.
