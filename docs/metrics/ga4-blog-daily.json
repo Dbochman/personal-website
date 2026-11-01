@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "collectedAt": "2026-11-01T01:44:44.175Z",
+  "collectedAt": "2026-11-01T12:08:49.467Z",
   "timeZone": "America/New_York",
   "coverage": {
     "startDate": "2026-01-01",
-    "endDate": "2026-10-29"
+    "endDate": "2026-10-30"
   },
   "source": "GA4 date + pagePath; completed property-timezone days",
   "notes": "Page views are additive. Sessions/users can overlap across posts and days. Empty pages means no activity reported by GA4, not proof tracking was active.",
@@ -8183,6 +8183,30 @@
           "pageViews": 10,
           "sessions": 10,
           "users": 10
+        }
+      ]
+    },
+    {
+      "date": "2026-10-30",
+      "pageViews": 3,
+      "pages": [
+        {
+          "page": "/blog/2026-01-10-automating-the-blog-itself",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-03-31-axios-supply-chain-attack",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
         }
       ]
     }
