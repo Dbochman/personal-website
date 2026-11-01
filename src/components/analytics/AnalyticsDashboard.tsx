@@ -31,7 +31,7 @@ const ANALYTICS_TABS: TabItem[] = [
 ];
 
 export function AnalyticsDashboard() {
-  const { latest, ga4History, searchHistory, lighthouseSummary, billingHistory, isLoading, error, warning } = useAnalyticsData();
+  const { latest, blogDaily, ga4History, searchHistory, lighthouseSummary, billingHistory, isLoading, error, warning } = useAnalyticsData();
   const [activeTab, setActiveTab] = useState('blog');
 
   if (isLoading) {
@@ -317,7 +317,7 @@ export function AnalyticsDashboard() {
               exit="exit"
             >
               <TabsContent value="blog" className="space-y-4" forceMount>
-                <BlogAnalyticsCard ga4History={ga4History} latestGA4={latestGA4} />
+                <BlogAnalyticsCard blogDaily={blogDaily} ga4History={ga4History} latestGA4={latestGA4} />
               </TabsContent>
             </motion.div>
           )}

@@ -1026,3 +1026,27 @@ runtime paths, raw captures, and authentication material.
 - Six focused exporter tests cover pagination, property-timezone dates, reruns,
   late corrections, missing collection days, empty days, and partial reports.
   Credentialed backfill and publication follow hosted validation.
+
+## 2026-10-31 — Cap blog tables at ten rows
+
+- Owner requested top ten for Post Performance and All-Time Leaderboard.
+  Both tables now limit rows after the selected sort, with headings labeling
+  the cap. Full data remains available for totals and charts.
+- Updated the existing table regression to check both ten-row limits against
+  twelve posts. Focused tests, TypeScript and lint pass.
+
+## 2026-10-31 — Connect the chart to the daily backfill
+
+- Owner clarified that Blog Traffic Over Time should now use the backfill.
+  Added daily data loading and passed it into the chart. It shows sixty covered
+  calendar days of additive page views, top five posts plus Other, using the
+  existing post/alias resolution. No fallback mixes in rolling snapshots.
+- Calendar spacing, straight stacked segments and null gaps replace the old
+  equally spaced/smoothed snapshot plot. Tooltip shows actual post counts,
+  share and total. Full legend titles wrap beneath the plot on mobile.
+- Focused tests verify all views remain in the stack, aliases merge, missing
+  days differ from zero days, calendar spacing, data loading/failure behavior,
+  and both ten-row table caps. Typecheck and lint pass. Isolated local Chrome
+  checks at desktop/mobile widths verified daily labels, six area series,
+  ten rows per table, no page errors and no clipped legend. No shared browser
+  session or server was reused; external requests were blocked during QA.
