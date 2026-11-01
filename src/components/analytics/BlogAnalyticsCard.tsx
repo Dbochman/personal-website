@@ -5,6 +5,7 @@ import { BookOpen, Users, FileText, Eye, TrendingUp, Minus } from 'lucide-react'
 import { getAllPosts } from '@/content/blog/index';
 import type { GA4HistoryEntry } from './types';
 import type { PostLookups } from './charts/BlogTrafficChart';
+import { getBlogPages } from '@/lib/analytics/blog-pages';
 
 const BlogTrafficChart = lazy(() => import('./charts/BlogTrafficChart').then(m => ({ default: m.BlogTrafficChart })));
 const BlogTagBreakdownChart = lazy(() => import('./charts/BlogTagBreakdownChart').then(m => ({ default: m.BlogTagBreakdownChart })));
@@ -102,10 +103,9 @@ function matchPost(
 }
 
 /** Aggregate blog page data from a single GA4 entry */
-function extractBlogPages(entry: Pick<GA4HistoryEntry, 'topPages'>) {
+function extractBlogPages(entry: Pick<GA4HistoryEntry, 'topPages' | 'blogPages'>) {
   const map = new Map<string, { sessions: number; users: number; pageViews: number }>();
-  for (const page of entry.topPages ?? []) {
-    if (!page.page.startsWith('/blog/') || page.page === '/blog/' || page.page === '/blog') continue;
+  for (const page of getBlogPages(entry)) {
     const normalized = page.page.replace(/\/$/, '');
     const existing = map.get(normalized);
     if (existing) {
@@ -254,7 +254,7 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
       }
       return sortAsc ? cmp : -cmp;
     });
-    return sorted.slice(0, 5);
+    return sorted;
   }, [enrichedData.rows, sortKey, sortAsc]);
 
   // --- Sorted leaderboard rows ---
@@ -291,6 +291,16 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
 
   return (
     <div className="space-y-4">
+      {latestGA4 && (
+        <p className="text-sm text-muted-foreground">
+          {latestGA4.period.startDate && latestGA4.period.endDate
+            ? `Reporting period: ${latestGA4.period.startDate} to ${latestGA4.period.endDate}. `
+            : `Report collected ${latestGA4.date}. `}
+          {latestGA4.blogPages === undefined
+            ? 'This older report includes only blog posts among the site’s ten most-viewed pages. Missing posts do not imply zero visits.'
+            : 'Includes every blog post returned by the report. Recent visits can take two days to appear.'}
+        </p>
+      )}
       {/* Overview metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
@@ -343,7 +353,7 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
         </CardContent>
       </Card>
 
-      {/* Post performance table (7d, top 5) */}
+      {/* Post performance table (all reported posts in the seven-day window) */}
       {sortedRows.length > 0 && (
         <Card>
           <CardHeader>

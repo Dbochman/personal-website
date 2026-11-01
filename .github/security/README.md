@@ -1,5 +1,48 @@
 # CI TLS trust during the eMudhra incident
 
+## Recovery assessment (October 31, 2026)
+
+Owner authorized restoring validation/deployment after a guarded hosted check,
+and repairing analytics publishing. Rerun 40153659174 (attempt 2) verified runner
+2.338.2 and its actual action Node **24.22.1**. The runtime and live trust checks
+passed without an exception. Full validation stopped on newly published npm
+advisories; the recovery revision patches those dependencies and must pass
+required PR checks before deployment is restored. The runtime gate is unchanged.
+
+Analytics collection and its publishing policy are separate concerns. Daily and
+manual exporters now use `scripts/publish-metrics.sh`: only generated
+`docs/metrics/*.json` changes are pushed to a new automation branch, then a PR
+requests squash auto-merge after required checks. No direct-main push or admin
+bypass is used. `DEPLOY_TOKEN` is retained so PR creation triggers validation
+and merging triggers deployment. Repository auto-merge must be enabled; strict
+required `test` checking and administrator enforcement remain in place. Concurrent
+exports are serialized. A PR blocked by a newer main revision needs its branch
+updated and checks rerun; failed checks leave it open for inspection.
+
+### Dependency audit disposition
+
+`scripts/audit-dependencies.mjs` runs the full npm audit, including development
+dependencies and low-severity findings. It fails on audit errors and every
+unreviewed advisory. Its sole disposition is **GHSA-g3hv-75wg-m249 on installed
+and lockfile-pinned minimatch 3.1.4** (ESLint's legacy dependency).
+
+The [advisory](https://github.com/advisories/GHSA-g3hv-75wg-m249) describes
+`firstPhasePreProcess()` with `optimizationLevel >= 2`; the
+[3.1.4 implementation](https://github.com/isaacs/minimatch/blob/v3.1.4/minimatch.js)
+has neither this method nor this option. Its broad affected-version range also
+flags this legacy implementation. Modern minimatch instances are upgraded to
+11.0.1, rather than excepted. Any different advisory, changed legacy version,
+installed/locked mismatch, or incomplete audit fails validation. Tests cover
+these boundaries. Remove the disposition when ESLint drops the legacy dependency
+or the advisory metadata is corrected. Satori, glob, follow-redirects, and Joi
+are upgraded to patched versions; their findings are not excepted.
+
+The dated hold and exceptions below record the incident response. They do not
+require retaining a blanket shutdown after verified recovery. The expired
+October 24 exception paths cannot authorize current runs. Precompile Content
+and Sync Changelog still push main directly and remain paused pending their
+own publishing migration; their redesign is outside analytics recovery.
+
 Every Ubuntu job starts with an offline bootstrap, before checkout, GitHub API
 actions, setup-node, npm, or credential-bearing scripts. It filters the runner's
 existing CA bundle by three public-key hashes (AAA Certificate Services and the

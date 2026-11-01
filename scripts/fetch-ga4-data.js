@@ -31,6 +31,7 @@ import {
   GA4_REPORTING_WINDOW_DAYS,
   addDays,
   buildCompletedPeriod,
+  buildPageLists,
   buildDailySessionSeries,
   detectSameWeekdayAnomaly,
   formatDateInTimeZone,
@@ -315,11 +316,7 @@ async function fetchGA4Data() {
     const avgSessionDuration = totalSessions > 0 ? totalSessionDuration / totalSessions : 0;
     const avgBounceRate = totalSessions > 0 ? totalBounceRate / totalSessions : 0;
 
-    // Get top pages
-    const topPages = Object.entries(pageMetrics)
-      .map(([page, metrics]) => ({ page, ...metrics }))
-      .sort((a, b) => b.pageViews - a.pageViews)
-      .slice(0, 10);
+    const { topPages, blogPages } = buildPageLists(pageMetrics);
 
     // Process traffic sources
     const channelMetrics = {};
@@ -430,6 +427,7 @@ async function fetchGA4Data() {
         bounceRate: Math.round(avgBounceRate * 100) / 100,
       },
       topPages,
+      blogPages,
       deviceBreakdown: Object.entries(deviceMetrics).map(([device, metrics]) => ({
         device,
         ...metrics,

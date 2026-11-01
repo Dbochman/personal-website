@@ -945,3 +945,66 @@ runtime paths, raw captures, and authentication material.
   browser smoke tests through an isolated trusted PinchTab browser, responsive
   article checks, route verification and hard budgets. The policy revision
   receives its own validation before merge/publishing.
+
+## 2026-10-31 — Recent blog posts missing from analytics
+
+- Daily Analytics Collection and Build, Test, and Deploy remain manually
+  disabled under the CI security hold. Latest stored GA4 snapshot was collected
+  October 21 and covers October 13–19, before the October 20 and 24 posts.
+  This is missing reporting, not evidence of zero visits or broken tracking.
+- Found a second loss of coverage: export retained only ten site-wide URLs,
+  and blog totals/charts used that list; the post table further capped at five.
+  Branch `fix/blog-analytics-coverage` retains separate blogPages, uses it with
+  legacy fallback in both consumers, shows all reported posts, labels partial
+  old snapshots, and warns about collection more than three days old.
+- Regression coverage includes a blog post outside the site-wide top ten,
+  authoritative empty reports, legacy snapshots, stale/missing reports, and
+  the sixth table row. All 309 tests, TypeScript, lint, and preview build pass
+  (existing large-chunk warning). Preview-generated RSS/sitemap changes removed.
+- No fresh credentialed GA4 query, historical backfill, publication, or workflow
+  re-enablement performed. Live JSON could not be fetched (HTTP 403); diagnosis
+  uses repository metrics and GitHub workflow state. Restoring collection still
+  requires the documented guarded CI recovery, not just these display fixes.
+
+## 2026-10-31 — Security hold scope review
+
+- Owner requested reassessment of the blanket workflow hold. All 13 owned
+  workflows remain disabled even though guarded workflows merged in PR #339
+  on October 24. The generator's read-only consistency check passes.
+- Official runner v2.338.2 (October 26), source commit
+  d1eb12d4b115c301201de27d667284e1a80f2ab5, declares Node 24.22.1.
+  This meets our floor but does not prove current hosted fleet binaries.
+  Local readiness monitoring had already reached terminal candidate status
+  on October 22 for v2.338.1 / Node 24.22.1; it did not restore service.
+- The original Brotli risk is real and requires attacker-supplied compressed
+  input reaching a decoder; code presence alone is not proof of exploitation.
+  Permanent workflow disabling adds little beyond the merged per-job gate
+  for protected steps and prevents normal recovery checks from running.
+- Separate policy conflict: strict required `test` status + admin enforcement
+  now conflicts with the existing analytics publisher's direct-main push.
+  Data collection itself need not wait for a publishing redesign. Keep
+  runtime verification separate from this repository governance decision.
+- Recommend one attended permissionless PR validation with the existing gate,
+  then restore eligible checks/deployment after actual runtime verification;
+  resolve metrics publishing narrowly and retire expired exception machinery.
+  No workflow states, protections, credentials, or security code changed here.
+
+## 2026-10-31 — Authorized analytics recovery implementation
+
+- Owner authorized guarded hosted validation, restoration of checks/deployment
+  after passing validation, and fixing analytics publishing. Enabled PR Checks
+  and reran existing secret-free run 40153659174 (attempt 2). It proved runner
+  2.338.2 / action Node 24.22.1 and passed live trust probes without exception.
+  Newly published dependency advisories stopped its full validation at audit.
+- Daily/manual GA4 and Search Console exports now publish metrics-only PRs,
+  requesting protected auto-merge rather than pushing main. Collection jobs
+  have read-only repository permissions, exports share a concurrency group,
+  and the existing publishing PAT triggers normal PR checks and deployment.
+- Patched follow-redirects, Joi, glob, modern minimatch and Satori; pinned
+  Satori's fflate to its patched 0.7.5 release. Full audit remains enforced with
+  one exact-advisory/exact-version disposition for legacy minimatch 3.1.4,
+  which lacks the described vulnerable preprocessing implementation. No major
+  ESLint migration or blanket severity exclusion. See security README.
+- Local 309 unit tests, 25 audit/publisher/workflow contract tests, lint,
+  typechecks and preview build passed before the final fflate patch. Hosted
+  full build/browser validation and restoration remain pending this revision.

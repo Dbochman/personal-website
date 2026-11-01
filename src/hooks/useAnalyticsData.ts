@@ -106,19 +106,28 @@ export function useAnalyticsData(): AnalyticsData {
       }
 
       // Otherwise show data with optional missing files warning
-      const warning = missingFiles.length > 0
-        ? `Some metrics data unavailable: ${missingFiles.join(', ')}`
-        : null;
+      const warnings = missingFiles.length > 0
+        ? [`Some metrics data unavailable: ${missingFiles.join(', ')}`]
+        : [];
+      const ga4History = ga4Result.status === 'success' ? deduplicateByDate(ga4Result.data) : [];
+      const latestGA4 = ga4History[ga4History.length - 1];
+      // Daily collection should not go more than three days without an update.
+      // Use collection time, not the deliberately delayed GA4 reporting period.
+      if (latestGA4 && Date.now() - Date.parse(latestGA4.timestamp || latestGA4.date) > 3 * 86_400_000) {
+        warnings.push(`Traffic data is out of date: last collected ${latestGA4.date}${latestGA4.period.endDate ? `, covering visits through ${latestGA4.period.endDate}` : ''}. More recent visits are not shown.`);
+      } else if (ga4Result.status === 'success' && ga4History.length === 0) {
+        warnings.push('No traffic reports available. This does not imply zero visits.');
+      }
 
       setData({
         latest: latestResult.status === 'success' ? latestResult.data : null,
-        ga4History: ga4Result.status === 'success' ? deduplicateByDate(ga4Result.data) : [],
+        ga4History,
         searchHistory: searchResult.status === 'success' ? deduplicateByDate(searchResult.data) : [],
         lighthouseSummary: lighthouseResult.status === 'success' ? lighthouseResult.data : [],
         billingHistory: billingResult.status === 'success' ? deduplicateByDate(billingResult.data) : [],
         isLoading: false,
         error: null,
-        warning,
+        warning: warnings.length > 0 ? warnings.join(' ') : null,
       });
     }
 

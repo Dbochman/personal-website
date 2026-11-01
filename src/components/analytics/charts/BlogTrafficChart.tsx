@@ -3,6 +3,7 @@ import type { NameType, ValueType } from 'recharts/types/component/DefaultToolti
 import type { GA4HistoryEntry } from '../types';
 import type { ValidatedBlogPost } from '@/types/blog';
 import { formatHistoryDate, getRecentHistory } from './recentHistory';
+import { getBlogPages } from '@/lib/analytics/blog-pages';
 
 const COLORS = [
   'hsl(var(--chart-1))',
@@ -62,8 +63,7 @@ export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficCh
   // First pass: accumulate total sessions per canonical slug across all entries
   const cumulativeBySlug = new Map<string, number>();
   for (const entry of recentData) {
-    for (const p of entry.topPages ?? []) {
-      if (!p.page.startsWith('/blog/') || p.page === '/blog/' || p.page === '/blog') continue;
+    for (const p of getBlogPages(entry)) {
       const normalized = p.page.replace(/\/$/, '');
       const slug = normalized.replace('/blog/', '');
       const post = matchPost(slug, postLookups);
@@ -92,8 +92,7 @@ export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficCh
   // Build chart data: one row per history entry
   const chartData = recentData.map((entry) => {
     const merged = new Map<string, number>();
-    for (const p of entry.topPages ?? []) {
-      if (!p.page.startsWith('/blog/') || p.page === '/blog/' || p.page === '/blog') continue;
+    for (const p of getBlogPages(entry)) {
       const normalized = p.page.replace(/\/$/, '');
       const slug = normalized.replace('/blog/', '');
       const post = matchPost(slug, postLookups);
