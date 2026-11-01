@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
   # Schedule moved to analytics-daily.yml for unified daily collection
 
+concurrency:
+  group: analytics-publishing
+  cancel-in-progress: false
+
 env:
   NODE_OPTIONS: --use-openssl-ca
   NODE_USE_SYSTEM_CA: "0"
@@ -162,7 +166,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -179,13 +183,10 @@ jobs:
           GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
         run: node scripts/fetch-ga4-data.js
 
-      - name: Commit updated metrics
-        run: |
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add docs/metrics/ga4-history.json docs/metrics/latest.json
-          git diff --staged --quiet || git commit -m "chore: update GA4 analytics metrics [skip ci]"
-          git push
+      - name: Publish metrics pull request
+        env:
+          GH_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: bash scripts/publish-metrics.sh
 
       - name: Upload analytics data
         if: ${{ (always()) && steps.tls.outcome == 'success' }}

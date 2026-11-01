@@ -389,7 +389,7 @@ jobs:
           node .github/security/probe.mjs
 
       - name: Security audit
-        run: npm audit --audit-level=low
+        run: node scripts/audit-dependencies.mjs
 
       # Playwright runs the runner's preinstalled Chrome (channel: 'chrome' in
       # playwright.config.ts and scripts/prerender.mjs when CI=true) — browser
@@ -408,6 +408,8 @@ jobs:
           node --test .github/codex/review-workflow.test.mjs
           node --test .github/security/test_prerender.mjs
           node --test .github/security/test_blog_content.mjs
+          node --test .github/security/test_metrics_publishing.mjs
+          node --test .github/security/test_dependency_audit.mjs
           npm test
 
       - name: Build

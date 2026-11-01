@@ -299,3 +299,14 @@ export function detectSameWeekdayAnomaly(dailySessions, overrides = {}) {
     ...commonResult,
   };
 }
+
+/** Keep blog coverage independent of the site-wide leaderboard cutoff. */
+export function buildPageLists(pageMetrics) {
+  const pages = Object.entries(pageMetrics)
+    .map(([page, metrics]) => ({ page, ...metrics }))
+    .sort((a, b) => b.pageViews - a.pageViews);
+  return {
+    topPages: pages.slice(0, 10),
+    blogPages: pages.filter(({ page }) => page.startsWith('/blog/') && page !== '/blog/'),
+  };
+}

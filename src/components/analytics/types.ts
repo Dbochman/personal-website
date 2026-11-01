@@ -39,6 +39,13 @@ export interface LatestMetrics {
   webVitals?: WebVitalsData;
 }
 
+export interface GA4PageMetrics {
+  page: string;
+  sessions: number;
+  users: number;
+  pageViews: number;
+}
+
 export interface GA4HistoryEntry {
   timestamp: string;
   date: string;
@@ -56,12 +63,9 @@ export interface GA4HistoryEntry {
     averageSessionDuration: number;
     bounceRate: number;
   };
-  topPages: Array<{
-    page: string;
-    sessions: number;
-    users: number;
-    pageViews: number;
-  }>;
+  topPages: GA4PageMetrics[];
+  /** All reported blog paths; absent in older, top-ten-only snapshots. */
+  blogPages?: GA4PageMetrics[];
   deviceBreakdown: Array<{
     device: string;
     sessions: number;

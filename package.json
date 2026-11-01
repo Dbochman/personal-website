@@ -103,6 +103,14 @@
   "overrides": {
     "react-day-picker": {
       "date-fns": "^4.1.0"
+    },
+    "follow-redirects": "1.16.2",
+    "joi": "18.3.1",
+    "glob": "14.0.2",
+    "minimatch@^9.0.0": "11.0.1",
+    "minimatch@^10.0.0": "11.0.1",
+    "satori": {
+      "fflate": "0.7.5"
     }
   },
   "lint-staged": {
@@ -135,7 +143,7 @@
     "lint-staged": "^16.4.0",
     "postcss": "^8.4.47",
     "rollup-plugin-visualizer": "^7.0.1",
-    "satori": "^0.19.1",
+    "satori": "0.33.5",
     "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.5.3",

@@ -96,7 +96,7 @@ for (const filename of readdirSync(directory).filter(name => name.endsWith('.yml
         /BLOG_CONTENT_GATE:|BLOG_CONTENT_FILES:/.test(result)) {
       throw new Error('Blog Markdown gate must follow install before any content execution');
     }
-    for (const required of ['npm ci', 'npm audit --audit-level=low', 'npm run lint',
+    for (const required of ['npm ci', 'node scripts/audit-dependencies.mjs', 'npm run lint',
       'npm run typecheck', 'npm test', 'npm run build', 'npm run check-bundle-budget',
       'node --test .github/codex/review-workflow.test.mjs',
       'node --test .github/security/test_prerender.mjs',

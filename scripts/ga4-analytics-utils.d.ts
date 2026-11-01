@@ -66,3 +66,14 @@ export function detectSameWeekdayAnomaly(
   dailySessions: DailySession[] | null | undefined,
   overrides?: AnomalyOptions
 ): AnomalyResult;
+
+interface PageMetrics {
+  sessions: number;
+  users: number;
+  pageViews: number;
+}
+
+export function buildPageLists(pages: Record<string, PageMetrics>): {
+  topPages: Array<PageMetrics & { page: string }>;
+  blogPages: Array<PageMetrics & { page: string }>;
+};
