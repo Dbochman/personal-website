@@ -1,28 +1,25 @@
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipContentProps, Legend } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, TooltipContentProps, CartesianGrid } from 'recharts';
 import type { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
-import type { GA4HistoryEntry } from '../types';
+import type { BlogDailyReport } from '../types';
 import type { ValidatedBlogPost } from '@/types/blog';
-import { formatHistoryDate, getRecentHistory } from './recentHistory';
-import { getBlogPages } from '@/lib/analytics/blog-pages';
+import { buildBlogTraffic, formatBlogTrafficDate } from '@/lib/analytics/blog-traffic';
 
 const COLORS = [
-  'hsl(var(--chart-1))',
-  'hsl(var(--chart-2))',
-  'hsl(var(--chart-3))',
-  'hsl(var(--chart-4))',
-  'hsl(var(--chart-5, var(--primary)))',
-  'hsl(var(--muted-foreground))',
+  'hsl(var(--chart-1))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))',
+  'hsl(var(--chart-4))', 'hsl(var(--chart-5, var(--primary)))', 'hsl(var(--muted-foreground))',
 ];
 
 function CustomTooltip({ active, payload, label }: TooltipContentProps<ValueType, NameType>) {
-  if (!active || !payload || !payload.length) return null;
+  if (!active || !payload?.length) return null;
+  const total = payload.reduce((sum, entry) => sum + Number(entry.value ?? 0), 0);
   return (
     <div className="bg-popover text-popover-foreground border border-border rounded-lg px-3 py-2 text-sm shadow-md max-w-xs">
-      <p className="font-medium mb-1">{label}</p>
+      <p className="font-medium mb-1">{formatBlogTrafficDate(Number(label))}</p>
+      <p className="mb-2">{total.toLocaleString()} total page views</p>
       {payload.filter(e => Number(e.value) > 0).map((entry, i) => (
-        <p key={i} className="truncate">
+        <p key={i}>
           <span className="inline-block w-2 h-2 rounded-full mr-1.5" style={{ backgroundColor: entry.color }} />
-          {entry.name}: {Number(entry.value).toLocaleString()}
+          {entry.name}: {Number(entry.value).toLocaleString()} ({Math.round(Number(entry.value) / total * 100)}%)
         </p>
       ))}
     </div>
@@ -36,146 +33,50 @@ export interface PostLookups {
 }
 
 interface BlogTrafficChartProps {
-  data: GA4HistoryEntry[];
+  data: BlogDailyReport | null;
   postLookups: PostLookups;
   matchPost: (slug: string, lookups: PostLookups) => { title: string; slug: string } | undefined;
 }
 
 export function BlogTrafficChart({ data, postLookups, matchPost }: BlogTrafficChartProps) {
-  if (data.length === 0) {
-    return (
-      <div className="h-64 flex items-center justify-center text-muted-foreground">
-        No data available
-      </div>
-    );
+  if (!data?.days.length) {
+    return <div className="h-64 flex items-center justify-center text-muted-foreground">Daily blog traffic unavailable</div>;
   }
-
-  const recentData = getRecentHistory(data, 60);
-
-  if (recentData.length === 0) {
-    return (
-      <div className="h-64 flex items-center justify-center text-muted-foreground">
-        No chart data available
-      </div>
-    );
-  }
-
-  // First pass: accumulate total sessions per canonical slug across all entries
-  const cumulativeBySlug = new Map<string, number>();
-  for (const entry of recentData) {
-    for (const p of getBlogPages(entry)) {
-      const normalized = p.page.replace(/\/$/, '');
-      const slug = normalized.replace('/blog/', '');
-      const post = matchPost(slug, postLookups);
-      const key = post?.slug ?? slug;
-      cumulativeBySlug.set(key, (cumulativeBySlug.get(key) ?? 0) + p.sessions);
-    }
-  }
-
-  // Pick top 5 by cumulative sessions
-  const top5 = [...cumulativeBySlug.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([slug]) => slug);
-
-  const top5Set = new Set(top5);
-
-  // Resolve display names
-  const displayNames = new Map<string, string>();
-  for (const slug of top5) {
-    const post = matchPost(slug, postLookups);
-    const title = post?.title ?? slug;
-    // Truncate long titles for legend
-    displayNames.set(slug, title.length > 30 ? title.slice(0, 28) + '…' : title);
-  }
-
-  // Build chart data: one row per history entry
-  const chartData = recentData.map((entry) => {
-    const merged = new Map<string, number>();
-    for (const p of getBlogPages(entry)) {
-      const normalized = p.page.replace(/\/$/, '');
-      const slug = normalized.replace('/blog/', '');
-      const post = matchPost(slug, postLookups);
-      const key = post?.slug ?? slug;
-      merged.set(key, (merged.get(key) ?? 0) + p.sessions);
-    }
-
-    const row: Record<string, string | number> = {
-      date: formatHistoryDate(entry.date),
-    };
-
-    let otherSessions = 0;
-    for (const [slug, sessions] of merged) {
-      if (top5Set.has(slug)) {
-        row[slug] = sessions;
-      } else {
-        otherSessions += sessions;
-      }
-    }
-    // Ensure all top5 keys exist
-    for (const slug of top5) {
-      if (!(slug in row)) row[slug] = 0;
-    }
-    row['Other'] = otherSessions;
-
-    return row;
-  });
-
-  const tickInterval = Math.max(0, Math.ceil(chartData.length / 6) - 1);
-
-  const allKeys = [...top5, 'Other'];
+  const { rows, series } = buildBlogTraffic(data, slug => matchPost(slug, postLookups));
+  const ticks = rows.filter((_, i) => i === rows.length - 1 || i % Math.max(1, Math.ceil((rows.length - 1) / 5)) === 0)
+    .map(row => row.timestamp as number);
 
   return (
-    <div className="h-72 w-full">
-      <ResponsiveContainer width="100%" height={288}>
-        <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-          <defs>
-            {allKeys.map((key, i) => (
-              <linearGradient key={key} id={`blogGrad-${i}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={COLORS[i % COLORS.length]} stopOpacity={0.3} />
-                <stop offset="95%" stopColor={COLORS[i % COLORS.length]} stopOpacity={0} />
-              </linearGradient>
+    <div>
+      <p className="text-sm text-muted-foreground mb-3">
+        Daily page views · {formatBlogTrafficDate(rows[0].timestamp as number)}–{formatBlogTrafficDate(rows[rows.length - 1].timestamp as number)} · {data.timeZone}
+        <br />Top 5 posts in this period, plus all remaining posts in Other.
+      </p>
+      <div className="h-72 w-full">
+        <ResponsiveContainer width="100%" height={288}>
+          <AreaChart data={rows} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+            <CartesianGrid vertical={false} stroke="hsl(var(--border))" strokeDasharray="3 3" />
+            <XAxis dataKey="timestamp" type="number" scale="time" domain={['dataMin', 'dataMax']}
+              ticks={ticks} tickFormatter={formatBlogTrafficDate} tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+            <YAxis tick={{ fontSize: 12 }} tickLine={false} axisLine={false} allowDecimals={false}
+              tickFormatter={value => value.toLocaleString()} />
+            <Tooltip content={CustomTooltip} />
+            {series.map(({ key, title }, i) => (
+              <Area key={key} type="linear" dataKey={key} name={title} stackId="1" connectNulls={false}
+                stroke={key === 'other' ? COLORS[5] : COLORS[i]} fill={key === 'other' ? COLORS[5] : COLORS[i]}
+                fillOpacity={0.18} strokeWidth={1.5} isAnimationActive={false} />
             ))}
-          </defs>
-          <XAxis
-            dataKey="date"
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            interval={tickInterval}
-            className="text-muted-foreground"
-          />
-          <YAxis
-            tick={{ fontSize: 12 }}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(value) => value.toLocaleString()}
-            className="text-muted-foreground"
-          />
-          <Tooltip content={CustomTooltip} />
-          <Legend
-            verticalAlign="bottom"
-            height={36}
-            formatter={(value: string) => {
-              if (value === 'Other') return 'Other';
-              return displayNames.get(value) ?? value;
-            }}
-            wrapperStyle={{ fontSize: '11px' }}
-          />
-          {allKeys.map((key, i) => (
-            <Area
-              key={key}
-              type="monotone"
-              dataKey={key}
-              name={key}
-              stackId="1"
-              stroke={COLORS[i % COLORS.length]}
-              fill={`url(#blogGrad-${i})`}
-              strokeWidth={1.5}
-            />
-          ))}
-        </AreaChart>
-      </ResponsiveContainer>
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+      <ul className="mt-3 grid grid-cols-1 gap-x-4 gap-y-2 text-xs sm:grid-cols-2 xl:grid-cols-3" aria-label="Post colors">
+        {series.map(({ key, title }, i) => (
+          <li key={key} className="flex items-start gap-2">
+            <span className="mt-1 h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: key === 'other' ? COLORS[5] : COLORS[i] }} />
+            <span>{title}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

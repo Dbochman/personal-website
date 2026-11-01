@@ -2,7 +2,9 @@
 
 `docs/metrics/ga4-blog-daily.json` is separate from the rolling seven-day
 `ga4-history.json`. The public copy is `/metrics/ga4-blog-daily.json`.
-The current chart still uses the old snapshots; switching it is a separate task.
+Blog Traffic Over Time reads this file and displays daily page views for the
+last sixty covered dates, with the top five posts and the remainder in Other.
+Legacy rolling snapshots are not used as a fallback for this daily chart.
 
 The first collection queries January 1, 2026 through two days before collection
 in GA4's property timezone. Each subsequent collection replaces the last fourteen

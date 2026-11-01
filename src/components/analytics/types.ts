@@ -208,7 +208,16 @@ export interface GitHubBillingEntry {
   status: 'valid' | 'empty';
 }
 
+export interface BlogDailyReport {
+  schemaVersion: 1;
+  collectedAt: string;
+  timeZone: string;
+  coverage: { startDate: string; endDate: string };
+  days: Array<{ date: string; pageViews: number; pages: GA4PageMetrics[] }>;
+}
+
 export interface AnalyticsData {
+  blogDaily: BlogDailyReport | null;
   latest: LatestMetrics | null;
   ga4History: GA4HistoryEntry[];
   searchHistory: SearchConsoleHistoryEntry[];

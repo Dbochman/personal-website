@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MetricCard } from './MetricCard';
 import { BookOpen, Users, FileText, Eye, TrendingUp, Minus } from 'lucide-react';
 import { getAllPosts } from '@/content/blog/index';
-import type { GA4HistoryEntry } from './types';
+import type { GA4HistoryEntry, BlogDailyReport } from './types';
 import type { PostLookups } from './charts/BlogTrafficChart';
 import { getBlogPages } from '@/lib/analytics/blog-pages';
 
@@ -11,6 +11,7 @@ const BlogTrafficChart = lazy(() => import('./charts/BlogTrafficChart').then(m =
 const BlogTagBreakdownChart = lazy(() => import('./charts/BlogTagBreakdownChart').then(m => ({ default: m.BlogTagBreakdownChart })));
 
 interface BlogAnalyticsCardProps {
+  blogDaily?: BlogDailyReport | null;
   ga4History: GA4HistoryEntry[];
   latestGA4: GA4HistoryEntry | undefined;
 }
@@ -119,7 +120,7 @@ function extractBlogPages(entry: Pick<GA4HistoryEntry, 'topPages' | 'blogPages'>
   return map;
 }
 
-export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardProps) {
+export function BlogAnalyticsCard({ ga4History, latestGA4, blogDaily }: BlogAnalyticsCardProps) {
   const [sortKey, setSortKey] = useState<SortKey>('sessions');
   const [sortAsc, setSortAsc] = useState(false);
   const [leaderboardSortKey, setLeaderboardSortKey] = useState<LeaderboardSortKey>('totalSessions');
@@ -254,7 +255,7 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
       }
       return sortAsc ? cmp : -cmp;
     });
-    return sorted;
+    return sorted.slice(0, 10);
   }, [enrichedData.rows, sortKey, sortAsc]);
 
   // --- Sorted leaderboard rows ---
@@ -268,7 +269,7 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
       }
       return leaderboardSortAsc ? cmp : -cmp;
     });
-    return sorted;
+    return sorted.slice(0, 10);
   }, [allTimeData.rows, leaderboardSortKey, leaderboardSortAsc]);
 
   const handleSort = (key: SortKey) => {
@@ -336,7 +337,7 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
           </CardHeader>
           <CardContent>
             <Suspense fallback={<div className="h-64 bg-muted rounded animate-pulse" />}>
-              <BlogTrafficChart data={ga4History} postLookups={lookups} matchPost={matchPost} />
+              <BlogTrafficChart data={blogDaily ?? null} postLookups={lookups} matchPost={matchPost} />
             </Suspense>
           </CardContent>
         </Card>
@@ -353,11 +354,11 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
         </CardContent>
       </Card>
 
-      {/* Post performance table (all reported posts in the seven-day window) */}
+      {/* Post performance table (top ten in the selected sort order) */}
       {sortedRows.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>Post Performance (7d)</CardTitle>
+            <CardTitle>Post Performance (7d · Top 10)</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
@@ -398,7 +399,7 @@ export function BlogAnalyticsCard({ ga4History, latestGA4 }: BlogAnalyticsCardPr
       {sortedLeaderboard.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle>All-Time Leaderboard</CardTitle>
+            <CardTitle>All-Time Leaderboard (Top 10)</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">

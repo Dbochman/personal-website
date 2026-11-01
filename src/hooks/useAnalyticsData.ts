@@ -6,6 +6,7 @@ import type {
   LighthousePageScore,
   GitHubBillingEntry,
   AnalyticsData,
+  BlogDailyReport,
 } from '@/components/analytics/types';
 
 type FetchResult<T> =
@@ -55,6 +56,7 @@ export function useAnalyticsData(): AnalyticsData {
   const [data, setData] = useState<AnalyticsData>({
     latest: null,
     ga4History: [],
+    blogDaily: null,
     searchHistory: [],
     lighthouseSummary: [],
     billingHistory: [],
@@ -65,12 +67,13 @@ export function useAnalyticsData(): AnalyticsData {
 
   useEffect(() => {
     async function loadData() {
-      const [latestResult, ga4Result, searchResult, lighthouseResult, billingResult] = await Promise.all([
+      const [latestResult, ga4Result, searchResult, lighthouseResult, billingResult, blogDailyResult] = await Promise.all([
         fetchJson<LatestMetrics>('/metrics/latest.json'),
         fetchJson<GA4HistoryEntry[]>('/metrics/ga4-history.json'),
         fetchJson<SearchConsoleHistoryEntry[]>('/metrics/search-console-history.json'),
         fetchJson<LighthousePageScore[]>('/lighthouse-reports/summary.json'),
         fetchJson<GitHubBillingEntry[]>('/metrics/github-billing-history.json'),
+        fetchJson<BlogDailyReport>('/metrics/ga4-blog-daily.json'),
       ]);
 
       // Track missing files (404s) for warning
@@ -109,6 +112,13 @@ export function useAnalyticsData(): AnalyticsData {
       const warnings = missingFiles.length > 0
         ? [`Some metrics data unavailable: ${missingFiles.join(', ')}`]
         : [];
+      const blogDaily = blogDailyResult.status === 'success' && blogDailyResult.data.schemaVersion === 1
+        && Array.isArray(blogDailyResult.data.days) ? blogDailyResult.data : null;
+      if (!blogDaily) {
+        warnings.push('Daily blog traffic is unavailable; the traffic chart cannot be shown.');
+      } else if (Date.now() - Date.parse(blogDaily.collectedAt) > 3 * 86_400_000) {
+        warnings.push(`Daily blog traffic is out of date: last collected ${blogDaily.collectedAt.slice(0, 10)}.`);
+      }
       const ga4History = ga4Result.status === 'success' ? deduplicateByDate(ga4Result.data) : [];
       const latestGA4 = ga4History[ga4History.length - 1];
       // Daily collection should not go more than three days without an update.
@@ -122,6 +132,7 @@ export function useAnalyticsData(): AnalyticsData {
       setData({
         latest: latestResult.status === 'success' ? latestResult.data : null,
         ga4History,
+        blogDaily,
         searchHistory: searchResult.status === 'success' ? deduplicateByDate(searchResult.data) : [],
         lighthouseSummary: lighthouseResult.status === 'success' ? lighthouseResult.data : [],
         billingHistory: billingResult.status === 'success' ? deduplicateByDate(billingResult.data) : [],
