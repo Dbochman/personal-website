@@ -1,100 +1,100 @@
 {
-  "generated": "2026-10-21T10:56:58.094Z",
+  "generated": "2026-11-01T01:20:34.026Z",
   "searchConsole": {
-    "lastCheck": "2026-10-21T10:56:24.915Z",
+    "lastCheck": "2026-11-01T01:19:56.188Z",
     "clicks": 3,
-    "impressions": 84,
-    "averageCTR": 3.57,
-    "averagePosition": 8.9
+    "impressions": 127,
+    "averageCTR": 2.36,
+    "averagePosition": 7.5
   },
   "analytics": {
-    "lastCheck": "2026-10-21T10:56:57.337Z",
-    "sessions_7d": 1392,
-    "users_7d": 1388,
-    "pageviews_7d": 1530,
-    "avgSessionDuration": 4,
-    "bounceRate": 0.87,
+    "lastCheck": "2026-11-01T01:20:33.285Z",
+    "sessions_7d": 604,
+    "users_7d": 592,
+    "pageviews_7d": 617,
+    "avgSessionDuration": 80,
+    "bounceRate": 0.53,
     "topPages": [
       {
-        "page": "/blog",
-        "pageViews": 337
+        "page": "/projects/incident-command-diagrams",
+        "pageViews": 59
       },
       {
-        "page": "/",
-        "pageViews": 193
+        "page": "/blog",
+        "pageViews": 54
       },
       {
         "page": "/projects/retry-storm-simulator",
-        "pageViews": 173
+        "pageViews": 47
       },
       {
-        "page": "/runbook",
-        "pageViews": 142
+        "page": "/",
+        "pageViews": 36
       },
       {
-        "page": "/blog/2026-08-09-the-smallest-useful-tailscale-setup",
-        "pageViews": 109
+        "page": "/blog/2026-01-24-retrospectives-that-actually-change-things",
+        "pageViews": 26
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-10-21T10:56:57.337Z",
+    "lastCheck": "2026-11-01T01:20:33.285Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 1922,
-        "average": 50.63891779396462,
+        "count": 614,
+        "average": 525.6400651465798,
         "unit": "ms",
         "ratings": {
-          "good": 1915,
-          "needs-improvement": 5,
-          "poor": 2
+          "good": 493,
+          "needs-improvement": 72,
+          "poor": 49
+        },
+        "goodPercent": 80
+      },
+      "FCP": {
+        "count": 487,
+        "average": 314.8829568788501,
+        "unit": "ms",
+        "ratings": {
+          "good": 487,
+          "needs-improvement": 0,
+          "poor": 0
         },
         "goodPercent": 100
       },
-      "FCP": {
-        "count": 1521,
-        "average": 305.767258382643,
-        "unit": "ms",
-        "ratings": {
-          "good": 1496,
-          "needs-improvement": 22,
-          "poor": 3
-        },
-        "goodPercent": 98
-      },
       "LCP": {
-        "count": 1126,
-        "average": 651.848134991119,
+        "count": 429,
+        "average": 539.7132867132867,
         "unit": "ms",
         "ratings": {
-          "good": 1120,
-          "needs-improvement": 6,
+          "good": 429,
+          "needs-improvement": 0,
           "poor": 0
         },
-        "goodPercent": 99
+        "goodPercent": 100
       },
       "CLS": {
-        "count": 1179,
-        "average": 0.048683630195080575,
+        "count": 491,
+        "average": 0.026313645621181263,
         "unit": "",
         "ratings": {
-          "good": 887,
-          "needs-improvement": 285,
-          "poor": 7
+          "good": 418,
+          "needs-improvement": 72,
+          "poor": 1
         },
-        "goodPercent": 75
+        "goodPercent": 85
       },
       "INP": {
-        "count": 494,
-        "average": 85.23076923076923,
+        "count": 128,
+        "average": 273.3125,
         "unit": "ms",
         "ratings": {
-          "good": 468,
-          "needs-improvement": 24,
-          "poor": 2
+          "good": 72,
+          "needs-improvement": 34,
+          "poor": 22
         },
-        "goodPercent": 95
+        "goodPercent": 56
       }
     }
   }
