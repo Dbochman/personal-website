@@ -31083,20 +31083,20 @@
     }
   },
   {
-    "timestamp": "2026-11-01T01:44:43.837Z",
+    "timestamp": "2026-11-01T12:14:42.296Z",
     "date": "2026-11-01",
     "period": {
       "description": "Last 7 completed days",
-      "startDate": "2026-10-23",
-      "endDate": "2026-10-29",
+      "startDate": "2026-10-24",
+      "endDate": "2026-10-30",
       "windowDays": 7,
       "dataState": "finalized"
     },
     "summary": {
-      "sessions": 604,
-      "users": 592,
-      "pageViews": 617,
-      "averageSessionDuration": 80,
+      "sessions": 606,
+      "users": 594,
+      "pageViews": 620,
+      "averageSessionDuration": 79,
       "bounceRate": 0.53
     },
     "topPages": [
@@ -31120,9 +31120,9 @@
       },
       {
         "page": "/",
-        "sessions": 36,
-        "users": 34,
-        "pageViews": 36
+        "sessions": 37,
+        "users": 35,
+        "pageViews": 37
       },
       {
         "page": "/blog/2026-01-24-retrospectives-that-actually-change-things",
@@ -31156,9 +31156,9 @@
       },
       {
         "page": "/blog/2026-03-31-axios-supply-chain-attack",
-        "sessions": 18,
-        "users": 18,
-        "pageViews": 18
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 19
       }
     ],
     "blogPages": [
@@ -31182,15 +31182,9 @@
       },
       {
         "page": "/blog/2026-03-31-axios-supply-chain-attack",
-        "sessions": 18,
-        "users": 18,
-        "pageViews": 18
-      },
-      {
-        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development",
-        "sessions": 18,
-        "users": 18,
-        "pageViews": 17
+        "sessions": 19,
+        "users": 19,
+        "pageViews": 19
       },
       {
         "page": "/blog/2026-06-21-disk-utility-said-it-fixed-my-mac",
@@ -31199,13 +31193,19 @@
         "pageViews": 17
       },
       {
-        "page": "/blog/2026-01-10-architecture-of-a-free-website",
-        "sessions": 14,
-        "users": 14,
-        "pageViews": 14
+        "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "sessions": 16,
+        "users": 16,
+        "pageViews": 16
       },
       {
         "page": "/blog/2026-03-14-watchdogs-and-launchagents",
+        "sessions": 15,
+        "users": 15,
+        "pageViews": 15
+      },
+      {
+        "page": "/blog/2026-01-10-architecture-of-a-free-website",
         "sessions": 14,
         "users": 14,
         "pageViews": 14
@@ -31229,16 +31229,16 @@
         "pageViews": 11
       },
       {
-        "page": "/blog/2026-10-20-emudhra-certificate-incident",
+        "page": "/blog/2026-01-10-automating-the-blog-itself",
         "sessions": 10,
         "users": 10,
         "pageViews": 10
       },
       {
-        "page": "/blog/2026-01-10-automating-the-blog-itself",
-        "sessions": 9,
-        "users": 9,
-        "pageViews": 9
+        "page": "/blog/2026-10-20-emudhra-certificate-incident",
+        "sessions": 10,
+        "users": 10,
+        "pageViews": 10
       },
       {
         "page": "/blog/2026-04-30-two-supply-chain-attacks-in-one-day",
@@ -31400,31 +31400,26 @@
     "deviceBreakdown": [
       {
         "device": "desktop",
-        "sessions": 599,
-        "users": 587
+        "sessions": 602,
+        "users": 590
       },
       {
         "device": "mobile",
         "sessions": 4,
         "users": 4
-      },
-      {
-        "device": "tablet",
-        "sessions": 1,
-        "users": 1
       }
     ],
     "trafficSources": {
       "channels": [
         {
           "channel": "Direct",
-          "sessions": 241,
-          "users": 240
+          "sessions": 240,
+          "users": 239
         },
         {
           "channel": "Referral",
-          "sessions": 120,
-          "users": 120
+          "sessions": 123,
+          "users": 123
         },
         {
           "channel": "Organic Search",
@@ -31436,14 +31431,14 @@
         {
           "source": "(direct)",
           "medium": "(none)",
-          "sessions": 241,
-          "users": 240
+          "sessions": 240,
+          "users": 239
         },
         {
           "source": "aocr.org",
           "medium": "referral",
-          "sessions": 120,
-          "users": 120
+          "sessions": 123,
+          "users": 123
         },
         {
           "source": "google",
@@ -31454,10 +31449,6 @@
       ]
     },
     "dailySessions": [
-      {
-        "date": "2026-09-30",
-        "sessions": 33
-      },
       {
         "date": "2026-10-01",
         "sessions": 55
@@ -31573,47 +31564,51 @@
       {
         "date": "2026-10-29",
         "sessions": 76
+      },
+      {
+        "date": "2026-10-30",
+        "sessions": 4
       }
     ],
     "sessionAnomaly": {
       "status": "normal",
       "isAnomaly": false,
       "severity": null,
-      "reason": "Latest sessions are within guarded thresholds",
-      "message": "Sessions normal on 2026-10-29: 76 vs same-weekday median 36",
-      "observedDate": "2026-10-29",
-      "observedSessions": 76,
-      "baselineSessions": 36,
+      "reason": "The guarded drop has not persisted for two completed days",
+      "message": "No alert for 2026-10-30: 4 vs same-weekday median 35.5; drop not sustained",
+      "observedDate": "2026-10-30",
+      "observedSessions": 4,
+      "baselineSessions": 35.5,
       "baselineDates": [
-        "2026-10-22",
-        "2026-10-15",
-        "2026-10-08",
-        "2026-10-01"
+        "2026-10-23",
+        "2026-10-16",
+        "2026-10-09",
+        "2026-10-02"
       ],
-      "absoluteDrop": -40,
-      "percentageDrop": -111.1,
+      "absoluteDrop": 31.5,
+      "percentageDrop": 88.7,
       "confidence": "high",
       "basis": "human-sessions"
     },
     "webVitals": {
       "TTFB": {
-        "count": 614,
-        "average": 525.6400651465798,
+        "count": 617,
+        "average": 567.2771474878444,
         "unit": "ms",
         "ratings": {
-          "good": 493,
-          "needs-improvement": 72,
-          "poor": 49
+          "good": 492,
+          "needs-improvement": 73,
+          "poor": 52
         },
         "goodPercent": 80
       },
       "FCP": {
         "count": 487,
-        "average": 314.8829568788501,
+        "average": 315.90554414784395,
         "unit": "ms",
         "ratings": {
-          "good": 487,
-          "needs-improvement": 0,
+          "good": 486,
+          "needs-improvement": 1,
           "poor": 0
         },
         "goodPercent": 100
@@ -31630,11 +31625,11 @@
         "goodPercent": 100
       },
       "CLS": {
-        "count": 491,
-        "average": 0.026313645621181263,
+        "count": 492,
+        "average": 0.026260162601626016,
         "unit": "",
         "ratings": {
-          "good": 418,
+          "good": 419,
           "needs-improvement": 72,
           "poor": 1
         },

@@ -1,18 +1,18 @@
 {
-  "generated": "2026-11-01T01:44:43.846Z",
+  "generated": "2026-11-01T12:14:42.937Z",
   "searchConsole": {
-    "lastCheck": "2026-11-01T01:19:56.188Z",
+    "lastCheck": "2026-11-01T12:08:41.996Z",
     "clicks": 3,
-    "impressions": 127,
-    "averageCTR": 2.36,
-    "averagePosition": 7.5
+    "impressions": 108,
+    "averageCTR": 2.78,
+    "averagePosition": 7.7
   },
   "analytics": {
-    "lastCheck": "2026-11-01T01:44:43.846Z",
-    "sessions_7d": 604,
-    "users_7d": 592,
-    "pageviews_7d": 617,
-    "avgSessionDuration": 80,
+    "lastCheck": "2026-11-01T12:14:42.304Z",
+    "sessions_7d": 606,
+    "users_7d": 594,
+    "pageviews_7d": 620,
+    "avgSessionDuration": 79,
     "bounceRate": 0.53,
     "topPages": [
       {
@@ -29,7 +29,7 @@
       },
       {
         "page": "/",
-        "pageViews": 36
+        "pageViews": 37
       },
       {
         "page": "/blog/2026-01-24-retrospectives-that-actually-change-things",
@@ -38,27 +38,27 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-11-01T01:44:43.846Z",
+    "lastCheck": "2026-11-01T12:14:42.304Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 614,
-        "average": 525.6400651465798,
+        "count": 617,
+        "average": 567.2771474878444,
         "unit": "ms",
         "ratings": {
-          "good": 493,
-          "needs-improvement": 72,
-          "poor": 49
+          "good": 492,
+          "needs-improvement": 73,
+          "poor": 52
         },
         "goodPercent": 80
       },
       "FCP": {
         "count": 487,
-        "average": 314.8829568788501,
+        "average": 315.90554414784395,
         "unit": "ms",
         "ratings": {
-          "good": 487,
-          "needs-improvement": 0,
+          "good": 486,
+          "needs-improvement": 1,
           "poor": 0
         },
         "goodPercent": 100
@@ -75,11 +75,11 @@
         "goodPercent": 100
       },
       "CLS": {
-        "count": 491,
-        "average": 0.026313645621181263,
+        "count": 492,
+        "average": 0.026260162601626016,
         "unit": "",
         "ratings": {
-          "good": 418,
+          "good": 419,
           "needs-improvement": 72,
           "poor": 1
         },
