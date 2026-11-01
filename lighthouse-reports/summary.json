@@ -9,170 +9,170 @@
     "lcp": "2.7 s",
     "fcp": "1.1 s",
     "cls": "0",
-    "tbt": "250 ms",
+    "tbt": "230 ms",
     "runs": 3,
     "performanceRange": [
-      71,
-      93
+      75,
+      92
     ],
     "tbtRangeMs": [
-      217,
-      1041
+      226,
+      790
     ],
-    "collectedAt": "2026-11-01T01:59:23.232Z"
+    "collectedAt": "2026-11-01T02:12:16.100Z"
   },
   {
     "page": "blog",
     "url": "https://dylanbochman.com/blog",
-    "performance": 76,
+    "performance": 77,
     "accessibility": 96,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.6 s",
+    "lcp": "4.7 s",
     "fcp": "1.0 s",
     "cls": "0",
-    "tbt": "320 ms",
+    "tbt": "290 ms",
     "runs": 3,
     "performanceRange": [
-      67,
-      77
+      68,
+      84
     ],
     "tbtRangeMs": [
-      295,
-      641
+      286,
+      530
     ],
-    "collectedAt": "2026-11-01T01:59:23.232Z"
+    "collectedAt": "2026-11-01T02:12:16.100Z"
   },
   {
     "page": "blog-post-404",
     "url": "https://dylanbochman.com/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
-    "performance": 73,
-    "accessibility": 100,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "5.4 s",
-    "fcp": "1.0 s",
-    "cls": "0",
-    "tbt": "330 ms",
-    "runs": 3,
-    "performanceRange": [
-      72,
-      73
-    ],
-    "tbtRangeMs": [
-      304,
-      327
-    ],
-    "collectedAt": "2026-11-01T01:59:23.232Z"
-  },
-  {
-    "page": "projects",
-    "url": "https://dylanbochman.com/projects",
-    "performance": 93,
-    "accessibility": 98,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "2.6 s",
-    "fcp": "0.9 s",
-    "cls": "0",
-    "tbt": "200 ms",
-    "runs": 3,
-    "performanceRange": [
-      93,
-      94
-    ],
-    "tbtRangeMs": [
-      192,
-      202
-    ],
-    "collectedAt": "2026-11-01T01:59:23.232Z"
-  },
-  {
-    "page": "project-slo",
-    "url": "https://dylanbochman.com/projects/slo-tool",
     "performance": 79,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.5 s",
+    "lcp": "4.1 s",
     "fcp": "1.0 s",
     "cls": "0",
-    "tbt": "280 ms",
+    "tbt": "340 ms",
     "runs": 3,
     "performanceRange": [
-      79,
+      71,
+      94
+    ],
+    "tbtRangeMs": [
+      286,
+      337
+    ],
+    "collectedAt": "2026-11-01T02:12:16.100Z"
+  },
+  {
+    "page": "projects",
+    "url": "https://dylanbochman.com/projects",
+    "performance": 94,
+    "accessibility": 98,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "2.6 s",
+    "fcp": "1.0 s",
+    "cls": "0",
+    "tbt": "190 ms",
+    "runs": 3,
+    "performanceRange": [
+      82,
+      94
+    ],
+    "tbtRangeMs": [
+      176,
+      190
+    ],
+    "collectedAt": "2026-11-01T02:12:16.100Z"
+  },
+  {
+    "page": "project-slo",
+    "url": "https://dylanbochman.com/projects/slo-tool",
+    "performance": 78,
+    "accessibility": 100,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "4.9 s",
+    "fcp": "1.0 s",
+    "cls": "0",
+    "tbt": "230 ms",
+    "runs": 3,
+    "performanceRange": [
+      78,
       79
     ],
     "tbtRangeMs": [
-      263,
-      280
+      207,
+      227
     ],
-    "collectedAt": "2026-11-01T01:59:23.232Z"
+    "collectedAt": "2026-11-01T02:12:16.100Z"
   },
   {
     "page": "project-statuspage",
     "url": "https://dylanbochman.com/projects/statuspage-update",
-    "performance": 85,
+    "performance": 84,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "3.8 s",
+    "lcp": "3.9 s",
+    "fcp": "0.9 s",
+    "cls": "0",
+    "tbt": "240 ms",
+    "runs": 3,
+    "performanceRange": [
+      81,
+      85
+    ],
+    "tbtRangeMs": [
+      209,
+      238
+    ],
+    "collectedAt": "2026-11-01T02:12:16.100Z"
+  },
+  {
+    "page": "project-oncall",
+    "url": "https://dylanbochman.com/projects/oncall-coverage",
+    "performance": 84,
+    "accessibility": 96,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "3.9 s",
     "fcp": "1.0 s",
     "cls": "0",
     "tbt": "220 ms",
     "runs": 3,
     "performanceRange": [
-      85,
-      86
+      80,
+      93
     ],
     "tbtRangeMs": [
-      212,
-      238
+      192,
+      223
     ],
-    "collectedAt": "2026-11-01T01:59:23.232Z"
-  },
-  {
-    "page": "project-oncall",
-    "url": "https://dylanbochman.com/projects/oncall-coverage",
-    "performance": 85,
-    "accessibility": 96,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "3.8 s",
-    "fcp": "1.0 s",
-    "cls": "0",
-    "tbt": "210 ms",
-    "runs": 3,
-    "performanceRange": [
-      85,
-      94
-    ],
-    "tbtRangeMs": [
-      205,
-      230
-    ],
-    "collectedAt": "2026-11-01T01:59:23.232Z"
+    "collectedAt": "2026-11-01T02:12:16.100Z"
   },
   {
     "page": "runbook",
     "url": "https://dylanbochman.com/runbook",
-    "performance": 87,
+    "performance": 86,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "3.4 s",
+    "lcp": "3.5 s",
     "fcp": "1.0 s",
     "cls": "0",
     "tbt": "240 ms",
     "runs": 3,
     "performanceRange": [
-      79,
-      90
+      76,
+      87
     ],
     "tbtRangeMs": [
-      150,
-      248
+      225,
+      247
     ],
-    "collectedAt": "2026-11-01T01:59:23.232Z"
+    "collectedAt": "2026-11-01T02:12:16.100Z"
   }
 ]
