@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-01T00:00:00.000Z",
-    "date": "2025-11-01",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-10-26",
-      "end": "2025-11-01"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-02T00:00:00.000Z",
     "date": "2025-11-02",
     "dataState": "final",
@@ -5837,20 +5821,36 @@
       "totalImpressions": 107,
       "averageCTR": 2.8,
       "averagePosition": 7.6
+    }
+  },
+  {
+    "timestamp": "2026-11-01T00:00:00.000Z",
+    "date": "2026-11-01",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-10-26",
+      "end": "2026-11-01"
     },
-    "collectedAt": "2026-11-02T14:29:25.411Z",
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 106,
+      "averageCTR": 2.83,
+      "averagePosition": 8.1
+    },
+    "collectedAt": "2026-11-03T13:26:23.227Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 4,
+        "rowCount": 6,
         "clicks": 0,
         "impressions": 17,
-        "impressionShare": 15.9
+        "impressionShare": 16
       },
       "pages": {
         "rowCount": 16,
         "clicks": 3,
-        "impressions": 162,
-        "impressionShare": 151.4
+        "impressions": 161,
+        "impressionShare": 151.9
       }
     },
     "topQueries": [
@@ -5859,14 +5859,7 @@
         "clicks": 0,
         "impressions": 11,
         "ctr": 0,
-        "position": 5.6
-      },
-      {
-        "query": "sk-admin- config.yml",
-        "clicks": 0,
-        "impressions": 3,
-        "ctr": 0,
-        "position": 13.3
+        "position": 5.5
       },
       {
         "query": "decap cms",
@@ -5876,41 +5869,62 @@
         "position": 57
       },
       {
+        "query": "how to set admin",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 4
+      },
+      {
         "query": "failed to load resource: the server responded with a status of 404 (file not found)",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
         "position": 9
+      },
+      {
+        "query": "sk-admin- config.yml",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 15
+      },
+      {
+        "query": "netlify cms widgets",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 35
       }
     ],
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 2,
-        "impressions": 24,
-        "ctr": 0.08333333333333333,
-        "position": 5.9
+        "impressions": 25,
+        "ctr": 0.08,
+        "position": 5.7
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 1,
         "impressions": 9,
         "ctr": 0.1111111111111111,
-        "position": 7.3
+        "position": 6.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
         "impressions": 74,
         "ctr": 0,
-        "position": 8.2
+        "position": 9.3
       },
       {
         "page": "https://dylanbochman.com/blog",
         "clicks": 0,
-        "impressions": 10,
+        "impressions": 9,
         "ctr": 0,
-        "position": 5.4
+        "position": 4.3
       },
       {
         "page": "https://dylanbochman.com/",
