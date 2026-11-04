@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-02T00:00:00.000Z",
-    "date": "2025-11-02",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-10-27",
-      "end": "2025-11-02"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-03T00:00:00.000Z",
     "date": "2025-11-03",
     "dataState": "final",
@@ -5837,20 +5821,36 @@
       "totalImpressions": 106,
       "averageCTR": 2.83,
       "averagePosition": 8.1
+    }
+  },
+  {
+    "timestamp": "2026-11-02T00:00:00.000Z",
+    "date": "2026-11-02",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-10-27",
+      "end": "2026-11-02"
     },
-    "collectedAt": "2026-11-03T13:26:23.227Z",
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 107,
+      "averageCTR": 2.8,
+      "averagePosition": 8.1
+    },
+    "collectedAt": "2026-11-04T13:38:00.885Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 6,
+        "rowCount": 4,
         "clicks": 0,
-        "impressions": 17,
-        "impressionShare": 16
+        "impressions": 15,
+        "impressionShare": 14
       },
       "pages": {
-        "rowCount": 16,
+        "rowCount": 12,
         "clicks": 3,
-        "impressions": 161,
-        "impressionShare": 151.9
+        "impressions": 135,
+        "impressionShare": 126.2
       }
     },
     "topQueries": [
@@ -5876,20 +5876,6 @@
         "position": 4
       },
       {
-        "query": "failed to load resource: the server responded with a status of 404 (file not found)",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 9
-      },
-      {
-        "query": "sk-admin- config.yml",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 15
-      },
-      {
         "query": "netlify cms widgets",
         "clicks": 0,
         "impressions": 1,
@@ -5901,51 +5887,44 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 2,
-        "impressions": 25,
-        "ctr": 0.08,
-        "position": 5.7
+        "impressions": 24,
+        "ctr": 0.08333333333333333,
+        "position": 5.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 1,
         "impressions": 9,
         "ctr": 0.1111111111111111,
-        "position": 6.8
+        "position": 6.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 74,
+        "impressions": 71,
         "ctr": 0,
         "position": 9.3
       },
       {
         "page": "https://dylanbochman.com/blog",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 6,
         "ctr": 0,
-        "position": 4.3
+        "position": 5
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 4,
         "ctr": 0,
         "position": 1
       },
       {
         "page": "https://dylanbochman.com/runbook/",
         "clicks": 0,
-        "impressions": 7,
+        "impressions": 4,
         "ctr": 0,
-        "position": 3
-      },
-      {
-        "page": "https://dylanbochman.com/projects/retry-storm-simulator",
-        "clicks": 0,
-        "impressions": 6,
-        "ctr": 0,
-        "position": 4.5
+        "position": 3.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
@@ -5955,18 +5934,25 @@
         "position": 9
       },
       {
-        "page": "https://dylanbochman.com/projects/incident-command-diagrams/",
+        "page": "https://dylanbochman.com/projects/retry-storm-simulator",
         "clicks": 0,
         "impressions": 3,
         "ctr": 0,
         "position": 4
       },
       {
-        "page": "https://dylanbochman.com/blog/2026-01-10-automating-the-blog-itself",
+        "page": "https://dylanbochman.com/blog/2026-10-20-emudhra-certificate-incident",
         "clicks": 0,
         "impressions": 3,
         "ctr": 0,
-        "position": 6
+        "position": 7
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-15-free-observability-for-a-static-site",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 8
       }
     ]
   }
