@@ -1,100 +1,100 @@
 {
-  "generated": "2026-11-03T13:27:26.493Z",
+  "generated": "2026-11-04T13:38:58.568Z",
   "searchConsole": {
-    "lastCheck": "2026-11-03T13:26:23.227Z",
+    "lastCheck": "2026-11-04T13:38:00.885Z",
     "clicks": 3,
-    "impressions": 106,
-    "averageCTR": 2.83,
+    "impressions": 107,
+    "averageCTR": 2.8,
     "averagePosition": 8.1
   },
   "analytics": {
-    "lastCheck": "2026-11-03T13:27:25.779Z",
-    "sessions_7d": 747,
-    "users_7d": 741,
-    "pageviews_7d": 784,
-    "avgSessionDuration": 7,
-    "bounceRate": 0.89,
+    "lastCheck": "2026-11-04T13:38:57.813Z",
+    "sessions_7d": 833,
+    "users_7d": 826,
+    "pageviews_7d": 879,
+    "avgSessionDuration": 9,
+    "bounceRate": 0.88,
     "topPages": [
       {
         "page": "/blog",
-        "pageViews": 115
+        "pageViews": 134
       },
       {
         "page": "/",
-        "pageViews": 76
+        "pageViews": 88
       },
       {
         "page": "/projects/incident-command-diagrams",
-        "pageViews": 72
+        "pageViews": 84
       },
       {
         "page": "/projects/retry-storm-simulator",
-        "pageViews": 69
+        "pageViews": 80
       },
       {
         "page": "/runbook",
-        "pageViews": 65
+        "pageViews": 73
       }
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-11-03T13:27:25.779Z",
+    "lastCheck": "2026-11-04T13:38:57.813Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 1003,
-        "average": 374.3150548354935,
+        "count": 1122,
+        "average": 338.82442067736184,
         "unit": "ms",
         "ratings": {
-          "good": 878,
+          "good": 997,
           "needs-improvement": 73,
           "poor": 52
         },
-        "goodPercent": 88
+        "goodPercent": 89
       },
       "FCP": {
-        "count": 663,
-        "average": 272.38009049773757,
+        "count": 757,
+        "average": 269.06737120211363,
         "unit": "ms",
         "ratings": {
-          "good": 658,
+          "good": 752,
           "needs-improvement": 5,
           "poor": 0
         },
         "goodPercent": 99
       },
       "LCP": {
-        "count": 448,
-        "average": 615.8839285714286,
+        "count": 521,
+        "average": 609.6506717850287,
         "unit": "ms",
         "ratings": {
-          "good": 448,
+          "good": 521,
           "needs-improvement": 0,
           "poor": 0
         },
         "goodPercent": 100
       },
       "CLS": {
-        "count": 466,
-        "average": 0.060645922746781114,
+        "count": 541,
+        "average": 0.05934750462107209,
         "unit": "",
         "ratings": {
-          "good": 314,
-          "needs-improvement": 145,
-          "poor": 7
+          "good": 368,
+          "needs-improvement": 164,
+          "poor": 9
         },
-        "goodPercent": 67
+        "goodPercent": 68
       },
       "INP": {
-        "count": 220,
-        "average": 78.87272727272727,
+        "count": 263,
+        "average": 77.96197718631178,
         "unit": "ms",
         "ratings": {
-          "good": 211,
-          "needs-improvement": 9,
+          "good": 250,
+          "needs-improvement": 13,
           "poor": 0
         },
-        "goodPercent": 96
+        "goodPercent": 95
       }
     }
   }
