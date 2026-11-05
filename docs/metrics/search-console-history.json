@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-03T00:00:00.000Z",
-    "date": "2025-11-03",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-10-28",
-      "end": "2025-11-03"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-04T00:00:00.000Z",
     "date": "2025-11-04",
     "dataState": "final",
@@ -5837,36 +5821,45 @@
       "totalImpressions": 107,
       "averageCTR": 2.8,
       "averagePosition": 8.1
+    }
+  },
+  {
+    "timestamp": "2026-11-03T00:00:00.000Z",
+    "date": "2026-11-03",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-10-28",
+      "end": "2026-11-03"
     },
-    "collectedAt": "2026-11-04T13:38:00.885Z",
+    "summary": {
+      "totalClicks": 3,
+      "totalImpressions": 105,
+      "averageCTR": 2.86,
+      "averagePosition": 8.3
+    },
+    "collectedAt": "2026-11-05T13:49:50.401Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 4,
+        "rowCount": 5,
         "clicks": 0,
-        "impressions": 15,
-        "impressionShare": 14
+        "impressions": 13,
+        "impressionShare": 12.4
       },
       "pages": {
         "rowCount": 12,
         "clicks": 3,
-        "impressions": 135,
-        "impressionShare": 126.2
+        "impressions": 133,
+        "impressionShare": 126.7
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 11,
+        "impressions": 9,
         "ctr": 0,
-        "position": 5.5
-      },
-      {
-        "query": "decap cms",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 57
+        "position": 5.3
       },
       {
         "query": "how to set admin",
@@ -5876,34 +5869,48 @@
         "position": 4
       },
       {
+        "query": "decap cms netlify",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
+      },
+      {
         "query": "netlify cms widgets",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
         "position": 35
+      },
+      {
+        "query": "decap cms",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 85
       }
     ],
     "topPages": [
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 2,
-        "impressions": 24,
-        "ctr": 0.08333333333333333,
-        "position": 5.5
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
-        "clicks": 1,
-        "impressions": 9,
+        "impressions": 18,
         "ctr": 0.1111111111111111,
-        "position": 6.4
+        "position": 6.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
+        "clicks": 1,
+        "impressions": 75,
+        "ctr": 0.013333333333333334,
+        "position": 8.8
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 0,
-        "impressions": 71,
+        "impressions": 8,
         "ctr": 0,
-        "position": 9.3
+        "position": 7.6
       },
       {
         "page": "https://dylanbochman.com/blog",
@@ -5927,6 +5934,13 @@
         "position": 3.8
       },
       {
+        "page": "https://dylanbochman.com/blog/2026-01-15-free-observability-for-a-static-site",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 8
+      },
+      {
         "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
         "clicks": 0,
         "impressions": 4,
@@ -5946,13 +5960,6 @@
         "impressions": 3,
         "ctr": 0,
         "position": 7
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-free-observability-for-a-static-site",
-        "clicks": 0,
-        "impressions": 3,
-        "ctr": 0,
-        "position": 8
       }
     ]
   }
