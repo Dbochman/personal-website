@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "collectedAt": "2026-11-05T13:49:43.648Z",
+  "collectedAt": "2026-11-06T13:34:57.239Z",
   "timeZone": "America/New_York",
   "coverage": {
     "startDate": "2026-01-01",
-    "endDate": "2026-11-03"
+    "endDate": "2026-11-04"
   },
   "source": "GA4 date + pagePath; completed property-timezone days",
   "notes": "Page views are additive. Sessions/users can overlap across posts and days. Empty pages means no activity reported by GA4, not proof tracking was active.",
@@ -8327,6 +8327,36 @@
           "pageViews": 2,
           "sessions": 3,
           "users": 2
+        },
+        {
+          "page": "/blog/2026-03-31-axios-supply-chain-attack",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-10-24-taking-control-of-a-samsung-frame",
+          "pageViews": 4,
+          "sessions": 4,
+          "users": 4
+        }
+      ]
+    },
+    {
+      "date": "2026-11-04",
+      "pageViews": 11,
+      "pages": [
+        {
+          "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+          "pageViews": 3,
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "page": "/blog/2026-01-24-retrospectives-that-actually-change-things",
+          "pageViews": 3,
+          "sessions": 3,
+          "users": 3
         },
         {
           "page": "/blog/2026-03-31-axios-supply-chain-attack",
