@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-04T00:00:00.000Z",
-    "date": "2025-11-04",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-10-29",
-      "end": "2025-11-04"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-05T00:00:00.000Z",
     "date": "2025-11-05",
     "dataState": "final",
@@ -5837,27 +5821,43 @@
       "totalImpressions": 105,
       "averageCTR": 2.86,
       "averagePosition": 8.3
+    }
+  },
+  {
+    "timestamp": "2026-11-04T00:00:00.000Z",
+    "date": "2026-11-04",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-10-29",
+      "end": "2026-11-04"
     },
-    "collectedAt": "2026-11-06T13:34:50.691Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 96,
+      "averageCTR": 1.04,
+      "averagePosition": 8.8
+    },
+    "collectedAt": "2026-11-07T12:15:26.928Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 5,
         "clicks": 0,
-        "impressions": 13,
-        "impressionShare": 12.4
+        "impressions": 11,
+        "impressionShare": 11.5
       },
       "pages": {
-        "rowCount": 12,
-        "clicks": 3,
-        "impressions": 133,
-        "impressionShare": 126.7
+        "rowCount": 9,
+        "clicks": 1,
+        "impressions": 100,
+        "impressionShare": 104.2
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 7,
         "ctr": 0,
         "position": 5.3
       },
@@ -5892,18 +5892,18 @@
     ],
     "topPages": [
       {
-        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
-        "clicks": 2,
-        "impressions": 18,
-        "ctr": 0.1111111111111111,
-        "position": 6.8
-      },
-      {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 1,
-        "impressions": 75,
-        "ctr": 0.013333333333333334,
-        "position": 8.8
+        "impressions": 70,
+        "ctr": 0.014285714285714285,
+        "position": 9.3
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+        "clicks": 0,
+        "impressions": 12,
+        "ctr": 0,
+        "position": 7.3
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
@@ -5915,51 +5915,44 @@
       {
         "page": "https://dylanbochman.com/blog",
         "clicks": 0,
-        "impressions": 6,
+        "impressions": 3,
         "ctr": 0,
-        "position": 5
+        "position": 8
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-10-24-taking-control-of-a-samsung-frame",
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 9
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 4,
+        "impressions": 1,
         "ctr": 0,
         "position": 1
       },
       {
         "page": "https://dylanbochman.com/runbook/",
         "clicks": 0,
-        "impressions": 4,
+        "impressions": 1,
         "ctr": 0,
-        "position": 3.8
+        "position": 6
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-free-observability-for-a-static-site",
         "clicks": 0,
-        "impressions": 4,
+        "impressions": 1,
         "ctr": 0,
         "position": 8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
         "clicks": 0,
-        "impressions": 4,
+        "impressions": 1,
         "ctr": 0,
         "position": 9
-      },
-      {
-        "page": "https://dylanbochman.com/projects/retry-storm-simulator",
-        "clicks": 0,
-        "impressions": 3,
-        "ctr": 0,
-        "position": 4
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-10-20-emudhra-certificate-incident",
-        "clicks": 0,
-        "impressions": 3,
-        "ctr": 0,
-        "position": 7
       }
     ]
   }
