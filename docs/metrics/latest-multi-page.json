@@ -2,68 +2,68 @@
   {
     "page": "home",
     "url": "https://dylanbochman.com",
-    "performance": 91,
+    "performance": 92,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "2.8 s",
-    "fcp": "1.1 s",
+    "lcp": "2.6 s",
+    "fcp": "1.0 s",
     "cls": "0",
-    "tbt": "240 ms",
+    "tbt": "250 ms",
     "runs": 3,
     "performanceRange": [
-      87,
-      91
+      71,
+      93
     ],
     "tbtRangeMs": [
-      244,
-      341
+      235,
+      976
     ],
-    "collectedAt": "2026-11-01T12:14:12.315Z"
+    "collectedAt": "2026-11-08T12:24:07.015Z"
   },
   {
     "page": "blog",
     "url": "https://dylanbochman.com/blog",
-    "performance": 77,
+    "performance": 85,
     "accessibility": 96,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.7 s",
-    "fcp": "1.0 s",
+    "lcp": "3.5 s",
+    "fcp": "0.9 s",
     "cls": "0",
-    "tbt": "290 ms",
+    "tbt": "280 ms",
     "runs": 3,
     "performanceRange": [
-      76,
-      77
+      68,
+      87
     ],
     "tbtRangeMs": [
-      291,
-      314
+      235,
+      546
     ],
-    "collectedAt": "2026-11-01T12:14:12.315Z"
+    "collectedAt": "2026-11-08T12:24:07.015Z"
   },
   {
     "page": "blog-post-404",
     "url": "https://dylanbochman.com/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
-    "performance": 79,
+    "performance": 74,
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.1 s",
-    "fcp": "1.0 s",
+    "lcp": "5.3 s",
+    "fcp": "0.9 s",
     "cls": "0",
-    "tbt": "320 ms",
+    "tbt": "310 ms",
     "runs": 3,
     "performanceRange": [
-      73,
-      80
+      71,
+      78
     ],
     "tbtRangeMs": [
-      292,
-      331
+      308,
+      346
     ],
-    "collectedAt": "2026-11-01T12:14:12.315Z"
+    "collectedAt": "2026-11-08T12:24:07.015Z"
   },
   {
     "page": "projects",
@@ -73,19 +73,19 @@
     "seo": 100,
     "bestPractices": 100,
     "lcp": "2.6 s",
-    "fcp": "1.0 s",
+    "fcp": "0.9 s",
     "cls": "0",
-    "tbt": "180 ms",
+    "tbt": "190 ms",
     "runs": 3,
     "performanceRange": [
-      86,
+      82,
       95
     ],
     "tbtRangeMs": [
-      167,
-      187
+      171,
+      194
     ],
-    "collectedAt": "2026-11-01T12:14:12.315Z"
+    "collectedAt": "2026-11-08T12:24:07.015Z"
   },
   {
     "page": "project-slo",
@@ -94,64 +94,64 @@
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "4.6 s",
+    "lcp": "4.5 s",
     "fcp": "1.0 s",
     "cls": "0",
-    "tbt": "240 ms",
+    "tbt": "260 ms",
     "runs": 3,
     "performanceRange": [
-      77,
-      79
+      78,
+      80
     ],
     "tbtRangeMs": [
-      238,
-      253
+      228,
+      264
     ],
-    "collectedAt": "2026-11-01T12:14:12.315Z"
+    "collectedAt": "2026-11-08T12:24:07.015Z"
   },
   {
     "page": "project-statuspage",
     "url": "https://dylanbochman.com/projects/statuspage-update",
-    "performance": 84,
+    "performance": 85,
     "accessibility": 100,
+    "seo": 100,
+    "bestPractices": 100,
+    "lcp": "3.9 s",
+    "fcp": "0.9 s",
+    "cls": "0",
+    "tbt": "210 ms",
+    "runs": 3,
+    "performanceRange": [
+      82,
+      85
+    ],
+    "tbtRangeMs": [
+      200,
+      214
+    ],
+    "collectedAt": "2026-11-08T12:24:07.015Z"
+  },
+  {
+    "page": "project-oncall",
+    "url": "https://dylanbochman.com/projects/oncall-coverage",
+    "performance": 85,
+    "accessibility": 96,
     "seo": 100,
     "bestPractices": 100,
     "lcp": "3.9 s",
     "fcp": "1.0 s",
     "cls": "0",
-    "tbt": "210 ms",
+    "tbt": "200 ms",
     "runs": 3,
     "performanceRange": [
-      84,
-      85
+      81,
+      86
     ],
     "tbtRangeMs": [
-      209,
-      225
+      185,
+      204
     ],
-    "collectedAt": "2026-11-01T12:14:12.315Z"
-  },
-  {
-    "page": "project-oncall",
-    "url": "https://dylanbochman.com/projects/oncall-coverage",
-    "performance": 91,
-    "accessibility": 96,
-    "seo": 100,
-    "bestPractices": 100,
-    "lcp": "2.9 s",
-    "fcp": "1.0 s",
-    "cls": "0",
-    "tbt": "210 ms",
-    "runs": 3,
-    "performanceRange": [
-      80,
-      92
-    ],
-    "tbtRangeMs": [
-      207,
-      214
-    ],
-    "collectedAt": "2026-11-01T12:14:12.315Z"
+    "collectedAt": "2026-11-08T12:24:07.015Z"
   },
   {
     "page": "runbook",
@@ -160,19 +160,19 @@
     "accessibility": 100,
     "seo": 100,
     "bestPractices": 100,
-    "lcp": "3.5 s",
+    "lcp": "3.6 s",
     "fcp": "1.0 s",
     "cls": "0",
-    "tbt": "260 ms",
+    "tbt": "240 ms",
     "runs": 3,
     "performanceRange": [
-      79,
+      78,
       87
     ],
     "tbtRangeMs": [
-      224,
-      258
+      215,
+      235
     ],
-    "collectedAt": "2026-11-01T12:14:12.315Z"
+    "collectedAt": "2026-11-08T12:24:07.015Z"
   }
 ]
