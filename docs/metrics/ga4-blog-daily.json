@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "collectedAt": "2026-11-10T14:05:50.439Z",
+  "collectedAt": "2026-11-11T13:23:07.857Z",
   "timeZone": "America/New_York",
   "coverage": {
     "startDate": "2026-01-01",
-    "endDate": "2026-11-08"
+    "endDate": "2026-11-09"
   },
   "source": "GA4 date + pagePath; completed property-timezone days",
   "notes": "Page views are additive. Sessions/users can overlap across posts and days. Empty pages means no activity reported by GA4, not proof tracking was active.",
@@ -8615,6 +8615,54 @@
           "pageViews": 1,
           "sessions": 1,
           "users": 1
+        }
+      ]
+    },
+    {
+      "date": "2026-11-09",
+      "pageViews": 18,
+      "pages": [
+        {
+          "page": "/blog/2026-01-15-decap-cms-netlify-setup-guide",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-01-24-retrospectives-that-actually-change-things",
+          "pageViews": 5,
+          "sessions": 5,
+          "users": 5
+        },
+        {
+          "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+          "pageViews": 3,
+          "sessions": 4,
+          "users": 3
+        },
+        {
+          "page": "/blog/2026-03-31-axios-supply-chain-attack",
+          "pageViews": 2,
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "page": "/blog/2026-06-21-disk-utility-said-it-fixed-my-mac",
+          "pageViews": 2,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-08-09-the-smallest-useful-tailscale-setup",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-10-24-taking-control-of-a-samsung-frame",
+          "pageViews": 4,
+          "sessions": 4,
+          "users": 4
         }
       ]
     }

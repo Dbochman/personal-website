@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-09T00:00:00.000Z",
-    "date": "2025-11-09",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-11-03",
-      "end": "2025-11-09"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-10T00:00:00.000Z",
     "date": "2025-11-10",
     "dataState": "final",
@@ -5837,27 +5821,43 @@
       "totalImpressions": 105,
       "averageCTR": 0.95,
       "averagePosition": 8.4
+    }
+  },
+  {
+    "timestamp": "2026-11-09T00:00:00.000Z",
+    "date": "2026-11-09",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-11-03",
+      "end": "2026-11-09"
     },
-    "collectedAt": "2026-11-10T14:05:47.341Z",
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 110,
+      "averageCTR": 1.82,
+      "averagePosition": 8.8
+    },
+    "collectedAt": "2026-11-11T13:23:07.837Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 4,
         "clicks": 0,
-        "impressions": 7,
-        "impressionShare": 6.7
+        "impressions": 6,
+        "impressionShare": 5.5
       },
       "pages": {
-        "rowCount": 6,
-        "clicks": 1,
-        "impressions": 105,
-        "impressionShare": 100
+        "rowCount": 8,
+        "clicks": 2,
+        "impressions": 112,
+        "impressionShare": 101.8
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 4,
+        "impressions": 3,
         "ctr": 0,
         "position": 5
       },
@@ -5887,23 +5887,23 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 1,
-        "impressions": 74,
-        "ctr": 0.013513513513513514,
-        "position": 8.9
+        "impressions": 70,
+        "ctr": 0.014285714285714285,
+        "position": 9.1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
+        "clicks": 1,
+        "impressions": 7,
+        "ctr": 0.14285714285714285,
+        "position": 7.6
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
-        "impressions": 20,
+        "impressions": 25,
         "ctr": 0,
-        "position": 6.9
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
-        "clicks": 0,
-        "impressions": 6,
-        "ctr": 0,
-        "position": 7.8
+        "position": 9.3
       },
       {
         "page": "https://dylanbochman.com/blog/2026-10-24-taking-control-of-a-samsung-frame",
@@ -5913,18 +5913,32 @@
         "position": 5
       },
       {
+        "page": "https://dylanbochman.com/",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 2
+      },
+      {
+        "page": "https://dylanbochman.com/blog",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 3
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 6.5
+      },
+      {
         "page": "https://dylanbochman.com/blog/2026-01-15-free-observability-for-a-static-site",
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
         "position": 8
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 10
       }
     ]
   }
