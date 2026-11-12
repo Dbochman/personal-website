@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "collectedAt": "2026-11-11T13:23:07.857Z",
+  "collectedAt": "2026-11-12T14:27:17.302Z",
   "timeZone": "America/New_York",
   "coverage": {
     "startDate": "2026-01-01",
-    "endDate": "2026-11-09"
+    "endDate": "2026-11-10"
   },
   "source": "GA4 date + pagePath; completed property-timezone days",
   "notes": "Page views are additive. Sessions/users can overlap across posts and days. Empty pages means no activity reported by GA4, not proof tracking was active.",
@@ -8655,6 +8655,42 @@
         {
           "page": "/blog/2026-08-09-the-smallest-useful-tailscale-setup",
           "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-10-24-taking-control-of-a-samsung-frame",
+          "pageViews": 4,
+          "sessions": 4,
+          "users": 4
+        }
+      ]
+    },
+    {
+      "date": "2026-11-10",
+      "pageViews": 10,
+      "pages": [
+        {
+          "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+          "pageViews": 3,
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "page": "/blog/2026-01-24-retrospectives-that-actually-change-things",
+          "pageViews": 2,
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+          "pageViews": 1,
+          "sessions": 2,
+          "users": 2
+        },
+        {
+          "page": "/blog/2026-08-09-the-smallest-useful-tailscale-setup",
+          "pageViews": 0,
           "sessions": 1,
           "users": 1
         },
