@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-10T00:00:00.000Z",
-    "date": "2025-11-10",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-11-04",
-      "end": "2025-11-10"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-11T00:00:00.000Z",
     "date": "2025-11-11",
     "dataState": "final",
@@ -5837,36 +5821,45 @@
       "totalImpressions": 110,
       "averageCTR": 1.82,
       "averagePosition": 8.8
+    }
+  },
+  {
+    "timestamp": "2026-11-10T00:00:00.000Z",
+    "date": "2026-11-10",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-11-04",
+      "end": "2026-11-10"
     },
-    "collectedAt": "2026-11-11T13:23:07.837Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 110,
+      "averageCTR": 0.91,
+      "averagePosition": 9
+    },
+    "collectedAt": "2026-11-12T14:26:46.013Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 4,
+        "rowCount": 2,
         "clicks": 0,
-        "impressions": 6,
-        "impressionShare": 5.5
+        "impressions": 5,
+        "impressionShare": 4.5
       },
       "pages": {
-        "rowCount": 8,
-        "clicks": 2,
-        "impressions": 112,
-        "impressionShare": 101.8
+        "rowCount": 7,
+        "clicks": 1,
+        "impressions": 114,
+        "impressionShare": 103.6
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 3,
+        "impressions": 4,
         "ctr": 0,
         "position": 5
-      },
-      {
-        "query": "decap cms netlify",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 8
       },
       {
         "query": "netlify cms",
@@ -5874,36 +5867,43 @@
         "impressions": 1,
         "ctr": 0,
         "position": 68
-      },
-      {
-        "query": "decap cms",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 85
       }
     ],
     "topPages": [
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
-        "clicks": 1,
-        "impressions": 70,
-        "ctr": 0.014285714285714285,
-        "position": 9.1
-      },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 1,
         "impressions": 7,
         "ctr": 0.14285714285714285,
-        "position": 7.6
+        "position": 7.1
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
+        "clicks": 0,
+        "impressions": 63,
+        "ctr": 0,
+        "position": 9.7
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
-        "impressions": 25,
+        "impressions": 30,
         "ctr": 0,
-        "position": 9.3
+        "position": 9.8
+      },
+      {
+        "page": "https://dylanbochman.com/",
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0,
+        "position": 1.8
+      },
+      {
+        "page": "https://dylanbochman.com/blog",
+        "clicks": 0,
+        "impressions": 4,
+        "ctr": 0,
+        "position": 5.5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-10-24-taking-control-of-a-samsung-frame",
@@ -5913,32 +5913,11 @@
         "position": 5
       },
       {
-        "page": "https://dylanbochman.com/",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 2
-      },
-      {
-        "page": "https://dylanbochman.com/blog",
-        "clicks": 0,
-        "impressions": 2,
-        "ctr": 0,
-        "position": 3
-      },
-      {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
         "clicks": 0,
         "impressions": 2,
         "ctr": 0,
         "position": 6.5
-      },
-      {
-        "page": "https://dylanbochman.com/blog/2026-01-15-free-observability-for-a-static-site",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 8
       }
     ]
   }
