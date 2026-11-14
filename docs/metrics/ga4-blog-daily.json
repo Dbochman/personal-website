@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "collectedAt": "2026-11-13T13:45:04.202Z",
+  "collectedAt": "2026-11-14T12:49:48.236Z",
   "timeZone": "America/New_York",
   "coverage": {
     "startDate": "2026-01-01",
-    "endDate": "2026-11-11"
+    "endDate": "2026-11-12"
   },
   "source": "GA4 date + pagePath; completed property-timezone days",
   "notes": "Page views are additive. Sessions/users can overlap across posts and days. Empty pages means no activity reported by GA4, not proof tracking was active.",
@@ -8704,7 +8704,12 @@
     },
     {
       "date": "2026-11-11",
-      "pageViews": 20,
+      "pageViews": 0,
+      "pages": []
+    },
+    {
+      "date": "2026-11-12",
+      "pageViews": 28,
       "pages": [
         {
           "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
@@ -8713,10 +8718,34 @@
           "users": 3
         },
         {
-          "page": "/blog/2026-01-15-the-ai-code-reviewer-who-reviews-ai-code",
+          "page": "/blog/2026-01-09-adding-a-cms-to-a-static-site",
           "pageViews": 1,
           "sessions": 1,
           "users": 1
+        },
+        {
+          "page": "/blog/2026-01-10-architecture-of-a-free-website",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-01-10-automating-the-blog-itself",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-01-10-theme-persistence-and-the-code-reviewer-who-never-sleeps",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-01-11-shaving-minutes-off-deploys",
+          "pageViews": 3,
+          "sessions": 3,
+          "users": 3
         },
         {
           "page": "/blog/2026-01-24-retrospectives-that-actually-change-things",
@@ -8725,28 +8754,16 @@
           "users": 3
         },
         {
-          "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development",
-          "pageViews": 7,
-          "sessions": 7,
-          "users": 4
-        },
-        {
-          "page": "/blog/2026-03-31-axios-supply-chain-attack",
-          "pageViews": 1,
-          "sessions": 1,
-          "users": 1
-        },
-        {
           "page": "/blog/2026-10-24-taking-control-of-a-samsung-frame",
           "pageViews": 4,
           "sessions": 4,
           "users": 4
         },
         {
-          "page": "/blog/hello-world",
-          "pageViews": 1,
-          "sessions": 1,
-          "users": 1
+          "page": "/blog/does-not-exist",
+          "pageViews": 11,
+          "sessions": 11,
+          "users": 11
         }
       ]
     }
