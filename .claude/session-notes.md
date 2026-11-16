@@ -1050,3 +1050,31 @@ runtime paths, raw captures, and authentication material.
   checks at desktop/mobile widths verified daily labels, six area series,
   ten rows per table, no page errors and no clipped legend. No shared browser
   session or server was reused; external requests were blocked during QA.
+
+## 2026-11-16 — Search Console Soft 404 investigation
+
+- Inspected the domain property's Soft 404 report through an attended,
+  dedicated PinchTab profile. Report last updated November 12; two examples:
+  `/blog/2026-01-15-free-observability-for-a-static-site` (last crawl November 4,
+  15:00:50) and `/blog/2026-01-25-dotfiles-for-ai-assisted-development/`
+  (October 8, 11:05:39). Both historical crawls fetched successfully with
+  crawling and indexing allowed, but were classified as Soft 404.
+- Google's live tests on November 16 passed for both examples. Google-rendered
+  smartphone screenshots showed the intended articles. The observability
+  test returned HTTP 200 with no JavaScript console messages; its two blocked
+  resources were Giscus discussion API requests. The trailing-slash dotfiles
+  URL serves the existing instant meta-refresh redirect to its slashless
+  canonical. A live test follows redirects, so its success does not establish
+  that the redirect URL itself should be indexed.
+- The slashless dotfiles canonical is already indexed, last crawled November
+  11 at 15:56:38, and Google selects that same canonical. No indexing request
+  was needed for that article.
+- Requested indexing for the observability canonical; Google confirmed it
+  entered the priority crawl queue. Started Soft 404 validation and verified
+  `Validation started`, dated November 16. The owner subsequently requested
+  closure of the briefing action; its resolved state was verified. Google's
+  validation remains pending: a passing live test does not clear historical
+  classifications or guarantee indexing.
+- Earlier live audit found all 52 sitemap URLs returned HTTP 200 with content
+  and matching canonicals; nonexistent test URLs returned real HTTP 404.
+  No application change or deployment was justified by these findings.
