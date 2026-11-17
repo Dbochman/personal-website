@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-15T00:00:00.000Z",
-    "date": "2025-11-15",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-11-09",
-      "end": "2025-11-15"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-16T00:00:00.000Z",
     "date": "2025-11-16",
     "dataState": "final",
@@ -5837,20 +5821,36 @@
       "totalImpressions": 90,
       "averageCTR": 2.22,
       "averagePosition": 8.7
+    }
+  },
+  {
+    "timestamp": "2026-11-15T00:00:00.000Z",
+    "date": "2026-11-15",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-11-09",
+      "end": "2026-11-15"
     },
-    "collectedAt": "2026-11-16T14:29:13.386Z",
+    "summary": {
+      "totalClicks": 2,
+      "totalImpressions": 83,
+      "averageCTR": 2.41,
+      "averagePosition": 9.2
+    },
+    "collectedAt": "2026-11-17T15:20:35.906Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 4,
         "clicks": 0,
         "impressions": 7,
-        "impressionShare": 7.8
+        "impressionShare": 8.4
       },
       "pages": {
         "rowCount": 7,
         "clicks": 2,
-        "impressions": 97,
-        "impressionShare": 107.8
+        "impressions": 90,
+        "impressionShare": 108.4
       }
     },
     "topQueries": [
@@ -5887,30 +5887,30 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 1,
-        "impressions": 26,
-        "ctr": 0.038461538461538464,
-        "position": 9.5
+        "impressions": 25,
+        "ctr": 0.04,
+        "position": 9.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 1,
-        "impressions": 7,
-        "ctr": 0.14285714285714285,
-        "position": 7.1
+        "impressions": 6,
+        "ctr": 0.16666666666666666,
+        "position": 7.2
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 40,
+        "impressions": 36,
         "ctr": 0,
-        "position": 9.4
+        "position": 10.7
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 11,
         "ctr": 0,
-        "position": 1.7
+        "position": 1.6
       },
       {
         "page": "https://dylanbochman.com/blog",
@@ -5922,9 +5922,9 @@
       {
         "page": "https://dylanbochman.com/blog/2026-10-24-taking-control-of-a-samsung-frame",
         "clicks": 0,
-        "impressions": 6,
+        "impressions": 3,
         "ctr": 0,
-        "position": 5.2
+        "position": 5.3
       },
       {
         "page": "https://dylanbochman.com/blog/2026-06-21-decap-cms-hook-netlify-build-config-yml",
