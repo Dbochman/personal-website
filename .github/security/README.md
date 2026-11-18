@@ -23,7 +23,7 @@ updated and checks rerun; failed checks leave it open for inspection.
 
 `scripts/audit-dependencies.mjs` runs the full npm audit, including development
 dependencies and low-severity findings. It fails on audit errors and every
-unreviewed advisory. Its sole disposition is **GHSA-g3hv-75wg-m249 on installed
+unreviewed advisory. Its non-applicability disposition is **GHSA-g3hv-75wg-m249 on installed
 and lockfile-pinned minimatch 3.1.4** (ESLint's legacy dependency).
 
 The [advisory](https://github.com/advisories/GHSA-g3hv-75wg-m249) describes
@@ -36,6 +36,14 @@ installed/locked mismatch, or incomplete audit fails validation. Tests cover
 these boundaries. Remove the disposition when ESLint drops the legacy dependency
 or the advisory metadata is corrected. Satori, glob, follow-redirects, and Joi
 are upgraded to patched versions; their findings are not excepted.
+
+Until **2026-11-25T00:00:00Z**, the exact installed/locked picomatch 4.0.5
+finding GHSA-fc5q-39xc-vjpf also has a temporary exposure-reviewed exception.
+It is a real vulnerability, not a false positive. The exception requires the
+source/configuration/lockfile fingerprint in `picomatch-review.json` to match.
+See [the exposure review](PICOMATCH-REVIEW.md) for call paths, evidence, limits,
+expiry, and removal criteria. A changed fingerprint requires a fresh review;
+do not regenerate it merely to make CI pass.
 
 The dated hold and exceptions below record the incident response. They do not
 require retaining a blanket shutdown after verified recovery. The expired
