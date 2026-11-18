@@ -1078,3 +1078,19 @@ runtime paths, raw captures, and authentication material.
 - Earlier live audit found all 52 sitemap URLs returned HTTP 200 with content
   and matching canonicals; nonexistent test URLs returned real HTTP 404.
   No application change or deployment was justified by these findings.
+
+## 2026-11-18 — Kanban worker contract tests
+
+- The worker's two remaining scaffold tests expected `Hello World!` at `/`,
+  which correctly returns 404. Replaced them with 21 tests covering routes,
+  CORS, sessions, OAuth guards, validation, board reads, and atomic creation.
+- The root Vitest suite excludes the worker. Added a separate install/test/type
+  check step to the required PR Checks job, after the existing trust checks.
+- Tests configure local KV directly instead of importing Wrangler's remote
+  production binding. GitHub responses are mocked and unmatched fetches are
+  blocked. The locked Workers pool cannot mock HTTP 204 without constructing an
+  invalid body, so the dispatch success fixture uses an accepted HTTP 200 and
+  asserts that creation completes without a warning.
+- PR #370 is separate: its Vite update passes local application checks but its
+  required audit fails on GHSA-fc5q-39xc-vjpf. Picomatch's latest published 4.0.7
+  is still affected; no audit exception or branch-protection change was made.

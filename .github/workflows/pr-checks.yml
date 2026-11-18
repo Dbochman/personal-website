@@ -388,6 +388,13 @@ jobs:
           python3 -m unittest discover -s .github/security -p 'test_*.py'
           node .github/security/probe.mjs
 
+      - name: Kanban worker tests
+        working-directory: kanban-save-worker
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          npm test -- --run
+          npm exec tsc -- --noEmit -p test/tsconfig.json
+
       - name: Security audit
         run: node scripts/audit-dependencies.mjs
 
