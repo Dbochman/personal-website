@@ -1078,3 +1078,16 @@ runtime paths, raw captures, and authentication material.
 - Earlier live audit found all 52 sitemap URLs returned HTTP 200 with content
   and matching canonicals; nonexistent test URLs returned real HTTP 404.
   No application change or deployment was justified by these findings.
+
+## 2026-11-18 — Vite security update and picomatch exposure review
+
+- PR #370 updates Vite to 7.3.8. Its required audit initially failed on the
+  unrelated picomatch GHSA-fc5q-39xc-vjpf; latest 4.0.7 was still affected.
+- Reviewed every installed root-tree consumer and traced build, tests, and
+  isolated dev-server canaries. No repeated-extglob pattern or URL-to-pattern
+  path was found in the reviewed configuration; browser source maps contain
+  no matcher implementation. See `.github/security/PICOMATCH-REVIEW.md`.
+- Added an exposure-based exception for only picomatch 4.0.5 at the reviewed
+  location, ending 2026-11-25T00:00:00Z. It also requires a fingerprint of the
+  reviewed source/configuration/content/lockfile scope. Do not refresh the
+  fingerprint or expiry without another review. Required checks stay enabled.
