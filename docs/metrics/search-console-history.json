@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-17T00:00:00.000Z",
-    "date": "2025-11-17",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-11-11",
-      "end": "2025-11-17"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-18T00:00:00.000Z",
     "date": "2025-11-18",
     "dataState": "final",
@@ -5837,20 +5821,36 @@
       "totalImpressions": 67,
       "averageCTR": 1.49,
       "averagePosition": 8.5
+    }
+  },
+  {
+    "timestamp": "2026-11-17T00:00:00.000Z",
+    "date": "2026-11-17",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-11-11",
+      "end": "2026-11-17"
     },
-    "collectedAt": "2026-11-18T14:55:26.686Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 54,
+      "averageCTR": 1.85,
+      "averagePosition": 7
+    },
+    "collectedAt": "2026-11-19T15:01:27.750Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 4,
+        "rowCount": 5,
         "clicks": 0,
-        "impressions": 7,
-        "impressionShare": 10.4
+        "impressions": 8,
+        "impressionShare": 14.8
       },
       "pages": {
         "rowCount": 6,
         "clicks": 1,
-        "impressions": 72,
-        "impressionShare": 107.5
+        "impressions": 58,
+        "impressionShare": 107.4
       }
     },
     "topQueries": [
@@ -5859,7 +5859,7 @@
         "clicks": 0,
         "impressions": 4,
         "ctr": 0,
-        "position": 5.3
+        "position": 5.5
       },
       {
         "query": "what is it actually ?",
@@ -5876,6 +5876,13 @@
         "position": 9
       },
       {
+        "query": "dotfiles claude",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 10
+      },
+      {
         "query": "inode client mac",
         "clicks": 0,
         "impressions": 1,
@@ -5887,30 +5894,30 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 1,
-        "impressions": 22,
-        "ctr": 0.045454545454545456,
-        "position": 5.7
+        "impressions": 18,
+        "ctr": 0.05555555555555555,
+        "position": 3.9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 30,
+        "impressions": 23,
         "ctr": 0,
-        "position": 11.3
+        "position": 8.9
       },
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 9,
+        "impressions": 7,
         "ctr": 0,
         "position": 1.6
       },
       {
         "page": "https://dylanbochman.com/blog",
         "clicks": 0,
-        "impressions": 6,
+        "impressions": 5,
         "ctr": 0,
-        "position": 16.3
+        "position": 17.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-10-24-taking-control-of-a-samsung-frame",
@@ -5924,7 +5931,7 @@
         "clicks": 0,
         "impressions": 2,
         "ctr": 0,
-        "position": 6.5
+        "position": 6
       }
     ]
   }
