@@ -1,31 +1,31 @@
 {
-  "generated": "2026-11-20T14:44:19.015Z",
+  "generated": "2026-11-21T14:00:05.332Z",
   "searchConsole": {
-    "lastCheck": "2026-11-20T14:43:29.877Z",
+    "lastCheck": "2026-11-21T13:59:37.039Z",
     "clicks": 0,
-    "impressions": 58,
+    "impressions": 62,
     "averageCTR": 0,
-    "averagePosition": 5.8
+    "averagePosition": 5.7
   },
   "analytics": {
-    "lastCheck": "2026-11-20T14:44:18.201Z",
-    "sessions_7d": 768,
-    "users_7d": 768,
-    "pageviews_7d": 802,
+    "lastCheck": "2026-11-21T14:00:04.938Z",
+    "sessions_7d": 660,
+    "users_7d": 660,
+    "pageviews_7d": 706,
     "avgSessionDuration": 3,
-    "bounceRate": 0.91,
+    "bounceRate": 0.89,
     "topPages": [
       {
         "page": "/blog",
-        "pageViews": 195
+        "pageViews": 130
       },
       {
         "page": "/",
-        "pageViews": 111
+        "pageViews": 96
       },
       {
         "page": "/runbook",
-        "pageViews": 74
+        "pageViews": 73
       },
       {
         "page": "/projects/incident-command-diagrams",
@@ -38,63 +38,63 @@
     ]
   },
   "webVitals": {
-    "lastCheck": "2026-11-20T14:44:18.201Z",
+    "lastCheck": "2026-11-21T14:00:04.938Z",
     "source": "rum",
     "metrics": {
       "TTFB": {
-        "count": 951,
-        "average": 61.87697160883281,
+        "count": 894,
+        "average": 67.6510067114094,
         "unit": "ms",
         "ratings": {
-          "good": 882,
+          "good": 891,
           "needs-improvement": 1,
           "poor": 2
         },
-        "goodPercent": 93
+        "goodPercent": 100
       },
       "FCP": {
-        "count": 739,
-        "average": 278.62787550744247,
+        "count": 681,
+        "average": 293.7826725403818,
         "unit": "ms",
         "ratings": {
-          "good": 670,
+          "good": 678,
           "needs-improvement": 1,
           "poor": 2
         },
-        "goodPercent": 91
+        "goodPercent": 100
       },
       "LCP": {
-        "count": 450,
-        "average": 524.6311111111111,
+        "count": 447,
+        "average": 538.9530201342282,
         "unit": "ms",
         "ratings": {
-          "good": 438,
+          "good": 447,
           "needs-improvement": 0,
           "poor": 0
         },
-        "goodPercent": 97
+        "goodPercent": 100
       },
       "CLS": {
-        "count": 458,
-        "average": 0.04837772925764192,
+        "count": 467,
+        "average": 0.04986937901498929,
         "unit": "",
         "ratings": {
-          "good": 334,
-          "needs-improvement": 118,
-          "poor": 6
+          "good": 338,
+          "needs-improvement": 122,
+          "poor": 7
         },
-        "goodPercent": 73
+        "goodPercent": 72
       },
       "INP": {
         "count": 207,
-        "average": 76.79227053140097,
+        "average": 79.30434782608695,
         "unit": "ms",
         "ratings": {
-          "good": 199,
-          "needs-improvement": 8,
+          "good": 196,
+          "needs-improvement": 11,
           "poor": 0
         },
-        "goodPercent": 96
+        "goodPercent": 95
       }
     }
   }
