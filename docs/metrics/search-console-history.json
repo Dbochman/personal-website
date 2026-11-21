@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-19T00:00:00.000Z",
-    "date": "2025-11-19",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-11-13",
-      "end": "2025-11-19"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-20T00:00:00.000Z",
     "date": "2025-11-20",
     "dataState": "final",
@@ -5837,27 +5821,43 @@
       "totalImpressions": 58,
       "averageCTR": 0,
       "averagePosition": 5.8
+    }
+  },
+  {
+    "timestamp": "2026-11-19T00:00:00.000Z",
+    "date": "2026-11-19",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-11-13",
+      "end": "2026-11-19"
     },
-    "collectedAt": "2026-11-20T14:43:29.877Z",
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 62,
+      "averageCTR": 0,
+      "averagePosition": 5.7
+    },
+    "collectedAt": "2026-11-21T13:59:37.039Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 2,
         "clicks": 0,
-        "impressions": 11,
-        "impressionShare": 19
+        "impressions": 12,
+        "impressionShare": 19.4
       },
       "pages": {
-        "rowCount": 6,
+        "rowCount": 7,
         "clicks": 0,
-        "impressions": 62,
-        "impressionShare": 106.9
+        "impressions": 66,
+        "impressionShare": 106.5
       }
     },
     "topQueries": [
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 10,
+        "impressions": 11,
         "ctr": 0,
         "position": 5.8
       },
@@ -5873,9 +5873,9 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 27,
+        "impressions": 26,
         "ctr": 0,
-        "position": 8.1
+        "position": 7.9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
@@ -5883,6 +5883,13 @@
         "impressions": 17,
         "ctr": 0,
         "position": 3.8
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
+        "clicks": 0,
+        "impressions": 8,
+        "ctr": 0,
+        "position": 6.6
       },
       {
         "page": "https://dylanbochman.com/",
@@ -5899,18 +5906,18 @@
         "position": 6.3
       },
       {
-        "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
-        "clicks": 0,
-        "impressions": 4,
-        "ctr": 0,
-        "position": 7
-      },
-      {
         "page": "https://dylanbochman.com/blog/2026-10-24-taking-control-of-a-samsung-frame",
         "clicks": 0,
         "impressions": 3,
         "ctr": 0,
         "position": 5.3
+      },
+      {
+        "page": "https://dylanbochman.com/blog/2026-01-09-adding-a-cms-to-a-static-site/",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 6
       }
     ]
   }
