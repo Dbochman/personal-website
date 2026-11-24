@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "collectedAt": "2026-11-23T17:02:39.044Z",
+  "collectedAt": "2026-11-24T16:49:54.978Z",
   "timeZone": "America/New_York",
   "coverage": {
     "startDate": "2026-01-01",
-    "endDate": "2026-11-21"
+    "endDate": "2026-11-22"
   },
   "source": "GA4 date + pagePath; completed property-timezone days",
   "notes": "Page views are additive. Sessions/users can overlap across posts and days. Empty pages means no activity reported by GA4, not proof tracking was active.",
@@ -9086,6 +9086,48 @@
         },
         {
           "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-03-31-axios-supply-chain-attack",
+          "pageViews": 1,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-10-24-taking-control-of-a-samsung-frame",
+          "pageViews": 4,
+          "sessions": 4,
+          "users": 4
+        }
+      ]
+    },
+    {
+      "date": "2026-11-22",
+      "pageViews": 15,
+      "pages": [
+        {
+          "page": "/blog/2026-01-08-fixing-404-errors-on-github-pages-spas",
+          "pageViews": 6,
+          "sessions": 6,
+          "users": 6
+        },
+        {
+          "page": "/blog/2026-01-24-retrospectives-that-actually-change-things",
+          "pageViews": 3,
+          "sessions": 3,
+          "users": 3
+        },
+        {
+          "page": "/blog/2026-01-25-dotfiles-for-ai-assisted-development",
+          "pageViews": 0,
+          "sessions": 1,
+          "users": 1
+        },
+        {
+          "page": "/blog/2026-02-04-echonest-collaborative-music-queue",
           "pageViews": 1,
           "sessions": 1,
           "users": 1
