@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-22T00:00:00.000Z",
-    "date": "2025-11-22",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-11-16",
-      "end": "2025-11-22"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-23T00:00:00.000Z",
     "date": "2025-11-23",
     "dataState": "final",
@@ -5837,19 +5821,35 @@
       "totalImpressions": 65,
       "averageCTR": 0,
       "averagePosition": 6.6
+    }
+  },
+  {
+    "timestamp": "2026-11-22T00:00:00.000Z",
+    "date": "2026-11-22",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-11-16",
+      "end": "2026-11-22"
     },
-    "collectedAt": "2026-11-23T17:02:32.302Z",
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 67,
+      "averageCTR": 0,
+      "averagePosition": 6.2
+    },
+    "collectedAt": "2026-11-24T16:49:48.347Z",
     "detailCoverage": {
       "queries": {
         "rowCount": 3,
         "clicks": 0,
-        "impressions": 12,
-        "impressionShare": 18.5
+        "impressions": 14,
+        "impressionShare": 20.9
       },
       "pages": {
         "rowCount": 7,
         "clicks": 0,
-        "impressions": 66,
+        "impressions": 68,
         "impressionShare": 101.5
       }
     },
@@ -5857,9 +5857,9 @@
       {
         "query": "git gateway",
         "clicks": 0,
-        "impressions": 10,
+        "impressions": 12,
         "ctr": 0,
-        "position": 5.6
+        "position": 5.7
       },
       {
         "query": "dotfiles claude",
@@ -5880,16 +5880,16 @@
       {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 31,
+        "impressions": 35,
         "ctr": 0,
-        "position": 8.4
+        "position": 6.9
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
         "impressions": 15,
         "ctr": 0,
-        "position": 4
+        "position": 4.3
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
@@ -5901,9 +5901,9 @@
       {
         "page": "https://dylanbochman.com/",
         "clicks": 0,
-        "impressions": 6,
+        "impressions": 4,
         "ctr": 0,
-        "position": 2.3
+        "position": 2.8
       },
       {
         "page": "https://dylanbochman.com/blog",
