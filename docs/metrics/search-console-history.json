@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-23T00:00:00.000Z",
-    "date": "2025-11-23",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-11-17",
-      "end": "2025-11-23"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-24T00:00:00.000Z",
     "date": "2025-11-24",
     "dataState": "final",
@@ -5837,20 +5821,36 @@
       "totalImpressions": 67,
       "averageCTR": 0,
       "averagePosition": 6.2
+    }
+  },
+  {
+    "timestamp": "2026-11-23T00:00:00.000Z",
+    "date": "2026-11-23",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-11-17",
+      "end": "2026-11-23"
     },
-    "collectedAt": "2026-11-24T16:49:48.347Z",
+    "summary": {
+      "totalClicks": 0,
+      "totalImpressions": 64,
+      "averageCTR": 0,
+      "averagePosition": 6.4
+    },
+    "collectedAt": "2026-11-25T16:37:36.534Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 3,
+        "rowCount": 4,
         "clicks": 0,
-        "impressions": 14,
-        "impressionShare": 20.9
+        "impressions": 15,
+        "impressionShare": 23.4
       },
       "pages": {
         "rowCount": 7,
         "clicks": 0,
-        "impressions": 68,
-        "impressionShare": 101.5
+        "impressions": 65,
+        "impressionShare": 101.6
       }
     },
     "topQueries": [
@@ -5860,6 +5860,13 @@
         "impressions": 12,
         "ctr": 0,
         "position": 5.7
+      },
+      {
+        "query": "netlify decap cms",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 8
       },
       {
         "query": "dotfiles claude",
@@ -5882,14 +5889,14 @@
         "clicks": 0,
         "impressions": 35,
         "ctr": 0,
-        "position": 6.9
+        "position": 6.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
-        "impressions": 15,
+        "impressions": 12,
         "ctr": 0,
-        "position": 4.3
+        "position": 5.3
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
