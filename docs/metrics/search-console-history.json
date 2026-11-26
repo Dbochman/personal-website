@@ -1,21 +1,5 @@
 [
   {
-    "timestamp": "2025-11-24T00:00:00.000Z",
-    "date": "2025-11-24",
-    "dataState": "final",
-    "windowDays": 7,
-    "period": {
-      "start": "2025-11-18",
-      "end": "2025-11-24"
-    },
-    "summary": {
-      "totalClicks": 0,
-      "totalImpressions": 0,
-      "averageCTR": 0,
-      "averagePosition": 0
-    }
-  },
-  {
     "timestamp": "2025-11-25T00:00:00.000Z",
     "date": "2025-11-25",
     "dataState": "final",
@@ -5837,20 +5821,36 @@
       "totalImpressions": 64,
       "averageCTR": 0,
       "averagePosition": 6.4
+    }
+  },
+  {
+    "timestamp": "2026-11-24T00:00:00.000Z",
+    "date": "2026-11-24",
+    "dataState": "final",
+    "windowDays": 7,
+    "period": {
+      "start": "2026-11-18",
+      "end": "2026-11-24"
     },
-    "collectedAt": "2026-11-25T16:37:36.534Z",
+    "summary": {
+      "totalClicks": 1,
+      "totalImpressions": 74,
+      "averageCTR": 1.35,
+      "averagePosition": 6.3
+    },
+    "collectedAt": "2026-11-26T16:10:38.964Z",
     "detailCoverage": {
       "queries": {
-        "rowCount": 4,
+        "rowCount": 3,
         "clicks": 0,
         "impressions": 15,
-        "impressionShare": 23.4
+        "impressionShare": 20.3
       },
       "pages": {
-        "rowCount": 7,
-        "clicks": 0,
-        "impressions": 65,
-        "impressionShare": 101.6
+        "rowCount": 8,
+        "clicks": 1,
+        "impressions": 75,
+        "impressionShare": 101.4
       }
     },
     "topQueries": [
@@ -5859,7 +5859,14 @@
         "clicks": 0,
         "impressions": 12,
         "ctr": 0,
-        "position": 5.7
+        "position": 5.5
+      },
+      {
+        "query": "tailscale for internal dashboards",
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 16
       },
       {
         "query": "netlify decap cms",
@@ -5867,43 +5874,36 @@
         "impressions": 1,
         "ctr": 0,
         "position": 8
-      },
-      {
-        "query": "dotfiles claude",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 10
-      },
-      {
-        "query": "tailscale for internal dashboards",
-        "clicks": 0,
-        "impressions": 1,
-        "ctr": 0,
-        "position": 16
       }
     ],
     "topPages": [
       {
+        "page": "https://dylanbochman.com/blog/2026-06-21-disk-utility-said-it-fixed-my-mac",
+        "clicks": 1,
+        "impressions": 2,
+        "ctr": 0.5,
+        "position": 8
+      },
+      {
         "page": "https://dylanbochman.com/blog/2026-01-15-decap-cms-netlify-setup-guide",
         "clicks": 0,
-        "impressions": 35,
+        "impressions": 43,
         "ctr": 0,
-        "position": 6.8
+        "position": 6.4
       },
       {
         "page": "https://dylanbochman.com/blog/2026-01-25-dotfiles-for-ai-assisted-development",
         "clicks": 0,
         "impressions": 12,
         "ctr": 0,
-        "position": 5.3
+        "position": 4.8
       },
       {
         "page": "https://dylanbochman.com/blog/2026-08-09-the-smallest-useful-tailscale-setup",
         "clicks": 0,
         "impressions": 9,
         "ctr": 0,
-        "position": 8.2
+        "position": 9.2
       },
       {
         "page": "https://dylanbochman.com/",
@@ -5917,7 +5917,7 @@
         "clicks": 0,
         "impressions": 2,
         "ctr": 0,
-        "position": 4
+        "position": 5
       },
       {
         "page": "https://dylanbochman.com/blog/2026-10-24-taking-control-of-a-samsung-frame",
